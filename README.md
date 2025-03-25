@@ -3,6 +3,12 @@ Code for the experiments of the paper Assessing the Suitability of Large Languag
 
 ![Architecture of the experiments](./images/text2uml_arch.pdf)
 
+<object data="./images/text2uml_arch.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="./images/text2uml_arch.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="./images/text2uml_arch.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
+
 # Repo Structure
 The repo structure is at if follows:
 - notebook/
