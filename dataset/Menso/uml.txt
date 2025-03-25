@@ -1,0 +1,50 @@
+@startuml
+
+class BusLine {
+}
+
+class CategoryOfLine {
+}
+
+class PriceCategory {
+}
+
+class Trajectory {
+}
+
+class Bus {
+}
+
+class BusOnTrajectory {
+}
+
+class Trip {
+}
+
+class MensoTicket {
+}
+
+class MensoTrip {
+}
+
+class InvoiceLine {
+}
+
+class Invoice {
+}
+
+class Customer {
+}
+
+BusLine "1" -- "1" CategoryOfLine
+CategoryOfLine "1" -- "0..*" PriceCategory
+BusLine "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" BusOnTrajectory
+Bus "0..*" -- "1" BusOnTrajectory
+BusOnTrajectory "1" -- "0..*" Trip
+MensoTicket "1" -- "0..*" MensoTrip
+Trip "0..*" -- "1" MensoTrip
+MensoTrip "10..1" -- "0..*" InvoiceLine
+Invoice "1" -- "0..*" InvoiceLine
+Customer "1" -- "0..*" MensoTicket
+@enduml

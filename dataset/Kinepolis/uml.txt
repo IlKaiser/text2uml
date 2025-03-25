@@ -1,0 +1,30 @@
+@startuml
+
+class Movie{}
+class Copy{}
+class CopyLocation{}
+class Cinema{}
+class Theatre{}
+class Seat{}
+class Show{}
+class Ticket{}
+class AlternativeOffer{}
+class OnlineTicket{}
+class Customer{}
+
+Movie "0..*" -- "1" Copy
+Copy "1" -- "0..*" CopyLocation
+Cinema "1" -- "1..*" Theatre
+Theatre "1" -- "1..*" Seat
+Theatre "1" -- "0..*" Show
+Cinema "1" -- "0..*" CopyLocation
+CopyLocation "1" -- "0..*" Show
+Show "1" -- "0..*" Ticket
+Show "1" -- "0..*" AlternativeOffer
+Show "1" -- "0..*" OnlineTicket
+Seat "1" -- "0..*" AlternativeOffer
+Seat "1" -- "0..*" OnlineTicket
+Seat "1" -- "0..*" Ticket
+Customer "1" -- "0..*" OnlineTicket
+
+@enduml

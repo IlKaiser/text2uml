@@ -1,0 +1,19 @@
+@startuml
+
+class CardHolder{}
+class Invoice {}
+class InvoiceLine{}
+class GasStation{}
+class Pump {}
+class RefuelTurn {}
+class CashTurn {}
+
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+Pump "0..*" -- "1" GasStation
+CardHolder "1" -- "0..*" Invoice
+CardHolder "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" InvoiceLine
+InvoiceLine "0..1" -- "1" RefuelTurn
+
+@enduml
