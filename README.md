@@ -1,13 +1,8 @@
 # Text2UML
 Code for the experiments of the paper Assessing the Suitability of Large Language Models in Generating UML Class Diagrams as Conceptual Models (Under Review)
 
-![Architecture of the experiments](./images/text2uml_arch.pdf)
+![Architecture of the experiments](./images/text2uml_arch.png)
 
-<object data="https://github.com/IlKaiser/text2uml/blob/main/images/text2uml_arch.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="https://github.com/IlKaiser/text2uml/blob/main/images/text2uml_arch.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/IlKaiser/text2uml/blob/main/images/text2uml_arch.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
 
 # Repo Structure
 The repo structure is at if follows:
