@@ -41,7 +41,7 @@ ANTHROPIC_API_KEY=YOUR_ANTHROPIC_API_KEY
 DEEPSEEK_API_KEY=YOUR_DEEPSEK_API_KEY
 ```
 
-Note that none of these variable are mandatory, but remeber to add your key to text the corresponding LLM. Langchain APIs enable the tracing of the LLM generation to [LangSmith](https://www.langchain.com/langsmith). It is enabled by default.
+Note that none of these variable are mandatory, but remeber to add your key to generate text with the corresponding LLM. Langchain APIs enable the tracing of the LLM generation to [LangSmith](https://www.langchain.com/langsmith). It is enabled by default.
 # Run the experiments
 To run the experiments type:
 
