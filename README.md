@@ -1,5 +1,5 @@
 # Text2UML
-Code for the experiments of the paper **Assessing the Suitability of Large Language Models in Generating UML Class Diagrams as Conceptual Models** (Under Review)
+Code for the experiments of the paper **Assessing the Suitability of Large Language Models in Generating UML Class Diagrams as Conceptual Models** 
 
 ![Architecture of the experiments](./images/text2uml_arch.png)
 
