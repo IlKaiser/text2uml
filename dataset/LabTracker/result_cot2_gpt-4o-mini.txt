@@ -1,0 +1,30 @@
+```
+@startuml
+class LabTracker{}
+class Doctor{}
+class Patient{}
+class Requisition{}
+class Test{}
+class Examination{}
+class Appointment{}
+class Lab{}
+class GroupOfTests{}
+class BloodTest{}
+class UltrasoundExamination{}
+class Duration{}
+class RepetitionPattern{}
+class Confirmation{}
+
+Doctor "1..*" -- "0..*" Requisition  
+Patient "1..1" -- "0..*" Requisition  
+Requisition "1..1" -- "0..*" GroupOfTests  
+GroupOfTests "1..*" -- "1..*" Test  
+Test "0..*" -- "0..1" Duration  
+Requisition "1..1" -- "0..*" Appointment  
+Appointment "1..1" -- "1..1" Lab  
+Test "0..1" -- "0..*" Confirmation  
+Patient "0..*" -- "0..*" Appointment  
+Lab "0..*" -- "0..*" Appointment  
+Requisition "1..1" -- "0..1" RepetitionPattern  
+@enduml
+```

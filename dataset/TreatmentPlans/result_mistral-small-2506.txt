@@ -1,0 +1,32 @@
+```plantuml
+@startuml
+
+class Hospital{}
+class Doctor{}
+class Patient{}
+class Examination{}
+class ExaminationType{}
+class TreatmentPlan{}
+class Problem{}
+class ActualTreatment{}
+class Permission{}
+
+Hospital "1..*" -- "1..*" Doctor
+Hospital "1..*" -- "1..*" Patient
+Hospital "1..*" -- "1..*" ExaminationType
+Hospital "1..*" -- "1..*" Permission
+Doctor "1..1" -- "0..*" Patient
+Doctor "1..*" -- "1..1" Hospital
+Doctor "1..*" -- "1..*" Examination
+Examination "1..1" -- "1..1" ExaminationType
+Examination "1..*" -- "1..*" Hospital
+TreatmentPlan "1..1" -- "1..*" ExaminationType
+TreatmentPlan "1..1" -- "1..1" Problem
+ActualTreatment "1..*" -- "1..1" TreatmentPlan
+ActualTreatment "1..*" -- "1..*" Examination
+ActualTreatment "1..*" -- "1..*" Patient
+Permission "1..1" -- "1..1" ExaminationType
+Permission "1..1" -- "1..1" Hospital
+
+@enduml
+```

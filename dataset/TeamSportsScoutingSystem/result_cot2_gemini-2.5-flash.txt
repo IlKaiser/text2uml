@@ -1,0 +1,32 @@
+@startuml
+class Club{}
+class HeadCoach{}
+class Director{}
+class Scout{}
+class HeadScout{}
+class PlayerProfile{}
+class Position{}
+class PlayerAttribute{}
+class Player{}
+class ScoutingAssignment{}
+class ScoutingReport{}
+class Offer{}
+
+Club "1..1" -- "1..1" HeadCoach
+Club "1..1" -- "1..1" Director
+Club "1..1" -- "0..*" Scout
+Club "1..1" -- "1..1" HeadScout
+HeadCoach "1..1" -- "0..*" PlayerProfile
+PlayerProfile "1..1" -- "1..1" Position
+PlayerProfile "1..1" -- "0..*" PlayerAttribute
+Scout "0..*" -- "0..*" Player
+HeadScout "1..1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1..1" -- "1..1" Player
+ScoutingAssignment "1..1" -- "1..1" Scout
+ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+ScoutingReport "1..1" -- "1..1" Player
+PlayerProfile "0..*" -- "0..*" Player
+HeadScout "1..1" -- "0..*" Player
+Director "1..1" -- "0..*" Offer
+Offer "1..1" -- "1..1" Player
+@enduml

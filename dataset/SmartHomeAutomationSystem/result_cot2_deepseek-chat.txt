@@ -1,0 +1,33 @@
+@startuml
+class SmartHome{}
+class PhysicalAddress{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class DeviceType{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class Alert{}
+class AutomationRule{}
+class Owner{}
+class BooleanExpression{}
+class Action{}
+
+SmartHome "1..1" -- "0..*" Room
+SmartHome "1..1" -- "1..1" PhysicalAddress
+SmartHome "1..1" -- "0..*" ActivityLog
+SmartHome "1..1" -- "0..*" Owner
+Room "1..1" -- "0..*" SensorDevice
+Room "1..1" -- "0..*" ActuatorDevice
+SensorDevice "1..1" -- "0..*" SensorReading
+ActuatorDevice "1..1" -- "0..*" ControlCommand
+DeviceType "1..1" -- "0..*" SensorDevice
+DeviceType "1..1" -- "0..*" ActuatorDevice
+AutomationRule "1..1" -- "1..1" BooleanExpression
+AutomationRule "1..1" -- "1..*" Action
+Owner "1..1" -- "0..*" AutomationRule
+ActivityLog "1..1" -- "0..*" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+AutomationRule "0..*" -- "0..*" AutomationRule
+@enduml

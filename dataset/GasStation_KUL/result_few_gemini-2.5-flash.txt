@@ -1,0 +1,39 @@
+@startuml
+
+class CreditCard {}
+class Customer {}
+class DailyReport {}
+class GasolineType {}
+class GasStation {}
+class GasStationResponsible {}
+class Invoice {}
+class OilCompany {}
+class Payment {}
+class Pump {}
+class Refill {}
+class RefuelCard {}
+class RefuelTurn {}
+class Reservoir {}
+class Suspension {}
+
+OilCompany "1" -- "1..*" GasStation
+GasStation "1" -- "1..*" Pump
+Pump "1" -- "1" Reservoir
+GasolineType "*" -- "1" Reservoir
+Customer "*" -- "1" RefuelTurn
+Pump "*" -- "1" RefuelTurn
+Customer "1" -- "*" CreditCard
+CreditCard "*" -- "0..1" RefuelTurn
+Customer "1" -- "*" RefuelCard
+RefuelCard "*" -- "0..1" RefuelTurn
+Customer "1" -- "*" Invoice
+Invoice "1..*" -- "0..1" RefuelTurn
+Payment "1" -- "0..1" Invoice
+Customer "*" -- "1" Payment
+Suspension "1" -- "0..1" Customer
+Reservoir "*" -- "1" Refill
+GasStationResponsible "*" -- "1" Refill
+GasStation "*" -- "1" GasStationResponsible
+DailyReport -- Pump
+
+@enduml

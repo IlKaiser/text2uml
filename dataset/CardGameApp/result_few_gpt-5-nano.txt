@@ -1,0 +1,24 @@
+@startuml
+
+class Game{}
+class Player{}
+class Deck{}
+class Card{}
+class ScoringTable{}
+class Round{}
+class RoundWinner{}
+class SoloRound{}
+class JackRound{}
+
+Game "4" -- "1" Player
+Game "1" -- "1" Deck
+Deck "0..48" -- "1" Card
+ScoringTable "1" -- "0..*" Round
+Round "1" -- "0..*" RoundWinner
+RoundWinner "1" -- "1" Player
+RoundWinner "1" -- "1" Round
+SoloRound "1" -- "1" Player
+Round "0..*" -- "0..*" JackRound
+Round "0..*" -- "0..*" SoloRound
+
+@enduml

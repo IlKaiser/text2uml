@@ -1,0 +1,52 @@
+```plantuml
+@startuml
+
+class EuropeanUnion {}
+class ResearchDatabase {}
+class ScientificArticle {}
+class Researcher {}
+class Institution {}
+class ScienceConnect {}
+class Person {}
+class PhoneNumber {}
+class Keyword {}
+class ResearchTopic {}
+class Author {}
+class Reviewer {}
+class PeerReviewedArticle {}
+class TechnicalReport {}
+class DOI {}
+class Title {}
+class AuthorPosition {}
+class CitationCount {}
+class Publisher {}
+class Journal {}
+class ImpactFactor {}
+
+EuropeanUnion "1" -- "1..*" ResearchDatabase
+ResearchDatabase "1" -- "1..*" ScientificArticle
+ResearchDatabase "1" -- "1..*" Researcher
+ResearchDatabase "1" -- "1..*" Institution
+Researcher "1" -- "1" Person
+Researcher "1" -- "1..*" Keyword
+Researcher "1" -- "1" Institution
+Person "1" -- "0..*" PhoneNumber
+Person "1" -- "0..*" Keyword
+Person "1" -- "0..1" Author
+Person "1" -- "0..1" Reviewer
+Author "1" -- "1..*" ScientificArticle
+Reviewer "1" -- "1..*" PeerReviewedArticle
+ScientificArticle "1" -- "1" DOI
+ScientificArticle "1" -- "1" Title
+ScientificArticle "1" -- "0..*" Author
+PeerReviewedArticle "1" -- "1" CitationCount
+PeerReviewedArticle "1" -- "0..*" Reviewer
+TechnicalReport "1" -- "1" Institution
+Institution "1" -- "0..*" TechnicalReport
+Publisher "1" -- "0..*" Journal
+Journal "1" -- "1" Publisher
+Journal "1" -- "1" ImpactFactor
+PeerReviewedArticle "1" -- "1" Journal
+
+@enduml
+```

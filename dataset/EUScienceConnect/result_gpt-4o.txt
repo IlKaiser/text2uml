@@ -1,0 +1,28 @@
+```plantuml
+@startuml
+
+class ScienceConnect{}
+class Person{}
+class ResearchInstitution{}
+class ScientificArticle{}
+class PeerReviewedPaper{}
+class TechnicalReport{}
+class Publisher{}
+class Journal{}
+
+ScienceConnect "1..1" -- "1..*" Person
+ScienceConnect "1..1" -- "1..*" ResearchInstitution
+ScienceConnect "1..1" -- "1..*" ScientificArticle
+ScientificArticle "0..*" -- "1..1" PeerReviewedPaper
+ScientificArticle "0..*" -- "1..1" TechnicalReport
+Person "1..*" -- "1..*" ScientificArticle
+Person "1..*" -- "0..*" PeerReviewedPaper
+Person "1..*" -- "0..*" ResearchInstitution
+PeerReviewedPaper "1..*" -- "1..*" Journal
+PeerReviewedPaper "0..*" -- "0..*" Person
+TechnicalReport "1..1" -- "1..*" ResearchInstitution
+Publisher "1..*" -- "1..*" Journal
+ResearchInstitution "0..*" -- "0..*" Journal
+
+@enduml
+```

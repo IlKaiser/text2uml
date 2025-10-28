@@ -1,0 +1,29 @@
+```plantuml
+@startuml
+
+class OilCompany {}
+class GasStation {}
+class Pump {}
+class Gasoline {}
+class Customer {}
+class RefuelTurn {}
+class Invoice {}
+class RefuelCard {}
+class Payment {}
+class DailyReport {}
+
+GasStation "1" -- "0..*" Pump
+Pump "1" -- "1" Gasoline
+GasStation "1" -- "0..*" Customer
+Customer "0..*" -- "1" RefuelCard
+Customer "0..*" -- "0..*" Invoice
+Customer "0..*" -- "0..*" Payment
+RefuelTurn "1" -- "1" Pump
+RefuelTurn "1" -- "1" Customer
+Invoice "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" Payment
+GasStation "1" -- "0..*" DailyReport
+Pump "1" -- "1" DailyReport
+
+@enduml
+```

@@ -1,0 +1,31 @@
+@startuml
+class EBike{}
+class Frame{}
+class Wheel{}
+class DriveSystem{}
+class Motor{}
+class Battery{}
+class RemovableBattery{}
+class EnergyMeasurement{}
+class Controller{}
+class BasicController{}
+class AdvancedController{}
+class ControllerState{}
+class DriveCommand{}
+class Inspection{}
+class Date{}
+
+EBike "1..1" -- "1..1" Frame
+EBike "1..1" -- "1..1" DriveSystem
+EBike "1..1" -- "1..1" Controller
+Frame "1..1" -- "1..*" Wheel
+DriveSystem "1..1" -- "1..1" Motor
+EBike "1..1" -- "0..1" RemovableBattery
+Controller "1..1" -- "0..1" RemovableBattery
+Controller "1..1" -- "1..1" DriveSystem
+Controller "1..1" -- "1..1" ControllerState
+Battery "1..1" -- "1..1" EnergyMeasurement
+AdvancedController "1..1" -- "0..1" Date
+Inspection "1..1" -- "1..1" Date
+EBike "1..1" -- "0..*" Inspection
+@enduml

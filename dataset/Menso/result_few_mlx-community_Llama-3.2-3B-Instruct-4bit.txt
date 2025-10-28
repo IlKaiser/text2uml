@@ -1,0 +1,59 @@
+@startuml
+
+class Bus {}
+class Line {}
+class Trajectory {}
+class Approval {}
+class TownAuthority {}
+class BusCompany {}
+class TrajectoryApproval {}
+class TrajectorySuspension {}
+class TrajectoryCancellation {}
+class LineNumber {}
+class BusLine {}
+class Category {}
+class SeasonTicket {}
+class TicketMachine {}
+class Card {}
+class Invoice {}
+class Discount {}
+class Customer {}
+
+Trajectory "1..*" -- "1" Approval
+Trajectory "1" -- "0..*" TownAuthority
+Trajectory "0..1" -- "1" TrajectorySuspension
+Trajectory "1" -- "1" TrajectoryCancellation
+Trajectory "1" -- "1" BusLine
+Trajectory "1" -- "1" Category
+Trajectory "1" -- "1" SeasonTicket
+Trajectory "1" -- "1" TicketMachine
+Trajectory "1" -- "1" Card
+
+BusLine "1" -- "1" Category
+BusLine "1" -- "1" SeasonTicket
+BusLine "1" -- "1" TicketMachine
+BusLine "1" -- "1" Card
+BusLine "1" -- "1" Customer
+
+Approval "1" -- "1" TrajectoryApproval
+Approval "1" -- "1" TrajectoryCancellation
+Approval "1" -- "1" TownAuthority
+
+TrajectoryApproval "1" -- "1" TrajectorySuspension
+TrajectoryApproval "1" -- "1" TrajectoryCancellation
+
+TicketMachine "1" -- "1" Card
+TicketMachine "1" -- "1" Customer
+
+Card "1" -- "1" Customer
+
+SeasonTicket "1" -- "1" Discount
+SeasonTicket "1" -- "1" Invoice
+
+Discount "1" -- "1" Invoice
+
+Customer "1" -- "1" Invoice
+
+Invoice "1" -- "1" Discount
+
+@enduml

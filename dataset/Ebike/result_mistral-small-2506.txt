@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+
+class EBike{}
+class Frame{}
+class DriveSystem{}
+class Controller{}
+class Wheel{}
+class Battery{}
+class Motor{}
+class BasicController{}
+class AdvancedController{}
+
+EBike "1..1" -- "1..*" Wheel
+EBike "1..1" -- "1..1" Frame
+EBike "1..1" -- "1..1" DriveSystem
+EBike "1..1" -- "0..1" Battery
+EBike "1..1" -- "1..1" Controller
+DriveSystem "1..1" -- "1..1" Motor
+Controller "1..1" -- "1..1" DriveSystem
+Controller "0..1" -- "0..1" Battery
+Controller "1..1" -- "1..1" EBike
+Frame "1..1" -- "2..2" Wheel
+Controller "1..1" -- "1..1" EBike
+Controller "1..1" -- "0..1" Battery
+BasicController "1..1" -- "0..1" Controller
+AdvancedController "1..1" -- "0..1" Controller
+
+@enduml
+```

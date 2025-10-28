@@ -1,0 +1,34 @@
+@startuml
+
+class Apartment {}
+class Room {}
+class Sensor {}
+class SensorController {}
+class Inhabitant {}
+class EHome2020 {}
+class EMonitor {}
+
+Apartment "1" -- "0..*" Room
+Room "1" -- "0..*" Sensor
+Sensor "1" -- "0..*" EHome2020
+Sensor "1" -- "0..*" EMonitor
+Sensor "1" -- "1" Inhabitant
+Inhabitant "1" -- "0..*" EHome2020
+Inhabitant "1" -- "0..*" EMonitor
+Inhabitant "1" -- "1" Apartment
+Apartment "1" -- "0..*" EHome2020
+Apartment "1" -- "0..*" EMonitor
+
+Sensor "1" -- "1" Room
+Room "1" -- "0..*" EHome2020
+Room "1" -- "0..*" EMonitor
+
+Sensor "1" -- "1" Inhabitant
+Inhabitant "1" -- "0..*" EHome2020
+Inhabitant "1" -- "0..*" EMonitor
+
+Sensor "1" -- "1" Apartment
+Apartment "1" -- "0..*" EHome2020
+Apartment "1" -- "0..*" EMonitor
+
+@enduml

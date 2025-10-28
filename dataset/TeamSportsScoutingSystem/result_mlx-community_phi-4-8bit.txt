@@ -1,0 +1,44 @@
+```plantuml
+@startuml
+
+class TeamSportsScoutingSystem{}
+class Employee{}
+class HeadCoach{}
+class Director{}
+class Scout{}
+class PlayerProfile{}
+class TargetPosition{}
+class PlayerAttribute{}
+class LongList{}
+class HeadScout{}
+class ScoutingAssignment{}
+class ScoutingReport{}
+class Player{}
+class ShortList{}
+class Recommendation{}
+
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+
+HeadCoach "1" -- "1..*" PlayerProfile
+PlayerProfile "1" -- "1" TargetPosition
+PlayerProfile "1" -- "1..*" PlayerAttribute
+
+Scout "1" -- "1..*" LongList
+LongList "1" -- "1..*" PlayerProfile
+
+HeadScout "1" -- "1..*" ScoutingAssignment
+ScoutingAssignment "1" -- "1" Player
+ScoutingAssignment "1" -- "1" ScoutingReport
+
+ScoutingReport "1" -- "1" Player
+ScoutingReport "1" -- "1" Recommendation
+
+HeadCoach "1" -- "1..*" ShortList
+ShortList "1" -- "1..*" PlayerProfile
+
+Director "1" -- "1..*" Player
+
+@enduml
+```

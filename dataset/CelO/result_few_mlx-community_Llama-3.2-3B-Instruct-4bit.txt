@@ -1,0 +1,21 @@
+@startuml
+
+class Organizer {}
+class Event {}
+class Task {}
+class Checklist {}
+class Attendee {}
+class Invitation {}
+class Account {}
+class Password {}
+
+Event "1..*" -- "1..*" Organizer
+Event "1" -- "0..*" Checklist
+Checklist "0..*" -- "1..*" Task
+Task "0..*" -- "1..*" Task
+Task "0..1" -- "1" Attendee
+Attendee "1" -- "0..*" Invitation
+Invitation "1" -- "1" Account
+Account "1" -- "1" Password
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+class HelpingHandsStore{}
+class Resident{}
+class PickupAndDeliveryService{}
+class Vehicle{}
+class VolunteerDriver{}
+class DistributionCenter{}
+class SecondHandArticle{}
+class FoodBank{}
+class RFIDDevice{}
+class Client{}
+
+HelpingHandsStore "1..1" -- "0..*" Resident
+HelpingHandsStore "1..1" -- "1..1" PickupAndDeliveryService
+HelpingHandsStore "1..1" -- "1..*" Vehicle
+HelpingHandsStore "1..1" -- "1..1" DistributionCenter
+HelpingHandsStore "1..1" -- "1..1" FoodBank
+HelpingHandsStore "1..1" -- "0..*" SecondHandArticle
+Resident "1..1" -- "1..1" PickupAndDeliveryService
+PickupAndDeliveryService "1..1" -- "1..1" Vehicle
+Vehicle "1..*" -- "1..1" VolunteerDriver
+VolunteerDriver "1..1" -- "1..1" DistributionCenter
+VolunteerDriver "1..1" -- "1..1" FoodBank
+DistributionCenter "1..1" -- "0..*" SecondHandArticle
+SecondHandArticle "1..1" -- "1..1" RFIDDevice
+DistributionCenter "1..1" -- "0..1" Client
+@enduml

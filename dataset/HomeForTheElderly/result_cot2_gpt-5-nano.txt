@@ -1,0 +1,72 @@
+@startuml
+class Home {}
+class Department {}
+class Room {}
+class Bed {}
+class Inhabitant {}
+class Category {}
+class Stay {}
+class StayType {}
+class ServiceFlatStay {}
+class Registration {}
+class RegistrationProcess {}
+class IdentificationData {}
+class Question {}
+class QuestionSet {}
+class Assessment {}
+class AssessmentResult {}
+class WaitingList {}
+class WaitingListEntry {}
+class Proposal {}
+class Intake {}
+class Invoice {}
+class InvoiceItem {}
+class CreditNote {}
+class Refund {}
+class PaymentEvent {}
+class Representative {}
+class EndOfStay {}
+class BasicActivity {}
+class Ability {}
+class Needs {}
+class Help {}
+
+Home -- "1..*" Department
+Department -- "1..*" Room
+Room -- "1..*" Bed
+Bed -- "1..1" Category
+Inhabitant -- "0..*" Stay
+Stay -- "1" StayType
+StayType -- "0..*" Stay
+Inhabitant -- "0..*" IdentificationData
+Registration -- "1" RegistrationProcess
+RegistrationProcess -- "0..*" IdentificationData
+IdentificationData -- "0..*" Question
+QuestionSet -- "0..*" Question
+Question -- "0..*" QuestionSet
+Assessment -- "0..*" AssessmentResult
+AssessmentResult -- "1" StayType
+Inhabitant -- "0..*" Assessment
+WaitingList -- "0..*" WaitingListEntry
+WaitingListEntry -- "1" Inhabitant
+WaitingList -- "1" StayType
+Proposal -- "0..*" Inhabitant
+Proposal -- "0..*" StayType
+Intake -- "1" Stay
+Stay -- "0..*" Invoice
+Invoice -- "0..*" InvoiceItem
+InvoiceItem -- "1" Stay
+Invoice -- "0..*" PaymentEvent
+PaymentEvent -- "1" Invoice
+Invoice -- "0..*" CreditNote
+CreditNote -- "1" Invoice
+CreditNote -- "0..*" Refund
+Refund -- "1" CreditNote
+Representative -- "0..*" Inhabitant
+Inhabitant -- "0..1" Representative
+BasicActivity -- "0..*" Assessment
+Ability -- "0..*" Needs
+Needs -- "0..*" Help
+Stay -- "0..1" EndOfStay
+Stay -- "0..*" ServiceFlatStay
+@enduml

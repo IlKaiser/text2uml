@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+
+class DestroyBlockApplication{}
+class Game{}
+class User{}
+class Player{}
+class Admin{}
+class HallOfFame{}
+class Block{}
+class Level{}
+class Ball{}
+class Paddle{}
+
+DestroyBlockApplication "1..1" -- "0..*" User
+DestroyBlockApplication "1..*" -- "0..*" Game
+DestroyBlockApplication "1..1" -- "1..1" HallOfFame
+Game "1..1" -- "1..1" HallOfFame
+User "1..1" -- "1..1" Player
+User "0..1" -- "1..1" Admin
+Admin "1..1" -- "0..*" Game
+Game "1..1" -- "1..*" Block
+Game "1..1" -- "1..99" Level
+Level "1..1" -- "1..*" Block
+Level "1..1" -- "1..1" Ball
+Level "1..1" -- "1..1" Paddle
+Player "1..*" -- "1..*" Game
+
+@enduml
+```

@@ -1,0 +1,29 @@
+```plantuml
+@startuml
+
+class City {}
+class BusTransportationManagementSystem {}
+class Driver {}
+class Bus {}
+class BusRoute {}
+class Shift {}
+class Assignment {}
+
+BusTransportationManagementSystem "1" -- "1" City
+Driver "1" -- "1" BusTransportationManagementSystem
+Bus "1" -- "1" BusTransportationManagementSystem
+BusRoute "1" -- "1" BusTransportationManagementSystem
+Shift "1" -- "1" BusTransportationManagementSystem
+Assignment "1" -- "1" BusTransportationManagementSystem
+
+BusRoute "1" -- "0..*" Assignment
+Bus "0..*" -- "1" Assignment
+Driver "0..*" -- "1" Assignment
+Shift "0..*" -- "1" Assignment
+
+Assignment "1" -- "1" BusRoute
+Assignment "1" -- "0..*" Shift
+Assignment "1" -- "1" Driver
+
+@enduml
+```

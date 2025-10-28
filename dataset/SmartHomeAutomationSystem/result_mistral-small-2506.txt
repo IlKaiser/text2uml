@@ -1,0 +1,38 @@
+```plantuml
+@startuml
+
+class SmartHomeAutomationSystem{}
+class User{}
+class SmartHome{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class DeviceIdentifier{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class AutomationRule{}
+class BooleanExpression{}
+class RelationalTerm{}
+class RuleDependency{}
+class Alert{}
+
+SmartHomeAutomationSystem "1..*" -- "1..*" User
+SmartHomeAutomationSystem "1..1" -- "1..*" SmartHome
+SmartHome "1..1" -- "1..*" Room
+Room "1..*" -- "1..*" SensorDevice
+Room "1..*" -- "1..*" ActuatorDevice
+SensorDevice "1..1" -- "1..1" DeviceIdentifier
+ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
+SensorDevice "1..*" -- "0..*" SensorReading
+ActuatorDevice "1..*" -- "0..*" ControlCommand
+SmartHome "1..1" -- "1..*" ActivityLog
+SmartHome "1..*" -- "1..*" AutomationRule
+AutomationRule "1..1" -- "1..1" BooleanExpression
+BooleanExpression "1..*" -- "1..*" RelationalTerm
+AutomationRule "1..*" -- "0..*" RuleDependency
+AutomationRule "1..*" -- "1..*" ControlCommand
+SmartHome "1..*" -- "1..*" Alert
+
+@enduml
+```

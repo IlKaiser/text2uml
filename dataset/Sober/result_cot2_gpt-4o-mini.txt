@@ -1,0 +1,44 @@
+```plantuml
+@startuml
+class Taxi{}
+class Company{}
+class Car{}
+class Fleet{}
+class Cab{}
+class Customer{}
+class App{}
+class Request{}
+class RideHailing{}
+class RideSharing{}
+class Passenger{}
+class Fee{}
+class Owner{}
+class Accident{}
+class Location{}
+class Duration{}
+class Distance{}
+class LeadCustomer{}
+class Gesture{}
+
+Taxi "1..*" -- "1..1" Company
+Car "1..*" -- "1..1" Company
+Fleet "1..*" -- "1..1" Company
+Cab "0..*" -- "0..1" Owner
+Request "0..*" -- "1..1" Customer
+Request "0..*" -- "1..1" App
+RideHailing "1..*" -- "1..1" Request
+RideSharing "1..*" -- "1..*" Customer
+RideHailing "1..*" -- "0..*" Fee
+RideHailing "1..*" -- "1..1" Duration
+RideHailing "1..*" -- "1..1" Distance
+Accident "0..*" -- "1..1" Car
+Passenger "1..*" -- "1..*" RideHailing
+LeadCustomer "1..*" -- "1..*" RideHailing
+Location "1..1" -- "1..1" RideHailing
+Location "1..1" -- "1..1" RideSharing
+Duration "1..1" -- "1..1" RideSharing
+Distance "1..1" -- "1..1" RideSharing
+Fee "1..1" -- "1..1" RideSharing
+Gesture "0..*" -- "0..*" Request
+@enduml
+```

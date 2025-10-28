@@ -1,0 +1,27 @@
+@startuml
+class LabTracker{}
+class Doctor{}
+class Patient{}
+class Requisition{}
+class Test{}
+class TestGroup{}
+class Appointment{}
+class Lab{}
+class TestResult{}
+class Report{}
+
+Doctor "1..*" -- "1..1" Requisition
+Patient "1..*" -- "1..1" Requisition
+Requisition "1..*" -- "1..*" Test
+Requisition "1..1" -- "1..1" TestGroup
+Test "0..*" -- "1..*" TestGroup
+Requisition "1..1" -- "0..*" Appointment
+Patient "1..*" -- "0..*" Appointment
+Appointment "1..1" -- "1..1" Lab
+Test "1..1" -- "1..1" TestResult
+Test "1..1" -- "1..1" Report
+Doctor "1..*" -- "0..*" TestResult
+Patient "1..*" -- "0..*" TestResult
+Doctor "1..*" -- "0..*" Report
+Patient "1..*" -- "0..*" Report
+@enduml

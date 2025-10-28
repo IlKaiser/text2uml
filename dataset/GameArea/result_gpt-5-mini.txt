@@ -1,0 +1,19 @@
+@startuml
+
+class GameArea{}
+class GameElement{}
+class Shape{}
+class Object{}
+class Opponent{}
+class GamePiece{}
+
+Shape <|-- GameElement
+Object <|-- GameElement
+Opponent <|-- GameElement
+
+GameArea "1..1" elements -- "1..*" GameElement : contains
+GameArea "1..1" pieces -- "1..2" GamePiece : hasPieces
+GameArea "1..1" boss -- "1..1" Opponent : boss
+Shape "0..*" source -- "0..*" target Shape : connectedTo
+
+@enduml

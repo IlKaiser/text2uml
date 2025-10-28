@@ -1,0 +1,32 @@
+@startuml
+
+class HospitalHouseMD{}
+class Patient{}
+class Doctor{}
+class HeadDoctor{}
+class Nurse{}
+class Diagnosis{}
+class Illness{}
+class Treatment{}
+class Consent{}
+
+HospitalHouseMD "1" -- "0..*" Patient
+HospitalHouseMD "1" -- "0..*" Doctor
+HospitalHouseMD "1" -- "0..*" Nurse
+
+Patient "1" -- "1..*" Doctor
+Patient "1" -- "0..*" Diagnosis
+Patient "1" -- "1" -- "0..1" Consent
+
+Doctor "1" -- "0..*" Diagnosis
+HeadDoctor "1" -- "0..*" Diagnosis
+
+Diagnosis "1" -- "0..*" Treatment
+Illness "1" -- "0..*" Treatment
+
+Consent "1" -- "0..*" Treatment
+
+Treatment "1" -- "0..*" Nurse
+Treatment "1" -- "0..*" Doctor
+
+@enduml

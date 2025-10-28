@@ -1,0 +1,45 @@
+```plantuml
+@startuml
+
+class Employee {}
+class Driver {}
+class Planner {}
+class AdministrativeStaff {}
+class Customer {}
+class Vehicle {}
+class RefrigeratedTruck {}
+class SmallVan {}
+class LoadingPlatform {}
+class BoxTruck {}
+class Order {}
+class Repair {}
+class RepairShop {}
+class PartnerCompany {}
+class TransportCompany {}
+
+Employee "1..1" -- "0..*" Driver
+Employee "1..1" -- "0..*" Planner
+Employee "1..1" -- "0..*" AdministrativeStaff
+Employee "1..1" -- "1..1" Customer
+Employee "1..1" -- "0..*" Vehicle
+Vehicle "1..1" -- "0..1" RefrigeratedTruck
+Vehicle "1..1" -- "0..1" SmallVan
+Vehicle "1..1" -- "0..1" LoadingPlatform
+Vehicle "1..1" -- "0..1" BoxTruck
+Vehicle "1..1" -- "0..*" Repair
+Repair "1..1" -- "1..1" RepairShop
+Repair "1..1" -- "1..1" Employee
+Order "1..1" -- "1..1" Driver
+Order "1..1" -- "1..1" Planner
+Order "1..1" -- "0..1" AdministrativeStaff
+Order "1..1" -- "1..1" Customer
+Order "1..1" -- "1..1" Vehicle
+Order "1..1" -- "0..1" PartnerCompany
+TransportCompany "1..1" -- "0..*" Employee
+TransportCompany "1..1" -- "0..*" Vehicle
+TransportCompany "1..1" -- "0..*" Order
+TransportCompany "1..1" -- "0..*" Repair
+TransportCompany "1..1" -- "0..*" PartnerCompany
+
+@enduml
+```

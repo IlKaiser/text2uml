@@ -1,0 +1,86 @@
+@startuml
+
+class Traveller {
+    +travellerId: int
+    +name: String
+    +email: String
+}
+
+class Hotel {
+    +hotelId: int
+    +name: String
+    +city: City
+    +address: Address
+    +hotelChain: HotelChain
+    +roomTypes: RoomType[]
+    +offers: Offer[]
+}
+
+class City {
+    +cityId: int
+    +name: String
+}
+
+class RoomType {
+    +roomTypeId: int
+    +type: String
+    +price: float
+}
+
+class Booking {
+    +bookingId: int
+    +traveller: Traveller
+    +hotel: Hotel
+    +billingInformation: BillingInformation
+    +offers: Offer[]
+    +travelPreferences: TravelPreference[]
+}
+
+class Offer {
+    +offerId: int
+    +description: String
+    +price: float
+    +travellers: Traveller[]
+    +bookings: Booking[]
+}
+
+class HotelChain {
+    +chainId: int
+    +name: String
+}
+
+class Address {
+    +addressId: int
+    +street: String
+    +city: City
+}
+
+class TravelPreference {
+    +preferenceId: int
+    +preference: String
+    +traveller: Traveller
+}
+
+class BillingInformation {
+    +billingId: int
+    +cardNumber: String
+    +expiryDate: String
+    +traveller: Traveller
+    +booking: Booking
+}
+
+Traveller 1..* -- 1..* Booking
+Traveller 1..* -- 0..* BillingInformation
+Traveller 0..* -- 0..* TravelPreference
+Booking 1..1 -- 1..1 Hotel
+Hotel 1..1 -- 1..1 City
+Hotel 1..1 -- 1..1 Address
+Hotel 1..1 -- 0..1 HotelChain
+Hotel 1..* -- 0..* RoomType
+Hotel 1..* -- 0..* Offer
+Offer 0..* -- 0..* Traveller
+Booking 0..* -- 0..* Offer
+Booking 1..1 -- 0..1 BillingInformation
+Booking 0..* -- 0..* TravelPreference
+
+@enduml

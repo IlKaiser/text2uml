@@ -1,0 +1,37 @@
+```plantuml
+@startuml
+
+class Traveller {}
+class HBMS {}
+class Hotel {}
+class PreliminaryBooking {}
+class Booking {}
+class CreditCard {}
+class SpecialOffer {}
+class City {}
+class RoomType {}
+class HotelChain {}
+class Address {}
+
+Traveller "1" -- "0..*" Booking
+Traveller "1" -- "0..*" PreliminaryBooking
+Traveller "1" -- "0..*" SpecialOffer
+
+HBMS "1" -- "0..*" PreliminaryBooking
+HBMS "1" -- "0..*" Booking
+HBMS "1" -- "0..*" SpecialOffer
+
+Booking "1" -- "1" CreditCard
+Booking "1" -- "1" Hotel
+
+Hotel "1" -- "0..*" Booking
+Hotel "1" -- "0..*" PreliminaryBooking
+Hotel "1" -- "0..*" SpecialOffer
+Hotel "1" -- "1" City
+Hotel "1" -- "1" Address
+Hotel "0..1" -- "1" HotelChain
+
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+
+@enduml
+```

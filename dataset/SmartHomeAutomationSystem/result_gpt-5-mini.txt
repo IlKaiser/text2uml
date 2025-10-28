@@ -1,0 +1,44 @@
+@startuml
+
+class SHAS{}
+class SmartHome{}
+class PhysicalAddress{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class InfrastructureMap{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class Owner{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class AtomicRelationalTerm{}
+
+SmartHome "1..1" -- "1..1" PhysicalAddress
+SmartHome "1..1" -- "1..*" Room
+Room "0..*" -- "1..1" SensorDevice
+Room "0..*" -- "1..1" ActuatorDevice
+SHAS "1..1" -- "1..1" InfrastructureMap
+InfrastructureMap "0..*" -- "1..1" SensorDevice
+InfrastructureMap "0..*" -- "1..1" ActuatorDevice
+SensorDevice "1..1" -- "0..*" SensorReading
+ActuatorDevice "1..1" -- "0..*" ControlCommand
+SmartHome "1..1" -- "1..1" ActivityLog
+ActivityLog "1..1" -- "0..*" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+ActivityLog "1..1" -- "0..*" AutomationRule
+SmartHome "1..1" -- "1..1" Owner
+Owner "1..1" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Precondition "1..1" -- "0..*" AtomicRelationalTerm
+AtomicRelationalTerm "0..*" -- "0..1" Room
+AtomicRelationalTerm "0..*" -- "0..1" SensorDevice
+AtomicRelationalTerm "0..*" -- "0..1" ActuatorDevice
+AtomicRelationalTerm "0..*" -- "0..1" SensorReading
+AtomicRelationalTerm "0..*" -- "0..1" ControlCommand
+AutomationRule "0..*" -- "0..*" AutomationRule
+
+@enduml

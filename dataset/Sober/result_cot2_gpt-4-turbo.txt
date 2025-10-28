@@ -1,0 +1,29 @@
+@startuml
+
+class TaxiCompany{}
+class SelfDrivingCar{}
+class Owner{}
+class Customer{}
+class TaxiService{}
+class Request{}
+class RideHailingService{}
+class RideSharingService{}
+class Notification{}
+class ImageRecognitionSystem{}
+class Accident{}
+
+TaxiCompany "1..1" -- "0..*" SelfDrivingCar
+TaxiCompany "1..1" -- "0..*" Owner
+TaxiCompany "1..1" -- "1..1" TaxiService
+Owner "1..1" -- "0..*" SelfDrivingCar
+TaxiService "1..1" -- "0..*" Request
+Customer "1..1" -- "0..*" Request
+Request "1..1" -- "0..1" Notification
+Customer "1..*" -- "0..*" RideHailingService
+Customer "1..*" -- "0..*" RideSharingService
+RideHailingService "1..1" -- "0..1" ImageRecognitionSystem
+RideHailingService "1..1" -- "0..*" Request
+RideSharingService "1..1" -- "0..*" Request
+SelfDrivingCar "1..1" -- "0..*" Accident
+
+@enduml

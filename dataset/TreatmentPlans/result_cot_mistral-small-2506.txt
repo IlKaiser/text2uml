@@ -1,0 +1,28 @@
+Here is the PlantUML model based on your class and cardinality lists:
+
+```plantuml
+@startuml
+
+class Hospital{}
+class Doctor{}
+class Patient{}
+class Examination{}
+class ExaminationType{}
+class TreatmentPlan{}
+class Problem{}
+class ActualTreatment{}
+class Permission{}
+
+Hospital "1..*" -- "1" Doctor
+Hospital "0..*" -- "1" ExaminationType
+Hospital "1..*" -- "1" Permission
+Doctor "1..*" -- "1" Patient
+Doctor "1..*" -- "1" Examination
+Examination "1..1" -- "1" ExaminationType
+Problem "1..1" -- "1" TreatmentPlan
+TreatmentPlan "1..*" -- "1" ExaminationType
+Doctor "1..*" -- "1" ActualTreatment
+ActualTreatment "1..*" -- "1" Examination
+
+@enduml
+```

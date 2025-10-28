@@ -1,0 +1,33 @@
+@startuml
+class Doctor{}
+class Patient{}
+class Requisition{}
+class Test{}
+class TestGroup{}
+class Lab{}
+class Appointment{}
+class Confirmation{}
+class DigitalSignature{}
+class LabNetwork{}
+class BusinessHours{}
+class Fee{}
+class RepetitionPattern{}
+class Interval{}
+
+Doctor "0..*" -- "1" Requisition
+Patient "0..*" -- "1" Requisition
+Requisition "1..*" -- "0..*" Test
+Test "0..*" -- "1" TestGroup
+Requisition "0..1" -- "1" RepetitionPattern
+RepetitionPattern "1" -- "1" Interval
+Test "0..*" -- "1" LabNetwork
+Lab "0..*" -- "1" LabNetwork
+Doctor "1" -- "1" DigitalSignature
+Requisition "1" -- "1" DigitalSignature
+Lab "1" -- "1" Fee
+Lab "1" -- "1" BusinessHours
+Appointment "1" -- "1" Lab
+Patient "0..*" -- "1" Appointment
+Appointment "0..1" -- "1" Confirmation
+Requisition "0..*" -- "1" Appointment
+@enduml

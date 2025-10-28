@@ -1,0 +1,31 @@
+@startuml
+class InsuranceCompany {}
+class Client {}
+class Broker {}
+class AccountManager {}
+class InsurancePolicy {}
+class Offer {}
+class Contract {}
+class ClaimCase {}
+class Estimator {}
+class Report {}
+class CompensationDecision {}
+class Invoice {}
+
+InsuranceCompany "1..1" -- "0..*" Client.
+InsuranceCompany "1..1" -- "0..*" Broker.
+InsuranceCompany "1..1" -- "0..*" InsurancePolicy.
+InsuranceCompany "1..1" -- "0..*" AccountManager.
+InsuranceCompany "1..1" -- "0..*" Estimator.
+InsuranceCompany "1..1" -- "0..*" Invoice.
+Client "1..1" -- "0..*" Broker.
+Client "1..1" -- "0..*" Offer.
+Client "1..1" -- "0..*" Contract.
+Client "1..1" -- "0..*" ClaimCase.
+InsurancePolicy "1..1" -- "0..*" Contract.
+AccountManager "1..1" -- "0..*" Contract.
+Offer "0..1" -- "1..1" Contract.
+ClaimCase "0..*" -- "0..*" Estimator.
+ClaimCase "1..1" -- "0..*" Report.
+ClaimCase "0..1" -- "1..1" CompensationDecision.
+@enduml

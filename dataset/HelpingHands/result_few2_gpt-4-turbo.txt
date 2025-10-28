@@ -1,0 +1,25 @@
+```plantuml
+@startuml
+
+class Resident {}
+class ScheduledPickup {}
+class PickupVehicle {}
+class VolunteerDriver {}
+class DistributionCenter {}
+class FoodBank {}
+class Article {}
+class H2SEmployee {}
+class Client {}
+
+Resident "1" -- "0..*" ScheduledPickup
+ScheduledPickup "1" -- "1" PickupVehicle
+PickupVehicle "0..*" -- "1" VolunteerDriver
+ScheduledPickup "1" -- "0..1" FoodBank
+ScheduledPickup "1" -- "0..*" Article
+Article "0..*" -- "1" DistributionCenter
+Article "1" -- "1" H2SEmployee
+DistributionCenter "1" -- "0..*" H2SEmployee
+Client "1" -- "0..*" Article
+
+@enduml
+```

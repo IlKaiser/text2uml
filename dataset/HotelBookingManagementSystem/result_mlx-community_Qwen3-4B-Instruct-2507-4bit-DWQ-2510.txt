@@ -1,0 +1,32 @@
+@startuml
+
+class Traveller{}
+class Hotel{}
+class HBMS{}
+class RoomType{}
+class City{}
+class Booking{}
+class PreliminaryBooking{}
+class SpecialOffer{}
+class CreditCard{}
+class Cancellation{}
+class HotelChain{}
+class BookingConfirmation{}
+
+Traveller "1" -- "1" HBMS
+HBMS "1" -- "1" Hotel
+Hotel "1" -- "1" City
+Hotel "1" -- "0..*" HotelChain
+Hotel "1" -- "0..*" RoomType
+HBMS "1" -- "1" Booking
+PreliminaryBooking "1" -- "1" Booking
+PreliminaryBooking "1" -- "1" SpecialOffer
+SpecialOffer "1" -- "1" Hotel
+Booking "1" -- "1" CreditCard
+Booking "1" -- "1" Cancellation
+Booking "1" -- "1" BookingConfirmation
+HBMS "1" -- "1" Cancellation
+HBMS "1" -- "1" BookingConfirmation
+Hotel "1" -- "1" BookingConfirmation
+
+@enduml

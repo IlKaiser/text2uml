@@ -1,0 +1,25 @@
+@startuml
+
+class Location{}
+class Driver{}
+class Vehicle{ truck, car, van }
+class Order{}
+
+Location "1" -- "1" Driver
+Location "1" -- "*" Address
+
+Vehicle "1" -- "1" Driver
+Vehicle { "1" truck, "1" car, "1" van }
+Vehicle "1..1" -- "1" Driver
+Vehicle "1" -- "*" VehicleNumber
+
+Driver "1" -- "*" Vehicle
+Driver "1" -- "1" FirstName
+Driver "1" -- "1" LastName
+
+Order "1" -- "1" Location
+Order "1" -- "1" Driver
+Order "1" -- "*" OrderDate
+Order "1" -- "*" DestinationLocation
+
+@enduml

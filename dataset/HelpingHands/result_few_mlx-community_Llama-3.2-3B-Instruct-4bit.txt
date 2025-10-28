@@ -1,0 +1,44 @@
+@startuml
+
+class Customer {}
+class Pickup {}
+class Delivery {}
+class Item {}
+class StreetAddress {}
+class Phone {}
+class Email {}
+class Description {}
+class Vehicle {}
+class VolunteerDriver {}
+class PickupRoute {}
+class RFID {}
+class Category {}
+class FoodBank {}
+class H2S {}
+class Employee {}
+
+Customer "1" -- "0..*" Pickup
+Customer "1" -- "0..*" Delivery
+Item "1" -- "0..*" Description
+Item "1" -- "0..*" Category
+Item "1" -- "0..*" RFID
+StreetAddress "1" -- "0..*" Item
+Phone "1" -- "0..*" Customer
+Email "0..1" -- "1" Customer
+Description "1" -- "0..*" Item
+Vehicle "1" -- "0..*" PickupRoute
+VolunteerDriver "1" -- "0..*" PickupRoute
+PickupRoute "1" -- "0..*" Vehicle
+PickupRoute "1" -- "0..*" Delivery
+PickupRoute "1" -- "0..*" Item
+RFID "1" -- "0..*" Item
+Category "1" -- "0..*" Item
+FoodBank "1" -- "0..*" Item
+H2S "1" -- "0..*" Employee
+Employee "1" -- "0..*" Item
+Employee "1" -- "0..*" Category
+Employee "1" -- "0..*" RFID
+Employee "1" -- "0..*" FoodBank
+Employee "1" -- "0..*" H2S
+
+@enduml

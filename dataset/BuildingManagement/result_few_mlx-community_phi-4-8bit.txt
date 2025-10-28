@@ -1,0 +1,74 @@
+```plantuml
+@startuml
+
+class WebPortal {}
+class Building {}
+class Entry {}
+class Image {}
+class User {}
+class Administrator {}
+class Comment {}
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "1" User
+Building "1" -- "0..*" Entry
+Building "1" -- "0..*" Image
+User "1" -- "0..*" Comment
+Administrator --|> User
+
+@enduml
+```
+
+### Use Cases and Actors
+
+#### Actors:
+- **Visitor**
+- **User**
+- **Administrator**
+
+#### Use Cases:
+1. **Register User**
+   - **Actor:** Visitor
+   - **Description:** Visitor registers with a unique username, email, and password.
+
+2. **Activate User**
+   - **Actor:** System
+   - **Description:** System sends confirmation link and sets up user account.
+
+3. **Login User**
+   - **Actor:** User
+   - **Description:** User logs in using their credentials.
+
+4. **Create Building**
+   - **Actor:** User
+   - **Description:** User creates a new building entry.
+
+5. **Manage Building Entries**
+   - **Actor:** User
+   - **Description:** User manages entries for their buildings.
+
+6. **Comment on Building**
+   - **Actor:** User
+   - **Description:** User comments on other users' buildings.
+
+7. **Search Buildings**
+   - **Actor:** Visitor
+   - **Description:** Visitor searches for buildings using full-text search.
+
+8. **Set Up User Account**
+   - **Actor:** Administrator
+   - **Description:** Administrator sets up user accounts.
+
+9. **Delete Comment**
+   - **Actor:** Administrator
+   - **Description:** Administrator deletes comments.
+
+10. **Release Entry Publicly**
+    - **Actor:** User
+    - **Description:** User releases additional entries publicly.
+
+### Relationships:
+- **Generalization:** Administrator is a specialized type of User.
+- **Associations:** 
+  - User creates and manages Building and Entry.
+  - Administrator manages User accounts and Comments.

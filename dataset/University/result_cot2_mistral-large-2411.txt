@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+
+class University{}
+class Faculty{}
+class Institute{}
+class Employee{}
+class ResearchStaff{}
+class AdministrativeStaff{}
+class ResearchAssistant{}
+class Project{}
+class Course{}
+class Lecturer{}
+
+University "1..*" -- "0..*" Faculty
+Faculty "1..1" -- "0..*" Institute
+Faculty "1..1" -- "1..1" Employee
+Employee "1..1" -- "1..1" Faculty
+Faculty "0..*" -- "0..*" Institute
+University "0..*" -- "0..*" Employee
+Employee "1..1" -- "0..1" ResearchStaff
+Employee "1..1" -- "0..1" AdministrativeStaff
+ResearchAssistant "1..1" -- "1..*" Institute
+ResearchAssistant "0..*" -- "0..*" Project
+ResearchAssistant "1..1" -- "0..1" Lecturer
+ResearchAssistant "0..*" -- "0..*" Course
+Lecturer "1..1" -- "0..*" Course
+
+@enduml
+```

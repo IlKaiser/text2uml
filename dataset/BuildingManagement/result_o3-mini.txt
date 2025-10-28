@@ -1,0 +1,54 @@
+@startuml
+
+' Classes
+class WebPortal {}
+class Building {}
+class AdditionalEntry {}
+class TextEntry {}
+class NumericEntry {}
+class Image {}
+class User {}
+class Administrator {}
+class Comment {}
+
+' Class relations
+WebPortal "1..1" -- "0..*" Building
+Building "1..1" -- "1..1" User
+User "1..1" -- "0..*" Building
+Building "1..1" -- "0..*" AdditionalEntry
+AdditionalEntry "1..1" <|-- TextEntry
+AdditionalEntry "1..1" <|-- NumericEntry
+Building "1..1" -- "1..*" Image
+User "1..1" -- "0..*" Comment
+Building "1..1" -- "0..*" Comment
+Administrator "1..1" --|> User
+
+' Use case diagram
+actor Visitor
+actor UserActor
+actor AdminActor
+
+usecase "Register" as UC1
+usecase "Confirm Email" as UC2
+usecase "Login" as UC3
+usecase "Manage Building" as UC4
+usecase "Create Building" as UC5
+usecase "Manage Entries" as UC6
+usecase "Comment on Building" as UC7
+usecase "Search Buildings" as UC8
+usecase "Setup Account" as UC9
+usecase "Delete Comment" as UC10
+
+Visitor -- UC1
+Visitor -- UC2
+Visitor -- UC8
+UserActor -- UC3
+UserActor -- UC4
+UserActor -- UC7
+AdminActor -- UC9
+AdminActor -- UC10
+
+UC5 --|> UC4
+UC6 --|> UC4
+
+@enduml

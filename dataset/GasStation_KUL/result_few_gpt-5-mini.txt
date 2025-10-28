@@ -1,0 +1,39 @@
+@startuml
+
+class OilCompany{}
+class GasStation{}
+class Pump{}
+class Reservoir{}
+class FuelType{}
+class Customer{}
+class FuelCard{}
+class RefuelTurn{}
+class Invoice{}
+class Payment{}
+class DailyReport{}
+class BlockEvent{}
+class GasStationResponsible{}
+class Suspension{}
+
+OilCompany "1" -- "0..*" GasStation
+GasStation "1" -- "0..*" Pump
+GasStation "1" -- "0..*" GasStationResponsible
+GasStationResponsible "1" -- "0..*" BlockEvent
+Pump "1" -- "1" Reservoir
+Pump "1" -- "1" FuelType
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" BlockEvent
+Reservoir "1" -- "0..*" BlockEvent
+DailyReport "1" -- "0..*" Pump
+Customer "1" -- "0..*" RefuelTurn
+Customer "1" -- "0..*" Payment
+Customer "1" -- "0..1" FuelCard
+FuelCard "0..1" -- "1" Invoice
+Invoice "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "1" Invoice
+RefuelTurn "1" -- "0..1" Invoice
+Customer "1" -- "0..1" Suspension
+FuelCard "0..1" -- "0..1" Suspension
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+
+class Customer {
+  +address
+  +VATNumber
+}
+
+class Product {
+  +stock
+}
+
+class Order {
+  +orderLines
+  +paymentDate
+  +shippingDate
+}
+
+class OrderLine {
+  +product
+  +quantity
+  +shipped
+}
+
+class Invoice {
+  +date
+  +amount
+}
+
+class Warehouse {
+  +address
+}
+
+class Shipment {
+  +orderLines
+  +status
+}
+
+Customer "1" -- "0..*" Order
+Product "1..*" -- "0..*" OrderLine
+Order "1" -- "0..*" Invoice
+Order "1" -- "0..*" Shipment
+OrderLine "1" -- "1" Product
+OrderLine "1" -- "1" Shipment
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+class SocialNetworkSite{}
+class User{}
+class PersonalInformation{}
+class Account{}
+class BusinessAccount{}
+class PersonalAccount{}
+class Company{}
+class MarketingCampaign{}
+class TermsOfUse{}
+class Violation{}
+class Page{}
+class Privilege{}
+class AdvertisementPage{}
+class Visitor{}
+class Banner{}
+class Goal{}
+class Purchase{}
+class Transaction{}
+
+User "1..1" -- "0..1" PersonalInformation
+User "1..1" -- "1..*" Account
+Account "1..1" -- "1..1" User
+Account "0..1" -- "0..*" Page
+Page "1..1" -- "1..1" Account
+PersonalAccount "0..*" -- "0..*" Privilege
+BusinessAccount "0..1" -- "1..1" Company
+BusinessAccount "0..*" -- "0..*" MarketingCampaign
+BusinessAccount "1..1" -- "0..*" AdvertisementPage
+AdvertisementPage "1..1" -- "1..1" BusinessAccount
+Visitor "0..*" -- "0..*" Page
+Page "0..*" -- "0..*" Visitor
+Banner "0..*" -- "0..*" AdvertisementPage
+Goal "0..*" -- "0..*" AdvertisementPage
+Purchase "0..*" -- "0..*" Goal
+Transaction "0..*" -- "0..*" Goal
+@enduml

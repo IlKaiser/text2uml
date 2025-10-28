@@ -1,0 +1,41 @@
+@startuml
+class OilCompany{}
+class GasStation{}
+class GasStationResponsible{}
+class Pump{}
+class Reservoir{}
+class Nozzle{}
+class FuelType{}
+class Customer{}
+class Car{}
+class FuelCard{}
+class RefuelTurn{}
+class Invoice{}
+class InvoiceItem{}
+class Payment{}
+class CustomerSuspension{}
+class DailyReport{}
+class RefillOrder{}
+
+OilCompany "1..1" -- "0..*" GasStation
+GasStationResponsible "1..1" -- "0..*" GasStation
+GasStation "1..1" -- "0..*" Pump
+Pump "1..1" -- "1..1" Reservoir
+Pump "1..1" -- "1..1" Nozzle
+Nozzle "1..1" -- "0..*" RefuelTurn
+Car "1..1" -- "0..*" RefuelTurn
+Customer "1..1" -- "0..*" Car
+Customer "1..1" -- "0..*" FuelCard
+FuelCard "0..1" -- "0..*" RefuelTurn
+Pump "1..1" -- "0..*" RefuelTurn
+FuelType "1..1" -- "0..*" RefuelTurn
+Invoice "1..1" -- "0..*" InvoiceItem
+RefuelTurn "1..1" -- "0..1" InvoiceItem
+Invoice "1..1" -- "0..*" Payment
+Customer "1..1" -- "0..*" Invoice
+Customer "1..1" -- "0..1" CustomerSuspension
+DailyReport "1..1" -- "0..*" Pump
+Reservoir "1..1" -- "0..*" RefillOrder
+GasStationResponsible "1..1" -- "0..*" Pump
+FuelCard "0..1" -- "0..*" Invoice
+@enduml

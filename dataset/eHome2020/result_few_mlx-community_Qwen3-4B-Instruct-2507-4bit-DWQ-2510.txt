@@ -1,0 +1,36 @@
+@startuml
+
+class Sensor {}
+class SensorController {}
+class Apartment {}
+class Room {}
+class Inhabitant {}
+class EMonitor {}
+class Threshold {}
+class Value {}
+class AlertMessage {}
+class EmailAddress {}
+
+Sensor "1" -- "1" SensorController
+SensorController "1" -- "0..*" Apartment
+Apartment "1" -- "0..*" Room
+Room "1" -- "0..*" Inhabitant
+Inhabitant "1" -- "0..*" Sensor
+Sensor "1" -- "0..*" Threshold
+Threshold "1" -- "1" Sensor
+Sensor "1" -- "0..*" Value
+Value "1" -- "1" Sensor
+Value "1" -- "1" Timestamp
+Sensor "1" -- "0..*" EmailAddress
+EmailAddress "1" -- "0..*" AlertMessage
+AlertMessage "1" -- "1" EMonitor
+EMonitor "1" -- "0..*" Sensor
+Sensor "1" -- "1" Unit
+Sensor "1" -- "1" Description
+Sensor "1" -- "1" VendorId
+Sensor "1" -- "1" Room
+Sensor "1" -- "1" MinValue
+Sensor "1" -- "1" MaxValue
+Sensor "1" -- "1" PowerCounter
+
+@enduml

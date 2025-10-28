@@ -1,0 +1,31 @@
+@startuml
+
+class User {}
+class BusinessOwner {}
+class PizzaRestaurant {}
+class Pizza {}
+class Order {}
+class EntertainmentOrder {}
+class Entertainer {}
+
+BusinessOwner "0..*" -- "1" User
+PizzaRestaurant "0..*" -- "1" BusinessOwner
+PizzaRestaurant "1" -- "0..*" Pizza
+Order "1" -- "0..*" Pizza
+Order "0..*" -- "1" PizzaRestaurant
+EntertainmentOrder "1" -- "0..*" Order
+EntertainmentOrder "1" -- "1" Entertainer
+
+User "1" -- "1" LinkedInAccount
+PizzaRestaurant "1" -- "1" Address
+PizzaRestaurant "1" -- "1" PhoneNumber
+PizzaRestaurant "1" -- "1" Website
+PizzaRestaurant "1" -- "1" OpeningHours
+Pizza "1" -- "1" Name
+Pizza "1" -- "1" CrustStructure
+Pizza "1" -- "1" Price
+Entertainer "1" -- "1" StageName
+Entertainer "1" -- "1" Bio
+Entertainer "1" -- "1" PricePer30Minutes
+
+@enduml

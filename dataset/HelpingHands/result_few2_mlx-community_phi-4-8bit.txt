@@ -1,0 +1,28 @@
+```plantuml
+@startuml
+
+class Resident {}
+class PickupRequest {}
+class PickupVehicle {}
+class VolunteerDriver {}
+class DistributionCenter {}
+class SecondHandArticle {}
+class NonPerishableFood {}
+class RFIDDevice {}
+class ArticleCategory {}
+class Client {}
+class DeliveryService {}
+
+Resident "1" -- "0..*" PickupRequest
+PickupRequest "1" -- "1" Resident
+PickupVehicle "1" -- "0..*" VolunteerDriver
+VolunteerDriver "1" -- "0..*" PickupVehicle
+DistributionCenter "1" -- "0..*" SecondHandArticle
+DistributionCenter "1" -- "0..*" NonPerishableFood
+SecondHandArticle "1" -- "1" RFIDDevice
+SecondHandArticle "1" -- "1" ArticleCategory
+Client "1" -- "0..*" DeliveryService
+DeliveryService "1" -- "1" Client
+
+@enduml
+```

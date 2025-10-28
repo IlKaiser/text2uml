@@ -1,0 +1,26 @@
+```plantuml
+@startuml
+
+class Student {}
+class Tutor {}
+class TutoringOffer {}
+class TutoringRequest {}
+class TutoringSession {}
+class Payment {}
+class TutorOfTheMonthAward {}
+
+Student "0..*" -- "1" TutoringRequest
+Student "0..*" -- "1" TutoringSession
+Student "0..*" -- "1" Payment
+
+Tutor "0..*" -- "1" TutoringOffer
+Tutor "0..*" -- "1" TutoringSession
+Tutor "0..*" -- "1" Payment
+
+TutoringOffer "0..*" -- "1" TutoringRequest
+TutoringSession "1" -- "0..*" TutoringRequest
+
+TutorOfTheMonthAward "1" -- "0..*" Tutor
+
+@enduml
+```

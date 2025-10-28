@@ -1,0 +1,38 @@
+@startuml
+
+class GameArea {
+  GameElement GameElement
+  GamePiece GamePiece
+}
+
+class GameElement {
+  Shape? Shape
+  Object? Object
+  Opponent? Opponent
+  Long x
+  Long y
+}
+
+class Shape {
+  Shape Shape
+}
+
+class Object {}
+
+class Opponent {
+  Lives Lives
+  GameArea GameArea
+  GameElement GameElement
+}
+
+GameArea "has" GameElement(s)
+GameArea "has" GamePiece(s)
+GameElement "is a" Shape or Object or Opponent
+Shape "can connect to" Shape(s)
+Opponent "has" Lives: Int
+GameArea "knows" Opponent as Boss
+Opponent "has" GameArea
+Opponent "has" GameElement
+Opponent "is a" GameElement
+
+@enduml

@@ -1,0 +1,75 @@
+@startuml
+
+class Game {
+  IDAttribute
+}
+class Player {
+  IDAttribute
+}
+class Deck {
+  IDAttribute
+}
+class Card {
+  IDAttribute
+  Suit "1"
+}
+class ScoringTable {
+  IDAttribute
+}
+class Round {
+  IDAttribute
+  ScoringTable "0..*"
+  JackRound "0..1"
+  SoloRound "0..1"
+}
+class JackRound {
+  IDAttribute
+  Round "1"
+}
+class SoloRound {
+  IDAttribute
+  MandatorySoloRound "1"
+  Solo "1"
+}
+class MandatorySoloRound {
+  IDAttribute
+}
+class Solo {
+  IDAttribute
+  TrumpSolo "0..1"
+  JackSolo "0..1"
+  QueenSolo "0..1"
+}
+class TrumpSolo {
+  IDAttribute
+  Solo "1"
+}
+class JackSolo {
+  IDAttribute
+  Solo "1"
+}
+class QueenSolo {
+  IDAttribute
+  Solo "1"
+}
+class Suit {
+  IDAttribute
+}
+class IDAttribute {
+}
+
+Game "1" -- "1..1" Deck
+Game "1" -- "1..4" Player
+Deck "0..48" -- "1..1" Card
+Card "1" -- "1..1" Suit
+
+ScoringTable "0..*" -- "0..*" Round
+Round "0..1" -- "0..1" JackRound
+Round "0..1" -- "0..1" SoloRound
+SoloRound "1" -- "1" MandatorySoloRound
+SoloRound "1" -- "1" Solo
+Solo "0..1" -- "1" TrumpSolo
+Solo "0..1" -- "1" JackSolo
+Solo "0..1" -- "1" QueenSolo
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+
+class GasStation {
+  - ID
+  - Address
+  - FuelPump[]
+}
+
+class FuelPump {
+  - Number
+  - SelfService
+  - Fuel[]
+}
+
+class Fuel {
+  - Name
+  - OctaneRating
+}
+
+class DailyPrice {
+  - Date
+  - Fuel
+  - GasStation
+  - PricePerLiter
+}
+
+class FuelPurchase {
+  - ID
+  - FuelPump
+  - DailyPrice
+  - LitersDispensed
+}
+
+GasStation "1" -- "1..12" FuelPump
+FuelPump "1" -- "*" Fuel
+DailyPrice "1..*" GasStation
+FuelPurchase "1" -- "1" FuelPump
+FuelPurchase "1" -- "1" DailyPrice
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+class Cinema {}
+class Theatre {}
+class Show {}
+class Movie {}
+class MovieCopy {}
+class Program {}
+class Reservation {}
+class Customer {}
+class CreditCard {}
+class Ticket {}
+class Offer {}
+class Seat {}
+
+Cinema "1..*" -- "1..1" Theatre
+Theatre "1..*" -- "1..1" Show
+Program "1..*" -- "1..1" Show
+MovieCopy "1..*" -- "1..1" Movie
+MovieCopy "1..*" -- "1..1" Cinema
+MovieCopy "1..*" -- "1..*" Theatre
+MovieCopy "0..*" -- "1..1" Show
+Theatre "1..*" -- "0..*" Seat
+Reservation "1..1" -- "0..*" Show
+Reservation "1..1" -- "0..*" Seat
+Reservation "1..1" -- "0..*" CreditCard
+Customer "0..*" -- "1..1" Reservation
+Show "0..*" -- "1..1" Ticket
+Ticket "1..1" -- "0..*" Seat
+Customer "0..*" -- "1..1" Offer
+Offer "1..1" -- "0..*" Show
+Offer "1..1" -- "0..*" Seat
+Offer "1..1" -- "0..1" Ticket
+@enduml

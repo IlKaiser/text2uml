@@ -1,0 +1,50 @@
+```plantuml
+@startuml
+
+class Doctor {}
+class Patient {}
+class Requisition {}
+class Test {}
+class Examination {}
+class Signature {}
+class HealthNumber {}
+class Appointment {}
+class Lab {}
+class LabNetwork {}
+class TestGroup {}
+class TestDuration {}
+class TestRepetition {}
+class TestResult {}
+class Report {}
+class BusinessHours {}
+class ConfirmationNumber {}
+class Fee {}
+
+Doctor "1" -- "1..*" Requisition
+Doctor "1..*" -- "0..*" Patient
+Requisition "1" -- "1" Patient
+Requisition "1..*" -- "1..*" Test
+Requisition "1" -- "1" TestGroup
+Requisition "1" -- "1" TestDuration
+Requisition "1" -- "0..1" TestRepetition
+Test "1" -- "1" TestDuration
+Test "1" -- "0..1" TestRepetition
+Doctor "1..*" -- "1" Signature
+Requisition "1" -- "1" Signature
+Doctor "1..*" -- "0..*" Appointment
+Patient "1..*" -- "1..*" Appointment
+Requisition "1..*" -- "0..1" Appointment
+Test "1..*" -- "0..1" Appointment
+Patient "1..*" -- "0..*" Lab
+Requisition "1..*" -- "0..1" Lab
+Appointment "1" -- "1" Lab
+Appointment "1" -- "1" ConfirmationNumber
+Appointment "1" -- "0..1" Fee
+Lab "1" -- "1" BusinessHours
+Lab "1" -- "1" Fee
+Lab "1" -- "1" LabNetwork
+Test "1" -- "1" Report
+Test "1" -- "1" TestResult
+
+@enduml
+```

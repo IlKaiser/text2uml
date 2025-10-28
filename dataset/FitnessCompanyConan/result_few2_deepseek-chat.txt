@@ -1,0 +1,25 @@
+@startuml
+
+class Person {}
+class Trainer {}
+class Member {}
+class Session {}
+class GroupSession {}
+class IndividualSession {}
+class Center {}
+class Room {}
+class Participation {}
+
+Person "1" -- "0..1" Trainer
+Person "1" -- "0..1" Member
+Trainer "1" -- "0..*" GroupSession
+Member "0..*" -- "0..*" Participation
+Session "1" -- "0..*" Participation
+GroupSession "1" -- "1" Trainer
+IndividualSession "0..*" -- "0..1" Member
+Session "1" -- "1" Room
+Room "1..*" -- "1" Center
+GroupSession "1" -- "1" Session
+IndividualSession "1" -- "1" Session
+
+@enduml

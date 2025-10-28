@@ -1,0 +1,41 @@
+@startuml
+class Home{}
+class Department{}
+class Room{}
+class Bed{}
+class Person{}
+class Stay{}
+class StayCategory{}
+class Proposal{}
+class Registration{}
+class Question{}
+class Assessment{}
+class WaitingListEntry{}
+class Invoice{}
+class CreditNote{}
+class Representative{}
+class InvoiceItem{}
+
+Home "1..1" -- "1..*" Department
+Department "1..1" -- "1..*" Room
+Room "1..1" -- "1..*" Bed
+Bed "0..*" -- "1..1" Stay
+StayCategory "1..*" -- "1..1" Bed
+Person "1..1" -- "0..*" Stay
+Person "1..1" -- "1..1" Registration
+Registration "0..*" -- "0..*" Question
+Person "1..1" -- "0..*" Assessment
+Assessment "0..*" -- "0..*" Question
+Assessment "0..*" -- "1..1" StayCategory
+Person "1..1" -- "0..1" WaitingListEntry
+WaitingListEntry "0..*" -- "1..1" StayCategory
+Person "1..1" -- "0..*" Proposal
+Proposal "0..*" -- "1..1" StayCategory
+Proposal "1..1" -- "0..1" Assessment
+Proposal "1..1" -- "0..1" Stay
+Stay "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..1" CreditNote
+Invoice "1..1" -- "1..*" InvoiceItem
+Representative "0..*" -- "0..1" Person
+Stay "0..*" -- "1..1" StayCategory
+@enduml

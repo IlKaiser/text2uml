@@ -1,0 +1,65 @@
+@startuml
+
+class Musicmatic {}
+class Song {}
+class Artist {}
+class Database {}
+class User {}
+class RegularUser {}
+class BusinessUser {}
+class Album {}
+class Single {}
+class Hit {}
+class Track {}
+class VATNumber {}
+class Title {}
+class Year {}
+class Length {}
+class Genre {}
+class Name {}
+class DateOfBirth {}
+class URL {}
+class ID {}
+class Address {}
+class UniqueID {}
+class TrackNumber {}
+class UploadedSongs {}
+class PurchasedAlbums {}
+class PurchasedSingles {}
+class SuggestedAlbums {}
+
+Musicmatic "1" -- "1" Database
+Artist "0..*" -- "1" Song
+Song "1" -- "0..1" Artist
+Song "0..1" -- "0..1" Track
+Track "0..1" -- "0..1" Song
+Album "0..*" -- "0..*" Track
+Track "0..1" -- "0..1" Album
+User "0..*" -- "0..*" PurchasedAlbums
+Album "0..*" -- "0..*" PurchasedAlbums
+User "0..*" -- "0..*" PurchasedSingles
+Single "0..*" -- "0..*" PurchasedSingles
+User "0..*" -- "0..*" SuggestedAlbums
+Album "0..*" -- "0..*" SuggestedAlbums
+BusinessUser "1" -- "1" VATNumber
+User "0..1" -- "0..1" UploadedSongs
+Single "0..1" -- "0..1" UploadedSongs
+Hit "0..1" -- "0..1" UploadedSongs
+User "0..1" -- "0..1" Name
+Artist "0..1" -- "0..1" Name
+User "0..1" -- "0..1" Address
+Song "0..1" -- "0..1" Title
+Song "0..1" -- "0..1" Year
+Song "0..1" -- "0..1" Length
+Song "0..1" -- "0..1" Genre
+Artist "0..1" -- "0..1" DateOfBirth
+Artist "0..1" -- "0..1" URL
+Song "0..1" -- "0..1" UniqueID
+Album "0..1" -- "0..1" Title
+Album "0..1" -- "0..1" Year
+Album "0..1" -- "0..1" Length
+Album "0..1" -- "0..1" Genre
+Single "0..1" -- "0..1" TrackNumber
+Album "0..1" -- "0..1" TrackNumber
+
+@enduml

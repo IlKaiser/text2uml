@@ -1,0 +1,33 @@
+@startuml
+class Traveller{}
+class Hotel{}
+class HotelChain{}
+class City{}
+class Address{}
+class RoomType{}
+class AccommodationOffer{}
+class SpecialOffer{}
+class Booking{}
+class CreditCard{}
+class PaymentOption{}
+class CancellationPolicy{}
+class ReliabilityRating{}
+class Preference{}
+
+Traveller "0..*" -- "1..1" Booking
+Traveller "0..*" -- "0..*" Preference
+Traveller "0..1" -- "1..1" ReliabilityRating
+Booking "1..1" -- "0..*" Hotel
+Booking "0..1" -- "0..*" CreditCard
+Booking "0..1" -- "0..*" PaymentOption
+Booking "0..1" -- "0..*" CancellationPolicy
+Booking "1..*" -- "0..*" RoomType
+Booking "1..1" -- "0..*" AccommodationOffer
+Booking "0..1" -- "0..1" SpecialOffer
+Hotel "1..1" -- "0..*" City
+Hotel "1..1" -- "1..1" Address
+Hotel "0..1" -- "0..*" HotelChain
+Hotel "0..*" -- "0..*" RoomType
+Hotel "0..*" -- "1..1" AccommodationOffer
+Hotel "0..*" -- "1..1" SpecialOffer
+@enduml

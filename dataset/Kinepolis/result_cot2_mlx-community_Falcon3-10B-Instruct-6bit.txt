@@ -1,0 +1,45 @@
+@startuml
+class Kinepolis {}
+class Cinema {}
+class Town {}
+class Theatre {}
+class Show {}
+class Movie {}
+class Copy {}
+class Seat {}
+class Option {}
+class Reservation {}
+class CreditCard {}
+class Customer {}
+class Offer {}
+class Ticket {}
+
+Kinepolis "1..1" -- "1..*" Cinema
+Cinema "1..1" -- "1..*" Town
+Cinema "1..1" -- "1..*" Theatre
+Theatre "1..1" -- "1..*" Show
+Show "1..1" -- "1..1" Movie
+Show "1..1" -- "1..1" Copy
+Copy "1..1" -- "1..1" Theatre
+Reservation "1..1" -- "1..1" CreditCard
+Reservation "1..1" -- "1..1" Seat
+Reservation "1..1" -- "1..1" Customer
+Show "1..1" -- "1..*" Reservation
+Customer "1..1" -- "1..*" Offer
+Offer "1..1" -- "1..1" Show
+Offer "1..1" -- "1..1" Ticket
+Ticket "1..1" -- "1..1" Customer
+Ticket "1..1" -- "1..1" Show
+Show "1..1" -- "0..1" Ticket
+Show "1..1" -- "1..*" Customer
+Theatre "1..1" -- "1..*" Seat
+Seat "1..1" -- "1..1" Show
+Show "1..1" -- "1..*" Copy
+Copy "1..1" -- "1..1" Movie
+Movie "1..1" -- "1..*" Show
+Cinema "1..1" -- "1..*" Copy
+Cinema "1..1" -- "1..*" Show
+Show "1..1" -- "1..*" Option
+Option "1..1" -- "1..1" Customer
+Option "1..1" -- "1..1" Show
+@enduml

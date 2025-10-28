@@ -1,0 +1,61 @@
+@startuml
+
+class Boeing{}
+class AirlineCompany{}
+class SalesAgreement{
+  - Contract
+}
+class Contract{
+  - AirlineCompany
+  - GlobalContract
+}
+class AcquisitionOfAirplanes{
+  - AirplaneModel
+  - NegotiatedPrice
+  - ChosenOptionsCustomizations
+  - DeliveryDate
+  - Contract
+}
+class GlobalContract{
+  - DeliveryConditions
+  - LegalAspects
+}
+class DeliveryConditions{}
+class LegalAspects{}
+class AirplaneModel{}
+class NegotiatedPrice{}
+class ChosenOptionsCustomizations{}
+class DeliveryDate{}
+class Salesperson{
+  - Contract
+}
+class Employee{
+  - Salesperson
+}
+class ContractManagement{}
+class MotherDaughterRelationships{
+  - AirlineCompany
+  - LowCostDaughterAirlineCompany
+  - PartnerAirlinesOfTheOriginalBuyer
+}
+class LowCostDaughterAirlineCompany{
+  - PartnerAirlinesOfTheOriginalBuyer
+}
+class PartnerAirlinesOfTheOriginalBuyer{}
+
+Boeing "1" -- "1" Salesperson
+Salesperson "0..*" Contract
+Contract "1" -- "1" AirlineCompany
+AirlineCompany "0..*" AcquisitionOfAirplanes
+AcquisitionOfAirplanes "1" -- "1" AirplaneModel
+AcquisitionOfAirplanes "1" -- "1" NegotiatedPrice
+AcquisitionOfAirplanes "1" -- "1" ChosenOptionsCustomizations
+AcquisitionOfAirplanes "1" -- "1" DeliveryDate
+Contract "1" -- "1" GlobalContract
+GlobalContract "1"* DeliveryConditions
+GlobalContract "1"* LegalAspects
+AirlineCompany "0..1" LowCostDaughterAirlineCompany
+LowCostDaughterAirlineCompany "0..1" PartnerAirlinesOfTheOriginalBuyer
+AirlineCompany "0..*" PartnerAirlinesOfTheOriginalBuyer
+
+@enduml

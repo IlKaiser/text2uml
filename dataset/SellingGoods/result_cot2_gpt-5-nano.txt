@@ -1,0 +1,34 @@
+@startuml
+class Customer{}
+class Supermarket{}
+class Address{}
+class Product{}
+class StockLevel{}
+class Warehouse{}
+class Order{}
+class OrderLine{}
+class Invoice{}
+class Payment{}
+class Delivery{}
+class Shipment{}
+class DeliveryService{}
+class Watchlist{}
+class Group{}
+
+Address "0..*" -- "1" Customer
+Order "1..*" -- "1" Customer
+OrderLine "1..*" -- "1" Order
+OrderLine "1" -- "1" Product
+StockLevel "0..*" -- "1" Product
+StockLevel "0..*" -- "1" Warehouse
+Warehouse "0..*" -- "1" Supermarket
+Order "1" -- "1" Invoice
+Invoice "1" -- "1" Payment
+Watchlist "1" -- "1" Customer
+OrderLine "0..*" -- "1" Group
+Group "1..*" -- "0..*" OrderLine
+Shipment "1..*" -- "1" Delivery
+OrderLine "1..*" -- "1" Shipment
+Delivery "1" -- "1" DeliveryService
+Delivery "1" -- "1" Address
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+
+class User {}
+class SmartHome {}
+class Room {}
+class Device {}
+class SensorDevice {}
+class ActuatorDevice {}
+class SensorReading {}
+class ControlCommand {}
+class ActivityLog {}
+class AutomationRule {}
+class Precondition {}
+class Action {}
+class TriggeredRuleEvent {}
+
+Device <|-- SensorDevice
+Device <|-- ActuatorDevice
+
+User -- SmartHome
+SmartHome "1" -- "1..*" Room
+Room "1" -- Device
+SensorDevice "1" -- SensorReading
+ActuatorDevice "1" -- ControlCommand
+SmartHome "1" -- "1" ActivityLog
+ActivityLog "1" -- SensorReading
+ActivityLog "1" -- ControlCommand
+SmartHome "1" -- AutomationRule
+User "1" -- AutomationRule
+AutomationRule "1" -- "1" Precondition
+AutomationRule "1" -- "1" Action
+Action "1..*" -- "0..1" ControlCommand
+Precondition "1" -- Room
+Precondition "1" -- SensorDevice
+Precondition "1" -- ActuatorDevice
+Precondition "1" -- SensorReading
+Precondition "1" -- ControlCommand
+AutomationRule -- AutomationRule
+AutomationRule "1" -- TriggeredRuleEvent
+
+@enduml

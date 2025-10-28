@@ -1,0 +1,21 @@
+@startuml
+
+class Player{}
+class Deck{}
+class ScoringTable{}
+class Card{}
+class Round{}
+
+Player "1..4" -- "1..*" Deck
+Deck "1..48" -- "1..*" Card
+Card "1..1" -- "1..*" ScoringTable
+ScoringTable "1..*" -- "1..*" Round
+Round "1..*" -- "1..*" Player
+Round "1..*" -- "1..*" ScoringTable
+ScoringTable "1..*" -- "1..*" SoloRound
+SoloRound "1..1" -- "1..*" ScoringTable
+SoloRound "1..1" -- "1..*" Player
+Card "1..1" -- "1..*" CardHeight
+CardHeight "1..1" -- "1..*" Card
+
+@enduml

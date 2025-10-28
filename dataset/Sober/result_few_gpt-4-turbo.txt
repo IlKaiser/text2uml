@@ -1,0 +1,21 @@
+@startuml
+
+class TaxiCompany {}
+class SelfDrivingCar {}
+class CarOwner {}
+class TaxiService {}
+class RideHailingService {}
+class RideSharingService {}
+class Customer {}
+class Accident {}
+
+TaxiCompany "1" -- "0..*" SelfDrivingCar
+TaxiCompany "1" -- "0..*" TaxiService
+TaxiCompany "1" -- "0..*" CarOwner
+TaxiService "1" -- "0..*" Customer
+RideHailingService "1" -- "1" TaxiService
+RideSharingService "1" -- "1" TaxiService
+SelfDrivingCar "0..*" -- "0..1" CarOwner
+SelfDrivingCar "0..*" -- "0..*" Accident
+
+@enduml

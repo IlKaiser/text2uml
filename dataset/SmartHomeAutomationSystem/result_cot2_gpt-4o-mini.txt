@@ -1,0 +1,50 @@
+```plantuml
+@startuml
+class SmartHomeAutomationSystem{}
+class SmartHome{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class DeviceIdentifier{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class Owner{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class BooleanExpression{}
+class RelationalTerm{}
+class AtomicRelationalTerm{}
+class Timestamp{}
+class Status{}
+class Rule{}
+class ComplexRule{}
+class RuleHierarchy{}
+
+SmartHomeAutomationSystem "1..1" -- "0..*" SmartHome  
+SmartHome "1..1" -- "0..*" Room  
+Room "0..*" -- "0..*" SensorDevice  
+Room "0..*" -- "0..*" ActuatorDevice  
+SensorDevice "0..*" -- "1..1" DeviceIdentifier  
+ActuatorDevice "0..*" -- "1..1" DeviceIdentifier  
+SensorDevice "0..*" -- "0..*" SensorReading  
+ActuatorDevice "0..*" -- "0..*" ControlCommand  
+SmartHome "0..*" -- "0..*" ActivityLog  
+SmartHome "0..*" -- "0..*" Owner  
+Owner "0..*" -- "0..*" AutomationRule  
+AutomationRule "1..1" -- "1..1" Precondition  
+AutomationRule "1..1" -- "1..1" Action  
+Precondition "0..*" -- "0..*" BooleanExpression  
+BooleanExpression "0..*" -- "0..*" RelationalTerm  
+RelationalTerm "0..*" -- "0..*" AtomicRelationalTerm  
+AtomicRelationalTerm "0..*" -- "0..*" SensorReading  
+AtomicRelationalTerm "0..*" -- "0..*" ControlCommand  
+AutomationRule "0..*" -- "0..*" ComplexRule  
+ComplexRule "0..*" -- "0..*" RuleHierarchy  
+ControlCommand "1..1" -- "0..1" Timestamp  
+SensorReading "1..1" -- "1..1" Timestamp  
+ControlCommand "1..1" -- "1..1" Status  
+SensorReading "1..1" -- "1..1" Status  
+@enduml
+```

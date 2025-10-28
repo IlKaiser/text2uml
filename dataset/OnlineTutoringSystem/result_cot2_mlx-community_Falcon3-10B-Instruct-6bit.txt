@@ -1,0 +1,54 @@
+@startuml
+class OTS {
+}
+class Student {
+}
+class Tutor {
+}
+class Name {
+}
+class EmailAddress {
+}
+class BankAccount {
+}
+class Subject {
+}
+class LevelOfExpertise {
+}
+class HourlyPrice {
+}
+class WeeklyAvailability {
+}
+class TutoringSession {
+}
+class TargetDateAndTime {
+}
+class CreditCard {
+}
+class WireTransfer {
+}
+
+OTS "1..1" -- "0..*" Student
+OTS "1..1" -- "0..*" Tutor
+Tutor "1..1" -- Name
+Tutor "1..1" -- EmailAddress
+Tutor "1..1" -- BankAccount
+Tutor "1..1" -- Subject
+Tutor "1..1" -- LevelOfExpertise
+Tutor "1..1" -- HourlyPrice
+Tutor "1..1" -- WeeklyAvailability
+Tutor "1..1" -- "0..*" TutoringSession
+TutoringSession "1..1" -- TargetDateAndTime
+Student "1..1" -- Name
+Student "1..1" -- EmailAddress
+TutoringSession "1..1" -- "0..*" CreditCard
+TutoringSession "1..1" -- "0..*" WireTransfer
+TutoringSession "1..1" -- "0..*" TutoringSession (for follow-up sessions)
+Tutor "1..1" -- "0..*" TutoringSession
+Student "1..1" -- "0..*" TutoringSession
+TutoringSession "1..1" -- Tutor
+TutoringSession "1..1" -- Student
+TutoringSession "1..1" -- "0..1" TutoringSession (for alternative slot offered by tutor)
+Student "1..1" -- "0..*" TutoringSession (for cancelled sessions)
+Tutor "1..1" -- "0..*" TutoringSession (for cancelled sessions)
+@enduml

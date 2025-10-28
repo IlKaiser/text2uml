@@ -1,0 +1,33 @@
+@startuml
+class Club{}
+class Team{}
+class Employee{}
+class Player{}
+class PlayerProfile{}
+class Position{}
+class Attribute{}
+class LongList{}
+class ShortList{}
+class ScoutingAssignment{}
+class ScoutingReport{}
+class Offer{}
+
+Club "1..1" -- "0..*" Team.
+Club "1..1" -- "0..*" Employee.
+Club "1..1" -- "0..*" PlayerProfile.
+Team "1..1" -- "0..*" Player.
+LongList "0..*" -- "0..*" Player.
+ShortList "0..*" -- "0..*" Player.
+ScoutingAssignment "0..*" -- "1..1" Team.
+ScoutingAssignment "1..1" -- "1..1" Employee.
+ScoutingAssignment "1..1" -- "0..1" ScoutingReport.
+ScoutingReport "1..1" -- "1..1" Player.
+ScoutingReport "1..1" -- "1..1" Employee.
+Player "0..*" -- "0..*" PlayerProfile.
+PlayerProfile "1..*" -- "0..*" Position.
+PlayerProfile "1..*" -- "0..*" Attribute.
+Player "0..*" -- "0..*" Position.
+Player "0..*" -- "0..*" Attribute.
+Player "1..1" -- "0..*" Offer.
+Employee "1..1" -- "0..*" Offer.
+@enduml

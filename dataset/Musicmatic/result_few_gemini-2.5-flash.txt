@@ -1,0 +1,32 @@
+@startuml
+
+class Album {}
+class AlbumPurchase {}
+class AlbumTrack {}
+class Artist {}
+class BusinessUser {}
+class Hit {}
+class Purchase {}
+class RegularUser {}
+class Single {}
+class SinglePurchase {}
+class Song {}
+class User {}
+
+User <|-- RegularUser
+User <|-- BusinessUser
+Song <|-- Single
+Song <|-- Hit
+Purchase <|-- SinglePurchase
+Purchase <|-- AlbumPurchase
+
+Artist -- "1" Song
+BusinessUser -- "1" Song
+RegularUser -- "1" Album
+Album "1" -- "1..*" AlbumTrack
+Hit -- "1" AlbumTrack
+RegularUser -- "1" Purchase
+Single -- "1" SinglePurchase
+Album -- "1" AlbumPurchase
+
+@enduml

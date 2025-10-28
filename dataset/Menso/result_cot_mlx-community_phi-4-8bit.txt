@@ -1,0 +1,48 @@
+```plaintext
+@startuml
+class BusCompany{}
+class Bus{}
+class Trajectory{}
+class Line{}
+class TownAuthority{}
+class Approval{}
+class BusLine{}
+class MENSO{}
+class SeasonTicket{}
+class Category{}
+class TicketMachine{}
+class User{}
+class Invoice{}
+class Discount{}
+class Customer{}
+class PersonalData{}
+class TravelPattern{}
+
+BusCompany "1..*" -- "1..*" Bus
+BusCompany "1..*" -- "1..*" Trajectory
+BusCompany "1..*" -- "1..*" TownAuthority
+BusCompany "1..*" -- "0..*" Approval
+BusCompany "1..*" -- "1..*" BusLine
+BusCompany "1..*" -- "1..*" SeasonTicket
+BusCompany "1..*" -- "1..*" Category
+BusCompany "1..*" -- "1..*" Invoice
+BusCompany "1..*" -- "0..*" Discount
+BusCompany "1..*" -- "1..*" Customer
+BusCompany "1..*" -- "1..*" PersonalData
+BusCompany "1..*" -- "1..*" TravelPattern
+Bus "1..1" -- "1..1" Line
+Trajectory "1..1" -- "1..1" TownAuthority
+Trajectory "1..1" -- "0..*" Approval
+BusLine "1..1" -- "1..1" Category
+SeasonTicket "1..1" -- "1..1" Category
+SeasonTicket "1..*" -- "1..*" Invoice
+SeasonTicket "1..1" -- "1..1" User
+SeasonTicket "1..*" -- "1..*" TicketMachine
+Category "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..1" Discount
+Invoice "1..1" -- "1..1" Customer
+User "1..1" -- "1..*" TicketMachine
+User "1..1" -- "1..1" PersonalData
+User "1..*" -- "1..*" TravelPattern
+@enduml
+```

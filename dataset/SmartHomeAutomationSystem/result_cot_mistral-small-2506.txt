@@ -1,0 +1,42 @@
+Here's the PlantUML model based on your class and cardinality lists:
+
+```plantuml
+@startuml
+
+class SmartHome{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class DeviceIdentifier{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class BooleanExpression{}
+class RelationalTerm{}
+class RuleHierarchy{}
+
+SmartHome "1..*" -- "1..1" Room
+Room "0..*" -- "1..1" SensorDevice
+Room "0..*" -- "1..1" ActuatorDevice
+SensorDevice "1..1" -- "1..1" DeviceIdentifier
+ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
+SensorDevice "1..*" -- "1..1" SensorReading
+ActuatorDevice "1..*" -- "1..1" ControlCommand
+SmartHome "1..1" -- "1..1" ActivityLog
+ActivityLog "0..*" -- "1..1" SensorReading
+ActivityLog "0..*" -- "1..1" ControlCommand
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Precondition "1..1" -- "1..1" BooleanExpression
+BooleanExpression "1..*" -- "1..1" RelationalTerm
+RelationalTerm "1..1" -- "0..1" SensorReading
+RelationalTerm "1..1" -- "0..1" ControlCommand
+RelationalTerm "1..1" -- "0..1" Room
+Action "1..*" -- "1..1" ControlCommand
+AutomationRule "0..*" -- "1..1" RuleHierarchy
+
+@enduml
+```

@@ -1,0 +1,15 @@
+@startuml
+
+class Tutor {}
+class Student {}
+class TutoringSession {}
+class Subject {}
+class TutoringOffer {}
+
+Tutor "0..*" -- "0..*" Student : tutors <>
+Tutor "1" -- "0..*" TutoringOffer
+TutoringOffer "1" -- "0..*" TutoringSession
+TutoringSession "2" -- "0..1" TutoringSession : follow-up <>
+Student "1" -- "0..*" TutoringSession
+
+@enduml

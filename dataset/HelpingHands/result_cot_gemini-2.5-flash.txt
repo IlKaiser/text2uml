@@ -1,0 +1,39 @@
+@startuml
+class Location{}
+class Resident{}
+class Client{}
+class Article{}
+class FoodItem{}
+class Pickup{}
+class Vehicle{}
+class VolunteerDriver{}
+class PickupRoute{}
+class Employee{}
+class Category{}
+class Delivery{}
+class DistributionCenter{}
+
+Article "1..1" -- "0..*" Category
+Article "0..1" -- "0..*" Client
+Article "0..1" -- "1..*" Delivery
+Article "1..1" -- "0..*" DistributionCenter
+Article "1..1" -- "0..*" Employee
+Article "1..1" -- "0..*" Pickup
+Article "1..1" -- "0..*" Resident
+Category "0..*" -- "0..*" Client
+Client "0..*" -- "1..1" Delivery
+Client "0..*" -- "0..*" Employee
+Delivery "1..1" -- "0..*" Employee
+Delivery "1..1" -- "0..*" VolunteerDriver
+DistributionCenter "1..*" -- "1..1" Employee
+DistributionCenter "1..1" -- "0..1" Location
+DistributionCenter "0..*" -- "1..1" VolunteerDriver
+FoodItem "1..1" -- "0..*" Pickup
+FoodItem "1..1" -- "0..*" Resident
+Pickup "1..1" -- "1..*" PickupRoute
+Pickup "1..1" -- "0..*" Resident
+Pickup "1..1" -- "0..*" Vehicle
+PickupRoute "1..1" -- "0..1" Vehicle
+PickupRoute "1..1" -- "0..1" VolunteerDriver
+Vehicle "0..1" -- "0..1" VolunteerDriver
+@enduml

@@ -1,0 +1,28 @@
+```plantuml
+@startuml
+
+class Boeing{}
+class Aircraft{}
+class AirlineCompany{}
+class SalesAgreement{}
+class Contract{}
+class Acquisition{}
+class Salesperson{}
+class MotherAirlineCompany{}
+class DaughterAirlineCompany{}
+
+Boeing "1..1" -- "0..*" SalesAgreement
+Boeing "1..1" -- "1..*" Salesperson
+
+SalesAgreement "1..1" -- "1..*" Contract
+Contract "1..*" -- "0..*" Acquisition
+Contract "1..1" -- "1..1" AirlineCompany
+Acquisition "1..1" -- "0..1" Aircraft
+
+Salesperson "1..1" -- "1..*" Contract
+
+AirlineCompany "1..*" -- "0..1" MotherAirlineCompany
+AirlineCompany "0..1" -- "0..*" DaughterAirlineCompany
+
+@enduml
+```

@@ -1,0 +1,23 @@
+@startuml
+
+class University{}
+class ResearchGroup{}
+class Department{}
+class Researcher{}
+class Project{}
+class WorkPackage{}
+class Assignment{}
+class Overview{}
+
+University "1..1" -- "0..*" ResearchGroup
+ResearchGroup "0..*" -- "1..1" Department
+ResearchGroup "1..1" -- "0..*" Researcher
+Project "0..*" -- "1..*" WorkPackage
+WorkPackage "1..1" -- "1..1" ResearchGroup
+Researcher "1..*" -- "0..*" WorkPackage
+ResearchGroup "1..1" -- "0..*" Assignment
+Assignment "1..*" -- "1..1" Researcher
+Assignment "1..*" -- "1..1" WorkPackage
+ResearchGroup "1..*" -- "0..1" Overview
+
+@enduml

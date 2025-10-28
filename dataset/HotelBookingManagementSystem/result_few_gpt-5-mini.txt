@@ -1,0 +1,48 @@
+@startuml
+
+class Traveller{}
+class BillingInformation{}
+class TravelPreference{}
+class PreliminaryBooking{}
+class Booking{}
+class CreditCardInfo{}
+class SpecialOffer{}
+class Hotel{}
+class HotelChain{}
+class City{}
+class Address{}
+class RoomType{}
+class RoomAnnouncement{}
+class Confirmation{}
+class Compensation{}
+class ReliabilityRating{}
+
+Traveller "1" -- "1" BillingInformation
+Traveller "1" -- "0..*" TravelPreference
+Traveller "1" -- "0..*" PreliminaryBooking
+Traveller "1" -- "0..*" Booking
+Traveller "1" -- "0..*" SpecialOffer
+Traveller "1" -- "0..1" ReliabilityRating
+
+PreliminaryBooking "1" -- "1" Hotel
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+SpecialOffer "1" -- "1" Hotel
+
+Booking "1" -- "1" Hotel
+Booking "1" -- "0..1" CreditCardInfo
+Booking "1" -- "0..1" Confirmation
+Booking "1" -- "0..*" Compensation
+
+Hotel "1" -- "1" City
+Hotel "1" -- "1" Address
+Hotel "0..*" -- "1" HotelChain
+Hotel "1" -- "0..*" RoomAnnouncement
+Hotel "1" -- "0..*" Confirmation
+
+RoomAnnouncement "1" -- "1" RoomType
+
+Compensation "1" -- "1" Traveller
+
+Confirmation "0..*" -- "1" Traveller
+
+@enduml

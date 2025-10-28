@@ -1,0 +1,39 @@
+@startuml
+
+HospitalHouseMD {}
+Doctor {}
+Treatment {}
+Diagnosis {}
+Patient {}
+Illness {}
+Diagnosis "0..*" Diagnosis_HighPriority
+HighPriorityIllness "0..*" Treatment
+HighPriorityIlless "1..*" HospitalHouseMD
+
+HospitalHouseMD -- "0..*" Doctor
+HospitalHouseMD -- "0..*" Diagnosis
+HospitalHouseMD -- "0..*" Treatment
+HospitalHouseMD -- "0..*" ConsentForm
+HospitalHouseMD .. "1..*" HighPriorityIllness
+
+Doctor -- "1..*" Diagnosis
+Doctor -- "1..*" Treatment
+Doctor -- "0..*" ConsentForm
+
+Treatment -- "1..*" Diagnosis
+Treatment -- "0..*" ConsentForm
+Treatment .. "1..*" HighPriorityIllness
+
+Diagnosis -- "1..*" Treatment
+Diagnosis .. "1..*" HighPriorityIllness
+
+Patient -- "0..*" Doctor
+Patient -- "0..*" Treatment
+Patient -- "0..*" HighPriorityIllness
+Patient -- "0..*" ConsentForm
+
+Treatment -- "0..*" HighPriorityIllness
+HighPriorityIllness -- "0..*" Treatment
+HighPriorityIllness -- "0..*" Patient
+
+@enduml

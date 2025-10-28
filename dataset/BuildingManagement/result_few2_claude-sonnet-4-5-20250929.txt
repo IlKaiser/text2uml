@@ -1,0 +1,26 @@
+@startuml
+
+class WebPortal {}
+class Building {}
+class User {}
+class Administrator {}
+class Entry {}
+class TextualEntry {}
+class NumericEntry {}
+class Image {}
+class Comment {}
+
+User <|-- Administrator
+
+Building "0..*" -- "1" User
+Building "0..*" -- "1" WebPortal
+Building "1" -- "0..*" Entry
+Building "1" -- "1..*" Image
+Building "1" -- "0..*" Comment
+
+Entry <|-- TextualEntry
+Entry <|-- NumericEntry
+
+Comment "0..*" -- "1" User
+
+@enduml

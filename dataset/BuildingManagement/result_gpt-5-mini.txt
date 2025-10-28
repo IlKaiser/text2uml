@@ -1,0 +1,49 @@
+@startuml
+
+class WebPortal{}
+class Building{}
+class User{}
+class Administrator{}
+class Visitor{}
+class Entry{}
+class TextEntry{}
+class NumericEntry{}
+class Image{}
+class Comment{}
+class Register{}
+class ConfirmEmail{}
+class ActivateUser{}
+class Login{}
+class CreateBuilding{}
+class ManageEntries{}
+class CommentBuilding{}
+class SearchBuildings{}
+class UploadImage{}
+class DeleteComment{}
+
+WebPortal "1..1" -- "0..*" Building
+WebPortal "1..1" -- "0..*" User
+Building "1..1" -- "1..*" Image
+Building "1..1" -- "0..*" Entry
+Building "1..1" -- "0..*" Comment
+Building "1..1" -- "1..1" User
+User "0..*" -- "0..*" Comment
+User "0..*" -- "0..*" Building
+Administrator "1..1" -- "1..1" User
+Visitor "0..1" -- "0..1" User
+Entry "0..1" -- "0..*" TextEntry
+Entry "0..1" -- "0..*" NumericEntry
+Image "1..1" -- "1..1" Building
+
+Visitor "0..*" -- "1..1" Register
+Register "1..1" -- "1..1" ConfirmEmail
+ConfirmEmail "1..1" -- "1..1" ActivateUser
+Visitor "0..*" -- "0..*" SearchBuildings
+User "0..*" -- "0..*" Login
+User "0..*" -- "0..*" CreateBuilding
+User "0..*" -- "0..*" ManageEntries
+User "0..*" -- "0..*" CommentBuilding
+User "0..*" -- "0..*" UploadImage
+Administrator "0..*" -- "0..*" DeleteComment
+
+@enduml

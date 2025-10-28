@@ -1,0 +1,78 @@
+```plaintext
+@startuml
+
+class Traveller {}
+class HBMS {}
+class Booking {}
+class Hotel {}
+class Room {}
+class City {}
+class CreditCard {}
+class BookingConfirmation {}
+class CancellationDeadline {}
+class SpecialOffer {}
+class HotelChain {}
+class BookingInformation {}
+class ReliabilityRating {}
+class PreliminaryBooking {}
+class FinalizedBooking {}
+class PaymentMethod {}
+class CompetitorHotel {}
+
+Traveller "1..*" -- "1..1" HBMS
+Traveller "1..*" -- "1..*" Booking
+Traveller "1..*" -- "0..*" Hotel
+Traveller "1..*" -- "0..*" City
+Traveller "1..*" -- "1..*" CreditCard
+Traveller "1..*" -- "1..*" BookingInformation
+Traveller "1..*" -- "1..1" ReliabilityRating
+Traveller "1..*" -- "0..*" PreliminaryBooking
+Traveller "1..*" -- "1..*" FinalizedBooking
+Traveller "1..*" -- "1..*" PaymentMethod
+Traveller "1..*" -- "0..*" SpecialOffer
+Traveller "1..*" -- "0..*" CompetitorHotel
+
+HBMS "1..1" -- "1..*" Booking
+HBMS "1..1" -- "1..*" Hotel
+HBMS "1..1" -- "0..*" Room
+HBMS "1..1" -- "1..*" City
+HBMS "1..1" -- "1..*" BookingInformation
+HBMS "1..1" -- "0..*" SpecialOffer
+HBMS "1..1" -- "0..*" CompetitorHotel
+
+Booking "1..1" -- "1..1" Hotel
+Booking "1..1" -- "1..*" Room
+Booking "1..1" -- "1..1" City
+Booking "1..1" -- "1..1" CreditCard
+Booking "1..1" -- "1..1" BookingConfirmation
+Booking "1..1" -- "0..1" CancellationDeadline
+Booking "1..1" -- "1..1" PaymentMethod
+Booking "1..1" -- "0..1" ReliabilityRating
+Booking "1..1" -- "0..1" PreliminaryBooking
+Booking "1..1" -- "1..1" FinalizedBooking
+
+Hotel "1..1" -- "1..1" City
+Hotel "1..1" -- "1..*" Room
+Hotel "1..1" -- "0..1" HotelChain
+Hotel "1..1" -- "1..*" BookingConfirmation
+Hotel "1..1" -- "1..*" BookingInformation
+Hotel "1..1" -- "0..1" ReliabilityRating
+Hotel "1..1" -- "0..*" SpecialOffer
+
+Room "1..1" -- "1..*" Booking
+Room "1..1" -- "1..1" Hotel
+
+CreditCard "1..1" -- "1..1" Booking
+
+BookingConfirmation "1..1" -- "1..1" Booking
+BookingConfirmation "1..1" -- "1..1" Hotel
+
+CancellationDeadline "1..1" -- "1..1" Booking
+
+SpecialOffer "1..1" -- "0..*" Booking
+SpecialOffer "1..1" -- "1..1" CompetitorHotel
+
+HotelChain "1..1" -- "1..*" Hotel
+
+@enduml
+```

@@ -1,0 +1,37 @@
+@startuml
+class TaxiCompany{}
+class Fleet{}
+class Car{}
+class CarOwner{}
+class Customer{}
+class Ride{}
+class RideHail{}
+class RideShare{}
+class Request{}
+class App{}
+class ImageRecognitionSystem{}
+class Location{}
+class Fee{}
+class Pricing{}
+class Booking{}
+class Accident{}
+
+TaxiCompany "1..1" -- "1..1" Fleet.
+Fleet "1..1" -- "0..*" Car.
+CarOwner "0..*" -- "0..1" Car.
+Car "0..*" -- "1..1" Accident.
+Customer "0..*" -- "0..*" Ride.
+RideShare "0..*" -- "0..*" Customer.
+RideHail "0..*" -- "1..1" Customer.
+Customer "0..*" -- "0..*" Booking.
+RideShare "1..1" -- "0..*" Booking.
+Booking "0..*" -- "1..1" RideShare.
+Customer "0..*" -- "1..1" Request.
+App "1..1" -- "0..*" Request.
+ImageRecognitionSystem "1..1" -- "0..*" Request.
+Request "0..*" -- "0..1" RideHail.
+Ride "0..*" -- "0..*" Location.
+RideHail "0..*" -- "1..1" Fee.
+RideShare "0..*" -- "1..1" Fee.
+Pricing "1..1" -- "0..*" Fee.
+@enduml

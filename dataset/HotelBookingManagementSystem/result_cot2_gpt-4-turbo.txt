@@ -1,0 +1,49 @@
+```plantuml
+@startuml
+
+class Traveller{}
+class HotelManagementBookingSystem{}
+class AccommodationDeal{}
+class Hotel{}
+class Registration{}
+class Company{}
+class Room{}
+class HotelRating{}
+class Budget{}
+class Offer{}
+class Booking{}
+class PreliminaryBooking{}
+class BookingInformation{}
+class SpecialOffer{}
+class CreditCardInformation{}
+class PaymentMethod{}
+class Confirmation{}
+class CancellationDeadline{}
+class HotelChain{}
+class RoomAvailability{}
+class CompetitorHotel{}
+class FinancialCompensation{}
+
+Traveller "1..1" -- "1..*" Booking
+Booking "1..1" -- "0..1" Confirmation
+Booking "1..1" -- "0..1" CancellationDeadline
+Booking "1..1" -- "0..1" CreditCardInformation
+Booking "1..1" -- "0..1" PreliminaryBooking
+PreliminaryBooking "1..1" -- "0..*" SpecialOffer
+SpecialOffer "1..*" -- "1..1" CompetitorHotel
+Hotel "1..1" -- "1..*" Room
+Hotel "1..1" -- "0..*" HotelRating
+RoomAvailability "0..*" -- "1..1" Room
+HotelChain "0..1" -- "1..*" Hotel
+Traveller "1..1" -- "0..1" Registration
+Traveller "1..1" -- "1..*" AccommodationDeal
+AccommodationDeal "1..*" -- "1..*" Offer
+HotelManagementBookingSystem "1..1" -- "0..*" Booking
+HotelManagementBookingSystem "1..1" -- "0..*" RoomAvailability
+FinancialCompensation "1..1" -- "0..1" Booking
+Booking "1..1" -- "0..1" Budget
+Booking "1..1" -- "0..*" Offer
+Offer "0..*" -- "1..1" Hotel
+
+@enduml
+```

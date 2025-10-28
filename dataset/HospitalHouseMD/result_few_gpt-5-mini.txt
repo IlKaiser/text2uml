@@ -1,0 +1,29 @@
+@startuml
+
+class Patient{}
+class Doctor{}
+class HeadDoctor{}
+class Nurse{}
+class Diagnosis{}
+class Illness{}
+class Treatment{}
+class TreatmentDatabase{}
+class Consent{}
+class TreatmentStage{}
+class PriorityScore{}
+
+Patient "1..*" -- "0..*" Doctor
+Patient "0..*" -- "0..*" Diagnosis
+Doctor "0..*" -- "0..*" Diagnosis
+HeadDoctor "0..*" -- "0..1" Diagnosis
+Illness "1" -- "0..*" Treatment
+Illness "1" -- "0..1" PriorityScore
+TreatmentDatabase "1" -- "0..*" Treatment
+Diagnosis "0..*" -- "0..*" Treatment
+Patient "0..*" -- "0..*" Consent
+Consent "0..*" -- "0..*" Treatment
+Treatment "0..*" -- "1" TreatmentStage
+Treatment "0..*" -- "0..*" Nurse
+Treatment "0..*" -- "0..*" Doctor
+
+@enduml

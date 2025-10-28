@@ -1,0 +1,19 @@
+```plantuml
+@startuml
+class GasStationChain{}
+class GasStation{}
+class FuelPump{}
+class Fuel{}
+class DailyFuelPrice{}
+class FuelPurchase{}
+
+GasStationChain "1..1" -- "1..*" GasStation
+GasStation "1..1" -- "1..12" FuelPump
+FuelPump "1..1" -- "1..*" Fuel
+GasStation "1..1" -- "0..*" DailyFuelPrice
+Fuel "1..1" -- "0..*" DailyFuelPrice
+FuelPump "1..1" -- "0..*" FuelPurchase
+Fuel "1..1" -- "0..*" FuelPurchase
+DailyFuelPrice "1..1" -- "0..*" FuelPurchase
+@enduml
+```

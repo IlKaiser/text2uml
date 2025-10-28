@@ -1,0 +1,50 @@
+@startuml
+
+TeamSportsScoutingSystem "TeamSportsScoutingSystem"
+Club "Club"
+HeadCoach "HeadCoach"
+Director "Director"
+Scout "Scout"
+HeadScout "HeadScout"
+LongList "LongList"
+DesignatedPlayerProfile "DesignatedPlayerProfile"
+TargetPosition "TargetPosition"
+PlayerAttributes "PlayerAttributes"
+Name "Name"
+Value "Value"
+ScoutingAssignment "ScoutingAssignment"
+ScoutingReport "ScoutingReport"
+Pros "Pros"
+Cons "Cons"
+Recommendation "Recommendation"
+ShortList "ShortList"
+OfficialOffer "OfficialOffer"
+
+TeamSportsScoutingSystem -- 1..1 Club
+Club -- 0..1 HeadCoach
+Club -- 0..1 Director
+Club -- 0..* Scout
+Club -- 0..1 HeadScout
+
+HeadCoach -- 0..* DesignatedPlayerProfile
+DesignatedPlayerProfile -- 1..1 TargetPosition
+DesignatedPlayerProfile -- 0..* PlayerAttributes
+
+Scout -- 0..* LongList
+LongList -- 0..* Player
+
+HeadScout -- 0..* ScoutingAssignment
+ScoutingAssignment -- 1..1 Scout
+ScoutingAssignment -- 0..1 Player
+
+ScoutingAssignment -- 1..1 ScoutingReport
+ScoutingReport -- 1..1 Pros
+ScoutingReport -- 1..1 Cons
+ScoutingReport -- 1..1 Recommendation
+
+ShortList -- 0..* Player
+
+HeadScout -- 0..1 OfficialOffer
+OfficialOffer -- 1..1 Player
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+
+class Traveller {}
+class Hotel {}
+class PreliminaryBooking {}
+class FinalizedBooking {}
+class BillingInformation {}
+class TravelPreference {}
+class Offer {}
+class SpecialOffer {}
+class CreditCardInformation {}
+class CancellationPolicy {}
+class Compensation {}
+class RoomType {}
+
+Traveller "1..1" -- "1..1" BillingInformation
+Traveller -- TravelPreference
+Traveller "1..1" -- PreliminaryBooking
+Traveller "1..1" -- FinalizedBooking
+Hotel -- RoomType
+Hotel "1..1" -- Offer
+Offer "1..1" -- RoomType
+PreliminaryBooking -- Hotel
+Hotel "1..1" -- SpecialOffer
+PreliminaryBooking "1..1" -- SpecialOffer
+Traveller "1..1" -- CreditCardInformation
+CreditCardInformation "1..1" -- FinalizedBooking
+Hotel -- "1..1" FinalizedBooking
+FinalizedBooking "1..1" -- "0..1" CancellationPolicy
+Hotel "1..1" -- Compensation
+Traveller "1..1" -- Compensation
+FinalizedBooking "0..1" -- "1..1" Compensation
+
+@enduml

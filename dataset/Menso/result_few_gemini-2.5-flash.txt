@@ -1,0 +1,59 @@
+@startuml
+
+class Bus {}
+class BusCompany {}
+class BusLine {}
+class Category {}
+class Destination {}
+class Discount {}
+class Invoice {}
+class MENSOUser {}
+class Mensocard {}
+class Mensoticket {}
+class Payment {}
+class PersonalData {}
+class TicketMachine {}
+class TownAuthority {}
+class Trajectory {}
+class TravelingHabitPattern {}
+class Trip {}
+class TripRegistration {}
+
+Bus "1" -- "1..*" TicketMachine
+Bus -- BusLine
+Bus -- Trajectory
+
+BusCompany "1" -- Bus
+BusCompany "1" -- Mensoticket
+BusCompany "1" -- PersonalData
+BusCompany "1" -- Trajectory
+
+BusLine "1" -- "1..*" Destination
+BusLine "1" -- "1..*" Trajectory
+BusLine -- "1" Category
+BusLine -- TravelingHabitPattern
+BusLine -- "1" TripRegistration
+
+Invoice "1" -- "0..1" Discount
+Invoice "1" -- Payment
+Invoice "1" -- "1..*" TripRegistration
+
+MENSOUser "1" -- "1" Mensocard
+MENSOUser "1" -- Invoice
+MENSOUser "1" -- Payment
+MENSOUser "1" -- "1" PersonalData
+MENSOUser "1" -- Trip
+
+Mensocard -- TicketMachine
+
+Mensoticket "1" -- Trip
+
+PersonalData "1" -- TravelingHabitPattern
+
+Trajectory -- TownAuthority
+
+Trip "1" -- "1" TripRegistration
+
+TripRegistration "1..*" -- TravelingHabitPattern
+
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+
+class Resident {}
+class PickupRequest {}
+class SecondHandArticle {}
+class NonPerishableFood {}
+class VolunteerDriver {}
+class PickupVehicle {}
+class PickupRoute {}
+class DistributionCenter {}
+class FoodBank {}
+class H2SEmployee {}
+class Delivery {}
+class Client {}
+class Category {}
+class Location {}
+
+Resident "1" -- "0..*" PickupRequest
+
+PickupRequest "1" -- "0..*" SecondHandArticle
+PickupRequest "1" -- "0..*" NonPerishableFood
+
+PickupRoute "1" -- "0..*" PickupRequest
+
+VolunteerDriver "0..*" -- "1" PickupRoute
+
+PickupVehicle "0..*" -- "1" PickupRoute
+
+DistributionCenter "1" -- "0..*" SecondHandArticle
+FoodBank "1" -- "0..*" NonPerishableFood
+
+H2SEmployee "1" -- "0..*" SecondHandArticle
+
+H2SEmployee "1" -- "0..*" Delivery
+Delivery "1" -- "1" Client
+VolunteerDriver "0..*" -- "1" Delivery
+
+Client -- Category
+
+Location "1" -- "0..*" DistributionCenter
+Location "1" -- "0..*" FoodBank
+Location "1" -- "0..*" VolunteerDriver
+Location "1" -- "0..*" PickupVehicle
+Location "1" -- "0..*" H2SEmployee
+Location "1" -- "0..*" Resident
+Location "1" -- "0..*" Client
+
+@enduml

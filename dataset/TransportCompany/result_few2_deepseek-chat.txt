@@ -1,0 +1,34 @@
+@startuml
+
+class TransportCompany {}
+class Employee {}
+class Driver {}
+class Planner {}
+class AdministrativeStaff {}
+class Customer {}
+class Vehicle {}
+class VehicleType {}
+class RepairShop {}
+class Repair {}
+class Order {}
+class PartnerCompany {}
+
+TransportCompany "1" -- "0..*" Employee
+TransportCompany "1" -- "0..*" Customer
+TransportCompany "1" -- "0..*" Vehicle
+TransportCompany "1" -- "0..*" PartnerCompany
+Employee "1" -- "1" Driver
+Employee "1" -- "1" Planner
+Employee "1" -- "1" AdministrativeStaff
+Vehicle "1" -- "1" VehicleType
+Vehicle "1" -- "0..*" Repair
+Repair "1" -- "1" RepairShop
+Repair "0..*" -- "1" Employee
+Order "1" -- "1" Customer
+Order "1" -- "1" Vehicle
+Order "1" -- "1" Driver
+Order "1" -- "1" Planner
+Order "0..1" -- "1" AdministrativeStaff
+Order "0..1" -- "1" PartnerCompany
+
+@enduml

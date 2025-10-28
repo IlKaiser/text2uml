@@ -1,0 +1,30 @@
+```plaintext
+@startuml
+
+class Center {}
+class Room {}
+class Person {}
+class Trainer {}
+class Session {}
+class GroupSession {}
+class IndividualSession {}
+class City {}
+
+Center "1" -- "0..*" Room
+Center "1" -- "0..*" Session
+Center "1" -- "1" City
+Room "1" -- "1" Center
+Session "0..*" -- "0..1" Trainer
+Session "0..*" -- "1" Room
+Session "0..*" -- "0..*" Person
+Trainer "1" -- "0..*" GroupSession
+Trainer "1" -- "0..*" Person
+Person "1" -- "0..*" IndividualSession
+Person "1" -- "0..*" GroupSession
+GroupSession "1" -- "1" Trainer
+GroupSession "0..*" -- "0..*" Person
+IndividualSession "0..*" -- "1" Person
+City "1" -- "1..*" Center
+
+@enduml
+```

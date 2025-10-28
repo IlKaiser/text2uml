@@ -1,0 +1,38 @@
+Here is the PlantUML model based on your class and cardinality lists:
+
+```plantuml
+@startuml
+
+class BusinessTraveller{}
+class HBMS{}
+class Hotel{}
+class City{}
+class Address{}
+class HotelChain{}
+class RoomType{}
+class Booking{}
+class SpecialOffer{}
+class CreditCard{}
+class CancellationDeadline{}
+class ReliabilityRating{}
+
+BusinessTraveller "1..1" -- "1..1" HBMS
+BusinessTraveller "1..*" -- "1..1" CreditCard
+BusinessTraveller "1..*" -- "1..*" Booking
+BusinessTraveller "0..1" -- "1..1" CancellationDeadline
+BusinessTraveller "1..1" -- "1..1" ReliabilityRating
+HBMS "1..*" -- "1..*" Hotel
+HBMS "1..*" -- "1..*" City
+HBMS "1..*" -- "1..*" RoomType
+HBMS "1..*" -- "1..*" SpecialOffer
+Hotel "1..1" -- "1..*" City
+Hotel "1..1" -- "1..1" Address
+Hotel "0..1" -- "1..*" HotelChain
+Hotel "1..*" -- "1..*" RoomType
+Hotel "1..*" -- "1..*" Booking
+Hotel "1..*" -- "1..*" SpecialOffer
+Booking "0..1" -- "1..1" CancellationDeadline
+Booking "1..1" -- "1..1" CreditCard
+
+@enduml
+```

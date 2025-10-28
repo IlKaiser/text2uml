@@ -1,0 +1,23 @@
+@startuml
+
+class Organizer{}
+class EventType{}
+class Event{}
+class Location{}
+class Attendee{}
+class Invitation{}
+class TaskTemplate{}
+class Task{}
+
+Organizer "0..*" -- "1..*" Event
+Event "1" -- "1" EventType
+Organizer "0..*" -- "0..*" EventType
+Event "1" -- "1" Location
+Organizer "0..*" -- "0..*" Location
+Event "1" -- "0..*" Invitation
+Invitation "1" -- "1" Attendee
+TaskTemplate "1" -- "0..*" Task
+Event "1" -- "0..*" Task
+Task "0..*" -- "0..*" Attendee
+
+@enduml

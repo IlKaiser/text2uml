@@ -1,0 +1,23 @@
+@startuml
+
+class Song{}
+class Artist{}
+class User{}
+class RegularUser{}
+class BusinessUser{}
+class Album{}
+class Single{}
+class Hit{}
+
+Artist "1" -- "0..*" Song
+User "1" -- "0..1" RegularUser
+User "1" -- "0..1" BusinessUser
+BusinessUser "1" -- "0..*" Song
+Single "1" -- "1" Song
+Hit "1" -- "1" Song
+Album "1" -- "1..*" Hit
+RegularUser "1" -- "0..*" Single
+RegularUser "1" -- "0..*" Album
+Album "0..*" -- "0..*" RegularUser
+
+@enduml

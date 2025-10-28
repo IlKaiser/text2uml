@@ -1,0 +1,65 @@
+@startuml
+
+class ProjectManager {}
+class MediumSizedSoftwareCompany {}
+class System {}
+class HomeTec {}
+class SensorController {}
+class Apartment {}
+class Inhabitant {}
+class Username {}
+class Password {}
+class EMonitor {}
+class AlertMessage {}
+class AdministrativeRights {}
+class BuildingEngineeringCompany {}
+class Sensor {}
+class TemperatureSensor {}
+class PowerSensor {}
+class PlugAndPlay {}
+class Appliance {}
+class VendorId {}
+class Description {}
+class Unit {}
+class Room {}
+class LivingRoom {}
+class Address {}
+class ValueRange {}
+class CounterReading {}
+class Timestamp {}
+class SensorControllerData {}
+class SensorData {}
+class SensorValue {}
+class LastValue {}
+class Prototype {}
+class TargetPlatform {}
+class SpecificEnvironment {}
+class EssentialFunctionality {}
+
+ProjectManager "1" -- "1" MediumSizedSoftwareCompany
+MediumSizedSoftwareCompany "1" -- "1" System
+System "0..*" HomeTec
+HomeTec "0..*" SensorController
+SensorController "0..*" Apartment
+Apartment "0..1" Address
+Apartment "0..1" Inhabitant
+Inhabitant "1" Username
+Inhabitant "1" Password
+SensorController "0..*" Sensor
+Sensor "1" SensorControllerData
+Sensor "1" Room
+Room "0..1" LivingRoom
+Sensor "1" (TemperatureSensor or PowerSensor)
+TemperatureSensor "1" ValueRange
+PowerSensor "1" CounterReading
+Sensor "0..1" AlertMessage
+Sensor "0..1" AdministrativeRights
+AdministrativeRights "0..1" HomeTec
+SensorController "1" EMonitor
+EMonitor "0..*" AlertMessage
+Sensor "0..1" Prototype
+Prototype "1" TargetPlatform
+Prototype "1" SpecificEnvironment
+Sensor "1" EssentialFunctionality
+
+@enduml

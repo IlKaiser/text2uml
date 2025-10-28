@@ -1,0 +1,26 @@
+
+@startuml
+
+class Product{}
+class Country{}
+class Manufacturer{}
+class VAT{}
+class Currency{}
+class Representative{}
+class Customer{}
+class Order{}
+
+Product "1..*" -- "1..1" Manufacturer
+Product "1..*" -- "0..*" Country
+Product "1..*" -- "1..*" VAT
+Product "1..*" -- "1..*" Currency
+
+Representative "1..1" -- "0..*" Country
+
+Customer "0..*" -- "1..*" Country
+Customer "1..*" -- "0..*" Product
+
+Order "1..*" -- "1..1" Product
+Order "1..1" -- "1..1" Representative
+
+@enduml

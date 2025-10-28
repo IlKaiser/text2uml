@@ -1,0 +1,49 @@
+@startuml
+
+class HelpingHandsStore {}
+class City {}
+class DistributionCenter {}
+class FoodBank {}
+class Resident {}
+class PickupRequest {}
+class Address {}
+class Vehicle {}
+class VolunteerDriver {}
+class PickupRoute {}
+class ScheduledPickup {}
+class SecondHandArticle {}
+class NonPerishableFood {}
+class H2SEmployee {}
+class RFIDTag {}
+class Category {}
+class Client {}
+class Delivery {}
+
+HelpingHandsStore "1" -- City
+City "1" -- "1" DistributionCenter
+City "1" -- "1" FoodBank
+City "1" -- Resident
+City "1" -- Client
+DistributionCenter "1" -- Vehicle
+DistributionCenter "1" -- VolunteerDriver
+DistributionCenter "1" -- SecondHandArticle
+Resident "1" -- PickupRequest
+PickupRequest "1" -- "1" Address
+PickupRequest "1" -- SecondHandArticle
+PickupRequest "1" -- NonPerishableFood
+Vehicle "1" -- PickupRoute
+VolunteerDriver "1" -- PickupRoute
+DistributionCenter "1" -- PickupRoute
+PickupRoute "1" -- ScheduledPickup
+PickupRequest "1" -- "1" ScheduledPickup
+FoodBank "1" -- NonPerishableFood
+H2SEmployee "1" -- SecondHandArticle
+SecondHandArticle "1" -- "0..1" RFIDTag
+Category "1" -- SecondHandArticle
+Client -- Category
+Client "1" -- Delivery
+VolunteerDriver "1" -- Delivery
+SecondHandArticle "1" -- "0..1" Delivery
+PickupRoute "1" -- Delivery
+
+@enduml

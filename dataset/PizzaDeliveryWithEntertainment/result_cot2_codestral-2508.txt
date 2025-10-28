@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+
+class Customer{}
+class User{}
+class Account{}
+class BusinessOwner{}
+class PizzaRestaurant{}
+class Pizza{}
+class Order{}
+class EntertainmentOrder{}
+class Entertainer{}
+class Address{}
+class DeliveryAddress{}
+
+User "0..*" -- "1..1" Account
+Customer "1..1" -- "1..1" Account
+BusinessOwner "1..1" -- "1..1" Account
+User "1..1" -- "1..1" Address
+BusinessOwner "1..1" -- "0..*" PizzaRestaurant
+PizzaRestaurant "1..1" -- "0..*" Pizza
+PizzaRestaurant "1..1" -- "0..*" Entertainer
+Customer "1..1" -- "0..*" Order
+Order "1..1" -- "0..*" Pizza
+Order "1..1" -- "1..1" DeliveryAddress
+EntertainmentOrder "1..1" -- "1..1" Entertainer
+EntertainmentOrder "0..1" -- "1..1" Order
+
+@enduml
+```

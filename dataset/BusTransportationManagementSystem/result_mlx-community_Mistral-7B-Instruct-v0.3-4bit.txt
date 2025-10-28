@@ -1,0 +1,46 @@
+@startuml
+
+class City{}
+class BTMS{}
+class Driver{}
+class BusRoute{}
+class Bus{}
+class Shift{}
+
+City "1" -- "1" BTMS
+BTMS "1..*" Driver
+BTMS "1..*" BusRoute
+BusRoute "1" -- "1..*" Bus
+Bus "1..*" Shift
+Driver "1..*" Shift
+
+BTMS "0..1" -- "1" Driver_ID
+Driver "0..1" -- "1" Name
+BusRoute "1" -- "1" Number
+Bus "1" -- "10" LicensePlate
+BusRoute "1..*" MorningShift
+BusRoute "1..*" AfternoonShift
+BusRoute "1..*" NightShift
+Shift "1" -- "1" Bus
+Shift "1" -- "1" Driver
+
+@enduml
+
+In this diagram, the classes are represented by their names (City, BTMS, Driver, BusRoute, Bus, Shift). The relationships between the classes are represented by bi-directional arrows (e.g., BTMS "1..*" Driver). The cardinality of the relationships is specified in the format "X..*" (e.g., BTMS "1..*" Driver, indicating that one BTMS can have one or more Drivers). The maximum and minimum multiplicity are both included in the cardinality, but the minimum is often omitted when it is 1 (e.g., BTMS "1..*" Driver, indicating that one BTMS can have one or more Drivers, but a BTMS must have at least one Driver).
+
+In this specific case, the relationships between the classes are as follows:
+
+* A City has one BTMS.
+* A BTMS can have one or more Drivers.
+* A BTMS can have one or more BusRoutes.
+* A BusRoute can have one or more Buses.
+* A Bus can have one or more Shifts.
+* A Shift can have one or more Drivers.
+
+The relationships between the classes are also characterized by additional constraints:
+
+* A Bus can serve at most one Route per day, but may be assigned to different Routes on different days.
+* Several Buses may be assigned to a Route per day.
+* A Driver is assigned by city staff to a Shift for a particular Bus on a particular day, and there are no restrictions in terms of how many Shifts a Bus Driver has per day. It is even possible to assign a Bus Driver to two Shifts at the same time.
+* If a Driver is currently sick or a Bus is in the repair shop, the Driver or Bus, respectively, is highlighted in the overview.
+* For a given day, an overview shows – for each Route number – the LicensePlate number of each assigned Bus, the entered Shifts, and the IDs and names of the assigned Drivers.

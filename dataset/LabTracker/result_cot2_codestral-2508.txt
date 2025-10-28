@@ -1,0 +1,29 @@
+```plantuml
+@startuml
+class LabTracker{}
+class Doctor{}
+class Patient{}
+class Requisition{}
+class Test{}
+class Examination{}
+class Lab{}
+class Appointment{}
+class Sample{}
+class Report{}
+class GroupOfTests{}
+class RepetitionPattern{}
+class LabNetwork{}
+
+Doctor "1..1" -- "0..*" Requisition
+Patient "1..1" -- "0..*" Requisition
+Requisition "0..*" -- "1..*" Test
+Requisition "1..1" -- "0..1" RepetitionPattern
+LabNetwork "1..1" -- "0..*" Test
+Lab "1..1" -- "0..*" Appointment
+Patient "1..1" -- "0..*" Appointment
+Appointment "0..*" -- "1..1" Requisition
+Test "1..1" -- "0..1" Sample
+Test "1..1" -- "0..1" Report
+GroupOfTests "1..1" -- "1..*" Test
+@enduml
+```

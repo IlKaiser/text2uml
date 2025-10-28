@@ -1,0 +1,30 @@
+@startuml
+class Person{}
+class BankAccount{}
+class Subject{}
+class ExpertiseLevel{}
+class TutoringOffer{}
+class AvailabilitySlot{}
+class TutoringRequest{}
+class TutoringSession{}
+class Payment{}
+class Cancellation{}
+class Award{}
+
+Person "0..1" -- "1..1" BankAccount
+Person "0..*" -- "1..1" TutoringOffer
+Subject "0..*" -- "1..1" TutoringOffer
+ExpertiseLevel "0..*" -- "1..1" TutoringOffer
+Person "0..*" -- "1..1" AvailabilitySlot
+TutoringOffer "0..*" -- "1..1" TutoringRequest
+Person "0..*" -- "1..1" TutoringRequest
+ExpertiseLevel "0..*" -- "1..1" TutoringRequest
+TutoringRequest "0..1" -- "1..1" TutoringSession
+Person "0..*" -- "0..*" TutoringSession
+Payment "0..*" -- "1..1" TutoringSession
+Person "0..*" -- "1..1" Payment
+TutoringSession "0..1" -- "1..1" Cancellation
+Person "0..*" -- "1..1" Cancellation
+Subject "0..*" -- "1..1" Award
+Person "0..*" -- "1..1" Award
+@enduml

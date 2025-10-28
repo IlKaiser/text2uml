@@ -1,0 +1,32 @@
+@startuml
+
+class Traveller {}
+class Hotel {}
+class Booking {}
+class Offer {}
+class SpecialOffer {}
+class CreditCardInfo {}
+class HotelChain {}
+class RoomType {}
+class Confirmation {}
+class Cancellation {}
+class FinancialCompensation {}
+
+Traveller "1" -- "0..*" Booking
+Booking "1" -- "0..*" Offer
+Hotel "1" -- "0..*" Offer
+Booking "1" -- "0..*" SpecialOffer
+Hotel "1" -- "0..*" SpecialOffer
+Traveller "1" -- "0..*" SpecialOffer
+CreditCardInfo "1" -- "0..*" Booking
+Traveller "1" -- "0..*" CreditCardInfo
+Booking "0..1" -- "1" Confirmation
+Hotel "1" -- "0..*" Confirmation
+Booking "0..1" -- "1" Cancellation
+HotelChain "0..1" -- "0..*" Hotel
+Hotel -- RoomType
+Hotel "1" -- "0..*" FinancialCompensation
+Traveller "1" -- "0..*" FinancialCompensation
+Booking "0..1" -- "1" FinancialCompensation
+
+@enduml

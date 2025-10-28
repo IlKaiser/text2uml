@@ -1,0 +1,26 @@
+```plantuml
+@startuml
+class EuropeanUnion{}
+class ResearchDatabase{}
+class ScientificArticle{}
+class Researcher{}
+class ResearchInstitution{}
+class PeerReviewedPaper{}
+class TechnicalReport{}
+class Publisher{}
+class Journal{}
+
+EuropeanUnion "0..*" -- "1..*" ResearchDatabase
+ResearchDatabase "1..*" -- "0..*" ScientificArticle
+ResearchDatabase "1..*" -- "0..*" Researcher
+ResearchDatabase "1..*" -- "0..*" ResearchInstitution
+Researcher "1..*" -- "1..1" ResearchInstitution
+ScientificArticle "1..*" -- "0..*" Researcher
+Researcher "0..*" -- "0..*" PeerReviewedPaper
+PeerReviewedPaper "1..*" -- "0..*" Researcher
+TechnicalReport "1..*" -- "1..1" ResearchInstitution
+Publisher "1..*" -- "0..*" Journal
+Journal "1..*" -- "0..*" ResearchInstitution
+PeerReviewedPaper "1..*" -- "1..1" Journal
+@enduml
+```

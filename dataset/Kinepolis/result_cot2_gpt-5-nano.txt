@@ -1,0 +1,34 @@
+@startuml
+class Cinema{}
+class Premise{}
+class Theatre{}
+class Movie{}
+class MovieCopy{}
+class Show{}
+class Reservation{}
+class OnlineReservation{}
+class Seat{}
+class SeatReservation{}
+class Ticket{}
+class TicketingDesk{}
+class Offer{}
+class Program{}
+class CreditCard{}
+
+Cinema "1" -- "0..*" Premise
+Premise "1" -- "0..*" Theatre
+Premise "1" -- "0..*" MovieCopy
+Movie "0..*" -- "1" MovieCopy
+Theatre "1" -- "0..*" Show
+Program "1" -- "0..*" Show
+Show "0..*" -- "1" OnlineReservation
+Reservation "0..*" -- "1" CreditCard
+Seat "0..*" -- "0..*" SeatReservation
+SeatReservation "1" -- "1" Show
+SeatReservation "1" -- "1" Seat
+Ticket "0..*" -- "1" Show
+Ticket "0..*" -- "1" Seat
+TicketingDesk "1" -- "0..*" Show
+Offer "0..*" -- "1" Show
+CreditCard "0..*" -- "1" Reservation
+@enduml

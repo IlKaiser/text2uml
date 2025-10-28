@@ -1,0 +1,37 @@
+@startuml
+
+class OTS{}
+class Student{}
+class Tutor{}
+class Subject{}
+class Level{}
+class Price{}
+class Availability{}
+class Request{}
+class Session{}
+class Payment{}
+class Cancellation{}
+class Award{}
+
+OTS -- "1..1" Student
+OTS -- "1..1" Tutor
+Tutor -- "1..*" Subject
+Tutor -- "1..1" Level
+Tutor -- "1..1" Price
+Tutor -- "1..1" Availability
+Student -- "1..*" Request
+Request -- "1..1" Tutor
+Request -- "1..1" Level
+Request -- "1..1" Session
+Session -- "1..1" Tutor
+Session -- "1..1" Student
+Session -- "1..1" Payment
+Session -- "1..1" Cancellation
+Student -- "1..*" Payment
+Tutor -- "1..*" Payment
+Payment -- "1..1" Session
+Cancellation -- "1..1" Session
+Tutor -- "1..*" Award
+Subject -- "1..*" Award
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+class Person{}
+class Employee{}
+class Director{}
+class Actor{}
+class Technician{}
+class Screenwriter{}
+class Screenplay{}
+class Film{}
+class FilmSet{}
+class Location{}
+class Genre{}
+class Novel{}
+class Concept{}
+class Author{}
+class Education{}
+class FieldOfActivity{}
+class FilmShot{}
+class Scene{}
+class Role{}
+
+Employee "0..*" -- "0..*" FilmSet
+Film "0..*" -- "0..*" FilmSet
+Film "1" -- "0..*" Genre
+Screenwriter "1" -- "0..*" Screenplay
+Screenplay "0..*" -- "1" Screenwriter
+Screenplay "0..*" -- "1" Film
+Film "0..*" -- "0..*" Screenplay
+Screenplay "0..1" -- "0..*" Novel
+Novel "0..*" -- "0..*" Screenplay
+Screenplay "0..1" -- "0..*" Concept
+Concept "0..*" -- "0..*" Screenplay
+Novel "1" -- "1" Author
+Author "0..*" -- "0..*" Novel
+Actor "1" -- "1" Education
+Education "0..*" -- "0..*" Actor
+Technician "1" -- "1" FieldOfActivity
+FieldOfActivity "0..*" -- "0..*" Technician
+FilmShot "1" -- "1" Screenplay
+Screenplay "0..*" -- "0..*" FilmShot
+FilmShot "1" -- "1" FilmSet
+FilmSet "0..*" -- "0..*" FilmShot
+Film "1" -- "1" Director
+Director "0..*" -- "0..*" Film
+Film "0..*" -- "0..*" Actor
+Role "1" -- "1" Actor
+Role "1" -- "1" Film
+FilmSet "1" -- "0..*" Location
+@enduml

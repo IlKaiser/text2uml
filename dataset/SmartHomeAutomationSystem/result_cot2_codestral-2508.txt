@@ -1,0 +1,48 @@
+```plantuml
+@startuml
+
+class SmartHomeAutomationSystem{}
+class User{}
+class SmartHome{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class DeviceType{}
+class DeviceIdentifier{}
+class InfrastructureMap{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class Alert{}
+class Owner{}
+class AutomationRule{}
+class BooleanExpression{}
+class RelationalTerm{}
+class BasicBooleanOperator{}
+class Action{}
+
+SmartHomeAutomationSystem "0..*" -- "1..1" InfrastructureMap
+SmartHomeAutomationSystem "1..1" -- "0..*" User
+SmartHomeAutomationSystem "1..1" -- "0..*" SmartHome
+SmartHomeAutomationSystem "1..1" -- "0..*" ActivityLog
+SmartHomeAutomationSystem "1..1" -- "0..*" Alert
+SmartHomeAutomationSystem "1..1" -- "0..*" AutomationRule
+SmartHome "1..*" -- "0..*" Room
+Room "1..*" -- "0..*" SensorDevice
+Room "1..*" -- "0..*" ActuatorDevice
+SensorDevice "1..1" -- "1..1" DeviceIdentifier
+ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
+SensorDevice "1..*" -- "0..*" SensorReading
+ActuatorDevice "1..*" -- "0..*" ControlCommand
+AutomationRule "1..1" -- "1..1" BooleanExpression
+AutomationRule "1..1" -- "1..1" Action
+BooleanExpression "1..*" -- "0..*" RelationalTerm
+BooleanExpression "1..*" -- "0..*" BasicBooleanOperator
+ActivityLog "1..*" -- "0..*" SensorReading
+ActivityLog "1..*" -- "0..*" ControlCommand
+Owner "1..1" -- "1..1" User
+Owner "1..*" -- "0..*" Alert
+Owner "1..*" -- "0..*" AutomationRule
+
+@enduml
+```

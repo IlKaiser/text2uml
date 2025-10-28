@@ -1,0 +1,23 @@
+@startuml
+
+class Apartment{}
+class SensorController{}
+class Inhabitant{}
+class Sensor{}
+class Room{}
+class Value{}
+class EMonitor{}
+class AlertMessage{}
+class AdministrativeRights{}
+
+Apartment "1" -- "1..*" Room
+Room "1" -- "1..*" Sensor
+SensorController "1" -- "1" Apartment
+Inhabitant "1..*" -- "1" SensorController
+Inhabitant "0..*" -- "0..1" AdministrativeRights
+Sensor "1" -- "0..*" Value
+Sensor "0..1" -- "1" Room
+EMonitor "1" -- "1" Sensor
+AlertMessage "0..*" -- "1" Inhabitant
+
+@enduml

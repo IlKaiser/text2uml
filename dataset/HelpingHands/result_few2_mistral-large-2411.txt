@@ -1,0 +1,24 @@
+@startuml
+
+class Resident {}
+class Pickup {}
+class Vehicle {}
+class Driver {}
+class DistributionCenter {}
+class FoodBank {}
+class Article {}
+class Category {}
+class Client {}
+
+Resident "1" -- "0..*" Pickup
+Vehicle "1" -- "0..*" Pickup
+Driver "1" -- "0..*" Vehicle
+Pickup "1" -- "0..*" Article
+Article "1" -- "0..1" DistributionCenter
+Article "1" -- "0..1" FoodBank
+Article "1" -- "1" Category
+DistributionCenter "0..*" -- "1" Article
+Client "1" -- "0..*" DistributionCenter
+Driver "0..*" -- "1" Client
+
+@enduml

@@ -1,0 +1,40 @@
+```plantuml
+@startuml
+class HelpingHandsStore{}
+class Resident{}
+class PickupService{}
+class PickupRequest{}
+class Item{}
+class Vehicle{}
+class Route{}
+class Driver{}
+class DistributionCenter{}
+class Employee{}
+class FoodBank{}
+class Article{}
+class Category{}
+class Client{}
+
+HelpingHandsStore "1..*" -- "0..*" Resident
+HelpingHandsStore "1..*" -- "1..1" PickupService
+HelpingHandsStore "1..*" -- "0..*" Vehicle
+HelpingHandsStore "1..*" -- "1..1" DistributionCenter
+HelpingHandsStore "1..*" -- "0..*" Employee
+HelpingHandsStore "1..*" -- "1..1" FoodBank
+HelpingHandsStore "1..*" -- "0..*" Client
+PickupService "1..1" -- "0..*" PickupRequest
+PickupService "1..1" -- "0..*" Driver
+PickupService "1..1" -- "0..*" Route
+PickupRequest "1..1" -- "1..1" Resident
+PickupRequest "1..1" -- "0..*" Item
+Vehicle "1..1" -- "0..1" Driver
+Vehicle "1..1" -- "0..*" Route
+Route "1..1" -- "0..1" DistributionCenter
+Route "1..1" -- "0..1" FoodBank
+DistributionCenter "1..1" -- "0..*" Employee
+DistributionCenter "1..1" -- "0..*" Article
+DistributionCenter "1..1" -- "0..*" Category
+Article "1..1" -- "1..1" Category
+Client "1..1" -- "0..*" Category
+@enduml
+```

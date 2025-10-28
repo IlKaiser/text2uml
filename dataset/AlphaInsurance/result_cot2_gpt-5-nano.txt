@@ -1,0 +1,51 @@
+@startuml
+class Customer{}
+class Broker{}
+class AccountManager{}
+class CustomerFile{}
+class HelpDesk{}
+class InsuranceProduct{}
+class Policy{}
+class PolicyType{}
+class PreliminaryOffer{}
+class Offer{}
+class PreliminaryContract{}
+class Contract{}
+class InsuranceEvent{}
+class Claim{}
+class ClaimCase{}
+class Estimator{}
+class AreaOfExpertise{}
+class Expertise{}
+class Report{}
+class Document{}
+class HeadOffice{}
+class Profile{}
+class Payment{}
+class Invoice{}
+class Price{}
+class Coverage{}
+class Compensation{}
+Customer "0..*" -- "1" Broker
+Customer "1" -- "1" Profile
+Profile "0..1" -- "1" HeadOffice
+PreliminaryOffer "0..*" -- "1" Customer
+PreliminaryOffer "0..*" -- "1" InsuranceProduct
+PreliminaryContract "0..*" -- "1" PreliminaryOffer
+InsuranceEvent "0..*" -- "1" Customer
+InsuranceEvent "0..*" -- "1" Claim
+Claim "1..*" -- "0..*" ClaimCase
+ClaimCase "0..*" -- "0..*" Document
+ClaimCase "0..*" -- "0..*" Report
+Report "1..*" -- "1" Estimator
+Estimator "1" -- "0..*" AreaOfExpertise
+AreaOfExpertise "1" -- "0..*" Expertise
+ClaimCase "0..*" -- "1" Compensation
+Compensation "1" -- "1" Payment
+Contract "1" -- "1" Invoice
+Invoice "1" -- "1" Payment
+Contract "1" -- "1" Policy
+Policy "1" -- "1" InsuranceProduct
+Policy "0..*" -- "0..*" Coverage
+InsuranceProduct "1" -- "1" Price
+@enduml

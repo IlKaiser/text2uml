@@ -1,0 +1,24 @@
+```plantuml
+@startuml
+class SmartHome{}
+class Room{}
+class Sensor{}
+class Actuator{}
+class ActivityLog{}
+class AutomationRule{}
+class SensorReading{}
+class ControlCommand{}
+
+SmartHome "1..*" -- "1..*" Room
+Room "1..*" -- "0..*" Sensor
+Room "1..*" -- "0..*" Actuator
+Sensor "0..*" -- "0..*" SensorReading
+Actuator "0..*" -- "0..*" ControlCommand
+SmartHome "1..*" -- "1..*" ActivityLog
+SmartHome "0..*" -- "0..*" AutomationRule
+AutomationRule "1..*" -- "0..*" Sensor
+AutomationRule "1..*" -- "0..*" Actuator
+AutomationRule "0..*" -- "0..*" SensorReading
+AutomationRule "0..*" -- "0..*" ControlCommand
+@enduml
+```

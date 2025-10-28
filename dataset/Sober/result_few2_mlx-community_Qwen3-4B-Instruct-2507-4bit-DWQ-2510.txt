@@ -1,0 +1,24 @@
+@startuml
+
+class SelfDrivingCab {}
+class RideHailingService {}
+class RideSharingService {}
+class Customer {}
+class AppRequest {}
+class HandWaveRequest {}
+class Ride {}
+class Accident {}
+class Passenger {}
+
+RideHailingService "1" -- "0..*" Ride
+RideSharingService "1" -- "0..*" Ride
+Ride "1" -- "0..*" AppRequest
+Ride "1" -- "0..*" HandWaveRequest
+Ride "1" -- "0..*" Customer
+Ride "1" -- "0..*" Passenger
+RideHailingService "1" -- "0..*" Passenger
+RideSharingService "1" -- "0..*" Passenger
+Accident "1" -- "0..*" SelfDrivingCab
+Ride "1" -- "0..*" Accident
+
+@enduml

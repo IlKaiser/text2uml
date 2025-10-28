@@ -1,0 +1,36 @@
+```plantuml
+@startuml
+
+class Home{}
+class Department{}
+class Room{}
+class Bed{}
+class Inhabitant{}
+class Category{}
+class Stay{}
+class RegistrationProcess{}
+class Question{}
+class WaitingList{}
+class Proposal{}
+class Invoice{}
+class CreditNote{}
+class Representative{}
+
+Home "1..*" -- "1..*" Department
+Department "1..*" -- "1..*" Room
+Room "1..*" -- "1..*" Bed
+Bed "0..1" -- "1..1" Inhabitant
+Bed "1..1" -- "1..1" Category
+Inhabitant "1..*" -- "0..*" Stay
+Stay "1..1" -- "1..1" Category
+Inhabitant "0..1" -- "0..*" RegistrationProcess
+RegistrationProcess "1..1" -- "0..*" Question
+Inhabitant "1..1" -- "0..1" WaitingList
+WaitingList "1..1" -- "0..*" Proposal
+Proposal "0..*" -- "0..1" Stay
+Stay "0..*" -- "1..1" Invoice
+Invoice "1..*" -- "0..1" CreditNote
+Invoice "1..1" -- "0..1" Representative
+
+@enduml
+```

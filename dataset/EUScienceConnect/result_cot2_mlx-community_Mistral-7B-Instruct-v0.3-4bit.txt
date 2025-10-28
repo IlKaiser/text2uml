@@ -1,0 +1,51 @@
+@startuml
+
+class EuropeanUnion {}
+class CrossNationalResearchDatabase {}
+class ScienceConnect {}
+class ResearchInstitution {}
+class Person {}
+class PhoneNumber {}
+class Keywords {}
+class Institution {}
+class PersonID {}
+class InstitutionCode {}
+class ScientificArticle {}
+class DOI {}
+class Title {}
+class Authors {}
+class Position {}
+class PeerReviewedPaper {}
+class TechnicalReport {}
+class ScientificPublishers {}
+class Journals {}
+class Publisher {}
+class ImpactFactor {}
+class CitationCount {}
+class Reviewer {}
+
+EuropeanUnion -- 1..1 CrossNationalResearchDatabase
+CrossNationalResearchDatabase -- 1..1 ScienceConnect
+
+ScienceConnect -- 0..* ResearchInstitution
+ResearchInstitution -- 0..* ScientificStaff
+ScientificStaff -- 0..1 Person
+Person -- 0..* PhoneNumber
+Person -- 0..* Keywords
+Person -- 1..1 Institution
+
+ResearchInstitution -- 0..* ScientificArticle
+ScientificArticle -- 0..* Authors
+Authors -- 1..* Person
+
+ScientificArticle -- 1..1 (PeerReviewedPaper or TechnicalReport)
+PeerReviewedPaper -- 1..1 Reviewer
+
+ResearchInstitution -- 1..1 ScientificPublishers
+ScientificPublishers -- 0..* Journals
+Journals -- 1..* Publisher
+
+Journals -- 1..1 ImpactFactor
+Journals -- 1..1 CitationCount (for PeerReviewedPaper only)
+
+@enduml

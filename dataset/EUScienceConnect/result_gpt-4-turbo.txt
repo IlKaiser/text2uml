@@ -1,0 +1,21 @@
+```plantuml
+@startuml
+
+class ResearchInstitution{}
+class Person{}
+class ScientificArticle{}
+class PeerReviewedPaper{}
+class TechnicalReport{}
+class Publisher{}
+class Journal{}
+
+ResearchInstitution "1..1" -- "1..*" Person
+Person "1..1" -- "1..1" ScientificArticle : author of >
+Person "1..1" -- "0..*" PeerReviewedPaper : reviewer of >
+ScientificArticle "1..*" -- "1..1" Publisher
+TechnicalReport "1..1" -- "1..*" ResearchInstitution : published by >
+Journal "1..*" -- "1..1" Publisher : published by >
+Journal "1..*" -- "1..*" PeerReviewedPaper : publishes >
+
+@enduml
+```

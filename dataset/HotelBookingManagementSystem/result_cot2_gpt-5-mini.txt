@@ -1,0 +1,45 @@
+@startuml
+class Traveller{}
+class BillingInformation{}
+class CreditCard{}
+class TravelPreference{}
+class City{}
+class Address{}
+class Hotel{}
+class HotelChain{}
+class RoomType{}
+class Offer{}
+class Booking{}
+class PreliminaryBooking{}
+class FinalizedBooking{}
+class TravelPeriod{}
+class Confirmation{}
+class Cancellation{}
+class Reimbursement{}
+class FinancialCompensation{}
+
+Traveller "1..1" -- "0..*" BillingInformation
+Traveller "1..1" -- "0..*" TravelPreference
+Traveller "1..1" -- "0..*" CreditCard
+Traveller "1..1" -- "0..*" Booking
+BillingInformation "1..1" -- "1..1" Address
+Hotel "1..1" -- "1..1" City
+Hotel "1..1" -- "1..1" Address
+Hotel "1..1" -- "0..1" HotelChain
+Hotel "1..1" -- "0..*" RoomType
+RoomType "0..*" -- "0..*" TravelPeriod
+Offer "0..*" -- "1..1" Hotel
+Offer "0..*" -- "1..1" RoomType
+Offer "0..*" -- "1..1" TravelPeriod
+Traveller "1..1" -- "0..*" Offer
+PreliminaryBooking "1..1" -- "0..*" Offer
+PreliminaryBooking "1..1" -- "1..1" Hotel
+Booking "1..1" -- "1..1" Hotel
+Booking "1..1" -- "1..1" RoomType
+Booking "1..1" -- "1..1" TravelPeriod
+Booking "1..1" -- "0..1" Cancellation
+Cancellation "1..1" -- "0..1" FinancialCompensation
+Booking "1..1" -- "0..1" Reimbursement
+FinalizedBooking "1..1" -- "0..1" Confirmation
+FinalizedBooking "1..1" -- "1..1" CreditCard
+@enduml

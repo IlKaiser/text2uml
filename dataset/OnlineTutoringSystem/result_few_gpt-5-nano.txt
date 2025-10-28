@@ -1,0 +1,45 @@
+@startuml
+
+class Tutor {}
+class Student {}
+class Subject {}
+class Level {}
+class TutoringOffer {}
+class Price {}
+class TimeSlot {}
+class Availability {}
+class TutoringRequest {}
+class TutoringSession {}
+class Payment {}
+class Cancellation {}
+class Award {}
+
+Tutor "1" -- "0..*" TutoringOffer
+TutoringOffer "1" -- "1" Subject
+TutoringOffer "1" -- "1" Level
+TutoringOffer "1" -- "1" Price
+
+Tutor "1" -- "0..*" Availability
+Availability "1" -- "1" TimeSlot
+
+TutoringRequest "1" -- "1" Student
+TutoringRequest "1" -- "1" Tutor
+TutoringRequest "1" -- "1" Subject
+TutoringRequest "1" -- "1" Level
+
+TutoringSession "1" -- "1" Tutor
+TutoringSession "1" -- "1" Student
+TutoringSession "1" -- "1" Subject
+TutoringSession "1" -- "1" Level
+TutoringSession "0..*" -- "0..*" TutoringSession
+
+TutoringSession "1" -- "1" Payment
+
+Cancellation "1" -- "0..*" TutoringSession
+Student "1" -- "0..*" Cancellation
+Tutor "1" -- "0..*" Cancellation
+
+Award "1" -- "0..*" Tutor
+Award "1" -- "0..*" Subject
+
+@enduml

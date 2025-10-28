@@ -1,0 +1,34 @@
+@startuml
+
+class GameDesigner {}
+class BoardGame {}
+class GameBoard {}
+class Tile {}
+class ConnectionPiece {}
+class ActionCard {}
+class Player {}
+class Die {}
+class ActionTile {}
+class VisitedTile {}
+class Turn {}
+
+BoardGame "1" -- "1" GameBoard
+GameBoard "1" -- "0..*" Tile
+GameBoard "1" -- "0..*" ConnectionPiece
+GameBoard "1" -- "0..*" ActionCard
+GameBoard "1" -- "1" ActionTile
+GameBoard "1" -- "1" VisitedTile
+GameBoard "1" -- "1" Turn
+
+Player "1..4" -- "1" Turn
+Turn "1" -- "1" Die
+Turn "1" -- "1" Player
+Turn "1" -- "1" Player
+Turn "1" -- "1" Player
+Turn "1" -- "1" Player
+
+Die "1" -- "1" Turn
+Player "1" -- "1" ActionTile
+Player "1" -- "1" ActionCard
+
+@enduml

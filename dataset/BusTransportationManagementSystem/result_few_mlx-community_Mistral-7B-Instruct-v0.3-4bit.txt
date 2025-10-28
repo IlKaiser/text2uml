@@ -1,0 +1,25 @@
+@startuml
+
+class City {}
+class BTMS {}
+class Driver {}
+class BusRoute {}
+class Bus {}
+class BusSchedule {}
+class Shift {}
+class BusDriverShiftAssignment {}
+
+BusRoute "1" -- "0..*" Bus
+Bus "1" -- "0..*" BusRoute
+BusSchedule "1" -- "0..*" BusRoute
+Shift "0..*" -- "1" BusDriverShiftAssignment
+BusDriverShiftAssignment "0..*" -- "1" Driver
+BusDriverShiftAssignment "0..*" -- "1" Bus
+
+City "1" -- "1" BTMS
+BTMS "0..*" -- "1" BusRoute
+BTMS "0..*" -- "1" Bus
+BTMS "0..*" -- "1" Shift
+BTMS "0..*" -- "1" BusDriverShiftAssignment
+
+@enduml

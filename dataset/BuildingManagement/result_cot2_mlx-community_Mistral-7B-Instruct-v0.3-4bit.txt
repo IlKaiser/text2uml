@@ -1,0 +1,77 @@
+@startuml
+
+class WebPortal {}
+class VersionNumber {}
+class Catalog {}
+class Building {}
+class UniqueID {}
+class Name {}
+class EnergyClass { A, B, C, D }
+class Address {}
+class YearOfConstruction {}
+class User {}
+class AdditionalEntry {}
+class TextualInformation {}
+class FloatingPointNumber {}
+class Unit {}
+class PublicRelease {}
+class Image {}
+class FileName {}
+class UserName {}
+class EmailAddress {}
+class Password {}
+class Administrator {}
+class IDCardNumber {}
+class UserAccount {}
+class Registration {}
+class ConfirmationLink {}
+class ActivationEmail {}
+class Login {}
+class BuildingCreation {}
+class BuildingManagement {}
+class CommentingOnBuildings {}
+class FullTextSearch {}
+class Comment {}
+
+WebPortal "1" -- "0..1" VersionNumber
+WebPortal "1" -- "0..1" Catalog
+Building "1" -- "1" UniqueID
+Building "1" -- "1" Name
+Building "1" -- "1" Address
+Building "1" -- "1" YearOfConstruction
+Building "1" -- "1" EnergyClass
+Building "1" -- "1" AdditionalEntry
+Building "1" -- "1" TextualInformation
+Building "1" -- "1" FloatingPointNumber
+Building "1" -- "1" Unit
+Building "1" -- "1" PublicRelease
+Building "1" -- "1" Image
+Building "1" -- "1" FileName
+User "1" -- "0..1" Building
+User "1" -- "0..1" BuildingCreation
+User "1" -- "0..1" BuildingManagement
+User "1" -- "0..1" CommentingOnBuildings
+User "1" -- "1" UserAccount
+User "1" -- "1" Registration
+User "1" -- "1" ConfirmationLink
+User "1" -- "1" ActivationEmail
+User "1" -- "1" Login
+Image "1" -- "1" FileName
+User "1" -- "0..*" Image
+Administrator "1" -- "0..*" Image
+Administrator "1" -- "0..*" Comment
+User "1" -- "1" UserAccount
+Administrator "1" -- "1" UserAccount
+Registration "1" -- "1" User
+Registration "1" -- "1" UserAccount
+ConfirmationLink "1" -- "1" Registration
+ActivationEmail "1" -- "1" UserAccount
+Login "1" -- "1" UserAccount
+BuildingCreation "1" -- "1" User
+BuildingManagement "1" -- "1" User
+CommentingOnBuildings "1" -- "1" User
+Comment "1" -- "1" Building
+Comment "1" -- "1" User
+FullTextSearch "0..1" WebPortal
+
+@enduml

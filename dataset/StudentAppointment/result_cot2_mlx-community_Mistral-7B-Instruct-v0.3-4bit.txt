@@ -1,0 +1,37 @@
+@startuml
+
+Student "0..*" AppointmentRequest
+AppointmentRequest "1" Student
+AppointmentRequest "1" SpecificCourse
+SpecificCourse "0..1" AppointmentRequest
+
+AppointmentRequest "1" ParticularAssistant
+ParticularAssistant "0..1" AppointmentRequest
+ParticularAssistant "0..*" TeachingAssistant
+TeachingAssistant "0..*" ParticularAssistant
+
+SpecificCourse "0..1" Course
+Course "0..*" SpecificCourse
+Course "0..*" HighDemand
+HighDemand "0..*" Course
+Course "0..*" Registration
+
+Registration "1" Student
+Registration "1" Course
+
+System "0..*" Appointment
+Appointment "1" System
+Appointment "1" Student
+Appointment "1" ParticularAssistant
+
+Demand "0..*" Course
+
+Management "0..1" System
+System "0..1" Management
+Management "0..*" Demand
+Demand "0..*" AppointmentRequest
+AppointmentRequest "0..1" Demand
+Appointment "0..1" AppointmentRequest
+AppointmentRequest "0..1" Appointment
+
+@enduml

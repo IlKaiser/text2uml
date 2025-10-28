@@ -1,0 +1,40 @@
+@startuml
+
+class SmartHomeAutomationSystem{}
+class User{}
+class SmartHome{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class DeviceIdentifier{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class BooleanExpression{}
+class RelationalTerm{}
+class BasicBooleanOperator{}
+class AtomicRelationalTerm{}
+class ControlCommandSequence{}
+
+SmartHomeAutomationSystem "1..1" -- "1..*" User
+SmartHomeAutomationSystem "1..1" -- "1..*" SmartHome
+SmartHome "1..*" -- "1..*" Room
+Room "0..*" -- "1..*" SensorDevice
+Room "0..*" -- "1..*" ActuatorDevice
+SensorDevice "1..1" -- "1..1" DeviceIdentifier
+ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
+SensorDevice "1..*" -- "1..*" SensorReading
+ActuatorDevice "1..*" -- "1..*" ControlCommand
+SmartHomeAutomationSystem "1..*" -- "1..*" ActivityLog
+ActivityLog "1..*" -- "1..*" SensorReading
+ActivityLog "1..*" -- "1..*" ControlCommand
+SmartHomeAutomationSystem "1..*" -- "1..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Precondition "1..*" -- "1..*" RelationalTerm
+Action "1..*" -- "1..*" ControlCommandSequence
+
+@enduml

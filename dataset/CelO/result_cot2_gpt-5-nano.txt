@@ -1,0 +1,34 @@
+@startuml
+class User{}
+class Organizer{}
+class Attendee{}
+class Event{}
+class EventType{}
+class Location{}
+class Address{}
+class Checklist{}
+class Task{}
+class TaskTemplate{}
+class Invitation{}
+class Attendance{}
+class Contribution{}
+class Item{}
+class InvitationStatus{}
+class Response{}
+
+Event "1..1" -- "0..*" EventType
+Event "1..1" -- "1..*" Location
+Address "0..*" -- "1..1" Location
+Event "1..1" -- "0..*" Invitation
+Attendee "1..1" -- "0..*" Invitation
+Invitation "1..1" -- "1..1" InvitationStatus
+Event "1..1" -- "0..*" Checklist
+Checklist "0..*" -- "1..*" Task
+TaskTemplate "0..*" -- "0..*" Task
+Attendee "1..1" -- "0..*" Contribution
+Item "1..1" -- "0..*" Contribution
+Event "1..1" -- "0..*" Attendance
+Attendee "1..1" -- "0..*" Attendance
+Invitation "1..1" -- "1..1" Response
+Attendee "1..1" -- "1..1" Response
+@enduml

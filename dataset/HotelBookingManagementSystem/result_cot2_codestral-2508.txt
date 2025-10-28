@@ -1,0 +1,91 @@
+```plantuml
+@startuml
+
+class BusinessTraveller{}
+class Hotel{}
+class HotelChain{}
+class Room{}
+class Booking{}
+class PreliminaryBooking{}
+class FinalBooking{}
+class Offer{}
+class SpecialOffer{}
+class City{}
+class CityArea{}
+class CreditCard{}
+class Payment{}
+class Confirmation{}
+class CancellationPolicy{}
+class AccommodationCharge{}
+class ReliabilityRating{}
+class TravelPreference{}
+class BillingInformation{}
+class Company{}
+class Address{}
+
+BusinessTraveller "0..*" -- "1..1" BillingInformation
+BusinessTraveller "0..*" -- "0..1" TravelPreference
+BusinessTraveller "0..*" -- "0..*" Booking
+BusinessTraveller "0..*" -- "0..*" PreliminaryBooking
+BusinessTraveller "0..*" -- "0..*" FinalBooking
+BusinessTraveller "0..*" -- "1..1" ReliabilityRating
+BusinessTraveller "0..*" -- "1..1" CreditCard
+BusinessTraveller "0..*" -- "0..*" Payment
+BusinessTraveller "0..*" -- "0..*" Confirmation
+BusinessTraveller "0..*" -- "1..1" Company
+BusinessTraveller "0..*" -- "1..1" Address
+Hotel "0..*" -- "1..1" HotelChain
+Hotel "0..*" -- "1..1" City
+Hotel "0..*" -- "1..1" Address
+Hotel "0..*" -- "1..*" Room
+Hotel "0..*" -- "0..*" Booking
+Hotel "0..*" -- "0..*" PreliminaryBooking
+Hotel "0..*" -- "0..*" FinalBooking
+Hotel "0..*" -- "0..*" Offer
+Hotel "0..*" -- "0..*" SpecialOffer
+Hotel "0..*" -- "0..*" Confirmation
+Hotel "0..*" -- "0..*" CancellationPolicy
+HotelChain "0..*" -- "0..*" Hotel
+Room "0..*" -- "1..1" Hotel
+Room "0..*" -- "0..*" Booking
+Room "0..*" -- "0..*" PreliminaryBooking
+Room "0..*" -- "0..*" FinalBooking
+Booking "0..*" -- "1..1" BusinessTraveller
+Booking "0..*" -- "1..1" Hotel
+Booking "0..*" -- "1..1" Room
+Booking "0..*" -- "1..1" Payment
+Booking "0..*" -- "0..1" Confirmation
+Booking "0..*" -- "0..1" CancellationPolicy
+PreliminaryBooking "0..*" -- "1..1" BusinessTraveller
+PreliminaryBooking "0..*" -- "1..1" Hotel
+PreliminaryBooking "0..*" -- "0..*" SpecialOffer
+FinalBooking "0..*" -- "1..1" BusinessTraveller
+FinalBooking "0..*" -- "1..1" Hotel
+FinalBooking "0..*" -- "1..1" Room
+FinalBooking "0..*" -- "1..1" Payment
+FinalBooking "0..*" -- "1..1" Confirmation
+FinalBooking "0..*" -- "0..1" CancellationPolicy
+Offer "0..*" -- "1..1" Hotel
+SpecialOffer "0..*" -- "1..1" Hotel
+SpecialOffer "0..*" -- "0..*" PreliminaryBooking
+City "0..*" -- "0..*" Hotel
+City "0..*" -- "0..*" CityArea
+CityArea "0..*" -- "1..1" City
+CreditCard "0..*" -- "0..*" Payment
+Payment "0..*" -- "1..1" BusinessTraveller
+Payment "0..*" -- "1..1" Booking
+Confirmation "0..*" -- "1..1" BusinessTraveller
+Confirmation "0..*" -- "1..1" Hotel
+Confirmation "0..*" -- "1..1" Booking
+CancellationPolicy "0..*" -- "0..*" Booking
+CancellationPolicy "0..*" -- "0..*" Hotel
+AccommodationCharge "0..*" -- "0..*" Booking
+ReliabilityRating "0..*" -- "1..1" BusinessTraveller
+TravelPreference "0..*" -- "0..*" BusinessTraveller
+BillingInformation "0..*" -- "1..1" BusinessTraveller
+Company "0..*" -- "1..1" BusinessTraveller
+Address "0..*" -- "1..1" BusinessTraveller
+Address "0..*" -- "1..1" Hotel
+
+@enduml
+```

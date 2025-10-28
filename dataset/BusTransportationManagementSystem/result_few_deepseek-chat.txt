@@ -1,0 +1,30 @@
+@startuml
+
+class City {}
+class BusTransportationManagementSystem {}
+class Driver {}
+class BusRoute {}
+class Bus {}
+class BusAssignment {}
+class Shift {}
+class Schedule {}
+class DayOverview {}
+
+BusTransportationManagementSystem "1" -- "1" City
+BusTransportationManagementSystem "1" -- "0..*" Driver
+BusTransportationManagementSystem "1" -- "0..*" BusRoute
+BusTransportationManagementSystem "1" -- "0..*" Bus
+BusTransportationManagementSystem "1" -- "0..*" Schedule
+BusTransportationManagementSystem "1" -- "0..*" DayOverview
+
+BusRoute "1" -- "0..*" BusAssignment
+Bus "1" -- "0..*" BusAssignment
+Schedule "1" -- "0..*" Shift
+Driver "1" -- "0..*" Shift
+BusAssignment "1" -- "0..*" Shift
+DayOverview "1" -- "0..*" BusRoute
+DayOverview "1" -- "0..*" Bus
+DayOverview "1" -- "0..*" Driver
+DayOverview "1" -- "0..*" Shift
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+
+class Cinema{}
+class Theatre{}
+class Show{}
+class Movie{}
+class Premise{}
+class Website{}
+class Reservation{}
+class Customer{}
+class Seat{}
+class Ticket{}
+class Time{}
+class Period{}
+
+Cinema "1..*" -- "1..*" Premise
+Cinema "0..*" -- "0..*" Theatre
+Theatre "1..*" -- "1..*" Show
+Show "1..*" -- "1..*" Movie
+Premise "1..*" -- "0..*" Website
+Website "0..1" -- "0..1" Reservation
+Reservation "1..1" -- "1..1" Customer
+Reservation "1..1" -- "1..1" Ticket
+Reservation "1..1" -- "1..1" Time
+Reservation "1..1" -- "1..1" Period
+Customer "1..*" -- "1..*" Seat
+Seat "1..1" -- "1..1" Ticket
+Time "1..1" -- "1..1" Show
+Period "1..1" -- "1..1" Show
+Kinepolis "1..*" -- "1..*" Cinema
+Cinema "0..1" -- "0..1" Kinepolis
+Theatre "0..1" -- "0..1" Kinepolis
+Show "0..1" -- "0..1" Kinepolis
+Movie "0..1" -- "0..1" Kinepolis
+Premise "0..1" -- "0..1" Kinepolis
+Website "0..1" -- "0..1" Kinepolis
+Seat "0..1" -- "0..1" Ticket
+
+@enduml

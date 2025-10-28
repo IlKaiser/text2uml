@@ -1,0 +1,24 @@
+@startuml
+class ProjectManager{}
+class SensorController{}
+class Apartment{}
+class Room{}
+class Inhabitant{}
+class Sensor{}
+class TemperatureSensor{}
+class PowerSensor{}
+class MeasuredValue{}
+class Threshold{}
+class Alert{}
+class EMonitor{}
+
+SensorController "1..1" -- "1..*" Apartment
+SensorController "1..1" -- "1..*" Sensor
+Apartment "1..1" -- "2..*" Room
+Apartment "1..1" -- "1..*" Inhabitant
+Room "1..1" -- "0..*" Sensor
+Sensor "1..1" -- "0..*" MeasuredValue
+Sensor "1..1" -- "0..1" Threshold
+Alert "0..*" -- "1..1" Sensor
+EMonitor "1..1" -- "1..1" SensorController
+@enduml

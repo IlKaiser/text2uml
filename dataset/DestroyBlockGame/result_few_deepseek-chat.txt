@@ -1,0 +1,32 @@
+@startuml
+
+class DestroyBlockApplication {}
+class User {}
+class Player {}
+class Admin {}
+class Game {}
+class Block {}
+class Level {}
+class GridPosition {}
+class Ball {}
+class Paddle {}
+class HallOfFame {}
+class GameSession {}
+class SavedGame {}
+
+User "1" -- "1" Player
+User "0..1" -- "1" Admin
+Admin "1" -- "1..*" Game
+Game "1" -- "1" HallOfFame
+Game "1" -- "1..*" Block
+Game "1" -- "1..99" Level
+Level "1" -- "1..*" GridPosition
+GridPosition "1" -- "1" Block
+Game "1" -- "1" Ball
+Game "1" -- "1" Paddle
+Player "1" -- "0..*" GameSession
+Game "1" -- "0..*" GameSession
+GameSession "1" -- "0..1" SavedGame
+HallOfFame "1" -- "0..*" GameSession
+
+@enduml

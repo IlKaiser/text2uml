@@ -1,0 +1,37 @@
+@startuml
+
+class Product {}
+class Country {}
+class Representative {}
+class Order {}
+class Customer {}
+
+Product "1..*" -- "1..*" Description
+Product "1..*" -- "1..*" NetPrice
+Product "1..*" -- "1..*" Company
+Product "1..*" -- "1..*" Country
+
+Country "1..*" -- "1..*" VATRate
+Country "1..*" -- "1..*" Currency
+Country "1..*" -- "1..*" ConversionRate
+
+Product "0..*" -- "0..*" ProductName
+Product "0..*" -- "0..*" Country
+
+Representative "1..1" -- "1..*" SocialSecurityNumber
+Representative "1..1" -- "1..*" TelephoneNumber
+Representative "1..1" -- "1..*" EmailAddress
+Representative "1..1" -- "1..*" Country
+
+Customer "1..1" -- "1..*" Name
+Customer "1..1" -- "1..*" Address
+Customer "1..1" -- "1..*" TelephoneNumber
+Customer "1..1" -- "1..*" EmailAddress
+Customer "1..1" -- "1..*" Countries
+
+Order "1..1" -- "1..*" Product
+Order "1..1" -- "1..*" OrderQuantity
+Order "1..1" -- "1..*" OrderDate
+Order "1..1" -- "1..*" DeliveryDate
+
+@enduml

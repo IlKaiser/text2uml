@@ -1,0 +1,45 @@
+@startuml
+class Doctor{}
+class Patient{}
+class Requisition{}
+class RequisitionItem{}
+class Test{}
+class TestGroup{}
+class Sample{}
+class Lab{}
+class Appointment{}
+class AppointmentConfirmation{}
+class RepeatPattern{}
+class Result{}
+class Report{}
+class DigitalSignature{}
+class BusinessHours{}
+class Address{}
+class PhoneNumber{}
+
+Doctor "1..1" -- "0..*" Requisition
+Patient "1..1" -- "0..*" Requisition
+Requisition "1..1" -- "1..*" RequisitionItem
+RequisitionItem "0..*" -- "1..1" Test
+Test "0..*" -- "1..1" TestGroup
+Requisition "0..*" -- "0..1" RepeatPattern
+Patient "1..1" -- "0..*" Appointment
+Requisition "1..1" -- "0..*" Appointment
+Lab "1..1" -- "0..*" Appointment
+Appointment "1..1" -- "0..1" AppointmentConfirmation
+Lab "1..1" -- "1..1" Address
+Doctor "1..1" -- "1..1" Address
+Patient "1..1" -- "1..1" Address
+Lab "1..1" -- "0..*" PhoneNumber
+Doctor "1..1" -- "0..*" PhoneNumber
+Patient "1..1" -- "0..*" PhoneNumber
+Lab "1..1" -- "1..1" BusinessHours
+Test "1..1" -- "0..*" Result
+Result "1..1" -- "0..1" Report
+Doctor "1..1" -- "0..1" DigitalSignature
+Requisition "1..1" -- "0..1" DigitalSignature
+Requisition "1..1" -- "0..*" Sample
+Sample "0..*" -- "0..*" Test
+Lab "0..*" -- "0..*" Test
+Lab "1..1" -- "0..*" AppointmentConfirmation
+@enduml

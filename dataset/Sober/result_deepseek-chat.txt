@@ -1,0 +1,27 @@
+@startuml
+
+class Sober{}
+class Car{}
+class SelfDrivingCar{}
+class PrivateCar{}
+class CarOwner{}
+class TaxiService{}
+class RideHail{}
+class RideShare{}
+class Customer{}
+class LeadCustomer{}
+class Accident{}
+
+Sober "1..1" -- "1..*" Car
+Car "1..1" -- "0..*" Accident
+Sober "1..1" -- "1..*" SelfDrivingCar
+Sober "1..1" -- "1..*" PrivateCar
+CarOwner "1..1" -- "1..*" PrivateCar
+Sober "1..1" -- "1..*" TaxiService
+TaxiService "1..1" -- "1..*" RideHail
+TaxiService "1..1" -- "1..*" RideShare
+RideHail "1..1" -- "1..1" LeadCustomer
+RideHail "1..1" -- "1..6" Customer
+RideShare "1..1" -- "1..10" Customer
+
+@enduml

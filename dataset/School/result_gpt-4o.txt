@@ -1,0 +1,31 @@
+```
+@startuml
+
+class School{}
+class Teacher{}
+class Student{}
+class Principal{}
+class Room{}
+class Classroom{}
+class Gym{}
+class ClassGroup{}
+
+School "1..1" -- "0..*" Teacher
+School "1..1" -- "0..*" Student
+School "1..1" -- "1..1" Principal
+School "1..1" -- "0..*" Room
+
+Teacher "1..*" -- "1..3" School
+Student "1..1" -- "1..1" School
+
+Principal "1..1" -- "1..1" Teacher
+Teacher "0..1" -- "0..1" Principal
+
+Room "0..*" -- "0..1" Classroom
+Room "0..*" -- "0..1" Gym
+
+Student "10..31" -- "1..1" ClassGroup
+ClassGroup "1..1" -- "1..1" Classroom
+
+@enduml
+```

@@ -1,0 +1,33 @@
+
+@startuml
+
+class HelpingHandsStore{}
+class Resident{}
+class PickupDeliveryService{}
+class Pickup{}
+class Delivery{}
+class VolunteerDriver{}
+class Item{}
+class Vehicle{}
+class DistributionCenter{}
+class RFIDDevice{}
+class ArticleCategory{}
+class FoodBank{}
+
+HelpingHandsStore "1..*" -- "1..*" Resident
+HelpingHandsStore "1" -- "0..*" PickupDeliveryService
+Resident "1" -- "1" Pickup
+Pickup "1" -- "1" Vehicle
+Pickup "1" -- "1" Resident
+Vehicle "1" -- "1..*" VolunteerDriver
+PickupDeliveryService "1" -- "0..*" Delivery
+Delivery "1" -- "1" VolunteerDriver
+ArticleCategory "1..*" -- "1..*" Item
+Item "1" -- "1" RFIDDevice
+HelpingHandsStore "1" -- "1" DistributionCenter
+Delivery "1" -- "1" Resident
+Delivery "1" -- "1" ArticleCategory
+ArticleCategory "1..*" -- "0..*" Resident
+Delivery "1" -- "1" Resident
+
+@enduml

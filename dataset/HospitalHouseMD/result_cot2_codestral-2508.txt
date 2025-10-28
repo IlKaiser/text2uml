@@ -1,0 +1,39 @@
+```plantuml
+@startuml
+
+class HospitalHouseMd{}
+class Patient{}
+class Doctor{}
+class Diagnosis{}
+class Treatment{}
+class Consent{}
+class Stage{}
+class Nurse{}
+class Illness{}
+class PriorityScore{}
+class Outbreak{}
+class Virus{}
+
+Patient "1..*" -- "1..*" Doctor
+Patient "1..*" -- "0..*" Treatment
+Patient "1..*" -- "0..1" Consent
+Patient "1..*" -- "0..*" Diagnosis
+Patient "1..*" -- "0..*" Illness
+Doctor "1..*" -- "1..1" HospitalHouseMd
+Treatment "1..*" -- "1..1" Stage
+Treatment "0..*" -- "0..1" Consent
+Treatment "0..*" -- "0..*" Diagnosis
+Diagnosis "1..*" -- "1..*" Treatment
+Diagnosis "0..*" -- "0..*" Doctor
+Illness "1..*" -- "1..1" PriorityScore
+Illness "0..*" -- "0..*" Treatment
+Illness "0..*" -- "0..*" Outbreak
+Illness "0..*" -- "0..*" Virus
+Outbreak "1..*" -- "1..*" Virus
+PriorityScore "0..*" -- "0..*" Treatment
+Stage "0..*" -- "0..*" Treatment
+Consent "0..*" -- "0..*" Treatment
+Consent "0..*" -- "0..*" Patient
+
+@enduml
+```

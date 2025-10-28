@@ -1,0 +1,49 @@
+
+@startuml
+class WebPortal{}
+class Version{}
+class URL{}
+class Building{}
+class User{}
+class Owner{}
+class AdditionalEntry{}
+class TextualInformation{}
+class FloatingPointNumber{}
+class Unit{}
+class Images{}
+class ProfilePhoto{}
+class Visitor{}
+class RegisteredVisitor{}
+class Administrator{}
+class UniqueUserName{}
+class EmailAddress{}
+class Password{}
+class ConfirmationLink{}
+class Comment{}
+class FullTextSearch{}
+class UserAccount{}
+class IDCardNumber{}
+
+WebPortal "1..1" -- "1..1" Version
+WebPortal "1..1" -- "1..1" URL
+WebPortal "1..1" -- "1..*" Building
+Building "1..*" -- "1..1" User (Owner)
+Building "1..*" -- "0..*" AdditionalEntry
+AdditionalEntry "1..*" -- "1..1" TextualInformation
+AdditionalEntry "1..*" -- "1..1" FloatingPointNumber
+FloatingPointNumber "1..*" -- "0..1" Unit
+Building "1..*" -- "1..*" Images
+Images "1..*" -- "1..1" ProfilePhoto
+User "1..*" -- "1..1" UniqueUserName
+User "1..*" -- "1..1" EmailAddress
+User "1..*" -- "1..1" Password
+User "1..*" -- "0..*" ConfirmationLink
+User "1..*" -- "1..*" Comment
+User "1..*" -- "1..*" FullTextSearch
+User "1..*" -- "1..1" UserAccount
+Visitor "1..*" -- "1..1" User
+User "1..*" -- "0..*" Visitor
+RegisteredVisitor "1..*" -- "1..1" User
+Administrator "1..*" -- "1..1" User
+Administrator "1..*" -- "1..1" IDCardNumber
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+
+class School {}
+class Principal {}
+class Teacher {}
+class Student {}
+class Classroom {}
+class ClassGroup {}
+
+School "1" -- "1" Principal
+Teacher "0..3" -- "1" School
+Principal "1" -- "0..3" Teacher
+Student "1" -- "1" School
+Teacher "0..3" -- "0..*" ClassGroup
+Classroom "1" -- "1" School
+Classroom "1" -- "1" ClassGroup
+
+@enduml
+
+In this diagram, a School has one Principal, and a Principal can be a teacher at one School. A Teacher can teach at up to 3 Schools, but can only be the Principal of one School. A Student attends exactly one School, and a School has many Students. A Teacher can teach many ClassGroups, but a ClassGroup can only have one Teacher. A Classroom can have one ClassGroup, and a ClassGroup can only have one Classroom. The number of students in a ClassGroup is between 10 and 31.

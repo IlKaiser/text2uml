@@ -1,0 +1,55 @@
+@startuml
+
+class WebPortal {}
+class Building {}
+class AdditionalEntry {}
+class TextEntry {}
+class NumericEntry {}
+class Image {}
+class User {}
+class Administrator {}
+class Comment {}
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "0..*" AdditionalEntry
+AdditionalEntry <|-- TextEntry
+AdditionalEntry <|-- NumericEntry
+Building "1" -- "0..*" Image
+Building "1" -- "0..1" Image
+User "1" -- "0..*" Building
+User "1" -- "0..*" Comment
+Building "1" -- "0..*" Comment
+Administrator --|> User
+
+@enduml
+
+@startuml
+
+actor Visitor
+actor User
+actor Administrator
+
+usecase "Register" as Register
+usecase "Confirm Registration" as ConfirmReg
+usecase "Login" as Login
+usecase "Comment on Building" as CommentBuilding
+usecase "Search Buildings" as SearchBuildings
+usecase "Manage Building" as ManageBuilding
+usecase "Create Building" as CreateBuilding
+usecase "Manage Building Entries" as ManageBuildingEntries
+usecase "Setup User Account" as SetupUserAccount
+usecase "Delete Comments" as DeleteComments
+
+Visitor -- Register
+Visitor -- SearchBuildings
+User -- Login
+User -- CommentBuilding
+User -- ManageBuilding
+Administrator -- SetupUserAccount
+Administrator -- DeleteComments
+
+CreateBuilding --|> ManageBuilding
+ManageBuildingEntries --|> ManageBuilding
+ConfirmReg --|> Register
+
+@enduml

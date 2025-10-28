@@ -1,0 +1,40 @@
+@startuml
+
+class House {}
+class Address {}
+class BuildingMaterial {}
+class Basement {}
+class EarthBasement {}
+class ConcreteBasement {}
+class SemiDetachedHouse {}
+class Garden {}
+class Window {}
+class Carport {}
+class DoubleCarport {}
+class FlatRoof {}
+class Garage {}
+class AutomaticGarageDoor {}
+class Company {}
+class JobLog {}
+class Hour {}
+class AgreedPrice {}
+
+House "0..1" -- "0..1" BuildingMaterial
+House "0..1" -- "0..1" Basement
+Basement "0..1" -- "(EarthBasement or ConcreteBasement)"
+EarthBasement "0..1" -- "0..1" House
+ConcreteBasement "0..1" -- "0..1" House
+House "0..1" -- "0..*" Window
+SemiDetachedHouse "0..1" -- "1..1" Garden
+SemiDetachedHouse "0..1" -- "0..1" Window
+House "0..1" -- "0..1" Garden
+SemiDetachedHouse "0..1" -- "0..1" (DoubleCarport or Garage)
+Garage "0..1" -- "0..1" AutomaticGarageDoor
+Carport "0..1" -- "0..1" (SingleCarport or DoubleCarport)
+Carport "0..1" -- "0..1" FlatRoof
+House "0..*" -- "0..*" Company
+Company "0..*" -- "0..*" JobLog
+JobLog "1..1" -- "1..1" Hour
+JobLog "1..1" -- "1..1" AgreedPrice
+
+@enduml

@@ -1,0 +1,40 @@
+```plantuml
+@startuml
+class Resident{}
+class PickupRequest{}
+class Item{}
+class SecondHandArticle{}
+class NonPerishableFood{}
+class Vehicle{}
+class VolunteerDriver{}
+class PickupRoute{}
+class DistributionCenter{}
+class Employee{}
+class RFIDDevice{}
+class Category{}
+class Client{}
+class Delivery{}
+class StreetAddress{}
+class FoodBank{}
+
+Resident "1..1" -- "0..*" PickupRequest
+PickupRequest "1..1" -- "1..*" Item
+PickupRequest "1..*" -- "1..1" StreetAddress
+Item "0..1" -- "0..*" SecondHandArticle
+Item "0..1" -- "0..*" NonPerishableFood
+VolunteerDriver "0..1" -- "0..*" Vehicle
+VolunteerDriver "1..1" -- "0..*" PickupRoute
+Vehicle "1..1" -- "0..*" PickupRoute
+PickupRoute "1..1" -- "0..*" PickupRequest
+SecondHandArticle "0..*" -- "1..1" DistributionCenter
+NonPerishableFood "0..*" -- "1..1" FoodBank
+Employee "1..1" -- "0..*" SecondHandArticle
+SecondHandArticle "1..1" -- "0..1" RFIDDevice
+SecondHandArticle "0..*" -- "1..1" Category
+Client "0..*" -- "0..*" Category
+Client "1..1" -- "0..*" Delivery
+Delivery "0..*" -- "1..1" SecondHandArticle
+Delivery "0..*" -- "1..1" StreetAddress
+VolunteerDriver "0..1" -- "0..*" Delivery
+@enduml
+```

@@ -1,0 +1,22 @@
+@startuml
+class House{}
+class EarthBasement{}
+class ConcreteBasement{}
+class SemiDetachedHouse{}
+class Garden{}
+class Carport{}
+class Garage{}
+class Windows{}
+class Company{}
+class JobLog{}
+House "0..1" -- "1" EarthBasement
+House "0..1" -- "1" ConcreteBasement
+SemiDetachedHouse "1" -- "0..1" House
+SemiDetachedHouse "0..1" -- "1" Garden
+SemiDetachedHouse "0..2" -- "1" Carport
+SemiDetachedHouse "0..1" -- "1" Garage
+SemiDetachedHouse "0..*" -- "1" Windows
+House "1" -- "0..*" JobLog
+Company "1" -- "0..*" JobLog
+House "0..*" -- "0..*" Company
+@enduml

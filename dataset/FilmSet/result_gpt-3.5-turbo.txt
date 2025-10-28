@@ -1,0 +1,36 @@
+
+@startuml
+
+class Employee{}
+class CreativeEmployee{}
+class Director{}
+class Actor{}
+class Technician{}
+class Location{}
+class Film{}
+class Genre{}
+class Screenwriter{}
+class Screenplay{}
+class Novel{}
+
+Employee "1..*" -- "1..1" Film
+Employee "1..*" -- "1..1" Location
+Employee "1..1" -- "0..1" Screenwriter
+
+Employee <|-- CreativeEmployee
+CreativeEmployee -- Director
+CreativeEmployee -- Actor
+Actor "1..1" -- "0..1" Novel
+
+Director "0..1" -- "0..1" Employee
+Actor "0..1" -- "0..1" Employee
+Technician "1..*" -- "1..1" Employee
+
+Film "1..*" -- "1..*" Screenplay
+Film "1..*" -- "1..*" Location
+Film "1..1" -- "1..1" Genre
+
+Screenwriter "1..1" -- "1..*" Screenplay
+Screenplay "1..1" -- "0..1" Novel
+
+@enduml

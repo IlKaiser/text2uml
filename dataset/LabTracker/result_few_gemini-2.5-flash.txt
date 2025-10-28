@@ -1,0 +1,35 @@
+@startuml
+
+class Appointment {}
+class AppointmentConfirmation {}
+class CancellationFee {}
+class Doctor {}
+class Lab {}
+class LabBusinessHours {}
+class Patient {}
+class RepetitionPattern {}
+class Report {}
+class Requisition {}
+class Test {}
+class TestGroup {}
+class TestResult {}
+
+Appointment "1" -- "1" AppointmentConfirmation
+Lab "1" -- Appointment
+Patient "1" -- Appointment
+Requisition "1" -- Appointment
+Lab "1" -- "1" CancellationFee
+Doctor "1" -- Requisition
+Doctor "1" -- TestResult
+Lab "1" -- "1" LabBusinessHours
+Patient "1" -- Requisition
+Patient "1" -- TestResult
+Requisition "1" -- "0..1" RepetitionPattern
+TestResult "1" -- "0..1" Report
+Requisition "1" -- "1..*" Test
+Requisition "1" -- TestGroup
+Lab -- Test
+Test "1" -- "0..1" TestResult
+TestGroup "1" -- Test
+
+@enduml

@@ -1,0 +1,36 @@
+```plantuml
+@startuml
+class HelpingHandsStore{}
+class Article{}
+class NonPerishableFood{}
+class Resident{}
+class PickupDeliveryService{}
+class StreetAddress{}
+class PickupVehicle{}
+class VolunteerDriver{}
+class DistributionCenter{}
+class Employee{}
+class RFIDDevice{}
+class Category{}
+class Client{}
+
+HelpingHandsStore "0..*" -- "0..*" Article
+HelpingHandsStore "0..*" -- "0..*" NonPerishableFood
+HelpingHandsStore "0..*" -- "0..*" Resident
+HelpingHandsStore "0..*" -- "0..*" PickupDeliveryService
+HelpingHandsStore "0..*" -- "0..*" PickupVehicle
+HelpingHandsStore "0..*" -- "0..*" VolunteerDriver
+HelpingHandsStore "0..*" -- "0..*" DistributionCenter
+HelpingHandsStore "0..*" -- "0..*" Employee
+Article "0..*" -- "0..1" RFIDDevice
+Article "1..1" -- "0..1" Category
+Resident "0..*" -- "1..1" StreetAddress
+PickupDeliveryService "0..*" -- "0..*" Resident
+PickupDeliveryService "0..*" -- "0..*" StreetAddress
+PickupVehicle "0..*" -- "0..*" VolunteerDriver
+DistributionCenter "0..*" -- "0..*" Article
+DistributionCenter "0..*" -- "0..*" Client
+Employee "0..*" -- "0..*" Article
+Client "0..*" -- "0..*" Category
+@enduml
+```

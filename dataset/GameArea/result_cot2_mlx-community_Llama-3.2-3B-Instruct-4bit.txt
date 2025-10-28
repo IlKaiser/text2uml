@@ -1,0 +1,45 @@
+@startuml
+
+class GameArea{
+    - Name
+}
+
+class GameElement{
+    - Shape
+    - Object
+    - Opponent
+}
+
+class Shape{
+    - Shape
+}
+
+class Object{
+    - Opponent
+    - Lives
+}
+
+class Opponent{
+    - Boss
+    - Enemy
+}
+
+class Boss{
+}
+
+class Enemy{
+    - Lives
+}
+
+GameArea -- 1..1 Name
+GameArea -- 0..1 GameElement
+GameElement -- 1..1 Shape
+GameElement -- 1..1 Object
+GameElement -- 1..1 Opponent
+GameElement -- 0..* Shape -- 0..* Shape
+Object -- 0..1 Opponent
+Opponent -- 1..1 Boss
+Opponent -- 0..1 Enemy
+Enemy -- 1..1 Lives
+
+@enduml

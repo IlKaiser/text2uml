@@ -1,0 +1,29 @@
+@startuml
+
+class Provider {}
+class TravelAgency {}
+class Cruise {}
+class Employee {}
+class Guest {}
+class Ship {}
+class Booking {}
+class DestinationArea {}
+class Show {}
+class Ticket {}
+
+Cruise "1" -- "1" Provider
+Cruise "1" -- "0..*" Employee
+Employee "1" -- "1" Cruise
+Guest "0..*" -- "1" Cruise
+Cruise "1" -- "0..*" Guest
+Cruise "1" -- "1" Ship
+Ship "0..*" -- "1" Cruise
+Booking "1" -- "1" TravelAgency
+Cruise "1" -- "1..*" Booking
+DestinationArea "1" -- "1" Cruise
+Show "1" -- "1" Cruise
+Cruise "0..*" -- "1..*" Ticket
+Guest "0..*" -- "1..*" Ticket
+Ticket "1" -- "1" Cruise
+
+@enduml

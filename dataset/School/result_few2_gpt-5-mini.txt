@@ -1,0 +1,24 @@
+@startuml
+
+class School{}
+class Teacher{}
+class Student{}
+class Room{}
+class Classroom{}
+class Gym{}
+class ClassGroup{}
+class TeachingAssignment{}
+
+School "1" -- "0..*" Student
+School "1" -- "0..*" Room
+School "1" -- "0..*" TeachingAssignment
+Teacher "1" -- "0..3" TeachingAssignment
+TeachingAssignment "1" -- "1" Teacher
+TeachingAssignment "1" -- "1" School
+ClassGroup "10..31" -- "1" Student
+ClassGroup "1" -- "1" Classroom
+Teacher "0..1" -- "1" School
+Classroom --|> Room
+Gym --|> Room
+
+@enduml

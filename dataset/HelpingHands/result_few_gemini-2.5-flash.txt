@@ -1,0 +1,55 @@
+@startuml
+
+class H2SLocation{}
+class City{}
+class Resident{}
+class Client{}
+class Article{}
+class Food{}
+class PickupRequest{}
+class Address{}
+class ItemDescription{}
+class Vehicle{}
+class VolunteerDriver{}
+class PickupRoute{}
+class DistributionCenter{}
+class FoodBank{}
+class H2SEmployee{}
+class RFIDDevice{}
+class ArticleCategory{}
+class Delivery{}
+class Website{}
+
+City "1" -- "0..*" H2SLocation
+H2SLocation "1" -- "1" DistributionCenter
+H2SLocation "1" -- "1" FoodBank
+H2SLocation "1" -- "0..*" Vehicle
+Website "1" -- "0..*" H2SLocation
+Resident "1" -- "0..*" PickupRequest
+Resident "1" -- "0..*" Website
+PickupRequest "1" -- "1" Address
+PickupRequest "1" -- "1" ItemDescription
+PickupRequest "1" -- "0..*" Article
+PickupRequest "1" -- "0..*" Food
+Vehicle "1" -- "0..*" PickupRoute
+VolunteerDriver "1" -- "0..*" PickupRoute
+VolunteerDriver "1" -- "0..*" Website
+PickupRoute "1" -- "0..*" PickupRequest
+VolunteerDriver "1" -- "0..*" Article
+VolunteerDriver "1" -- "0..*" Food
+DistributionCenter "1" -- "0..*" Article
+DistributionCenter "1" -- "0..*" H2SEmployee
+FoodBank "1" -- "0..*" Food
+H2SEmployee "1" -- "0..*" Article
+Article "1" -- "1" RFIDDevice
+ArticleCategory "1" -- "0..*" Article
+Client "0..*" -- "0..*" ArticleCategory
+H2SEmployee "0..*" -- "0..*" Client
+H2SEmployee "1" -- "0..*" Delivery
+Client "1" -- "0..*" Delivery
+Delivery "1" -- "1" Address
+Delivery "1" -- "0..*" Article
+VolunteerDriver "1" -- "0..*" Delivery
+ItemDescription "1" -- "0..*" Article
+
+@endumuml

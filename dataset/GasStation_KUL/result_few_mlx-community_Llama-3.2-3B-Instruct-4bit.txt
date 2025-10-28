@@ -1,0 +1,38 @@
+@startuml
+
+class Customer {}
+class GasStation {}
+class Pump {}
+class Gasoline {}
+class RefuelTurn {}
+class Invoice {}
+class CreditCard {}
+class RefuelCard {}
+class MonthlyInvoice {}
+class Discount {}
+class Payment {}
+class SuspendedCustomer {}
+class GasStationResponsible {}
+
+Customer "1" -- "0..*" RefuelTurn
+RefuelTurn "1" -- "0..*" Pump
+Pump "1" -- "0..*" Gasoline
+Gasoline "1" -- "0..*" RefuelTurn
+RefuelTurn "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" CreditCard
+CreditCard "1" -- "0..*" RefuelCard
+RefuelCard "1" -- "0..*" RefuelTurn
+RefuelTurn "1" -- "0..*" Discount
+Discount "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" SuspendedCustomer
+SuspendedCustomer "1" -- "0..*" GasStationResponsible
+GasStationResponsible "1" -- "0..*" GasStation
+
+GasStation "1" -- "0..*" Pump
+Pump "1" -- "0..*" Gasoline
+Gasoline "1" -- "0..*" RefuelTurn
+RefuelTurn "1" -- "0..*" GasStationResponsible
+GasStationResponsible "1" -- "0..*" GasStation
+
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+
+class FitnessCompany {}
+class Center {}
+class Address {}
+class Room {}
+class Number {}
+class MaxCapacity {}
+class Person {}
+class FirstName {}
+class FamilyName {}
+class BirthDate {}
+class Trainer {}
+class Diploma {}
+class Prospect {}
+class Intern {}
+class Session {}
+class IndividualSession {}
+class GroupSession {}
+class Date {}
+class StartingHour {}
+class Type {}
+class City {}
+
+FitnessCompany "0..*" -- "0..*" Center
+Center "1" -- "1" Address
+Center "1" -- "*" Room
+Room "1" -- "1" Number
+Room "1" -- "1" MaxCapacity
+
+Center "1" -- "*" Person
+Room "0..*" -- "*" Person
+
+Person "0..1" -- "0..1" FirstName
+Person "0..1" -- "0..1" FamilyName
+Person "0..1" -- "0..1" BirthDate
+
+Person "0..1" -- "0..1" Trainer
+Trainer "0..1" -- "0..1" Diploma
+
+Center "0..*" -- "0..*" Prospect
+Center "0..*" -- "0..*" Intern
+
+Session "0..*" -- "1" Center
+Session "1" -- "1" Date
+Session "1" -- "1" StartingHour
+Session "1" -- "0..1" Type
+
+GroupSession "1" -- "1" Trainer
+IndividualSession "0..1" -- "0..1" Trainer
+
+Center "0..*" -- "0..*" GroupSession
+Center "0..*" -- "0..*" IndividualSession
+
+@enduml

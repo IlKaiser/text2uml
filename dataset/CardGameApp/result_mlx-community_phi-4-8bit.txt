@@ -1,0 +1,36 @@
+```plantuml
+@startuml
+
+class Game{}
+class Player{}
+class Deck{}
+class Card{}
+class ScoringTable{}
+class Round{}
+class JackRound{}
+class SoloRound{}
+class MandatorySoloRound{}
+class SoloType{}
+class ID{}
+
+Game "1" -- "4" Player
+Game "1" -- "1" Deck
+Game "1" -- "1" ScoringTable
+
+Deck "1" -- "1..48" Card
+
+ScoringTable "1" -- "1..*" Round
+Round "1" -- "1..*" Player
+Round "1" -- "1" ID
+
+Round <|-- JackRound
+Round <|-- SoloRound
+SoloRound <|-- MandatorySoloRound
+
+SoloRound "1" -- "1" SoloType
+SoloRound "1" -- "1" Player
+
+Card "1" -- "1" ID
+
+@enduml
+```

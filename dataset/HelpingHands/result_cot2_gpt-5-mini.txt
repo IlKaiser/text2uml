@@ -1,0 +1,35 @@
+@startuml
+class H2SLocation{}
+class City{}
+class Resident{}
+class Client{}
+class Address{}
+class PickupRequest{}
+class Item{}
+class Category{}
+class Vehicle{}
+class VolunteerDriver{}
+class PickupRoute{}
+class DistributionCenter{}
+class FoodBank{}
+class Employee{}
+class Delivery{}
+class RFIDTag{}
+
+City "1..1" -- "0..*" H2SLocation.
+Resident "1..1" -- "1..1" Address.
+Resident "1..1" -- "0..*" PickupRequest.
+PickupRequest "1..1" -- "0..*" Item.
+PickupRoute "1..1" -- "0..*" PickupRequest.
+Vehicle "1..1" -- "0..*" PickupRoute.
+VolunteerDriver "1..1" -- "0..*" PickupRoute.
+VolunteerDriver "1..1" -- "0..*" Delivery.
+Client "1..1" -- "0..*" Delivery.
+Client "1..1" -- "1..1" Address.
+DistributionCenter "1..1" -- "0..*" Item.
+FoodBank "1..1" -- "0..*" Item.
+Employee "1..1" -- "0..*" Item.
+Item "1..1" -- "0..1" RFIDTag.
+Category "1..1" -- "0..*" Item.
+PickupRequest "1..1" -- "0..1" Delivery.
+@enduml

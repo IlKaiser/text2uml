@@ -1,0 +1,30 @@
+Here is the PlantUML class diagram based on the given specification:
+
+```plantuml
+@startuml
+
+class Organizer {}
+class Event {}
+class EventKind {}
+class Location {}
+class Attendee {}
+class Invitation {}
+class Task {}
+class EventChecklist {}
+class AttendeeTask {}
+
+Event "1" -- "1..*" Organizer
+Event "1" -- "1" EventKind
+Event "1" -- "1" Location
+Event "1" -- "1..*" Invitation
+Event "1" -- "1" EventChecklist
+
+Invitation "1" -- "1" Attendee
+Invitation "1" -- "0..1" Organizer
+
+Attendee "1" -- "0..*" AttendeeTask
+Task "1" -- "0..*" AttendeeTask
+EventChecklist "1" -- "1..*" Task
+
+@enduml
+```

@@ -1,0 +1,21 @@
+@startuml
+
+class Sober {}
+class SelfDrivingCar {}
+class User {}
+class RideHailing {}
+class RideSharing {}
+class Location {}
+class Accident {}
+
+Sober "0..*" -- "0..*" SelfDrivingCar
+SelfDrivingCar "0..*" -- "1..*" RideHailing
+User "0..*" -- "0..*" RideHailing
+RideHailing "1..*" -- "1..*" RideSharing
+RideHailing "1..*" -- "1..*" Location
+RideSharing "1..*" -- "1..*" Location
+RideHailing "1..*" -- "0..*" RideSharing
+Accident "0..*" -- "1..*" RideHailing
+Accident "1..*" -- "1..*" Location
+
+@enduml

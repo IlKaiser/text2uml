@@ -1,0 +1,65 @@
+```
+@startuml
+class BusinessTraveller{}
+class HMBS{}
+class Accommodation{}
+class Deal{}
+class Hotel{}
+class Registration{}
+class BillingInformation{}
+class Company{}
+class Address{}
+class TravelPreference{}
+class City{}
+class Date{}
+class Room{}
+class HotelRating{}
+class Budget{}
+class Booking{}
+class KeyParameter{}
+class Price{}
+class CityArea{}
+class UniqueBookingIdentifier{}
+class SpecialOffer{}
+class CreditCardInformation{}
+class CancellationDeadline{}
+class ReliabilityRating{}
+class HotelChain{}
+class TypeOfRoom{}
+class CompetitorHotel{}
+class Confirmation{}
+class FinancialCompensation{}
+
+BusinessTraveller "1" -- "0..1" BillingInformation
+BusinessTraveller "1" -- "0..1" Company
+Company "0..1" -- "0..1" Address
+BusinessTraveller "1" -- "0..*" TravelPreference
+BusinessTraveller "1" -- "0..*" Registration
+Registration "1" -- "1" BusinessTraveller
+Registration "1" -- "1" BillingInformation
+Accommodation "0..*" -- "0..*" Deal
+Hotel "1" -- "0..*" Room
+Hotel "0..1" -- "0..1" HotelChain
+Hotel "1" -- "0..*" SpecialOffer
+Booking "1" -- "1" BusinessTraveller
+Booking "1" -- "0..1" CancellationDeadline
+Booking "1" -- "0..1" Confirmation
+Booking "1" -- "1" CreditCardInformation
+Booking "1" -- "1" Price
+Booking "0..*" -- "0..*" FinancialCompensation
+Accommodation "1" -- "1" City
+Accommodation "1" -- "1" Date
+Accommodation "0..1" -- "1" HotelRating
+Accommodation "1" -- "0..1" TypeOfRoom
+Room "1" -- "1" TypeOfRoom
+TravelPreference "1" -- "0..*" KeyParameter
+Hotel "1" -- "0..1" CityArea
+Deal "0..*" -- "1" Price
+SpecialOffer "1" -- "0..1" Price
+SpecialOffer "0..*" -- "1" Hotel
+BusinessTraveller "1" -- "0..*" UniqueBookingIdentifier
+Booking "1" -- "1" UniqueBookingIdentifier
+Hotel "0..1" -- "0..*" CompetitorHotel
+CompetitorHotel "1..*" -- "1" SpecialOffer
+@enduml
+```

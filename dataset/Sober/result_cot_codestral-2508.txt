@@ -1,0 +1,40 @@
+```plantuml
+@startuml
+class Sober{}
+class Cab{}
+class Customer{}
+class RideHail{}
+class RideShare{}
+class Request{}
+class Fee{}
+class Location{}
+class Accident{}
+
+Sober "1..*" -- "1..*" Cab
+Sober "1..*" -- "1..*" Customer
+Sober "1..*" -- "1..*" RideHail
+Sober "1..*" -- "1..*" RideShare
+Sober "1..*" -- "1..*" Request
+Sober "1..*" -- "1..*" Fee
+Sober "1..*" -- "1..*" Location
+Sober "1..*" -- "1..*" Accident
+Cab "1..1" -- "0..*" Customer
+Cab "1..1" -- "0..*" RideHail
+Cab "1..1" -- "0..*" RideShare
+Cab "1..*" -- "1..*" Location
+Cab "1..*" -- "0..*" Accident
+Customer "1..*" -- "1..*" RideHail
+Customer "1..*" -- "1..*" RideShare
+Customer "1..*" -- "1..*" Request
+Customer "1..*" -- "1..*" Fee
+Customer "1..*" -- "1..*" Location
+RideHail "1..*" -- "1..1" Fee
+RideHail "1..*" -- "1..1" Request
+RideHail "1..*" -- "1..2" Location
+RideShare "1..*" -- "1..1" Fee
+RideShare "1..*" -- "1..2" Location
+Request "1..*" -- "1..1" Location
+Fee "1..*" -- "1..1" Location
+Accident "1..*" -- "1..1" Location
+@enduml
+```

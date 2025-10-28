@@ -1,0 +1,35 @@
+```plantuml
+@startuml
+
+class Employee {}
+class Creative {}
+class Director {}
+class Actor {}
+class Technician {}
+class FilmSet {}
+class Film {}
+class Genre {}
+class Screenwriter {}
+class Screenplay {}
+class Novel {}
+
+Employee -- Creative
+Employee -- Technician
+Director -- Actor : Inherits
+Creative -- Director : Inherits
+Creative -- Actor : Inherits
+FilmSet "1..*" -- "1..*" Film
+Film -- Genre
+Film -- Screenwriter
+Film -- Director
+Director -- Film 
+Screenwriter "1" -- "1..*" Screenplay
+Screenplay "1" -- "1" Screenwriter
+Screenplay "1" -- "1" Film
+Film "1" -- "1" Screenplay
+Screenplay "1" -- "1" Novel
+Actor "1..*" -- "1" Film 
+Film -- "1..*" Actor
+
+@enduml
+```

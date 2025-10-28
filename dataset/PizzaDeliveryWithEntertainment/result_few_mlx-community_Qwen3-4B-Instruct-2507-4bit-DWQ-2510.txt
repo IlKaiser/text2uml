@@ -1,0 +1,30 @@
+@startuml
+
+class User {}
+class BusinessOwner {}
+class HungryCustomer {}
+class Entertainer {}
+class Restaurant {}
+class Pizza {}
+class Order {}
+class EntertainmentOrder {}
+class DeliveryAddress {}
+class EntertainmentRequest {}
+
+User "1" -- "0..*" BusinessOwner
+User "1" -- "0..*" HungryCustomer
+User "1" -- "0..*" Entertainer
+
+BusinessOwner "1" -- "0..*" Restaurant
+Restaurant "1" -- "0..*" Pizza
+
+HungryCustomer "1" -- "0..*" Order
+Order "1" -- "0..*" DeliveryAddress
+Order "1" -- "0..*" Pizza
+Order "1" -- "0..*" EntertainmentRequest
+
+EntertainmentRequest "1" -- "1" EntertainmentOrder
+EntertainmentOrder "1" -- "1" Entertainer
+EntertainmentOrder "1" -- "1" Order
+
+@enduml

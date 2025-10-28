@@ -1,0 +1,42 @@
+@startuml
+class TransportCompany{}
+class Employee{}
+class Driver{}
+class Planner{}
+class AdministrativeStaff{}
+class Customer{}
+class Vehicle{}
+class VehicleType{}
+class RepairShop{}
+class Repair{}
+class Order{}
+class Address{}
+class Package{}
+class PartnerCompany{}
+class Assignment{}
+
+TransportCompany "0..*" -- "0..*" Driver
+TransportCompany "0..*" -- "0..*" Planner
+TransportCompany "0..*" -- "0..*" AdministrativeStaff
+TransportCompany "0..*" -- "0..*" Vehicle
+Customer "0..*" -- "0..*" Order
+Order "1..1" -- "1..1" Customer
+Address "0..*" -- "0..*" Customer
+Order "1..1" -- "1..1" Address
+Order "1..1" -- "1..1" Address
+Vehicle "0..*" -- "0..*" Repair
+Repair "1" -- "1" RepairShop
+Repair "1" -- "1" Employee
+Vehicle "1..1" -- "1..1" VehicleType
+Order "0..*" -- "0..*" Package
+Planner "0..*" -- "0..*" Assignment
+Driver "0..*" -- "0..*" Assignment
+AdministrativeStaff "0..*" -- "0..*" Order
+PartnerCompany "0..*" -- "0..*" Order
+Assignment "1..1" -- "1..1" Planner
+Assignment "1..1" -- "1..1" Driver
+Assignment "1..1" -- "1..1" Vehicle
+Assignment "1..1" -- "1..1" Order
+RepairShop "1" -- "1" Address
+PartnerCompany "1" -- "1" Address
+@enduml

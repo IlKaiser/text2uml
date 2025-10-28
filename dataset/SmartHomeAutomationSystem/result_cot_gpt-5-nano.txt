@@ -1,0 +1,33 @@
+@startuml
+class SHAS{}
+class Room{}
+class Device{}
+class Sensor{}
+class Actuator{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class InfrastructureMap{}
+class AutomationRule{}
+class User{}
+class RuleTrigger{}
+
+SHAS "1..*" -- "1..1" User
+SHAS "1..*" -- "1..1" Room
+Room "0..*" -- "1..1" Sensor
+Room "0..*" -- "1..1" Actuator
+Sensor "0..*" -- "1..1" SensorReading
+Sensor "1..1" -- "1..1" Device
+Actuator "1..1" -- "1..1" Device
+ControlCommand "1..1" -- "0..*" Actuator
+SensorReading "1..1" -- "0..*" ActivityLog
+ControlCommand "1..1" -- "0..*" ActivityLog
+SHAS "0..*" -- "1..1" ActivityLog
+SHAS "1..1" -- "1..1" InfrastructureMap
+InfrastructureMap "1..*" -- "1..1" Sensor
+InfrastructureMap "1..*" -- "1..1" Actuator
+AutomationRule "1..1" -- "0..*" User
+SHAS "0..*" -- "1..1" AutomationRule
+AutomationRule "1..1" -- "0..*" RuleTrigger
+AutomationRule "0..*" -- "1..1" ControlCommand
+@enduml

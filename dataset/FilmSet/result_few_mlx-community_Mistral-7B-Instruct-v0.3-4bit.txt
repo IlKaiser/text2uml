@@ -1,0 +1,59 @@
+@startuml
+
+class Employee {}
+class CreativeEmployee {}
+class Director {}
+class Actor {}
+class DirectorAssistant {}
+class Technician {}
+class Location {}
+class FilmSet {}
+class Film {}
+class OscarWinner {}
+class Screenwriter {}
+class Screenplay {}
+class Novel {}
+class Genre {}
+class Thriller {}
+class Action {}
+class Horror {}
+class Comedy {}
+class ScreenplayVersion {}
+class Scene {}
+class Plot {}
+class NovelAuthor {}
+class FilmBasedOn {}
+class ScreenplayBasedOn {}
+class BasedOnNovel {}
+class BasedOnConcept {}
+
+CreativeEmployee "1" -- "0..*" Employee
+Director "1" -- "0..*" CreativeEmployee
+Actor "1" -- "0..*" CreativeEmployee
+DirectorAssistant "1" -- "1" Director
+Technician "1" -- "0..*" Employee
+Location "1" -- "0..*" FilmSet
+FilmSet "0..*" -- "1" Location
+Film "1" -- "0..*" FilmSet
+Film "1" -- "0..*" Film
+OscarWinner "0..1" -- "1" Director
+OscarWinner "0..1" -- "1" Actor
+Technician "1" -- "0..*" FilmSet
+Screenwriter "1" -- "0..*" Screenplay
+Screenplay "1" -- "0..*" Film
+Screenplay "1" -- "0..*" ScreenplayVersion
+Screenplay "1" -- "1" Screenwriter
+Novel "1" -- "0..*" NovelAuthor
+Novel "1" -- "0..*" BasedOnNovel
+BasedOnNovel "1" -- "1" Novel
+BasedOnConcept "1" -- "1" Screenplay
+Screenplay "1" -- "1" BasedOnConcept
+Screenplay "1" -- "0..*" Scene
+ScreenplayVersion "1" -- "1" Screenplay
+ScreenplayVersion "1" -- "0..*" Plot
+Film "1" -- "1" FilmBasedOn
+FilmBasedOn "1" -- "1" Screenplay
+Screenplay "1" -- "0..*" Actor
+Actor "1" -- "0..*" Film
+
+@enduml

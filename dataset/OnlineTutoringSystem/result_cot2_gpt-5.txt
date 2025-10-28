@@ -1,0 +1,49 @@
+@startuml
+class Student{}
+class Tutor{}
+class BankAccount{}
+class Subject{}
+class LevelOfTutoring{}
+class TutoringOffer{}
+class WeeklyAvailability{}
+class TimeSlot{}
+class TutoringRequest{}
+class TutoringSession{}
+class Payment{}
+class PaymentMethod{}
+class CreditCard{}
+class WireTransfer{}
+class Cancellation{}
+class Discount{}
+class TutorOfTheMonthAward{}
+
+BankAccount "1..1" -- "1..1" Tutor
+TutoringOffer "0..*" -- "1..1" Tutor
+TutoringOffer "0..*" -- "1..1" Subject
+TutoringOffer "0..*" -- "1..1" LevelOfTutoring
+WeeklyAvailability "0..1" -- "1..1" Tutor
+TimeSlot "0..*" -- "1..1" WeeklyAvailability
+TutoringRequest "0..*" -- "1..1" Student
+TutoringRequest "0..*" -- "1..1" Tutor
+TutoringRequest "0..*" -- "1..1" Subject
+TutoringRequest "0..*" -- "1..1" LevelOfTutoring
+TutoringSession "1..1" -- "0..1" TutoringRequest
+TutoringSession "0..*" -- "1..1" Student
+TutoringSession "0..*" -- "1..1" Tutor
+TutoringSession "1..1" -- "1..1" TimeSlot
+TutoringSession "0..*" -- "1..1" Subject
+TutoringSession "0..*" -- "1..1" LevelOfTutoring
+Cancellation "0..1" -- "1..1" TutoringSession
+Cancellation "0..*" -- "0..1" Student
+Cancellation "0..*" -- "0..1" Tutor
+Payment "0..1" -- "1..1" TutoringSession
+Payment "0..*" -- "1..1" Student
+Payment "1..1" -- "1..1" PaymentMethod
+CreditCard "0..1" -- "1..1" PaymentMethod
+WireTransfer "0..1" -- "1..1" PaymentMethod
+Discount "0..*" -- "1..1" Tutor
+Discount "0..*" -- "1..1" Student
+Discount "0..*" -- "0..1" TutoringSession
+TutorOfTheMonthAward "0..*" -- "1..1" Tutor
+TutorOfTheMonthAward "0..*" -- "1..1" Subject
+@enduml

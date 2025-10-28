@@ -1,0 +1,24 @@
+@startuml
+class BusinessTraveller{}
+class Hotel{}
+class Booking{}
+class PreliminaryBooking{}
+class SpecialOffer{}
+class Room{}
+class Payment{}
+class Preference{}
+class Address{}
+class HotelChain{}
+class Confirmation{}
+
+BusinessTraveller "1..1" -- "0..*" Booking
+BusinessTraveller "1..1" -- "0..1" Preference
+Booking "1..1" -- "1..1" Hotel
+Booking "0..*" -- "0..*" Room
+Booking "1..1" -- "0..1" PreliminaryBooking
+PreliminaryBooking "1..1" -- "0..5" SpecialOffer
+Booking "1..1" -- "1..1" Payment
+Booking "1..1" -- "0..1" Confirmation
+Hotel "1..1" -- "0..1" HotelChain
+Hotel "1..1" -- "1..1" Address
+@enduml

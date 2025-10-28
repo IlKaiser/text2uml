@@ -1,0 +1,57 @@
+
+@startuml
+
+class GasStation{}
+class Customer{}
+class RefuelTurn{}
+class Cash{}
+class PersonalCreditCard{}
+class RefuelCard{}
+class MonthlyInvoice{}
+class Discount{}
+class Turnover{}
+class Invoice{}
+class Payment{}
+class RefuelCardHolder{}
+class RefuelCardTurn{}
+class RefuelCardPayment{}
+class RefuelCardUnpaid{}
+class RefuelCardReminder{}
+class RefuelCardSuspension{}
+class RefuelCardBlock{}
+class Threshold{}
+class Pump{}
+class Gasoline{}
+class Nozzle{}
+class Reservoir{}
+class ReorderingLevel{}
+class DailyReport{}
+class GasolineLevel{}
+
+GasStation "0..*" -- "1..1" Pump
+Pump "1..1" -- "1..1" Gasoline
+Pump "1..1" -- "1..1" Reservoir
+Pump "1..1" -- "1..1" ReorderingLevel
+Pump "1..1" -- "1..1" Nozzle
+GasStation "0..*" -- "0..*" Cash
+GasStation "0..*" -- "0..*" PersonalCreditCard
+GasStation "0..*" -- "0..*" RefuelCard
+RefuelTurn "0..*" -- "0..*" Payment
+Customer "0..*" -- "0..*" RefuelTurn
+RefuelCard "0..*" -- "0..*" RefuelCardHolder
+RefuelCard "0..*" -- "0..*" MonthlyInvoice
+MonthlyInvoice "1..*" -- "0..*" Invoice
+Invoice "0..*" -- "0..*" Discount
+Invoice "0..*" -- "0..*" RefuelTurn
+Invoice "0..*" -- "0..*" Payment
+Customer "0..*" -- "0..*" RefuelCardPayment
+Customer "0..*" -- "0..*" RefuelCardUnpaid
+RefuelCardUnpaid "1..*" -- "0..*" RefuelCardReminder
+RefuelCardUnpaid "1..*" -- "0..*" RefuelCardSuspension
+RefuelCardSuspension "0..*" -- "0..*" RefuelCardBlock
+RefuelCardBlock "0..*" -- "0..*" Threshold
+GasStation "0..*" -- "0..*" DailyReport
+DailyReport "0..*" -- "0..*" Pump
+GasStation "0..*" -- "0..*" GasolineLevel
+
+@enduml

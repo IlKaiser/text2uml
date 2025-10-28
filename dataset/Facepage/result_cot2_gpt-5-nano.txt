@@ -1,0 +1,35 @@
+@startuml
+class Facepage {}
+class User {}
+class Account {}
+class PersonalAccount {}
+class BusinessAccount {}
+class Company {}
+class Page {}
+class AdvertisementPage {}
+class Advertisement {}
+class Banner {}
+class Friend {}
+class FriendRequest {}
+class Campaign {}
+class Visit {}
+class VisitCount {}
+class Privilege {}
+class Fee {}
+
+User "1" -- "1" Account
+Account "0..*" -- "1" Page
+Page "1" -- "0..*" Visit
+Page "1" -- "1" VisitCount
+BusinessAccount "1" -- "1" Company
+BusinessAccount "0..*" -- "0..*" Campaign
+Campaign "1" -- "0..*" Advertisement
+Advertisement "1" -- "0..*" Banner
+BusinessAccount "0..*" -- "0..*" AdvertisementPage
+AdvertisementPage "1" -- "1" Page
+PersonalAccount "0..*" -- "0..*" Privilege
+Privilege "0..*" -- "1" Page
+PersonalAccount "0..*" -- "0..*" FriendRequest
+FriendRequest "0..*" -- "1" PersonalAccount
+PersonalAccount "0..*" -- "0..*" Friend
+@enduml

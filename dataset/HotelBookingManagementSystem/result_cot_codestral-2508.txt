@@ -1,0 +1,36 @@
+```plantuml
+@startuml
+class BusinessTraveller{}
+class Hotel{}
+class Room{}
+class Booking{}
+class PreliminaryBooking{}
+class FinalizedBooking{}
+class Payment{}
+class Confirmation{}
+class HotelChain{}
+class City{}
+class Address{}
+class TravelPreference{}
+class Offer{}
+class ReliabilityRating{}
+
+BusinessTraveller "1..*" -- "0..*" TravelPreference
+BusinessTraveller "1..*" -- "0..*" PreliminaryBooking
+BusinessTraveller "1..*" -- "0..*" FinalizedBooking
+BusinessTraveller "1..*" -- "1..1" ReliabilityRating
+Hotel "1..*" -- "1..1" City
+Hotel "1..*" -- "1..1" Address
+Hotel "0..*" -- "1..*" HotelChain
+Hotel "1..*" -- "1..*" Room
+Hotel "1..*" -- "0..*" Confirmation
+Room "1..*" -- "0..*" Booking
+PreliminaryBooking "1..1" -- "1..1" Booking
+FinalizedBooking "1..1" -- "1..1" Booking
+FinalizedBooking "1..1" -- "1..1" Payment
+FinalizedBooking "1..1" -- "0..1" Confirmation
+Payment "1..*" -- "1..1" Offer
+Offer "1..*" -- "0..*" TravelPreference
+Offer "1..*" -- "1..1" ReliabilityRating
+@enduml
+```

@@ -1,0 +1,34 @@
+@startuml
+
+class User {}
+class Admin {}
+class Player {}
+class Game {}
+class Level {}
+class Block {}
+class HallOfFame {}
+class GameDesign {}
+class PlaySession {}
+class Ball {}
+class Paddle {}
+class Score {}
+
+User "1" -- "1" Player
+User "1" -- "1" Admin
+Admin "1" -- "1" Game
+Game "1" -- "1" HallOfFame
+Game "1" -- "0..*" Level
+Level "1" -- "0..*" Block
+Block "1" -- "1" Level
+Game "1" -- "1" GameDesign
+GameDesign "1" -- "1" Level
+Level "1" -- "1" PlaySession
+PlaySession "1" -- "1" Ball
+PlaySession "1" -- "1" Paddle
+Ball "1" -- "1" Paddle
+Ball "1" -- "1" Level
+Paddle "1" -- "1" PlaySession
+PlaySession "1" -- "1" Score
+Score "1" -- "1" PlaySession
+
+@enduml

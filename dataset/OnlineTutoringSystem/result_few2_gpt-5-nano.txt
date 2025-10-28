@@ -1,0 +1,31 @@
+@startuml
+
+class Tutor{}
+class Student{}
+class Subject{}
+class TutoringOffer{}
+class Availability{}
+class TutoringRequest{}
+class TutoringLevel{}
+class TutoringSession{}
+class Payment{}
+class Award{}
+
+Tutor "1" -- "0..*" TutoringOffer
+Subject "1" -- "0..*" TutoringOffer
+
+Tutor "1" -- "0..*" Availability
+
+Student "1" -- "0..*" TutoringRequest
+Tutor "1" -- "0..*" TutoringRequest
+Subject "1" -- "0..*" TutoringRequest
+TutoringLevel "1" -- "1" TutoringRequest
+
+Student "1" -- "0..*" TutoringSession
+Tutor "1" -- "0..*" TutoringSession
+TutoringSession "1" -- "1" Payment
+
+Tutor "1" -- "0..*" Award
+Subject "1" -- "0..*" Award
+
+@enduml

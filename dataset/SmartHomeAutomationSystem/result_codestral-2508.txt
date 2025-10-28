@@ -1,0 +1,35 @@
+```plantuml
+@startuml
+
+class SHAS{}
+class SmartHome{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class DeviceIdentifier{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class RuleHierarchy{}
+
+SHAS "1..*" -- "1..1" SmartHome
+SmartHome "1..*" -- "1..*" Room
+Room "1..*" -- "1..*" SensorDevice
+Room "1..*" -- "1..*" ActuatorDevice
+SensorDevice "1..1" -- "1..1" DeviceIdentifier
+ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
+SensorDevice "1..*" -- "1..*" SensorReading
+ActuatorDevice "1..*" -- "1..*" ControlCommand
+SHAS "1..1" -- "1..*" ActivityLog
+ActivityLog "1..*" -- "1..*" SensorReading
+ActivityLog "1..*" -- "1..*" ControlCommand
+SmartHome "1..*" -- "1..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+AutomationRule "1..*" -- "1..*" RuleHierarchy
+
+@enduml
+```

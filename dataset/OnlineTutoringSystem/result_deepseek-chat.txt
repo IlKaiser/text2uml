@@ -1,0 +1,36 @@
+@startuml
+
+class OTS{}
+class Student{}
+class Tutor{}
+class Subject{}
+class ExpertiseLevel{}
+class TutoringOffer{}
+class Availability{}
+class TutoringRequest{}
+class TutoringSession{}
+class Payment{}
+class Award{}
+
+OTS "1..1" -- "1..*" Student
+OTS "1..1" -- "1..*" Tutor
+Student "1..1" -- "0..*" Tutor
+Tutor "1..1" -- "1..*" Subject
+Tutor "1..1" -- "1..*" ExpertiseLevel
+Tutor "1..1" -- "1..*" TutoringOffer
+Tutor "1..1" -- "1..*" Availability
+TutoringOffer "1..1" -- "1..1" Subject
+TutoringOffer "1..1" -- "1..1" ExpertiseLevel
+Student "1..1" -- "0..*" TutoringRequest
+TutoringRequest "1..1" -- "1..1" Tutor
+TutoringRequest "1..1" -- "1..1" Subject
+TutoringRequest "1..1" -- "1..1" ExpertiseLevel
+TutoringRequest "1..1" -- "0..1" TutoringSession
+Tutor "1..1" -- "0..*" TutoringSession
+Student "1..1" -- "0..*" TutoringSession
+TutoringSession "1..1" -- "0..1" Payment
+TutoringSession "1..1" -- "0..1" TutoringSession
+Tutor "1..1" -- "0..*" Award
+Subject "1..1" -- "1..*" Award
+
+@enduml

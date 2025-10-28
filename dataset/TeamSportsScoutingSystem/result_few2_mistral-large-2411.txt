@@ -1,0 +1,35 @@
+```plantuml
+
+@startuml
+
+class HeadCoach {}
+class Director {}
+class Scout {}
+class HeadScout {}
+class PlayerProfile {}
+class TargetPosition {}
+class PlayerAttribute {}
+class LongList {}
+class ScoutingAssignment {}
+class ScoutingReport {}
+class ShortList {}
+class Player {}
+class Offer {}
+
+HeadCoach "1" -- "1..*" PlayerProfile
+PlayerProfile "1" -- "1..*" TargetPosition
+PlayerProfile "1" -- "1..*" PlayerAttribute
+Scout "1" -- "0..*" LongList
+LongList "1" -- "0..*" Player
+HeadScout "1" -- "1..*" ScoutingAssignment
+ScoutingAssignment "1" -- "1" ScoutingReport
+ScoutingReport "1" -- "1" Player
+HeadScout "1" -- "0..*" ShortList
+ShortList "1" -- "1..*" ScoutingAssignment
+ShortList "1" -- "1..*" Player
+HeadScout "1" -- "0..*" Offer
+Director "1" -- "0..*" Offer
+Offer "1" -- "1" Player
+
+@enduml
+```

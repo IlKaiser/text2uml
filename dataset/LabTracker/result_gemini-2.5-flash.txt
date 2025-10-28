@@ -1,0 +1,35 @@
+@startuml
+
+class Doctor{}
+class Patient{}
+class Requisition{}
+class Test{}
+class TestGroup{}
+class Appointment{}
+class Lab{}
+class Result{}
+class Report{}
+class RepetitionPattern{}
+class IntervalType{}
+class Fee{}
+class BusinessHours{}
+
+Doctor "1..1" -- "1..*" Requisition
+Patient "1..1" -- "1..*" Requisition
+Requisition "1..*" -- "1..*" Test
+TestGroup "1..1" -- "1..*" Test
+Requisition "1..1" -- "0..1" RepetitionPattern
+IntervalType "1..1" -- "1..*" RepetitionPattern
+Patient "1..1" -- "1..*" Appointment
+Requisition "1..1" -- "0..*" Appointment
+Lab "1..1" -- "1..*" Appointment
+Lab "1..*" -- "1..*" Test
+Lab "1..1" -- "1..1" Fee
+Lab "1..1" -- "1..1" BusinessHours
+Doctor "1..1" -- "0..*" Result
+Patient "1..1" -- "0..*" Result
+Result "1..1" -- "1..1" Report
+Test "1..1" -- "0..*" Result
+Requisition "1..1" -- "0..*" Result
+
+@enduml

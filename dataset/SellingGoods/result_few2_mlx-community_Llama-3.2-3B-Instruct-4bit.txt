@@ -1,0 +1,26 @@
+@startuml
+
+class Customer {}
+class Product {}
+class Order {}
+class OrderLine {}
+class Address {}
+class VAT {}
+
+Customer "1" -- "1" Address
+Customer "1" -- "1" VAT
+
+Product "1" -- "0..*" OrderLine
+Product "0..*" -- "1" Order
+
+Order "1" -- "0..*" OrderLine
+Order "1" -- "0..*" Address
+Order "1" -- "0..*" VAT
+
+OrderLine "1" -- "1" Product
+OrderLine "1" -- "1" Order
+
+Address "1" -- "0..*" Customer
+VAT "1" -- "0..*" Customer
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+
+class Traveller{}
+class HBMS{}
+class Hotel{}
+class Booking{}
+class Room{}
+class CreditCard{}
+class HotelChain{}
+class Offer{}
+class City{}
+class Address{}
+
+Traveller "0..*" -- "1..1" HBMS
+Traveller "0..*" -- "1..1" Booking
+Traveller "0..*" -- "1..1" CreditCard
+HBMS "1..1" -- "1..*" Hotel
+HBMS "1..1" -- "1..*" Booking
+HBMS "1..1" -- "1..*" Offer
+Hotel "1..1" -- "1..*" Room
+Hotel "1..1" -- "1..1" Address
+Hotel "0..*" -- "1..1" HotelChain
+Hotel "1..1" -- "1..1" City
+Hotel "1..1" -- "1..*" Offer
+Booking "0..*" -- "1..*" Room
+Booking "1..1" -- "1..1" CreditCard
+Offer "0..*" -- "1..1" Hotel
+
+@enduml

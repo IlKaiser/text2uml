@@ -1,0 +1,36 @@
+@startuml
+
+class Location {}
+class Driver {}
+class Vehicle {}
+class Truck { inherit Vehicle }
+class Car { inherit Vehicle }
+class Van { inherit Vehicle }
+class Order {}
+class Address {}
+class VehicleNumber {}
+class Seats {}
+class Weight {}
+class Origin {}
+class DestinationLocation {}
+class DateOfExecution {}
+class Assignment {}
+class DriverAssignment {}
+
+Location "1" -- "1" Address
+Location "0..*" -- "0..1" Driver
+Driver "0..1" -- "1" Vehicle
+Vehicle "1" VehicleNumber
+Truck "0..1" -- "1" Weight
+Car "0..1" -- "1" Seats
+Car "0..1" -- "1" Weight
+Van "0..1" -- "1" Seats
+Location "0..*" -- "0..*" Order
+Order "1..1" -- "1" Origin
+Order "1..1" -- "1" DestinationLocation
+Order "0..1" -- "1" Assignment
+Assignment "1" -- "1" DriverAssignment
+DriverAssignment "1" -- "1" Driver
+DriverAssignment "1" -- "1" Vehicle
+
+@enduml

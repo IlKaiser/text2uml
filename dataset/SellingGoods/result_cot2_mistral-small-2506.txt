@@ -1,0 +1,34 @@
+```plantuml
+@startuml
+class Company{}
+class Supermarket{}
+class Customer{}
+class Order{}
+class Product{}
+class OrderLine{}
+class Payment{}
+class Delivery{}
+class Invoice{}
+class Shipment{}
+class Warehouse{}
+class HeadOffice{}
+class DeliveryService{}
+class Status{}
+
+Company "1..1" -- "0..*" Supermarket
+Supermarket "1..1" -- "0..*" Customer
+Customer "1..1" -- "0..*" Order
+Order "1..1" -- "1..*" OrderLine
+OrderLine "1..1" -- "1..1" Product
+Order "1..1" -- "1..1" Payment
+Order "1..1" -- "0..1" Invoice
+Order "1..1" -- "0..*" Shipment
+Shipment "1..1" -- "1..*" OrderLine
+Shipment "1..1" -- "1..1" Delivery
+Delivery "1..1" -- "1..1" DeliveryService
+Company "1..1" -- "1..1" HeadOffice
+Supermarket "1..1" -- "0..*" Warehouse
+Customer "1..1" -- "1..1" HeadOffice
+Order "1..1" -- "0..1" Status
+@enduml
+```

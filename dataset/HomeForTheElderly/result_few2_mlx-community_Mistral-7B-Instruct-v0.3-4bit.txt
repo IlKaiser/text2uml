@@ -1,0 +1,39 @@
+@startuml
+
+class HomeForTheElderly {}
+class Department {}
+class Room {}
+class Bed {}
+class Inhabitant {}
+class Category {}
+class Stay {}
+class Registration {}
+class AbilitiesAssessment {}
+class WaitingList {}
+class Proposal {}
+class TypeOfStay {}
+class DateOfIntake {}
+class Invoice {}
+class Payment {}
+class CreditNote {}
+class Refund {}
+
+HomeForTheElderly "1" -- "0..*" Department
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+Bed "1" -- "1" Category
+Inhabitant "1" -- "1" Bed
+Category "1" -- "0..*" Stay
+Stay "1" -- "1" TypeOfStay
+Registration "1" -- "1" Person
+AbilitiesAssessment "1" -- "1" Person
+WaitingList "1" -- "0..*" Person
+Proposal "1" -- "1" Person
+Proposal "1" -- "1" TypeOfStay
+DateOfIntake "1" -- "1" Person
+Invoice "1" -- "0..*" Person
+Payment "0..*" -- "1" Invoice
+CreditNote "1" -- "1" Invoice
+Refund "1" -- "1" CreditNote
+
+@enduml

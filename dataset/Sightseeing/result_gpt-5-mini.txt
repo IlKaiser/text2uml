@@ -1,0 +1,21 @@
+@startuml
+
+class City{}
+class Attraction{}
+class GuidedTour{}
+class Visitor{}
+class Guide{}
+class Person{}
+class Discount{}
+
+City "1..1" -- "1..*" Attraction
+Attraction "1..1" -- "0..*" GuidedTour
+Guide "1..*" -- "1..1" GuidedTour
+Visitor "0..*" -- "0..20" GuidedTour
+Visitor "0..*" -- "1..1" Discount
+GuidedTour "0..*" -- "1..1" Discount
+
+Visitor --|> Person
+Guide --|> Person
+
+@enduml

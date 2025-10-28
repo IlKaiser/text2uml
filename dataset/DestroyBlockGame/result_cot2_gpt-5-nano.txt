@@ -1,0 +1,45 @@
+@startuml
+class User{}
+class Admin{}
+class Game{}
+class HallOfFame{}
+class HallOfFameEntry{}
+class Block{}
+class BlockSet{}
+class Level{}
+class Grid{}
+class Position{}
+class Ball{}
+class Paddle{}
+class Wall{}
+class PlayArea{}
+class Score{}
+class Life{}
+class Publication{}
+
+Admin "0..*" -- "1" Game
+Game "1" -- "1" Admin
+Game "0..*" -- "1" Level
+Level "1" -- "1" Game
+Game "0..*" -- "1" Publication
+Publication "1" -- "1" Game
+Publication "1" -- "1" Admin
+Game "1" -- "1" PlayArea
+PlayArea "1" -- "1" Ball
+PlayArea "1" -- "1" Paddle
+PlayArea "0..*" -- "1" Wall
+Game "1" -- "1" HallOfFame
+HallOfFame "0..*" -- "1" HallOfFameEntry
+HallOfFameEntry "1" -- "1" User
+HallOfFameEntry "1" -- "1" Game
+HallOfFameEntry "1" -- "1" Score
+Level "1" -- "1" Grid
+Grid "0..*" -- "1" Position
+Position "0..1" -- "1" Block
+BlockSet "1" -- "1" Game
+BlockSet "0..*" -- "1" Block
+Block "1" -- "1" BlockSet
+Life "1" -- "1" User
+Life "1" -- "1" Game
+User "0..*" -- "1" Game
+@enduml

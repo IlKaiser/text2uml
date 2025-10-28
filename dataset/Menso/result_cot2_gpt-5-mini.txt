@@ -1,0 +1,49 @@
+@startuml
+class BusCompany{}
+class Bus{}
+class Line{}
+class Trajectory{}
+class TownAuthority{}
+class ApprovalRequest{}
+class ChangeRequest{}
+class TrajectoryEvent{}
+class BusAssignment{}
+class LineCategory{}
+class Customer{}
+class Subscription{}
+class MensoCard{}
+class TicketMachine{}
+class Trip{}
+class Invoice{}
+class InvoiceItem{}
+class Discount{}
+class Address{}
+class WorkingHours{}
+
+BusCompany "1..1" -- "0..*" Bus.
+BusCompany "1..1" -- "0..*" Line.
+BusCompany "1..1" -- "0..*" Trajectory.
+Line "1..1" -- "0..*" Trajectory.
+LineCategory "1..1" -- "0..*" Line.
+Trajectory "1..1" -- "0..*" TrajectoryEvent.
+Bus "1..1" -- "0..*" TicketMachine.
+BusAssignment "1..1" -- "1..1" Bus.
+BusAssignment "1..1" -- "1..1" Trajectory.
+ApprovalRequest "1..1" -- "1..1" Trajectory.
+ApprovalRequest "1..1" -- "1..1" TownAuthority.
+ApprovalRequest "1..1" -- "1..1" BusCompany.
+ChangeRequest "1..1" -- "1..1" Trajectory.
+ChangeRequest "1..1" -- "1..1" TownAuthority.
+ChangeRequest "1..1" -- "1..1" BusCompany.
+Subscription "1..1" -- "1..1" MensoCard.
+Customer "1..1" -- "0..*" Subscription.
+MensoCard "0..*" -- "0..*" Trip.
+Line "0..*" -- "0..*" Trip.
+TicketMachine "0..*" -- "0..*" Trip.
+Customer "1..1" -- "0..*" Invoice.
+Invoice "0..*" -- "1..*" InvoiceItem.
+InvoiceItem "1..1" -- "1..1" Trip.
+Invoice "0..1" -- "0..1" Discount.
+Customer "0..*" -- "0..*" Address.
+Customer "0..1" -- "0..1" WorkingHours.
+@enduml

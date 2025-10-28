@@ -1,0 +1,42 @@
+```plantuml
+@startuml
+class OilCompany{}
+class GasStation{}
+class Customer{}
+class RefuelTurn{}
+class Counter{}
+class RefuelCard{}
+class MonthlyInvoice{}
+class Discount{}
+class Payment{}
+class Pump{}
+class Gasoline{}
+class Nozzle{}
+class Reservoir{}
+class ReorderingLevel{}
+class DailyReport{}
+class CriticalLevel{}
+class GasStationResponsible{}
+
+OilCompany "0..*" -- "1..*" GasStation
+GasStation "1..*" -- "0..*" Customer
+GasStation "1..*" -- "1..*" Pump
+Pump "1..*" -- "1..1" Reservoir
+Pump "1..*" -- "1..*" Nozzle
+Pump "1..*" -- "1..1" Gasoline
+Nozzle "1..*" -- "0..*" RefuelTurn
+Customer "1..*" -- "0..1" RefuelCard
+Customer "1..*" -- "0..*" RefuelTurn
+RefuelCard "1..*" -- "0..*" MonthlyInvoice
+MonthlyInvoice "1..*" -- "0..*" RefuelTurn
+MonthlyInvoice "1..*" -- "0..1" Discount
+MonthlyInvoice "1..*" -- "0..*" Payment
+Reservoir "1..*" -- "1..1" ReorderingLevel
+Reservoir "1..*" -- "1..1" CriticalLevel
+GasStation "1..*" -- "1..*" DailyReport
+DailyReport "1..*" -- "0..*" Pump
+GasStationResponsible "1..*" -- "1..*" GasStation
+RefuelTurn "1..*" -- "0..1" Payment
+RefuelTurn "1..*" -- "0..1" Counter
+@enduml
+```

@@ -1,0 +1,25 @@
+@startuml
+class Traveller{}
+class Booking{}
+class Hotel{}
+class Accommodation{}
+class Room{}
+class City{}
+class Offer{}
+class PreliminaryBooking{}
+class FinalizedBooking{}
+
+Traveller "1..*" -- "0..*" PreliminaryBooking
+PreliminaryBooking "1..*" -- "1..1" Hotel
+PreliminaryBooking "0..*" -- "0..*" Offer
+Traveller "1..*" -- "0..*" FinalizedBooking
+FinalizedBooking "1..*" -- "1..1" Hotel
+Hotel "1..*" -- "0..*" Room
+Hotel "1..*" -- "1..1" City
+City "0..*" -- "0..*" Hotel
+Room "1..*" -- "1..1" Accommodation
+Traveller "0..*" -- "0..*" Booking
+Booking "1..*" -- "1..1" Hotel
+FinalizedBooking "1..*" -- "1..1" Booking
+PreliminaryBooking "1..*" -- "1..1" Booking
+@enduml

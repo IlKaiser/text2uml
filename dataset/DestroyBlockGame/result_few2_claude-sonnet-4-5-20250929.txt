@@ -1,0 +1,27 @@
+@startuml
+
+class User {}
+class Admin {}
+class Player {}
+class Game {}
+class Block {}
+class Level {}
+class BlockAssignment {}
+class HallOfFameEntry {}
+class PlayedGame {}
+class SavedGame {}
+
+User "1" -- "0..1" Admin
+User "1" -- "1" Player
+Admin "1" -- "0..*" Game
+Game "1" -- "0..*" Block
+Game "1" -- "1..*" Level
+Level "1" -- "0..*" BlockAssignment
+BlockAssignment "0..*" -- "1" Block
+Game "1" -- "0..*" PlayedGame
+PlayedGame "0..*" -- "1" Player
+Game "1" -- "0..*" HallOfFameEntry
+HallOfFameEntry "0..*" -- "1" Player
+PlayedGame "1" -- "0..1" SavedGame
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+class BusCompany{}
+class Bus{}
+class BusLine{}
+class Trajectory{}
+class TownAuthority{}
+class Route{}
+class SeasonTicket{}
+class MENSO{}
+class Category{}
+class Trip{}
+class Invoice{}
+class Customer{}
+class Discount{}
+class Card{}
+class TicketMachine{}
+class Payment{}
+class Address{}
+
+BusLine "0..*" -- "1..*" Trajectory
+Bus "1..*" -- "1..*" BusLine
+Trajectory "0..*" -- "1..1" TownAuthority
+BusLine "1..*" -- "1..1" Category
+Trip "0..*" -- "1..1" BusLine
+SeasonTicket "0..*" -- "1..1" Customer
+MENSO "0..*" -- "1..1" Customer
+MENSO "1..1" -- "1..1" Card
+Invoice "0..*" -- "1..1" Customer
+Trip "0..*" -- "0..1" MENSO
+Trip "0..*" -- "0..1" Invoice
+Discount "0..*" -- "1..1" Invoice
+Payment "0..*" -- "1..1" Invoice
+Bus "1..*" -- "1..1" BusCompany
+Address "0..*" -- "1..1" Customer
+Trajectory "0..*" -- "1..1" Route
+Trip "0..*" -- "1..1" TicketMachine
+@enduml

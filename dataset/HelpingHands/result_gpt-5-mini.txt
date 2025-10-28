@@ -1,0 +1,55 @@
+@startuml
+
+class H2S{}
+class City{}
+class DistributionCenter{}
+class FoodBank{}
+class Resident{}
+class PickupRequest{}
+class PickupRoute{}
+class PickupVehicle{}
+class VolunteerDriver{}
+class Item{}
+class SecondHandArticle{}
+class NonPerishableFood{}
+class H2SEmployee{}
+class RFIDTag{}
+class Category{}
+class Client{}
+class Delivery{}
+
+H2S "1..1" -- "1..*" City
+City "1..1" -- "0..1" DistributionCenter
+City "1..1" -- "0..1" FoodBank
+
+H2S "1..1" -- "0..*" PickupVehicle
+PickupVehicle "1..1" -- "0..*" PickupRoute
+VolunteerDriver "0..*" -- "0..*" PickupVehicle
+PickupRoute "1..1" -- "1..1" PickupVehicle
+PickupRoute "0..1" -- "0..1" VolunteerDriver
+PickupRoute "0..*" -- "0..*" PickupRequest
+
+Resident "1..1" -- "0..*" PickupRequest
+PickupRequest "1..1" -- "1..*" Item
+Item <|-- SecondHandArticle
+Item <|-- NonPerishableFood
+
+PickupVehicle "0..*" -- "0..*" SecondHandArticle
+PickupVehicle "0..*" -- "0..*" NonPerishableFood
+
+DistributionCenter "1..1" -- "0..*" SecondHandArticle
+FoodBank "1..1" -- "0..*" NonPerishableFood
+
+H2SEmployee "1..1" -- "0..*" SecondHandArticle
+SecondHandArticle "0..1" -- "0..1" RFIDTag
+SecondHandArticle "1..1" -- "1..1" Category
+
+Client "1..1" -- "0..*" Category
+DistributionCenter "0..1" -- "0..*" Client
+
+Delivery "1..1" -- "1..1" VolunteerDriver
+Delivery "1..1" -- "1..1" SecondHandArticle
+Delivery "1..1" -- "1..1" Client
+Delivery "0..*" -- "0..1" PickupRoute
+
+@enduml

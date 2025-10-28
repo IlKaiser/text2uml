@@ -1,0 +1,33 @@
+@startuml
+
+class BusinessTraveller {}
+class HMBS {}
+class Hotel {}
+class HotelChain {}
+class Booking {}
+class PreliminaryBooking {}
+class FinalizedBooking {}
+class CancellationDeadline {}
+class CreditCardInformation {}
+class SpecialOffer {}
+class Confirmation {}
+
+BusinessTraveller "1" -- "0..*" HMBS
+HMBS "0..*" -- "1" Hotel
+Hotel "0..*" -- "1" HotelChain
+Booking "0..*" -- "1" BusinessTraveller
+PreliminaryBooking "1" -- "0..*" Booking
+FinalizedBooking "1" -- "0..*" Booking
+CancellationDeadline "1" -- "0..*" FinalizedBooking
+CreditCardInformation "1" -- "1" FinalizedBooking
+
+Hotel "0..*" -- "1" Booking
+Booking "1" -- "0..*" Hotel
+
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+SpecialOffer "0..*" -- "1" PreliminaryBooking
+
+FinalizedBooking "1" -- "1" Confirmation
+Confirmation "1" -- "1" FinalizedBooking
+
+@enduml

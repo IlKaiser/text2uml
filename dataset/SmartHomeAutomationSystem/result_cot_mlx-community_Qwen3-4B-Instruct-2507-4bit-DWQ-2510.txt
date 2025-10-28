@@ -1,0 +1,26 @@
+@startuml
+class SmartHome{}
+class Room{}
+class Sensor{}
+class Actuator{}
+class Device{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class ActivityLog{}
+class SensorReading{}
+class ControlCommand{}
+class Alert{}
+
+SmartHome "1..*" -- "1..*" Room
+Room "1..*" -- "1..*" Sensor
+Sensor "1..*" -- "1..*" SensorReading
+Room "1..*" -- "1..*" Actuator
+Actuator "1..*" -- "1..*" ControlCommand
+AutomationRule "1..*" -- "1..*" Precondition
+Precondition "1..*" -- "1..*" SensorReading
+AutomationRule "1..*" -- "1..*" Action
+Action "1..*" -- "1..*" ControlCommand
+AutomationRule "1..*" -- "1..*" ActivityLog
+SmartHome "1..*" -- "1..*" ActivityLog
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+class InsuranceCompany{}
+class Customer{}
+class Broker{}
+class AccountManager{}
+class CustomerFile{}
+class InsuranceProduct{}
+class InsurancePolicy{}
+class PolicyType{}
+class Offer{}
+class Contract{}
+class Coverage{}
+class Invoice{}
+class BillingPeriod{}
+class Claim{}
+class ClaimCase{}
+class CaseFile{}
+class InsuredEvent{}
+class Estimator{}
+class AreaOfExpertise{}
+class Report{}
+class CompensationDecision{}
+class Compensation{}
+class Document{}
+class Account{}
+class AssessmentReport{}
+
+InsuranceCompany "1..1" -- "0..*" InsuranceProduct
+InsuranceCompany "1..1" -- "0..*" Broker
+InsuranceCompany "1..1" -- "0..*" AccountManager
+InsuranceCompany "1..1" -- "0..*" Estimator
+Broker "1..1" -- "0..*" Customer
+AccountManager "1..1" -- "0..*" Customer
+Customer "1..1" -- "0..*" CustomerFile
+Customer "0..*" -- "0..*" PolicyType
+InsuranceProduct "1..1" -- "0..*" Offer
+Customer "1..1" -- "0..*" Offer
+Offer "1..1" -- "0..1" Contract
+Customer "1..1" -- "0..*" Contract
+Contract "1..1" -- "1..1" BillingPeriod
+Customer "1..1" -- "0..*" InsurancePolicy
+InsuranceProduct "1..1" -- "0..*" InsurancePolicy
+Contract "1..1" -- "0..*" Invoice
+Customer "1..1" -- "0..*" Claim
+Claim "1..1" -- "0..*" ClaimCase
+ClaimCase "1..1" -- "0..*" CaseFile
+CaseFile "1..1" -- "0..*" Document
+ClaimCase "0..*" -- "0..*" Estimator
+AreaOfExpertise "1..1" -- "0..*" Estimator
+Estimator "1..1" -- "0..*" Report
+ClaimCase "1..1" -- "0..*" AssessmentReport
+ClaimCase "1..1" -- "0..1" CompensationDecision
+CompensationDecision "1..1" -- "0..*" Compensation
+Account "1..1" -- "0..*" Compensation
+Customer "1..1" -- "0..*" Account
+CustomerFile "1..1" -- "0..*" Document
+@enduml

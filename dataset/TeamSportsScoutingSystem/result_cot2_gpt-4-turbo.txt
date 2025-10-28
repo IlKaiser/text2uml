@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+
+class Club{}
+class Employee{}
+class HeadCoach{}
+class Director{}
+class Scout{}
+class Player{}
+class PlayerProfile{}
+class ScoutingAssignment{}
+class ScoutingReport{}
+class Recommendation{}
+
+Club "1..1" -- "1..*" Employee
+Club "1..1" -- "0..*" Scout
+Club "1..1" -- "1..1" Director
+Club "1..1" -- "1..1" HeadCoach
+HeadCoach "1..1" -- "0..*" PlayerProfile
+PlayerProfile "0..*" -- "0..*" Scout
+Scout "0..*" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1..1" -- "1..1" Player
+ScoutingAssignment "1..1" -- "1..1" Scout
+ScoutingReport "1..1" -- "1..1" ScoutingAssignment
+Recommendation "1..1" -- "1..1" ScoutingReport
+ScoutingReport "1..1" -- "1..1" Player
+Player "1..1" -- "0..1" PlayerProfile
+
+@enduml
+```

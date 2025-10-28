@@ -1,0 +1,146 @@
+@startuml
+
+class Doctor {
+  NumericPractitionerNumber
+  DigitalSignature
+  FullName
+  Address
+  PhoneNumber
+  AlphanumericHealthNumber
+}
+
+class Patient {
+  AlphanumericHealthNumber
+  FullName
+  Date
+  Address
+  PhoneNumber
+}
+
+class Requisition {
+  Doctor
+  Date
+  GroupOfTests
+  Test
+}
+
+class GroupOfTests {
+  Test
+}
+
+class Test {
+  LabNetworksDuration
+  TestRepetition
+  TestResults
+  TestReport
+}
+
+class TestRepetition {
+  Test
+  TestResults
+}
+
+class TestResults {
+  TestReport
+}
+
+class TestReport {
+}
+
+class LabNetwork {
+  LabNetworksDuration
+  Lab
+}
+
+class Lab {
+  LabNetworksDuration
+  Appointment
+  ConfirmationNumber
+}
+
+class LabNetworksDuration {
+}
+
+class TestRepetition {
+  Test
+  TestResults
+}
+
+class TestResults {
+  TestReport
+}
+
+class TestReport {
+}
+
+class Appointment {
+  Patient
+  Lab
+  ChangeCancellationFee
+  ConfirmationNumber
+}
+
+class ChangeCancellationFee {
+  BusinessHours
+}
+
+class BusinessHours {
+  Day
+}
+
+class Day {
+}
+
+class ConfirmationNumber {
+  Appointment
+}
+
+Doctor "1" -- "1" NumericPractitionerNumber
+Doctor "1" -- "1" DigitalSignature
+Doctor "1" -- "1" FullName
+Doctor "1" -- "1" Address
+Doctor "1" -- "1" PhoneNumber
+Doctor "0..1" AlphanumericHealthNumber
+
+Requisition "1" -- "1" Doctor
+Requisition "0..1" Date
+Requisition "0..*" Test
+Requisition "0..1" GroupOfTests
+
+Patient "1" -- "1" AlphanumericHealthNumber
+Patient "1" -- "1" FullName
+Patient "1" -- "1" Date
+Patient "1" -- "1" Address
+Patient "1" -- "1" PhoneNumber
+
+Requisition "0..*" Patient
+
+Test "1" -- "1" LabNetworksDuration
+Test "0..1" TestRepetition
+
+GroupOfTests "1..*" Test
+
+LabNetwork "1..*" Lab
+Lab "0..*" LabNetworksDuration
+
+Test "0..1" TestRepetition
+TestRepetition "1..1" Test
+TestRepetition "1..1" TestResults
+
+TestResults "1..1" TestReport
+
+Appointment "1" -- "1" Patient
+Appointment "1" -- "1" Lab
+Appointment "1" -- "1" ChangeCancellationFee
+Appointment "1" -- "1" ConfirmationNumber
+
+ChangeCancellationFee "1" -- "1" BusinessHours
+
+BusinessHours "1..*" Day
+Day "0..*" BusinessHours
+
+Lab "0..*" Appointment
+Lab "0..*" ConfirmationNumber
+ConfirmationNumber "1" -- "1" Appointment
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+
+class SmartHome{}
+class Room{}
+class SensorDevice{}
+class ActuatorDevice{}
+class Device{}
+class ActivityLog{}
+class AutomationRule{}
+class SensorReading{}
+class ControlCommand{}
+class Precondition{}
+class Action{}
+
+SmartHome "1..1" -- "1..*" Room
+Room "1..*" -- "1..*" SensorDevice
+Room "1..*" -- "1..*" ActuatorDevice
+SensorDevice "1..1" -- "1..1" Device
+ActuatorDevice "1..1" -- "1..1" Device
+SmartHome "1..1" -- "1..1" ActivityLog
+AutomationRule "1..*" -- "0..*" Precondition
+AutomationRule "1..*" -- "0..*" Action
+SensorDevice "1..*" -- "0..*" SensorReading
+ActuatorDevice "1..*" -- "0..*" ControlCommand
+AutomationRule "1..*" -- "0..*" AutomationRule : depends on
+AutomationRule "1..*" -- "0..*" AutomationRule : conflicts with
+
+@enduml

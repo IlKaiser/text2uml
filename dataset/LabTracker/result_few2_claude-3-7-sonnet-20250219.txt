@@ -1,0 +1,25 @@
+@startuml
+
+class Doctor {}
+class Patient {}
+class Requisition {}
+class Test {}
+class TestGroup {}
+class Lab {}
+class Appointment {}
+class TestResult {}
+class Report {}
+
+Doctor "1" -- "0..*" Requisition
+Patient "1" -- "0..*" Requisition
+Requisition "1" -- "0..*" Test
+Test "0..*" -- "1" TestGroup
+Lab "1" -- "0..*" Appointment
+Patient "1" -- "0..*" Appointment
+Requisition "1" -- "0..*" Appointment
+Test "1" -- "0..*" TestResult
+TestResult "1" -- "1" Report
+Doctor "1" -- "0..*" TestResult
+Patient "1" -- "0..*" TestResult
+
+@enduml

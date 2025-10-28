@@ -1,0 +1,35 @@
+@startuml
+class Resident{}
+class Client{}
+class Article{}
+class Category{}
+class ScheduledPickup{}
+class Delivery{}
+class Vehicle{}
+class VolunteerDriver{}
+class PickupRoute{}
+class DistributionCenter{}
+class FoodBank{}
+class Employee{}
+class City{}
+class Address{}
+class RFIDTag{}
+
+Resident "0..*" -- "1..1" ScheduledPickup
+ScheduledPickup "1..1" -- "0..*" Address
+PickupRoute "0..*" -- "1..1" ScheduledPickup
+PickupRoute "1..1" -- "0..*" Vehicle
+PickupRoute "1..1" -- "0..*" VolunteerDriver
+Resident "0..*" -- "1..1" Article
+ScheduledPickup "0..*" -- "1..1" Article
+Article "0..1" -- "0..*" DistributionCenter
+Employee "0..*" -- "0..1" Article
+Article "0..1" -- "1..1" RFIDTag
+Article "0..1" -- "0..*" Category
+Client "0..*" -- "0..*" Category
+Delivery "1..1" -- "0..*" Client
+Delivery "1..1" -- "0..1" Article
+Delivery "1..1" -- "0..*" Address
+VolunteerDriver "0..*" -- "1..1" Delivery
+VolunteerDriver "0..*" -- "0..*" FoodBank
+@enduml

@@ -1,0 +1,28 @@
+```plantuml
+@startuml
+
+class Bus {}
+class BusLine {}
+class Trajectory {}
+class Approval {}
+class Line {}
+class MENSO {}
+class Customer {}
+class Invoice {}
+class Trip {}
+class PersonalData {}
+
+Bus "0..*" -- "1" BusLine
+BusLine "1" -- "0..*" Trajectory
+BusLine "1" -- "0..*" Line
+Trajectory "1" -- "0..*" Approval
+Approval "0..*" -- "1" BusLine
+MENSO "1" -- "0..*" Invoice
+Customer "1" -- "1" MENSO
+Customer "1" -- "1" PersonalData
+Trip "0..*" -- "1" MENSO
+Trip "0..*" -- "1" BusLine
+Invoice "0..*" -- "1" Customer
+
+@enduml
+```

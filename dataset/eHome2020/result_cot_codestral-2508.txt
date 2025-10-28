@@ -1,0 +1,28 @@
+```plantuml
+@startuml
+
+class Apartment{}
+class Sensor{}
+class SensorController{}
+class Room{}
+class Inhabitant{}
+class Value{}
+class Threshold{}
+class EMonitor{}
+class Email{}
+
+Apartment "1..*" -- "1..1" Room
+Apartment "1..*" -- "1..*" Inhabitant
+Apartment "1..1" -- "0..*" Sensor
+Sensor "1..1" -- "1..*" Room
+Sensor "1..*" -- "1..*" Value
+Sensor "1..1" -- "1..1" Threshold
+Inhabitant "1..*" -- "0..1" SensorController
+SensorController "1..1" -- "0..*" Sensor
+SensorController "1..1" -- "0..*" Threshold
+EMonitor "1..1" -- "0..*" Sensor
+EMonitor "1..1" -- "0..*" Threshold
+EMonitor "1..1" -- "0..1" Email
+
+@enduml
+```

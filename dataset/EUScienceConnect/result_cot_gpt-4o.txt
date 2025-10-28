@@ -1,0 +1,24 @@
+```plantuml
+@startuml
+
+class Researcher{}
+class Institution{}
+class ScientificArticle{}
+class PeerReviewedPaper{}
+class TechnicalReport{}
+class Publisher{}
+class Journal{}
+
+Researcher "1..*" -- "1..1" Institution
+Researcher "0..*" -- "1..1" ScientificArticle
+Researcher "0..*" -- "0..*" PeerReviewedPaper
+ScientificArticle "1..*" -- "0..*" Institution
+ScientificArticle "0..*" -- "1..1" PeerReviewedPaper
+ScientificArticle "0..*" -- "0..1" TechnicalReport
+PeerReviewedPaper "1..*" -- "1..1" Journal
+TechnicalReport "1..1" -- "1..1" Institution
+Publisher "1..1" -- "1..*" Journal
+Institution "0..*" -- "0..*" Journal
+
+@enduml
+```

@@ -1,0 +1,32 @@
+@startuml
+
+class GameDesigner {}
+class Game {}
+class Player {}
+class PlayingPiece {}
+class GameBoard {}
+class Tile {}
+class ConnectionPiece {}
+class ActionCard {}
+class Deck {}
+class SpareConnectionPiecesPile {}
+class HiddenTile {}
+class ActionTile {}
+
+GameDesigner "1" -- "1..*" Game
+Game "1" -- "2..4" Player
+Game "1" -- "1" GameBoard
+GameBoard "1" -- "1..*" Tile
+Tile "0..4" -- "2" ConnectionPiece
+Game "1" -- "1" HiddenTile
+HiddenTile "1" -- "1" Tile
+Game -- "1" ActionTile
+ActionTile "1" -- "1" Tile
+Player "1" -- "1" PlayingPiece
+PlayingPiece "1" -- "1" Tile
+Game "1" -- "1" Deck
+Deck "1" -- "32" ActionCard
+Game "1" -- "1" SpareConnectionPiecesPile
+SpareConnectionPiecesPile "1" -- "32" ConnectionPiece
+
+@enduml

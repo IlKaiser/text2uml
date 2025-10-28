@@ -1,0 +1,25 @@
+@startuml
+class User{}
+class Account{}
+class PersonalAccount{}
+class BusinessAccount{}
+class Company{}
+class Page{}
+class AdvertisementPage{}
+class FriendRequest{}
+class Privilege{}
+class Banner{}
+
+User "1..1" -- "1..1" Account
+Account "1..1" -- "0..*" Page
+Account "1..1" -- "0..1" PersonalAccount
+Account "1..1" -- "0..1" BusinessAccount
+BusinessAccount "1..1" -- "1..1" Company
+BusinessAccount "1..1" -- "0..*" AdvertisementPage
+AdvertisementPage "1..1" -- "1..1" Page
+AdvertisementPage "1..1" -- "0..*" Banner
+PersonalAccount "0..*" -- "0..*" Privilege
+Page "1..1" -- "0..*" Privilege
+PersonalAccount "1..1" -- "0..*" FriendRequest
+PersonalAccount "1..1" -- "0..*" FriendRequest
+@enduml

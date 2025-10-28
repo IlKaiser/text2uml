@@ -1,0 +1,23 @@
+@startuml
+class Person{}
+class Institution{}
+class Article{}
+class PeerReviewedPaper{}
+class TechnicalReport{}
+class Publisher{}
+class Journal{}
+class Authorship{}
+class Review{}
+class Topic{}
+
+Person "1..1" -- "0..*" Institution
+Person "0..*" -- "0..*" Topic
+Person "0..*" -- "1..1" Authorship
+Authorship "1..1" -- "1..*" Article
+PeerReviewedPaper "1..1" -- "0..1" Article
+TechnicalReport "1..1" -- "0..1" Article
+Publisher "1..*" -- "1..1" Journal
+Journal "0..*" -- "0..*" Institution
+Review "0..*" -- "1..1" PeerReviewedPaper
+Review "0..*" -- "1..1" Person
+@enduml

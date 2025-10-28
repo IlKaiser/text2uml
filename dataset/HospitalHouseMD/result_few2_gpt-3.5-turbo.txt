@@ -1,0 +1,26 @@
+
+@startuml
+
+class HospitalHouseMD{}
+class Patient{}
+class Doctor{}
+class Diagnosis{}
+class Treatment{}
+class HeadDoctor{}
+class TreatmentStage{}
+class Consent{}
+class FollowUp{}
+class Nurse{}
+
+Patient "1" -- "0..*" Doctor
+Patient "1" -- "0..*" Diagnosis
+Diagnosis "1" -- "0..*" Treatment
+Doctor "1..*" -- "1..*" Diagnosis
+Treatment "0..*" -- "1" HeadDoctor
+Treatment "1" -- "0..*" Consent
+Treatment "1" -- "0..1" FollowUp
+Treatment "0..*" -- "1" TreatmentStage
+FollowUp "0..*" -- "1" Nurse
+Diagnosis "1" -- "0..*" PriorityScore
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+class Boeing{}
+class Aircraft{}
+class AirlineCompany{}
+class SalesAgreement{}
+class Contract{}
+class GlobalContract{}
+class Acquisition{}
+class Model{}
+class Option{}
+class Customization{}
+class DeliveryCondition{}
+class LegalAspect{}
+class Price{}
+class Salesperson{}
+class Employee{}
+class PartnerAirline{}
+class MotherDaughterRelationship{}
+
+Boeing "0..*" -- "0..*" SalesAgreement
+AirlineCompany "0..*" -- "0..*" SalesAgreement
+SalesAgreement "0..*" -- "0..*" Contract
+GlobalContract "1..*" -- "1..*" Contract
+GlobalContract "0..*" -- "0..*" DeliveryCondition
+GlobalContract "0..*" -- "0..*" LegalAspect
+Contract "1..*" -- "1..*" Acquisition
+Acquisition "1..*" -- "1" Model
+Acquisition "1..*" -- "1" Price
+Acquisition "0..*" -- "0..*" Option
+Acquisition "0..*" -- "0..*" Customization
+Contract "1..*" -- "1" Salesperson
+Salesperson "1..*" -- "1" Employee
+Employee "0..*" -- "0..*" Contract
+AirlineCompany "0..*" -- "0..*" PartnerAirline
+AirlineCompany "0..*" -- "0..*" MotherDaughterRelationship
+@enduml

@@ -1,0 +1,58 @@
+@startuml
+
+class User {
+  Name
+  Birthday
+  Address
+}
+
+class BusinessOwner {
+  LinkedInAccount
+  PizzaRestaurant
+}
+
+class PizzaRestaurant {
+  ZipCode
+  Address
+  PhoneNumber
+  Website
+  OpeningHours
+  Pizza
+}
+
+class Pizza {
+  Name
+  CrustStructure
+  Price
+}
+
+class HungryCustomer {
+  Pizza
+  DeliveryAddress
+}
+
+class EntertainmentOrder {
+  TypeOfEntertainment
+  Duration
+  Entertainer
+  Pizza
+}
+
+class Entertainer {
+  StageName
+  Bio
+  PricePer30Minutes
+  HungryCustomer
+}
+
+User "0..1" -- "0..1" EntertainmentOrder
+User "0..1" -- "1..1" Pizza
+BusinessOwner "1..*" -- "1..1" PizzaRestaurant
+PizzaRestaurant "1..*" -- "1..*" Pizza
+HungryCustomer "1..1" -- "1..1" Pizza
+HungryCustomer "0..1" -- "1..1" EntertainmentOrder
+EntertainmentOrder "1..1" -- "0..1" Entertainer
+Entertainer "0..1" -- "0..*" PizzaRestaurant
+Entertainer "0..1" -- "1..1" HungryCustomer
+
+@enduml

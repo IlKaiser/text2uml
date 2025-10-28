@@ -1,0 +1,19 @@
+@startuml
+
+class Examination {}
+class Hospital {}
+class Doctor {}
+class TreatmentPlan {}
+class ExaminationType {}
+class NMRScan {}
+
+Examination "1" -- "1" ExaminationType
+ExaminationType "0..*" -- "1" Hospital
+Hospital "1" -- "0..*" NMRScan
+TreatmentPlan "1" -- "0..*" Examination
+TreatmentPlan "1" -- "1" Doctor
+Doctor "1" -- "0..*" Examination
+Doctor "1" -- "1" TreatmentPlan
+TreatmentPlan "1" -- "1" ExaminationType
+
+@enduml

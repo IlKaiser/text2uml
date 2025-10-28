@@ -1,0 +1,30 @@
+@startuml
+
+class Hospital {}
+class Doctor {}
+class Patient {}
+class Problem {}
+class Diagnosis {}
+class TreatmentPlan {}
+class Treatment {}
+class Examination {}
+class ExaminationType {}
+class MedicalAction {}
+
+Hospital "1" -- "0..*" Doctor
+Hospital "1" -- "0..*" Patient
+Hospital -- ExaminationType
+Doctor "1" -- "0..*" Diagnosis
+Diagnosis "1" -- "1" Patient
+Diagnosis "1" -- "1" Problem
+Problem "1" -- "1" TreatmentPlan
+Diagnosis "1" -- "1" Treatment
+Doctor "1" -- "0..*" Treatment
+Treatment "0..1" -- "1" TreatmentPlan
+Treatment "1" -- "0..*" Examination
+Examination "1" -- "1" ExaminationType
+Examination "1" -- "1" Hospital
+Treatment "1" -- "0..*" MedicalAction
+TreatmentPlan "1" -- "1..*" ExaminationType
+
+@enduml

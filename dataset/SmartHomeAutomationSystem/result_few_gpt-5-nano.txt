@@ -1,0 +1,35 @@
+@startuml
+class SHAS{}
+class SmartHome{}
+class Room{}
+class Sensor{}
+class Actuator{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class AutomationRule{}
+class Precondition{}
+class RelationalTerm{}
+class Action{}
+class Alert{}
+class Owner{}
+
+SHAS "1" -- "0..*" SmartHome
+SmartHome "1" -- "0..*" Room
+Room "1" -- "0..*" Sensor
+Room "1" -- "0..*" Actuator
+Sensor "1" -- "0..*" SensorReading
+Actuator "1" -- "0..*" ControlCommand
+SHAS "1" -- "0..*" ActivityLog
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" ControlCommand
+Owner "1" -- "0..*" AutomationRule
+AutomationRule "1" -- "1" Precondition
+AutomationRule "1" -- "1" Action
+Precondition "1" -- "0..*" RelationalTerm
+RelationalTerm "0..1" -- "1" Room
+RelationalTerm "0..1" -- "1" Sensor
+RelationalTerm "0..1" -- "1" Actuator
+RelationalTerm "0..1" -- "1" SensorReading
+RelationalTerm "0..1" -- "1" ControlCommand
+@enduml

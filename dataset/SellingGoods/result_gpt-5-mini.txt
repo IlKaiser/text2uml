@@ -1,0 +1,30 @@
+@startuml
+
+class Customer{}
+class Address{}
+class Product{}
+class Stock{}
+class Order{}
+class OrderLine{}
+class Shipment{}
+class Invoice{}
+class Payment{}
+class Warehouse{}
+class DeliveryService{}
+
+Customer "1..1" -- "1..*" Address
+Customer "1..*" -- "1..1" Order
+Order "1..1" -- "1..*" OrderLine
+Product "1..*" -- "1..1" OrderLine
+Product "1..1" -- "1..1" Stock
+Order "1..*" -- "0..*" Shipment
+Shipment "1..*" -- "0..*" OrderLine
+Order "1..1" -- "1..1" Invoice
+Customer "1..*" -- "0..*" Invoice
+Invoice "0..1" -- "1..1" Payment
+Customer "1..*" -- "0..*" Payment
+Customer "1..*" -- "0..*" Warehouse
+Warehouse "1..1" -- "1..1" Address
+DeliveryService "0..*" -- "0..1" Shipment
+
+@enduml

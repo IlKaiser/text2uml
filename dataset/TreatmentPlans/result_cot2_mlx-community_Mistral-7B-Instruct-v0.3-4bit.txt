@@ -1,0 +1,35 @@
+@startuml
+
+class Hospital{}
+class Doctor{}
+class Patient{}
+class Examination{}
+class CardiologicTest{}
+class Echography{}
+class Radiology{}
+class Scanner{}
+class NMRScan{}
+class Permission{}
+class TreatmentPlan{}
+class Problem{}
+class Treatment{}
+class MedicalAction{}
+
+Hospital "0..1" -- TreatmentPlan
+Hospital "0..*" -- Permission
+Doctor "1..1" -- Hospital
+Patient "1..1" -- Hospital
+Examination "1..1" -- TypeOfExamination
+Hospital "0..*" -- Examination
+Doctor "1..*" -- Examination
+Patient "1..*" -- Examination
+Examination "0..1" -- Permission
+TreatmentPlan "0..*" -- Problem
+Problem "0..1" -- TreatmentPlan
+TreatmentPlan "0..*" -- Treatment
+Treatment "0..*" -- MedicalAction
+Treatment "0..*" -- Examination
+Doctor "1..1" -- Treatment
+Patient "1..1" -- Treatment
+
+@enduml

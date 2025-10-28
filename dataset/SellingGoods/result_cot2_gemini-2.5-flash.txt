@@ -1,0 +1,20 @@
+@startuml
+class Customer{}
+class Product{}
+class Order{}
+class OrderLine{}
+class Payment{}
+class Delivery{}
+class StockLevel{}
+class Watchlist{}
+
+Order "0..*" -- "1..1" Customer
+OrderLine "0..*" -- "1..1" Product
+OrderLine "1..*" -- "1..1" Order
+StockLevel "1..1" -- "1..1" Product
+Payment "0..*" -- "1..1" Customer
+Payment "0..1" -- "1..1" Order
+Delivery "0..*" -- "1..1" Order
+OrderLine "0..1" -- "1..*" Delivery
+Order "0..*" -- "1..1" Watchlist
+@enduml

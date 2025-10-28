@@ -1,0 +1,54 @@
+@startuml
+
+class WebPortal{}
+class Building{}
+class Entry{}
+class TextEntry{}
+class NumericEntry{}
+class Image{}
+class User{}
+class Visitor{}
+class RegisteredUser{}
+class Owner{}
+class Administrator{}
+class Register{}
+class ConfirmEmail{}
+class ActivateUser{}
+class Login{}
+class CreateBuilding{}
+class ManageEntries{}
+class AddEntry{}
+class ReleaseEntryPublicly{}
+class CommentBuilding{}
+class SearchBuildings{}
+
+Entry <|-- TextEntry
+Entry <|-- NumericEntry
+User <|-- RegisteredUser
+RegisteredUser <|-- Owner
+RegisteredUser <|-- Administrator
+Visitor <|-- RegisteredUser
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "0..*" Image
+Building "0..1" -- "1" Image
+Building "1" -- "0..*" Entry
+Entry "1" -- "1" Owner
+Owner "1" -- "0..*" Building
+RegisteredUser "1" -- "0..*" Building
+WebPortal "1" -- "0..*" User
+Visitor "1" -- "0..*" Register
+Register "1" -- "1" ConfirmEmail
+ConfirmEmail "1" -- "1" ActivateUser
+ActivateUser "1" -- "0..*" Login
+RegisteredUser "1" -- "0..*" Login
+RegisteredUser "1" -- "0..*" CreateBuilding
+Owner "1" -- "0..*" AddEntry
+AddEntry "1" -- "0..*" ManageEntries
+Owner "1" -- "0..*" ReleaseEntryPublicly
+RegisteredUser "1" -- "0..*" CommentBuilding
+Visitor "1" -- "0..*" SearchBuildings
+Administrator "1" -- "0..*" ActivateUser
+Administrator "1" -- "0..*" DeleteComment
+
+@enduml

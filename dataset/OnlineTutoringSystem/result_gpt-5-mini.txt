@@ -1,0 +1,49 @@
+@startuml
+
+class OTS{}
+class Student{}
+class Tutor{}
+class BankAccount{}
+class TutoringOffer{}
+class Subject{}
+class ExpertiseLevel{}
+class Availability{}
+class TutoringRequest{}
+class TutoringSession{}
+class Payment{}
+class CreditCard{}
+class WireTransfer{}
+class Cancellation{}
+class Award{}
+
+OTS "0..*" -- "1..1" Student
+OTS "0..*" -- "1..1" Tutor
+
+Tutor "1..1" -- "1..1" BankAccount
+Tutor "1..1" -- "0..*" TutoringOffer
+TutoringOffer "1..1" -- "0..*" Subject
+TutoringOffer "1..1" -- "0..1" ExpertiseLevel
+Tutor "1..1" -- "0..*" Availability
+
+Student "1..1" -- "0..*" TutoringRequest
+Tutor "1..1" -- "0..*" TutoringRequest
+TutoringRequest "0..1" -- "0..1" TutoringSession
+
+Student "1..1" -- "0..*" TutoringSession
+Tutor "1..1" -- "0..*" TutoringSession
+
+TutoringSession "1..1" -- "0..1" Payment
+Student "1..1" -- "0..*" Payment
+Payment "1..1" -- "0..1" CreditCard
+Payment "1..1" -- "0..1" WireTransfer
+
+TutoringSession "0..1" -- "1..1" Cancellation
+Cancellation "1..1" -- "0..1" Student
+Cancellation "1..1" -- "0..1" Tutor
+
+Tutor "0..1" -- "0..1" Student
+
+Tutor "1..1" -- "0..*" Award
+Subject "1..1" -- "0..*" Award
+
+@enduml

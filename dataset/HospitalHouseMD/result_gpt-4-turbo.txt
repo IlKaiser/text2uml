@@ -1,0 +1,25 @@
+```plantuml
+@startuml
+
+class HospitalHouseMD{}
+class Patient{}
+class Doctor{}
+class Diagnosis{}
+class Treatment{}
+class Illness{}
+class Consent{}
+
+HospitalHouseMD "1..1" -- "*" Patient
+HospitalHouseMD "1..1" -- "*" Doctor
+HospitalHouseMD "1..1" -- "*" Illness
+Patient "1..*" -- "1..*" Doctor
+Patient "0..*" -- "1..1" Consent
+Patient "1..*" -- "*" Diagnosis
+Patient "1..*" -- "*" Treatment
+Doctor "1..1" -- "1..*" Diagnosis : approves >
+Diagnosis "1..1" -- "1..*" Treatment
+Illness "1..*" -- "*" Treatment
+Treatment "1..3" -- "1..1" Stage
+
+@enduml
+```

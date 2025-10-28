@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+
+class InsuranceCompany{}
+class Client{}
+class Broker{}
+class InsurancePolicy{}
+class AccountManager{}
+class Contract{}
+class InsuranceProduct{}
+class ClaimCase{}
+class Claim{}
+class Estimator{}
+class Report{}
+class Compensation{}
+
+InsuranceCompany "1..1" -- "0..*" Client
+Broker "0..1" -- "0..*" Client
+Broker "0..*" -- "1..1" System
+Client "0..*" -- "0..*" InsurancePolicy
+Client "0..*" -- "0..*" Contract
+Contract "1..1" -- "1..1" InsuranceProduct
+Client "0..*" -- "0..*" Claim
+Claim "0..1" -- "1..*" ClaimCase
+ClaimCase "0..*" -- "0..*" Estimator
+Estimator "0..*" -- "0..*" Report
+ClaimCase "0..*" -- "0..1" Compensation
+
+@enduml
+```

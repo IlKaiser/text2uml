@@ -1,0 +1,22 @@
+```plantuml
+@startuml
+
+class GameArea{}
+class GameElement{}
+class Shape{}
+class Object{}
+class Opponent{}
+class Enemy{}
+
+GameArea "1..1" -- "1..*" GameElement : contains
+GameElement "1..*" -- "1..1" GameArea : belongs to
+GameArea "1..1" -- "1..1" Opponent : has boss
+Opponent "1..1" -- "1..1" GameArea : is boss of
+Shape "0..*" -- "0..*" Shape : connected to
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Opponent <|-- Enemy
+
+@enduml
+```

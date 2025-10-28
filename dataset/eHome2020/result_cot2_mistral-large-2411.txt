@@ -1,0 +1,42 @@
+```plantuml
+@startuml
+class Sensor{}
+class SensorController{}
+class Apartment{}
+class Inhabitant{}
+class Username{}
+class Password{}
+class Threshold{}
+class E-Monitor{}
+class Message{}
+class Alert{}
+class Email{}
+class Address{}
+class Room{}
+class TemperatureSensor{}
+class PowerSensor{}
+class VendorId{}
+class Value{}
+class Timestamp{}
+
+Sensor "0..*" -- "1..1" SensorController
+SensorController "1..1" -- "0..1" Apartment
+Inhabitant "0..*" -- "1..1" Apartment
+Inhabitant "1..1" -- "0..1" Username
+Inhabitant "1..1" -- "0..1" Password
+Sensor "0..*" -- "0..1" Threshold
+SensorController "1..1" -- "0..1" E-Monitor
+Sensor "1..*" -- "0..*" E-Monitor
+Inhabitant "0..*" -- "0..1" Email
+Inhabitant "0..*" -- "0..*" Message
+Inhabitant "0..*" -- "0..*" Alert
+Apartment "1..1" -- "1..1" Address
+Room "2..*" -- "1..1" Apartment
+Sensor "1..1" -- "1..1" Room
+TemperatureSensor "1..1" -- "1..1" Sensor
+PowerSensor "1..1" -- "1..1" Sensor
+Sensor "1..1" -- "1..1" VendorId
+Value "0..*" -- "1..1" Sensor
+Value "1..1" -- "1..1" Timestamp
+@enduml
+```

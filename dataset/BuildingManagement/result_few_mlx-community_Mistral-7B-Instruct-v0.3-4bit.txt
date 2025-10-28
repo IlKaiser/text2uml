@@ -1,0 +1,74 @@
+@startuml
+
+class WebPortal {
+  - versionNumber
+  - url
+  - catalogOfBuildings
+}
+
+class Building {
+  - uniqueID
+  - name
+  - energyClass
+  - address
+  - yearOfConstruction
+  - owner
+  - additionalEntries
+  - profileImage
+}
+
+class AdditionalEntry {
+  - name
+  - value
+  - unit
+  - isPublic
+}
+
+class User {
+  - userName
+  - email
+  - password
+  - isRegistered
+  - isAdmin
+  - idCardNumber (Admin only)
+}
+
+class Visitor {
+  - searchesBuildings
+}
+
+class Owner {
+  - createsBuildings
+  - managesEntries
+  - commentsOnBuildings
+}
+
+class RegisteredUser {
+  - registersAsUser
+  - receivesActivationEmail
+  - logsIn
+}
+
+class Administrator {
+  - setsUpUserAccounts
+  - deletesComments
+}
+
+Visitor "0..*" -- "1" RegisteredUser
+RegisteredUser "1" -- "1" Owner
+Owner "1" -- "0..*" AdditionalEntry
+AdditionalEntry "0..*" -- "1" Building
+Building "1" -- "0..*" AdditionalEntry
+Building "1" -- "0..*" Image
+Image "0..*" -- "1" Building
+Owner "1" -- "0..*" Comment
+Comment "0..*" -- "1" Building
+
+Visitor "1" -- "0..*" Building
+
+RegisteredUser "1" -- "1" Building
+Owner "1" -- "1" Building
+
+Administrator "1" -- "0..*" RegisteredUser
+
+@enduml

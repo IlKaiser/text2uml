@@ -1,0 +1,24 @@
+@startuml
+
+class User{}
+class Game{}
+class HallOfFame{}
+class Block{}
+class Level{}
+class Ball{}
+class Paddle{}
+class SavedGame{}
+
+Game "1" -- "1" HallOfFame
+Game "1" -- "1..*" Block
+Game "1" -- "1..99" Level
+Level "1" -- "1..*" Block
+Game "1" -- "0..*" User
+User "0..*" -- "0..*" Game
+User "1" -- "0..*" SavedGame
+Game "1" -- "0..*" SavedGame
+SavedGame "1" -- "1" Ball
+SavedGame "1" -- "1" Paddle
+Level "1" -- "0..*" SavedGame
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+class Broker {}
+class BrokerCustomerAssignment {}
+class ClaimCase {}
+class CompensationPayment {}
+class Contract {}
+class Customer {}
+class Estimator {}
+class InsurancePolicy {}
+class Invoice {}
+class Report {}
+
+Broker "1" -- "0..*" BrokerCustomerAssignment
+ClaimCase "1" -- "0..1" CompensationPayment
+ClaimCase "1" -- "0..*" Report
+Contract "1" -- "0..*" ClaimCase
+Contract "1" -- "0..*" Invoice
+Contract "1" -- "1..*" InsurancePolicy
+Customer "1" -- "0..1" BrokerCustomerAssignment
+Customer "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" CompensationPayment
+Customer "1" -- "0..*" Contract
+Estimator "1" -- "0..*" Report
+
+@enduml

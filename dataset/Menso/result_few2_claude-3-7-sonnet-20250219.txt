@@ -1,0 +1,24 @@
+@startuml
+
+class BusCompany {}
+class Bus {}
+class Trajectory {}
+class Line {}
+class MensoTicket {}
+class MensoUser {}
+class Trip {}
+class Invoice {}
+class TownAuthority {}
+
+BusCompany "1" -- "1..*" Bus
+BusCompany "1" -- "1..*" Trajectory
+BusCompany "1" -- "1..*" Line
+Line "1" -- "1..*" Trajectory
+Bus "0..*" -- "1..*" Line
+MensoTicket "1" -- "1" MensoUser
+MensoUser "1" -- "0..*" Trip
+MensoUser "1" -- "0..*" Invoice
+Invoice "1" -- "1..*" Trip
+Trajectory "0..*" -- "1..*" TownAuthority
+
+@enduml

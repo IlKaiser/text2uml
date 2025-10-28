@@ -1,0 +1,33 @@
+@startuml
+
+class SmartHomeAutomationSystem {}
+class SmartHome {}
+class Room {}
+class SensorDevice {}
+class ActuatorDevice {}
+class DeviceIdentifier {}
+class SensorReading {}
+class ControlCommand {}
+class ActivityLog {}
+class AutomationRule {}
+class AutomationRulePrecondition {}
+class AutomationRuleAction {}
+class AutomationRuleDependency {}
+
+SmartHomeAutomationSystem "1" -- "0..*" SmartHome
+SmartHome "1" -- "0..*" Room
+Room "0..*" -- "0..*" SensorDevice
+Room "0..*" -- "0..*" ActuatorDevice
+SensorDevice "1" -- DeviceIdentifier
+ActuatorDevice "1" -- DeviceIdentifier
+SensorDevice "0..*" -- SensorReading
+ActuatorDevice "0..*" -- ControlCommand
+SmartHome "1" -- ActivityLog
+AutomationRule "0..*" -- AutomationRulePrecondition
+AutomationRule "0..*" -- AutomationRuleAction
+AutomationRule "0..*" -- AutomationRuleDependency
+
+AutomationRulePrecondition "0..*" -- AutomationRuleDependency
+AutomationRuleAction "0..*" -- ControlCommand
+
+@enduml

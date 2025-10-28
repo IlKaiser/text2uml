@@ -1,0 +1,57 @@
+@startuml
+
+class GameDesigner{}
+class Game{}
+class Player{}
+class PlayingPiece{}
+class Die{}
+class ConnectionPiece{}
+class SpareConnectionPieces{}
+class Deck_of_ActionCards{}
+class ActionCard{}
+class HiddenTile{}
+class StartingPosition{}
+class ActionTiles{}
+class GameBoard{}
+class Layout{}
+class Deck_of_32_Predefined_Choices{}
+class Tile{}
+class Action{}
+
+GameDesigner "1" -- "1" Game
+Game "0..1" HiddenTile
+Game "*" ActionTiles
+Game "1" GameBoard
+Game "0..1" Deck_of_32_Predefined_Choices
+Game "*" SpareConnectionPieces
+Game "0..1" Deck_of_ActionCards
+Game "*" PlayingPiece
+Game "*" Player
+
+Tile "0..4" ConnectionPiece
+ConnectionPiece "1" Tile
+PlayingPiece "1" Player
+Player "1" Game
+Player "1" StartingPosition
+
+ActionTile "0..1" ActionCard
+ActionCard "0..1" Action
+ActionCard "0..1" PlayingPiece
+ActionCard "0..1" Tile
+
+GameBoard "*" Tile
+GameBoard "*" ActionTile
+Layout "1" GameBoard
+Layout "0..1" Deck_of_32_Predefined_Choices
+Layout "*" HiddenTile
+Layout "*" StartingPosition
+Layout "*" ActionTiles
+
+Deck_of_32_Predefined_Choices "*" ActionCard
+Deck_of_ActionCards "*" ActionCard
+SpareConnectionPieces "*" ConnectionPiece
+ActionCard "0..1" PlayingPiece
+ActionCard "0..1" Tile
+ActionCard "0..1" ConnectionPiece
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+
+class Traveller {}
+class SearchRequest {}
+class Offer {}
+class Hotel {}
+class PreliminaryBooking {}
+class FinalizedBooking {}
+class SpecialOffer {}
+class Confirmation {}
+class Cancellation {}
+class RoomType {}
+class HotelChain {}
+class City {}
+
+Traveller "1" -- "0..*" SearchRequest
+Traveller "1" -- "0..*" PreliminaryBooking
+Traveller "1" -- "0..*" FinalizedBooking
+Traveller "1" -- "0..*" Cancellation
+SearchRequest "1" -- "0..*" Offer
+Offer "0..*" -- "1" Hotel
+Offer "0..*" -- "1" RoomType
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+PreliminaryBooking "0..1" -- "1" FinalizedBooking
+SpecialOffer "0..*" -- "1" Hotel
+FinalizedBooking "0..*" -- "1" Hotel
+FinalizedBooking "1" -- "0..1" Confirmation
+FinalizedBooking "1" -- "0..1" Cancellation
+Confirmation "0..*" -- "1" Hotel
+Hotel "0..*" -- "0..1" HotelChain
+Hotel "0..*" -- "1" City
+Hotel "1" -- "0..*" RoomType
+
+@enduml

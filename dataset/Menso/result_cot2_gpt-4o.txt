@@ -1,0 +1,41 @@
+```plantuml
+@startuml
+
+class Bus{}
+class BusLine{}
+class Destination{}
+class Trajectory{}
+class TownAuthority{}
+class Approval{}
+class Company{}
+class SeasonTicket{}
+class MENSOProject{}
+class Category{}
+class Trip{}
+class Ticket{}
+class User{}
+class TicketMachine{}
+class Invoice{}
+class Customer{}
+class Pattern{}
+
+Bus "0..*" -- "1..1" BusLine
+Bus "0..*" -- "0..*" Trajectory
+BusLine "1..*" -- "0..*" Destination
+Company "1..1" -- "0..*" Bus
+Company "1..*" -- "0..*" Trajectory
+Trajectory "0..*" -- "0..1" Approval
+Trajectory "0..*" -- "1..1" BusLine
+Approval "0..*" -- "1..1" TownAuthority
+MENSOProject "0..*" -- "1..*" SeasonTicket
+MENSOProject "1..*" -- "1..*" BusLine
+SeasonTicket "1..1" -- "0..*" Customer
+Trip "0..*" -- "0..*" Invoice
+Customer "0..*" -- "0..*" Invoice
+TicketMachine "0..*" -- "0..*" Trip
+User "0..*" -- "0..*" Trip
+User "1..1" -- "0..*" Customer
+MENSOProject "0..*" -- "0..*" Pattern
+
+@enduml
+```

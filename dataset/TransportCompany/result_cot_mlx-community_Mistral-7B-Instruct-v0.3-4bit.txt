@@ -1,0 +1,30 @@
+@startuml
+
+TransportCompany "1" -- "*" Driver
+TransportCompany "1" -- "*" Planner
+TransportCompany "1" -- "*" AdministrativeStaff
+TransportCompany "--*" Customer
+TransportCompany "--*" Vehicle
+
+Vehicle "--" RefrigeratedTruck
+Vehicle "--" SmallVan
+Vehicle "--" LoadingPlatform
+Vehicle "--" BoxTruck
+Vehicle "--" RepairShop
+
+RefrigeratedTruck "--" Vehicle
+SmallVan "--" Vehicle
+LoadingPlatform "--" Vehicle
+BoxTruck "--" Vehicle
+Vehicle "--" RepairShop
+
+Employee "--" RepairShop
+
+Order "0..*" --" Driver
+Order "0..*" --" Planner
+Order "0..*" --" Customer
+Order "1..1" --" Vehicle
+Order "0..*" --" Comment
+Order "--" PartnerCompany
+
+@enduml

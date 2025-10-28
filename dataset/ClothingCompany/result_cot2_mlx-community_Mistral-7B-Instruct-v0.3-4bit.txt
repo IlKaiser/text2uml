@@ -1,0 +1,93 @@
+@startuml
+
+!define_class Company
+Company(name)
+
+!define_class Application
+Application(name)
+
+!define_class Customer
+Customer(name, representative, customerData)
+
+!define_class Representative
+Representative(firstName, lastName, socialSecurityNumber, telephoneNumber, emailAddress, countryOfRepresentative)
+
+!define_class CustomerData
+CustomerData(name, address, telephoneNumberCustomer, emailAddressCustomer)
+
+!define_class CountriesOfResale
+CountriesOfResale(country)
+
+!define_class Country
+Country(name, vatRate, conversionRate, clothes, shoes, headwear, orders, countriesOfResale)
+
+!define_class VATRate
+VATRate(country)
+
+!define_class ConversionRate
+ConversionRate(country)
+
+!define_class Clothing
+Clothing(name, description, netPrice, uniqueName, manufacturedProduct, country, application)
+
+!define_class Shoes
+Shoes(name, description, netPrice, uniqueName, manufacturedProduct, country)
+
+!define_class Headwear
+Headwear(name, description, netPrice, uniqueName, manufacturedProduct, country)
+
+!define_class Product
+Product(name, description, netPrice, uniqueName, manufacturedProduct, countryOfOrder, headwear, shoes, clothing)
+
+!define_class ManufacturedProduct
+ManufacturedProduct(company)
+
+!define_class Order
+Order(representativeResponsibleForOrder, customer, items, orderDate, desiredDeliveryDate)
+
+!define_class Items
+Items(productInOrder, orderQuantity)
+
+!define_class ProductInOrder
+ProductInOrder(product)
+
+!define_class RepresentativeResponsibleForOrder
+RepresentativeResponsibleForOrder(representative)
+
+!define_class Orders
+Orders(country)
+
+!define_class CountriesOfOrder
+CountriesOfOrder(country)
+
+Customer "0..*" -- "1" Representative
+Representative "1" -- "1" CountryOfRepresentative
+Customer "0..*" -- "1" CustomerData
+CustomerData "1" -- "1" Name
+CustomerData "1" -- "1" Address
+CustomerData "1" -- "1" TelephoneNumberCustomer
+CustomerData "1" -- "1" EmailAddressCustomer
+Customer "0..*" -- "0..*" CountriesOfResale
+CountriesOfResale "1" -- "1" Country
+Country "0..*" -- "0..*" CountriesOfResale
+Country "0..*" -- "0..*" VATRate
+Country "0..*" -- "0..*" ConversionRate
+Product "1" -- "1" UniqueName
+Product "1" -- "1" Description
+Product "1" -- "1" NetPrice
+Product "1" -- "1" ManufacturedProduct
+Product "1" -- "1" CountryOfOrder
+Country "0..*" -- "0..*" CountriesOfOrder
+Country "0..*" -- "0..*" Clothing
+Clothing "0..*" -- "1" Application
+Product "0..1" Headwear
+Product "0..1" Shoes
+Product "1" -- "1" Clothing
+Clothing "0..1" Application
+Order "1" -- "1" RepresentativeResponsibleForOrder
+Order "1" -- "0..*" Customer
+Order "1" -- "1" Items
+Items "1" -- "1" ProductInOrder
+Product "0..*" -- "1" Orders
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+
+class HMBS {}
+class Traveller {}
+class PreliminaryBooking {}
+class FinalizedBooking {}
+class CreditCard {}
+class PaymentMethod {}
+class Hotel {}
+class HotelChain {}
+class City {}
+class RoomType {}
+class SpecialOffer {}
+
+Traveller "1" -- "0..*" PreliminaryBooking
+Traveller "1" -- "0..*" FinalizedBooking
+HMBS "1" -- "0..*" PreliminaryBooking
+HMBS "1" -- "0..*" FinalizedBooking
+Traveller "1" -- "0..*" CreditCard
+FinalizedBooking "1" -- "1" CreditCard
+FinalizedBooking "1" -- "1" Hotel
+Hotel "0..*" -- "1" City
+HotelChain "1" -- "0..*" Hotel
+Hotel "1" -- "0..*" RoomType
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+SpecialOffer "0..1" -- "1" Hotel
+FinalizedBooking "1" -- "1" PaymentMethod
+
+@enduml

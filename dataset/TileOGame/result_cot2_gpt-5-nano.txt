@@ -1,0 +1,40 @@
+@startuml
+class Designer{}
+class Game{}
+class Board{}
+class Tile{}
+class HiddenTile{}
+class ActionTile{}
+class RegularTile{}
+class ConnectionPiece{}
+class Player{}
+class PlayingPiece{}
+class Die{}
+class ActionCard{}
+class Deck{}
+class Color{}
+class Position{}
+class StartingPosition{}
+class Turn{}
+
+Designer "1..1" -- "Deck"
+Designer "1..1" -- "Board"
+Deck "0..*" -- "ActionCard"
+Game "0..*" -- "Turn"
+Game "1..*" -- "Player"
+Game "1..1" -- "Board"
+Board "0..*" -- "Tile"
+Board "0..*" -- "HiddenTile"
+Board "0..*" -- "ActionTile"
+Board "0..*" -- "RegularTile"
+Board "0..*" -- "ConnectionPiece"
+Tile "0..*" -- "ConnectionPiece"
+Tile "1..1" -- "Color"
+ActionTile "1..1" -- "Deck"
+StartingPosition "1..1" -- "Position"
+Player "1..1" -- "StartingPosition"
+Player "1..1" -- "PlayingPiece"
+PlayingPiece "1..1" -- "Color"
+Turn "1..1" -- "Player"
+Turn "1..1" -- "Die"
+@enduml

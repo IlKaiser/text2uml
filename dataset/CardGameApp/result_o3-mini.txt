@@ -1,0 +1,34 @@
+@startuml
+
+class Game{}
+class Player{}
+class Deck{}
+class Card{}
+class ScoringTable{}
+class Round{}
+class JackRound{}
+class SoloRound{}
+class MandatorySoloRound{}
+class Suit{}
+class Solo{}
+class TrumpSolo{}
+class JackSolo{}
+class QueenSolo{}
+
+Game "1..1" -- "4..4" Player
+Game "1..1" -- "1..1" Deck
+Game "1..1" -- "1..1" ScoringTable
+Deck "1..1" -- "0..48" Card
+ScoringTable "1..1" -- "0..*" Round
+Round "1..1" -- "1..*" Player
+Round "0..1" -- "0..1" JackRound
+Round "0..1" -- "1..1" SoloRound
+SoloRound "1..1" -- "1..1" Solo
+SoloRound "1..1" -- "1..1" Player
+Card "1..1" -- "0..*" Suit
+MandatorySoloRound --|> SoloRound
+TrumpSolo --|> Solo
+JackSolo --|> Solo
+QueenSolo --|> Solo
+
+@enduml

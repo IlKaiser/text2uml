@@ -1,0 +1,35 @@
+@startuml
+
+class HeadCoach {}
+class Director {}
+class Scout {}
+class HeadScout {}
+class Player {}
+class DesignatedPlayerProfile {}
+class TargetPosition {}
+class PlayerAttribute {}
+class LongList {}
+class ScoutingAssignment {}
+class ScoutingReport {}
+class ShortList {}
+class Offer {}
+
+HeadCoach "1" -- "0..*" DesignatedPlayerProfile
+DesignatedPlayerProfile "1" -- "0..*" TargetPosition
+DesignatedPlayerProfile "1" -- "0..*" PlayerAttribute
+Scout -- LongList
+LongList "1" -- "0..*" Player
+HeadScout "1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1" -- "1" Player
+Scout "1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1" -- "1" ScoutingReport
+Scout "1" -- "0..*" ScoutingReport
+HeadCoach "1" -- "0..*" ShortList
+HeadScout "1" -- "0..*" ShortList
+ShortList "1" -- "0..*" Player
+ShortList "1" -- "0..*" ScoutingAssignment
+HeadScout "1" -- "0..*" Offer
+Director "1" -- "0..*" Offer
+Offer "1" -- "1" Player
+
+@enduml

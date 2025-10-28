@@ -1,0 +1,29 @@
+@startuml
+class Sober{}
+class Car{}
+class SelfDrivingCar{}
+class Owner{}
+class Customer{}
+class Ride{}
+class RideHailService{}
+class RideShareService{}
+class App{}
+class GestureRecognition{}
+class Accident{}
+class Location{}
+
+Sober "1..*" -- "1..1" SelfDrivingCar
+Sober "1..1" -- "0..*" RideHailService
+Sober "1..1" -- "0..*" RideShareService
+Sober "1..1" -- "1..1" App
+Sober "0..*" -- "1..1" Owner
+Car "1..1" -- "0..*" Owner
+GestureRecognition "0..*" -- "1..1" Ride
+App "1..*" -- "1..1" Customer
+App "1..*" -- "0..*" RideHailService
+Customer "0..*" -- "1..1" Ride
+Ride "2..2" -- "0..*" Location
+Ride "1..1" -- "1..*" RideHailService
+Ride "1..1" -- "1..*" RideShareService
+Accident "1..1" -- "0..*" Car
+@enduml

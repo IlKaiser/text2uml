@@ -1,0 +1,33 @@
+@startuml
+class ResearchDatabase{}
+class Person{}
+class Institution{}
+class Article{}
+class PeerReviewedArticle{}
+class TechnicalReport{}
+class Journal{}
+class Publisher{}
+class Authorship{}
+class Review{}
+
+ResearchDatabase "0..*" -- "0..*" Person
+ResearchDatabase "0..*" -- "0..*" Institution
+ResearchDatabase "0..*" -- "0..*" Article
+ResearchDatabase "0..*" -- "0..*" Publisher
+ResearchDatabase "0..*" -- "0..*" Journal
+ResearchDatabase "0..*" -- "0..*" Authorship
+ResearchDatabase "0..*" -- "0..*" Review
+Person "1" -- "1" Institution
+Authorship "1" -- "1" Person
+Authorship "1" -- "1" Article
+PeerReviewedArticle "1" -- "1" Journal
+Journal "0..*" -- "0..*" PeerReviewedArticle
+TechnicalReport "1" -- "1" Institution
+Institution "0..*" -- "0..*" TechnicalReport
+Publisher "0..*" -- "0..*" Journal
+Journal "1" -- "1" Publisher
+Journal "0..*" -- "0..*" Institution
+Institution "0..*" -- "0..*" Journal
+Review "1" -- "1" Person
+Review "1" -- "1" PeerReviewedArticle
+@enduml

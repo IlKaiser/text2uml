@@ -1,0 +1,44 @@
+```plantuml
+@startuml
+
+class Doctor{}
+class Patient{}
+class Requisition{}
+class Test{}
+class TestGroup{}
+class Appointment{}
+class Lab{}
+class Result{}
+class Report{}
+class Signature{}
+class Address{}
+class PhoneNumber{}
+class BusinessHours{}
+class Confirmation{}
+class Fee{}
+
+Doctor "1" -- "1..*" Requisition
+Doctor "1" -- "1" Signature
+Doctor "1" -- "1" Address
+Doctor "1" -- "1" PhoneNumber
+Patient "1" -- "1..*" Requisition
+Patient "1" -- "1" Address
+Patient "1" -- "1" PhoneNumber
+Requisition "1" -- "1..*" Test
+Requisition "1" -- "1" TestGroup
+Requisition "1" -- "0..1" Appointment
+Requisition "1" -- "1" Confirmation
+Requisition "1" -- "1..*" Result
+Requisition "1" -- "1..*" Report
+Test "1..*" -- "1" TestGroup
+Test "1" -- "1" Lab
+Appointment "1" -- "1" Lab
+Appointment "1" -- "1" BusinessHours
+Appointment "1" -- "1" Fee
+Lab "1" -- "1" Address
+Lab "1" -- "1" BusinessHours
+Lab "1" -- "1" Fee
+Result "1" -- "1" Report
+
+@enduml
+```

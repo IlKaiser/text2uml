@@ -1,0 +1,33 @@
+```plantuml
+@startuml
+
+class Doctor{}
+class Patient{}
+class Test{}
+class Requisition{}
+class Appointment{}
+class Lab{}
+class Sample{}
+class Report{}
+class Result{}
+class WalkIn{}
+class Fee{}
+
+Doctor "1..1" -- "1..1" Requisition
+Patient "1..1" -- "1..1" Requisition
+Requisition "1..*" -- "0..*" Test
+Test "1..1" -- "1..1" Lab
+Test "1..1" -- "1..1" Duration
+Test "1..1" -- "0..1" Sample
+Appointment "1..1" -- "1..1" Patient
+Appointment "1..1" -- "1..1" Lab
+Appointment "1..1" -- "1..1" Requisition
+Appointment "1..1" -- "0..1" Fee
+WalkIn "1..1" -- "1..1" Patient
+WalkIn "1..1" -- "1..1" Test
+Report "1..1" -- "1..1" Test
+Result "1..1" -- "1..1" Test
+Fee "1..1" -- "1..1" Lab
+
+@enduml
+```

@@ -1,0 +1,25 @@
+@startuml
+
+class GameDesigner{}
+class Player{}
+class BoardGame{}
+class Tile{}
+class ConnectionPiece{}
+class ActionCard{}
+class ActionTile{}
+
+BoardGame "1" -- "1" GameDesigner
+Player "1..1" -- "1..4" BoardGame
+Tile "0..*" -- "1" BoardGame
+ConnectionPiece "0..32" -- "0..*" Tile
+ActionCard "32" -- "1" BoardGame
+ActionTile "0..*" -- "1" BoardGame
+
+Tile "1" -- "1" Tile:right
+Tile "1" -- "1" Tile:left
+Tile "1" -- "1" Tile:top
+Tile "1" -- "1" Tile:bottom
+
+ActionTile "1" -- "1" ActionCard
+
+@enduml

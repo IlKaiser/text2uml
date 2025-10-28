@@ -1,0 +1,64 @@
+```plantuml
+@startuml
+
+class Club{}
+class Employee{}
+class HeadCoach{}
+class Director{}
+class Scout{}
+class PlayerProfile{}
+class Player{}
+class ScoutingAssignment{}
+class ScoutingReport{}
+class PlayerAttribute{}
+class Recommendation{}
+class ShortList{}
+class OfficialOffer{}
+
+Club "1..1" -- "1..1" HeadCoach
+Club "1..1" -- "1..1" Director
+Club "1..*" -- "0..*" Scout
+Club "1..*" -- "0..*" PlayerProfile
+Club "1..*" -- "0..*" ScoutingAssignment
+Club "1..*" -- "0..*" ScoutingReport
+Club "1..*" -- "0..*" Recommendation
+Club "1..*" -- "0..*" ShortList
+Club "1..*" -- "0..*" OfficialOffer
+
+HeadCoach "1..1" -- "0..*" PlayerProfile
+HeadCoach "1..1" -- "0..*" ScoutingAssignment
+HeadCoach "1..1" -- "0..*" ScoutingReport
+HeadCoach "1..1" -- "0..*" Recommendation
+HeadCoach "1..1" -- "0..*" ShortList
+HeadCoach "1..1" -- "0..*" OfficialOffer
+
+Director "1..1" -- "0..*" OfficialOffer
+
+Scout "1..*" -- "0..*" ScoutingAssignment
+Scout "1..*" -- "0..*" ScoutingReport
+Scout "1..*" -- "0..*" Recommendation
+
+PlayerProfile "1..*" -- "0..*" PlayerAttribute
+PlayerProfile "1..*" -- "0..*" ScoutingAssignment
+PlayerProfile "1..*" -- "0..*" ScoutingReport
+PlayerProfile "1..*" -- "0..*" Recommendation
+PlayerProfile "1..*" -- "0..*" ShortList
+PlayerProfile "1..*" -- "0..*" OfficialOffer
+
+ScoutingAssignment "1..*" -- "1..1" ScoutingReport
+ScoutingAssignment "1..*" -- "0..*" Recommendation
+
+ScoutingReport "1..*" -- "0..1" Recommendation
+
+Recommendation "1..*" -- "0..1" ShortList
+Recommendation "1..*" -- "0..1" OfficialOffer
+
+ShortList "1..*" -- "0..*" ScoutingAssignment
+ShortList "1..*" -- "0..*" ScoutingReport
+ShortList "1..*" -- "0..*" Recommendation
+ShortList "1..*" -- "0..1" OfficialOffer
+
+OfficialOffer "1..*" -- "0..1" Player
+
+@enduml
+```

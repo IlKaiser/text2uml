@@ -1,0 +1,52 @@
+```plantuml
+@startuml
+
+class HelpingHandsStore {}
+class Article {}
+class NonPerishableFood {}
+class PickupService {}
+class Resident {}
+class Vehicle {}
+class VolunteerDriver {}
+class PickupRoute {}
+class DistributionCenter {}
+class FoodBank {}
+class H2SEmployee {}
+class Client {}
+class Category {}
+class RFIDDevice {}
+
+HelpingHandsStore "1" -- "0..*" Article
+HelpingHandsStore "1" -- "0..*" NonPerishableFood
+HelpingHandsStore "1" -- "0..*" PickupService
+HelpingHandsStore "1" -- "0..*" Vehicle
+HelpingHandsStore "1" -- "0..*" DistributionCenter
+HelpingHandsStore "1" -- "0..*" VolunteerDriver
+
+PickupService "1" -- "1" Resident
+PickupService "1" -- "0..*" PickupRoute
+
+PickupRoute "1" -- "1" Vehicle
+PickupRoute "1" -- "0..*" VolunteerDriver
+
+VolunteerDriver "1" -- "0..*" PickupRoute
+
+Vehicle "0..*" -- "1" NonPerishableFood
+Vehicle "0..*" -- "1" FoodBank
+Vehicle "0..*" -- "1" Article
+Vehicle "1" -- "0..1" DistributionCenter
+
+DistributionCenter "1" -- "0..*" H2SEmployee
+
+H2SEmployee "1" -- "0..*" Article
+Article "1" -- "1" Category
+Article "0..1" -- "0..1" RFIDDevice
+
+H2SEmployee "1" -- "0..*" Client
+
+Client "0..*" -- "0..1" Article
+
+Category "0..*" -- "1" Article
+
+@enduml
+```

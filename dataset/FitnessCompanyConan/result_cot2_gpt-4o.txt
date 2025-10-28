@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+
+class FitnessCompany{}
+class Member{}
+class Trainer{}
+class FitnessCenter{}
+class Room{}
+class Session{}
+class Person{}
+class GroupSession{}
+class IndividualSession{}
+class Prospect{}
+class Intern{}
+
+FitnessCompany "1..*" -- "1..*" FitnessCenter
+FitnessCenter "1..1" -- "1..*" Room
+Member "0..*" -- "0..*" GroupSession
+Member "0..*" -- "0..*" IndividualSession
+Trainer "0..*" -- "1..*" GroupSession
+GroupSession "1..1" -- "1..1" Room
+IndividualSession "1..1" -- "1..1" Room
+Member "0..*" -- "0..1" FitnessCenter
+IndividualSession "0..*" -- "0..1" Member
+Trainer "0..1" -- "0..*" FitnessCenter
+Prospect "0..*" -- "0..*" FitnessCompany
+Intern "0..*" -- "0..*" FitnessCompany
+
+@enduml
+```

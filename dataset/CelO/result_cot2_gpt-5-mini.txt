@@ -1,0 +1,23 @@
+@startuml
+class User{}
+class Event{}
+class EventKind{}
+class Location{}
+class Address{}
+class Invitation{}
+class Task{}
+class TaskAssignment{}
+
+User "0..*" -- "1..*" Event
+Event "1..1" -- "0..*" EventKind
+Event "1..1" -- "0..*" Location
+Location "1..1" -- "0..*" Address
+Event "0..*" -- "1..1" Invitation
+Invitation "0..1" -- "0..*" User
+Task "1..1" -- "0..*" EventKind
+Event "0..*" -- "0..*" Task
+TaskAssignment "1..1" -- "0..*" Task
+TaskAssignment "1..1" -- "0..*" User
+TaskAssignment "1..1" -- "0..*" Event
+User "1..1" -- "0..*" Address
+@enduml

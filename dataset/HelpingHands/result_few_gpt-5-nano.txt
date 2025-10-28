@@ -1,0 +1,33 @@
+@startuml
+
+class H2S {}
+class Resident {}
+class PickupVehicle {}
+class VolunteerDriver {}
+class PickupRoute {}
+class SecondHandArticle {}
+class NonPerishableFood {}
+class DistributionCenter {}
+class FoodBank {}
+class RFIDTag {}
+class Category {}
+class Employee {}
+class Delivery {}
+
+H2S "1" -- "0..*" DistributionCenter
+Resident "1" -- "0..*" SecondHandArticle
+Resident "1" -- "0..*" NonPerishableFood
+SecondHandArticle "0..1" -- "1" RFIDTag
+SecondHandArticle "1" -- "1" Category
+DistributionCenter "1" -- "0..*" SecondHandArticle
+FoodBank "1" -- "0..*" NonPerishableFood
+PickupVehicle "1" -- "0..*" SecondHandArticle
+PickupVehicle "1" -- "0..*" NonPerishableFood
+PickupRoute "1" -- "1" PickupVehicle
+VolunteerDriver "0..1" -- "1" PickupRoute
+Employee "0..*" -- "1" DistributionCenter
+Delivery "1" -- "1" Resident
+Delivery "1" -- "1" SecondHandArticle
+Delivery "1" -- "1" VolunteerDriver
+
+@enduml

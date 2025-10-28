@@ -1,0 +1,36 @@
+@startuml
+
+class Home {}
+class Department {}
+class Room {}
+class Bed {}
+class Category {}
+class Inhabitant {}
+class Registration {}
+class Assessment {}
+class WaitingListEntry {}
+class Proposal {}
+class Stay {}
+class Invoice {}
+class CreditNote {}
+
+Home "1" -- "1..*" Department
+Department "1" -- "1..*" Room
+Room "1" -- "1..*" Bed
+Bed "0..*" -- "1" Category
+Inhabitant "1" -- "1..*" Stay
+Stay "1" -- "0..*" Bed
+Stay "0..*" -- "1" Category
+Inhabitant "1" -- "1" Registration
+Inhabitant "1" -- "1..*" Assessment
+Assessment "1" -- "1" Category
+Inhabitant "1" -- "0..*" WaitingListEntry
+Category "1" -- "0..*" WaitingListEntry
+WaitingListEntry "1" -- "0..*" Proposal
+Proposal "1" -- "0..*" Bed
+Proposal "0..1" -- "1" Stay
+Stay "1" -- "0..*" Invoice
+Invoice "1" -- "0..1" CreditNote
+Proposal "0..1" -- "0..1" Assessment
+
+@enduml

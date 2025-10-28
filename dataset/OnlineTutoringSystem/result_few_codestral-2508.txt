@@ -1,0 +1,33 @@
+```plantuml
+@startuml
+
+class Student {}
+class Tutor {}
+class Subject {}
+class TutoringOffer {}
+class TutoringRequest {}
+class TutoringSession {}
+class Payment {}
+class CancellationPolicy {}
+class Award {}
+
+Student "1" -- "0..*" TutoringRequest
+Student "1" -- "0..*" TutoringSession
+Student "1" -- "0..*" Payment
+Student "1" -- "0..*" Award
+
+Tutor "1" -- "0..*" TutoringOffer
+Tutor "1" -- "0..*" TutoringRequest
+Tutor "1" -- "0..*" TutoringSession
+Tutor "1" -- "0..*" Award
+
+Subject "1" -- "0..*" TutoringOffer
+Subject "1" -- "0..*" Award
+
+TutoringOffer "1" -- "0..*" TutoringRequest
+TutoringRequest "1" -- "1" TutoringSession
+TutoringSession "1" -- "0..1" Payment
+TutoringSession "1" -- "0..1" CancellationPolicy
+
+@enduml
+```

@@ -1,0 +1,29 @@
+```plantuml
+@startuml
+
+class Aircraft {}
+class Flight {}
+class Passenger {}
+class Ticket {}
+class PassengerAircraft {}
+class SeatCategory {}
+class Airline {}
+class FlightAttendant {}
+class Pilot {}
+class Airport {}
+
+Aircraft "1" -- "0..*" Flight
+Aircraft "1..1" -- "0..1" Airline
+Aircraft "0..1" -- "1" Airport
+Flight "0..1" -- "1" Airport : departure
+Flight "0..1" -- "1" Airport : destination
+Flight "0..*" -- "0..*" Passenger
+Flight "1" -- "0..*" FlightAttendant
+Flight "1..1" -- "1" Pilot : captain
+Flight "1" -- "0..2" Pilot : co-pilot
+Ticket "1" -- "1" Passenger
+Ticket "1" -- "0..1" SeatCategory
+PassengerAircraft "1" -- "0..1" SeatCategory
+
+@enduml
+```

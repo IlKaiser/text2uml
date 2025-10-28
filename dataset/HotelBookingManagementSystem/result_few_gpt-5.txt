@@ -1,0 +1,71 @@
+@startuml
+
+class Traveller {}
+class HBMS {}
+class Hotel {}
+class HotelChain {}
+class City {}
+class Address {}
+class RoomType {}
+class Offer {}
+class SpecialOffer {}
+class SearchRequest {}
+class PreliminaryBooking {}
+class Booking {}
+class Confirmation {}
+class CancellationDeadline {}
+class ReliabilityRating {}
+class AvailabilityAnnouncement {}
+class Cancellation {}
+class Reimbursement {}
+class Compensation {}
+class CreditCard {}
+
+City "1" -- Hotel
+Address "1" -- "1" Hotel
+HotelChain "1" -- Hotel
+Hotel "1" -- RoomType
+
+SearchRequest "1" -- Traveller
+SearchRequest "1" -- HBMS
+
+Offer "1" -- Hotel
+Offer "1" -- SearchRequest
+Offer "1" -- RoomType
+
+PreliminaryBooking "1" -- Offer
+PreliminaryBooking "1" -- Traveller
+HBMS "1" -- PreliminaryBooking
+
+SpecialOffer "1" -- PreliminaryBooking
+SpecialOffer "1" -- Hotel
+HBMS "1" -- SpecialOffer
+Traveller "1" -- SpecialOffer
+
+Booking "1" -- Offer
+Booking "1" -- Traveller
+Booking "1" -- Hotel
+Booking "1" -- CreditCard
+Booking "1" -- "0..1" CancellationDeadline
+
+Confirmation "1" -- Booking
+Confirmation "1" -- Hotel
+Confirmation "1" -- Traveller
+
+Traveller "1" -- "0..1" ReliabilityRating
+HBMS "1" -- ReliabilityRating
+
+AvailabilityAnnouncement "1" -- Hotel
+AvailabilityAnnouncement "1" -- RoomType
+AvailabilityAnnouncement "1" -- HBMS
+
+Cancellation "1" -- Booking
+Cancellation "1" -- HBMS
+Reimbursement "1" -- Cancellation
+Reimbursement "1" -- Traveller
+
+Compensation "1" -- Booking
+Compensation "1" -- Hotel
+Compensation "1" -- Traveller
+
+@enduml

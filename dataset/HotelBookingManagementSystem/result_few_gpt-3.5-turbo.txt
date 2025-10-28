@@ -1,0 +1,25 @@
+
+@startuml
+
+class BusinessTraveller {}
+class AccommodationDeal {}
+class Hotel {}
+class Booking {}
+class PreliminaryBooking {}
+class CreditCardInformation {}
+class PaymentMethod {}
+class BillingInformation {}
+class HotelChain {}
+class RoomType {}
+
+BusinessTraveller "0..*" -- "1" CreditCardInformation
+BusinessTraveller "0..*" -- "1" BillingInformation
+BusinessTraveller "0..*" -- "1" RoomType
+Booking "1" -- "0..*" PreliminaryBooking
+Booking "1" -- "1" PaymentMethod
+Booking "0..1" -- "1..*" Hotel
+Booking "0..*" -- "1" BusinessTraveller
+Hotel "1" -- "0..*" RoomType
+Hotel "0..*" -- "1" HotelChain
+
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+
+class Company{}
+class Supermarket{}
+class InformationSystem{}
+class Customer{}
+class Address{}
+class VATNumber{}
+class Product{}
+class Stock{}
+class Order{}
+class OrderLine{}
+class Payment{}
+class Delivery{}
+class ShippingAddress{}
+class Invoice{}
+class HeadOfficeAddress{}
+class Warehouse{}
+class DeliveryService{}
+class DeliveryStatus{}
+class PackingStatus{}
+class ShippedOrderLine{}
+class ToBeShippedOrderLine{}
+class Watchlist{}
+class OrderHistory{}
+class DeliveryGroup{}
+
+Company "0..*" -- Supermarket
+Company "0..1" -- InformationSystem
+Supermarket "--" HeadOfficeAddress
+Supermarket "0..1" -- Warehouse
+Customer "1..1" -- Address
+Customer "1..1" -- VATNumber
+Company "0..*" -- Customer
+Product "0..1" -- Stock
+Stock "0..*" -- Product
+Order "0..*" -- OrderLine
+OrderLine "0..1" -- Product
+Order "0..1" -- Payment
+Order "0..1" -- Delivery
+Delivery "0..*" -- DeliveryService
+Delivery "0..*" -- DeliveryGroup
+Delivery "0..1" -- ShippingAddress
+Order "0..*" -- OrderHistory
+Delivery "0..*" -- DeliveryStatus
+Delivery "0..*" -- PackingStatus
+OrderLine "0..1" -- ShippedOrderLine
+OrderLine "0..1" -- ToBeShippedOrderLine
+Customer "0..*" -- Watchlist
+Customer "0..*" -- OrderHistory
+Order "0..1" -- Invoice
+Invoice "0..1" -- Payment
+Order "0..*" -- ToBeShippedOrderLine
+Delivery "0..*" -- ShippedOrderLine
+Delivery "0..*" -- ToBeShippedOrderLine
+
+@enduml

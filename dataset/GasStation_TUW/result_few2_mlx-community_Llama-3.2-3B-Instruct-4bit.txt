@@ -1,0 +1,27 @@
+@startuml
+
+class GasStation{}
+class Pump{}
+class Fuel{}
+class FuelPrice{}
+class DailyPrice{}
+class FuelPurchase{}
+class FuelPumpOffering{}
+
+GasStation "1" -- "1" Pump
+GasStation "1" -- "1" FuelPrice
+GasStation "1" -- "1" DailyPrice
+GasStation "1" -- "1" FuelPurchase
+Fuel "1" -- "1" FuelPumpOffering
+FuelPrice "1" -- "1" DailyPrice
+DailyPrice "1" -- "1" FuelPurchase
+FuelPurchase "1" -- "1" FuelPurchase
+
+GasStation "1" -- "1" Fuel
+Fuel "1" -- "1" FuelPumpOffering
+FuelPumpOffering "1" -- "1" Fuel
+
+Pump "1" -- "1" FuelPumpOffering
+FuelPumpOffering "1" -- "1" Fuel
+
+@enduml

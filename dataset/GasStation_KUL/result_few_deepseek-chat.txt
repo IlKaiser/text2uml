@@ -1,0 +1,24 @@
+@startuml
+
+class OilCompany {}
+class GasStation {}
+class Pump {}
+class GasolineType {}
+class Customer {}
+class RefuelCard {}
+class RefuelTurn {}
+class Invoice {}
+class Payment {}
+class DailyReport {}
+
+OilCompany "1" -- "1..*" GasStation
+GasStation "1" -- "1..*" Pump
+Pump "1" -- "1" GasolineType
+Customer "1" -- "0..1" RefuelCard
+RefuelCard "1" -- "0..*" RefuelTurn
+RefuelTurn "1" -- "1" Pump
+RefuelTurn "0..1" -- "1" Invoice
+Invoice "1" -- "0..*" Payment
+GasStation "1" -- "1" DailyReport
+
+@enduml

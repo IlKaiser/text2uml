@@ -1,0 +1,39 @@
+@startuml
+class Home{}
+class Department{}
+class Room{}
+class Bed{}
+class Category{}
+class Inhabitant{}
+class Stay{}
+class StayType{}
+class Registration{}
+class Assessment{}
+class WaitingList{}
+class Proposal{}
+class Invoice{}
+class PaymentEvent{}
+class CreditNote{}
+
+Home "1..*" -- "1..1" Department.
+Department "1..*" -- "1..1" Room.
+Room "1..*" -- "1..1" Bed.
+Bed "1..1" -- "0..*" Category.
+Category "1..1" -- "1..1" StayType.
+Inhabitant "0..*" -- "0..*" Bed.
+Inhabitant "0..*" -- "1..1" Stay.
+Stay "1..1" -- "0..*" Bed.
+Stay "1..1" -- "0..*" StayType.
+Inhabitant "1..1" -- "1..1" Registration.
+Inhabitant "0..*" -- "1..1" Assessment.
+Assessment "1..1" -- "0..*" StayType.
+WaitingList "1..1" -- "1..1" StayType.
+WaitingList "0..*" -- "0..*" Inhabitant.
+Proposal "1..1" -- "0..*" Inhabitant.
+Proposal "1..1" -- "0..*" StayType.
+Proposal "1..1" -- "0..*" WaitingList.
+Invoice "1..1" -- "0..*" Stay.
+Invoice "1..1" -- "0..*" Inhabitant.
+PaymentEvent "1..1" -- "0..*" Invoice.
+CreditNote "1..1" -- "0..*" Invoice.
+@enduml

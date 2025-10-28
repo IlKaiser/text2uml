@@ -1,0 +1,27 @@
+@startuml
+class User{}
+class Game{}
+class Block{}
+class Level{}
+class HallOfFame{}
+class Ball{}
+class Paddle{}
+class PlayArea{}
+class Admin{}
+class Player{}
+class Score{}
+
+User "1..1" -- "1..1" Player
+User "0..1" -- "1..1" Admin
+Admin "1..*" -- "1..1" Game
+Game "1..*" -- "1..1" Level
+Level "1..*" -- "0..*" Block
+Game "1..*" -- "1..1" Block
+Game "1..1" -- "1..1" HallOfFame
+Player "0..*" -- "0..*" Game
+PlayArea "1..1" -- "1..1" Ball
+PlayArea "1..*" -- "1..1" Paddle
+Score "1..1" -- "0..*" HallOfFame
+Score "1..1" -- "0..*" Block
+Score "1..1" -- "0..*" Player
+@enduml

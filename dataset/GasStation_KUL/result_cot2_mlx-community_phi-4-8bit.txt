@@ -1,0 +1,43 @@
+```plantuml
+@startuml
+
+class OilCompany {}
+class GasStation {}
+class Country {}
+class Customer {}
+class RefuelTurn {}
+class Invoice {}
+class CreditCard {}
+class RefuelCard {}
+class Discount {}
+class Payment {}
+class Pump {}
+class Gasoline {}
+class Reservoir {}
+class Nozzle {}
+class GasStationResponsible {}
+class Report {}
+
+OilCompany "1..*" -- "1..*" GasStation
+GasStation "1..*" -- "1..*" Country
+Customer "1..*" -- "0..*" RefuelTurn
+RefuelTurn "1..1" -- "1..1" Payment
+RefuelTurn "1..1" -- "1..1" Invoice
+Customer "1..*" -- "0..1" RefuelCard
+RefuelCard "1..*" -- "0..*" RefuelTurn
+Invoice "1..*" -- "0..*" Discount
+Invoice "1..1" -- "1..1" Payment
+RefuelTurn "1..1" -- "1..1" Gasoline
+GasStation "1..*" -- "1..*" Pump
+Pump "1..1" -- "1..1" Reservoir
+Pump "1..1" -- "1..1" Nozzle
+Pump "1..*" -- "1..*" Gasoline
+GasStation "1..*" -- "1..1" GasStationResponsible
+GasStationResponsible "1..*" -- "0..*" Report
+Pump "1..1" -- "1..1" Reservoir
+RefuelTurn "1..1" -- "1..1" Pump
+Payment "1..1" -- "1..1" CreditCard
+RefuelTurn "1..1" -- "1..1" Nozzle
+
+@enduml
+```

@@ -1,0 +1,41 @@
+
+@startuml
+
+class SmartHome{}
+class Room{}
+class Sensor{}
+class Actuator{}
+class Device{}
+class InfrastructureMap{}
+class SensorReading{}
+class ControlCommand{}
+class ActivityLog{}
+class Alert{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class BooleanExpression{}
+class RelationalTerm{}
+class BasicBooleanOperator{}
+class AtomicRelationalTerm{}
+class RuleHierarchy{}
+class Timestamp{}
+
+SmartHome "1..*" -- "1..*" Room
+Room "1..*" -- "0..*" Sensor
+Room "1..*" -- "0..*" Actuator
+Sensor "1..*" -- "1..*" SensorReading
+Actuator "1..*" -- "1..*" ControlCommand
+SmartHome "1..*" -- "1..*" ActivityLog
+SmartHome "1..*" -- "1..*" Alert
+SmartHome "1..*" -- "1..*" AutomationRule
+AutomationRule "1..*" -- "1..*" Precondition
+AutomationRule "1..*" -- "1..*" Action
+Precondition "1..*" -- "1..*" BooleanExpression
+BooleanExpression "1..*" -- "1..*" RelationalTerm
+RelationalTerm "1..*" -- "1..*" BasicBooleanOperator
+RelationalTerm "1..*" -- "1..*" AtomicRelationalTerm
+AutomationRule "1..*" -- "1..*" RuleHierarchy
+Alert "1..*" -- "1..*" Timestamp
+
+@enduml

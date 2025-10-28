@@ -1,0 +1,22 @@
+@startuml
+
+class School {}
+class Principal {}
+class Teacher {}
+class Student {}
+class ClassGroup {}
+class Classroom {}
+
+School "1" -- "0..1" Principal
+Teacher "0..3" -- "1" School
+Teacher "1" -- "0..1" Principal
+
+Student "1" -- "1" School
+Teacher "0..*" -- "0..*" Student
+
+ClassGroup "1..1" -- "0..*" Teacher
+ClassGroup "1" -- "1" Student
+ClassGroup "1" -- "1" Classroom
+Classroom "1" -- "1" ClassGroup
+
+@enduml

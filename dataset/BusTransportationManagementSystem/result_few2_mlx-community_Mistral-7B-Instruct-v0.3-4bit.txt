@@ -1,0 +1,56 @@
+@startuml
+
+class City {}
+class BTMS {}
+class BusRoute {}
+class Bus {}
+class Shift {}
+class Driver {}
+
+City "1" -- "1" BTMS
+BTMS "1" -- "0..*" BusRoute
+BTMS "1" -- "0..*" Bus
+BusRoute "1" -- "0..*" Shift
+BusRoute "1" -- "0..*" Bus
+Shift "1" -- "0..*" Driver
+
+@enduml
+
+Relations:
+- BusRoute "1" -- "0..*" Shift
+- BusRoute "1" -- "0..*" Bus
+- Shift "1" -- "0..*" Driver
+
+Cardinality:
+- City "1" -- "1" BTMS
+- BTMS "1" -- "0..*" BusRoute
+- BTMS "1" -- "0..*" Bus
+- BusRoute "1" -- "0..*" Shift
+- BusRoute "1" -- "0..*" Bus
+- Shift "1" -- "0..*" Driver
+
+The cardinality for the relations is not specified in the text, so I've omitted it for the relations. However, if we assume that a city can have only one BTMS, a bus route can have multiple shifts and buses, a shift can have multiple drivers, and a bus can have multiple routes and shifts, the relations would look like this:
+
+- BusRoute "1" -- "1..*" Shift
+- BusRoute "1" -- "1..*" Bus
+- Shift "1" -- "1..*" Driver
+
+And the diagram would be:
+
+@startuml
+
+class City {}
+class BTMS {}
+class BusRoute {}
+class Bus {}
+class Shift {}
+class Driver {}
+
+City "1" -- "1" BTMS
+BTMS "1" -- "0..*" BusRoute
+BTMS "1" -- "0..*" Bus
+BusRoute "1" -- "1..*" Shift
+BusRoute "1" -- "1..*" Bus
+Shift "1" -- "1..*" Driver
+
+@enduml

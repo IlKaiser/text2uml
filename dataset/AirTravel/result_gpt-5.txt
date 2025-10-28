@@ -1,0 +1,30 @@
+@startuml
+
+class Aircraft{}
+class Flight{}
+class Passenger{}
+class Ticket{}
+class PassengerAircraft{}
+class SeatCategory{}
+class Airline{}
+class FlightAttendant{}
+class Pilot{}
+class Airport{}
+
+Aircraft "1..*" -- "1..1" Flight
+Flight "1..*" -- "0..*" Passenger
+Flight "0..*" -- "1..1" Ticket
+Passenger "0..*" -- "1..1" Ticket
+Aircraft "0..1" -- "1..1" PassengerAircraft
+PassengerAircraft "1..*" -- "1..1" SeatCategory
+SeatCategory "0..*" -- "1..1" Ticket
+Airline "0..*" -- "0..1" Aircraft
+Airline "1..*" -- "1..1" FlightAttendant
+Airline "1..*" -- "1..1" Pilot
+Flight "1..*" -- "0..*" FlightAttendant
+Flight "2..3" -- "0..*" Pilot
+Airport "0..*" -- "0..1" Aircraft
+Flight "1..1" -- "0..*" Airport
+Flight "1..1" -- "0..*" Airport
+
+@enduml

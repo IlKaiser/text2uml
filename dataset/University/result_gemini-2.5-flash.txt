@@ -1,0 +1,27 @@
+@startuml
+
+class University{}
+class Faculty{}
+class Institute{}
+class Employee{}
+class Dean{}
+class ResearchStaff{}
+class AdministrativeStaff{}
+class ResearchAssistant{}
+class Project{}
+class Course{}
+class Lecturer{}
+
+University "1" -- "1..*" Faculty
+Faculty "1" -- "1..*" Institute
+Faculty "1" -- "1" Dean
+Employee "0..1" -- "1" Dean
+Employee <|-- ResearchStaff
+Employee <|-- AdministrativeStaff
+ResearchStaff <|-- ResearchAssistant
+Institute "0..*" -- "1..*" ResearchAssistant
+ResearchAssistant "0..*" -- "0..*" Project
+ResearchAssistant <|-- Lecturer
+Lecturer "1..*" -- "1..*" Course
+
+@enduml

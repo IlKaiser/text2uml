@@ -1,0 +1,31 @@
+```plantuml
+@startuml
+
+class School {}
+class Teacher {}
+class Student {}
+class Principal {}
+class Classroom {}
+class Room {}
+class ClassGroup {}
+
+School "0..*" -- "1" Principal
+School "0..*" -- "1..3" Teacher
+School "0..*" -- "0..*" Student
+School "0..*" -- "0..*" Room
+
+Teacher "0..*" -- "1" Student
+Teacher "0..*" -- "1" ClassGroup
+Teacher "1" -- "0..*" School
+
+Student "1" -- "0..1" ClassGroup
+Student "1" -- "1" School
+
+ClassGroup "1..1" -- "1..1" Classroom
+ClassGroup "0..*" -- "10..31" Student
+
+Classroom "1" -- "0..*" Room
+Room "0..*" -- "1" Classroom
+
+@enduml
+```

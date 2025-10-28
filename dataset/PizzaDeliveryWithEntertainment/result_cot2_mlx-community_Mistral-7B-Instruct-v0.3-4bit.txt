@@ -1,0 +1,82 @@
+@startuml
+
+class User {
+  - LinkedInAccount
+  - Address
+}
+
+class BusinessOwner {
+  - LinkedInAccount
+}
+
+class PizzaRestaurant {
+  - Website
+  - Address
+  - OpeningHours
+  - Pizza[]
+}
+
+class Pizza {
+  - CrustStructure
+  - Price
+}
+
+class CrustStructure {}
+
+class Order {
+  - User
+  - Pizza
+  - Address
+  - OrderDetails[]
+  - EntertainmentOrder (if Entertainment Order is selected)
+  - EntertainmentOrderDetails (if Entertainment Order is selected)
+}
+
+class EntertainmentOrder {
+  - Entertainer
+  - ShortBio
+  - Availability
+  - EntertainmentOrderDetails[]
+}
+
+class Entertainer {
+  - ShortBio
+  - Availability
+  - EntertainmentOrderList
+  - EntertainerPizzaRestaurantList
+}
+
+class Address {}
+
+class LinkedInAccount {}
+
+class Website {}
+
+class OpeningHours {}
+
+class Price {}
+
+class TypeOfEntertainment {}
+
+class ShortBio {}
+
+class Availability {}
+
+PizzaRestaurant "0..*" PizzaRestaurantList
+Order "0..1" User
+Order "0..1" Pizza
+Order "0..1" Address
+Order "0..1" OrderDetails
+Order "0..1" EntertainmentOrder (if Entertainment Order is selected)
+Order "0..1" EntertainmentOrderDetails (if Entertainment Order is selected)
+EntertainmentOrder "0..1" Entertainer
+Entertainer "0..1" ShortBio
+Entertainer "0..1" Availability
+Entertainer "0..*" EntertainmentOrderList
+Entertainer "0..*" EntertainerPizzaRestaurantList
+Pizza "0..*" OrderPizzaList
+OrderDetails "0..*" Order
+EntertainmentOrderDetails "0..*" EntertainmentOrder
+Pizza "0..*" PizzaIngredient
+
+@enduml

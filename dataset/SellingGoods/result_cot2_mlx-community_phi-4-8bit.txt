@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+
+class Company {}
+class Supermarket {}
+class InformationSystem {}
+class Stock {}
+class Customer {}
+class Order {}
+class Product {}
+class OrderLine {}
+class Address {}
+class VATNumber {}
+class Payment {}
+class Delivery {}
+class Account {}
+class WorkingDay {}
+class ExclusiveProduct {}
+class PartiallyShippedOrder {}
+class Warehouse {}
+class Location {}
+class Invoice {}
+class Group {}
+class Shipment {}
+class DeliveryStatus {}
+class Packing {}
+
+Company "1..1" -- "0..*" Supermarket
+InformationSystem "1..1" -- "1..*" Stock
+Customer "1..1" -- "0..1" Address
+Customer "1..1" -- "0..1" VATNumber
+Order "1..1" -- "1..*" OrderLine
+OrderLine "1..1" -- "1..1" Product
+Order "1..1" -- "1..1" Payment
+Order "1..1" -- "1..1" Delivery
+Order "1..1" -- "1..1" Invoice
+Order "1..1" -- "1..1" Account
+Order "1..1" -- "1..1" WorkingDay
+Order "0..1" -- "1..*" PartiallyShippedOrder
+ExclusiveProduct "1..1" -- "0..1" OrderLine
+OrderLine "1..1" -- "1..1" Shipment
+Shipment "1..1" -- "1..1" DeliveryStatus
+Shipment "1..1" -- "1..1" Packing
+Customer "1..1" -- "0..1" Group
+Order "1..1" -- "0..1" Warehouse
+Warehouse "1..1" -- "0..*" Location
+Order "1..1" -- "0..1" Delivery
+Delivery "1..1" -- "0..1" Location
+
+@enduml
+```

@@ -1,0 +1,37 @@
+@startuml
+
+class HelpingHandsStore{}
+class City{}
+class Location{}
+class PickupDeliveryService{}
+class Resident{}
+class Item{}
+class PickupRequest{}
+class Vehicle{}
+class VolunteerDriver{}
+class PickupRoute{}
+class DistributionCenter{}
+class Employee{}
+class FoodBank{}
+class Client{}
+class Category{}
+
+HelpingHandsStore "1..*" -- "1..1" City
+HelpingHandsStore "1..1" -- "1..*" Location
+HelpingHandsStore "1..1" -- "1..1" PickupDeliveryService
+PickupDeliveryService "1..1" -- "1..*" PickupRequest
+Resident "1..1" -- "1..*" PickupRequest
+PickupRequest "1..1" -- "1..*" Item
+Vehicle "1..1" -- "1..*" PickupRoute
+VolunteerDriver "1..1" -- "1..*" PickupRoute
+PickupRoute "1..1" -- "1..*" PickupRequest
+PickupRoute "1..1" -- "1..1" Vehicle
+PickupRoute "1..1" -- "1..1" VolunteerDriver
+DistributionCenter "1..1" -- "1..*" Employee
+Employee "1..1" -- "1..*" Item
+Item "1..1" -- "1..1" Category
+FoodBank "1..1" -- "1..*" Item
+Client "1..1" -- "1..*" Category
+Employee "1..1" -- "1..*" Client
+
+@enduml

@@ -1,0 +1,25 @@
+```plantuml
+@startuml
+
+class Customer {}
+class Product {}
+class Order {}
+class OrderLine {}
+class Delivery {}
+class GroupOfOrderLines {}
+class Invoice {}
+class Warehouse {}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "1..*" OrderLine
+OrderLine "0..*" -- "1" Product
+Order "0..*" -- "1" Delivery
+Delivery "1" -- "1..*" GroupOfOrderLines
+GroupOfOrderLines "1" -- "1..*" OrderLine
+Customer "1" -- "0..*" Invoice
+Invoice "1" -- "1" Order
+Customer "1" -- "1" Warehouse
+Warehouse "1" -- "1..*" Order
+
+@enduml
+```

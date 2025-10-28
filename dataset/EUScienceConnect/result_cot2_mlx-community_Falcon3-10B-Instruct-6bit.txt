@@ -1,0 +1,53 @@
+@startuml
+class European_Union{}
+class funds{}
+class cross_national_research_database{}
+class information{}
+class scientific_articles{}
+class researchers{}
+class institutions{}
+class Science_Connect{}
+class system{}
+class scientific_staff{}
+class persons{}
+class research_institutions{}
+class person_ID{}
+class institution_code{}
+class phone_number{}
+class keywords{}
+class research_topics{}
+class scientific_article{}
+class DOI{}
+class document_object_identifier{}
+class title{}
+class authors{}
+class position{}
+class peer_reviewed_paper{}
+class technical_report{}
+class research_institution{}
+class publishers{}
+class name{}
+class journals{}
+
+persons "0..1" -- "0..*" scientific_staff
+persons "1..1" -- "0..1" phone_number
+persons "1..1" -- "0..*" research_topics
+persons "1..1" -- "0..1" institutions
+institutions "1..1" -- "0..*" persons
+institutions "1..1" -- "0..*" technical_report
+technical_report "1..1" -- "0..1" institutions
+scientific_article "1..1" -- "1..1" DOI
+scientific_article "1..1" -- "0..*" authors
+authors "1..1" -- "0..1" position
+scientific_article "1..1" -- "0..1" peer_reviewed_paper
+peer_reviewed_paper "1..1" -- "0..*" reviewers
+peer_reviewed_paper "1..1" -- "0..*" journals
+journals "1..1" -- "0..*" publishers
+publishers "1..1" -- "1..1" name
+journals "1..1" -- "0..1" impact_factor
+journals "1..1" -- "0..*" research_institutions
+research_institutions "1..1" -- "0..*" journals
+research_institutions "1..1" -- "0..*" technical_report
+technical_report "1..1" -- "0..1" research_topics
+scientific_article "1..1" -- "0..1" technical_report
+@enduml

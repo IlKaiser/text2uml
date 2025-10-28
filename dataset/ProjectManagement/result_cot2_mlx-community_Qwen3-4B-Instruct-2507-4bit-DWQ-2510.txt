@@ -1,0 +1,32 @@
+@startuml
+class University{}
+class ResearchGroup{}
+class Department{}
+class Researcher{}
+class Project{}
+class WorkPackage{}
+class WorkPackageLeader{}
+class TeamMember{}
+class Assignment{}
+class AssignmentRecord{}
+class ServiceDelivery{}
+class ResearchGroupChange{}
+class ResearcherChange{}
+class AssignmentTermination{}
+class AssignmentCreation{}
+class Overview{}
+
+Researcher "0..*" -- "1..1" WorkPackage
+WorkPackage "1..1" -- "1..1" ResearchGroup
+ResearchGroup "1..1" -- "0..*" Department
+Researcher "1..1" -- "1..1" ResearchGroup
+ResearchGroup "1..1" -- "0..*" ResearchGroupChange
+Researcher "1..1" -- "0..*" ResearcherChange
+WorkPackage "1..1" -- "0..*" Assignment
+Assignment "1..1" -- "1..1" TeamMember
+Assignment "1..1" -- "0..*" AssignmentRecord
+Assignment "1..1" -- "0..*" AssignmentTermination
+Assignment "1..1" -- "0..*" AssignmentCreation
+WorkPackage "1..1" -- "0..*" ServiceDelivery
+ResearchGroup "1..1" -- "0..*" Overview
+@enduml

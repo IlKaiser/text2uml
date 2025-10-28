@@ -1,0 +1,55 @@
+@startuml
+
+class Person{}
+class Trainer{}
+class Session{}
+class Room{}
+class Center{}
+class GroupSession{}
+class IndividualSession{}
+class Diploma{}
+class Prospect{}
+class Intern{}
+class Address{}
+class City{}
+class FitnessCenter{}
+class FitnessCompany{}
+class SessionType{}
+
+Person "1..1" Address -- "0..1" Diploma -- "0..1" Intern -- "0..1" Prospect
+Trainer "1..1" Diploma -- "0..1" Intern -- "0..1" Person
+Session "1..1" Trainer -- "0..1" SessionType -- "0..1" Room -- "0..1" City -- "0..1" Center
+Room "1..1" Center -- "0..1" Address -- "0..1" Person
+Center "1..*" City -- "1..*" Room -- "0..1" Address
+GroupSession "1..1" Trainer -- "0..1" SessionType -- "0..1" Room -- "0..1" Center
+IndividualSession "0..1" Trainer -- "0..1" Person -- "0..1" Room -- "0..1" Center
+IndividualSession "0..1" Room -- "0..1" Center
+
+Person -- "1..1" Address
+Person -- "0..1" Diploma
+Person -- "0..1" Intern
+Person -- "0..1" Prospect
+Trainer -- "1..1" Diploma
+Trainer -- "0..1" Intern
+Trainer -- "0..1" Person
+Session -- "1..1" Trainer
+Session -- "0..1" SessionType
+Session -- "0..1" Room
+Session -- "0..1" City
+Session -- "0..1" Center
+Room -- "1..1" Center
+Room -- "0..1" Address
+Room -- "0..1" Person
+Center -- "1..*" City
+Center -- "1..*" Room
+Center -- "0..1" Address
+GroupSession -- "1..1" Trainer
+GroupSession -- "0..1" SessionType
+GroupSession -- "0..1" Room
+GroupSession -- "0..1" Center
+IndividualSession -- "0..1" Trainer
+IndividualSession -- "0..1" Person
+IndividualSession -- "0..1" Room
+IndividualSession -- "0..1" Center
+
+@enduml

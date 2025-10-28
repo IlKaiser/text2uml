@@ -1,0 +1,39 @@
+@startuml
+class SmartHome{}
+class PhysicalAddress{}
+class Room{}
+class Device{}
+class SensorDevice{}
+class ActuatorDevice{}
+class SensorReading{}
+class ControlCommand{}
+class Owner{}
+class AutomationRule{}
+class Precondition{}
+class Action{}
+class RelationalTerm{}
+class AtomicRelationalTerm{}
+class RuleTrigger{}
+
+Room "0..*" -- "1..1" SmartHome
+SmartHome "1..1" -- "1..1" PhysicalAddress
+Device "0..*" -- "1..1" Room
+SensorReading "0..*" -- "1..1" SensorDevice
+ControlCommand "0..*" -- "1..1" ActuatorDevice
+SensorReading "0..*" -- "1..1" SmartHome
+ControlCommand "0..*" -- "1..1" SmartHome
+SmartHome "0..*" -- "1..1" Owner
+AutomationRule "0..*" -- "1..1" SmartHome
+AutomationRule "0..*" -- "1..1" Owner
+Precondition "1..1" -- "1..1" AutomationRule
+Action "1..1" -- "1..1" AutomationRule
+RelationalTerm "1..*" -- "1..1" Precondition
+AtomicRelationalTerm "0..1" -- "0..*" Room
+AtomicRelationalTerm "0..1" -- "0..*" SensorDevice
+AtomicRelationalTerm "0..1" -- "0..*" ActuatorDevice
+AtomicRelationalTerm "0..1" -- "0..*" SensorReading
+AtomicRelationalTerm "0..1" -- "0..*" ControlCommand
+AutomationRule "0..*" -- "0..*" AutomationRule
+RuleTrigger "0..*" -- "1..1" AutomationRule
+RuleTrigger "0..*" -- "1..1" SmartHome
+@enduml

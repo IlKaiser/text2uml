@@ -1,0 +1,26 @@
+
+@startuml
+class Musicmatic{}
+class Song{}
+class Artist{}
+class User{}
+class RegularUser{}
+class BusinessUser{}
+class Album{}
+class Single{}
+class Hit{}
+class Content{}
+class Suggestion{}
+
+Musicmatic "1..1" -- "0..*" Song
+Artist "1..1" -- "1..*" Song
+User "1..*" -- "0..1" RegularUser
+User "1..*" -- "0..1" BusinessUser
+BusinessUser "1..*" -- "0..*" Single
+BusinessUser "1..*" -- "0..*" Hit
+RegularUser "1..*" -- "0..*" Single
+RegularUser "1..*" -- "0..*" Album
+Album "1..*" -- "0..*" Hit
+Hit "1..*" -- "0..1" Album
+RegularUser "1..*" -- "0..*" Suggestion
+@enduml

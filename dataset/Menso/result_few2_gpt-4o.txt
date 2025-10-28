@@ -1,0 +1,26 @@
+```plantuml
+@startuml
+
+class Bus{}
+class BusLine{}
+class Destination{}
+class Trajectory{}
+class TownAuthority{}
+class MensoTicket{}
+class MensoUser{}
+class Card{}
+class Trip{}
+class Invoice{}
+
+Bus "0..*" -- "1" BusLine
+BusLine "0..*" -- "0..*" Trajectory
+BusLine "1" -- "0..*" Destination
+Trajectory "0..*" -- "0..1" TownAuthority
+MensoUser "1" -- "1..*" MensoTicket
+MensoUser "1" -- "0..*" Trip
+Card "1" -- "0..*" Trip
+Trip "0..*" -- "0..*" BusLine
+Invoice "0..*" -- "1" MensoUser
+
+@enduml
+```

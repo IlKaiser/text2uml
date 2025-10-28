@@ -1,0 +1,31 @@
+
+```plantuml
+@startuml
+
+class HelpingHandsStore{}
+class Resident{}
+class City{}
+class PickupDeliveryService{}
+class PickupVehicle{}
+class VolunteerDriver{}
+class Client{}
+class Item{}
+class Article{}
+class Category{}
+class RFIDDevice{}
+class FoodBank{}
+class DistributionCenter{}
+
+Resident "0..*" -- "1..1" HelpingHandsStore
+Resident "0..*" -- "0..5" PickupDeliveryService
+PickupDeliveryService "0..*" -- "1..*" PickupVehicle
+PickupVehicle "0..*" -- "1..*" VolunteerDriver
+VolunteerDriver "0..*" -- "1..5" PickupVehicle
+PickupVehicle "0..*" -- "1..*" Item
+RFIDDevice "0..*" -- "0..*" Item
+Item "0..*" -- "1..1" Category
+DistributionCenter "0..*" -- "1..5" HelpingHandsStore
+Client "0..*" -- "0..*" HelpingHandsStore
+
+@enduml
+```

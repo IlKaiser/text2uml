@@ -1,0 +1,55 @@
+@startuml
+
+class WebPortal {
+  - versionNumber
+  - url
+  - catalog
+}
+
+class Building {
+  - id
+  - name
+  - energyClass
+  - address
+  - yearOfConstruction
+  - owner
+  - additionalEntries
+  - profileImage
+}
+
+class AdditionalEntry {
+  - name
+  - value
+  - unit
+  - isPublic
+}
+
+class User {
+  - userName
+  - email
+  - password
+  - isRegistered
+  - isAdmin
+  - idCardNumber (Admin only)
+}
+
+class Administrator {
+  - administrativeFunctions
+}
+
+class Comment {
+  - text
+  - user
+}
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "0..*" AdditionalEntry
+AdditionalEntry "0..*" -- "1" User
+User "1" -- "0..*" Comment
+
+User "1" -- "0..*" Building
+Building "1" -- "0..*" Comment
+
+Administrator "1" -- "1" User
+
+@enduml

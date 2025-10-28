@@ -1,0 +1,28 @@
+@startuml
+class BusinessTraveller{}
+class BillingInformation{}
+class Address{}
+class TravelPreference{}
+class Hotel{}
+class HotelChain{}
+class City{}
+class RoomType{}
+class Booking{}
+class PreliminaryBooking{}
+class FinalizedBooking{}
+class Offer{}
+class CreditCardInformation{}
+class PaymentOption{}
+
+Hotel "0..*" -- "1..1" City
+Hotel "0..*" -- "0..1" HotelChain
+RoomType "0..*" -- "1..1" Hotel
+Offer "0..*" -- "1..1" Hotel
+FinalizedBooking "0..*" -- "1..1" Hotel
+Booking "0..*" -- "1..1" BusinessTraveller
+TravelPreference "0..*" -- "1..1" BusinessTraveller
+BillingInformation "1..1" -- "1..1" Address
+BusinessTraveller "1..1" -- "1..1" BillingInformation
+FinalizedBooking "0..*" -- "1..1" CreditCardInformation
+FinalizedBooking "0..*" -- "1..1" PaymentOption
+@enduml

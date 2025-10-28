@@ -1,0 +1,84 @@
+```plantuml
+@startuml
+
+class ProjectManager {}
+class SoftwareCompany {}
+class System {}
+class Infrastructure {}
+class SoftwarePlatform {}
+class EnergyConsumptionData {}
+class PrivateHome {}
+class Customer {}
+class HomeTec {}
+class Domain {}
+class BuildingEngineering {}
+class Sensor {}
+class SensorController {}
+class Apartment {}
+class Inhabitant {}
+class Username {}
+class Password {}
+class Threshold {}
+class EMonitor {}
+class EmailAddress {}
+class AlertMessage {}
+class AdministrativeRight {}
+class Configuration {}
+class Room {}
+class Description {}
+class TemperatureSensor {}
+class PowerSensor {}
+class PowerSocket {}
+class Appliance {}
+class ValueRange {}
+class VendorID {}
+class CounterReading {}
+class Unit {}
+class Address {}
+class MeasuredValue {}
+class Timestamp {}
+class FloatingPointNumber {}
+class Goal {}
+class Prototype {}
+class TargetPlatform {}
+class Environment {}
+class Functionality {}
+
+ProjectManager "1" -- "1" SoftwareCompany
+SoftwareCompany "1" -- "1" System
+System "1" -- "1..*" SensorController
+SensorController "1" -- "1..*" Sensor
+SensorController "1" -- "1..*" Apartment
+Apartment "1..*" -- "1..*" Inhabitant
+Inhabitant "1..*" -- "1" Username
+Inhabitant "1..*" -- "1" Password
+Inhabitant "1..*" -- "0..*" Threshold
+Sensor "1" -- "1" VendorID
+Sensor "1" -- "1" Description
+Sensor "1" -- "1" Unit
+Sensor "1" -- "1" Room
+TemperatureSensor "1" -- "1" ValueRange
+PowerSensor "1" -- "1" CounterReading
+Apartment "1" -- "1" Address
+Apartment "1" -- "1..*" Room
+Room "1" -- "1" Description
+Sensor "1..*" -- "0..*" MeasuredValue
+MeasuredValue "1" -- "1" Timestamp
+MeasuredValue "1" -- "1" FloatingPointNumber
+Sensor "1" -- "1" LastValue
+System "1" -- "1" EMonitor
+EMonitor "0..*" -- "1" AlertMessage
+Inhabitant "1..*" -- "0..1" EmailAddress
+Inhabitant "1..*" -- "0..1" AdministrativeRight
+AdministrativeRight "0..*" -- "0..*" Configuration
+Configuration "0..1" -- "1" Room
+Configuration "0..1" -- "1" Description
+Sensor "1" -- "1" PowerSocket
+PowerSocket "1" -- "1" Appliance
+ProjectManager "1" -- "1" Prototype
+Prototype "1" -- "1" TargetPlatform
+Prototype "1" -- "1" Environment
+Prototype "1" -- "1..*" Functionality
+
+@enduml
+```

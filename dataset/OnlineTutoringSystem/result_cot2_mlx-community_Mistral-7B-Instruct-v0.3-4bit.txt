@@ -1,0 +1,40 @@
+@startuml
+
+class OTS {}
+class Student {}
+class Tutor {}
+class StudentProfile {
+  note "Attributes: name, email address"
+}
+class TutorProfile {
+  note "Attributes: name, email address"
+}
+class TutoringOffer {}
+class TutoringRequest {}
+class Session {}
+class PaymentMethod {}
+class FollowUpTutoringSession {}
+class Cancellation {}
+class Discount {}
+class TutorOfTheMonthAward {}
+
+Student "0..1" -- "0..1" StudentProfile
+Tutor "0..1" -- "0..1" StudentProfile
+Student "0..*" -- "0..*" TutoringRequest
+Tutor "0..*" -- "0..*" TutoringOffer
+TutoringRequest "1..1" -- "1..1" Student
+TutoringRequest "1..1" -- "1..1" TutoringOffer
+TutoringOffer "1..1" -- "1..1" Tutor
+Session "1..1" -- "1..1" TutoringRequest
+Session "1..1" -- "1..1" Tutor
+Session "1..1" -- "1..1" Student
+Session "0..1" -- "0..1" FollowUpTutoringSession
+FollowUpTutoringSession "1..1" -- "1..1" Session
+Session "0..1" -- "0..1" Cancellation
+Cancellation "1..1" -- "1..1" Session
+Session "0..1" -- "0..1" PaymentMethod
+PaymentMethod "0..*" -- "0..*" Session
+Tutor "0..1" -- "0..1" TutorOfTheMonthAward
+Student "0..1" TutorOfTheMonthAward
+
+@enduml

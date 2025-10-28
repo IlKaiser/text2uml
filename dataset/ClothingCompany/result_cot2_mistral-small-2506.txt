@@ -1,0 +1,37 @@
+Here is the PlantUML model based on your class and association lists:
+
+```plantuml
+@startuml
+
+class Application{}
+class Customer{}
+class Product{}
+class Order{}
+class Company{}
+class Country{}
+class VATRate{}
+class Currency{}
+class ConversionRate{}
+class Representative{}
+class Address{}
+
+Application "1..1" -- "1..1" Company
+Product "1..*" -- "1..1" Company
+Product "1..*" -- "1..*" Country
+Product "1..1" -- "0..1" VATRate
+Product "1..1" -- "1..1" Currency
+Currency "1..1" -- "1..1" ConversionRate
+ConversionRate "1..1" -- "1..1" Country
+Country "1..1" -- "1..1" VATRate
+Country "1..1" -- "1..1" ConversionRate
+Country "1..1" -- "1..*" Representative
+Representative "1..1" -- "0..1" Country
+Customer "1..*" -- "1..*" Country
+Order "1..1" -- "1..1" Customer
+Order "1..1" -- "1..1" Product
+Order "1..1" -- "1..1" Representative
+Customer "1..1" -- "1..1" Address
+Representative "1..1" -- "1..1" Address
+
+@enduml
+```

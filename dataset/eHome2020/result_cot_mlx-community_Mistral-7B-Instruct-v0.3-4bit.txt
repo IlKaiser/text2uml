@@ -1,0 +1,24 @@
+@startuml
+
+class Sensor {}
+class SensorController {}
+class Apartment {}
+class Inhabitant {}
+class User {}
+class Room {}
+class EMonitor {}
+class PowerSensor {}
+class TemperatureSensor {}
+class Value {}
+
+Sensor "0..*" -- "1" SensorController.
+SensorController "1..*" -- "1" Apartment.
+Apartment "1..*" -- "0..*" Inhabitant.
+Inhabitant "0..*" -- "1" User.
+User "0..*" -- "1..*" SensorController.
+SensorController "1..*" -- "0..*" EMonitor.
+EMonitor "1..*" -- "1" Apartment.
+Apartment "1..*" -- "1..*" Room.
+Room "1..*" -- "1..*" Sensor.
+
+@enduml

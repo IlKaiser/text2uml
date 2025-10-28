@@ -1,0 +1,30 @@
+```plaintext
+@startuml
+
+class Student{}
+class Tutor{}
+class Registration{}
+class Subject{}
+class LevelOfExpertise{}
+class TutoringSession{}
+class TutoringOffer{}
+class TutoringRequest{}
+class Payment{}
+class Cancellation{}
+class TutorOfTheMonthAward{}
+
+Student "0..*" -- "1..*" Registration
+Tutor "1..1" -- "1..*" TutoringOffer
+TutoringOffer "1..*" -- "1..1" Subject
+TutoringOffer "1..1" -- "1..1" LevelOfExpertise
+Student "1..*" -- "0..*" TutoringRequest
+TutoringRequest "1..1" -- "1..1" TutoringOffer
+TutoringRequest "1..1" -- "1..1" LevelOfExpertise
+Student "1..*" -- "0..*" TutoringSession
+TutoringSession "1..1" -- "1..1" TutoringRequest
+TutoringSession "1..1" -- "0..*" Cancellation
+Student "0..*" -- "1..*" Payment
+Tutor "1..1" -- "0..*" TutorOfTheMonthAward
+
+@enduml
+```
