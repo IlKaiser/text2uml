@@ -1,5 +1,16 @@
 # Text2UML
+
+[![GitHub stars](https://img.shields.io/github/stars/IlKaiser/text2uml?style=flat-square)](https://github.com/IlKaiser/text2uml/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/IlKaiser/text2uml?style=flat-square)](https://github.com/IlKaiser/text2uml/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/IlKaiser/text2uml?style=flat-square)](https://github.com/IlKaiser/text2uml/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/IlKaiser/text2uml?style=flat-square)](https://github.com/IlKaiser/text2uml/commits/main)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19599470.svg)](https://zenodo.org/records/19599470)
+
 Code for the experiments of the paper **Assessing the Suitability of Large Language Models in Generating UML Class Diagrams as Conceptual Models**
+
+> Calamo, M., Mecella, M., & Snoeck, M. (2025). Assessing the suitability of large language models in generating UML class diagrams as conceptual models. In *International Conference on Business Process Modeling, Development and Support* (pp. 211–226). Springer.
+
+Experimental results are publicly available on **[Zenodo](https://zenodo.org/records/19599470)**.
 
 ![Architecture of the experiments](./images/text2uml_arch.png)
 
@@ -22,7 +33,7 @@ text2uml/
 └── environment.yml     # Conda environment definition
 ```
 
-For more info on the dataset and the evaluation see the online appendix at [OSF](https://osf.io/rbe7d/files/osfstorage).
+For more info on the dataset and the evaluation see the online appendix at [OSF](https://osf.io/rbe7d/files/osfstorage). Aggregated experimental results are also available on [Zenodo](https://zenodo.org/records/19599470).
 
 
 # Setup
