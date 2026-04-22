@@ -1,0 +1,54 @@
+@startuml
+class Doctor {
+  practitioner_number: Int
+  signature: String
+  full_name: String
+  address: String
+  phone_number: String
+}
+class Patient {
+  health_number: String
+  first_name: String
+  last_name: String
+  date_of_birth: Date
+  address: String
+  phone_number: String
+}
+class Requisition {
+  valid_from: Date
+  repeat_times: Int
+  interval: String
+}
+class Test {
+  duration: Float
+  appointment_required: Boolean
+  walk_in: Boolean
+  drop_off: Boolean
+  combinable: Boolean
+}
+class TestGroup
+class TestResult {
+  result: Boolean
+  report: String
+}
+class Appointment {
+  confirmation_number: String
+  date: Date
+  start_time: String
+  end_time: String
+  change_cancellation_fee: Float
+}
+class Lab {
+  name: String
+  address: String
+  registration_number: String
+  change_cancellation_fee: Float
+}
+Doctor "1..1" -- "1..*" Requisition
+Patient "1..1" -- "1..*" Requisition
+Requisition "1..*" -- "1..*" Test
+Test "1..*" -- "1..1" TestGroup
+Test "1..1" -- "0..*" TestResult
+Requisition "1..1" -- "0..*" Appointment
+Appointment "1..1" -- "1..1" Lab
+@enduml

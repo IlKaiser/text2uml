@@ -1,26 +1,37 @@
 
 @startuml
-class Musicmatic{}
-class Song{}
-class Artist{}
-class User{}
-class RegularUser{}
-class BusinessUser{}
-class Album{}
-class Single{}
-class Hit{}
-class Content{}
-class Suggestion{}
+class Musicmatic
+class Song {
+    title:String
+    year:Int
+    length:Int
+    genre:String
+}
+class Artist {
+    dateOfBirth:Date
+    name:String
+    websiteURL:String
+}
+class User {
+    ID:Int
+    name:String
+    address:String
+}
+class RegularUser {
+}
+class BusinessUser {
+    VATNumber:String
+}
+class Album {
+    trackNumber:Int
+}
 
-Musicmatic "1..1" -- "0..*" Song
-Artist "1..1" -- "1..*" Song
-User "1..*" -- "0..1" RegularUser
-User "1..*" -- "0..1" BusinessUser
-BusinessUser "1..*" -- "0..*" Single
-BusinessUser "1..*" -- "0..*" Hit
-RegularUser "1..*" -- "0..*" Single
-RegularUser "1..*" -- "0..*" Album
-Album "1..*" -- "0..*" Hit
-Hit "1..*" -- "0..1" Album
-RegularUser "1..*" -- "0..*" Suggestion
+Song "1..1" -- "1..1" Artist
+Song "0..*" -- "0..*" Album
+User "1..1" -- "0..1" RegularUser
+User "1..1" -- "0..1" BusinessUser
+BusinessUser "0..*" -- "0..*" Song
+
+RegularUser --|> User
+BusinessUser --|> User
 @enduml

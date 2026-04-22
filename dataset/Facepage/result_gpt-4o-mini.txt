@@ -1,16 +1,17 @@
 @startuml
 
-class User{}
-class Account{}
-class BusinessAccount{}
-class PersonalAccount{}
-class Page{}
-class AdvertisementPage{}
+class User{ String ID, String Name, String Email, Date DateOfBirth }
+class Account{ String AccountNumber, String AccountType }
+class BusinessAccount{ String CompanyName, double MonthlyFee }
+class PersonalAccount{ }
+class Page{ String PageName, int NumberOfVisits }
+class AdvertisementPage{ double BounceRate, double ClickThroughRate, double ConversionRate }
 
 User "1..1" -- "1..1" Account
-Account "1..*" -- "1..*" Page
-Page "1..1" -- "1..*" Account
-PersonalAccount "1..1" -- "0..*" Page
-BusinessAccount "1..1" -- "0..*" AdvertisementPage
+Account "1..1" -- "0..*" Page
+Account <|-- BusinessAccount
+Account <|-- PersonalAccount
+PersonalAccount "1..1" -- "0..*" Page : "granted privileges"
+Page "1..1" -- "0..1" AdvertisementPage
 
 @enduml

@@ -1,46 +1,57 @@
 ```plantuml
 @startuml
 
-class BusCompany{}
-class Bus{}
-class BusLine{}
-class Destination{}
-class Trajectory{}
-class Approval{}
-class TownAuthority{}
-class SeasonTicket{}
-class Category{}
-class Trip{}
-class TicketMachine{}
-class Customer{}
-class Invoice{}
-class Discount{}
-class Payment{}
-class Card{}
-class Route{}
-class Frequency{}
+class Bus {
+  line: String
+}
+
+class Trajectory {
+  approval: Approval
+}
+
+class SeasonTicket {
+  price: Float
+  validity: Date
+}
+
+class Invoice {
+  amount: Float
+  discount: Float
+}
+
+class Customer {
+  home_address: String
+  office_address: String
+  working_hours: String
+}
+
+class Line {
+  category: Category
+}
 
 BusCompany "1..1" -- "1..*" Bus
-BusCompany "1..1" -- "1..*" BusLine
+BusCompany "1..1" -- "1..*" Line
 BusCompany "1..1" -- "1..*" Trajectory
-Trajectory "1..1" -- "0..1" Approval
-Approval "1..1" -- "1..1" TownAuthority
+BusCompany "1..1" -- "1..*" Approval
 BusCompany "1..1" -- "1..*" SeasonTicket
-SeasonTicket "1..1" -- "1..*" Category
+BusCompany "1..1" -- "1..*" Invoice
+BusCompany "1..1" -- "1..*" Customer
+BusCompany "1..1" -- "1..*" Discount
+BusCompany "1..1" -- "1..*" Route
+BusCompany "1..1" -- "1..*" Category
+TownAuthority "1..1" -- "0..*" Approval
+Approval "1..1" -- "1..1" Trajectory
+Trajectory "1..1" -- "0..*" Bus
+Line "1..1" -- "1..*" Trajectory
+SeasonTicket "1..1" -- "1..1" Customer
+SeasonTicket "1..1" -- "1..*" Invoice
+TicketMachine "1..1" -- "1..*" Bus
+TicketMachine "1..1" -- "1..*" Line
+Invoice "1..1" -- "0..1" Discount
+Invoice "1..1" -- "1..1" Customer
+Customer "1..1" -- "0..*" Discount
 Customer "1..1" -- "1..1" SeasonTicket
-Customer "1..1" -- "1..*" Invoice
-Invoice "0..1" -- "1..1" Discount
-Invoice "0..1" -- "1..1" Payment
-Payment "0..1" -- "1..1" Card
-Customer "0..1" -- "1..1" Card
-BusLine "1..1" -- "1..*" Route
-Route "1..1" -- "1..1" Frequency
-Bus "1..1" -- "1..1" BusLine
-BusLine "1..1" -- "1..*" Trajectory
-TicketMachine "1..1" -- "1..*" Trip
-Trip "1..1" -- "1..1" BusLine
-Trip "1..1" -- "1..1" Customer
-Trip "1..1" -- "1..1" Invoice
+Category "1..1" -- "1..*" Line
 
 @enduml
 ```

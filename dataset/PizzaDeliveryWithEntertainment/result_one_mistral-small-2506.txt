@@ -1,0 +1,64 @@
+Here is the PlantUML class diagram based on the provided specification:
+
+```plantuml
+@startuml
+
+class User {
+    String Name
+    String Address
+    Date Birthday
+    String UniqueID
+}
+
+class BusinessOwner {
+    String LinkedInAccount
+}
+
+class PizzaRestaurant {
+    String ZipCode
+    String Address
+    String PhoneNumber
+    String Website
+    String OpeningHours
+}
+
+class Pizza {
+    String Name
+    String CrustStructure
+    Double Price
+}
+
+class Order {
+    String OrderID
+    DateTime OrderDateTime
+    DateTime LatestDeliveryTime
+    Integer NumberOfPeople
+}
+
+class EntertainmentOrder {
+    String EntertainmentType
+    Integer DurationMinutes
+}
+
+class Entertainer {
+    String StageName
+    String Bio
+    Double PricePer30Minutes
+}
+
+class Availability {
+    String DayOfWeek
+}
+
+@enduml
+
+User "1" -- "0..1" BusinessOwner
+BusinessOwner "1" -- "1..*" PizzaRestaurant
+PizzaRestaurant "1" -- "1..*" Pizza
+User "1" -- "0..*" Order
+Order "1" -- "0..*" Pizza
+Order "1" -- "0..1" EntertainmentOrder
+EntertainmentOrder "1" -- "1" Entertainer
+Entertainer "1" -- "1..*" Availability
+Availability "1" -- "1" PizzaRestaurant
+```

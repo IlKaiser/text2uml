@@ -1,28 +1,51 @@
 
+```plantuml
 @startuml
 
-class SoftwareCompany{}
-class System{}
-class Sensor{}
-class SensorController{}
-class Apartment{}
-class Inhabitant{}
-class Threshold{}
-class E-Monitor{}
-class EmailAddress{}
-class AdministrativeRights{}
-class TemperatureSensor{}
-class PowerSensor{}
-class Room{}
+class Sensor {
+  vendor_id: String
+  description: String
+  unit: String
+  room: Room
+}
 
-Sensor "1..*" -- "1" SensorController
-SensorController "1..1" -- "1" Apartment
-Inhabitant "1..*" -- "1" Apartment
-Sensor "1..*" -- "0..*" Threshold
-Apartment "1..*" -- "1" E-Monitor
-Apartment "1..*" -- "0..*" EmailAddress
-Inhabitant "1..*" -- "0..1" AdministrativeRights
-TemperatureSensor "1..*" -- "1" Room
-PowerSensor "1..*" -- "1" Room
+class SensorController {
+}
+
+class Inhabitant {
+}
+
+class Threshold {
+}
+
+class EMonitor {
+}
+
+class Room {
+  description: String
+}
+
+class Apartment {
+  address: Address
+}
+
+class Address {
+}
+
+class Value {
+  timestamp: Date
+  value: Float
+}
+
+Sensor "1..*" -- "1..1" SensorController
+Sensor "1..*" -- "0..*" Value
+Sensor "1..1" -- "0..1" Threshold
+SensorController "1..1" -- "1..*" Sensor
+SensorController "1..1" -- "1..*" Inhabitant
+Inhabitant "1..*" -- "0..1" Room
+Room "1..*" -- "1..*" Sensor
+Apartment "1..1" -- "1..*" Room
+Value "1..*" -- "1..1" Timestamp
 
 @enduml
+```

@@ -1,33 +1,63 @@
 @startuml
-class HelpingHandsStore{}
-class Resident{}
-class Item{}
-class PickupRequest{}
-class Vehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class Employee{}
-class FoodBank{}
-class Client{}
-class Article{}
-class Category{}
-class Delivery{}
+class Resident {
+    name: String
+    streetAddress: String
+    phoneNumber: String
+    emailAddress: String
+}
 
-HelpingHandsStore "1..*" -- "0..*" Resident
-HelpingHandsStore "1..*" -- "1..*" Vehicle
-HelpingHandsStore "1..1" -- "1..1" DistributionCenter
-HelpingHandsStore "1..1" -- "1..1" FoodBank
-Resident "1..1" -- "0..*" PickupRequest
-PickupRequest "1..*" -- "1..*" Item
+class Item {
+}
+
+class PickupRequest {
+    description: String
+    weekday: Date
+}
+
+class Vehicle {
+    storageSpace: Float
+}
+
+class VolunteerDriver {
+    availableDays: String
+}
+
+class Route {
+}
+
+class DistributionCenter {
+}
+
+class Employee {
+}
+
+class Article {
+    description: String
+    dimensions: Float
+    weight: Float
+    quality: String
+}
+
+class Category {
+    name: String
+}
+
+class Client {
+    homeAddress: String
+}
+
+class FoodBank {
+}
+
+Resident "0..*" -- "1..1" PickupRequest
+PickupRequest "1..*" -- "1..1" Item
 Vehicle "1..1" -- "0..1" VolunteerDriver
-Vehicle "1..1" -- "0..*" PickupRoute
-VolunteerDriver "1..1" -- "0..*" PickupRoute
-PickupRoute "1..*" -- "1..*" PickupRequest
+Vehicle "1..1" -- "0..*" Route
+VolunteerDriver "1..1" -- "0..*" Route
+Route "1..*" -- "1..1" PickupRequest
 DistributionCenter "1..1" -- "1..*" Employee
 Employee "1..*" -- "0..*" Article
 Article "1..1" -- "1..1" Category
-Client "1..*" -- "0..*" Article
-Client "1..1" -- "0..*" Delivery
-VolunteerDriver "1..1" -- "0..*" Delivery
+Client "0..*" -- "0..*" Article
+FoodBank "1..1" -- "0..*" Item
 @enduml

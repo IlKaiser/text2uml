@@ -1,27 +1,62 @@
 ```plantuml
 @startuml
+class Doctor {
+    practitionerNumber: Int
+    signature: String
+    fullName: String
+    address: String
+    phoneNumber: String
+}
 
-class Doctor{}
-class Patient{}
-class Lab{}
-class Requisition{}
-class Test{}
-class Appointment{}
-class Report{}
-class Group{}
-class Sample{}
+class Patient {
+    healthNumber: String
+    firstName: String
+    lastName: String
+    dateOfBirth: Date
+    address: String
+    phoneNumber: String
+}
+
+class Requisition {
+    date: Date
+    interval: String
+}
+
+class Test {
+    duration: Int
+}
+
+class Appointment {
+    confirmationNumber: String
+    date: Date
+    startTime: String
+    endTime: String
+    fee: Float
+}
+
+class Lab {
+    address: String
+    businessHours: String
+    registrationNumber: String
+    startTime: String
+    endTime: String
+}
+
+class Result {
+    result: String
+}
+
+class Report {
+}
 
 Doctor "1..1" -- "0..*" Requisition
-Patient "1..1" -- "0..*" Requisition
-Requisition "1..1" -- "1..*" Test
-Test "1..1" -- "1..1" Group
-Patient "1..1" -- "0..*" Appointment
+Patient "0..*" -- "0..*" Requisition
+Requisition "0..*" -- "1..*" Test
+Patient "0..*" -- "0..*" Appointment
 Appointment "1..1" -- "1..1" Lab
-Requisition "1..1" -- "1..1" Appointment
-Test "1..1" -- "0..*" Report
-Doctor "1..1" -- "0..*" Report
-Patient "1..1" -- "0..*" Report
-Lab "1..1" -- "1..*" Sample
-
+Test "1..1" -- "1..1" Result
+Result "1..1" -- "1..1" Report
+Patient "0..*" -- "0..*" Result
+Doctor "0..*" -- "0..*" Result
 @enduml
 ```

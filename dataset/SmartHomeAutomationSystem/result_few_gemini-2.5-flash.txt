@@ -1,58 +1,63 @@
 @startuml
 
-class SHAS{}
-class User{}
-class SmartHome{}
-class Room{}
-class Sensor{}
-class Actuator{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class Owner{}
-class AutomationRule{}
-class Precondition{}
-class Action{}
-class Alert{}
-class RuleTriggerEvent{}
+class User {
+    String Name
+}
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class Device {
+    String DeviceIdentifier
+    Boolean IsActive
+}
+class SensorDevice {
+}
+class ActuatorDevice {
+}
+class SensorReading {
+    Double MeasuredValue
+    Date Timestamp
+}
+class ControlCommand {
+    String Name
+    Date Timestamp
+    String Status
+}
+class ActivityLog {
+}
+class AutomationRule {
+    String Status
+    Date LastTriggered
+}
+class Precondition {
+    String Expression
+}
+class Action {
+}
 
-SHAS "1" -- User
-SHAS "1" -- Sensor
-SHAS "1" -- Actuator
-SHAS "1" -- "1" ActivityLog
-SHAS "1" -- RuleTriggerEvent
-
+User "0..*" -- "0..*" SmartHome
 SmartHome "1" -- "1..*" Room
-Room "1" -- Sensor
-Room "1" -- Actuator
-
-Sensor "1" -- SensorReading
-Actuator "1" -- ControlCommand
-
-ActivityLog "1" -- SensorReading
-ActivityLog "1" -- ControlCommand
+Room "1" -- "0..*" Device
+Device <|-- SensorDevice
+Device <|-- ActuatorDevice
+SensorDevice "1" -- "0..*" SensorReading
+ActuatorDevice "1" -- "0..*" ControlCommand
 SmartHome "1" -- "1" ActivityLog
-
-Owner -- "1" SmartHome
-Owner "1" -- AutomationRule
-
-SmartHome "1" -- AutomationRule
-
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" ControlCommand
+User "1" -- "0..*" AutomationRule
+SmartHome "1" -- "0..*" AutomationRule
 AutomationRule "1" -- "1" Precondition
 AutomationRule "1" -- "1" Action
-
-Precondition -- Room
-Precondition -- Sensor
-Precondition -- Actuator
-Precondition -- SensorReading
-Precondition -- ControlCommand
-
+Precondition "0..*" -- "0..*" Room
+Precondition "0..*" -- "0..*" SensorDevice
+Precondition "0..*" -- "0..*" ActuatorDevice
+Precondition "0..*" -- "0..*" SensorReading
+Precondition "0..*" -- "0..*" ControlCommand
 Action "1" -- "1..*" ControlCommand
-
-AutomationRule -- AutomationRule
-
-RuleTriggerEvent -- "1" AutomationRule
-
-AutomationRule -- Alert
+AutomationRule "0..*" -- "0..*" AutomationRule
 
 @enduml

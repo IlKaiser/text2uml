@@ -1,27 +1,31 @@
 @startuml
 
-class OilCompany{}
-class GasStation{}
-class Pump{}
-class Reservoir{}
-class Customer{}
-class RefuelCard{}
-class RefuelTurn{}
-class MonthlyInvoice{}
-class Payment{}
-class DailyReport{}
+class OilCompany{ String Name }
+class GasStation{ String Location, String Manager }
+class Pump{ String Id, String FuelType, Boolean IsBlocked }
+class Reservoir{ Double Capacity, Double CurrentLevel, Double ReorderLevel, Double CriticalLevel }
+class Customer{ String Name, String Status, Double CreditRating }
+class FuelCard{ String CardNumber, Boolean IsBlocked }
+class CreditCard{ String CardNumber, String Provider }
+class RefuelTurn{ DateTime Timestamp, Double Liters, Double Amount, String PaymentMethod }
+class Invoice{ String InvoiceNumber, Date Month, Double TotalAmount, Double Discount, Boolean IsPaid, Date SentDate, Integer ReminderCount }
+class Payment{ Date PaymentDate, Double Amount, String Method }
+class Refill{ Date Date, Double Quantity, String HandledBy }
+class DailyReport{ Date Date, String Summary }
 
-OilCompany "1..1" -- "1..*" GasStation
+OilCompany "1..1" -- "0..*" GasStation
 GasStation "1..1" -- "0..*" Pump
 Pump "1..1" -- "1..1" Reservoir
-Customer "1..1" -- "0..*" RefuelCard
+Pump "1..1" -- "0..*" RefuelTurn
 Customer "1..1" -- "0..*" RefuelTurn
-RefuelCard "0..1" -- "0..*" RefuelTurn
-RefuelTurn "1..1" -- "0..1" Pump
-MonthlyInvoice "0..*" -- "1..1" Customer
-MonthlyInvoice "1..1" -- "0..*" RefuelTurn
-Payment "0..*" -- "1..1" MonthlyInvoice
+Customer "1..1" -- "0..*" FuelCard
+FuelCard "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" RefuelTurn
+Invoice "1..1" -- "0..*" Payment
 Customer "1..1" -- "0..*" Payment
-DailyReport "1..1" -- "0..*" Pump
+Customer "1..1" -- "0..*" CreditCard
+Reservoir "1..1" -- "0..*" Refill
+GasStation "1..1" -- "0..*" Refill
+DailyReport "0..*" -- "0..*" Pump
 
 @enduml

@@ -1,40 +1,57 @@
 ```plantuml
 @startuml
 
-class TeamSportsScoutingSystem{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class PlayerProfile{}
-class TargetPosition{}
-class PlayerAttribute{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Recommendation{}
-class ShortList{}
-class Player{}
+class TeamSportsScoutingSystem {}
+class Employee {}
+class HeadCoach {}
+class Director {}
+class Scout {}
+class PlayerProfile {
+    targetPositions:TargetPosition
+    playerAttributes:PlayerAttribute
+}
+class TargetPosition {
+    name:String
+}
+class PlayerAttribute {
+    name:String
+    value:Float
+}
+class LongList {
+    players:Player
+}
+class ScoutingAssignment {}
+class ScoutingReport {
+    pros:String
+    cons:String
+    recommendation:Recommendation
+}
+class Recommendation {
+    type:String
+}
+class ShortList {
+    players:Player
+}
+class Player {}
 
 TeamSportsScoutingSystem "1..*" -- "1..*" Employee
 TeamSportsScoutingSystem "1..1" -- "1..1" HeadCoach
 TeamSportsScoutingSystem "1..1" -- "1..1" Director
 TeamSportsScoutingSystem "1..*" -- "1..*" Scout
 HeadCoach "1..*" -- "1..*" PlayerProfile
-HeadCoach "1..*" -- "1..*" TargetPosition
-HeadCoach "1..*" -- "1..*" PlayerAttribute
-HeadCoach "1..*" -- "1..*" ScoutingAssignment
-HeadCoach "1..1" -- "1..1" ShortList
-Director "1..*" -- "1..*" Player
-Scout "1..1" -- "1..1" LongList
-Scout "1..*" -- "1..*" ScoutingAssignment
-Scout "1..*" -- "1..*" ScoutingReport
 PlayerProfile "1..*" -- "1..*" TargetPosition
 PlayerProfile "1..*" -- "1..*" PlayerAttribute
-ScoutingAssignment "1..*" -- "1..*" Player
-ScoutingAssignment "1..1" -- "1..1" ScoutingReport
-ScoutingReport "1..1" -- "1..1" Recommendation
-ShortList "1..*" -- "1..*" Player
+Scout "1..*" -- "1..*" LongList
+HeadCoach "1..*" -- "1..*" ScoutingAssignment
+Scout "1..*" -- "1..*" ScoutingAssignment
+ScoutingAssignment "1..*" -- "1..*" ScoutingReport
+ScoutingReport "1..*" -- "1..*" Recommendation
+HeadCoach "1..*" -- "1..*" ShortList
+Director "1..*" -- "1..*" Player
+
+HeadCoach --|> Employee
+Director --|> Employee
+Scout --|> Employee
 
 @enduml
 ```

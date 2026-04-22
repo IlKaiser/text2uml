@@ -1,0 +1,56 @@
+@startuml
+
+class University {
+    int TotalEmployees
+}
+
+class Faculty {
+    String Name
+}
+
+class Institute {
+    String Name
+    String Address
+}
+
+class Employee {
+    String SSN
+    String Name
+    String Email
+}
+
+class RA {
+    String FieldOfResearch
+}
+
+class AdministrativeStaff {}
+
+class Dean {}
+
+class Lecturer {}
+
+class Project {
+    String Name
+    Date StartDate
+    Date EndDate
+}
+
+class Course {
+    String ID
+    String Name
+    Double WeeklyDuration
+}
+
+University "1..1" -- "0..*" Faculty
+Faculty "1..1" -- "0..*" Institute
+Faculty "1..1" -- "1..1" Dean
+RA "1..*" -- "0..*" Institute
+RA "0..*" -- "0..*" Project
+Lecturer "0..*" -- "0..*" Course
+
+Employee <|-- RA
+Employee <|-- AdministrativeStaff
+Employee <|-- Dean
+RA <|-- Lecturer
+
+@enduml

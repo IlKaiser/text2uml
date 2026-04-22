@@ -1,16 +1,29 @@
 @startuml
 
-class GameArea {}
-class GameElement {}
-class Shape {}
-class Object {}
-class Opponent {}
-class GamePiece {}
+class GameArea {
+    String name
+}
 
-GameArea "1" -- "1..*" GameElement
-GameArea "1" -- "1..2" GamePiece
+class GameElement {
+    long x
+    long y
+}
+
+class GamePiece
+
+class Shape
+
+class Object
+
+class Opponent {
+    int lives
+}
+
+GameArea "1" -- "1..*" GameElement : elements
+GameArea "1" -- "1..2" GamePiece : pieces
 GameArea "1" -- "1..1" Opponent : boss
-Shape "0..*" -- "0..*" Shape : connectedTo
+
+Shape "0..*" -- "0..*" Shape : connected
 
 GameElement <|-- Shape
 GameElement <|-- Object

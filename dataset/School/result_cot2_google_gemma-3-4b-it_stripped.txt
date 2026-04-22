@@ -1,0 +1,48 @@
+```plantuml
+@startuml
+class School {
+    -name : String
+    -principal : Teacher
+}
+
+class Teacher {
+    -emailAddress : String
+    -name : String
+}
+
+class Student {
+    -name : String
+}
+
+class Class {
+    -name : String
+}
+
+class ClassGroup {
+    -name : String
+}
+
+class Room {
+    -name : String
+    -size : Float
+}
+
+class Classroom {
+    -name : String
+    -capacity : Int
+}
+
+class Principal {
+    -name : String
+}
+
+School "1" -- "*" Teacher : employs
+School "1" -- "*" Student : has
+Teacher "1" -- "*" Class : teaches
+Student "1" -- "*" Class : in
+Class "1" -- "*" Student : contains
+ClassGroup "1" -- "1" Classroom : assignedTo
+Classroom "1" -- "1" ClassGroup : contains
+
+@enduml
+```

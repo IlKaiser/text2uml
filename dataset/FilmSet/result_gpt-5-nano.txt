@@ -1,37 +1,41 @@
 @startuml
 
-class Employee{}
-class Director{}
-class Actor{}
-class Technician{}
-class DirectorAssistant{}
-class Education{}
-class Screenwriter{}
-class Screenplay{}
-class Novel{}
-class Concept{}
-class Film{}
-class FilmSet{}
-class Location{}
-class Genre{}
-class Field{}
+class Employee { String Name, String SocialSecurityNumber }
 
-Employee <|-- Director
-Employee <|-- Actor
-Employee <|-- Technician
+abstract class CreativeEmployee { boolean HasOscar }
+class Actor { String EducationCompleted }
+class Director { String AssistantName }
+class Technician { String FieldOfActivity }
 
-Director "0..1" -- "1" DirectorAssistant
-Film "1" -- "1" Director
+Actor --|> CreativeEmployee
+Director --|> CreativeEmployee
 
-Film "*" -- "*" FilmSet
-Screenwriter "1" -- "*" Screenplay
-Film "1" -- "1" Screenplay
-Screenplay "1" -- "0..1" Novel
-Screenplay "1" -- "0..1" Concept
-Actor "1" -- "1" Screenplay
-Actor "1" -- "1" Education
+class Screenwriter { String Name, String MostSuccessfulFilm }
+
+abstract class Source { }
+class Novel extends Source { String Title, String Author }
+class Concept extends Source { String Description }
+
+Novel --|> Source
+Concept --|> Source
+
+class Screenplay { String Title, String Version, String Date, int NumberOfScenes, String Plot }
+
+class Film { String Title, int YearOfRelease }
+class FilmSet { String Location }
+class Genre { String Name }
+
+Screenwriter "1" -- "0..*" Screenplay
+Screenplay "1" -- "1" Film
+Screenplay "1" -- "1" Source
+Novel --|> Source
+Concept --|> Source
+
+FilmSet "0..*" -- "0..*" Film
 Film "1" -- "1" Genre
-FilmSet "1" -- "1" Location
-Technician "1" -- "1" Field
+Genre "0..*" -- "1" Film
+Actor "0..*" -- "1" Screenplay
+Director "1" -- "1" Screenplay
+FilmSet "0..*" -- "0..*" Employee
 
 @enduml

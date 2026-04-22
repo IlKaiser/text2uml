@@ -1,0 +1,19 @@
+@startuml
+
+class School{ String Name }
+class Teacher{ String FirstName, String LastName, String Email }
+class Student{ String FirstName, String LastName }
+class Principal extends Teacher{ }
+
+School "0..*" -- "1" Principal
+Teacher "0..3" -- "0..*" School
+
+class ClassGroup{ String Name }
+class Classroom{ String Name, int Capacity }
+class Gym{ String Name, int Size_in_sq_meters }
+
+Classroom "1" -- "1..31" ClassGroup
+ClassGroup "1" -- "1" Classroom
+Gym "0..*" -- "0..*" School
+
+@enduml

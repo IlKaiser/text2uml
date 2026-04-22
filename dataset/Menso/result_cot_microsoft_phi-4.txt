@@ -1,0 +1,130 @@
+```plantuml
+@startuml
+
+class BusCompany {
+  name: String
+  busLines: List[Line]
+  trajectories: List[Trajectory]
+  townAuthorities: List[TownAuthority]
+  approvals: List[Approval]
+}
+
+class Bus {
+  lineNumber: Int
+  assignedTrajectory: Trajectory
+}
+
+class Trajectory {
+  approvalStatus: String
+  operationalDate: Date
+  suspensionReason: String
+  cancellationDate: Date
+}
+
+class Line {
+  number: Int
+  category: Category
+  overlappingTrajectories: List[Trajectory]
+}
+
+class TownAuthority {
+  name: String
+}
+
+class Approval {
+  status: String
+  requestedChanges: List[String]
+  finalDecision: String
+}
+
+class Category {
+  name: String
+  priceMultiplier: Float
+}
+
+class MENSO {
+  validityDate: Date
+  monthlyTrips: List[Trip]
+  invoice: Invoice
+}
+
+class TicketMachine {
+  location: String
+}
+
+class MENSOUser {
+  mensoCard: String
+  personalData: PersonalData
+  invoices: List[Invoice]
+}
+
+class Invoice {
+  amount: Float
+  discount: Float
+  paymentStatus: Boolean
+}
+
+class Discount {
+  percentage: Float
+}
+
+class Customer {
+  homeAddress: String
+  officeAddress: String
+  workingHours: Date
+}
+
+class PersonalData {
+  homeAddress: String
+  officeAddress: String
+  workingHours: Date
+}
+
+class Route {
+  line: Line
+  frequency: Frequency
+}
+
+class Frequency {
+  timeOfDay: String
+  daysOfWeek: List[String]
+}
+
+BusCompany "1..*" -- "1..*" Bus
+BusCompany "1..*" -- "1..*" Trajectory
+BusCompany "1..*" -- "1..*" Line
+BusCompany "1..*" -- "1..*" TownAuthority
+BusCompany "1..*" -- "1..*" Approval
+BusCompany "1..*" -- "1..*" BusLine
+BusCompany "1..*" -- "1..*" Category
+BusCompany "1..*" -- "1..1" MENSO
+BusCompany "1..*" -- "1..*" TicketMachine
+BusCompany "1..*" -- "1..*" MENSOUser
+BusCompany "1..*" -- "1..*" Invoice
+BusCompany "1..*" -- "1..*" Discount
+BusCompany "1..*" -- "1..*" Customer
+BusCompany "1..*" -- "1..*" PersonalData
+BusCompany "1..*" -- "1..*" Route
+BusCompany "1..*" -- "1..*" Frequency
+Trajectory "1..*" -- "1..1" TownAuthority
+Trajectory "1..*" -- "1..*" Approval
+Trajectory "1..*" -- "0..*" Bus
+Line "1..*" -- "1..*" Trajectory
+Line "1..*" -- "1..*" Bus
+MENSO "1..*" -- "1..*" BusLine
+MENSO "1..*" -- "1..*" Category
+MENSO "1..*" -- "1..*" MENSOUser
+MENSO "1..*" -- "1..*" Invoice
+MENSO "1..*" -- "1..*" TicketMachine
+MENSOUser "1..*" -- "1..*" Invoice
+MENSOUser "1..*" -- "1..*" Discount
+MENSOUser "1..*" -- "1..1" PersonalData
+Invoice "1..*" -- "0..1" Discount
+Customer "1..*" -- "1..1" PersonalData
+Customer "1..*" -- "1..*" Invoice
+Customer "1..*" -- "0..*" Discount
+TicketMachine "1..*" -- "1..*" MENSOUser
+TicketMachine "1..*" -- "1..*" Bus
+
+@enduml
+```

@@ -1,17 +1,33 @@
 
+```plantuml
 @startuml
 
-class Tutor{}
-class Student{}
-class Subject{}
-class Session{}
-class Award{}
+class Tutor {
+    name:String
+    email:String
+    bankAccount:String
+    expertise:String
+    hourlyPrice:Float
+    availability:String
+}
 
-Tutor "0..*" -- "0..*" Student
+class Student {
+    name:String
+    email:String
+}
+
+class Subject
+
+class TutoringSession
+
+class Payment
+
+Tutor "0..1" -- "0..*" Student
 Tutor "1..1" -- "0..*" Subject
-Tutor "0..*" -- "0..*" Session
-Student "0..*" -- "0..*" Session
-Tutor "0..*" -- "0..*" Award
-Session "0..*" -- "0..*" Award
+Tutor "0..*" -- "0..*" TutoringSession
+Tutor "0..*" -- "0..*" Payment
+Student "0..*" -- "0..*" TutoringSession
+Student "0..*" -- "0..*" Payment
 
 @enduml
+```

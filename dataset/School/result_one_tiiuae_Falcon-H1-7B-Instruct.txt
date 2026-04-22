@@ -1,0 +1,37 @@
+@startuml
+
+class School {
+    String Name
+}
+class Person {
+    String FirstName
+    String LastName
+}
+class Teacher { inherits Person } {
+    String Email
+}
+class Student { inherits Person } {}
+class Principal { inherits Teacher } {}
+class Room {}
+class Classroom { inherits Room } {
+    String Capacity
+}
+class OtherRoom { inherits Room } {
+    Double SizeInSquareMeters
+}
+class ClassGroup {
+    String GroupName
+}
+
+School "1" -- "0..1" Principal
+School "1" -- "0..*" Teacher
+School "1" -- "0..*" Student
+Teacher "1" -- "1..3" School
+Student "1" -- "1" School
+Teacher "0..*" -- "1..31" ClassGroup
+ClassGroup "1" -- "1" Classroom
+ClassGroup "1" -- "1" Student
+Classroom "1" -- "1" ClassGroup
+OtherRoom "0..*" -- "0..*" School
+
+@enduml

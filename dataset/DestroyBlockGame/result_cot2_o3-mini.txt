@@ -1,19 +1,40 @@
 @startuml
-class User{}
-class Game{}
-class Block{}
-class Level{}
-class Cell{}
-class Ball{}
-class Paddle{}
-class HallOfFame{}
+class User {
+  username: String
+  password: String
+}
 
-User "1..1" -- "0..*" Game
+class Game {
+  name: String
+  num_blocks: Int
+  min_speed: Float
+  speed_increase_factor: Float
+  max_paddle_length: Int
+  min_paddle_length: Int
+}
+
+class HallOfFame
+
+class Block {
+  color: String
+  points: Int
+}
+
+class Level {
+  level_number: Int
+  is_random: Boolean
+  starting_arrangement: String
+}
+
+class Entry {
+  score: Int
+}
+
 Game "1..1" -- "1..1" HallOfFame
-Game "1..1" -- "0..*" Level
-Game "1..1" -- "0..*" Block
-Level "1..1" -- "0..*" Cell
-Cell "0..*" -- "0..1" Block
-Game "1..1" -- "1..1" Ball
-Game "1..1" -- "1..1" Paddle
+Game "1..1" -- "1..*" Block
+Game "1..1" -- "1..*" Level
+HallOfFame "1..1" -- "0..*" Entry
+Game "1..1" -- "1..1" User
+Game "1..1" -- "0..*" User
+User "1..1" -- "0..*" Entry
 @enduml

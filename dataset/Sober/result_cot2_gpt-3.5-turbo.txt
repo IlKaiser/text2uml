@@ -1,46 +1,53 @@
 
 @startuml
-class Technology{}
-class Taxi{}
-class Company{}
-class Fleet{}
-class Cars{}
-class Ride{}
-class Customers{}
-class Requests{}
-class App{}
-class ImageRecognitionSystem{}
-class Pick-up{}
-class Drop-off{}
-class Location{}
-class RideDuration{}
-class Distance{}
-class Passengers{}
-class Customer{}
-class Fee{}
-class LeadCustomer{}
-class Safety{}
-class Accidents{}
+class Technology
+class TaxiCompany
+class SelfDrivingCar
+class Fleet
+class Cab
+class Person
+class Service
+class Customer
+class Fee
+class App
+class Screen
+class WaitTime
+class Notification
+class Location
+class Passenger
+class Request
+class ImageRecognitionSystem
+class Gesture
+class Time
+class Distance
+class LeadCustomer
+class Carpooling
+class Cost
+class TrafficCongestion
+class CarbonFootprint
+class Accident {
+  date: Date
+  location: String
+  damageAmount: Int
+}
 
-Technology "1..*" -- "1..*" Taxi
-Company "1..*" -- "1..*" Fleet
-Fleet "1..*" -- "0..*" Cars
-Company "1..*" -- "0..*" Cars
-Customers "1..*" -- "0..*" Requests
-App "1..*" -- "1..*" Requests
-ImageRecognitionSystem "1..*" -- "0..*" Requests
-Customers "1..*" -- "0..*" Ride
-Cars "1..*" -- "0..*" Ride
-Pick-up "1..*" -- "0..*" Ride
-Drop-off "1..*" -- "0..*" Ride
-Location "1..*" -- "0..*" Ride
-RideDuration "1..*" -- "0..*" Ride
-Distance "1..*" -- "0..*" Ride
-Passengers "1..*" -- "0..*" Ride
-Customer "1..*" -- "0..*" Ride
-Fee "1..*" -- "0..*" Ride
-LeadCustomer "1..*" -- "0..*" Ride
-Company "1..*" -- "0..*" Ride
-Ride "1..*" -- "0..*" Safety
-Accidents "1..*" -- "0..*" Ride
+SelfDrivingCar "0..*" -- "1..*" Fleet
+SelfDrivingCar "0..*" -- "0..*" Cab
+Person "1..*" -- "0..*" Cab
+Customer "0..*" -- "1..*" Request
+Customer "1..*" -- "0..1" LeadCustomer
+Request "0..*" -- "0..1" ImageRecognitionSystem
+Request "0..*" -- "1..1" Screen
+Request "1..1" -- "0..*"
+Request "1..*" -- "0..1" WaitTime
+Request "1..*" -- "1..*" Notification
+Request "0..*" -- "1..*" Location
+Request "0..*" -- "0..*" Passenger
+Request "1..*" -- "1..1" Time
+Request "1..*" -- "1..1" Distance
+Request "1..*" -- "0..*" Fee
+RideHailRequest "0..*" -- "0..*" RideHailRequest
+RideHailRequest "0..*" -- "0..1" RideShareRequest
+Request "1..*" -- "0..*" Fee
+RideShareRequest "1..*" -- "0..*" Customer
 @enduml

@@ -1,28 +1,72 @@
 @startuml
-class Employee{}
-class Driver{}
-class Planner{}
-class AdministrativeStaff{}
-class Customer{}
-class Vehicle{}
-class VehicleType{}
-class Repair{}
-class RepairShop{}
-class Order{}
-class PartnerCompany{}
+class Employee {
+    name:String
+    socialSecurityNumber:String
+}
 
-Employee "1..1" -- "0..1" Driver
-Employee "1..1" -- "0..1" Planner
-Employee "1..1" -- "0..1" AdministrativeStaff
-Customer "1..*" -- "0..*" Order
-Vehicle "1..1" -- "1..*" VehicleType
-Vehicle "1..*" -- "0..*" Repair
-Repair "1..1" -- "1..*" RepairShop
-Repair "1..1" -- "1..1" Employee
-Order "1..1" -- "0..*" Driver
-Order "1..1" -- "0..*" Vehicle
-Order "1..1" -- "1..1" Planner
-Order "1..1" -- "1..1" Customer
-Order "1..1" -- "0..1" AdministrativeStaff
-Order "1..1" -- "0..1" PartnerCompany
+class Driver {
+}
+
+class Planner {
+    username:String
+    password:String
+}
+
+class AdministrativeStaff {
+    username:String
+    password:String
+    fieldOfActivity:String
+}
+
+class Customer {
+    name:String
+    billingAddress:String
+}
+
+class Vehicle {
+    licensePlateNumber:String
+    mileage:Int
+}
+
+class VehicleType {
+    typeName:String
+}
+
+class Repair {
+    duration:String
+    cost:Float
+}
+
+class RepairShop {
+    name:String
+    address:String
+}
+
+class Order {
+    comment:String
+    startTime:Date
+    finishTime:Date
+    pickUpAddress:String
+    deliveryAddress:String
+}
+
+class PartnerCompany {
+    name:String
+    address:String
+}
+
+Employee "0..*" -- "1..1" Repair
+Vehicle "0..*" -- "1..1" Repair
+RepairShop "1..*" -- "0..*" Repair
+Driver "1..1" -- "0..*" Order
+Planner "1..1" -- "0..*" Order
+Vehicle "0..1" -- "0..*" Order
+Customer "1..1" -- "0..*" Order
+AdministrativeStaff "0..1" -- "0..*" Order
+PartnerCompany "0..1" -- "0..*" Order
+VehicleType "1..1" -- "0..*" Order
+
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
 @enduml

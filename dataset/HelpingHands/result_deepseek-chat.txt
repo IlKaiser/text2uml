@@ -1,37 +1,115 @@
 @startuml
 
-class HelpingHandsStore{}
-class City{}
-class Location{}
-class PickupDeliveryService{}
-class Resident{}
-class Item{}
-class PickupRequest{}
-class Vehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class Employee{}
-class FoodBank{}
-class Client{}
-class Category{}
+class HelpingHandsStore {
+  String name
+  String city
+}
 
-HelpingHandsStore "1..*" -- "1..1" City
-HelpingHandsStore "1..1" -- "1..*" Location
-HelpingHandsStore "1..1" -- "1..1" PickupDeliveryService
-PickupDeliveryService "1..1" -- "1..*" PickupRequest
-Resident "1..1" -- "1..*" PickupRequest
-PickupRequest "1..1" -- "1..*" Item
-Vehicle "1..1" -- "1..*" PickupRoute
-VolunteerDriver "1..1" -- "1..*" PickupRoute
-PickupRoute "1..1" -- "1..*" PickupRequest
-PickupRoute "1..1" -- "1..1" Vehicle
-PickupRoute "1..1" -- "1..1" VolunteerDriver
-DistributionCenter "1..1" -- "1..*" Employee
-Employee "1..1" -- "1..*" Item
-Item "1..1" -- "1..1" Category
-FoodBank "1..1" -- "1..*" Item
-Client "1..1" -- "1..*" Category
-Employee "1..1" -- "1..*" Client
+class Location {
+  String city
+  String address
+}
+
+class Resident {
+  String name
+  String streetAddress
+  String phoneNumber
+  String email
+}
+
+class Item {
+  String description
+  String dimensions
+  Float weight
+  String type
+}
+
+class SecondHandArticle {
+  String quality
+  String category
+  Boolean tagged
+}
+
+class NonPerishableFood {
+  String type
+}
+
+class PickupRequest {
+  Date requestedDate
+  Time pickupWindowStart
+  Time pickupWindowEnd
+  String status
+}
+
+class Vehicle {
+  String licensePlate
+  Float storageCapacity
+  Float currentLoad
+}
+
+class VolunteerDriver {
+  String name
+  String phoneNumber
+  Set<Weekday> availableDays
+}
+
+class Route {
+  Date routeDate
+  Time startTime
+  Time endTime
+}
+
+class DistributionCenter {
+  String address
+  String phoneNumber
+}
+
+class FoodBank {
+  String name
+  String address
+  String phoneNumber
+}
+
+class H2SEmployee {
+  String name
+  String role
+}
+
+class Client {
+  String name
+  String address
+  String phoneNumber
+  Boolean homeDeliveryEligible
+}
+
+class Category {
+  String name
+  Integer code
+}
+
+class Delivery {
+  Date deliveryDate
+  Time deliveryTime
+  String status
+}
+
+HelpingHandsStore "1" -- "*" Location
+Location "1" -- "*" PickupRequest
+Resident "1" -- "*" PickupRequest
+PickupRequest "1" -- "*" Item
+Item <|-- SecondHandArticle
+Item <|-- NonPerishableFood
+Vehicle "1" -- "*" Route
+VolunteerDriver "1" -- "*" Route
+Route "1" -- "*" PickupRequest
+DistributionCenter "1" -- "*" SecondHandArticle
+FoodBank "1" -- "*" NonPerishableFood
+H2SEmployee "1" -- "*" SecondHandArticle
+SecondHandArticle "1" -- "1" Category
+Client "1" -- "*" Category
+H2SEmployee "1" -- "*" Delivery
+Delivery "1" -- "*" SecondHandArticle
+Client "1" -- "*" Delivery
+VolunteerDriver "1" -- "*" Delivery
 
 @enduml

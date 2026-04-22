@@ -1,19 +1,52 @@
 ```plantuml
 @startuml
 
-class ResearchGroup{}
-class Department{}
-class Researcher{}
-class Project{}
-class WorkPackage{}
-class ServiceDelivery{}
+class University {
+  name:String
+}
 
+class ResearchGroup {
+  name:String
+  department:Department
+}
+
+class Department {
+  name:String
+}
+
+class Researcher {
+  name:String
+  researchGroup:ResearchGroup
+}
+
+class Project {
+  name:String
+  description:String
+}
+
+class WorkPackage {
+  name:String
+  project:Project
+  leader:ResearchGroup
+}
+
+class ServiceDelivery {
+  fromGroup:ResearchGroup
+  toGroup:ResearchGroup
+  workPackage:WorkPackage
+  researcher:Researcher
+  date:Date
+}
+
+University "1..*" -- "1..*" Department
+University "1..*" -- "1..*" ResearchGroup
 ResearchGroup "1..*" -- "1..*" Department
-Researcher "1..1" -- "1..*" ResearchGroup
+ResearchGroup "1..1" -- "1..*" Researcher
+ResearchGroup "1..*" -- "1..*" Project
 Project "1..*" -- "1..*" WorkPackage
-WorkPackage "1..1" -- "1..*" ResearchGroup
-Researcher "0..*" -- "1..*" WorkPackage
-ServiceDelivery "0..*" -- "1..*" ResearchGroup
+WorkPackage "1..1" -- "1..1" ResearchGroup
+WorkPackage "0..*" -- "0..*" Researcher
+ResearchGroup "0..*" -- "0..*" ServiceDelivery
 
 @enduml
 ```

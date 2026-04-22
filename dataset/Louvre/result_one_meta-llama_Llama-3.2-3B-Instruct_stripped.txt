@@ -1,0 +1,68 @@
+@startuml
+
+class Location {
+    String Name
+    String Description
+}
+class Exhibition {
+    String Title
+    Date OpeningDate
+    Date ClosingDate
+    String Coordinator
+}
+class ExhibitionItem {
+    String Title
+    String Description
+}
+class ExhibitionItemDesired {
+    String Title
+    String DesiredItem
+    String Collector
+    String Piece
+}
+class ExhibitionItemAvailable {
+    String Title
+    String Piece
+    String Collector
+}
+class Collector {
+    String Name
+    String Address
+}
+class Employee {
+    String Name
+    String Position
+}
+class Coach {
+    String Name
+    String Position
+}
+class ExhibitionItemRequested {
+    String Title
+    String Collector
+    String Piece
+}
+class ExhibitionItemAssigned {
+    String Title
+    String Collector
+    String Piece
+}
+Location "0..*" -- "0..*" Exhibition
+Exhibition "1" -- "0..*" ExhibitionItem
+ExhibitionItem "1" -- "0..*" ExhibitionItemDesired
+ExhibitionItemDesired "1" -- "0..*" ExhibitionItemAvailable
+ExhibitionItemAvailable "1" -- "0..*" ExhibitionItemRequested
+ExhibitionItemRequested "1" -- "0..*" ExhibitionItemAssigned
+ExhibitionItemAssigned "1" -- "0..*" Exhibition
+Employee "0..*" -- "0..*" Exhibition
+Employee "0..*" -- "0..*" Coach
+Coach "0..*" -- "0..*" Employee
+Employee "0..*" -- "0..*" Exhibition
+Exhibition "0..*" -- "0..*" ExhibitionItem
+ExhibitionItem "0..*" -- "0..*" ExhibitionItemDesired
+ExhibitionItemDesired "0..*" -- "0..*" ExhibitionItemAvailable
+ExhibitionItemAvailable "0..*" -- "0..*" ExhibitionItemRequested
+ExhibitionItemRequested "0..*" -- "0..*" ExhibitionItemAssigned
+ExhibitionItemAssigned "0..*" -- "0..*" Exhibition
+
+@enduml

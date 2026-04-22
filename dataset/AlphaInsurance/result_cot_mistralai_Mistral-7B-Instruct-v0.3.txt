@@ -1,0 +1,338 @@
+<s>[INST] Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes..
+
+##############
+
+The class list is:
+[/INST] [AlphaInsurance, Customer, Broker, InsurancePolicy, HeadOffice, Claim, ClaimCase, Estimator, Contract, InsuranceProduct, Invoice, Compensation]
+
+##############
+
+The cardinality list is:
+
+<s>[INST] Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+##############
+
+The cardinality list is:
+[/INST] [
+(Customer, 1..1, Broker, 1..1),
+(Broker, 0..*, Customer, 1..*),
+(Customer, 1..*, InsurancePolicy, 0..*),
+(InsurancePolicy, 1..1, Customer, 1..1),
+(Customer, 0..*, Claim, 0..*),
+(Claim, 1..*, Customer, 1..1),
+(Claim, 1..*, ClaimCase, 1..*),
+(ClaimCase, 1..*, Claim, 1..*),
+(ClaimCase, 1..*, Estimator, 0..*),
+(Estimator, 0..*, ClaimCase, 0..*),
+(Claim, 1..*, Compensation, 0..*),
+(Compensation, 1..*, Claim, 1..*),
+(Compensation, 1..*, Customer, 0..*)
+]
+
+##############
+
+The attributes dictionary is:
+
+<s>[INST] Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes..
+
+##############
+
+The class list is:
+[/INST] [AlphaInsurance, Customer, Broker, InsurancePolicy, HeadOffice, Claim, ClaimCase, Estimator, Contract, InsuranceProduct, Invoice, Compensation]
+
+#############
+
+The specification text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+##############
+
+The attributes dictionary is:
+[/INST] {
+AlphaInsurance: [],
+Customer: ["name", "contract"],
+Broker: ["name", "registration"],
+InsurancePolicy: ["type"],
+HeadOffice: [],
+Claim: ["insured_event"],
+ClaimCase: ["case_number", "type", "status"],
+Estimator: ["name", "expertise"],
+Contract: ["signing_date", "product", "signatures", "invoice_frequency", "price"],
+InsuranceProduct: ["name", "price"],
+Invoice: ["due_date", "amount"],
+Compensation: ["claim_case", "decision", "eligible_costs", "sum", "payment_date"]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes..
+
+##############
+
+The class list is:
+[/INST] [AlphaInsurance, Customer, Broker, InsurancePolicy, HeadOffice, Claim, ClaimCase, Estimator, Contract, InsuranceProduct, Invoice, Compensation]
+
+#############
+
+The specification text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+##############
+[/INST] ASSOCIATIONS:
+[AlphaInsurance, Customer, Broker, InsurancePolicy, HeadOffice, Claim, ClaimCase, Estimator, Contract, InsuranceProduct, Invoice, Compensation]
+
+[(Customer, Broker), (Broker, InsurancePolicy), (InsurancePolicy, HeadOffice), (Customer, Contract), (Contract, InsuranceProduct), (Customer, Claim), (Claim, ClaimCase), (ClaimCase, Estimator), (Estimator, Compensation), (Compensation, Customer)]
+
+##############
+
+The plant uml is:
+[/INST] @startuml
+
+class AlphaInsurance {
+}
+class Customer {
+    - name
+    - contract
+}
+class Broker {
+    - name
+    - registration
+}
+class InsurancePolicy {
+    - type
+}
+class HeadOffice {
+}
+class Claim {
+    - insured_event
+}
+class ClaimCase {
+    - case_number
+    - type
+    - status
+}
+class Estimator {
+    - name
+    - expertise
+}
+class Contract {
+    - signing_date
+    - product
+    - signatures
+    - invoice_frequency
+    - price
+}
+class InsuranceProduct {
+    - name
+    - price
+}
+class Invoice {
+    - due_date
+    - amount
+}
+class Compensation {
+    - claim_case
+    - decision
+    - eligible_costs
+    - sum
+    - payment_date
+}
+
+Broker "1" -- "1" Customer
+Customer "1" -- "0..*" InsurancePolicy
+InsurancePolicy "1" -- "1" HeadOffice
+Customer "1" -- "0..*" Claim
+Claim "1" -- "1" ClaimCase
+ClaimCase "1" -- "0..*" Estimator
+Estimator "0..*" -- "0..*" ClaimCase
+Claim "1" -- "1" Compensation
+Compensation "1" -- "1" Customer
+
+@enduml

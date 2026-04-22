@@ -1,21 +1,18 @@
 @startuml
-class Department{}
-class ResearchGroup{}
-class Researcher{}
-class Project{}
-class WorkPackage{}
-class TeamMemberAssignment{}
-class ServiceDelivery{}
-class LeadershipAssignment{}
+class Department
+class ResearchGroup
+class Researcher
+class ResearchProject
+class WorkPackage
+class TeamMemberAssignment
+class WorkPackageLeadership
 
-Department "1..*" -- "1..1" ResearchGroup
-ResearchGroup "1..*" -- "1..1" Researcher
-Project "1..*" -- "1..1" WorkPackage
-ResearchGroup "1..*" -- "1..1" WorkPackage
-Researcher "0..*" -- "1..1" TeamMemberAssignment
-WorkPackage "0..*" -- "1..1" TeamMemberAssignment
-WorkPackage "0..*" -- "1..1" LeadershipAssignment
-ResearchGroup "0..*" -- "1..1" LeadershipAssignment
-ServiceDelivery "0..*" -- "1..1" TeamMemberAssignment
-ResearchGroup "0..*" -- "0..*" ServiceDelivery
+Department "1..1" -- "0..*" ResearchGroup.
+ResearchGroup "1..1" -- "0..*" Researcher.
+ResearchProject "1..1" -- "0..*" WorkPackage.
+WorkPackage "1..1" -- "0..*" WorkPackageLeadership.
+ResearchGroup "1..1" -- "0..*" WorkPackageLeadership.
+Researcher "1..1" -- "0..*" TeamMemberAssignment.
+WorkPackage "1..1" -- "0..*" TeamMemberAssignment.
+WorkPackageLeadership "1..1" -- "0..*" TeamMemberAssignment.
 @enduml

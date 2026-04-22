@@ -1,44 +1,52 @@
 
 @startuml
 
-class HomeForTheElderly{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Price{}
-class Stay{}
-class Inhabitant{}
-class RegistrationProcess{}
-class BasicIdentificationData{}
-class AbilitiesAssessment{}
-class WaitingList{}
-class Proposal{}
-class Intake{}
-class Invoice{}
-class Payment{}
-class CreditNote{}
+class HomeForElderly {
+    String Name
+}
+class Department {
+    String Name
+}
+class Room {
+    Int Number
+}
+class Bed {
+    Int Number
+}
+class Category {
+    String Type
+    Double Price
+}
+class Stay {
+    String Type
+}
+class Inhabitant {}
+class Registration {}
+class Assessment {}
+class WaitingList {}
+class Proposal {}
+class AbilitiesAssessment {}
+class Intake {}
+class Invoice {}
+class Payment {}
+class CreditNote {}
 
-HomeForTheElderly "1" -- "0..*" Department
 Department "1" -- "0..*" Room
 Room "1" -- "0..*" Bed
+Department "1" -- "0..*" Bed
 Bed "1" -- "1" Category
-Category "1" -- "1" Price
-Category "0..*" -- "1" Stay
-Inhabitant "0..*" -- "0..*" Stay
-Inhabitant "1" -- "1" RegistrationProcess
-BasicIdentificationData "1" -- "1" RegistrationProcess
-RegistrationProcess "1" -- "1" AbilitiesAssessment
-AbilitiesAssessment "1" -- "1" Stay
-WaitingList "1" -- "0..*" Inhabitant
-WaitingList "1" -- "0..*" Stay
-Proposal "1" -- "1" Bed
-Proposal "0..*" -- "1" Inhabitant
-Proposal "0..1" -- "1" Stay
-Intake "1" -- "1" Stay
-Invoice "1" -- "0..*" Stay
-Invoice "0..*" -- "1" Payment
-Payment "1" -- "0..1" Invoice
-Payment "1" -- "1" CreditNote
+Inhabitant "0..*" -- "0..1" Stay
+Inhabitant "1" -- "0..*" Registration
+Registration "1" -- "1" Assessment
+Assessment "1" -- "1" Stay
+Stay "1" -- "0..1" WaitingList
+WaitingList "1" -- "0..*" Proposal
+Proposal "1" -- "1" Inhabitant
+Proposal "1" -- "1" Intake
+Intake "1" -- "1" AbilitiesAssessment
+Inhabitant "0..*" -- "0..1" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "1" Invoice
+Invoice "1" -- "1" CreditNote
 
 @enduml

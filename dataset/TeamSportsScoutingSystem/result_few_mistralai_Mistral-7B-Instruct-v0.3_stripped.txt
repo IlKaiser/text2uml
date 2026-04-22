@@ -1,0 +1,43 @@
+@startuml
+
+class Player {
+    String Name
+}
+class ScoutReport {
+    String Pros
+    String Cons
+    String Recommendation
+}
+class ScoutingAssignment {
+    String PlayerName
+    ScoutReport report
+}
+class Scout {
+    String Name
+}
+class HeadScout {
+    String Name
+}
+class ShortList {
+    String PlayerName
+}
+class ClubEmployee {
+    String Role
+}
+class HeadCoach {
+    String Name
+}
+class Director {
+    String Name
+}
+
+Player "0..*" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1" -- "1" ScoutReport
+Scout "0..*" -- "0..*" ScoutingAssignment
+HeadScout "1" -- "0..*" ScoutingAssignment
+ShortList "1" -- "0..*" Player
+ClubEmployee "0..*" -- "0..*" ShortList
+HeadCoach "1" -- "1" ShortList
+Director "1" -- "0..*" ShortList
+
+@enduml

@@ -1,24 +1,77 @@
 @startuml
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class Lab{}
-class Appointment{}
-class Sample{}
-class Result{}
-class Report{}
-class TestGroup{}
+class Doctor {
+  practitionerNumber: Int
+  signature: String
+  fullName: String
+  address: String
+  phoneNumber: String
+}
+class Requisition {
+  validFromDate: Date
+  patientHealthNumber: String
+  patientFirstName: String
+  patientLastName: String
+  patientDateOfBirth: Date
+  patientAddress: String
+  patientPhoneNumber: String
+}
+class Test {
+  duration: Int
+}
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+class Appointment
+class Lab {
+  address: String
+  registrationNumber: String
+}
+class TestGroup
+class Sample
+class RepetitionPattern {
+  numberOfTimes: Int
+  interval: String
+}
+class TestResult {
+  result: String
+}
+class Report
+class BusinessHours {
+  dailyStartTime: String
+  dailyEndTime: String
+}
+class Confirmation {
+  confirmationNumber: String
+  date: Date
+  startTime: String
+  endTime: String
+  labName: String
+  labRegistrationNumber: String
+}
+class Fee {
+  amount: Float
+  type: String
+}
 
+Appointment "1..1" -- "0..1" Confirmation
+Appointment "0..1" -- "1..1" Fee
 Doctor "1..1" -- "0..*" Requisition
-Patient "1..1" -- "0..*" Requisition
-Requisition "0..*" -- "0..*" Test
-TestGroup "1..1" -- "0..*" Test
-Test "1..1" -- "0..1" Result
-Result "1..1" -- "1..1" Report
-Patient "1..1" -- "0..*" Appointment
 Lab "1..1" -- "0..*" Appointment
-Requisition "1..1" -- "0..*" Appointment
-Sample "0..1" -- "1..*" Test
+Lab "1..1" -- "1..1" BusinessHours
+Lab "1..1" -- "0..*" Fee
 Lab "0..*" -- "0..*" Test
+Patient "1..1" -- "0..*" Appointment
+Patient "1..1" -- "0..*" Requisition
+RepetitionPattern "0..1" -- "0..*" Requisition
+Report "1..1" -- "1..*" TestResult
+Requisition "1..1" -- "0..*" Appointment
+Requisition "1..*" -- "0..*" Test
+Test "0..*" -- "0..*" Sample
+Test "1..1" -- "0..1" TestResult
+TestGroup "1..1" -- "0..*" Test
 @enduml

@@ -1,0 +1,59 @@
+```plantuml
+@startuml
+
+class CelO_Application {
+}
+
+class Organizer {
+    first name: String
+    last name: String
+    email address: String
+    postal address: String
+    phone number: String
+    password: String
+}
+
+class Event {
+    start date/time: Date
+    end date/time: Date
+    occasion: String
+    location: Location
+}
+
+class Location {
+    name: String
+    address: String
+}
+
+class Attendee {
+    first name: String
+    last name: String
+    email address: String
+    attendance status: String
+}
+
+class Task {
+    description: String
+    status: String
+}
+
+class Checklist {
+    tasks: List[Task]
+}
+
+class Invitation {
+}
+
+CelO_Application "1..1" -- "1..*" Organizer
+Organizer "1..1" -- "1..*" Event
+Organizer "1..1" -- "0..*" Location
+Organizer "1..1" -- "0..*" Attendee
+Event "1..1" -- "1..1" Location
+Organizer "1..1" -- "0..*" Task
+Event "1..1" -- "1..1" Checklist
+Organizer "1..1" -- "0..*" Invitation
+Attendee "1..1" -- "1..1" Invitation
+Task "1..1" -- "0..*" Attendee
+
+@enduml
+```

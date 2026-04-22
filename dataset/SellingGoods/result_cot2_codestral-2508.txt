@@ -1,30 +1,95 @@
 ```plantuml
 @startuml
-class Company{}
-class Customer{}
-class Order{}
-class OrderLine{}
-class Product{}
-class Stock{}
-class Payment{}
-class Delivery{}
-class Address{}
-class Invoice{}
-class Warehouse{}
-class Shipment{}
-class Watchlist{}
+class Company {
+  name: String
+  VAT_number: String
+}
+
+class Customer {
+  name: String
+  VAT_number: String
+}
+
+class Order {
+  order_date: Date
+  payment_date: Date
+  shipping_date: Date
+  is_fully_shipped: Boolean
+}
+
+class Product {
+  name: String
+  description: String
+  price: Float
+}
+
+class OrderLine {
+  quantity: Int
+  is_shipped: Boolean
+}
+
+class Stock {
+  quantity: Int
+}
+
+class Payment {
+  amount: Float
+  payment_date: Date
+  payment_method: String
+}
+
+class Shipment {
+  shipment_date: Date
+  status: String
+  tracking_number: String
+}
+
+class Address {
+  street: String
+  city: String
+  postal_code: String
+  country: String
+}
+
+class Invoice {
+  invoice_date: Date
+  due_date: Date
+  total_amount: Float
+}
+
+class Warehouse {
+  name: String
+  address: Address
+}
+
+class DeliveryService {
+  name: String
+  contact_info: String
+}
+
+class ShipmentGroup {
+  group_id: String
+  status: String
+}
+
+class Watchlist {
+  order: Order
+  status: String
+}
 
 Company "1..1" -- "0..*" Customer
+Customer "1..1" -- "1..1" Address
 Customer "1..1" -- "0..*" Order
 Order "1..1" -- "1..*" OrderLine
 OrderLine "1..1" -- "1..1" Product
-Product "1..1" -- "0..1" Stock
+Product "1..1" -- "1..1" Stock
 Order "1..1" -- "1..1" Payment
-Order "1..1" -- "0..1" Delivery
-Customer "1..1" -- "0..*" Address
+Order "1..1" -- "1..1" Shipment
+Shipment "1..1" -- "0..*" OrderLine
 Order "1..1" -- "1..1" Invoice
-Warehouse "1..1" -- "0..*" Stock
-Delivery "1..1" -- "0..*" Shipment
-Order "1..1" -- "0..*" Watchlist
+Customer "1..1" -- "0..*" Address
+Shipment "1..1" -- "1..1" DeliveryService
+Shipment "1..1" -- "0..*" ShipmentGroup
+ShipmentGroup "1..1" -- "0..*" OrderLine
 @enduml
 ```

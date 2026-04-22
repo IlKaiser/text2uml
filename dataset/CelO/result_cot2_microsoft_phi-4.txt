@@ -1,0 +1,72 @@
+```plantuml
+@startuml
+
+class Family {
+}
+
+class Group {
+}
+
+class Event {
+  startDate: Date
+  endDate: Date
+  occasion: String
+  location: String
+}
+
+class Organizer {
+  firstName: String
+  lastName: String
+  emailAddress: String
+  postalAddress: String
+  phoneNumber: String
+  password: String
+  eventKind: String
+  startDate: Date
+  endDate: Date
+  occasion: String
+  location: String
+}
+
+class Attendee {
+  firstName: String
+  lastName: String
+  emailAddress: String
+  attendanceStatus: String
+}
+
+class Task {
+  description: String
+  status: String
+  assignedToAttendee: Boolean
+}
+
+class Checklist {
+  tasks: [Task]
+}
+
+class Invitation {
+}
+
+class Account {
+}
+
+class Location {
+  name: String
+  address: String
+}
+
+class EventKind {
+}
+
+1..1 Organizer -- 1..* Event
+1..1 Event -- 1..1 EventKind
+1..1 Event -- 1..1 Location
+1..1 Organizer -- 0..* Invitation
+1..1 Invitation -- 1..1 Attendee
+0..1 Attendee -- 1..1 Account
+1..1 Event -- 0..* Task
+0..1 Task -- 0..* Attendee
+
+@enduml
+```

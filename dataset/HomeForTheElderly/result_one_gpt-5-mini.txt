@@ -1,0 +1,36 @@
+@startuml
+
+class Home { String Name }
+class Department { String Name }
+class Room { String Number }
+class Bed { String BedNumber, Boolean IsOccupied }
+class Category { String Name, Double Price }
+class Inhabitant { String Name, Date BirthDate, Date RegistrationDate }
+class Registration { Date RegistrationDate, String IdentificationData }
+class Assessment { Date AssessmentDate, String Result, String AssessedStayType }
+class WaitingListEntry { Date RegistrationDate, Integer Position }
+class Proposal { Date ProposalDate, Date Deadline, String Status }
+class Stay { Date StartDate, Date EndDate, String Status, Boolean Suspended }
+class Invoice { Date InvoiceDate, Double Amount, Double OutstandingAmount, String Status }
+class CreditNote { Date IssueDate, Double Amount }
+
+Home "1..1" -- "1..*" Department
+Department "1..1" -- "1..*" Room
+Room "1..1" -- "1..*" Bed
+Category "1..1" -- "0..*" Bed
+Bed "1..1" -- "0..*" Stay
+Inhabitant "1..1" -- "0..*" Stay
+Category "1..1" -- "0..*" Stay
+Registration "1..1" -- "1..1" Inhabitant
+Inhabitant "1..1" -- "0..*" Assessment
+Category "1..1" -- "0..*" Assessment
+Inhabitant "1..1" -- "0..*" WaitingListEntry
+Category "1..1" -- "0..*" WaitingListEntry
+WaitingListEntry "1..1" -- "0..*" Proposal
+Bed "1..1" -- "0..*" Proposal
+Proposal "0..1" -- "0..1" Stay
+Stay "1..1" -- "0..*" Invoice
+Inhabitant "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" CreditNote
+
+@enduml

@@ -1,0 +1,328 @@
+<bos><start_of_turn>user
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Exhibition, Location, Employee, Collector, Item]
+
+##############
+
+The cardinality list is:
+
+<bos><start_of_turn>user
+Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+
+
+##############
+
+The cardinality list is:<end_of_turn>
+<start_of_turn>model
+[
+(Exhibition, Location, 1..*),
+(Exhibition, Employee, 1..1),
+(Exhibition, ExhibitionItem, 1..*),
+(ExhibitionItem, Piece, 1..1),
+(ExhibitionItem, Collector, 0..*),
+(Employee, Employee, 1..1),
+(Employee, Employee, 0..*)
+]
+
+##############
+
+The attributes dictionary is:
+
+<bos><start_of_turn>user
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Exhibition, Location, Employee, Collector, Item]
+
+#############
+
+The specification text is:
+
+The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+
+
+##############
+
+The attributes dictionary is:<end_of_turn>
+<start_of_turn>model
+```json
+{
+    "Exhibition": [
+        "coordinator: Employee",
+        "openingDate: Date",
+        "items: List[Item]"
+    ],
+    "Location": [
+        "name: String"
+    ],
+    "Employee": [
+        "name: String",
+        "role: String"
+    ],
+    "Collector": [
+        "name: String"
+    ],
+    "Item": [
+        "name: String",
+        "description: String"
+    ]
+}
+```
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Exhibition, Location, Employee, Collector, Item]
+
+#############
+
+The specification text is:
+
+The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+
+
+##############<end_of_turn>
+<start_of_turn>model
+ASSOCIATIONS:
+[Exhibition, Employee]
+[Exhibition, Item]
+[Item, Collector]
+[Employee, Employee]
+
+##############
+
+The plant uml is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class Exhibition {
+}
+
+class Location {
+}
+
+class Employee {
+}
+
+class Collector {
+}
+
+class Item {
+}
+
+Exhibition "1" -- "*" Item : contains
+Exhibition "1" -- "1" Employee : coordinated by
+Item "1" -- "1" Collector : sourced from
+Employee "1" -- "1" Employee : coached by
+
+@enduml
+```

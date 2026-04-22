@@ -1,0 +1,68 @@
+<|system|>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|end|><|user|>Transform into plant uml this specification text: Formalize the following textual description of a game area by creating a suitable class diagram. Use at least one role name and at least one association name. (You do not need to model setters and getters).
+A game area has a name of type String. A game area consists of at least one game element and one or two game pieces. A game element has an x value of type protected long and a y value of type private long, which determine its position in the game area. Game elements are either shapes, objects or opponents. Shapes can be connected to any number of other shapes. Exactly one opponent is known to the game area as the so-called boss. Enemies have a number of lives of type protected int and can be killed. 
+
+Write down the classes game element, shape, object and opponent from their class diagram as well as their relationships in the textual syntax for class diagrams that you have become familiar with using the DEX tool. Ignore the visibilities.
+<|end|><|assistant|>@startuml
+
+class GameArea{
+  String name
+}
+
+class GameElement{
+  protected long x
+  private long y
+}
+
+class Shape extends GameElement{
+  GameElement "0..*" -- "1..*" GameElement
+}
+
+class Object extends GameElement{
+  GameElement "0..*" -- "1..*" GameElement
+}
+
+class Opponent extends GameElement{
+  protected int lives
+  String boss
+}
+
+GameArea "1..*" -- "0..*" GameElement
+GameElement "1..*" -- "0..*" Shape
+GameElement "1..*" -- "0..*" Object
+GameElement "1..*" -- "0..*" Opponent
+
+@enduml

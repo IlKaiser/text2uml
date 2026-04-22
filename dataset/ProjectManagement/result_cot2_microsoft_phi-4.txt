@@ -1,0 +1,42 @@
+```plantuml
+@startuml
+
+class University {
+}
+
+class Department {
+}
+
+class ResearchGroup {
+}
+
+class Researcher {
+  assignments: List[Assignment]
+}
+
+class Project {
+}
+
+class WorkPackage {
+  leader: ResearchGroup
+  teamMembers: List[Researcher]
+}
+
+class Assignment {
+  researcher: Researcher
+  workPackage: WorkPackage
+}
+
+class ServiceDelivery {
+}
+
+University "1" -- "0..*" Department
+Department "1" -- "0..*" ResearchGroup
+ResearchGroup "1" -- "0..*" Researcher
+Project "1" -- "0..*" WorkPackage
+WorkPackage "1" -- "1" ResearchGroup
+Researcher "0..*" -- "0..*" WorkPackage
+ResearchGroup "0..*" -- "0..*" WorkPackage
+
+@enduml
+```

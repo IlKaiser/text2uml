@@ -1,42 +1,113 @@
 ```plantuml
 @startuml
 
-class TransportCompany{}
-class Meeting{}
-class ManagingDirector{}
-class Minutes{}
-class Employee{}
-class Driver{}
-class Planner{}
-class AdministrativeStaff{}
-class Customer{}
-class Vehicle{}
-class RefrigeratedTruck{}
-class SmallVan{}
-class LoadingPlatform{}
-class BoxTruck{}
-class RepairShop{}
-class Order{}
-class Package{}
-class PartnerCompany{}
+class TransportCompany {
+}
 
-TransportCompany "0..*" -- "1..*" Employee
-TransportCompany "0..*" -- "1..*" Vehicle
-TransportCompany "0..*" -- "1..*" Customer
-TransportCompany "0..*" -- "1..*" Order
-TransportCompany "0..*" -- "1..*" RepairShop
-TransportCompany "0..*" -- "1..*" PartnerCompany
-Employee "1..1" -- "1..1" Driver
-Employee "1..1" -- "1..1" Planner
-Employee "1..1" -- "1..1" AdministrativeStaff
-Driver "1..1" -- "0..*" Order
-Planner "1..1" -- "0..*" Order
-Vehicle "1..1" -- "1..1" RefrigeratedTruck
-Vehicle "1..1" -- "1..1" SmallVan
-Vehicle "1..1" -- "1..1" LoadingPlatform
-Vehicle "1..1" -- "1..1" BoxTruck
-Order "1..1" -- "1..1" Customer
-Order "1..1" -- "1..1" Package
+class ManagingDirector {
+  name: String
+  socialSecurityNumber: String
+}
+
+class Driver {
+  name: String
+  socialSecurityNumber: String
+}
+
+class Employee {
+  name: String
+  socialSecurityNumber: String
+}
+
+class Planner {
+  name: String
+  socialSecurityNumber: String
+  username: String
+  password: String
+}
+
+class AdministrativeStaff {
+  name: String
+  socialSecurityNumber: String
+  username: String
+  password: String
+  fieldOfActivity: String
+}
+
+class Customer {
+  name: String
+  billingAddress: String
+}
+
+class Vehicle {
+  licensePlateNumber: String
+  mileage: Float
+}
+
+class RefrigeratedTruck {
+  licensePlateNumber: String
+  mileage: Float
+}
+
+class SmallVan {
+  licensePlateNumber: String
+  mileage: Float
+}
+
+class LoadingPlatform {
+  licensePlateNumber: String
+  mileage: Float
+}
+
+class BoxTruck {
+  licensePlateNumber: String
+  mileage: Float
+}
+
+class RepairShop {
+  name: String
+  address: String
+}
+
+class Repair {
+  duration: Float
+  cost: Float
+}
+
+class Order {
+  comment: String
+  startTime: Date
+  endTime: Date
+  pickUpAddress: String
+  deliveryAddress: String
+}
+
+class PartnerCompany {
+  name: String
+  address: String
+}
+
+Employee "0..*" -- "1..1" TransportCompany
+Driver "0..*" -- "0..*" Order
+Planner "0..*" -- "0..*" Order
+AdministrativeStaff "0..*" -- "0..*" Order
+Vehicle "0..*" -- "1..1" TransportCompany
+RefrigeratedTruck "0..*" -- "1..1" TransportCompany
+SmallVan "0..*" -- "1..1" TransportCompany
+LoadingPlatform "0..*" -- "1..1" TransportCompany
+BoxTruck "0..*" -- "1..1" TransportCompany
+Repair "0..*" -- "1..1" Vehicle
+Repair "0..*" -- "1..1" RepairShop
+Repair "0..*" -- "1..1" Employee
+Order "0..*" -- "1..1" Customer
+Order "0..*" -- "1..1" PartnerCompany
+
+RefrigeratedTruck --|> Vehicle
+SmallVan --|> Vehicle
+LoadingPlatform --|> Vehicle
+BoxTruck --|> Vehicle
+Planner --|> Employee
+AdministrativeStaff --|> Employee
 
 @enduml
 ```

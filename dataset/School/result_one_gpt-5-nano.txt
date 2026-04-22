@@ -1,0 +1,37 @@
+@startuml
+
+class Person {
+    String FirstName
+    String LastName
+}
+class Teacher extends Person {
+    String Email
+}
+class Student extends Person {
+}
+class School {
+    String Name
+}
+class ClassGroup {
+    String Name
+}
+class Classroom {
+    String Name
+    Integer Capacity
+}
+class Gym {
+    String Name
+    Double Size
+}
+class TeachingAssignment {
+    Double Hours
+}
+
+Student "0..*" -- "1" School
+Student "10..31" -- "1" ClassGroup
+ClassGroup "1" -- "1" Classroom
+TeachingAssignment "0..3" -- "1" Teacher
+TeachingAssignment "0..*" -- "1" School
+School "1" -- "1" Teacher
+
+@enduml

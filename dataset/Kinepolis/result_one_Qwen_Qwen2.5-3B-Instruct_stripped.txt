@@ -1,0 +1,45 @@
+@startuml
+
+class Cinema {
+    String Name
+    String Address
+}
+class Theatre {
+    String Name
+    String Address
+}
+class Movie {
+    String Title
+    String Description
+}
+class Show {
+    String Date
+    String Time
+    String MovieTitle
+}
+class Reservation {
+    String SeatNumber
+    Date ReservationTime
+    Date CancellationTime
+}
+class Ticket {
+    String SeatNumber
+    Date IssueDate
+}
+class Program {
+    String WeekDay
+    List[Show] Shows
+}
+
+Cinema "1" -- "0..*" Theatre
+Theatre "1" -- "0..*" Show
+Movie "1" -- "0..*" Show
+Reservation "1" -- "0..1" Show
+Ticket "1" -- "0..1" Show
+
+Reservation "1" -- "0..1" Cancellation
+Ticket "1" -- "0..1" SeatNumber
+
+Program "1" -- "0..1" Show
+
+@enduml

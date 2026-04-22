@@ -1,0 +1,97 @@
+@startuml
+
+class Employee {
+    String Name
+    String SocialSecurityNumber
+    String OscarWinner
+}
+class CreativeEmployee {
+    Employee "1" -- "0..*" OscarWinner
+}
+class Actor {
+    Employee "1" -- "0..*" Education
+    Employee "1" -- "0..1" DirectorAssistant
+    Employee "1" -- "0..*" OscarWinner
+}
+class Director {
+    Employee "1" -- "0..*" OscarWinner
+}
+class Technician {
+    Employee "1" -- "0..*" FieldOfActivity
+}
+class FilmSet {
+    String Location
+    "0..*" Film
+}
+class Film {
+    String Title
+    Integer Year
+    String Genre
+    String Title
+    "0..*" Screenplay
+    "0..*" Screenwriter
+}
+class Screenwriter {
+    Employee "1" -- "0..*" MostSuccessfulFilm
+    "0..*" Screenplay
+}
+class Screenplay {
+    String Title
+    String Version
+    Integer NumberOfScenes
+    String Plot
+    "0..1" Novel
+    "0..1" Concept
+}
+class Novel {
+    String Title
+    Employee "1" -- "0..*" OscarWinner
+    Employee "1" -- "0..*" Author
+}
+class Concept {
+    "0..1" Screenplay
+}
+class DirectorAssistant {
+    Employee "1" -- "0..*" OscarWinner
+}
+class Actor {
+    Employee "1" -- "0..*" OscarWinner
+    Employee "1" -- "0..*" Education
+    Employee "1" -- "0..1" DirectorAssistant
+}
+
+Film "1" -- "0..*" Screenwriter
+Screenwriter "1" -- "0..*" Screenplay
+Screenplay "1" -- "0..*" Film
+Screenplay "1" -- "0..*" Novel
+Screenplay "1" -- "0..*" Concept
+Actor "1" -- "0..*" Screenplay
+Actor "1" -- "0..*" Film
+FilmSet "1" -- "0..*" Film
+Film "1" -- "0..*" FilmSet
+Film "1" -- "0..*" Genre
+Genre "1" -- "0..*" Film
+Screenwriter "1" -- "0..*" MostSuccessfulFilm
+Screenwriter "1" -- "0..*" Film
+Screenwriter "1" -- "0..*" Screenplay
+Screenplay "1" -- "0..*" Education
+Screenplay "1" -- "0..*" Plot
+Screenplay "1" -- "0..*" NumberOfScenes
+Screenplay "1" -- "0..*" Title
+Screenplay "1" -- "0..*" Version
+Concept "1" -- "0..*" Screenplay
+Concept "1" -- "0..*" Novel
+Novel "1" -- "0..*" Author
+Novel "1" -- "0..*" OscarWinner
+DirectorAssistant "1" -- "0..*" OscarWinner
+DirectorAssistant "1" -- "0..*" Employee
+Actor "1" -- "0..*" OscarWinner
+Actor "1" -- "0..*" Education
+Actor "1" -- "0..*" DirectorAssistant
+Technician "1" -- "0..*" FieldOfActivity
+Technician "1" -- "0..*" Employee
+Employee "1" -- "0..*" SocialSecurityNumber
+Employee "1" -- "0..*" OscarWinner
+Employee "1" -- "0..*" Name
+
+@enduml

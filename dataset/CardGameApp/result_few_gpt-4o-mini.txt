@@ -1,24 +1,49 @@
 @startuml
 
-class Game {}
-class Player {}
-class Deck {}
-class Card {}
-class ScoringTable {}
-class Round {}
-class MandatorySoloRound {}
-class SoloRound {}
-class SoloType {}
+class Game {
+    String UniqueID
+}
+class Player {
+    String UniqueID
+}
+class Deck {
+    String UniqueID
+}
+class Card {
+    String Suit
+    String UniqueID
+}
+class ScoringTable {
+    String UniqueID
+}
+class Round {
+    String UniqueID
+    String PointValue
+}
+class SoloRound {
+    String UniqueID
+    String Type
+}
+class JackRound {
+    String UniqueID
+}
+class MandatorySoloRound {
+    String UniqueID
+}
+class ComparisonMethod {
+    String Result
+}
 
 Game "1" -- "4" Player
 Game "1" -- "1" Deck
 Game "1" -- "1" ScoringTable
 Deck "1" -- "0..48" Card
 ScoringTable "1" -- "0..*" Round
-Round "0..*" -- "0..*" Player
-Round "1" -- "0..1" MandatorySoloRound
-Round "1" -- "0..1" SoloRound
-SoloRound "1" -- "1" SoloType
-SoloRound "1" -- "1" Player
+Round "1" -- "0..*" Player : WinningPlayers
+Round "1" -- "0..1" JackRound
+Round "0..1" -- "0..1" SoloRound
+SoloRound "1" -- "1" Player : SoloPlayer
+SoloRound "1" -- "1" ComparisonMethod
+MandatorySoloRound "0..1" -- "1" SoloRound
 
 @enduml

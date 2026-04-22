@@ -1,0 +1,78 @@
+@startuml
+
+class Game {
+  - uniqueID
+  * Player (4)
+  * Deck
+  * ScoringTable
+}
+
+class Player {
+  - uniqueID
+}
+
+class Deck {
+  - uniqueID
+  * Card (0..48)
+}
+
+class Card {
+  - uniqueID
+  * cardSuit
+  * cardHeight
+}
+
+class ScoringTable {
+  - uniqueID
+  * Round (0..*)
+}
+
+class Round {
+  - uniqueID
+  * Player (1..*)
+  * pointValue
+  * Round (0..1) JackRound
+  * Solo (0..1) Solo
+}
+
+class SoloRound {
+  - uniqueID
+  * Solo (1)
+}
+
+class MandatorySoloRound {
+  - uniqueID
+  * Solo (1)
+  inherit SoloRound
+}
+
+class TrumpSolo {
+  - uniqueID
+  inherit Solo
+}
+
+class JackSolo {
+  - uniqueID
+  inherit Solo
+}
+
+class QueenSolo {
+  - uniqueID
+  inherit Solo
+}
+
+Game "4" -- "4" Player
+Game "1" -- "1" Deck
+Game "1" -- "1" ScoringTable
+Deck "0..48" -- "1" Card
+ScoringTable "0..*" -- "1..*" Round
+Round "1..*" -- "1..*" Player
+Round "0..1" -- "1" JackRound
+Round "0..1" -- "1" Solo
+SoloRound "1" -- "1" Solo
+MandatorySoloRound "1" -- "1" Solo
+TrumpSolo "1" -- "1" Solo
+JackSolo "1" -- "1" Solo
+QueenSolo "1" -- "1" Solo
+
+@enduml

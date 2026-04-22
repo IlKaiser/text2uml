@@ -1,0 +1,36 @@
+@startuml
+
+class FitnessCenter {
+    String Name
+    String Address
+}
+class Room {
+    Integer RoomNumber
+    Integer MaxCapacity
+}
+class Person {
+    String FirstName
+    String FamilyName
+    Date BirthDate
+}
+class Trainer {
+    String Diploma
+}
+class Session {
+    Date Date
+    Time StartHour
+}
+class GroupSession {
+    String Type
+}
+class IndividualSession {}
+
+FitnessCenter "1" -- "0..*" Room
+FitnessCenter "1" -- "0..*" Session
+Room "1" -- "0..*" Session
+Person "1" -- "0..*" Session
+Trainer "1" -- "0..*" GroupSession
+Person "0..*" -- "0..*" Trainer
+Session "0..*" -- "0..1" GroupSession
+
+@enduml

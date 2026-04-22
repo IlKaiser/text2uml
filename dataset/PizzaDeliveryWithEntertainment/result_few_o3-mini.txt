@@ -1,19 +1,62 @@
 @startuml
 
-class BusinessOwner {}
-class PizzaRestaurant {}
-class Pizza {}
-class HungryCustomer {}
-class Order {}
-class EntertainmentOrder {}
-class Entertainer {}
+class AppUser {
+    String Id
+    Date Birthday
+    String Name
+    String Address
+}
+
+class BusinessOwner {
+    String LinkedInAccount
+}
+
+class HungryCustomer {
+    String DeliveryAddress
+}
+
+class Entertainer {
+    String StageName
+    String Bio
+    Double PricePer30Min
+}
+
+class PizzaRestaurant {
+    String ZipCode
+    String Address
+    String Phone
+    String Website
+    String OpeningHours
+}
+
+class Pizza {
+    String Name
+    String CrustStructure
+    Double Price
+}
+
+class Order {
+    String OrderID
+    Date OrderDateTime
+    Date LatestDeliveryTime
+    Int NumPeople
+}
+
+class EntertainmentOrder {
+    String EntertainmentType
+    String Duration
+}
+
+BusinessOwner --|> AppUser
+HungryCustomer --|> AppUser
+Entertainer --|> AppUser
+EntertainmentOrder --|> Order
 
 BusinessOwner "1" -- "0..*" PizzaRestaurant
 PizzaRestaurant "1" -- "0..*" Pizza
 HungryCustomer "1" -- "0..*" Order
 Order "1" -- "1..*" Pizza
-Order "0..1" -- "1" EntertainmentOrder
-EntertainmentOrder "1" -- "1" Entertainer
+EntertainmentOrder "1" -- "1..1" Entertainer
 Entertainer "0..*" -- "0..*" PizzaRestaurant
 
 @enduml

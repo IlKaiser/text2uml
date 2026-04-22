@@ -1,21 +1,20 @@
 @startuml
 
-class GasStation{}
-class Pump{}
-class Reservoir{}
-class Customer{}
-class RefuelTurn{}
-class Invoice{}
-class FuelCard{}
-class CreditCard{}
+class GasStation{ String StationId, String Name, String Location }
+class Pump{ String PumpId, String FuelType, boolean Blocked, boolean TemporarilyBlocked }
+class Reservoir{ String ReservoirId, double CurrentLevel, double ReorderLevel, double CriticalLevel }
+class Customer{ String CustomerId, String Name, String Status, boolean CardBlocked, int NonPaymentMonths }
+class FuelCard{ String CardNumber }
+class RefuelTurn{ String TurnId, Date Time, double Amount, String PaymentMethod }
+class Invoice{ String InvoiceNumber, Date IssuedDate, String Month, double TotalAmount, double Discount, double TurnoverDuringMonth, boolean Paid }
 
-GasStation "1" -- "1..*" Pump
+GasStation "0..*" -- "1" Pump
 Pump "1" -- "1" Reservoir
-Pump "1" -- "0..*" RefuelTurn
-Customer "1" -- "0..*" RefuelTurn
-Invoice "1" -- "1..*" RefuelTurn
-Customer "1" -- "*" Invoice
-Customer "0..1" -- "0..1" FuelCard
-Customer "0..1" -- "0..1" CreditCard
+Customer "0..1" -- "1" FuelCard
+RefuelTurn "1" -- "1" Customer
+RefuelTurn "1" -- "1" Pump
+Invoice "0..*" -- "1" RefuelTurn
+RefuelTurn "0..1" -- "1" Invoice
+FuelCard "1" -- "0..*" Invoice
 
 @enduml

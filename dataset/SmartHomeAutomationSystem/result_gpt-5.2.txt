@@ -1,0 +1,72 @@
+@startuml
+
+class SHAS{ String SystemId, Boolean Operational }
+class User{ String UserId, String Name }
+class Owner{ String OwnerId, String Name }
+
+class SmartHome{ String SmartHomeId, String PhysicalAddress }
+class Room{ String RoomId, String Name }
+
+class Device{ String DeviceId, String DeviceType, Boolean Active }
+class Sensor{ String SensorType }
+class Actuator{ String ActuatorType }
+
+class SensorReading{ String ReadingId, String MeasuredValue, DateTime Timestamp }
+
+class ControlCommand{ String CommandId, String CommandType, DateTime Timestamp, String Status }
+
+class ActivityLog{ String LogId }
+class ActivityLogEntry{ String EntryId, DateTime Timestamp, String EntryType }
+
+class AutomationRule{ String RuleId, String Name, String Status }
+class RuleTrigger{ String TriggerId, DateTime Timestamp }
+
+class Precondition{ String PreconditionId }
+class BooleanExpression{ String ExpressionId, String OperatorType }
+class RelationalTerm{ String TermId, String RelationalOperator, String RightHandValue }
+class AtomicTerm{ String AtomicTermId, String ReferenceType }
+
+class Action{ String ActionId, String Description }
+
+User <|-- Owner
+Device <|-- Sensor
+Device <|-- Actuator
+Precondition <|-- BooleanExpression
+RelationalTerm <|-- AtomicTerm
+
+SHAS "0..*" -- "0..*" User
+SHAS "0..*" -- "0..*" SmartHome
+
+Owner "0..*" -- "0..*" SmartHome
+
+SmartHome "1..1" -- "1..*" Room
+Room "0..*" -- "0..*" Sensor
+Room "0..*" -- "0..*" Actuator
+
+Sensor "1..1" -- "0..*" SensorReading
+Actuator "1..1" -- "0..*" ControlCommand
+
+SmartHome "1..1" -- "1..1" ActivityLog
+ActivityLog "1..1" -- "0..*" ActivityLogEntry
+ActivityLogEntry "0..*" -- "0..*" SensorReading
+ActivityLogEntry "0..*" -- "0..*" ControlCommand
+
+Owner "0..*" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Action "1..1" -- "0..*" ControlCommand
+
+BooleanExpression "0..*" -- "0..*" BooleanExpression
+BooleanExpression "0..*" -- "0..*" RelationalTerm
+
+AtomicTerm "0..*" -- "0..*" Room
+AtomicTerm "0..*" -- "0..*" Sensor
+AtomicTerm "0..*" -- "0..*" Actuator
+AtomicTerm "0..*" -- "0..*" SensorReading
+AtomicTerm "0..*" -- "0..*" ControlCommand
+
+AutomationRule "1..1" -- "0..*" RuleTrigger
+
+AutomationRule "0..*" -- "0..*" AutomationRule
+
+@enduml

@@ -1,24 +1,25 @@
 ```plantuml
 @startuml
 
-class Organizer{}
-class Attendee{}
-class Event{}
-class Location{}
-class Task{}
-class EventType{}
-class InvitationStatus{}
+class Organizer{ String firstName, String lastName, String email, String postalAddress, String phoneNumber, String password }
+class Attendee{ String firstName, String lastName, String email, String password }
+class Event{ String occasion, DateTime startDateTime, DateTime endDateTime, String locationName, String locationAddress }
+class EventType{ String name }
+class Invitation{ String status }
+class Task{ String description, String status }
+class TaskList{}
 
 Organizer "1..*" -- "1..*" Event
-Event "1..*" -- "1..*" Organizer
-Event "1..*" -- "1..*" Attendee
+Organizer "1..*" -- "1..*" Attendee
+Organizer "1..*" -- "1..*" EventType
+Organizer "1..*" -- "1..*" Task
 Attendee "1..*" -- "1..*" Event
-Event "1..*" -- "1..*" Task
-Task "1..*" -- "1..*" Event
-Event "1..1" -- "1..*" Location
-Location "1..*" -- "1..1" Event
-Event "1..1" -- "1..*" EventType
-EventType "1..*" -- "1..1" Event
+Attendee "1..*" -- "1..*" Invitation
+Attendee "1..*" -- "1..*" Task
+Event "1..*" -- "1..1" EventType
+Event "1..*" -- "1..*" TaskList
+Event "1..*" -- "1..*" Invitation
+TaskList "1..*" -- "1..*" Task
 
 @enduml
 ```

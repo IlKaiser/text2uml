@@ -1,0 +1,87 @@
+```plantuml
+@startuml
+
+class Cinema {
+  location: String
+}
+
+class Theatre {
+  location: String
+}
+
+class Show {
+  start_time: Date
+  end_time: Date
+  movie: String
+  theatre: String
+  status: String
+}
+
+class Movie {
+  title: String
+  duration: Int
+}
+
+class Copy {
+  location: String
+  movie: String
+}
+
+class Reservation {
+  customer: String
+  show: String
+  seat: String
+  credit_card: String
+  reservation_time: Date
+  status: String
+}
+
+class CreditCard {
+  card_number: String
+  expiry_date: Date
+  holder_name: String
+}
+
+class Customer {
+  name: String
+  email: String
+}
+
+class Program {
+  start_date: Date
+  end_date: Date
+  shows: List
+}
+
+class Ticket {
+  show: String
+  seat: String
+  issue_time: Date
+  type: String
+}
+
+class Seat {
+  number: Int
+  theatre: String
+  status: String
+}
+
+class Display {
+  available_seats: Int
+}
+
+Cinema "1..*" -- "1..*" Theatre
+Cinema "1..1" -- "1..*" Movie
+Theatre "1..*" -- "1..*" Show
+Movie "1..1" -- "1..*" Copy
+Copy "1..1" -- "1..1" Theatre
+Show "1..*" -- "0..*" Reservation
+Reservation "1..1" -- "1..1" CreditCard
+Reservation "1..1" -- "1..1" Customer
+Show "1..*" -- "0..*" Ticket
+Ticket "1..1" -- "1..1" Seat
+Theatre "1..1" -- "1..*" Seat
+Theatre "1..1" -- "1..1" Display
+
+@enduml
+```

@@ -1,15 +1,32 @@
 
+```plantuml
 @startuml
-class Song{}
-class Artist{}
-class User{}
-class RegularUser{}
-class BusinessUser{}
-class Album{}
 
-Song "1..*" -- "1..*" Artist.
-User "0..*" -- "0..1" RegularUser.
-User "0..*" -- "0..1" BusinessUser.
-RegularUser "0..*" -- "0..*" Album.
-Album "0..*" -- "0..*" Song.
+class Song {
+    title: String
+    year: Int
+    length: Float
+    genre: String
+}
+
+class Artist {
+    dateOfBirth: Date
+    name: String
+    websiteURL: String
+}
+
+class User {
+    ID: String
+    name: String
+    address: String
+    VATNumber: String
+    userType: String
+}
+
+Song "1..1" -- "1..1" Artist
+User "1..*" -- "1..*" Song
+User "1..*" -- "0..*" User
+User "1..1" -- "0..*" Song
+
 @enduml
+```

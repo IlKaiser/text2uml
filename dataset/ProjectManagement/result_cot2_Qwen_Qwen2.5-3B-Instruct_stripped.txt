@@ -1,0 +1,45 @@
+Given the constraints and the provided specification text, the necessary classes for the UML conceptual model diagram are:
+
+```plantuml
+@startuml
+title Research Project Management System
+
+class ResearchGroup {
+    +name: String
+    +department: Department
+}
+
+class Department {
+    +name: String
+    +university: University
+}
+
+class University {
+    +name: String
+}
+
+class Researcher {
+    +name: String
+    +researchGroup: ResearchGroup
+}
+
+class Project {
+    +name: String
+}
+
+class WorkPackage (WP) {
+    +name: String
+    +researchGroup: ResearchGroup
+}
+
+ResearchGroup -- Department : belongsTo
+Department -- ResearchGroup : hasMany
+Researcher -- ResearchGroup : belongsTo
+Project -- WorkPackage (WP) : hasMany
+WorkPackage (WP) -- ResearchGroup : belongsTo
+Researcher -- WorkPackage (WP) : belongsTo
+
+@enduml
+```
+
+This diagram captures the core entities and their relationships as described in the specification text.

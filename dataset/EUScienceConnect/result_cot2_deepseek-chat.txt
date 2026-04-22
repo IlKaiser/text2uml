@@ -1,27 +1,39 @@
 @startuml
-class ResearchDatabase {}
-class Person {}
-class ResearchInstitution {}
-class ScientificArticle {}
-class PeerReviewedPaper {}
-class TechnicalReport {}
-class ScientificPublisher {}
-class Journal {}
-class Author {}
-class Reviewer {}
-class Keyword {}
-class ResearchTopic {}
+class Person {
+  personID: String
+  phoneNumber: String
+  researchTopics: String
+  worksFor: String
+}
+class ResearchInstitution {
+  institutionCode: String
+}
+class ScientificArticle {
+  DOI: String
+  title: String
+}
+class PeerReviewedPaper {
+  citationCount: Int
+  reviewedBy: String
+}
+class TechnicalReport {
+  publishedBy: String
+}
+class Publisher {
+  name: String
+}
+class Journal {
+  name: String
+  impactFactor: Float
+}
 
-Person "1..1" -- "0..*" Keyword
 Person "1..1" -- "1..1" ResearchInstitution
-Author "0..*" -- "1..*" ScientificArticle
-Reviewer "0..*" -- "0..*" PeerReviewedPaper
-ScientificArticle "1..1" -- "1..*" Author
+Person "0..*" -- "0..*" ScientificArticle
+Person "0..*" -- "0..*" PeerReviewedPaper
 TechnicalReport "1..1" -- "1..1" ResearchInstitution
-ResearchInstitution "0..*" -- "0..*" TechnicalReport
-PeerReviewedPaper "1..1" -- "0..*" Reviewer
-ScientificPublisher "1..1" -- "0..*" Journal
-Journal "1..1" -- "1..1" ScientificPublisher
+Publisher "0..*" -- "0..*" Journal
 PeerReviewedPaper "1..1" -- "0..1" Journal
-Journal "0..*" -- "0..*" PeerReviewedPaper
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
 @enduml

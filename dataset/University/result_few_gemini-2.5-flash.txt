@@ -1,22 +1,50 @@
 @startuml
 
-class Course{}
-class Dean{}
-class Employee{}
-class Faculty{}
-class Institute{}
-class Lecturer{}
-class Project{}
-class ResearchAssistant{}
-class University{}
+class University {}
+class Faculty {
+    String Name
+}
+class Institute {
+    String Name
+    String Address
+}
+class Employee {
+    String SocialSecurityNumber
+    String Name
+    String EmailAddress
+}
+class AdministrativeStaff {}
+class ResearchStaff {}
+class ResearchAssistant {
+    String FieldOfResearch
+}
+class Lecturer {}
+class Dean {}
+class Project {
+    String Name
+    Date StartDate
+    Date EndDate
+}
+class Course {
+    String ID
+    String Name
+    Int WeeklyDurationHours
+}
+class Involvement {
+    Int Hours
+}
 
 University "1" -- "1..*" Faculty
 Faculty "1" -- "1..*" Institute
 Faculty "1" -- "1" Dean
-Employee "0..1" -- "1" Dean
-Institute -- "1..*" ResearchAssistant
-ResearchAssistant -- Project
-ResearchAssistant "0..1" -- "1" Lecturer
-Lecturer -- Course
+Employee <|-- AdministrativeStaff
+Employee <|-- ResearchStaff
+Employee <|-- Dean
+ResearchStaff <|-- ResearchAssistant
+ResearchAssistant <|-- Lecturer
+ResearchAssistant "1..*" -- "0..*" Institute
+ResearchAssistant "0..*" -- "1" Involvement
+Project "0..*" -- "1" Involvement
+Lecturer "0..*" -- "0..*" Course
 
 @enduml

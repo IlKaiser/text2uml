@@ -1,0 +1,153 @@
+```plaintext
+@startuml
+
+class AppUser {
+  name: String
+  address: Address
+  birthday: Date
+  ID: ID
+}
+
+class BusinessOwner {
+  LinkedInAccount: LinkedInAccount
+  ID: ID
+}
+
+class PizzaRestaurant {
+  zipCode: ZipCode
+  address: Address
+  phoneNumber: PhoneNumber
+  website: Website
+  openingHours: OpeningHours
+}
+
+class Pizza {
+  name: String
+  crustStructure: CrustStructure
+  price: Price
+}
+
+class CrustStructure {
+}
+
+class HungryCustomer {
+  deliveryAddress: DeliveryAddress
+}
+
+class Order {
+  ID: ID
+  date: Date
+  time: Time
+  latestDeliveryTime: LatestDeliveryTime
+  peopleCount: PeopleCount
+}
+
+class EntertainmentOrder {
+  typeOfEntertainment: TypeOfEntertainment
+  duration: Duration
+}
+
+class Entertainer {
+  stageName: StageName
+  bio: String
+  pricePer30Minutes: Price
+}
+
+class DeliveryPerson {
+}
+
+class Address {
+}
+
+class Option {
+}
+
+class ProfessionNetwork {
+}
+
+class StageName {
+}
+
+class Availability {
+  day: Day
+}
+
+class Day {
+}
+
+class Price {
+}
+
+class Duration {
+}
+
+class TypeOfEntertainment {
+}
+
+class ZipCode {
+}
+
+class PhoneNumber {
+}
+
+class Website {
+}
+
+class OpeningHours {
+}
+
+class DeliveryAddress {
+}
+
+class ID {
+}
+
+class Date {
+}
+
+class Time {
+}
+
+class LatestDeliveryTime {
+}
+
+class PeopleCount {
+}
+
+class LinkedInAccount {
+}
+
+BusinessOwner --|> AppUser
+HungryCustomer --|> AppUser
+Entertainer --|> AppUser
+
+1..1 AppUser -- 1..1 Address
+0..1 AppUser -- 0..1 LinkedInAccount
+1..* BusinessOwner -- 1..* PizzaRestaurant
+1..1 PizzaRestaurant -- 1..1 ZipCode
+1..1 PizzaRestaurant -- 1..1 Address
+0..1 PizzaRestaurant -- 0..1 PhoneNumber
+0..1 PizzaRestaurant -- 0..1 Website
+1..1 PizzaRestaurant -- 1..1 OpeningHours
+1..* PizzaRestaurant -- 1..* Pizza
+1..1 Pizza -- 1..1 CrustStructure
+1..1 Pizza -- 1..1 Price
+1..1 HungryCustomer -- 1..1 Address
+0..* HungryCustomer -- 0..* Order
+1..1 Order -- 1..1 ID
+1..1 Order -- 1..1 Date
+1..1 Order -- 1..1 Time
+0..1 Order -- 0..1 LatestDeliveryTime
+1..1 Order -- 1..1 PeopleCount
+1..* Order -- 1..* Pizza
+0..1 Order -- 0..1 EntertainmentOrder
+1..1 EntertainmentOrder -- 1..1 TypeOfEntertainment
+1..1 EntertainmentOrder -- 1..1 Duration
+1..1 EntertainmentOrder -- 1..1 Entertainer
+1..1 Entertainer -- 1..1 StageName
+1..* Entertainer -- 1..* PizzaRestaurant
+1..* Entertainer -- 1..* Availability
+1..1 Availability -- 1..1 Day
+
+@enduml
+```

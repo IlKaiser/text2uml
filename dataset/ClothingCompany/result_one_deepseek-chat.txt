@@ -1,0 +1,46 @@
+@startuml
+
+class Product {
+    String UniqueName
+    String Description
+    Double NetPrice
+}
+class Manufacturer {
+    String CompanyName
+}
+class Country {
+    String CountryName
+    Double VATRate
+    String Currency
+    Double EuroConversionRate
+}
+class Representative {
+    String FirstName
+    String LastName
+    String SocialSecurityNumber
+    String TelephoneNumber
+    String EmailAddress
+}
+class Customer {
+    String Name
+    String Address
+    String TelephoneNumber
+    String EmailAddress
+}
+class Order {
+    String OrderId
+    Integer OrderQuantity
+    Date OrderDate
+    Date DesiredDeliveryDate
+}
+
+Product "1" -- "1" Manufacturer
+Product "1" -- "1" Country
+Country "1" -- "0..*" Representative
+Country "0..*" -- "0..*" Customer
+Representative "0..*" -- "0..*" Order
+Customer "1" -- "0..*" Order
+Order "1" -- "1" Product
+Country "0..*" -- "0..*" Product
+
+@enduml

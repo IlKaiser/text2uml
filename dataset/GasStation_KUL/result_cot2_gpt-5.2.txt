@@ -1,0 +1,39 @@
+@startuml
+class OilCompany
+class GasStation
+class Customer
+class RefuelCard
+class Invoice
+class Payment
+class RefuelTurn
+class Pump {
+  gasolineType: String
+  available: Boolean
+  blocked: Boolean
+}
+class GasolineType
+class Reservoir {
+  quantityLevel: Float
+  reorderingLevel: Float
+  criticalLevel: Float
+}
+class RefillOrder
+class DailyReport {
+  reportDate: Date
+}
+class GasStationResponsible
+
+OilCompany "1..1" -- "1..*" GasStation
+Customer "1..1" -- "0..*" RefuelCard
+Customer "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" Payment
+Invoice "1..1" -- "0..*" RefuelTurn
+GasStation "1..1" -- "1..*" Pump
+Pump "1..1" -- "1..1" GasolineType
+Pump "1..1" -- "1..1" Reservoir
+Pump "0..*" -- "0..*" RefuelTurn
+GasStation "1..1" -- "0..*" DailyReport
+DailyReport "1..1" -- "0..*" Pump
+Pump "1..1" -- "0..*" RefillOrder
+GasStation "1..1" -- "1..*" GasStationResponsible
+@enduml

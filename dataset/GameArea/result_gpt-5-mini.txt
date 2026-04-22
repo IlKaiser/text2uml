@@ -1,19 +1,19 @@
 @startuml
 
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
-class GamePiece{}
+class GameArea{ String Name }
+class GameElement{ long x, long y }
+class Shape{ }
+class Object{ }
+class Opponent{ int lives }
+class GamePiece{ }
 
-Shape <|-- GameElement
-Object <|-- GameElement
-Opponent <|-- GameElement
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
 
-GameArea "1..1" elements -- "1..*" GameElement : contains
-GameArea "1..1" pieces -- "1..2" GamePiece : hasPieces
-GameArea "1..1" boss -- "1..1" Opponent : boss
-Shape "0..*" source -- "0..*" target Shape : connectedTo
+GameArea "1..1" area -- elements "1..*" GameElement : consistsOf
+GameArea "1..1" area -- pieces "1..2" GamePiece : includes
+GameArea "1..1" area -- boss "1..1" Opponent : hasBoss
+Shape "0..*" fromShape -- toShape "0..*" Shape : connectedTo
 
 @enduml

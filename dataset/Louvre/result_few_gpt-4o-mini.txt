@@ -1,21 +1,31 @@
 ```plantuml
 @startuml
 
-class LouvreMuseum{}
-class Location{}
-class Exhibition{}
-class Employee{}
-class ExhibitionItem{}
-class Collector{}
-class Coaching{}
+class Museum {
+    String Name
+}
+class Location {
+    String Name
+}
+class Exhibition {
+    Date OpeningDate
+}
+class Employee {
+    String Name
+}
+class ExhibitionItem {
+    String Description
+}
+class Collector {
+    String Name
+}
 
-LouvreMuseum "1" -- "0..*" Location
+Museum "1" -- "0..*" Location
 Location "1" -- "0..*" Exhibition
 Exhibition "1" -- "1" Employee
-Exhibition "0..*" -- "0..*" ExhibitionItem
+Exhibition "1" -- "0..*" ExhibitionItem
 ExhibitionItem "1" -- "0..*" Collector
-Employee "0..*" -- "1" Coaching
-Employee "1" -- "0..*" Coaching
+Employee "1" -- "0..*" Employee : "coaches"
 
 @enduml
 ```

@@ -1,24 +1,34 @@
-```plantuml
 @startuml
 
-class TaxiCompany{}
-class SelfDrivingCab{}
-class RegisteredCab{}
-class CarOwner{}
-class RideHailing{}
-class RideSharing{}
-class Customer{}
-class Accident{}
+class Sober {
+}
 
-TaxiCompany "1..*" -- "1..1" SelfDrivingCab
-TaxiCompany "1..*" -- "1..1" RegisteredCab
-RegisteredCab "1..1" -- "1..1" CarOwner
-TaxiCompany "1..*" -- "1..*" RideHailing
-TaxiCompany "1..*" -- "1..*" RideSharing
-RideHailing "1..*" -- "1..*" Customer
-RideSharing "1..*" -- "1..*" Customer
-SelfDrivingCab "1..*" -- "1..*" Accident
-RegisteredCab "1..*" -- "1..*" Accident
+class Car {
+    String Model, String LicensePlate, Boolean IsSelfDriving
+}
+
+class Owner {
+    String Name, String ContactInfo
+}
+
+class RideHail {
+    DateTime PickUpTime, DateTime DropOffTime, String PickUpLocation, String DropOffLocation, TimeSpan RideDuration, double Distance, int NumberOfPassengers, double Fee, String RequestType, String LeadCustomerName
+}
+
+class RideShare {
+    DateTime PickUpTime, DateTime DropOffTime, String PickUpLocation, String DropOffLocation, TimeSpan RideDuration, double Distance, String[] CustomerNames, double Fee
+}
+
+class Accident {
+    DateTime Date, String Location, double DamageAmount
+}
+
+Sober "1..*" -- "1..1" Car
+Sober "1..*" -- "1..*" RideHail
+Sober "1..*" -- "1..*" RideShare
+Car "1..*" -- "1..1" Owner
+Car "1..*" -- "1..*" Accident
+RideHail "1..*" -- "1..1" Car
+RideShare "1..*" -- "1..1" Car
 
 @enduml
-```

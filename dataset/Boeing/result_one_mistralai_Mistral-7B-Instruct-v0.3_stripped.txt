@@ -1,0 +1,35 @@
+@startuml
+
+class AirlineCompany {
+    String Name
+}
+class AirlineCompanyRelationship {
+    AirlineCompany parent
+    AirlineCompany child
+}
+class SalesAgreement {
+    AircraftModel model
+    Date DeliveryDate
+    Double NegotiatedPrice
+    String Options
+}
+class Contract {
+    String LegalAspects
+    List<SalesAgreement> salesAgreements
+}
+class Salesperson {
+    String Name
+    List<Contract> contracts
+}
+class AircraftModel {
+    String Type
+}
+
+AirlineCompany "0..*" -- "0..*" AirlineCompanyRelationship
+AirlineCompanyRelationship "1" -- "0..*" AirlineCompany
+Contract "1" -- "0..*" Salesperson
+Salesperson "0..*" -- "0..*" Contract
+Contract "1" -- "0..*" AircraftModel
+AircraftModel "1" -- "0..*" Contract
+
+@enduml

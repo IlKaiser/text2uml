@@ -1,17 +1,54 @@
 
 @startuml
+class BusinessTraveller {
+    name: String
+    billing information: String
+    company name: String
+    address: String
+    travel preferences: String
+}
 
-class BusinessTraveller{}
-class HMBS{}
-class Hotel{}
-class Booking{}
-class Room{}
-class TravelPreference{}
+class HBMS {
+}
 
-BusinessTraveller "1..1" -- "0..*" HMBS
-HMBS "1..*" -- "1..*" Hotel
-HMBS "1..*" -- "0..*" Booking
-Hotel "1..*" -- "1..*" Room
-Room "1..*" -- "0..*" TravelPreference
+class Hotel {
+    city: String
+    address: String
+    hotel chain: String
+    available types of rooms: String
+    type of room is fully booked: Boolean
+}
 
+class Room {
+    type: String
+}
+
+class Booking {
+    price: Float
+    city area: String
+    hotel rating: Int
+    key preferences: String
+    unique booking identifier: String
+    credit card information: String
+    pre-paid: Boolean
+    paid at hotel: Boolean
+    cancellation deadline: Date
+}
+
+class Offer {
+    special offer: String
+}
+
+class CompetitorHotel {
+    special offer: String
+}
+
+BusinessTraveller "1..*" -- "1" HBMS
+HBMS "1" -- "1..*" Hotel
+HBMS "1" -- "0..*" Room
+HBMS "1" -- "0..*" Booking
+HBMS "1" -- "0..*" Offer
+HBMS "1" -- "0..*" CompetitorHotel
+Booking "0..*" -- "1" Hotel
+Offer "0..*" -- "1" CompetitorHotel
 @enduml

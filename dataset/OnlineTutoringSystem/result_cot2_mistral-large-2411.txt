@@ -1,30 +1,58 @@
-```plaintext
+```
 @startuml
 
-class Student{}
-class Tutor{}
-class Registration{}
-class Subject{}
-class LevelOfExpertise{}
-class TutoringSession{}
-class TutoringOffer{}
-class TutoringRequest{}
-class Payment{}
-class Cancellation{}
-class TutorOfTheMonthAward{}
+class OnlineTutoringSystem {
+}
 
-Student "0..*" -- "1..*" Registration
-Tutor "1..1" -- "1..*" TutoringOffer
-TutoringOffer "1..*" -- "1..1" Subject
-TutoringOffer "1..1" -- "1..1" LevelOfExpertise
-Student "1..*" -- "0..*" TutoringRequest
-TutoringRequest "1..1" -- "1..1" TutoringOffer
-TutoringRequest "1..1" -- "1..1" LevelOfExpertise
-Student "1..*" -- "0..*" TutoringSession
-TutoringSession "1..1" -- "1..1" TutoringRequest
-TutoringSession "1..1" -- "0..*" Cancellation
-Student "0..*" -- "1..*" Payment
-Tutor "1..1" -- "0..*" TutorOfTheMonthAward
+class Student {
+  name: String
+  email: String
+}
+
+class Tutor {
+  name: String
+  email: String
+  bankAccount: String
+  levelOfExpertise: String
+  hourlyPrice: Float
+  weeklyAvailability: String
+}
+
+class Registration {
+}
+
+class Subject {
+}
+
+class LevelOfExpertise {
+}
+
+class TutoringSession {
+}
+
+class TutoringRequest {
+  levelOfTutoring: String
+  targetDateTime: Date
+}
+
+class Agreement {
+  sessionDateTime: Date
+}
+
+class Cancellation {
+  sessionPrice: Float
+  discount: Float
+}
+
+Student "1..1" -- "0..1" Registration
+Tutor "0..*" -- "0..*" Registration
+Tutor "0..*" -- "0..*" Subject
+Tutor "0..*" -- "0..*" LevelOfExpertise
+Tutor "0..*" -- "0..*" TutoringSession
+Student "0..*" -- "0..*" TutoringRequest
+Tutor "0..*" -- "0..*" TutoringRequest
+TutoringRequest "0..*" -- "0..1" Agreement
+TutoringSession "0..*" -- "0..*" Cancellation
 
 @enduml
 ```

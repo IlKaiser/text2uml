@@ -1,0 +1,72 @@
+@startuml
+class Cinema {
+  name: String
+  address: String
+}
+class Town {
+  name: String
+}
+class Theatre {
+  name: String
+  capacity: Int
+}
+class Show {
+  date: Date
+  startTime: Date
+  cancelled: Boolean
+}
+class Movie {
+  title: String
+}
+class Program {
+  publicationDate: Date
+  startDate: Date
+  endDate: Date
+}
+class Reservation {
+  cancellationDeadline: Date
+  cancelled: Boolean
+}
+class Seat {
+  seatNumber: Int
+}
+class Customer {
+  name: String
+  address: String
+}
+class CreditCard {
+  cardNumber: String
+}
+class Offer {
+  expirationDate: Date
+  accepted: Boolean
+}
+class Ticket {
+  seatNumber: Int
+  anonymous: Boolean
+}
+class FreeTicket {
+  sentHome: Boolean
+}
+class Copy
+
+Cinema "1..*" -- "1..1" Town
+Theatre "1..*" -- "1..1" Cinema
+Show "1..*" -- "1..1" Theatre
+Show "1..*" -- "1..1" Copy
+Copy "1..*" -- "1..1" Movie
+Copy "1..1" -- "1..1" Cinema
+Show "1..*" -- "1..1" Program
+Reservation "1..*" -- "1..1" Show
+Reservation "1..*" -- "1..1" Seat
+Reservation "1..*" -- "1..1" Customer
+Reservation "1..1" -- "1..1" CreditCard
+Offer "0..1" -- "1..1" Reservation
+Offer "0..1" -- "1..1" Show
+Offer "0..1" -- "1..1" Seat
+Ticket "1..*" -- "1..1" Show
+Ticket "1..*" -- "1..1" Seat
+FreeTicket "0..*" -- "1..1" Customer
+Seat "1..*" -- "1..1" Theatre
+FreeTicket --|> Ticket
+@enduml

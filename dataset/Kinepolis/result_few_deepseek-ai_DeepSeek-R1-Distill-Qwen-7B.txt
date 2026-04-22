@@ -1,0 +1,480 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+################
+
+Here is another example:
+
+Specification text:
+
+An oil company possesses a number of gas stations spread across the country. Customers can pay their refuel turn in
+cash at the counter or with a personal credit card, but they can also ask for a refuel card.
+When using their refuel card, customers do not pay the refuel turn immediately.
+Rather, at the end of each month, the holder of the fuel card receives a monthly invoice with the amounts of
+all the refuel turns paid with the fuel card. On the monthly invoice discounts are given depending on the turnover
+of the customer during the invoiced month. Invoicing and paying occurs in any order:
+one can already receive a second invoice before having paid the first one.
+But obviously, each invoice must first have been sent before a payment can be received.
+Each refuel turn only appears on the invoice of the month of the refuel turn. If a customer doesn't pay the invoice,
+the unpaid refuel turns are not added to the next month's invoice. Instead, the invoice is simply sent again to the customer to
+remind him/her of the payment due. If a customer repeatedly does not pay the invoices (e.g. two months in a row),
+then the customer is suspended and his/her card is blocked until the bills have been paid.
+The exact threshold to block a customer is not 100% fixed: very good customers are given a bit more slack than new customers.
+If the bills are settled, a customer may return to the normal state.
+Each gas station has a number of pumps that each contain a particular type of gasoline.
+Obviously only one customer can refuel his/her car at a time at a given pump. When the nozzle is taken,
+the refueling can start. When the nozzle is put back the refueling is stopped. Between those two moments,
+no other customer can use this pump. As soon as the nozzle is put back, the pump becomes available for the next customer.
+Each pump has a separate reservoir that must be refilled when the quantity of gasoline drops below a certain preset reordering level.
+Refilling can occur at any time.
+The system should produce a daily report indicating which pump needs to be refilled and for each pump the current level of
+gasoline and the quantity to order. As the bottom of a tank can contain dirt, when the fuel drops below a critical level,
+the pump is automatically blocked so that no refueling can occur with this pump. For the same reason,
+when refilling a tank that was still above the critical level, the pump is temporarily blocked by the gas station responsible for
+approximatively an hour, so that dirt can sink to the bottom. The pump is released when the gas station responsible deems that
+refueling with this pump is safe again.
+
+The plant uml is:
+
+@startuml
+
+class CardHolder {
+    String Name
+    Boolean Suspended
+}
+class Invoice {
+    Int Number
+    Double Discount
+    String status
+}
+class InvoiceLine {
+    Int Number
+}
+class GasStation {
+    String Name
+}
+class Pump {
+    String Type
+    Boolean InUse
+    Double RefillThreshold
+    Boolean Blocked
+}
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+class CashTurn {}
+
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+GasStation "1" -- "0..*" Pump
+CardHolder "1" -- "0..*" Invoice
+CardHolder "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+
+@enduml
+
+##############
+
+The specification text is:
+
+Kinepolis owns several cinemas in different towns.  Each cinema has several theatres in which several shows can be programmed per day.  Every cinema needs its own copy of the movie, and possibly more than one if a movie is to be played simultaneously in more than one theatre.  A copy will only be shown in the theatres of the premise where the copy is located. But copies of movies can be moved to another cinema if required by the programming.  
+Every Sunday, the program for the next week is published (from Wednesday to Tuesday). Once a show has been published on the website, people can start making on-line reservations for that show. 
+Reservation can be made up to 1 hour before the starting time of the show and must be paid with a credit card.  A seat reservation can be cancelled by the customer up to 24h before the starting time of the show.  For that reason, credit cards are debited only after the cancellation period is terminated.
+A published show can be cancelled by Kinepolis as long as there are no seat reservations for that show.  If there are any, the reservations must be cancelled first.  When possible, a new seat is offered for a show for the same movie in another theatre.  The customer can accept or decline the offer.  The offer expires 24 hours before the start of the show. If the offer is declined, expired or no new seat reservation can be offered, the customer receives a free ticket send at home. 
+People who did not make a seat reservation can buy a ticket at the entrance.  The tickets will also be assigned a seat number.  In contrast with on-line seat reservations, tickets issued at the entrance are anonymous and cannot be cancelled or refunded. At the ticketing desk a display shows how many seats are still available for that show (according to the number of seats in the theatre).
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification text. Let me start by understanding the problem and the requirements.
+
+First, the user provided two examples to guide me. In the first example, they extracted classes, their attributes, and their relationships, then structured the PlantUML accordingly. The second example followed a similar process but with more complex relationships and multiplicities.
+
+Now, looking at the new specification text about Kinepolis cinemas, I need to extract the classes, their attributes, and the relationships between them. The user emphasized using bi-directional arcs for relations, assigning the correct cardinality, and using inheritance where necessary.
+
+Let me break down the specification text:
+
+1. **Kinepolis owns cinemas in different towns.**
+   - So, Kinepolis is the parent, and cinemas are children. This suggests a relationship where Kinepolis has multiple cinemas.
+
+2. **Each cinema has several theatres.**
+   - Cinema has multiple theatres. So, another relationship here.
+
+3. **Each theatre can program several shows per day.**
+   - Theatres have multiple shows.
+
+4. **A copy of a movie is shown in the theatre of its location, but can be moved.**
+   - Movies can be copied and moved, so there's a relationship between movies and cinemas, perhaps with a copyOn attribute.
+
+5. **Program published weekly (Wed to Tue).**
+   - Shows are published weekly, so a publishedShow class might be needed.
+
+6. **Reservations can be made online up to 1 hour before the show.**
+   - OnlineReservations relate to Shows.
+
+7. **Reservations can be canceled up to 24h before the show.**
+   - Cancellations affect Shows and Reservations.
+
+8. **Shows can be canceled by Kinepolis if no reservations.**
+   - ShowCancel relates to Reservations.
+
+9. **New seats can be offered if none are reserved.**
+   - Maybe a SeatOffer class, but it's optional, so perhaps a conditional relationship.
+
+10. **Customers can buy tickets at the entrance.**
+    - Customer class with a method to buy tickets.
+
+11. **Seats are assigned with seat numbers.**
+    - Seats relate to Shows, perhaps with a seatNumber attribute.
+
+12. **Online reservations are anonymous, can't be canceled or refunded.**
+    - OnlineReservations have attributes like status (pending, confirmed, canceled).
+
+13. **At the ticket desk, seat availability is displayed.**
+    - Maybe a SeatAvailability class, but perhaps it's implied through the Seat class.
+
+Now, let's identify the classes:
+
+- **Kinepolis**: Parent organization.
+- **Cinema**: Each cinema has a name and location.
+- **Theatre**: Each theatre in a cinema has a name and number of seats.
+- **Show**: Each show has a date, time, movie, theatre, and status (published, confirmed, etc.).
+- **Reservation**: Includes customer, date, time, movie, seat, and status.
+- **OnlineReservation**: A subset of Reservations with specific attributes.
+- **Customer**: Has name and email.
+- **Seat**: Has seat number and is assigned to a show.
+- **Movie**: Can be shown in multiple theatres and cinemas, so a copyOn attribute.
+
+Next, relationships:
+
+- **Kinepolis** has multiple **Cinemas**.
+- **Cinema** has multiple **Theatres**.
+- **Theatre** has multiple **Shows**.
+- **Show** can have multiple **Reservations**.
+- **Reservation** is made by a **Customer**.
+- **Reservations** can be **Canceled** by the system if there are no **OnlineReservations**.
+- **Shows** can be **Cancelled** by Kinepolis if no **Reservations**.
+- **Theatres** can have **Seats** assigned, which are part of a **Show**.
+- **Movies** can be copied and moved between **Cinemas**.
+
+Now, assigning multiplicities:
+
+- **Kinepolis** -> **Cinemas**: 0..*
+- **Cinemas** -> **Theatres**: 0..*
+- **Theatres** -> **Shows**: 0..*
+- **Shows** -> **Reservations**: 0..*
+- **Reservations** -> **Customers**: 1..*
+- **Reservations** -> **Show**: 1..*
+- **Reservations** can be **Canceled**: 0..1 (since once canceled, the seat is offered again)
+- **Show** can be **Cancelled**: 0..1 (only if no reservations)
+- **Movies** -> **Cinemas**: 1..* (each movie can be in multiple cinemas)
+- **Movies** -> **Theatres**: 1..* (each movie can be shown in multiple theatres)
+- **Theatres** -> **Seats**: 0..* (each seat is assigned to a show)
+- **Seats** are part of **Show**: 1..* (each show has multiple seats)
+
+I need to represent these in PlantUML. Using bi-directional arcs for relationships, and setting the correct cardinality. Also, using inheritance where necessary, like for the seat assignment.
+
+I think I've covered all the classes and their relationships. Now, I'll structure the PlantUML accordingly, starting with classes, then their attributes, followed by the relationships with the correct multiplicities.
+</think>
+
+@startuml
+
+class Kinepolis {}
+
+class Cinema {
+    String Name
+    String Location
+    class Theatres {
+        String Name
+        Integer NumberOfSeats
+    }
+}
+
+class Theatres "1" {
+    class Shows {
+        String Date
+        String Time
+        String Movie
+        Integer TheatreNumber
+        String Status
+    }
+}
+
+class Shows "1" {
+    class Reservations {
+        Integer CustomerId
+        String Date
+        String StartTime
+        String Movie
+        Integer SeatNumber
+        String Status
+    }
+}
+
+class Reservations "1" {
+    class OnlineReservations {
+        Integer CustomerId
+        String Name
+        Boolean Active
+        String StartTime
+        String Movie
+        Integer SeatNumber
+    }
+}
+
+class OnlineReservations "1" {
+    class CanceledReservations {
+        Integer CustomerId
+        String Name
+        Boolean Canceled
+        String EndTime
+    }
+}
+
+class CanceledReservations "1" {
+    class SeatOffers {
+        Integer CustomerId
+        String Name
+        Integer SeatNumber
+        String Movie
+        Integer TheatreNumber
+    }
+}
+
+class SeatOffers "1" {
+    class NewReservations {
+        Integer CustomerId
+        String Name
+        Boolean Accepted
+        String StartTime
+        String Movie
+        Integer SeatNumber
+    }
+}
+
+class NewReservations "1" {
+    class FreeTickets {
+        Integer CustomerId
+        String Name
+        Boolean Sent
+        String MimeType
+        String Message
+    }
+}
+
+class FreeTickets "1" {
+    class SentFreeTickets {
+        Integer CustomerId
+        String Name
+        Boolean Sent
+        String MimeType
+        String Message
+    }
+}
+
+class SentFreeTickets "1" {
+    class Customer {
+        String Name
+        String Email
+    }
+}
+
+class Customer "1" {
+    class BuyTickets {
+        String Name
+        String Email
+        String MimeType
+        String Message
+    }
+}
+
+class BuyTickets "1" {
+    class DisplayedSeats {
+        Integer CustomerId
+        String Name
+        String Email
+        Integer NumberOfSeats
+    }
+}
+
+class DisplayedSeats "1" {
+    class SeatAvailability {
+        Integer CustomerId
+        String Name
+        String Email
+        Integer NumberOfSeats
+    }
+}
+
+class SeatAvailability "1" {
+    class Show {
+        String Date
+        String Time
+        String Movie
+        Integer TheatreNumber
+        String Status
+    }
+}
+
+class Show "1" {
+    class Status {
+        String Status
+    }
+}
+
+class Status "1..0" {
+    String Status
+}
+
+class Movie {
+    String Title
+    String Genre
+    Integer ReleaseYear
+    Integer Rating
+    Integer Popularity
+}
+
+class Movie "1" {
+    class Copies {
+        String Name
+        Integer NumberOfCopies
+    }
+}
+
+class Copies "1" {
+    class CopiesInCinemas {
+        String Name
+        Integer NumberOfCinemas
+    }
+}
+
+class CopiesInCinemas "1" {
+    class CopiesInTheatres {
+        String Name
+        Integer NumberOfTheatres
+    }
+}
+
+class CopiesInTheatres "1" {
+    class Theatres {
+        String Name
+        Integer NumberOfSeats
+    }
+}
+
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+class User {
+  username: String
+  password: String
+}
+class Player
+class Admin
+class Game {
+  name: String
+  minSpeed: Float
+  speedIncreaseFactor: Float
+  maxPaddleLength: Float
+  minPaddleLength: Float
+  numBlocks: Int
+  isPublished: Boolean
+}
+class Block {
+  color: String
+  points: Int
+}
+class Level {
+  levelNumber: Int
+  isRandom: Boolean
+}
+class Grid {
+  xPosition: Int
+  yPosition: Int
+}
+class Ball {
+  speed: Float
+  direction: Float
+}
+class Paddle {
+  length: Float
+}
+class HallOfFame
+class Score {
+  totalScore: Int
+}
+class Life {
+  count: Int
+}
+User "1..1" -- "1..1" Player
+User "1..1" -- "0..1" Admin
+Admin "1..1" -- "0..*" Game
+Game "1..1" -- "1..1" HallOfFame
+Game "1..1" -- "1..*" Block
+Game "1..1" -- "1..99" Level
+Level "1..1" -- "1..1" Grid
+Grid "1..1" -- "0..*" Block
+Game "1..1" -- "1..1" Ball
+Game "1..1" -- "1..1" Paddle
+Player "0..*" -- "0..*" Game
+Player "0..*" -- "0..*" Score
+Score "0..*" -- "1..1" HallOfFame
+Player "1..1" -- "3..3" Life
+@enduml

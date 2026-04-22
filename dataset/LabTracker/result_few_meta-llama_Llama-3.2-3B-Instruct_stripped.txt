@@ -1,0 +1,128 @@
+Here is the UML output for the given specification text:
+
+```plantuml
+@startuml
+
+class Doctor {
+    String Name
+    String Address
+    String PhoneNumber
+    String Signature
+    String PractitionerNumber
+}
+
+class Patient {
+    String AlphaNumericHealthNumber
+    String FirstName
+    String LastName
+    String DateOfBirth
+    String Address
+    String PhoneNumber
+}
+
+class Test {
+    String Name
+    Double Duration
+    String Type
+    String Group
+}
+
+class Lab {
+    String Name
+    String Address
+    String BusinessHours
+    String RegistrationNumber
+}
+
+class Appointment {
+    String ConfirmationNumber
+    Date Date
+    Time Start
+    Time End
+    String LabName
+    String LabRegistrationNumber
+}
+
+class Requisition {
+    String DoctorName
+    String DoctorSignature
+    String DoctorPractitionerNumber
+    String PatientName
+    String PatientAlphaNumericHealthNumber
+    String PatientFirstName
+    String PatientLastName
+    String PatientDateOfBirth
+    String PatientAddress
+    String PatientPhoneNumber
+    String ValidDate
+    String[] TestNames
+    String[] TestTypes
+    String[] TestGroups
+    String[] RepetitionPatterns
+    String[] RepeatTimes
+    String[] RepeatIntervals
+}
+
+class TestResult {
+    String Result
+    String Report
+}
+
+class TestResultView {
+    String Result
+    String Report
+}
+
+class LabTest {
+    String Name
+    String Duration
+    String Type
+    String Group
+    String Lab
+}
+
+class LabTestView {
+    String Name
+    String Duration
+    String Type
+    String Group
+    String Lab
+    String Result
+    String Report
+}
+
+class AppointmentView {
+    String ConfirmationNumber
+    String Date
+    String Start
+    String End
+    String LabName
+    String LabRegistrationNumber
+}
+
+Doctor "1" -- "0..*" Requisition
+Requisition "1" -- "0..*" Test
+Test "1" -- "0..*" TestResult
+TestResult "1" -- "0..*" TestResultView
+Requisition "1" -- "0..*" Appointment
+Appointment "1" -- "0..*" AppointmentView
+Requisition "1" -- "0..*" LabTest
+LabTest "1" -- "0..*" LabTestView
+Doctor "1" -- "0..*" LabTest
+LabTest "1" -- "0..*" LabTestView
+Patient "1" -- "0..*" Requisition
+Requisition "1" -- "0..*" TestResultView
+Requisition "1" -- "0..*" AppointmentView
+LabTest "1" -- "0..*" AppointmentView
+LabTest "1" -- "0..*" LabTestView
+Appointment "1" -- "0..*" LabTestView
+Appointment "1" -- "0..*" LabTest
+Appointment "1" -- "0..*" LabTestView
+Lab "1" -- "0..*" Appointment
+Appointment "1" -- "0..*" AppointmentView
+LabTest "1" -- "0..*" AppointmentView
+LabTest "1" -- "0..*" Appointment
+Appointment "1" -- "0..*" LabTestView
+LabTest "1" -- "0..*" AppointmentView
+@enduml
+```

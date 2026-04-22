@@ -1,0 +1,66 @@
+@startuml
+
+class EHome2020System {
+}
+class SensorController {
+}
+class Apartment {
+    String Address
+    String EmailAddress
+}
+class Inhabitant {
+    String Username
+    String Password
+    boolean HasAdminRights
+}
+abstract class Sensor {
+    String VendorId
+    String Description
+    String Unit
+    Double Threshold
+}
+class TemperatureSensor {
+    Double MinValue
+    Double MaxValue
+}
+class PowerSensor {
+    Double TotalConsumptionCounter
+}
+class Room {
+    String Description
+}
+class Value {
+    Date Timestamp
+    Double MeasuredValue
+}
+class EMonitorSystem {
+}
+class AlertMessage {
+}
+
+EHome2020System "1" -- "1" SensorController
+EHome2020System "1" -- "1..*" Sensor
+EHome2020System "1" -- "1" EMonitorSystem
+EHome2020System "1" -- "0..*" AlertMessage
+
+SensorController "1" -- "1..*" Apartment
+SensorController "1" -- "0..*" Inhabitant
+SensorController "1" -- "0..*" Sensor
+
+Apartment "1" -- "1..*" Inhabitant
+Apartment "1" -- "2..*" Room
+Apartment "1" -- "0..*" AlertMessage
+
+Inhabitant "0..*" -- "0..*" Sensor
+
+Room "1" -- "0..*" Sensor
+
+Sensor "1" -- "0..*" Value
+
+EMonitorSystem "1" -- "0..*" Sensor
+EMonitorSystem "1" -- "0..*" AlertMessage
+
+Sensor <|-- TemperatureSensor
+Sensor <|-- PowerSensor
+
+@enduml

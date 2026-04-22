@@ -1,0 +1,34 @@
+@startuml
+
+class Department {
+    String Name
+}
+
+class ResearchGroup {
+    String Name
+}
+
+class Researcher {
+    String Name, String Email
+}
+
+class Project {
+    String Title
+}
+
+class WorkPackage {
+    String Identifier
+}
+
+class TeamAssignment {
+    Date Start, Date End
+}
+
+Department "1" -- "0..*" ResearchGroup
+ResearchGroup "1" -- "1..*" Researcher
+Project "1" -- "0..*" WorkPackage
+ResearchGroup "1" -- "1..1" WorkPackage
+Researcher "1" -- "0..*" TeamAssignment
+WorkPackage "1" -- "0..*" TeamAssignment
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+
+class Person {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+
+class Trainer extends Person {
+    String Diploma
+}
+
+class Session {
+    Date Date
+    Time StartHour
+    String Type
+}
+
+class IndividualSession extends Session {
+}
+
+class GroupSession extends Session {
+}
+
+class Room {
+    String Number
+    Int MaxCapacity
+}
+
+class Center {
+    String Name
+    String Address
+    List<Room> Rooms
+}
+
+Center "1" -- "0..*" Room
+Room "1" -- "0..*" Session
+Session "1" -- "0..1" IndividualSession
+Session "1" -- "1" GroupSession
+GroupSession "1" -- "1" Trainer
+Person "0..*" -- "0..*" Session
+
+@enduml

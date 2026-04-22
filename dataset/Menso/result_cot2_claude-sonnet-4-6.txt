@@ -1,0 +1,86 @@
+@startuml
+class Company {
+  name: String
+}
+class Bus {
+  lineNumber: String
+}
+class BusLine {
+}
+class Trajectory {
+  operationalStartYear: Date
+  suspended: Boolean
+  cancelled: Boolean
+}
+class Approval {
+  refused: Boolean
+}
+class CalendarYear {
+  year: Int
+}
+class SeasonTicket {
+  validityDuration: Int
+  price: Float
+}
+class Category {
+  name: String
+}
+class Trip {
+  time: Date
+  date: Date
+}
+class Invoice {
+  month: Date
+  totalAmount: Float
+}
+class Payment {
+}
+class Discount {
+  percentage: Float
+  maxPercentage: Float
+}
+class TicketMachine {
+}
+class MensoCard {
+}
+class Customer {
+}
+class PersonalData {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
+class Ticket {
+}
+class Section {
+}
+class Bifurcation {
+}
+class TownAuthority {
+}
+
+Company "1..1" -- "0..*" Bus
+Company "1..1" -- "0..*" Trajectory
+Trajectory "1..1" -- "0..*" Approval
+Approval "1..1" -- "1..1" TownAuthority
+Trajectory "1..1" -- "1..1" CalendarYear
+BusLine "1..1" -- "1..*" Trajectory
+BusLine "1..1" -- "1..1" Category
+Bus "0..*" -- "0..*" BusLine
+BusLine "1..1" -- "0..*" Section
+Bifurcation "1..1" -- "1..*" BusLine
+SeasonTicket "1..1" -- "1..1" Customer
+SeasonTicket "1..1" -- "0..*" Trip
+Trip "1..1" -- "1..1" BusLine
+Trip "1..1" -- "1..1" MensoCard
+Invoice "1..1" -- "1..1" Customer
+Invoice "1..1" -- "1..*" Trip
+Invoice "1..1" -- "0..1" Discount
+Payment "1..1" -- "1..1" Invoice
+MensoCard "1..1" -- "1..1" Customer
+Customer "1..1" -- "1..1" PersonalData
+TicketMachine "1..1" -- "0..*" Trip
+Ticket "0..*" -- "1..1" Customer
+
+MensoCard --|> SeasonTicket
+@enduml

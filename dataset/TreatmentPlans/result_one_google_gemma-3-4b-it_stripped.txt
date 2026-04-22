@@ -1,0 +1,38 @@
+```plantuml
+@startuml
+
+class Patient {
+    String PatientID
+}
+class Examination {
+    String Type
+}
+class Hospital {
+    String HospitalID
+    String PermissionForExaminations
+}
+class Doctor {
+    String DoctorID
+}
+class Problem {
+    String ProblemID
+}
+class TreatmentPlan {
+    String PlanID
+    String ExaminationTypes
+}
+class Treatment {
+    String TreatmentID
+    String ExaminationTypes
+}
+
+Patient "1" -- "0..*" Treatment
+Examination "1" -- "0..*" Treatment
+Hospital "1" -- "0..*" Doctor
+Problem "1" -- "1" TreatmentPlan
+TreatmentPlan "1" -- "1" Treatment
+Doctor "1" -- "0..*" Treatment
+Hospital "1" -- "0..*" Examination
+
+@enduml
+```

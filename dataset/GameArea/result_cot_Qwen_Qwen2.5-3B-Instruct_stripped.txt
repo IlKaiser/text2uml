@@ -1,0 +1,33 @@
+@startuml
+at start
+class GameArea {
+  +name: String
+}
+
+class GameElement {
+  +x: protected:Int
+  +y: private:Int
+}
+
+class Shape {
+}
+class Object {
+}
+class Opponent {
+  +number_of_lives: protected:Int
+}
+
+GameElement..|-- Shape : connectedTo
+GameElement..|-- Object : connectedTo
+GameElement..|-- Opponent : hasBoss
+
+GameElement..|> GameArea : contains
+Shape..|-- Shape : connectedTo
+Object..|-- Object : connectedTo
+Opponent..|-- Opponent : hasBoss
+
+GameArea..|-- GameElement : has
+GameArea..|-- GameElement : has
+GameArea..|-- GameElement : has
+
+@enduml

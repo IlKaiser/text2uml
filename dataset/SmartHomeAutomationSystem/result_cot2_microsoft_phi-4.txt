@@ -1,0 +1,117 @@
+```plantuml
+@startuml
+
+class SmartHome {
+  physicalAddress: String
+}
+
+class Room {
+  name: String
+}
+
+class SensorDevice {
+  deviceIdentifier: String
+}
+
+class ActuatorDevice {
+  deviceIdentifier: String
+}
+
+class TemperatureSensor {
+  deviceIdentifier: String
+}
+
+class MovementSensor {
+  deviceIdentifier: String
+}
+
+class LightController {
+  deviceIdentifier: String
+}
+
+class LockController {
+  deviceIdentifier: String
+}
+
+class Device {
+  deviceIdentifier: String
+}
+
+class InfrastructureMap {
+}
+
+class SensorReading {
+  measuredValue: Float
+  timestamp: Date
+}
+
+class MeasuredValue {
+  value: Float
+}
+
+class ControlCommand {
+  commandType: String
+  timestamp: Date
+  status: String
+}
+
+class ActivityLog {
+  logEntries: String
+}
+
+class Alert {
+}
+
+class Owner {
+}
+
+class AutomationRule {
+  precondition: BooleanExpression
+  action: Action
+}
+
+class Precondition {
+  BooleanExpression: BooleanExpression
+}
+
+class Action {
+  controlCommands: List<String>
+}
+
+class BooleanExpression {
+  expression: String
+}
+
+class RelationalTerm {
+  term: String
+}
+
+class BooleanOperator {
+  operator: String
+}
+
+class AtomicRelationalTerm {
+  reference: String
+}
+
+class RuleHierarchy {
+}
+
+SmartHome "1..*" -- "0..*" Room
+Room "1..*" -- "0..*" SensorDevice
+Room "1..*" -- "0..*" ActuatorDevice
+SensorDevice "1..*" -- "0..*" SensorReading
+ActuatorDevice "1..*" -- "0..*" ControlCommand
+SmartHome "1..1" -- "1..1" ActivityLog
+Owner "1..1" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Precondition "1..1" -- "1..1" BooleanExpression
+BooleanExpression "1..1" -- "0..*" RelationalTerm
+BooleanExpression "1..1" -- "0..*" BooleanOperator
+RelationalTerm "1..1" -- "0..*" AtomicRelationalTerm
+Action "1..1" -- "0..*" ControlCommand
+AutomationRule "0..*" -- "0..*" RuleHierarchy
+
+@enduml
+```

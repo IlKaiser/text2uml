@@ -1,0 +1,105 @@
+```plantuml
+@startuml
+
+class TransportCompany {
+}
+
+class ManagingDirector {
+  name: String
+  socialSecurityNumber: String
+}
+
+class Employee {
+  name: String
+  socialSecurityNumber: String
+}
+
+class Driver {
+  name: String
+  socialSecurityNumber: String
+}
+
+class Planner {
+  name: String
+  socialSecurityNumber: String
+  username: String
+  password: String
+}
+
+class AdministrativeStaff {
+  name: String
+  socialSecurityNumber: String
+  username: String
+  password: String
+  fieldOfActivity: String
+}
+
+class System {
+}
+
+class Customer {
+  name: String
+  billingAddress: String
+}
+
+class Vehicle {
+  licensePlateNumber: String
+  mileage: Int
+}
+
+class TypeOfVehicle {
+}
+
+class RepairShop {
+  name: String
+  address: String
+}
+
+class Order {
+  planner: String
+  comment: String
+  startTime: Date
+  endTime: Date
+  driver: String
+  vehicle: String
+  client: String
+  pickupAddress: String
+  deliveryAddress: String
+}
+
+class Package {
+}
+
+class Client {
+  name: String
+}
+
+class PartnerCompany {
+  name: String
+  address: String
+}
+
+1..1 ManagingDirector -- 0..* Employee
+1..* Employee -- 1..1 System
+1..* AdministrativeStaff -- 1..1 Employee
+1..* Planner -- 1..1 Employee
+1..* Driver -- 1..1 Employee
+1..1 TransportCompany -- 0..* Customer
+1..1 TransportCompany -- 0..* Vehicle
+1..* Vehicle -- 1..1 TypeOfVehicle
+0..* Vehicle -- 0..* RepairShop
+0..* Vehicle -- 0..* Employee
+1..* Order -- 0..1 Driver
+1..* Order -- 0..1 Planner
+1..* Order -- 0..1 Vehicle
+1..1 Order -- 1..1 Customer
+1..* Order -- 0..1 AdministrativeStaff
+1..* Order -- 0..1 PartnerCompany
+
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
+Client --|> Customer
+
+@enduml
+```

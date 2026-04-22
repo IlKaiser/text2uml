@@ -1,13 +1,13 @@
-```plantuml
 @startuml
 
-class Museum{}
-class Location{}
-class Exhibition{}
-class Employee{}
-class ExhibitionItem{}
-class Collector{}
-class Piece{}
+class Museum{ String Name, String Location }
+class Location{ String Name, String Description }
+class Exhibition{ String Name, Date StartDate, Date EndDate }
+class Employee{ String Name, String Role }
+class ExhibitionItem{ String Description, String Artist }
+class Collector{ String Name, String ContactInfo }
+class Piece{ String Title, String Description, String Artist }
+class Coaching{ Date StartDate, Date EndDate }
 
 Museum "1..1" -- "1..*" Location
 Location "1..1" -- "1..*" Exhibition
@@ -15,7 +15,6 @@ Exhibition "1..1" -- "1..1" Employee
 Exhibition "1..1" -- "1..*" ExhibitionItem
 ExhibitionItem "1..1" -- "1..*" Collector
 ExhibitionItem "1..1" -- "1..*" Piece
-Employee "1..1" -- "1..1" Employee
+Employee "1..1" -- "0..1" Coaching
 
 @enduml
-```

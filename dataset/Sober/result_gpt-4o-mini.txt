@@ -1,20 +1,17 @@
-```plantuml
 @startuml
 
-class Sober{}
-class Car{}
-class Customer{}
-class RideHail{}
-class RideShare{}
-class Accident{}
+class TaxiCompany{ String Name }
+class SelfDrivingCar{ String PlateNumber, String Model, String Owner }
+class Driver{ String Name }
+class RideHail{ Date PickUpTime, Date DropOffTime, String PickUpLocation, String DropOffLocation, Float RideDuration, Float Distance, Integer NumberOfPassengers, Float Fee, String RequestType, String LeadCustomerName }
+class RideShare{ Date PickUpTime, Date DropOffTime, String PickUpLocation, String DropOffLocation, Float RideDuration, Float Distance, Integer NumberOfPassengers, Float NegotiatedFee }
+class Accident{ Date AccidentDate, String Location, Float DamageAmount }
+class Customer{ String Name }
 
-Sober "1..1" -- "1..*" Car
-Sober "1..1" -- "1..*" Customer
-Sober "1..1" -- "1..*" RideHail
-Sober "1..1" -- "1..*" RideShare
-Car "1..1" -- "0..*" Accident
-RideHail "1..* " -- "1..*" Customer
-RideShare "1..*" -- "1..*" Customer
+TaxiCompany "1..1" -- "1..*" SelfDrivingCar
+SelfDrivingCar "0..*" -- "0..1" Driver
+SelfDrivingCar "0..*" -- "0..*" Accident
+RideHail "0..*" -- "1..*" Customer
+RideShare "0..*" -- "1..*" Customer
 
 @enduml
-```

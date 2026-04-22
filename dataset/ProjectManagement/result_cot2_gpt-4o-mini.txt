@@ -1,25 +1,32 @@
 ```plantuml
 @startuml
-class Universe{}
-class ResearchProject{}
-class ResearchGroup{}
-class Department{}
-class Researcher{}
-class WorkPackage{}
-class WPLeader{}
-class Assignment{}
-class TeamMember{}
-class ServiceDelivery{}
+class University {
+}
+class Department {
+}
+class ResearchGroup {
+}
+class Researcher {
+}
+class Project {
+}
+class WorkPackage {
+}
+class WPLeader {
+}
+class Assignment {
+}
+class TeamMember {
+}
 
-ResearchGroup "1..*" -- "1..*" ResearchProject  
-Department "1..1" -- "0..*" ResearchGroup  
-ResearchGroup "1..1" -- "0..*" Researcher  
-ResearchProject "1..*" -- "0..*" WorkPackage  
-WorkPackage "1..1" -- "1..1" ResearchGroup  
-Researcher "0..*" -- "0..*" Assignment  
-WorkPackage "1..*" -- "0..*" TeamMember  
-WPLeader "1..1" -- "1..1" WorkPackage  
-TeamMember "0..*" -- "1..1" WorkPackage  
-TeamMember "0..*" -- "1..1" Researcher  
+University "1..*" -- "0..*" Department
+Department "1..*" -- "0..*" ResearchGroup
+ResearchGroup "1..1" -- "1..1" Researcher
+ResearchGroup "1..1" -- "1..1" WorkPackage
+Researcher "0..*" -- "0..*" WorkPackage
+Researcher "0..*" -- "0..*" TeamMember
+WorkPackage "1..1" -- "1..1" WPLeader
+WPLeader "1..1" -- "0..*" WorkPackage
+WorkPackage "0..*" -- "0..*" Assignment
 @enduml
 ```

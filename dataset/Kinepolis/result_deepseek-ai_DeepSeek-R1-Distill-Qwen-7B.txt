@@ -1,0 +1,126 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Kinepolis owns several cinemas in different towns.  Each cinema has several theatres in which several shows can be programmed per day.  Every cinema needs its own copy of the movie, and possibly more than one if a movie is to be played simultaneously in more than one theatre.  A copy will only be shown in the theatres of the premise where the copy is located. But copies of movies can be moved to another cinema if required by the programming.  
+Every Sunday, the program for the next week is published (from Wednesday to Tuesday). Once a show has been published on the website, people can start making on-line reservations for that show. 
+Reservation can be made up to 1 hour before the starting time of the show and must be paid with a credit card.  A seat reservation can be cancelled by the customer up to 24h before the starting time of the show.  For that reason, credit cards are debited only after the cancellation period is terminated.
+A published show can be cancelled by Kinepolis as long as there are no seat reservations for that show.  If there are any, the reservations must be cancelled first.  When possible, a new seat is offered for a show for the same movie in another theatre.  The customer can accept or decline the offer.  The offer expires 24 hours before the start of the show. If the offer is declined, expired or no new seat reservation can be offered, the customer receives a free ticket send at home. 
+People who did not make a seat reservation can buy a ticket at the entrance.  The tickets will also be assigned a seat number.  In contrast with on-line seat reservations, tickets issued at the entrance are anonymous and cannot be cancelled or refunded. At the ticketing desk a display shows how many seats are still available for that show (according to the number of seats in the theatre).
+<｜Assistant｜><think>
+Okay, so the user wants me to create a Plant UML model based on a given specification text. Let me break down what they need and how to approach this.
+
+First, I need to extract the classes from the text. The specification talks about Kinepolis, cinemas, theatres, shows, copies, seats, reservations, and customers. Each of these should be a separate class.
+
+Next, I'll identify the attributes for each class. For example, the Cinema class might have a name, location, and maybe a copy of a movie. The Show class would have a title, date, time, and a copy it's associated with. Seats would have seat numbers and a status, and Reservations would have customer details and booking status.
+
+Then, I need to figure out the relationships between these classes. The specification mentions that each cinema has several theatres, so Cinema should have a collection of Theatres. Each theatre can have multiple Shows, so Theatre should have a collection of Shows. Shows are linked to Copies, so Show should have a collection of Copies. Copies are linked to multiple Theatres, so Copy should have a collection of Theatres.
+
+Reservations are made for Shows, so Reservation should have a collection of ShowReservations. Each ShowReservation is linked to a Customer, so ShowReservation has a Customer. Customers can make Reservations and also buy tickets at the entrance, so I'll need a Customer class with a boolean for online reservation and a quantity for tickets.
+
+I also need to consider the cardinality for each relationship. Since each Cinema can have many Theatres, it's a one-to-many relationship. Theatres can have many Shows, so another one-to-many. Shows can have multiple Copies, which in turn can be in multiple Theatres. Reservations are optional, so they might have a "0..1" cardinality. Copies can be moved, so the relationship between Copy and Theatre should allow for multiple copies in a single theatre, maybe using a "0..n" cardinality.
+
+I should also note any default cardinalities where not specified. For example, if a relationship doesn't specify, it defaults to "0..*". I'll make sure to assign the correct cardinality based on the business rules provided, like whether a Show can be canceled if there are reservations or not.
+
+Finally, I'll structure the Plant UML code by first listing all the classes with their attributes and then defining the relationships with the appropriate cardinalities. I'll make sure to use bi-directional arcs where necessary and avoid any class properties unless needed.
+</think>
+
+```plantuml
+@startuml
+title Cinema Management System
+
+class Cinema {
+    String Name
+    String Location
+    List<Copy> Copies
+}
+
+class Theatres {
+    String Name
+    List<Show> Shows
+}
+
+class Show {
+    String Title
+    Date Date
+    Time Time
+    List<Copy> Copies
+}
+
+class Copy {
+    String Title
+    String Director
+    Date PublicationDate
+    List<Theatres> Theatres
+}
+
+class Seats {
+    Integer SeatNumber
+    String Status
+}
+
+class Reservations {
+    String CustomerName
+    String Email
+    String PhoneNumber
+    Boolean OnlineReservation
+    Integer Quantity
+}
+
+class Customer {
+    String Name
+    String Email
+    String PhoneNumber
+    Boolean HasOnlineReservation
+    Integer NumberOfSeats
+}
+
+@ stereotype
+class Shows {
+    List<Reservations> ShowReservations
+}
+
+@ stereotype
+class Copies {
+    List<Theatres> Theatres
+}
+
+Show "1..1" -- "1..*" Reservations
+Show "1..*" -- "1..*" Copies
+Copy "0..n" -- "1..*" Theatres
+Reservations "0..1" -- "1..*" Shows
+Customer "0..1" -- "1..*" Reservations
+Customer "0..*" -- "1..*" Seats
+@ end stereotyped
+@enduml
+```

@@ -1,0 +1,36 @@
+
+@startuml
+
+class Customer {
+    String Address
+    String VATNumber
+}
+class Product {
+    String Name
+    Double CurrentStock
+}
+class OrderLine {
+    Integer QuantityOrdered
+}
+class Order {
+    Date PaymentDate
+    Date ShipDate
+}
+class Warehouse {
+    String LocationAddress
+}
+class Invoice {
+    Date PaymentDate
+}
+class Delivery {
+    String Status
+}
+
+Customer "1" -- "0..*" Order
+Product "1" -- "0..*" OrderLine
+Order "1" -- "0..*" OrderLine
+Customer "0..*" -- "1" Invoice
+Warehouse "1" -- "0..*" Customer
+Order "1" -- "1" Delivery
+
+@enduml

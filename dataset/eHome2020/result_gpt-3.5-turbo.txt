@@ -1,20 +1,29 @@
-
+```plantuml
 @startuml
 
-class Sensor{}
-class SensorController{}
-class User{}
-class Apartment{}
-class Room{}
-class EMonitor{}
+class Company{ String Name, String Location }
+class Sensor{ String VendorId, String Description, String Unit }
+class Room{ String Description }
+class Apartment{ String Address }
+class Value{ Date Timestamp, Float Value }
+class User{ String Username, String Password }
+class EMonitor
+class SensorController
 
-Sensor "1..*" -- "1" SensorController
-SensorController "1" -- "0..1" Apartment
-User "1..*" -- "0..1" Apartment
-User "1..*" -- "0..1" SensorController
-Apartment "2..*" -- "1..*" Room
-Sensor "1" -- "1" Room
-Room "0..*" -- "1" Apartment
+Company "0..*" -- "0..*" Sensor
+Company "0..*" -- "0..*" User
+Company "1" -- "0..*" Room
+
+Room "1" -- "0..*" Sensor
+Room "1" -- "1..*" Sensor
+Room "1" -- "1" Apartment
+
+Sensor "1" -- "0..*" Value
+Sensor "0..1" -- "1" Room
+
+User "0..*" -- "1" SensorController
+
 EMonitor "1" -- "1" SensorController
 
 @enduml
+```

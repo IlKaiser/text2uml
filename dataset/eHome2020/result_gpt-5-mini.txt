@@ -1,31 +1,28 @@
 @startuml
 
-class SensorController{}
-class Apartment{}
-class Inhabitant{}
-class Sensor{}
-class TemperatureSensor{}
-class PowerSensor{}
-class Room{}
-class Value{}
-class EMonitor{}
-class Unit{}
+class SensorController{ String controllerId }
+class Apartment{ String address, String emailAddress }
+class Inhabitant{ String username, String password, Boolean isAdmin }
+class Room{ String description }
+enum Unit { CELSIUS, WATT }
+class Sensor{ String vendorId, String description, Unit unit }
+class TemperatureSensor{ Float minValue, Float maxValue }
+class PowerSensor{ Float totalConsumption }
+class SensorValue{ Date timestamp, Float value }
+class Threshold{ Float value, Date setAt }
+class EMonitor{ String monitorId }
 
-SensorController "1..1" -- "1..*" Sensor
+SensorController "1..1" -- "0..*" Sensor
 SensorController "1..1" -- "1..1" Apartment
-SensorController "1..1" -- "1..*" Inhabitant
-
+SensorController "1..1" -- "0..*" EMonitor
 Apartment "1..1" -- "2..*" Room
-Room "1..1" -- "1..*" Sensor
+Room "1..1" -- "0..*" Sensor
+Apartment "1..1" -- "0..*" Inhabitant
+Inhabitant "1..1" -- "0..*" Threshold
+Sensor "1..1" -- "0..*" Threshold
+Sensor "1..1" -- "0..*" SensorValue
 
-Sensor "1..1" -- "0..*" Value
-Sensor "1..1" -- "0..*" TemperatureSensor
-Sensor "1..1" -- "0..*" PowerSensor
-
-EMonitor "1..1" -- "1..*" Sensor
-
-Inhabitant "0..*" -- "0..*" Sensor
-
-Unit "1..*" -- "1..1" Sensor
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
 
 @enduml

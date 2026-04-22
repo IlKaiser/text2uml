@@ -1,0 +1,56 @@
+@startuml
+
+class Person {
+    String Name
+    String IdentificationData
+    String NeedsHelp
+}
+class StayType {
+    String Type
+    Double Price
+}
+class BedCategory {
+    String Category
+    Double Price
+}
+class Department {
+    String Name
+}
+class Room {
+    String Name
+}
+class Bed {
+    String Category
+}
+class Registration {
+    String Data
+}
+class Assessment {
+    String Result
+}
+class WaitingList {
+    Person Person
+    StayType StayType
+}
+class Proposal {
+    Person Person
+    StayType StayType
+}
+class Invoice {
+    Int Number
+    Double Amount
+    String Status
+}
+class Payment {
+    Date Date
+    Double Amount
+}
+
+Person "1" -- "0..*" Registration
+Person "1" -- "0..*" Assessment
+Assessment "1" -- "0..1" WaitingList
+WaitingList "1" -- "1" Proposal
+Proposal "1" -- "1" Invoice
+Invoice "1" -- "0..1" Payment
+
+@enduml

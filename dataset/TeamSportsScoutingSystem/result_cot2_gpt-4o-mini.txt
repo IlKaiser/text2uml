@@ -1,43 +1,67 @@
 ```plantuml
 @startuml
-class Team{}
-class SportsScoutingSystem{}
-class Employee{}
-class Club{}
-class Coach{}
-class Director{}
-class Scout{}
-class Player{}
-class Profile{}
-class Signing{}
-class Position{}
-class Attribute{}
-class LongList{}
-class Assignment{}
-class Report{}
-class Recommendation{}
-class KeyPlayer{}
-class FirstTeamPlayer{}
-class ReserveTeamPlayer{}
-class ProspectivePlayer{}
-class ShortList{}
-class HeadScout{}
-class Offer{}
+class Team {
+}
+class Employee {
+}
+class Club {
+}
+class Coach {
+}
+class Director {
+}
+class Scout {
+}
+class Player {
+}
+class Profile {
+}
+class Signing {
+}
+class Position {
+    name: String
+    value: String
+}
+class Assignment {
+}
+class Report {
+    pros: String
+    cons: String
+    recommendation: String
+}
+class Recommendation {
+    type: String
+}
+class KeyPlayer {
+}
+class FirstTeamPlayer {
+}
+class ReserveTeamPlayer {
+}
+class ProspectivePlayer {
+}
+class ScoutingResult {
+}
+class OfficialOffer {
+}
 
-Employee "0..*" -- "1..1" SportsScoutingSystem  
-HeadScout "1..1" -- "0..*" Assignment  
-HeadScout "1..1" -- "0..*" Report  
-HeadScout "1..1" -- "0..*" Recommendation  
-Scout "0..*" -- "0..*" LongList  
-HeadCoach "1..1" -- "0..*" Profile  
-HeadCoach "1..1" -- "0..*" Position  
-HeadCoach "1..1" -- "0..*" Attribute  
-Scout "1..1" -- "0..*" Report  
-Scout "1..1" -- "0..*" Recommendation  
-Player "0..*" -- "0..*" ShortList  
-Player "0..*" -- "0..*" LongList  
-Director "1..1" -- "0..*" Offer  
-HeadCoach "1..1" -- "0..*" Player  
-HeadScout "1..1" -- "0..*" Player  
+Club "1..*" -- "0..*" Employee
+Coach "1..1" -- "1..1" Team
+Scout "0..*" -- "0..*" Assignment
+Assignment "1..1" -- "0..*" Report
+Scout "0..*" -- "0..*" ScoutingResult
+Player "0..*" -- "0..*" Profile
+Profile "0..*" -- "0..*" Position
+Player "0..*" -- "0..*" Recommendation
+Recommendation "0..*" -- "0..1" KeyPlayer
+Recommendation "0..*" -- "0..1" FirstTeamPlayer
+Recommendation "0..*" -- "0..1" ReserveTeamPlayer
+Recommendation "0..*" -- "0..1" ProspectivePlayer
+Director "1..1" -- "0..*" OfficialOffer
+
+KeyPlayer --|> Recommendation
+FirstTeamPlayer --|> Recommendation
+ReserveTeamPlayer --|> Recommendation
+ProspectivePlayer --|> Recommendation
 @enduml
 ```

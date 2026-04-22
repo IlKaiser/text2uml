@@ -1,21 +1,44 @@
 ```plantuml
 @startuml
-class Sensor{}
-class SensorController{}
-class Apartment{}
-class Inhabitant{}
-class Room{}
-class TemperatureSensor{}
-class PowerSensor{}
-class EMonitor{}
-class Value{}
+class SensorController {
+    username: String
+    password: String
+}
+class Apartment {
+    address: String
+}
+class Inhabitant {
+    adminRights: Boolean
+    emailAddress: String
+}
+class Sensor {
+    vendorId: String
+    description: String
+    unit: String
+}
+class Room {
+    description: String
+}
+class TemperatureSensor {
+    min: Float
+    max: Float
+}
+class PowerSensor {
+    totalPowerConsumption: Float
+}
+class Value {
+    timestamp: Date
+    value: Float
+}
 
-Sensor "1..*" -- "1..1" SensorController
-Apartment "1..*" -- "0..*" Inhabitant
-Apartment "1..*" -- "2..*" Room
-Room "1..*" -- "1..1" Sensor
-Sensor "0..*" -- "0..*" Value
 SensorController "1..1" -- "1..1" Apartment
-EMonitor "0..*" -- "0..*" Sensor
+SensorController "1..*" -- "1..1" Sensor
+Apartment "1..*" -- "0..*" Inhabitant
+Sensor "1..1" -- "1..1" Room
+Sensor "1..*" -- "0..*" Value
+Room "1..*" -- "0..*" Sensor
+
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
 @enduml
 ```

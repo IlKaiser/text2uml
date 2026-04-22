@@ -1,30 +1,69 @@
-Here is the PlantUML class diagram based on the given specification:
-
 ```plantuml
 @startuml
 
-class Organizer {}
-class Event {}
-class EventKind {}
-class Location {}
-class Attendee {}
-class Invitation {}
-class Task {}
-class EventChecklist {}
-class AttendeeTask {}
+class Organizer {
+    String FirstName
+    String LastName
+    String Email
+    String PostalAddress
+    String PhoneNumber
+    String Password
+}
+
+class Event {
+    String Kind
+    DateTime StartDateTime
+    DateTime EndDateTime
+    String Occasion
+    Location Location
+}
+
+class Location {
+    String Name
+    String Address
+}
+
+class Attendee {
+    String FirstName
+    String LastName
+    String Email
+    String Password
+    Boolean WillAttend
+    Boolean MaybeAttend
+    Boolean CannotAttend
+}
+
+class Invitation {
+    String Status
+}
+
+class Task {
+    String Description
+    Boolean NeedsToBeDone
+    Boolean HasBeenDone
+    Boolean NotApplicable
+}
+
+class EventSpecificChecklist {
+    String EventType
+    Task Task
+}
+
+class AttendeeTask {
+    String Description
+    Boolean SelectedByAttendee
+}
 
 Event "1" -- "1..*" Organizer
-Event "1" -- "1" EventKind
+Event "1" -- "1..*" Attendee
 Event "1" -- "1" Location
-Event "1" -- "1..*" Invitation
-Event "1" -- "1" EventChecklist
-
-Invitation "1" -- "1" Attendee
-Invitation "1" -- "0..1" Organizer
-
+Organizer "1" -- "0..*" Invitation
+Attendee "1" -- "0..*" Invitation
+Invitation "1" -- "1" Event
+Event "1" -- "1..*" EventSpecificChecklist
+EventSpecificChecklist "1" -- "1..*" Task
+Task "0..*" -- "0..*" AttendeeTask
 Attendee "1" -- "0..*" AttendeeTask
-Task "1" -- "0..*" AttendeeTask
-EventChecklist "1" -- "1..*" Task
 
 @enduml
 ```

@@ -1,0 +1,69 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: A transport company wants to modernize its operations and switch to a computerized solution. To this end, the structure and organization of the company were discussed in a meeting with the managing director. The following minutes are available to you: 
+I currently employ around 60 drivers and 6-7 other employees (planners and administrative staff) in my company. I need to be able to store their names and social security numbers. Planners and administrative staff should be able to log into the system with a username and password. The administrative staff's field of activity is known. I also need to store my customers' details. The customer's name and billing address are important. In addition to customers and employees, I also want to manage my vehicles. I distinguish between different types of vehicles, such as refrigerated trucks, small vans, loading platforms, and box trucks. I want to store the license plate number and mileage for the vehicles. Of course, it can happen that a vehicle needs to be repaired or inspected. For this purpose, I want to store the repair shop (name and address are known), the employee who took the vehicle to the repair shop, and the duration and cost of the repair.
+Orders can be assigned to each driver. Usually, a customer calls and tells us when they need a transport vehicle and how big the package is. Based on this, the planner knows which type of vehicle is needed for the order. I always want to know which planner has assigned an order to a vehicle. It must also be possible to save a comment with additional information about the order, and I need to know when the driver starts and finishes the order. It is also important that I always know which driver has completed which order with which vehicle. For each order, there is always a customer who is the client, and both the pick-up and delivery addresses are known. The order can be placed directly with an administrative employee or with a partner company whose name and address are known.[/INST] @startuml
+
+class Employee { String Name, String SocialSecurityNumber }
+class Planner extends Employee { }
+class AdministrativeStaff extends Employee { String Username, String Password }
+
+class Customer { String Name, String BillingAddress }
+
+class Vehicle { String LicensePlateNumber, int Mileage }
+class RefrigeratedTruck extends Vehicle { }
+class SmallVan extends Vehicle { }
+class LoadingPlatform extends Vehicle { }
+class BoxTruck extends Vehicle { }
+
+class Repair { RepairShop, Employee, int Duration, float Cost }
+class RepairShop { String Name, String Address }
+
+class Order { Customer, Vehicle, Planner, string Comment, DateTime StartTime, DateTime EndTime }
+class PartnerCompany { String Name, String Address }
+
+Order "1" -- "1" Customer
+Order "1" -- "1" Vehicle
+Order "1" -- "1" Planner
+Order "0..*" -- "0..1" Comment
+Order "1" -- "1" PartnerCompany
+
+Vehicle "0..*" -- "0..1" Repair
+Repair "1" -- "1" RepairShop
+Repair "1" -- "1" Employee
+
+@enduml

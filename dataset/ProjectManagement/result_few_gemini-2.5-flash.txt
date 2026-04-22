@@ -1,21 +1,19 @@
 @startuml
 
 class University {}
-class Department {}
 class ResearchGroup {}
+class Department {}
 class Researcher {}
 class Project {}
 class WorkPackage {}
-class WPLeaderAssignment {}
 class ResearcherWorkPackageAssignment {}
 
-University "1" -- ResearchGroup
-Department "1" -- ResearchGroup
-ResearchGroup "1" -- Researcher
+University "1" -- "0..*" ResearchGroup
+ResearchGroup "0..*" -- "1" Department
+Researcher "0..*" -- "1" ResearchGroup
 Project "1" -- "1..*" WorkPackage
-WorkPackage "1" -- "1" WPLeaderAssignment
-ResearchGroup "1" -- WPLeaderAssignment
-WorkPackage "1" -- ResearcherWorkPackageAssignment
-Researcher "1" -- ResearcherWorkPackageAssignment
+WorkPackage "0..*" -- "1" ResearchGroup
+Researcher "0..*" -- "0..*" WorkPackage
+(Researcher, WorkPackage) .. ResearcherWorkPackageAssignment
 
 @enduml

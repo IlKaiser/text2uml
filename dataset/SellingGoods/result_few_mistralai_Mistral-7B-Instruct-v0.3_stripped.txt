@@ -1,0 +1,52 @@
+@startuml
+
+class Customer {
+    String Address
+    String VATNumber
+}
+
+class Product {
+    String Name
+    Int Stock
+}
+
+class Order {
+    Int OrderId
+    Customer customer
+    Date PaymentDate
+    Date ShippingDate
+}
+
+class OrderLine {
+    Int OrderLineId
+    Product product
+    Int Quantity
+}
+
+Order "1" -- "0..*" OrderLine
+
+STEP 2
+class PartiallyShippedOrder {
+    Int OrderId
+    List<OrderLine> shippedOrderLines
+    List<OrderLine> toBeShippedOrderLines
+}
+
+Order "1" -- "0..1" PartiallyShippedOrder
+
+STEP 3
+class Supermarket {
+    String HeadOfficeAddress
+    List<String> DeliveryAddresses
+}
+
+STEP 4
+class Delivery {
+    Int DeliveryId
+    List<OrderLine> orderLines
+    String Status
+}
+
+Delivery "1" -- "0..*" OrderLine
+
+@enduml

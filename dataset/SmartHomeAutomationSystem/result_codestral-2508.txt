@@ -1,34 +1,27 @@
 ```plantuml
 @startuml
 
-class SHAS{}
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class DeviceIdentifier{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class Precondition{}
-class Action{}
-class RuleHierarchy{}
+class SHAS { String Name }
+class SmartHome { String PhysicalAddress }
+class Room { String Name }
+class Device { String DeviceID }
+class Sensor extends Device { }
+class Actuator extends Device { }
+class SensorReading { Date Timestamp, Float MeasuredValue }
+class ControlCommand { Date Timestamp, String Status, String Command }
+class ActivityLog { }
+class AutomationRule { Boolean Precondition, String Action }
+class RuleHierarchy { }
 
 SHAS "1..*" -- "1..1" SmartHome
 SmartHome "1..*" -- "1..*" Room
-Room "1..*" -- "1..*" SensorDevice
-Room "1..*" -- "1..*" ActuatorDevice
-SensorDevice "1..1" -- "1..1" DeviceIdentifier
-ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
-SensorDevice "1..*" -- "1..*" SensorReading
-ActuatorDevice "1..*" -- "1..*" ControlCommand
+Room "1..*" -- "1..*" Device
+Device "1..*" -- "1..*" SensorReading
+Device "1..*" -- "1..*" ControlCommand
 SHAS "1..1" -- "1..*" ActivityLog
 ActivityLog "1..*" -- "1..*" SensorReading
 ActivityLog "1..*" -- "1..*" ControlCommand
 SmartHome "1..*" -- "1..*" AutomationRule
-AutomationRule "1..1" -- "1..1" Precondition
-AutomationRule "1..1" -- "1..1" Action
 AutomationRule "1..*" -- "1..*" RuleHierarchy
 
 @enduml

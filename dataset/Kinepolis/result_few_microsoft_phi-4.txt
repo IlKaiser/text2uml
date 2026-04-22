@@ -1,0 +1,43 @@
+```plantuml
+@startuml
+
+class Cinema {
+    String Name
+    String Town
+}
+class Theatre {
+    Int Capacity
+}
+class Movie {
+    String Title
+    Date ReleaseDate
+}
+class Show {
+    Date StartTime
+    String Status
+}
+class Copy {
+    String Location
+}
+class Reservation {
+    String Status
+    Date ReservationTime
+}
+class Ticket {
+    String SeatNumber
+}
+class Customer {
+    String Name
+}
+
+Cinema "1" -- "0..*" Theatre
+Cinema "1" -- "0..*" Copy
+Theatre "1" -- "0..*" Show
+Show "1" -- "0..*" Reservation
+Show "1" -- "0..*" Ticket
+Copy "1" -- "0..*" Show
+Reservation "1" -- "1" Customer
+Ticket "1" -- "0..1" Customer
+
+@enduml
+```

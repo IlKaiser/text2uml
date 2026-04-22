@@ -1,0 +1,44 @@
+```plantuml
+@startuml
+class Game {
+    String Title
+    String Designer
+    Date PublicationDate
+    String HiddenTile
+    String StartingPositions
+    String ActionTiles
+    String SpareConnectionPieces
+    String DeckOfActionCards
+}
+
+class Player {
+    String Color
+    String Name
+}
+
+class Tile {
+    String Content
+    String Color
+    String ConnectionPieces
+    String Hidden
+    String Visited
+}
+
+class ConnectionPiece {
+    String Type
+}
+
+class ActionCard {
+    String Action
+    String Turns
+}
+
+Game "1..1" -- "0..*" Player
+Game "0..*" -- "0..*" Player
+Player "0..*" -- "0..*" Tile
+Tile "0..*" -- "0..*" ConnectionPiece
+Tile "0..*" -- "0..*" ActionCard
+ActionCard "0..*" -- "0..*" Tile
+ConnectionPiece "0..*" -- "0..*" Tile
+@enduml
+```

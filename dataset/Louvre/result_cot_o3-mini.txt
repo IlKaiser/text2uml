@@ -1,17 +1,36 @@
 @startuml
-class Museum {}
-class Location {}
-class Exhibition {}
-class ExhibitionItem {}
-class Piece {}
-class Employee {}
-class Collector {}
+class Museum {
+  name: String
+  city: String
+  roomCount: Int
+}
+
+class Location
+
+class Exhibition {
+  openingDate: Date
+  planningStartDate: Date
+}
+
+class Employee
+
+class ExhibitionItem {
+  description: String
+}
+
+class Piece {
+  isUnique: Boolean
+  title: String
+}
+
+class Collector
 
 Museum "1..*" -- "1..1" Location
+Museum "1..*" -- "1..1" Exhibition
 Location "1..*" -- "1..1" Exhibition
 Exhibition "1..1" -- "0..*" Employee
 Exhibition "1..*" -- "1..1" ExhibitionItem
 ExhibitionItem "1..*" -- "1..*" Piece
-Piece "1..1" -- "0..*" Collector
-Employee "1..1" -- "0..*" Employee
+ExhibitionItem "1..*" -- "1..*" Collector
+Employee "0..*" -- "1..1" Employee
 @enduml

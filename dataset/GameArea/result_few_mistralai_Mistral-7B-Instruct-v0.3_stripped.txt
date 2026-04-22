@@ -1,0 +1,30 @@
+@startuml
+
+class GameArea {
+    String Name
+}
+
+class GameElement {
+    Long X
+    Long Y
+}
+
+class Shape {
+    GameElement "0..*" connectedShape
+}
+
+class Object {}
+
+class Opponent {
+    Int Lives
+}
+
+class Boss {
+    Opponent "1"
+}
+
+GameArea "1" -- "0..*" GameElement
+GameArea "1" -- "1" Boss
+Opponent "1" -- "0..*" GameElement
+
+@enduml

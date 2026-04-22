@@ -1,0 +1,39 @@
+@startuml
+class Traveler {
+    String Name
+    String BillingInfo
+    String TravelPreferences
+}
+class Hotel {
+    String Name
+    String City
+    String Address
+    String HotelChain
+}
+class RoomType {
+    String Type
+    String Availability
+}
+class Booking {
+    String Status
+    String PaymentMethod
+    String CancellationDeadline
+    String ReliabilityRating
+}
+class SpecialOffer {
+    String OfferDetails
+}
+class Confirmation {
+    String ConfirmationStatus
+}
+
+Traveler "1" -- "0..*" Hotel
+Hotel "1" -- "0..*" RoomType
+Traveler "1" -- "0..*" Booking
+Hotel "1" -- "0..*" Booking
+Hotel "1" -- "0..*" SpecialOffer
+Booking "1" -- "0..*" Confirmation
+(Booking, Hotel).. SpecialOffer
+(Booking, Hotel).. Confirmation
+
+@enduml

@@ -1,0 +1,90 @@
+```plantuml
+@startuml
+
+class WebPortal {
+    String VersionNumber
+    String URL
+}
+
+class Building {
+    String ID
+    String Name
+    String EnergyClass
+    String Address
+    Int YearOfConstruction
+}
+
+class User {
+    String UserName
+    String Email
+    String Password
+    Boolean IsActive
+}
+
+class Administrator {
+    String IDCardNumber
+}
+
+class Entry {
+    String Name
+}
+
+class TextEntry extends Entry {
+    String Text
+}
+
+class NumericEntry extends Entry {
+    Double Value
+    String Unit
+}
+
+class Image {
+    String FileName
+}
+
+class Comment {}
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "1" User : owner
+Building "1" -- "0..*" Entry
+Building "1" -- "0..*" Image
+User "1" -- "0..*" Comment
+User "0..*" -- "1" Administrator : is
+NumericEntry "1" -- "0..1" Unit
+TextEntry "1" -- "0..1" Unit
+
+@enduml
+```
+
+### Use Cases and Actors
+
+- **Actors:**
+  - Visitor
+  - User
+  - Administrator
+
+- **Use Cases:**
+  1. **Register User:** Visitor registers with a unique username and email.
+  2. **Activate User:** System activates user after email confirmation.
+  3. **Login:** User logs into the web portal.
+  4. **Create Building:** User creates a new building entry.
+  5. **Manage Entries:** User manages entries for their buildings.
+  6. **Comment on Building:** User comments on other users' buildings.
+  7. **Search Buildings:** Visitor searches for buildings using full-text search.
+  8. **Set Up User Account:** Administrator sets up user accounts.
+  9. **Delete Comment:** Administrator deletes comments.
+  10. **Release Entry Publicly:** User releases additional entries publicly.
+
+### Relationships
+
+- **Generalization:**
+  - `Entry` is generalized into `TextEntry` and `NumericEntry`.
+
+- **Associations:**
+  - `WebPortal` has a catalog of `Building`.
+  - `Building` is assigned to a `User` as the owner.
+  - `User` can create `Building` and `Comment`.
+  - `Administrator` is a specialized `User`.
+  - `NumericEntry` has an optional `Unit`.
+
+This UML diagram and use case mapping provide a clear representation of the system described in the specification text.

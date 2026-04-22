@@ -1,39 +1,62 @@
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Inhabitant{}
-class Stay{}
-class StayType{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Invoice{}
-class PaymentEvent{}
-class CreditNote{}
+class Home
+class Department
+class Room
+class Bed {
+  category: String
+}
+class StayCategory {
+  name: String
+  price: Float
+}
+class Person
+class Stay {
+  type: String
+  startDate: Date
+  endDate: Date
+}
+class Registration {
+  registrationDate: Date
+}
+class Assessment {
+  stayType: String
+}
+class WaitingListEntry {
+  position: Int
+  registrationDate: Date
+  requestedStayType: String
+}
+class Proposal {
+  requestedStayType: String
+  status: String
+  replyPeriodDays: Int
+}
+class Invoice {
+  totalAmount: Float
+  outstandingAmount: Float
+  status: String
+  invoiceDate: Date
+}
+class CreditNote {
+  amount: Float
+  refundExecuted: Boolean
+}
 
-Home "1..*" -- "1..1" Department.
-Department "1..*" -- "1..1" Room.
-Room "1..*" -- "1..1" Bed.
-Bed "1..1" -- "0..*" Category.
-Category "1..1" -- "1..1" StayType.
-Inhabitant "0..*" -- "0..*" Bed.
-Inhabitant "0..*" -- "1..1" Stay.
-Stay "1..1" -- "0..*" Bed.
-Stay "1..1" -- "0..*" StayType.
-Inhabitant "1..1" -- "1..1" Registration.
-Inhabitant "0..*" -- "1..1" Assessment.
-Assessment "1..1" -- "0..*" StayType.
-WaitingList "1..1" -- "1..1" StayType.
-WaitingList "0..*" -- "0..*" Inhabitant.
-Proposal "1..1" -- "0..*" Inhabitant.
-Proposal "1..1" -- "0..*" StayType.
-Proposal "1..1" -- "0..*" WaitingList.
-Invoice "1..1" -- "0..*" Stay.
-Invoice "1..1" -- "0..*" Inhabitant.
-PaymentEvent "1..1" -- "0..*" Invoice.
-CreditNote "1..1" -- "0..*" Invoice.
+Home "1..*" -- "1..1" Department
+Department "1..*" -- "1..1" Room
+Room "1..*" -- "1..1" Bed
+Bed "1..1" -- "1..*" StayCategory
+Person "0..*" -- "1..1" Stay
+Stay "1..1" -- "0..*" Bed
+Stay "1..1" -- "1..*" StayCategory
+Registration "1..1" -- "1..1" Person
+Assessment "1..1" -- "0..*" Person
+Assessment "1..1" -- "1..*" StayCategory
+WaitingListEntry "1..1" -- "0..*" Person
+WaitingListEntry "1..1" -- "0..*" StayCategory
+Proposal "1..1" -- "0..*" WaitingListEntry
+Proposal "1..1" -- "0..*" Bed
+Invoice "1..1" -- "0..*" Stay
+CreditNote "1..1" -- "0..*" Invoice
+CreditNote "1..1" -- "0..*" Person
 @enduml

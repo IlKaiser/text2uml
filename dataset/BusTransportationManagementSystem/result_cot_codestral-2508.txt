@@ -1,22 +1,42 @@
 ```plantuml
 @startuml
 
-class Bus{}
-class Route{}
-class Driver{}
-class Shift{}
-class Schedule{}
-class Overview{}
+class BusTransportationManagementSystem {
+}
 
-Bus "1..*" -- "1..*" Route
-Bus "1..1" -- "0..*" Driver
-Driver "0..*" -- "1..*" Shift
-Route "1..*" -- "3..3" Shift
-Bus "0..*" -- "1..*" Schedule
-Driver "0..*" -- "1..*" Schedule
-Route "1..1" -- "1..*" Overview
-Bus "0..*" -- "1..*" Overview
-Driver "0..*" -- "1..*" Overview
+class Driver {
+  name:String
+  id:Int
+  onSickLeave:Boolean
+}
+
+class BusRoute {
+  routeNumber:Int
+}
+
+class Bus {
+  licencePlate:String
+  inRepairShop:Boolean
+}
+
+class Shift {
+  shiftType:String
+}
+
+class Schedule {
+  date:Date
+}
+
+BusTransportationManagementSystem "1..*" -- "1..*" Driver
+BusTransportationManagementSystem "1..*" -- "1..*" BusRoute
+BusTransportationManagementSystem "1..*" -- "1..*" Bus
+BusTransportationManagementSystem "1..*" -- "1..*" Shift
+BusTransportationManagementSystem "1..*" -- "1..*" Schedule
+Driver "1..*" -- "1..*" Shift
+Bus "1..*" -- "1..*" BusRoute
+Bus "1..*" -- "1..*" Shift
+BusRoute "1..*" -- "3..3" Shift
+Schedule "1..*" -- "1..*" Shift
 
 @enduml
 ```

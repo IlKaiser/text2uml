@@ -1,0 +1,48 @@
+@startuml
+
+class Traveler {
+    String Name
+    String CompanyName
+    String CompanyAddress
+    String CreditCardInfo
+    Boolean ReliabilityRating
+}
+class Booking {
+    String Status
+    Date CancellationDeadline
+    Boolean PrePaid
+}
+class Hotel {
+    String Name
+    String Address
+    String City
+    Boolean PartOfChain
+}
+class RoomType {
+    String Type
+}
+class HotelChain {
+    String Name
+}
+class Offer {
+    Double Price
+    Int NumberOfRooms
+}
+class SpecialOffer {
+    Double Price
+}
+class PreliminaryBooking {
+    String BookingIdentifier
+}
+
+Traveler "1" -- "0..*" PreliminaryBooking
+PreliminaryBooking "0..1" -- "0..*" Offer
+PreliminaryBooking "0..*" -- "1..*" Hotel
+Hotel "1" -- "0..*" RoomType
+Hotel "0..*" -- "0..*" HotelChain
+PreliminaryBooking "0..*" -- "0..*" SpecialOffer
+PreliminaryBooking "1" -- "0..1" Booking
+Traveler "1" -- "0..*" Booking
+Hotel "1" -- "0..*" Booking
+
+@enduml

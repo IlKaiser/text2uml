@@ -1,0 +1,98 @@
+Given the specification text and the identified associations, here is the PlantUML representation for the conceptual model diagram:
+
+```plantuml
+@startuml
+class Customer {
+    +address: Address
+    +vatNumber: String
+}
+
+class Stock {
+    +products: Product[]
+}
+
+class Product {
+    +name: String
+    +stockLevel: Int
+}
+
+class Order {
+    +customer: Customer
+    +orderLines: OrderLine[]
+}
+
+class OrderLine {
+    +product: Product
+    +quantity: Int
+}
+
+class Payment {
+    +order: Order
+}
+
+class Delivery {
+    +order: Order
+    +status: DeliveryStatus
+}
+
+class Invoice {
+    +order: Order
+}
+
+class Address {
+    +street: String
+    +city: String
+    +zipCode: String
+}
+
+class HeadOfficeAddress {
+    +address: Address
+}
+
+class WatchList {
+    +orders: Order[]
+}
+
+class DeliveryStatus {
+    +packed: Boolean
+    +shipped: Boolean
+    +received: Boolean
+}
+
+Customer -- Customer.address: 1
+Customer -- Customer.vatNumber: 1
+
+Stock -- Stock.products: *
+
+Product -- Product.stockLevel: 1
+
+Order -- Order.customer: 1
+Order -- Order.orderLines: *
+
+OrderLine -- OrderLine.product: 1
+OrderLine -- OrderLine.quantity: 1
+
+Payment -- Payment.order: 1
+
+Delivery -- Delivery.order: 1
+Delivery -- Delivery.status: 1
+
+Invoice -- Invoice.order: 1
+
+HeadOfficeAddress -- HeadOfficeAddress.address: 1
+
+WatchList -- WatchList.orders: *
+
+DeliveryStatus -- DeliveryStatus.packed: 1
+DeliveryStatus -- DeliveryStatus.shipped: 1
+DeliveryStatus -- DeliveryStatus.received: 1
+
+Customer -- Customer.address: 1
+Customer -- Customer.vatNumber: 1
+
+Customer -- Customer.headOfficeAddress: 1
+
+@enduml
+```
+
+This PlantUML code defines the relationships between the identified classes based on the provided specifications. Each class is represented along with its attributes and the specified associations.

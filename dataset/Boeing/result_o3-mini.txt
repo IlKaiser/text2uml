@@ -1,15 +1,34 @@
 @startuml
 
-class Contract{}
-class Acquisition{}
-class AirlineCompany{}
-class Employee{}
-class Airplane{}
+class Boeing {
+  String name
+}
 
-Contract "1..1" -- "1..*" Acquisition
-AirlineCompany "1..1" -- "0..*" Contract
-Employee "1..1" -- "0..*" Contract
-Acquisition "1..1" -- "1..1" Airplane
-AirlineCompany "0..1" -- "0..*" AirlineCompany
+class Contract {
+  String commonDeliveryConditions
+  String legalAspects
+}
+
+class Acquisition {
+  String airplaneModel
+  float negotiatedPrice
+  String options
+  Date deliveryDate
+}
+
+class Salesperson {
+  String id
+  String name
+}
+
+class AirlineCompany {
+  String name
+}
+
+Boeing "1" -- "0..*" Contract
+Contract "1" -- "0..*" Acquisition
+Contract "1" -- "1" Salesperson
+Contract "1" -- "1" AirlineCompany
+AirlineCompany "0..*" -- "0..1" AirlineCompany
 
 @enduml

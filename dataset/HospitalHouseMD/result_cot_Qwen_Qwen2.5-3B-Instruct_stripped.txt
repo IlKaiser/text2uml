@@ -1,0 +1,27 @@
+@startuml
+at startuml
+class Patient {
+    +diagnosis: String
+    +treatments: Treatment[]
+}
+class Doctor {
+    +name: String
+    +approveDiagnosis(Patient): void
+}
+class Treatment {
+    +description: String
+    +stage: Stage
+}
+class Stage {
+    +number: Int
+}
+class Illness {
+    +name: String
+    +priorityScore: String
+}
+Patient "1" -- "1" Doctor
+Patient "0..*" -- "1" Treatment
+Treatment "1" -- "1" Stage
+Illness "1" -- "1" Treatment
+Illness "1" -- "1" PriorityScore
+@enduml

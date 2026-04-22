@@ -1,21 +1,46 @@
-Here is the PlantUML class diagram based on the given specification:
-
-```plantuml
 @startuml
 
-class School {}
-class Teacher {}
-class Student {}
-class ClassGroup {}
-class Classroom {}
-class Room {}
+class School {
+    String Name
+}
+class Person {
+    String FirstName
+    String LastName
+}
+class Teacher {
+    String Email
+    Int Hours
+}
+class Student {
+    String Email
+}
+class Principal {
+    String Email
+}
+class Room {
+    String Name
+}
+class Classroom {
+    String Name
+    Int Capacity
+}
+class Gym {
+    String Name
+    Double Size
+}
+class ClassGroup {
+    String Name
+    Int NumberOfStudents
+}
 
-Teacher "1" -- "1..3" School
-School "1" -- "1" Teacher
-School "1" -- "0..*" Classroom
-Classroom "1" -- "1" ClassGroup
+School "1" -- "1..3" Teacher
+School "1" -- "10..31" Student
+School "1" -- "0..*" Room
+Room <|-- Classroom
+Room <|-- Gym
+School "1" -- "1" Principal
+Principal <|-- Teacher
+ClassGroup "1" -- "1" Classroom
 ClassGroup "1" -- "10..31" Student
-Student "1" -- "1" School
 
 @enduml
-```

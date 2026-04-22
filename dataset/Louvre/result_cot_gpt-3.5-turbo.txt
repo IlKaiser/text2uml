@@ -1,20 +1,30 @@
 
 @startuml
 
-class Location{}
-class Exhibition{}
-class Employee{}
-class Coordinator{}
-class ExhibitionItem{}
-class Collector{}
-class SeniorEmployee{}
-class Coach{}
+class Exhibition {
+    name: String
+    opening_date: Date
+    planned_start_date: Date
+    planned_end_date: Date
+}
 
-Location "0..*" -- "0..*" Exhibition
-Exhibition "1..1" -- "1..*" Employee
-Exhibition "1..1" -- "0..*" ExhibitionItem
-Employee "0..*" -- "1..1" Coordinator
-ExhibitionItem "1..*" -- "1..*" Collector
-SeniorEmployee "0..*" -- "0..*" Coach
+class Location {
+    
+}
+
+class Employee {
+    name: String
+    role: String
+}
+
+class Collector {
+    name: String
+}
+
+Exhibition "1..*" -- "1..*" Location
+Exhibition "1..*" -- "1..*" Employee
+Exhibition "1..*" -- "0..*" Collector
+Employee "0..*" -- "1..1" Employee
+Employee "0..*" -- "1..*" Collector
 
 @enduml

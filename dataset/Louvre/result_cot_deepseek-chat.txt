@@ -1,21 +1,45 @@
 @startuml
-class LouvreMuseum{}
-class Location{}
-class Exhibition{}
-class Employee{}
-class Coordinator{}
-class ExhibitionItem{}
-class DesiredItem{}
-class Piece{}
-class Collector{}
-class Coaching{}
+class LouvreMuseum {
+    name:String
+}
 
-LouvreMuseum "1" -- "1..*" Location
-Location "1" -- "1..*" Exhibition
-Exhibition "1" -- "1" Coordinator
-Coordinator "1" -- "1" Employee
-Exhibition "1" -- "1..*" DesiredItem
-DesiredItem "1" -- "1..*" Piece
-Piece "1" -- "1..*" Collector
-Employee "0..*" -- "0..*" Coaching
+class Location {
+    name:String
+}
+
+class Exhibition {
+    openingDate:Date
+}
+
+class Employee {
+    name:String
+}
+
+class ExhibitionItem {
+    description:String
+}
+
+class DesiredItem {
+    description:String
+}
+
+class Piece {
+    title:String
+}
+
+class Collector {
+    name:String
+}
+
+class Coordinator {
+}
+
+LouvreMuseum "1..1" -- "1..*" Location
+Location "1..1" -- "1..*" Exhibition
+Exhibition "1..1" -- "1..1" Coordinator
+Exhibition "1..1" -- "1..*" DesiredItem
+DesiredItem "1..1" -- "1..*" Piece
+Piece "1..1" -- "1..*" Collector
+Employee "0..*" -- "0..*" Employee
+Coordinator --|> Employee
 @enduml

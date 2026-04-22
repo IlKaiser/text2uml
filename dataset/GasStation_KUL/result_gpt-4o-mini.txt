@@ -1,24 +1,22 @@
-```plantuml
 @startuml
 
-class GasStation{}
-class Customer{}
-class RefuelCard{}
-class Invoice{}
-class Payment{}
-class RefuelTurn{}
-class Pump{}
-class Reservoir{}
-class DailyReport{}
+class OilCompany{ }
+class GasStation{ }
+class Customer{ String Name, Boolean IsSuspended }
+class RefuelCard{ }
+class MonthlyInvoice{ Date InvoiceDate, Float TotalAmount, Float Discounts }
+class RefuelTurn{ Date TurnDate, Float Amount }
+class Pump{ }
+class GasolineType{ String TypeName }
+class Reservoir{ Float CurrentLevel, Float ReorderLevel, Float CriticalLevel }
 
-GasStation "1..*" -- "1..*" Pump
-Pump "1..1" -- "1..1" Reservoir
-Customer "1..1" -- "0..*" RefuelCard
-Customer "1..*" -- "0..*" RefuelTurn
-RefuelCard "1..1" -- "0..*" Invoice
-Invoice "1..1" -- "0..*" Payment
-RefuelTurn "1..*" -- "1..1" Invoice
-Pump "1..*" -- "0..*" DailyReport
+OilCompany "1..*" -- "0..*" GasStation
+GasStation "1..*" -- "0..*" Pump
+Pump "1..1" -- "1..1" GasolineType
+GasStation "1..1" -- "0..*" Reservoir
+Customer "1..*" -- "0..*" RefuelCard
+RefuelCard "1..1" -- "0..*" MonthlyInvoice
+MonthlyInvoice "1..*" -- "0..*" RefuelTurn
+RefuelTurn "1..1" -- "0..*" MonthlyInvoice
 
 @enduml
-```

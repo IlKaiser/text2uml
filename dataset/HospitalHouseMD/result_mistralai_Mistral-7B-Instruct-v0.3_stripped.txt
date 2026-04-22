@@ -1,0 +1,23 @@
+@startuml
+
+class HospitalHouseMD { }
+class Patient { String Name, List<Doctor> AssignedDoctors }
+class Doctor { String Name }
+class Illness { String Name, Priority PriorityScore }
+class Treatment { String Name, Stage Stage, Boolean PatientConsent }
+class Database { List<Treatment> Treatments }
+class Form { String Consent }
+
+HospitalHouseMD "1" -- "0..*" Patient
+Patient "1..*" -- "1..*" Doctor
+Illness "1" -- "0..*" Treatment
+Treatment "0..*" -- "1" Database
+Treatment "1" -- "1" Form
+
+Treatment "0..1" -- "0..*" Stage
+Stage "1" -- "0..*" Treatment
+
+Illness "1" -- "0..*" Priority
+Priority "2"
+
+@enduml

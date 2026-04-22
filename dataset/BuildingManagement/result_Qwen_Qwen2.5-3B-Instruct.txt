@@ -1,0 +1,63 @@
+@startuml
+
+class User {
+    +String userName
+    +String email
+    +String password
+    +String activationEmail
+}
+
+class Administrator {
+    +String idCardNumber
+}
+
+class Building {
+    +String buildingId
+    +String name
+    +String energyClass
+    +String address
+    +int yearOfConstruction
+    +User owner
+    +List<Entry> entries
+}
+
+class Entry {
+    +String name
+    +float value
+    +String unit
+    +boolean public
+}
+
+class Image {
+    +String fileName
+}
+
+class WebPortal {
+    +String version
+    +String url
+    +List<Building> buildings
+    +List<Image> images
+}
+
+WebPortal "1..1" -- "1..*" Building
+WebPortal "1..1" -- "1..*" Image
+
+User "1.." -- "0..*" Entry
+Administrator "1.." -- "0..*" Entry
+
+User "1.." -- "1.." Building
+Building "1.." -- "1.." User
+
+User "1.." -- "1.." Image
+Image "1.." -- "1.." User
+
+User "1.." -- "1.." WebPortal
+WebPortal "1.." -- "1.." User
+
+User "1.." -- "1.." Administrator
+Administrator "1.." -- "1.." User
+
+User "1.." -- "1.." FullTextSearch
+FullTextSearch "1.." -- "1.." User
+
+@enduml

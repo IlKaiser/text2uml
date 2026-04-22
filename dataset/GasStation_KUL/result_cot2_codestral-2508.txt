@@ -1,42 +1,107 @@
 ```plantuml
 @startuml
-class OilCompany{}
-class GasStation{}
-class Customer{}
-class RefuelTurn{}
-class Counter{}
-class RefuelCard{}
-class MonthlyInvoice{}
-class Discount{}
-class Payment{}
-class Pump{}
-class Gasoline{}
-class Nozzle{}
-class Reservoir{}
-class ReorderingLevel{}
-class DailyReport{}
-class CriticalLevel{}
-class GasStationResponsible{}
+
+class OilCompany {
+  name: String
+  address: String
+}
+
+class GasStation {
+  name: String
+  address: String
+  phoneNumber: String
+}
+
+class Customer {
+  name: String
+  address: String
+  phoneNumber: String
+  status: String
+}
+
+class RefuelTurn {
+  date: Date
+  quantity: Float
+  amount: Float
+  paymentMethod: String
+}
+
+class CreditCard {
+  cardNumber: String
+  expiryDate: Date
+  cardHolderName: String
+}
+
+class RefuelCard {
+  cardNumber: String
+  issueDate: Date
+  expiryDate: Date
+  customer: Customer
+}
+
+class MonthlyInvoice {
+  invoiceNumber: String
+  issueDate: Date
+  totalAmount: Float
+  paid: Boolean
+  customer: Customer
+}
+
+class Discount {
+  percentage: Float
+  description: String
+  minTurnover: Float
+}
+
+class Payment {
+  paymentDate: Date
+  amount: Float
+  method: String
+  invoice: MonthlyInvoice
+}
+
+class Pump {
+  pumpId: String
+  status: String
+  currentGasolineLevel: Float
+  reorderLevel: Float
+  criticalLevel: Float
+  gasStation: GasStation
+}
+
+class Gasoline {
+  type: String
+  price: Float
+  octaneRating: Int
+}
+
+class Reservoir {
+  capacity: Float
+  currentLevel: Float
+  pump: Pump
+}
+
+class DailyReport {
+  reportDate: Date
+  pumpRefillNeeded: Boolean
+  currentGasolineLevel: Float
+  quantityToOrder: Float
+}
 
 OilCompany "0..*" -- "1..*" GasStation
-GasStation "1..*" -- "0..*" Customer
 GasStation "1..*" -- "1..*" Pump
 Pump "1..*" -- "1..1" Reservoir
-Pump "1..*" -- "1..*" Nozzle
 Pump "1..*" -- "1..1" Gasoline
-Nozzle "1..*" -- "0..*" RefuelTurn
-Customer "1..*" -- "0..1" RefuelCard
-Customer "1..*" -- "0..*" RefuelTurn
-RefuelCard "1..*" -- "0..*" MonthlyInvoice
-MonthlyInvoice "1..*" -- "0..*" RefuelTurn
-MonthlyInvoice "1..*" -- "0..1" Discount
+GasStation "1..*" -- "0..*" Customer
+Customer "0..*" -- "0..*" RefuelTurn
+Customer "0..*" -- "0..1" CreditCard
+Customer "0..*" -- "0..1" RefuelCard
+RefuelCard "0..*" -- "1..*" MonthlyInvoice
+MonthlyInvoice "1..*" -- "0..*" Discount
 MonthlyInvoice "1..*" -- "0..*" Payment
-Reservoir "1..*" -- "1..1" ReorderingLevel
-Reservoir "1..*" -- "1..1" CriticalLevel
-GasStation "1..*" -- "1..*" DailyReport
-DailyReport "1..*" -- "0..*" Pump
-GasStationResponsible "1..*" -- "1..*" GasStation
-RefuelTurn "1..*" -- "0..1" Payment
-RefuelTurn "1..*" -- "0..1" Counter
+RefuelTurn "1..*" -- "1..1" Pump
+RefuelTurn "1..*" -- "1..1" Gasoline
+Reservoir "1..*" -- "1..1" DailyReport
+
 @enduml
 ```

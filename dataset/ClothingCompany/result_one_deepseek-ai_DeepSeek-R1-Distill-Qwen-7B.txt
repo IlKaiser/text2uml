@@ -1,0 +1,205 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the provided specification text. Let me start by understanding what the user is asking for. They want a class diagram that models a company's application for managing customers, products, orders, and similar items. The user provided an example to guide the structure, so I'll use that as a reference.
+
+First, I'll extract the classes from the specification. The main entities mentioned are Customer, Product, Order, Representative, Country, and ProductCategory. I'll make sure each of these is a separate class in the PlantUML model.
+
+Next, I'll identify the attributes for each class. For example, the Customer class should have Name, Address, Telephone, Email, and Countries. Each of these will be listed within the class definition. Similarly, the Product class will have ProductName, Description, NetPrice, Manufacturer, Country, VATRate, Currency, and ConversionRate. I'll need to ensure that all relevant attributes are included based on the description provided.
+
+Now, I'll move on to the relationships between these classes. The specification mentions that each Customer is assigned to a Representative, who is responsible for exactly one country. So, I'll set up a one-to-one relationship between Customer and Representative, with the constraint that each Customer is assigned to one Representative, and each Representative handles one country. This means I'll need to include a relationship between Customer and Representative, and another between Representative and Country.
+
+Orders are placed by Representatives and each Order is uniquely identifiable, referring to exactly one Product. So, there should be a one-to-one relationship between Order and Product. Additionally, Orders are associated with Customers, meaning each Order is linked to a specific Customer. This will be a one-to-many relationship from Customer to Order.
+
+Products are distributed through Representatives, and each Product belongs to a specific ProductCategory. Therefore, there should be a one-to-many relationship between Product and ProductCategory.
+
+The Country class has a one-to-many relationship with Product, as a Country can have multiple Products, but each Product is in only one Country. This will be represented with a cardinality of 1..* from Country to Product.
+
+I also need to consider the necessary cardinalities. For example, each Customer can have multiple Orders, so the relationship between Customer and Order should have a cardinality of 0..* on the Customer side and 1..* on the Order side. Similarly, Representatives are assigned to Countries, which is a one-to-one relationship.
+
+I should avoid using class properties and focus on the necessary attributes and relationships. I'll structure the PlantUML code by first listing all the classes with their attributes, followed by the relationships with their respective cardinalities.
+
+Let me double-check if I've missed any classes or relationships. The main ones seem to be Customer, Product, Order, Representative, Country, and ProductCategory. The relationships are Customer to Representative, Representative to Country, Customer to Order, Order to Product, and Product to ProductCategory. I think that covers everything mentioned in the specification.
+
+I should also ensure that the syntax is correct. Using the correct format for attributes within classes and the proper notation for relationships, such as using lines with cardinalities. I'll make sure there are no typos and that the relationships are accurately represented with the correct cardinality symbols.
+
+Finally, I'll compile all this information into the PlantUML code, making sure it's properly formatted and follows the guidelines provided in the example. This should result in a clear and accurate class diagram that models the application as described.
+</think>
+
+```
+@startuml
+
+class Customer {
+    String Name
+    String Address
+    String Telephone
+    String Email
+    Set Countries
+}
+
+class Product {
+    String ProductName
+    String Description
+    Double NetPrice
+    String Manufacturer
+    Set Countries
+    Double VATRate
+    String Currency
+    Double ConversionRate
+}
+
+class Order {
+    String OrderQuantity
+    String OrderDate
+    String DeliveryDate
+    Set Products
+}
+
+class Representative {
+    String Name
+    String Surname
+    String SocialSecurityNumber
+    String Telephone
+    String Email
+    Set Countries
+}
+
+class Country {
+    String Name
+}
+
+class ProductCategory {
+    String Name
+}
+
+Customer "1..*" - "0..1" Representative
+Representative "1..*" - "1..*" Country
+Customer "0..*" - "1..*" Order
+Order "1..*" -- "1..*" Product
+Product "1..*" -- "1..*" ProductCategory
+Product "1..*" -- "0..*" Country
+@enduml
+```

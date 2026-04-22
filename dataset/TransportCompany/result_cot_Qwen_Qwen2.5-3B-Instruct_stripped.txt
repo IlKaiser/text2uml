@@ -1,0 +1,65 @@
+@startuml
+atlas
+class Driver {
+  +name: String
+  +socialSecurityNumber: String
+}
+
+class Employee {
+  +name: String
+  +socialSecurityNumber: String
+  +password: String
+  +fieldOfActivity: String
+}
+
+class Planner {
+  +name: String
+  +password: String
+  +fieldOfActivity: String
+}
+
+class AdministrativeStaff {
+  +name: String
+  +password: String
+  +fieldOfActivity: String
+}
+
+class Customer {
+  +name: String
+  +billingAddress: String
+}
+
+class Vehicle {
+  +licensePlateNumber: String
+  +mileage: Int
+}
+
+class RepairShop {
+  +name: String
+  +address: String
+}
+
+class Order {
+  +planner: Planner
+  +driver: Driver
+  +vehicle: Vehicle
+  +customer: Customer
+  +pickupAddress: String
+  +deliveryAddress: String
+}
+
+Driver -- Employee : 1..1
+Employee -- Planner : 1..1
+Employee -- AdministrativeStaff : 1..1
+Customer -- Vehicle : 0..*
+Vehicle -- RepairShop : 1..1
+RepairShop -- Employee : 1..1
+RepairShop -- DurationCost : 1..1
+Order -- Planner : 1..1
+Order -- Driver : 1..1
+Order -- Vehicle : 1..1
+Order -- Customer : 0..1
+Order -- PickupAddress : 1..1
+Order -- DeliveryAddress : 1..1
+
+@enduml

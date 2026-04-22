@@ -1,0 +1,29 @@
+@startuml
+
+class Bank{
+    +void addCustomer(String firstName, String lastName)
+    +void addBranch()
+    +void openAccount(Customer owner, AccountType type)
+}
+
+class Customer{
+    -String firstName
+    -String lastName
+    +"1..5" Account
+}
+
+class Account{
+    -Customer owner
+    -int accountNumber
+    -double balance
+    -double overdraftLimit
+}
+
+enum AccountType {
+    CURRENT,
+    SAVINGS
+}
+
+Customer "1..*" -- "0..*" Account : owner
+Account "1" -- "1" AccountType : type
+@enduml

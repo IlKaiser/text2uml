@@ -1,32 +1,47 @@
 @startuml
-class Customer{}
-class Invoice{}
-class Pump{}
-class Tank{}
-class GasStation{}
-class RefuelTurn{}
-class RefuelCard{}
-class Nozzle{}
-class Payment{}
-class Bill{}
-class DailyReport{}
+class OilCompany
+class GasStation
+class Customer
+class RefuelTurn
+class CreditCard
+class PersonalCreditCard
+class RefuelCard
+class FuelCard
+class Invoice
+class MonthlyInvoice
+class Payment
+class DailyReport
+class Pump
+class Nozzle
+class Reservoir
+class Gasoline
+class GasStationManager
+class GasStationResponsible
+class Order
+class Car
 
-GasStation "1" -- "0..*" Pump
-Pump "1" -- "1" GasStation
-Pump "1" -- "1" Nozzle
-Nozzle "1" -- "1" Pump
-Pump "1" -- "1" Tank
-Tank "1" -- "1" Pump
-Customer "1" -- "0..*" RefuelTurn
-RefuelTurn "1" -- "1" Customer
-Pump "1" -- "0..*" RefuelTurn
-RefuelTurn "1" -- "1" Pump
-RefuelCard "1" -- "1" Customer
-Customer "0..1" -- "1" RefuelCard
-RefuelCard "0..*" -- "1" Invoice
-Invoice "1" -- "1" RefuelCard
-RefuelTurn "0..1" -- "1" Invoice
-Invoice "1" -- "0..*" RefuelTurn
-DailyReport "1" -- "0..*" Pump
-Pump "0..*" -- "1" DailyReport
+class Pump {
+  currentLevel: Float
+  reorderLevel: Float
+  quantityToOrder: Float
+  blocked: Boolean
+}
+OilCompany "0..*" -- "1..1" GasStation
+GasStation "1..*" -- "1..1" Pump
+Pump "1..1" -- "1..1" Nozzle
+Pump "1..1" -- "1..1" Reservoir
+Pump "1..1" -- "0..*" Gasoline
+DailyReport "0..*" -- "1..1" Pump
+RefuelTurn "1..1" -- "0..*" Pump
+RefuelTurn "1..1" -- "0..*" Nozzle
+FuelCard "0..*" -- "1..1" MonthlyInvoice
+Payment "0..*" -- "1..1" Invoice
+Customer "0..*" -- "1..1" Car
+Customer "0..*" -- "1..1" PersonalCreditCard
+Customer "0..*" -- "1..1" FuelCard
+Pump "0..*" -- "1..1" GasStationResponsible
+GasStation "1..1" -- "1..1" GasStationManager
+// NO OTHER ASSOCIATIONS DEFINED
+MonthlyInvoice --|> Invoice
+PersonalCreditCard --|> CreditCard
 @enduml

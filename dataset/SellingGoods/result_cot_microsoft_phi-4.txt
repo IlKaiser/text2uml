@@ -1,0 +1,71 @@
+```plantuml
+@startuml
+
+class Customer {
+  address: String
+  VATNumber: String
+}
+
+class Address
+
+class VATNumber
+
+class Product {
+  stockLevel: Int
+}
+
+class Stock {
+  product: String
+  quantity: Int
+}
+
+class Order {
+  paymentStatus: Boolean
+  shipmentStatus: String
+}
+
+class OrderLine {
+  quantity: Int
+  product: String
+  shipped: Boolean
+}
+
+class Payment
+
+class Delivery {
+  deliveryAddress: String
+  status: String
+}
+
+class WorkingDay
+
+class Shipment
+
+class Warehouse {
+  address: String
+}
+
+class Invoice {
+  paymentStatus: Boolean
+}
+
+class DeliveryStatus {
+  status: String
+}
+
+Customer "1..1" -- "1..1" Address
+Customer "1..1" -- "1..1" VATNumber
+Order "1..1" -- "1..1" Customer
+Order "1..1" -- "1..1" Payment
+Order "1..1" -- "1..1" Delivery
+Order "1..1" -- "0..1" Invoice
+OrderLine "1..*" -- "1..1" Order
+OrderLine "1..*" -- "1..1" Product
+Stock "1..1" -- "1..1" Product
+Delivery "1..1" -- "1..1" DeliveryStatus
+Shipment "1..*" -- "1..1" Order
+Shipment "1..*" -- "1..1" DeliveryStatus
+Warehouse "1..*" -- "1..1" Address
+
+@enduml
+```

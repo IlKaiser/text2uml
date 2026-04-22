@@ -1,0 +1,93 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: A school has a name. Teachers work there and students attend classes. Students and teachers have in common that their first and last names are recorded. Teachers' email addresses are also known. Students attend exactly one school, whereas a teacher can teach at a maximum of three schools. The number of hours for each such teaching relationship is known. Each school has exactly one principal, who is chosen from among the teachers. Although a teacher can teach at several schools, they can only be the principal of one school.
+In addition to the people working at the school, it also consists of a large number of rooms. These can be classrooms with a name and capacity, or other rooms such as a gym, which also have a name and a size specification in square meters. Between 10 and 31 students form a class group, which has a name (e.g., 5a). A student is always in exactly one class group. A class group is assigned to exactly one classroom and vice versa.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification. Let me break it down step by step.
+
+First, I'll identify all the classes. From the text, the main entities are School, Teacher, Student, Class, Room, and ClassGroup.
+
+Next, I'll extract the attributes for each class. 
+
+- School has a name.
+- Teacher has a name, email, and works at a school.
+- Student has a name, attends a school, and is in a class.
+- Class has a name and a group (like 5a).
+- Room has a name and a size (for gyms) or capacity (for classrooms).
+- ClassGroup has a name and is part of a class.
+
+Now, I'll look for the relationships. 
+
+- School has a principal, who is a Teacher.
+- Teachers can teach at multiple schools but are principals of only one.
+- Each school has exactly one principal.
+- Students attend exactly one school and are in exactly one class.
+- Class groups are assigned to classrooms, one-to-one.
+- Rooms include classrooms and gyms, each with their own attributes.
+
+I'll map these relationships using PlantUML syntax, ensuring cardinalities are correct. For example, a School has one Principal Teacher, so it's a one-to-one relationship. Teachers can teach multiple schools, so it's one-to-many. Students are many-to-one to schools and many-to-one to classes.
+
+I'll also note that Class is a subclass of ClassGroup, so I'll use inheritance in PlantUML.
+
+Finally, I'll structure the classes and relationships in the correct order, starting with all classes and then the relations, ensuring the cardinalities are accurately represented.
+</think>
+
+```plantuml
+@startuml
+
+class School{ String Name }
+class Teacher{ String Name, String Email }
+class Student{ String Name }
+class Class{ String Name, String Group }
+class Room{ String Name, If String Capacity Else String Size }
+class ClassGroup{ String Name }
+
+class Principal extends Teacher
+
+Principal "1:1" -> School
+
+Teacher "1:*" -> School
+Student "1:1" -> School
+Student "1:1" -> Class
+
+Class "1:1" -> ClassGroup
+ClassGroup "1:1" -> Class
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content }
+
+Book "1:1" -- "1:*" Page
+
+@enduml
+```

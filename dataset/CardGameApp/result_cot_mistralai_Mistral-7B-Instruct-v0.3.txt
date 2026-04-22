@@ -1,0 +1,367 @@
+<s>[INST] Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+You are in the process of designing a card game app for German clubs. You are thinking about the data structure of the system in more detail. You have been given the following specification of the system by the customer:
+A game consists of 4 players, a deck of cards and a scoring table. A deck consists of up to 48 cards. Cards have a comparison method for card height, which can return lower, equal or higher. The suits of the cards are diamonds, hearts, spades and clubs.
+The scoring table consists of any number of rounds, with each round containing the winning players and the point value. A round can be both a jack round and a solo round. In addition, mandatory solo rounds are a special case of solo rounds. Solo rounds have one type of solo, which can be a trump, jack or queen solo. In addition, solo rounds have exactly one solo player.
+Each object has a unique ID attribute, which ensures that it can be found.
+.
+
+##############
+
+The class list is:
+[/INST] [Game, Player, Deck, Card, ScoringTable, Round, SoloRound, MandatorySoloRound, TrumpSolo, JackSolo, QueenSolo, Solo]
+
+##############
+
+The cardinality list is:
+
+<s>[INST] Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+You are in the process of designing a card game app for German clubs. You are thinking about the data structure of the system in more detail. You have been given the following specification of the system by the customer:
+A game consists of 4 players, a deck of cards and a scoring table. A deck consists of up to 48 cards. Cards have a comparison method for card height, which can return lower, equal or higher. The suits of the cards are diamonds, hearts, spades and clubs.
+The scoring table consists of any number of rounds, with each round containing the winning players and the point value. A round can be both a jack round and a solo round. In addition, mandatory solo rounds are a special case of solo rounds. Solo rounds have one type of solo, which can be a trump, jack or queen solo. In addition, solo rounds have exactly one solo player.
+Each object has a unique ID attribute, which ensures that it can be found.
+
+
+##############
+
+The cardinality list is:
+[/INST] [("Game", "4", "Player"), ("Game", "48", "Card"), ("Card", "1", "ComparisonMethod"),
+("Card", "1..4", "Suit"), ("Game", "1", "ScoringTable"),
+("ScoringTable", "1..*", "Round"), ("Round", "1", "WinningPlayer"),
+("Round", "0..*", "PointValue"), ("Round", "1", "JackRound"),
+("Round", "1", "SoloRound"), ("SoloRound", "1", "Solo"),
+("SoloRound", "1", "SoloPlayer"), ("Solo", "1", "TypeOfSolo")]
+
+##############
+
+The attributes dictionary is:
+
+<s>[INST] Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+You are in the process of designing a card game app for German clubs. You are thinking about the data structure of the system in more detail. You have been given the following specification of the system by the customer:
+A game consists of 4 players, a deck of cards and a scoring table. A deck consists of up to 48 cards. Cards have a comparison method for card height, which can return lower, equal or higher. The suits of the cards are diamonds, hearts, spades and clubs.
+The scoring table consists of any number of rounds, with each round containing the winning players and the point value. A round can be both a jack round and a solo round. In addition, mandatory solo rounds are a special case of solo rounds. Solo rounds have one type of solo, which can be a trump, jack or queen solo. In addition, solo rounds have exactly one solo player.
+Each object has a unique ID attribute, which ensures that it can be found.
+.
+
+##############
+
+The class list is:
+[/INST] [Game, Player, Deck, Card, ScoringTable, Round, SoloRound, MandatorySoloRound, TrumpSolo, JackSolo, QueenSolo, Solo]
+
+#############
+
+The specification text is:
+
+You are in the process of designing a card game app for German clubs. You are thinking about the data structure of the system in more detail. You have been given the following specification of the system by the customer:
+A game consists of 4 players, a deck of cards and a scoring table. A deck consists of up to 48 cards. Cards have a comparison method for card height, which can return lower, equal or higher. The suits of the cards are diamonds, hearts, spades and clubs.
+The scoring table consists of any number of rounds, with each round containing the winning players and the point value. A round can be both a jack round and a solo round. In addition, mandatory solo rounds are a special case of solo rounds. Solo rounds have one type of solo, which can be a trump, jack or queen solo. In addition, solo rounds have exactly one solo player.
+Each object has a unique ID attribute, which ensures that it can be found.
+
+
+##############
+
+The attributes dictionary is:
+[/INST] {
+Game: ["uniqueID"],
+Player: ["uniqueID"],
+Deck: ["uniqueID", "cardCount", "cardSuit", "cardHeight"],
+Card: ["uniqueID", "cardSuit", "cardHeight"],
+ScoringTable: ["uniqueID"],
+Round: ["uniqueID", "winningPlayers", "pointValue"],
+SoloRound: ["uniqueID", "soloType", "soloPlayer"],
+MandatorySoloRound: ["uniqueID", "soloType", "soloPlayer"],
+TrumpSolo: ["uniqueID"],
+JackSolo: ["uniqueID"],
+QueenSolo: ["uniqueID"],
+Solo: ["uniqueID"]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+You are in the process of designing a card game app for German clubs. You are thinking about the data structure of the system in more detail. You have been given the following specification of the system by the customer:
+A game consists of 4 players, a deck of cards and a scoring table. A deck consists of up to 48 cards. Cards have a comparison method for card height, which can return lower, equal or higher. The suits of the cards are diamonds, hearts, spades and clubs.
+The scoring table consists of any number of rounds, with each round containing the winning players and the point value. A round can be both a jack round and a solo round. In addition, mandatory solo rounds are a special case of solo rounds. Solo rounds have one type of solo, which can be a trump, jack or queen solo. In addition, solo rounds have exactly one solo player.
+Each object has a unique ID attribute, which ensures that it can be found.
+.
+
+##############
+
+The class list is:
+[/INST] [Game, Player, Deck, Card, ScoringTable, Round, SoloRound, MandatorySoloRound, TrumpSolo, JackSolo, QueenSolo, Solo]
+
+#############
+
+The specification text is:
+
+You are in the process of designing a card game app for German clubs. You are thinking about the data structure of the system in more detail. You have been given the following specification of the system by the customer:
+A game consists of 4 players, a deck of cards and a scoring table. A deck consists of up to 48 cards. Cards have a comparison method for card height, which can return lower, equal or higher. The suits of the cards are diamonds, hearts, spades and clubs.
+The scoring table consists of any number of rounds, with each round containing the winning players and the point value. A round can be both a jack round and a solo round. In addition, mandatory solo rounds are a special case of solo rounds. Solo rounds have one type of solo, which can be a trump, jack or queen solo. In addition, solo rounds have exactly one solo player.
+Each object has a unique ID attribute, which ensures that it can be found.
+
+
+##############
+[/INST] ASSOCIATIONS:
+[
+  (Game, Player),
+  (Game, Deck),
+  (Game, ScoringTable),
+  (Deck, Card),
+  (ScoringTable, Round),
+  (Round, Player),
+  (Round, Solo),
+  (SoloRound, Solo),
+  (MandatorySoloRound, SoloRound),
+  (TrumpSolo, SoloRound),
+  (JackSolo, SoloRound),
+  (QueenSolo, SoloRound)
+]
+
+##############
+
+The plant uml is:
+[/INST] @startuml
+
+class Game {
+  - uniqueID
+  * Player (4)
+  * Deck
+  * ScoringTable
+}
+
+class Player {
+  - uniqueID
+}
+
+class Deck {
+  - uniqueID
+  * Card (0..48)
+}
+
+class Card {
+  - uniqueID
+  * cardSuit
+  * cardHeight
+}
+
+class ScoringTable {
+  - uniqueID
+  * Round (0..*)
+}
+
+class Round {
+  - uniqueID
+  * Player (1..*)
+  * pointValue
+  * Round (0..1) JackRound
+  * Solo (0..1) Solo
+}
+
+class SoloRound {
+  - uniqueID
+  * Solo (1)
+}
+
+class MandatorySoloRound {
+  - uniqueID
+  * Solo (1)
+  inherit SoloRound
+}
+
+class TrumpSolo {
+  - uniqueID
+  inherit Solo
+}
+
+class JackSolo {
+  - uniqueID
+  inherit Solo
+}
+
+class QueenSolo {
+  - uniqueID
+  inherit Solo
+}
+
+Game "4" -- "4" Player
+Game "1" -- "1" Deck
+Game "1" -- "1" ScoringTable
+Deck "0..48" -- "1" Card
+ScoringTable "0..*" -- "1..*" Round
+Round "1..*" -- "1..*" Player
+Round "0..1" -- "1" JackRound
+Round "0..1" -- "1" Solo
+SoloRound "1" -- "1" Solo
+MandatorySoloRound "1" -- "1" Solo
+TrumpSolo "1" -- "1" Solo
+JackSolo "1" -- "1" Solo
+QueenSolo "1" -- "1" Solo
+
+@enduml

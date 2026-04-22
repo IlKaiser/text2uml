@@ -1,36 +1,70 @@
-```
+```plantuml
 @startuml
-class BusCompany{}
-class Bus{}
-class BusLine{}
-class Trajectory{}
-class TownAuthority{}
-class Approval{}
-class Appeal{}
-class Category{}
-class MensoTicket{}
-class User{}
-class Card{}
-class TicketMachine{}
-class Trip{}
-class Invoice{}
-class Customer{}
-class Subscription{}
-class Discount{}
+class Bus {
+    line: String
+}
 
-BusCompany "0..*" -- "0..*" Bus
-BusCompany "0..*" -- "1..*" BusLine
-BusLine "1..1" -- "1..*" Trajectory
-Trajectory "1..1" -- "1..1" Approval
-Approval "0..*" -- "0..*" Appeal
-BusCompany "1..1" -- "0..*" Category
-User "1..1" -- "1..1" Card
+class Trajectory {
+    approval: Boolean
+    suspended: Boolean
+    cancelled: Boolean
+}
+
+class Line {
+    category: String
+}
+
+class SeasonTicket {
+    validity: Int
+    price: Float
+}
+
+class User {
+    homeAddress: String
+    officeAddress: String
+    workingHours: String
+}
+
+class Trip {
+    time: Date
+    date: Date
+    line: String
+}
+
+class Invoice {
+    amount: Float
+    discount: Float
+}
+
+class Customer {
+    homeAddress: String
+    officeAddress: String
+    workingHours: String
+}
+
+class BusCompany
+class BusLine
+class TownAuthority
+class Approval
+class TicketMachine
+class Category
+class Discount
+class Subscription
+
+Bus "1..1" -- "0..*" BusLine
+Trajectory "0..*" -- "1..1" Approval
+BusCompany "1..1" -- "0..*" Bus
+BusCompany "1..1" -- "0..*" Trajectory
+BusLine "1..1" -- "0..*" Trajectory
+BusLine "1..1" -- "1..1" Category
+User "1..1" -- "0..1" Card
 User "1..1" -- "0..*" Trip
 Trip "1..1" -- "1..1" BusLine
-Trip "0..*" -- "1..1" MensoTicket
-MensoTicket "1..1" -- "1..*" Invoice
-Customer "1..1" -- "0..*" Subscription
-Customer "1..1" -- "1..1" Discount
 Trip "1..1" -- "1..1" TicketMachine
+Trip "1..1" -- "1..1" Card
+Customer "1..1" -- "0..1" SeasonTicket
+Customer "1..1" -- "0..1" Subscription
+Trip "0..*" -- "1..1" Invoice
+Invoice "1..1" -- "0..1" Discount
 @enduml
 ```

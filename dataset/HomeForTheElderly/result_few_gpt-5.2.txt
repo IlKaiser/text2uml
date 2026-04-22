@@ -1,0 +1,125 @@
+@startuml
+
+class HomeForElderly {
+    String Name
+}
+class Department {
+    String Name
+}
+class Room {
+    String Number
+}
+class Bed {
+    String BedNumber
+    Boolean IsFree
+}
+class Category {
+    String Code
+    String Name
+    Double Price
+}
+class Person {
+    String FirstName
+    String LastName
+    Date RegistrationDate
+}
+class Inhabitant {
+    Date InhabitantSince
+}
+class Representative {
+    String Name
+    String Relationship
+}
+class Registration {
+    Date RegistrationDate
+    String Status
+}
+class Question {
+    String Text
+    String Type
+}
+class Answer {
+    String Value
+    Date AnswerDate
+}
+class Assessment {
+    Date AssessmentDate
+    String Result
+}
+class WaitingListEntry {
+    Date EntryDate
+    Int Position
+}
+class Proposal {
+    Date ProposalDate
+    Date ResponseDeadline
+    String Status
+}
+class Stay {
+    Date StartDate
+    Date EndDate
+    String Status
+    Boolean Suspended
+    Double Discount
+}
+class Invoice {
+    String Number
+    Date InvoiceDate
+    String Status
+    Double TotalAmount
+    Double OutstandingAmount
+}
+class InvoiceItem {
+    String Description
+    Double Amount
+}
+class PaymentEvent {
+    Date PaymentDate
+    Double Amount
+}
+class CreditNote {
+    String Number
+    Date DateIssued
+    Double Amount
+}
+class RefundEvent {
+    Date RefundDate
+    Double Amount
+}
+
+HomeForElderly "1..1" -- "0..*" Department
+Department "1..1" -- "0..*" Room
+Room "1..1" -- "0..*" Bed
+Bed "0..*" -- "1..1" Category
+
+Person "1..1" -- "0..1" Registration
+Registration "1..1" -- "0..*" Answer
+Question "1..1" -- "0..*" Answer
+
+Person "1..1" -- "0..*" Assessment
+Assessment "1..1" -- "1..1" Category
+
+Person "1..1" -- "0..*" WaitingListEntry
+WaitingListEntry "1..1" -- "1..1" Category
+
+WaitingListEntry "1..1" -- "0..*" Proposal
+Proposal "1..1" -- "1..1" Category
+Proposal "1..1" -- "0..1" Assessment
+
+Person "0..1" -- "0..1" Inhabitant
+Inhabitant "1..1" -- "0..*" Stay
+Stay "1..1" -- "1..1" Category
+Stay "1..1" -- "1..1" Bed
+Proposal "0..1" -- "0..1" Stay
+
+Inhabitant "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" InvoiceItem
+Stay "0..*" -- "0..*" InvoiceItem
+
+Invoice "1..1" -- "0..*" PaymentEvent
+Invoice "1..1" -- "0..*" CreditNote
+CreditNote "1..1" -- "0..*" RefundEvent
+
+Inhabitant "0..*" -- "0..*" Representative
+
+@enduml

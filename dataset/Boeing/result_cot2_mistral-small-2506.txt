@@ -1,38 +1,56 @@
 ```plantuml
 @startuml
 
-class Aircraft{}
-class AirlineCompany{}
-class SalesAgreement{}
-class Customer{}
-class Contract{}
-class Acquisition{}
-class Salesperson{}
-class Employee{}
-class AirplaneModel{}
-class Option{}
-class Customization{}
-class DeliveryCondition{}
-class LegalAspect{}
-class MotherDaughterRelationship{}
-class PartnerAirline{}
+class Boeing {
+}
 
-Aircraft "1..1" -- "1..1" AirplaneModel
+class Aircraft {
+}
+
+class AirlineCompany {
+}
+
+class SalesAgreement {
+}
+
+class Customer {
+}
+
+class Airplane {
+}
+
+class Contract {
+    delivery conditions: String
+    legal aspects: String
+}
+
+class Acquisition {
+    model: String
+    price: Float
+    options & customizations: String
+    delivery date: Date
+}
+
+class Salesperson {
+}
+
+class Employee {
+}
+
+class PartnerAirline {
+}
+
+Boeing "1..1" -- "0..*" SalesAgreement
 SalesAgreement "1..1" -- "1..1" Customer
 SalesAgreement "1..1" -- "1..1" Contract
-Contract "1..1" -- "0..*" Acquisition
-Acquisition "1..1" -- "1..1" AirplaneModel
-Acquisition "1..1" -- "0..*" Option
-Acquisition "1..1" -- "0..*" Customization
-Acquisition "1..1" -- "1..1" DeliveryCondition
-Contract "1..1" -- "1..1" DeliveryCondition
-Contract "1..1" -- "1..1" LegalAspect
+Contract "1..1" -- "1..*" Acquisition
+Acquisition "1..1" -- "1..1" Airplane
 Contract "1..1" -- "1..1" Salesperson
-Salesperson "1..1" -- "1..1" Employee
-Employee "1..1" -- "1..*" Salesperson
-AirlineCompany "1..1" -- "0..1" MotherDaughterRelationship
-MotherDaughterRelationship "1..1" -- "1..1" AirlineCompany
-AirlineCompany "1..1" -- "1..*" PartnerAirline
+Salesperson "1..1" -- "0..*" Contract
+AirlineCompany "0..*" -- "0..*" PartnerAirline
+
+Airplane --|> Aircraft
+Salesperson --|> Employee
 
 @enduml
 ```

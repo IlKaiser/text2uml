@@ -1,27 +1,50 @@
 ```plantuml
 @startuml
 
-class Sensor{}
-class SensorController{}
-class Inhabitant{}
-class Apartment{}
-class Room{}
-class SensorValue{}
-class EMonitor{}
-class Threshold{}
-class Email{}
+class Sensor {
+    vendor-id: String
+    description: String
+    unit: String
+    min: Float
+    max: Float
+}
 
-Sensor "1..1" -- "0..*" SensorController
-SensorController "1..*" -- "0..*" Inhabitant
-SensorController "1..1" -- "0..*" Apartment
-Apartment "1..*" -- "0..*" Inhabitant
-Apartment "1..*" -- "0..*" Room
-Room "1..*" -- "0..*" Sensor
-Sensor "1..*" -- "0..*" SensorValue
-Sensor "1..1" -- "0..*" Threshold
-SensorController "1..1" -- "0..*" EMonitor
-EMonitor "1..*" -- "0..*" Email
-Apartment "1..1" -- "0..*" Email
+class SensorValue {
+    timestamp: Date
+    value: Float
+}
+
+class Inhabitant {
+    username: String
+    password: String
+    email: String
+}
+
+class Apartment {
+    address: String
+}
+
+class Room {
+    description: String
+}
+
+class SensorController {
+}
+
+class EMonitor {
+}
+
+class Email {
+}
+
+Sensor "1..1" -- "1..*" Room.
+SensorController "1..1" -- "1..*" Apartment.
+Apartment "1..*" -- "1..*" Inhabitant.
+SensorController "1..*" -- "1..*" Sensor.
+Sensor "1..*" -- "1..*" SensorValue.
+EMonitor "1..*" -- "1..*" Sensor.
+EMonitor "1..*" -- "0..1" Email.
+Apartment "0..1" -- "0..1" Email.
 
 @enduml
 ```

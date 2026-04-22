@@ -1,0 +1,60 @@
+@startuml
+title Helping Hands Store Conceptual Model
+
+class Resident {
+    +name: String
+    +streetAddress: StreetAddress
+    +phoneNumber: PhoneNumber
+    +emailAddress: EmailAddress
+    +itemDescription: ItemDescription
+}
+
+class PickupSlot {
+    +pickupSlot: PickupSlot
+    +resident: Resident
+    +vehicle: Vehicle
+}
+
+class Vehicle {
+    +vehicleId: String
+    +storageSpace: StorageSpace
+    +dimensions: ItemDimensions
+    +weight: ItemWeight
+    +route: Route
+}
+
+class Route {
+    +routeId: String
+    +driverAvailability: DriverAvailability
+    +vehicle: Vehicle
+    +pickupSlots: PickupSlot[]
+}
+
+class DriverAvailability {
+    +availableDays: String
+    +vehicle: Vehicle
+}
+
+class StreetAddress {
+    +address: String
+    +resident: Resident
+}
+
+class SecondHandArticle {
+    +articleId: String
+    +description: ItemDescription
+    +category: Category
+    +rfidDevice: RFIDDevice
+}
+
+class DistributionCenterEmployee {
+    +employeeId: String
+    +secondHandArticle: SecondHandArticle
+}
+
+class ArticleCategoryNeeds {
+    +client: Client
+    +categories: Category[]
+}
+
+@enduml

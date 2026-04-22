@@ -1,0 +1,37 @@
+@startuml
+
+class Department {}
+class Room {}
+class Bed {}
+class Inhabitant {
+    String Name
+    String RegistrationDate
+}
+class BedCategory {
+    String Type
+    Double Price
+}
+class StayType {
+    String Type
+}
+class WaitingList {}
+class Proposal {}
+class Invoice {
+    Double OutstandingAmount
+}
+class Payment {}
+class CreditNote {}
+
+Inhabitant "1" -- "0..*" Bed
+Bed "1" -- "1" BedCategory
+Inhabitant "1" -- "0..*" StayType
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+Inhabitant "1" -- "0..*" WaitingList
+WaitingList "1" -- "0..*" Proposal
+Proposal "1" -- "0..1" Inhabitant
+Inhabitant "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Invoice "1" -- "0..*" CreditNote
+
+@enduml

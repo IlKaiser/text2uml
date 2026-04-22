@@ -1,35 +1,38 @@
 @startuml
 
-class Designer{}
-class Game{}
-class Board{}
-class Tile{}
-class HiddenTile{}
-class ActionTile{}
-class ConnectionPiece{}
-class PileOfSpareConnectionPieces{}
-class Player{}
-class PlayingPiece{}
-class Die{}
-class ActionCardDeck{}
-class ActionCard{}
-class StartingPosition{}
+class TileOApplication { String Name, Game CurrentGame }
+class Designer { String Name }
+class Game { String Title, int MinPlayers, int MaxPlayers, boolean IsActive, Tile HiddenTile }
+class Board { int Width, int Height }
+class Tile { int X, int Y, String Color, boolean Visited }
+class ActionTile { int TurnsUntilRegular }
+class HiddenTile { }
+class RegularTile { }
+class ConnectionPiece { String Id }
+class ConnectionPiecePile { int Count }
+class Deck { int Size }
+class ActionCard { String ActionType, String Instruction }
+class Player { String Name, int PlayerNumber, String Color, boolean SkipNextTurn }
+class PlayingPiece { String Color }
+class Die { int Sides }
 
-Designer "0..*" -- "1..1" Game
+Tile <|-- ActionTile
+Tile <|-- HiddenTile
+Tile <|-- RegularTile
+
+TileOApplication "1..1" -- "0..1" Game
+Designer "1..1" -- "0..*" Game
 Game "1..1" -- "1..1" Board
-Board "1..1" -- "1..*" Tile
-Tile "0..*" -- "0..*" ConnectionPiece
-PileOfSpareConnectionPieces "0..1" -- "0..*" ConnectionPiece
+Board "1..1" -- "0..*" Tile
+Tile "2..2" -- "0..4" ConnectionPiece
+Game "1..1" -- "1..1" Deck
+Deck "1..1" -- "32..32" ActionCard
 Game "1..1" -- "2..4" Player
 Player "1..1" -- "1..1" PlayingPiece
+Player "0..4" -- "1..1" Tile
+PlayingPiece "0..4" -- "1..1" Tile
+Game "1..1" -- "1..1" ConnectionPiecePile
+ConnectionPiecePile "1..1" -- "0..*" ConnectionPiece
 Game "1..1" -- "1..1" Die
-Game "1..1" -- "1..1" ActionCardDeck
-ActionCardDeck "1..1" -- "32..32" ActionCard
-ActionTile "0..*" -- "1..1" ActionCardDeck
-HiddenTile "1..1" -- "1..1" Tile
-ActionTile "0..*" -- "1..1" Tile
-StartingPosition "0..*" -- "1..1" Player
-StartingPosition "0..*" -- "1..1" Tile
-Game "1..1" -- "0..*" StartingPosition
 
 @enduml

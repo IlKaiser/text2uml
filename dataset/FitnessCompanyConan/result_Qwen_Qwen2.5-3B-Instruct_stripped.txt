@@ -1,0 +1,1574 @@
+@startuml
+
+class Person{
+    +String firstName
+    +String lastName
+    +Date birthDate
+    +String diploma
+}
+
+class Trainer extends Person{}
+
+class ProspectivePerson extends Person{}
+
+class GroupSession{
+    +String type
+    +Date date
+    +Time startTime
+    +Trainer trainer
+}
+
+class IndividualSession{}
+
+class Center{
+    +String name
+    +Address address
+    +Room[] rooms
+    +int maxCapacity
+    +int roomNumber
+}
+
+class Room{
+    +int roomNumber
+    +int maxCapacity
+}
+
+class Session{
+    +Date date
+    +Time startTime
+    +Center center
+    +Room room
+    +GroupSession groupSession
+    +IndividualSession individualSession
+}
+
+Person "0..*" -- "1..*" ProspectivePerson
+Person "1.." -- "1.." Trainer
+Person "1.." -- "1.." GroupSession.trainer
+Person "1.." -- "1.." IndividualSession
+Person "1.." -- "1.." GroupSession.groupSession
+Person "1.." -- "1.." Session.individualSession
+Person "1.." -- "1.." Session.center
+Person "1.." -- "1.." Session.room
+Person "1.." -- "1.." Center.rooms
+Person "1.." -- "1.." Center.address
+Person "1.." -- "1.." GroupSession.date
+Person "1.." -- "1.." GroupSession.startTime
+Person "1.." -- "1.." GroupSession.type
+Person "1.." -- "1.." IndividualSession.date
+Person "1.." -- "1.." IndividualSession.startTime
+Person "1.." -- "1.." IndividualSession.sessionType
+Person "1.." -- "1.." GroupSession.sessionType
+Person "1.." -- "1.." Session.sessionType
+Person "1.." -- "1.." Session.center
+Person "1.." -- "1.." Session.room
+Person "1.." -- "1.." Center.name
+Person "1.." -- "1.." Center.address
+Person "1.." -- "1.." Center.rooms
+Person "1.." -- "1.." Center.maxCapacity
+Person "1.." -- "1.." Center.roomNumber
+
+ProspectivePerson "0..*" -- "1.." Person.firstName
+ProspectivePerson "0..*" -- "1.." Person.lastName
+ProspectivePerson "0..*" -- "1.." Person.birthDate
+ProspectivePerson "0..*" -- "1.." Person.diploma
+
+Trainer "0..*" -- "1.." Person.firstName
+Trainer "0..*" -- "1.." Person.lastName
+Trainer "0..*" -- "1.." Person.birthDate
+Trainer "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." Trainer.firstName
+GroupSession "0..*" -- "1.." Trainer.lastName
+GroupSession "0..*" -- "1.." Trainer.birthDate
+GroupSession "0..*" -- "1.." Trainer.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." IndividualSession.firstName
+GroupSession "0..*" -- "1.." IndividualSession.lastName
+GroupSession "0..*" -- "1.." IndividualSession.birthDate
+GroupSession "0..*" -- "1.." IndividualSession.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession "0..*" -- "1.." ProspectivePerson.diploma
+
+GroupSession "0..*" -- "1.." Person.firstName
+GroupSession "0..*" -- "1.." Person.lastName
+GroupSession "0..*" -- "1.." Person.birthDate
+GroupSession "0..*" -- "1.." Person.diploma
+
+GroupSession "0..*" -- "1.." ProspectivePerson.firstName
+GroupSession "0..*" -- "1.." ProspectivePerson.lastName
+GroupSession "0..*" -- "1.." ProspectivePerson.birthDate
+GroupSession

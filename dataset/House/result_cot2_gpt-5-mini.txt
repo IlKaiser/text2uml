@@ -1,20 +1,49 @@
 @startuml
-class House{}
-class Address{}
-class Basement{}
-class EarthBasement{}
-class ConcreteBasement{}
-class SemiDetachedHouse{}
-class Carport{}
-class Garage{}
-class Company{}
-class JobLog{}
+class House {
+  address: String
+  buildingMaterial: String
+}
+class SemiDetachedHouse {
+  hasOwnGarden: Boolean
+  numberOfWindows: Int
+}
+class Basement {
+  size: Float
+  name: String
+}
+class EarthBasement {
+  humidityLevel: Float
+}
+class ConcreteBasement
+class BuildingMaterial
+class Carport {
+  isDouble: Boolean
+  hasFlatRoof: Boolean
+}
+class Garage {
+  hasAutomaticDoor: Boolean
+}
+class Address
+class Company {
+  name: String
+  address: String
+}
+class JobLogEntry {
+  hours: Float
+  price: Float
+}
 
 House "1..1" -- "1..1" Address
-House "0..1" -- "1..1" Basement
-SemiDetachedHouse "0..*" -- "1..1" Carport
-SemiDetachedHouse "0..1" -- "1..1" Garage
-House "0..*" -- "1..1" JobLog
-Company "0..*" -- "1..1" JobLog
 Company "1..1" -- "1..1" Address
+House "1..1" -- "1..1" BuildingMaterial
+House "1..1" -- "0..1" Basement
+SemiDetachedHouse "1..1" -- "0..*" Carport
+SemiDetachedHouse "1..1" -- "0..1" Garage
+House "1..1" -- "1..*" Company
+Company "1..1" -- "0..*" JobLogEntry
+House "1..1" -- "0..*" JobLogEntry
+
+SemiDetachedHouse --|> House
+EarthBasement --|> Basement
+ConcreteBasement --|> Basement
 @enduml

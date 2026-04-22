@@ -1,0 +1,54 @@
+```plantuml
+@startuml
+
+class Person {
+    String FirstName
+    String FamilyName
+    Date BirthDate
+}
+
+class Trainer extends Person {
+    String Diploma
+}
+
+class Member extends Person {}
+
+class Center {
+    String Name
+    String Address
+}
+
+class Room {
+    Int Number
+    Int MaxCapacity
+}
+
+class Session {
+    Date Date
+    Time StartingHour
+}
+
+class GroupSession extends Session {
+    String Type
+}
+
+class IndividualSession extends Session {}
+
+class Participation {
+    Date Date
+    Time StartingHour
+}
+
+Person "0..*" -- "0..*" Trainer
+Person "0..*" -- "0..*" Member
+Center "1" -- "0..*" Room
+Center "1" -- "0..*" Session
+Room "1" -- "0..*" GroupSession
+Room "1" -- "0..*" IndividualSession
+Trainer "0..*" -- "1" GroupSession
+Member "0..*" -- "0..*" Participation
+Participation "1" -- "1" Session
+Participation "1" -- "1" Member
+
+@enduml
+```

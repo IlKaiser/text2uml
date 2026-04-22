@@ -1,18 +1,19 @@
-
+```plantuml
 @startuml
 
-class University{}
-class ResearchGroup{}
-class Department{}
-class Researcher{}
-class Project{}
-class WorkPackage{}
+class University
+class ResearchGroup
+class Department
+class Researcher
+class Project
+class WorkPackage
 
-University "1..1" -- "1..*" ResearchGroup
-ResearchGroup "1..*" -- "1..1" Department
-ResearchGroup "1..*" -- "1..*" Researcher
-Project "1..*" -- "1..*" WorkPackage
-WorkPackage "1..1" -- "1..*" ResearchGroup
-Researcher "1..*" -- "0..*" WorkPackage
+University "1" -- "0..*" ResearchGroup
+ResearchGroup "1..*" -- "1" Department
+ResearchGroup "1..*" -- "1" Researcher
+Project -- "0..*" WorkPackage
+WorkPackage "1" -- "1" ResearchGroup : is led by
+Researcher "0..*" -- "0..*" WorkPackage : is assigned to
 
 @enduml
+```

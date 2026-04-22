@@ -1,0 +1,106 @@
+Here is the UML output for the given specification text:
+
+```plantuml
+@startuml
+
+class Customer {
+    String Name
+    String Address
+    String VATNumber
+}
+
+class Product {
+    String Name
+    Double QuantityInStock
+}
+
+class OrderLine {
+    Int Quantity
+    Product Product
+}
+
+class Order {
+    Int OrderNumber
+    Date OrderDate
+    List<OrderLine> OrderLines
+}
+
+class Payment {
+    Int PaymentNumber
+    Date PaymentDate
+    Double Amount
+}
+
+class Delivery {
+    Int DeliveryNumber
+    Date DeliveryDate
+    String Status
+    List<OrderLine> OrderLines
+}
+
+class Warehouse {
+    String Name
+    String Address
+}
+
+class Supermarket {
+    String Name
+    String Address
+    List<Warehouse> Warehouses
+}
+
+class Invoice {
+    Int InvoiceNumber
+    Date InvoiceDate
+    Double TotalAmount
+    List<OrderLine> OrderLines
+}
+
+class OrderStatus {
+    String Status
+}
+
+class PaymentMethod {
+    String Type
+}
+
+class OrderStatusHistory {
+    Int OrderNumber
+    OrderStatus Status
+    Date Date
+}
+
+class DeliveryStatusHistory {
+    Int DeliveryNumber
+    DeliveryStatus Status
+    Date Date
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "0..*" OrderLine
+OrderLine "1" -- "0..*" Product
+Order "1" -- "0..*" Payment
+Payment "1" -- "0..*" Order
+Order "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" OrderLine
+Order "1" -- "0..*" Delivery
+Delivery "1" -- "0..*" OrderLine
+Delivery "1" -- "0..*" Warehouse
+Warehouse "1" -- "0..*" Supermarket
+Supermarket "1" -- "0..*" Order
+Order "1" -- "0..*" OrderStatusHistory
+Order "1" -- "0..*" DeliveryStatusHistory
+OrderLine "1" -- "0..*" OrderStatusHistory
+OrderLine "1" -- "0..*" DeliveryStatusHistory
+Product "0..*" OrderLine
+Product "0..*" OrderStatusHistory
+Product "0..*" DeliveryStatusHistory
+PaymentMethod "0..*" Payment
+PaymentMethod "0..*" Invoice
+PaymentMethod "0..*" Order
+OrderStatus "0..*" Order
+OrderStatus "0..*" OrderStatusHistory
+DeliveryStatus "0..*" Delivery
+DeliveryStatus "0..*" DeliveryStatusHistory
+@enduml
+```

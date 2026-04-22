@@ -1,0 +1,48 @@
+```plantuml
+@startuml
+class Traveller {
+    - name : String
+    - billingInformation : String
+    - travelPreferences : String
+    - reliabilityRating : Float
+}
+
+class Hotel {
+    - city : String
+    - address : String
+    - hotelChain : String
+}
+
+class Booking {
+    - price : Float
+    - cityArea : String
+    - hotelRating : Int
+    - preferences : String
+    - bookingIdentifier : String
+    - cancellationDeadline : Date
+    - paymentType : String
+}
+
+class Offer {
+    - price : Float
+    - hotelRating : Int
+    - preferences : String
+}
+
+class City {
+}
+
+class Room {
+    - type : String
+}
+
+Traveller "1" -- "*" Booking : makes
+Hotel "1" -- "*" Booking : manages
+Hotel "1" -- "1" City : located_in
+Booking "1" -- "*" Offer : includes
+Traveller "1" -- "*" Offer : receives
+Hotel "1" -- "*" Room : offers
+Booking "1" -- "*" Room : contains
+
+@enduml
+```

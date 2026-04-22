@@ -1,0 +1,56 @@
+```plantuml
+@startuml
+
+class Sober {
+    String Name
+}
+
+class SelfDrivingCar {
+    String LicensePlate
+    String Model
+    String Manufacturer
+}
+
+class CarOwner {
+    String Name
+    String ContactInfo
+}
+
+class RideHailService {
+    DateTime PickupTime
+    DateTime DropOffTime
+    String PickupLocation
+    String DropOffLocation
+    int RideDuration
+    double Distance
+    int NumberOfPassengers
+    double Fee
+    String RequestType
+    String LeadCustomerName
+}
+
+class RideShareService {
+    DateTime PickupTime
+    DateTime DropOffTime
+    String PickupLocation
+    String DropOffLocation
+    int RideDuration
+    double Distance
+    List<String> CustomerNames
+    double Fee
+}
+
+class Accident {
+    DateTime AccidentDate
+    String Location
+    double DamageAmount
+}
+
+Sober "1" -- "0..*" SelfDrivingCar
+SelfDrivingCar "1" -- "1" CarOwner
+SelfDrivingCar "1" -- "0..*" RideHailService
+SelfDrivingCar "1" -- "0..*" RideShareService
+SelfDrivingCar "1" -- "0..*" Accident
+
+@enduml
+```

@@ -1,19 +1,38 @@
 @startuml
-class Game{}
-class Board{}
-class Tile{}
-class ConnectionPiece{}
-class ActionCard{}
-class Deck{}
-class Player{}
-class PlayingPiece{}
-class Die{}
-class HiddenTile{}
 
-Board "1" -- "0..*" Tile
+class Designer{ String Name }
+
+class Game{ String Status, int CurrentTurn, Board Board, Deck ActionDeck, List<Player> Players }
+
+class Board{ String Name, List<Tile> Tiles, List<StartingPosition> StartingPositions, List<ConnectionPiece> Connections }
+
+class Tile{ String Color, Boolean Visited, Boolean Hidden, Boolean IsActionTile, Integer TurnsUntilRegular }
+
+class ConnectionPiece{ Tile TileA, Tile TileB, String SideA, String SideB }
+
+class StartingPosition{ Player Player, Tile Tile, int Order }
+
+class ActionCard{ String Type }
+
+class Deck{ List<ActionCard> Cards }
+
+class Player{ String Name, String PieceColor }
+
+class PlayingPiece{ String PieceColor, Tile CurrentTile, Player Owner }
+
+@enduml
+
+@startuml
+Designer "1" -- "0..*" Game
+Game "1" -- "1" Board
+Board "0..*" -- "1" Tile
 Tile "0..*" -- "0..*" ConnectionPiece
-ConnectionPiece "1" -- "2" Tile
-Deck "1" -- "0..*" ActionCard
-Player "1" -- "1..*" PlayingPiece
-Tile "0..1" -- "0..1" HiddenTile
+Board "0..*" -- "1" StartingPosition
+StartingPosition "1" -- "1" Player
+StartingPosition "1" -- "1" Tile
+Game "1" -- "1" Deck
+Deck "0..*" -- "1" ActionCard
+Game "0..*" -- "1" Player
+Player "1" -- "0..1" PlayingPiece
+PlayingPiece "1" -- "1" Tile
 @enduml

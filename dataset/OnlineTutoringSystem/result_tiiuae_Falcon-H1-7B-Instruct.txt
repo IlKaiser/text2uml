@@ -1,0 +1,24 @@
+@startuml
+
+class OTS { }
+class Student { String Name, String Email }
+class Tutor { String Name, String Email, String BankAccount }
+class Subject { String Name }
+class TutoringOffer { String ExpertiseLevel, Float HourlyPrice }
+class Availability { String Day, Time StartTime, Time EndTime }
+class TutoringRequest { Subject Subject, String ExpertiseLevel, Date Time }
+class TutoringSession { Date Time, Float Price }
+class Payment { String Method }
+class TutorOfTheMonthAward { }
+
+Student "0..*" -- "0..*" TutoringRequest
+Tutor "0..*" -- "0..*" TutoringRequest
+Tutor "0..*" -- "0..*" TutoringOffer
+Tutor "0..*" -- "0..*" Availability
+Subject "1..*" -- "0..*" TutoringOffer
+TutoringOffer "1" -- "0..*" TutoringRequest
+TutoringRequest "1" -- "1" TutoringSession
+TutoringSession "1" -- "0..*" Payment
+Tutor "0..*" -- "0..*" TutorOfTheMonthAward
+
+@enduml

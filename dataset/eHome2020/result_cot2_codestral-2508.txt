@@ -1,23 +1,60 @@
 ```plantuml
 @startuml
-class Apartment{}
-class Inhabitant{}
-class Sensor{}
-class SensorController{}
-class Room{}
-class MeasuredValue{}
-class Threshold{}
-class AlertMessage{}
-class EMonitor{}
 
-Apartment "0..*" -- "1..*" Room
-Room "1..1" -- "1..*" Sensor
-Sensor "1..*" -- "0..*" MeasuredValue
-Sensor "1..1" -- "1..1" Threshold
-Apartment "1..1" -- "0..*" Inhabitant
-Inhabitant "1..1" -- "0..1" AlertMessage
+class SensorController {
+    username: String
+    password: String
+}
+
+class Apartment {
+    address: String
+}
+
+class Inhabitant {
+    username: String
+    password: String
+    adminRights: Boolean
+    email: String
+}
+
+class Sensor {
+    vendorId: String
+    description: String
+    unit: String
+    min: Float
+    max: Float
+    totalPowerConsumption: Float
+}
+
+class Room {
+    description: String
+}
+
+class EMonitor {
+    email: String
+}
+
+class AlertMessage {
+    message: String
+    timestamp: Date
+}
+
+class Threshold {
+    value: Float
+}
+
+class SoftwareCompany
+class ProjectManager
+
 SensorController "1..1" -- "0..*" Sensor
 SensorController "1..1" -- "1..1" Apartment
-SensorController "1..1" -- "1..1" EMonitor
+Apartment "1..1" -- "0..*" Inhabitant
+Apartment "1..1" -- "0..1" EMonitor
+SensorController "1..1" -- "0..*" AlertMessage
+Inhabitant "1..1" -- "0..*" Threshold
+Sensor "1..1" -- "1..1" Threshold
+Sensor "1..1" -- "1..*" Room
+Room "1..1" -- "0..*" Sensor
+
 @enduml
 ```

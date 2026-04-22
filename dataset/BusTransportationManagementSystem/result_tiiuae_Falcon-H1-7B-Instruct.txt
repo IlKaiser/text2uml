@@ -1,0 +1,24 @@
+@startuml
+
+class City{ String Name }
+class BTMS{ }
+class Driver{ String Name, Boolean IsSickLeave, String UniqueID }
+class BusRoute{ String UniqueNumber, Int MaxNumber }
+class Bus{ String LicencePlate, Boolean InRepairShop }
+class Shift{ String Type }
+class Schedule{ Date Date, Bus Route, Driver, Shift }
+
+City "1" -- "*" BTMS
+BTMS "1" -- "*" Driver
+BTMS "1" -- "*" BusRoute
+BTMS "1" -- "*" Bus
+BTMS "1" -- "*" Shift
+BTMS "1" -- "*" Schedule
+
+BusRoute "0..*" -- "*" Schedule
+Bus "0..*" -- "*" Schedule
+
+Driver "0..*" -- "*" Schedule
+Bus "0..*" -- "*" Schedule
+
+@enduml

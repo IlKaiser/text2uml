@@ -1,23 +1,67 @@
 @startuml
 
-class WebPortal {}
-class Building {}
-class User {}
-class Administrator {}
-class Visitor {}
-class AdditionalEntry {}
-class Image {}
-class Comment {}
+class WebPortal {
+  String versionNumber
+  String urlAddress
+}
 
-WebPortal "1..1" -- "1..*" Building
+class Building {
+  String uniqueID
+  String name
+  String energyClass
+  String address
+  Integer yearOfConstruction
+}
+
+class User {
+  String uniqueUserName
+  String emailAddress
+  String password
+}
+
+class Administrator {
+  String idCardNumber
+}
+
+class AdditionalEntry {
+  String name
+  Boolean isPubliclyReleased
+}
+
+class TextualEntry {
+  String textContent
+}
+
+class NumericalEntry {
+  Float floatingPointNumber
+  String unit
+}
+
+class Image {
+  String fileName
+}
+
+class Comment {
+  String content
+}
+
+class Search {
+  String fullTextQuery
+}
+
+User <|-- Administrator
+AdditionalEntry <|-- TextualEntry
+AdditionalEntry <|-- NumericalEntry
+
+WebPortal "1..1" -- "0..*" Building
 WebPortal "1..1" -- "0..*" User
 Building "1..1" -- "1..1" User
 Building "1..1" -- "0..*" AdditionalEntry
 Building "1..1" -- "1..*" Image
+User "0..*" -- "0..*" Comment
 Building "1..1" -- "0..*" Comment
-User "1..1" -- "0..*" Comment
-Administrator --|> User
-Visitor --|> User
-User "0..*" -- "0..*" Building
+Administrator "0..*" -- "0..*" User
+Administrator "0..*" -- "0..*" Comment
+Search "0..*" -- "0..*" Building
 
 @enduml

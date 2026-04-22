@@ -1,18 +1,26 @@
 @startuml
-class User{}
-class Player{}
-class Game{}
-class Block{}
-class Level{}
-class HallOfFame{}
-class Score{}
 
-User "1" -- "1" Player
-Game "1" -- "1" User
-Game "1" -- "1..*" Block
-Game "1" -- "1..*" Level
-Level "1" -- "1..*" Block
-HallOfFame "1" -- "0..*" Score
-Score "1" -- "1" Player
-Score "1" -- "1" Game
+class User{ String Username, String Password }
+class Game{ String Name, int MinSpeed, int SpeedIncreaseFactor, int MaxPaddleLength, int MinPaddleLength }
+class Block{ String Color, int Points }
+class Level{ int Number }
+class LevelBlockPlacement{ Level level, Block block, int X, int Y }
+class Score{ int Points, Date AchievedDate }
+class PlayerRole{ User user, Game game }
+class AdminRole{ User user, Game game }
+
+User "0..*" -- "1" Score
+Game "0..*" -- "1" Score
+
+Game "1" -- "0..*" Level
+Level "1" -- "0..*" LevelBlockPlacement
+Block "0..*" -- "0..*" LevelBlockPlacement
+
+Game "1" -- "0..*" Block
+Game "1" -- "0..*" PlayerRole
+User "0..*" -- "1" PlayerRole
+
+Game "1" -- "0..1" AdminRole
+User "0..*" -- "1" AdminRole
+
 @enduml

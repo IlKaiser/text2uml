@@ -1,20 +1,55 @@
 
 @startuml
-class Conan{}
-class FitnessCenter{}
-class Room{}
-class Member{}
-class Trainer{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
 
-Conan "1..*" -- "1..*" FitnessCenter.
-FitnessCenter "1..*" -- "1..*" Room.
-FitnessCenter "1..*" -- "0..*" Member.
-FitnessCenter "1..*" -- "0..*" Trainer.
-Session "1..*" -- "1..*" GroupSession.
-Session "1..*" -- "1..*" IndividualSession.
-Member "0..*" -- "1..*" Session.
-Trainer "0..*" -- "1..*" Session.
+class FitnessCompany {
+}
+
+class Member {
+    firstName: String
+    lastName: String
+    birthDate: Date
+}
+
+class Trainer {
+    firstName: String
+    lastName: String
+    birthDate: Date
+    diploma: String
+}
+
+class FitnessCenter {
+    name: String
+    address: String
+}
+
+class Room {
+    number: Int
+    maxCapacity: Int
+}
+
+class Session {
+    date: Date
+    startingHour: Float
+}
+
+class IndividualSession {
+}
+
+class GroupSession {
+    type: String
+}
+
+class Person {
+    firstName: String
+    lastName: String
+    birthDate: Date
+}
+
+FitnessCompany "1..*" -- "1..*" FitnessCenter
+FitnessCenter "1..*" -- "1..*" Room
+FitnessCenter "1..*" -- "1..*" Session
+Member "0..*" -- "1..*" Session
+Trainer "0..*" -- "1..*" Session
+Person "0..*" -- "1..*" Session
+
 @enduml

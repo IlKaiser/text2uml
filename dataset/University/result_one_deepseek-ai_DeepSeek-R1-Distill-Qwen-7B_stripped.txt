@@ -1,0 +1,201 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+A university consists of several faculties, which are made up of various institutes. Each faculty and institute has a name. The address of each institute is known. 
+Each faculty is headed by a dean, who is an employee of the university. 
+The total number of employees is known. Employees have a social security number, a name, and an email address. A distinction is made between research and administrative staff. 
+Research assistants (RA) are assigned to at least one institute. The field of research of each RA is known. In addition, RAs can be involved in projects for a certain number of hours, whereby the name, start and end dates of the projects are known. Some RAs teach courses. In this case, they are referred to as lecturers. 
+Courses have a unique number (ID), a name and a weekly duration in hours.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification text. Let me start by carefully reading the text to understand the entities and their relationships.
+
+First, the text mentions a university that consists of several faculties and institutes. Each faculty and institute has a name, and the address of each institute is known. So, I'll create classes for University, Faculty, and Institute. Each of these will have a name attribute. For the University, I might include a total number of employees, so maybe a multiplicity like 0..* for the number of employees. Faculty and Institute each have a single name, so their attributes will be String Name.
+
+Next, each faculty is headed by a dean, who is an employee of the university. So, the Dean is an Employee associated with a Faculty. I'll create a class Employee with attributes like Social Security Number, Name, Email, and a Boolean to distinguish between Research and Administrative staff. The relationship between Dean and Faculty will be a one-to-one association since each faculty has one dean, and each dean is associated with one faculty.
+
+Then, the total number of employees is known, so the University class will have a multiplicity of 0..* for Employees. Employees can be either Research or Administrative, so I'll include a Boolean attribute for that.
+
+Moving on, Research Assistants (RA) are assigned to at least one institute. Each RA has a field of research and can be involved in projects for a certain number of hours. Some RAs teach courses, referred to as lecturers. So, I'll create a class RA with attributes for Name, Email, Research Field, and Hours. The relationship between RA and Institute will be one-to-many because an RA can be assigned to multiple institutes. Also, RAs can be Employees, so RA will inherit from Employee. Additionally, RAs can be Lecturers, so there's a separate class Lecturer that inherits from Employee as well.
+
+Courses have a unique ID, name, and weekly duration. So, the Course class will have String ID, String Name, and Double Hours. Since courses are taught by RAs or Lecturers, the relationship between Course and RA or Lecturer will be one-to-one. I'll use a multiplicity of 1..1 for simplicity, assuming each RA or Lecturer teaches one course, but it could be extended.
+
+Putting it all together, I'll start by defining the University class with its attributes and relationships. Then, define Faculty and Institute, each with their own attributes and the relationship to University through Dean. Next, the Employee class with its attributes and the relationship to University. Then, handle RAs and Lecturers, their attributes, and their relationships to Courses. Finally, define the Course class and its relationships to RAs and Lecturers.
+
+I need to make sure to use bi-directional arcs for relationships and assign the correct cardinality. For example, Faculty has one Dean, so it's a one-to-one relationship. RAs can be assigned to multiple institutes, so that's one-to-many. Courses are taught by either RAs or Lecturers, so each Course has one teacher, making it one-to-one.
+
+I think that covers all the entities and their relationships. Now, I'll structure the PlantUML code accordingly, starting with all the classes and then the relations.
+</think>
+
+@startuml
+
+class University {
+    String Name
+    int TotalNumberOfEmployees
+    class Employee {
+        String SocialSecurityNumber
+        String Name
+        String Email
+        Boolean ResearchOrAdministrative
+    }
+    class Faculty {
+        String Name
+        class Institute {
+            String Name
+            String Address
+        }
+    }
+    class Dean {
+        String Name
+        connected to University
+    }
+    class RA {
+        String Name
+        String Email
+        String ResearchField
+        Integer Hours
+        connected to Institute
+    }
+    class Lecturer {
+        String Name
+        String Email
+        connected to Course
+    }
+    class Course {
+        String ID
+        String Name
+        Double Hours
+    }
+}
+
+University "0..*" -- "1" Employee
+University "1" -- "1" Faculty
+Faculty "1" -- "1" Institute
+Faculty "1" -- "1" Dean
+RA "1" -- "0..*" Institute
+RA "1" -- "1" Lecturer
+Lecturer "1" -- "1" Course
+Course "1" -- "1" RA
+Course "1" -- "1" Lecturer
+
+@enduml

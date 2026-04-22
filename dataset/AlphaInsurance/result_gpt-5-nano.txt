@@ -1,20 +1,26 @@
 @startuml
-class Customer{}
-class Broker{}
-class InsuranceProduct{}
-class Offer{}
-class Contract{}
-class Invoice{}
-class Claim{}
-class Estimator{}
-class Report{}
 
-Customer "1" -- "0..*" Broker
-Customer "0..*" -- "0..*" InsuranceProduct
-InsuranceProduct "1" -- "0..*" Contract
-Offer "0..1" -- "1" Contract
+class Customer{ String CustomerID, String Name, String Email, String Phone }
+class Broker{ String BrokerID, String Name, String Email, String Phone }
+class Contract{ String ContractID, Date CreatedDate, Date StartDate, Date EndDate, String Status, String PaymentPeriod }
+class InsuranceProduct{ String ProductID, String ProductName, String ProductType, Double Price }
+class Policy{ String PolicyID, Date StartDate, Date EndDate, String Status }
+class Claim{ String ClaimID, Date DateSubmitted, String Description, String Status }
+class Estimator{ String EstimatorID, String Name, String AreaOfExpertise }
+class EstimatorReport{ String ReportID, Date CreatedDate, String Content, String AreaOfExpertise }
+class Compensation{ String CompensationID, Double Amount, String Currency, Date PaymentDate }
+class Payment{ String PaymentID, Double Amount, String Currency, Date PaymentDate, String Method }
+class Invoice{ String InvoiceID, Date IssueDate, Double Amount, String Period }
+
+Customer "0..*" -- "1" Broker
 Customer "0..*" -- "1" Contract
-Contract "1" -- "0..*" Invoice
-Claim "0..*" -- "1" Report
-Estimator "0..*" -- "1" Report
+Contract "1" -- "0..*" InsuranceProduct
+Policy "1" -- "0..*" Customer
+Claim "0..*" -- "0..*" Estimator
+Claim "1" -- "0..*" EstimatorReport
+Estimator "0..*" -- "0..*" EstimatorReport
+Claim "1" -- "1" Compensation
+Compensation "1" -- "1" Payment
+Contract "0..*" -- "0..*" Invoice
+
 @enduml

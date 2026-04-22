@@ -1,0 +1,35 @@
+@startuml
+
+class Employee { String Name, String Role }
+class HeadCoach { }
+class Director { }
+class Scout { }
+class HeadScout { }
+class PlayerProfile { String TargetPosition }
+class PlayerAttribute { String Name, String Value }
+class Player { String Name }
+class LongList { Date EvaluationDate }
+class ShortList { }
+class ScoutingAssignment { String Description }
+class ScoutingReport { String Pros, String Cons, String Recommendation }
+class Offer { Date OfferDate }
+
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+Scout <|-- HeadScout
+
+HeadCoach "1..1" -- "0..*" PlayerProfile
+PlayerProfile "1..1" -- "1..*" PlayerAttribute
+PlayerProfile "0..*" -- "0..*" Player
+Player "0..*" -- "0..*" LongList
+LongList "1..1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "0..*" -- "1..1" Player
+ScoutingAssignment "0..*" -- "1..1" Scout
+ScoutingAssignment "1..1" -- "0..1" ScoutingReport
+Player "0..*" -- "0..*" ShortList
+ShortList "0..*" -- "0..*" ScoutingAssignment
+Director "1..1" -- "0..*" Offer
+Offer "1..1" -- "1..1" Player
+
+@enduml

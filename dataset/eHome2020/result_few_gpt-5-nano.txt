@@ -1,31 +1,58 @@
 @startuml
 
-class SensorController{}
-class Sensor{}
-class TemperatureSensor{}
-class PowerSensor{}
-class Apartment{}
-class Room{}
-class Inhabitant{}
-class Threshold{}
-class SensorValue{}
-class EmailAddress{}
-class EMonitor{}
-class EHome2020{}
+class Sensor {
+    String VendorId
+    String Description
+    String Unit
+    String Type
+}
+class TemperatureSensor {
+    Double MinValue
+    Double MaxValue
+}
+class PowerSensor {
+    Double CounterReading
+}
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
 
-Sensor <|-- TemperatureSensor
-Sensor <|-- PowerSensor
-
+class SensorController {
+    String Name
+}
+class Apartment {
+    String Address
+    String Email
+}
+class Room {
+    String Description
+}
+class Inhabitant {
+    String UserName
+    String Password
+}
+class Threshold {
+    Double Value
+}
+class EMonitor {
+    String Name
+}
+class SensorValue {
+    Date Timestamp
+    Double Value
+}
+class LastValue {
+    Date Timestamp
+    Double Value
+}
 Apartment "1" -- "2..*" Room
-Room "0..*" -- "1" Sensor
-Sensor "1" -- "1" Threshold
-Sensor "0..*" -- "1" SensorValue
+Room "1" -- "0..*" Sensor
 Apartment "1" -- "0..*" Inhabitant
-Inhabitant "0..*" -- "1" SensorController
-SensorController "1" -- "0..*" Sensor
+Sensor "0..*" -- "0..*" SensorValue
+Sensor "0..1" -- "1" LastValue
+Sensor "0..*" -- "0..*" Threshold
+Inhabitant "1" -- "0..*" Threshold
 SensorController "1" -- "0..*" Apartment
-EMonitor "0..*" -- "1" Sensor
-EMonitor "0..*" -- "1" EHome2020
-Apartment "1" -- "0..1" EmailAddress
+SensorController "1" -- "0..*" Sensor
+EMonitor "1" -- "0..*" Threshold
 
 @enduml

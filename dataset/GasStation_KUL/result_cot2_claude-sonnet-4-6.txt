@@ -1,0 +1,53 @@
+@startuml
+class OilCompany
+class GasStation
+class Customer {
+  suspended: Boolean
+}
+class RefuelTurn
+class CreditCard
+class RefuelCard {
+  blocked: Boolean
+}
+class Invoice {
+  month: Date
+  sent: Boolean
+}
+class Discount
+class Payment
+class Pump {
+  available: Boolean
+  blocked: Boolean
+}
+class GasolineType
+class Reservoir {
+  quantity: Float
+  reorderingLevel: Float
+  criticalLevel: Float
+}
+class DailyReport {
+  date: Date
+}
+class Tank
+class GasStationResponsible
+
+GasStation "1..*" -- "1..1" OilCompany
+Pump "1..*" -- "1..1" GasStation
+Reservoir "1..1" -- "1..1" Pump
+Tank "1..1" -- "1..1" Reservoir
+RefuelTurn "1..*" -- "1..1" Pump
+RefuelTurn "1..1" -- "1..1" Customer
+RefuelTurn "1..*" -- "1..1" GasolineType
+RefuelTurn "0..*" -- "0..1" Invoice
+Invoice "0..*" -- "1..1" Customer
+Payment "0..*" -- "1..1" Invoice
+Discount "0..*" -- "1..1" Invoice
+RefuelCard "1..1" -- "1..1" Customer
+Invoice "0..*" -- "1..1" RefuelCard
+GasStationResponsible "1..1" -- "1..1" GasStation
+DailyReport "1..*" -- "1..1" GasStation
+Pump "0..*" -- "1..1" DailyReport
+GasolineType "1..1" -- "1..1" Pump
+
+RefuelCard --|> CreditCard
+@enduml

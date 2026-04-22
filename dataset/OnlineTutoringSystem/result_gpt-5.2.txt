@@ -1,0 +1,42 @@
+```plantuml
+@startuml
+
+class User{ String Name, String Email }
+class Student{ }
+class Tutor{ String BankAccount }
+class Subject{ String Name }
+class TutoringOffer{ String ExpertiseLevel, Decimal HourlyPrice }
+class AvailabilitySlot{ String DayOfWeek, Time StartTime, Time EndTime }
+class TutoringRequest{ String LevelRequested, DateTime SuggestedDateTime, String Status }
+class TutoringSession{ DateTime ScheduledDateTime, Decimal Price, String Status, Decimal CancellationFeePercent, Decimal NextSessionDiscountPercent }
+class Payment{ Decimal Amount, String Method, DateTime PaymentDateTime }
+class MonthlyAward{ Date Month, String Title }
+class TutorOfTheMonthAward{ }
+
+User <|-- Student
+Student <|-- Tutor
+MonthlyAward <|-- TutorOfTheMonthAward
+
+Tutor "0..*" -- "0..*" Subject
+Tutor "1..1" -- "0..*" TutoringOffer
+Subject "1..1" -- "0..*" TutoringOffer
+
+Tutor "1..1" -- "0..*" AvailabilitySlot
+
+Student "1..1" -- "0..*" TutoringRequest
+Tutor "1..1" -- "0..*" TutoringRequest
+Subject "1..1" -- "0..*" TutoringRequest
+TutoringOffer "0..*" -- "0..*" TutoringRequest
+
+TutoringRequest "1..1" -- "0..*" TutoringSession
+Student "1..1" -- "0..*" TutoringSession
+Tutor "1..1" -- "0..*" TutoringSession
+Subject "1..1" -- "0..*" TutoringSession
+
+TutoringSession "1..1" -- "0..*" Payment
+
+Subject "1..1" -- "0..*" TutorOfTheMonthAward
+Tutor "1..1" -- "0..*" TutorOfTheMonthAward
+
+@enduml
+```

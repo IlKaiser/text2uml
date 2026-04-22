@@ -1,0 +1,99 @@
+@startuml
+class Traveller {
+  name:String
+}
+class Preference {
+  breakfastIncluded:Boolean
+  freeWifi:Boolean
+  frontDesk24_7:Boolean
+}
+class Registration
+class BillingInformation {
+  companyName:String
+  address:String
+}
+class CreditCard {
+  creditCardInformation:String
+}
+class Booking {
+  bookingIdentifier:String
+  arrivalDate:Date
+  departureDate:Date
+  numberOfRooms:Int
+  price:Float
+  cityArea:String
+  hotelRating:Int
+  tentativeBudgetMaxCostPerNight:Float
+  isPrePaid:Boolean
+}
+class Offer
+class SpecialOffer {
+  price:Float
+}
+class Hotel {
+  ratingStars:Int
+}
+class HotelChain {
+  name:String
+}
+class RoomType {
+  type:String
+}
+class Availability
+class City {
+  name:String
+}
+class Address {
+  address:String
+}
+class ReliabilityRating {
+  rating:Float
+}
+class Payment
+class Confirmation
+class Cancellation
+class Deadline {
+  deadline:Date
+}
+class Charge {
+  amount:Float
+}
+class Reimbursement
+class Compensation {
+  amount:Float
+}
+
+Traveller "1..1" -- "1..1" Registration
+Traveller "1..1" -- "0..1" BillingInformation
+BillingInformation "1..1" -- "1..1" Address
+Traveller "1..1" -- "0..*" Preference
+Traveller "1..1" -- "0..*" Booking
+Traveller "1..1" -- "0..*" ReliabilityRating
+Booking "1..1" -- "1..1" City
+Booking "1..1" -- "1..1" RoomType
+Booking "1..1" -- "0..*" Preference
+Booking "1..1" -- "0..1" Offer
+Booking "1..1" -- "0..1" SpecialOffer
+Booking "1..1" -- "1..1" CreditCard
+Booking "1..1" -- "0..1" Payment
+Booking "1..1" -- "0..1" Confirmation
+Booking "1..1" -- "0..1" Cancellation
+Booking "1..1" -- "0..1" Deadline
+Cancellation "1..1" -- "0..1" Deadline
+Cancellation "1..1" -- "0..1" Charge
+Booking "1..1" -- "0..1" Reimbursement
+Booking "1..1" -- "0..1" Compensation
+Offer "0..*" -- "1..1" Hotel
+SpecialOffer "0..*" -- "1..1" Hotel
+Hotel "1..1" -- "1..1" City
+Hotel "1..1" -- "1..1" Address
+Hotel "0..*" -- "0..1" HotelChain
+Hotel "1..1" -- "0..*" RoomType
+Hotel "1..1" -- "0..*" Availability
+Availability "1..1" -- "1..1" RoomType
+Availability "1..1" -- "1..1" Hotel
+Offer "1..1" -- "1..1" Availability
+SpecialOffer "1..1" -- "1..1" Availability
+
+SpecialOffer --|> Offer
+@enduml

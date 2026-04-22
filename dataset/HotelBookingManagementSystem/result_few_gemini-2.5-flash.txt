@@ -1,34 +1,77 @@
 @startuml
 
-class Traveller {}
-class Hotel {}
-class PreliminaryBooking {}
-class FinalizedBooking {}
-class BillingInformation {}
-class TravelPreference {}
-class Offer {}
-class SpecialOffer {}
-class CreditCardInformation {}
-class CancellationPolicy {}
-class Compensation {}
-class RoomType {}
+class Traveller {
+    String Name
+    Double ReliabilityRating
+}
+class BillingInformation {
+    String CompanyName
+    String CompanyAddress
+}
+class TravelPreference {
+    Boolean BreakfastIncluded
+    Boolean FreeWifi
+    Boolean FrontDesk24_7
+}
+class Hotel {
+    String Name
+    String Address
+    String City
+    Integer Rating
+}
+class HotelChain {
+    String Name
+}
+class RoomType {
+    String Name
+}
+class AccommodationOffer {
+    String Identifier
+    Date ValidFrom
+    Date ValidTo
+    Double PricePerNight
+    Integer AvailableRooms
+}
+class SpecialOffer {
+    String OfferDetails
+}
+class PreliminaryBooking {
+    String Identifier
+    String City
+    Date ArrivalDate
+    Date DepartureDate
+    Integer NumberOfRooms
+    Integer MinHotelRating
+    Double MaxCostPerNight
+    Date Deadline
+}
+class Booking {
+    String Identifier
+    String Status
+    String PaymentMethod
+    Date CancellationDeadline
+    Double CancellationCharge
+}
+class CreditCard {
+    String CardNumber
+    Date ExpiryDate
+    String CardHolderName
+}
 
-Traveller "1..1" -- "1..1" BillingInformation
-Traveller -- TravelPreference
-Traveller "1..1" -- PreliminaryBooking
-Traveller "1..1" -- FinalizedBooking
-Hotel -- RoomType
-Hotel "1..1" -- Offer
-Offer "1..1" -- RoomType
-PreliminaryBooking -- Hotel
-Hotel "1..1" -- SpecialOffer
-PreliminaryBooking "1..1" -- SpecialOffer
-Traveller "1..1" -- CreditCardInformation
-CreditCardInformation "1..1" -- FinalizedBooking
-Hotel -- "1..1" FinalizedBooking
-FinalizedBooking "1..1" -- "0..1" CancellationPolicy
-Hotel "1..1" -- Compensation
-Traveller "1..1" -- Compensation
-FinalizedBooking "0..1" -- "1..1" Compensation
+AccommodationOffer <|-- SpecialOffer
+
+Traveller "1" -- "1" BillingInformation
+Traveller "1" -- "0..1" TravelPreference
+Hotel "0..*" -- "0..1" HotelChain
+Hotel "1" -- "0..*" AccommodationOffer
+AccommodationOffer "0..*" -- "1" RoomType
+Traveller "1" -- "0..*" PreliminaryBooking
+PreliminaryBooking "1" -- "1" AccommodationOffer
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+Hotel "1" -- "0..*" SpecialOffer
+Traveller "1" -- "0..*" Booking
+Booking "1" -- "1" AccommodationOffer
+Booking "1" -- "1" CreditCard
+Hotel "1" -- "0..*" Booking
 
 @enduml

@@ -1,0 +1,30 @@
+```plantuml
+@startuml
+class User{
+    String ID, String Name, String Address
+}
+
+class BusinessUser extends User{
+    String VATNumber
+}
+
+class Artist{
+    String Name, String DateOfBirth, String Website
+}
+
+class Song{
+    String Title, String Year, String Length, String Genre
+}
+
+class Album{
+    String Title
+    Integer TrackNumber
+}
+
+class User "0..*" -- "0..*" Song
+class Song "1..1" -- "1..*" Artist
+class Album "0..*" -- "1..*" Song
+class BusinessUser "1..*" -- "1..*" Album
+class User "1..*" -- "1..*" Album
+@enduml
+```

@@ -1,0 +1,107 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given specification. Let me start by understanding the problem and breaking it down step by step.
+
+First, the user provided a detailed description of a system called CelO, which helps families and groups organize events like birthdays. The system has Organizers and Attendees, each with their own attributes and relationships.
+
+I'll begin by identifying all the classes involved. From the description, I can see two main entities: Organizers and Attendees. So, I'll start by extracting these as separate classes.
+
+Next, I need to extract the attributes for each class. Let's look at the Organizers first. The description mentions that an Organizer has a first and last name, email address, postal address, phone number, and password. Additionally, they select an event type (from a list or create a new one) and specify the event's start and end dates, occasion, and location. So, the attributes for Organizers would include these fields.
+
+Now, for the Attendees. An Attendee can create an account if they don't have one, using the email from the invitation as their username. They can indicate whether they'll attend, maybe attend, or not attend. So, the attributes for Attendees would be their name, email, and the status of their attendance.
+
+Moving on to the relations. The specification mentions that an Organizer can invite attendees, so there's a relationship between Organizers and Attendees. Also, when an Organizer selects an event, an event-specific checklist is presented. Organizers can add tasks to the checklist, which are then available for future events. Additionally, Organizers can designate tasks for attendees to bring items.
+
+I need to represent these relationships in PlantUML. Since the relationships are bidirectional (an Organizer can invite an Attendee and an Attendee can be invited by an Organizer), I'll use a bidirectional arc. For the tasks, since Organizers can add them to the checklist and attendees can select them, this is also a bidirectional relationship. The event checklist is specific to each event, so it's a relationship between Organizers and Events, but since each event has its own checklist, it might be better to represent it as a separate relationship. However, since the main classes are Organizers and Attendees, I'll focus on their direct relationships.
+
+I also need to consider the cardinality. The default is 0..*, but for the relationship between Organizers and Events, it's specified that an event can have multiple organizers, so that's 1..n. Similarly, an event can have multiple attendees, so that's also 1..n.
+
+Putting it all together, I'll start by defining the Organizers and their attributes, then the Attendees and their attributes. After that, I'll draw the relationships between them with the appropriate cardinality.
+
+I should make sure to use bi-directional arcs where necessary and assign the correct cardinality to each relationship. Also, I'll avoid using class properties and focus on the attributes and their relationships as described.
+
+Finally, I'll structure the PlantUML code by first listing all the classes with their attributes and then the relationships between them, ensuring the code is clean and follows the specified format.
+</think>
+
+@startuml
+
+class Organizer{
+    String firstName
+    String lastName
+    String email
+    String postalAddress
+    String phoneNumber
+    String password
+    String eventType
+    String startDate
+    String endDate
+    String occasion
+    String location
+
+    // Relationships
+    +Organizer "1..n" - "1..*" Event
+    +Organizer - "0..*" Attendee
+}
+
+class Attendee{
+    String name
+    String email
+    String status
+
+    // Relationships
+    +Attendee - "0..1" Organizer
+    +Attendee "1..1" - "1..*" Task
+}
+
+// Relationships between Organizers and Tasks
+Organizer "1..*" - "1..*" Task
+
+// Relationships between Attendees and Tasks
+Attendee "1..*" - "1..*" Task
+
+// Relationships between Organizers and Events
+Organizer "1..n" - "1..n" Event
+
+// Relationships between Events and Tasks
+Event "1..1" - "1..*" Task
+
+@enduml

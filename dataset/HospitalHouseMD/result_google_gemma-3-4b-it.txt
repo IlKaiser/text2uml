@@ -1,0 +1,58 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: HospitalHouseMD is a hospital that accepts patients with rare, and often unexplainable symptoms. Patients are assigned one or more doctors, which try to make a diagnosis for the sick patient. For each illness HospitalHouseMD has a database with all possible treatments. These treatments can be applied to any diagnosis and are accordingly executed. To keep everything under control, the head doctor has to approve the diagnosis made by another doctor before any treatment can happen.  A treatment can go through three stages.  The first stage is the weakest treatment. In this stage, no consent is necessary by the patient, and treatment can start immediately. When this doesn’t work, treatment needs to move to stage 2 or even directly to stage 3, according to the rules described below. To move the treatment from stage 1 to another stage, consent is needed by the patient. The patient needs to sign a form indicating his/her consent to move his/her treatments to a higher stage. Once this consent has been given, any applied treatment for that patient can be moved to a higher stage, without the need to ask consent again. So, once a consent is signed by the patient, all treatments can freely upgrade from stage 1 to 2 and 3, until the patient retracts his/her consent. Patients with a treatment in stage 3 require a higher follow-up rate and will be checked more often by nurses and doctors. Once the higher follow-up rate isn’t needed anymore for a specific treatment for a patient, the treatment can downgrade again to lower stages (downgrading is the responsibility of the doctor).
+Illnesses also get a priority score, this is necessary to prevent any outbreaks from e.g. unknown viruses. The priority score of an illness can change at any given time. For now HospitalHouseMD only has two priority scores: high and low. When an illness gets priority score high, all applied treatments for that illness are immediately placed into stage 3, by means of a priority stage upgrade. No consent of the patients are needed to move the treatment to stage 3 when the priority score of the illness is high.<end_of_turn>
+<start_of_turn>model
+@startuml
+class HospitalHouseMD { }
+class Patient { String PatientID }
+class Doctor { String DoctorID }
+class Illness { String IllnessID }
+class Treatment { String TreatmentID }
+class Stage { String StageID }
+class Nurse { String NurseID }
+
+HospitalHouseMD "1..1" -- "*" Patient
+HospitalHouseMD "1..1" -- "*" Doctor
+HospitalHouseMD "1..1" -- "*" Illness
+Treatment "1..1" -- "1..*" Illness
+Stage "1..1" -- "0..*" Treatment
+Doctor "1..1" -- "0..*" Treatment
+Nurse "1..1" -- "*" Patient
+
+@enduml

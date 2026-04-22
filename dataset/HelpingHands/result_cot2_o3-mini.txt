@@ -1,31 +1,63 @@
 @startuml
-class HelpingHandsStore {}
-class Resident {}
-class PickupRequest {}
-class DonationItem {}
-class Vehicle {}
-class VolunteerDriver {}
-class H2SEmployee {}
-class DistributionCenter {}
-class FoodBank {}
-class Category {}
-class Client {}
-class PickupRoute {}
-class Delivery {}
+class HelpingHandsStore
 
-Resident "1" -- "0..*" PickupRequest
-PickupRequest "1" -- "1..*" DonationItem
-HelpingHandsStore "1" -- "0..*" Vehicle
-Vehicle "1" -- "0..*" PickupRoute
-VolunteerDriver "1" -- "0..*" PickupRoute
-HelpingHandsStore "1" -- "0..*" VolunteerDriver
-HelpingHandsStore "1" -- "0..*" H2SEmployee
-H2SEmployee "1" -- "0..*" DonationItem
-DistributionCenter "1" -- "0..*" DonationItem
-FoodBank "1" -- "0..*" DonationItem
-Category "1" -- "0..*" DonationItem
-PickupRoute "1" -- "0..*" PickupRequest
-Client "1" -- "0..*" Delivery
-VolunteerDriver "1" -- "0..*" Delivery
-HelpingHandsStore "1" -- "1" DistributionCenter
+class SecondHandArticle {
+  description: String
+  rfidTag: String
+}
+
+class NonPerishableFood
+
+class Resident {
+  name: String
+  streetAddress: String
+  phoneNumber: String
+  emailAddress: String
+  itemDescription: String
+}
+
+class PickupRequest {
+  pickupDate: Date
+  streetAddress: String
+}
+
+class Vehicle {
+  availableStorageSpace: Float
+}
+
+class VolunteerDriver {
+  availableDays: String
+}
+
+class Route {
+  day: Date
+}
+
+class DistributionCenter
+
+class FoodBank
+
+class Employee
+
+class Category
+
+class Client {
+  neededCategories: String
+  homeAddress: String
+}
+
+class Delivery
+
+HelpingHandsStore "1..1" -- "0..*" SecondHandArticle
+HelpingHandsStore "1..1" -- "0..*" NonPerishableFood
+Resident "1..1" -- "0..*" PickupRequest
+HelpingHandsStore "1..1" -- "1..*" Vehicle
+Vehicle "1..1" -- "1..1" Route
+Route "1..1" -- "1..1" VolunteerDriver
+DistributionCenter "1..1" -- "0..*" SecondHandArticle
+FoodBank "1..1" -- "0..*" NonPerishableFood
+DistributionCenter "1..1" -- "1..*" Employee
+SecondHandArticle "1..1" -- "1..1" Category
+Client "1..1" -- "0..*" Delivery
+VolunteerDriver "1..1" -- "0..*" Delivery
 @enduml

@@ -1,44 +1,91 @@
 ```plantuml
 @startuml
-class Taxi{}
-class Company{}
-class Car{}
-class Fleet{}
-class Cab{}
-class Customer{}
-class App{}
-class Request{}
-class RideHailing{}
-class RideSharing{}
-class Passenger{}
-class Fee{}
-class Owner{}
-class Accident{}
-class Location{}
-class Duration{}
-class Distance{}
-class LeadCustomer{}
-class Gesture{}
+class Sober {
+}
+class Taxi {
+}
+class Company {
+}
+class Car {
+}
+class Fleet {
+}
+class Cab {
+}
+class Customer {
+}
+class App {
+}
+class Request {
+}
+class PickUp {
+}
+class DropOff {
+}
+class Location {
+}
+class Duration {
+}
+class Distance {
+}
+class Passenger {
+}
+class Fee {
+}
+class Gesture {
+}
+class LeadCustomer {
+}
+class Accident {
+    date: Date
+    location: Location
+    damageAmount: Float
+}
+class Damage {
+}
+class Negotiation {
+    fee: Float
+}
+class RideHailing {
+    pickUpTime: Date
+    dropOffTime: Date
+    pickUpLocation: Location
+    dropOffLocation: Location
+    duration: Duration
+    distance: Distance
+    numberOfPassengers: Int
+    fee: Fee
+    requestType: String
+    leadCustomerName: String
+}
+class RideSharing {
+    pickUpTime: Date
+    dropOffTime: Date
+    pickUpLocation: Location
+    dropOffLocation: Location
+    duration: Duration
+    distance: Distance
+    numberOfPassengers: Int
+    customerNames: String
+    negotiatedFee: Fee
+}
 
-Taxi "1..*" -- "1..1" Company
-Car "1..*" -- "1..1" Company
-Fleet "1..*" -- "1..1" Company
-Cab "0..*" -- "0..1" Owner
-Request "0..*" -- "1..1" Customer
-Request "0..*" -- "1..1" App
-RideHailing "1..*" -- "1..1" Request
-RideSharing "1..*" -- "1..*" Customer
-RideHailing "1..*" -- "0..*" Fee
-RideHailing "1..*" -- "1..1" Duration
-RideHailing "1..*" -- "1..1" Distance
-Accident "0..*" -- "1..1" Car
-Passenger "1..*" -- "1..*" RideHailing
-LeadCustomer "1..*" -- "1..*" RideHailing
-Location "1..1" -- "1..1" RideHailing
-Location "1..1" -- "1..1" RideSharing
-Duration "1..1" -- "1..1" RideSharing
-Distance "1..1" -- "1..1" RideSharing
-Fee "1..1" -- "1..1" RideSharing
-Gesture "0..*" -- "0..*" Request
+Sober "1..*" -- "1..*" Fleet
+Fleet "1..*" -- "1..*" Cab
+Customer "0..*" -- "0..*" Request
+Request "1..*" -- "1..1" PickUp
+Request "1..*" -- "1..1" DropOff
+PickUp "1..1" -- "0..1" Location
+DropOff "1..1" -- "0..1" Location
+Request "1..1" -- "1..1" Duration
+Request "1..1" -- "1..1" Distance
+Request "1..1" -- "1..*" Passenger
+Request "1..1" -- "1..1" Fee
+Request "1..1" -- "0..1" Gesture
+Request "1..1" -- "1..1" LeadCustomer
+Sober "1..*" -- "0..*" Accident
+
+RideHailing --|> Request
+RideSharing --|> Request
 @enduml
 ```

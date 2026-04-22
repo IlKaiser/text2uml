@@ -1,28 +1,59 @@
 @startuml
-class Actor{}
-class Concept{}
-class Director{}
-class Employee{}
-class Film{}
-class FilmSet{}
-class Genre{}
-class Location{}
-class Novel{}
-class Role{}
-class Screenplay{}
-class Screenwriter{}
-class Technician{}
+class Employee {
+  name:String
+  social_security_number:String
+}
+class FilmSet {
+  location:String
+}
+class Director {
+  assistant_name:String
+  has_oscar:Boolean
+}
+class Actor {
+  education:String
+  has_oscar:Boolean
+}
+class Technician {
+  field_of_activity:String
+}
+class Film {
+  title:String
+  year_of_release:Int
+  genre:String
+}
+class Screenwriter {
+  name:String
+  most_successful_film:String
+}
+class Screenplay {
+  title:String
+  version:String
+  date:Date
+  number_of_scenes:Int
+  plot:String
+}
+class Novel {
+  title:String
+  author:String
+}
+class Author
+class Role
 
-Actor "0..*" -- "1..*" Film.
-Actor "0..*" -- "1..1" Role.
-Director "0..*" -- "1..1" Film.
-Director "0..*" -- "1..1" Screenplay.
-Employee "0..*" -- "1..*" FilmSet.
-Film "1..*" -- "0..*" FilmSet.
-Film "1..1" -- "0..*" Genre.
-Film "1..1" -- "1..1" Screenplay.
-FilmSet "1..1" -- "0..*" Location.
-Screenplay "0..1" -- "0..*" Concept.
-Screenplay "0..1" -- "0..*" Novel.
-Screenwriter "1..*" -- "1..1" Screenplay.
+Actor --|> Employee
+Director --|> Employee
+Technician --|> Employee
+
+Actor "0..*" -- "0..*" Film
+Actor "0..*" -- "1..1" Role
+Director "0..*" -- "0..1" Film
+Director "0..*" -- "0..1" Screenplay
+Employee "0..*" -- "0..*" FilmSet
+Film "0..1" -- "1..1" Screenplay
+FilmSet "0..*" -- "1..*" Film
+Novel "1..1" -- "0..*" Author
+Role "1..1" -- "1..*" Screenplay
+Screenplay "0..1" -- "0..*" Novel
+Screenwriter "0..*" -- "0..1" Film
+Screenwriter "0..*" -- "1..1" Screenplay
 @enduml

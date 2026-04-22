@@ -1,29 +1,40 @@
 @startuml
-class BusCompany{}
-class Bus{}
-class Trajectory{}
-class BusLine{}
-class TownAuthority{}
-class Approval{}
-class SeasonTicket{}
-class Category{}
-class Trip{}
-class TicketMachine{}
-class Card{}
-class Invoice{}
-class Customer{}
+class BusCompany
+class Bus {
+  lineNumber: Int
+}
+class BusLine {
+  category: String
+}
+class Trajectory
+class Approval
+class MensoTicket {
+  validityYear: Int
+}
+class Trip {
+  time: Date
+  date: Date
+  lineNumber: Int
+}
+class Customer {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
+class Invoice {
+  invoiceAmount: Float
+  discount: Float
+}
+class MensoCard
 
-BusCompany "1..1" -- "0..*" Bus.
-BusCompany "1..1" -- "0..*" Trajectory.
-Trajectory "1..1" -- "0..*" Approval.
-TownAuthority "1..1" -- "0..*" Approval.
-Trajectory "0..*" -- "0..*" Bus.
-BusLine "1..1" -- "0..*" Trajectory.
-Category "1..1" -- "0..*" BusLine.
-Customer "1..1" -- "0..1" SeasonTicket.
-TicketMachine "1..1" -- "0..*" Trip.
-BusLine "1..1" -- "0..*" Trip.
-Card "1..1" -- "0..*" Trip.
-Customer "1..1" -- "0..*" Invoice.
-Customer "1..1" -- "0..*" Card.
+BusCompany "1..1" -- "0..*" Bus
+BusCompany "1..1" -- "0..*" Trajectory
+BusLine "1..1" -- "0..*" Trajectory
+Trajectory "0..*" -- "0..*" Approval
+Trajectory "0..*" -- "0..*" Bus
+BusLine "1..1" -- "0..*" Trip
+MensoCard "0..1" -- "0..*" Trip
+Customer "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "1..*" Trip
+Customer "0..1" -- "0..*" MensoTicket
 @enduml

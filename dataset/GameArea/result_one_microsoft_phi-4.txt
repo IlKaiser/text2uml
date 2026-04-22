@@ -1,0 +1,67 @@
+```plantuml
+@startuml
+
+class GameArea {
+    String Name
+}
+
+class GameElement {
+    long x
+    long y
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+    int Lives
+}
+
+class Boss {
+}
+
+GameArea "1" -- "1..*" GameElement
+GameArea "1" -- "1" Boss
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "1" -- "0..*" Shape : connectedTo
+
+@enduml
+```
+
+### Textual Syntax for Class Diagrams
+
+```plaintext
+GameArea {
+    String Name
+}
+
+GameElement {
+    long x
+    long y
+}
+
+Shape {
+}
+
+Object {
+}
+
+Opponent {
+    int Lives
+}
+
+Boss {
+}
+
+GameArea "1" -- "1..*" GameElement : consistsOf
+GameArea "1" -- "1" Boss : knows
+GameElement <|-- Shape : isA
+GameElement <|-- Object : isA
+GameElement <|-- Opponent : isA
+Shape "1" -- "0..*" Shape : connectedTo
+```

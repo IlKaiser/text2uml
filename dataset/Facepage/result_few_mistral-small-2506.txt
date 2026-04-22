@@ -1,16 +1,45 @@
 @startuml
 
-class User {}
-class Account {}
-class BusinessAccount {}
-class PersonalAccount {}
-class Page {}
-class AdvertisementPage {}
+class User {
+    String ID
+    String Name
+    String Email
+    Date DateOfBirth
+}
 
-Account "1" -- "1" User
+class Account {
+    String AccountNumber
+    String Type
+}
+
+class PersonalAccount {
+    Boolean CanSendFriendRequests
+}
+
+class BusinessAccount {
+    String CompanyName
+    Double MonthlyFee
+}
+
+class Page {
+    String Name
+    Int NumberOfVisits
+}
+
+class AdvertisementPage {
+    Double BounceRate
+    Double ClickThroughRate
+    Double ConversionRate
+}
+
+User "1" -- "1" Account
 Account "1" -- "0..*" Page
-Page "1" -- "1" Account
+PersonalAccount "1" -- "0..*" Page
 PersonalAccount "0..*" -- "0..*" Page
 BusinessAccount "1" -- "0..*" AdvertisementPage
+
+Account <|-- PersonalAccount
+Account <|-- BusinessAccount
+Page <|-- AdvertisementPage
 
 @enduml

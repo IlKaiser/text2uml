@@ -1,22 +1,63 @@
 @startuml
-class Company{}
-class Car{}
-class CarOwner{}
-class Customer{}
-class RideHailingService{}
-class RideSharingService{}
-class Ride{}
-class Location{}
-class Fee{}
-class Accident{}
+class Company {
+}
+
+class Car {
+  damage amounts:Float
+}
+
+class CarOwner {
+}
+
+class Customer {
+}
+
+class RideService {
+}
+
+class RideHailing {
+  time of pick-up:Date
+  time of drop-off:Date
+  location of pick-up:String
+  location of drop-off:String
+  ride duration:Float
+  distance:Float
+  number of passengers:Int
+  fee:Float
+  type of request:String
+  number of the lead customer:Int
+  name of the lead customer:String
+}
+
+class RideSharing {
+  time of pick-up:Date
+  time of drop-off:Date
+  location of pick-up:String
+  location of drop-off:String
+  ride duration:Float
+  distance:Float
+  number of passengers:Int
+  names of all customers:String
+  fee:Float
+}
+
+class RideRequest {
+}
+
+class Accident {
+  accident dates:Date
+  location:String
+  damage amounts:Float
+}
 
 Company "1..1" -- "0..*" Car
 CarOwner "0..*" -- "0..*" Car
-RideHailingService "1..1" -- "0..*" Ride
-RideSharingService "1..1" -- "0..*" Ride
-Customer "0..*" -- "0..*" Ride
-Ride "1..1" -- "2..*" Location
-Ride "1..1" -- "1..1" Fee
+Customer "0..*" -- "0..*" RideRequest
+RideService "1..1" -- "0..*" RideRequest
+RideHailing "1..1" -- "0..*" RideRequest
+RideSharing "1..1" -- "0..*" RideRequest
 Car "0..*" -- "0..*" Accident
-Accident "1..1" -- "1..1" Location
+
+RideHailing --|> RideService
+RideSharing --|> RideService
 @enduml

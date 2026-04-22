@@ -1,0 +1,18 @@
+@startuml
+class University { String Name }
+class Department { String Name }
+class ResearchGroup { String Name, String Leader }
+class Researcher { String Name, String Email }
+class Project { String Title, String Description }
+class WorkPackage { String ID, String Description }
+
+University "1..*" -- "1..*" Department
+Department "1..*" -- "1..*" ResearchGroup
+Researcher "1..1" -- "1..1" ResearchGroup
+Project "1..*" -- "1..*" WorkPackage
+WorkPackage "1..1" -- "1..1" ResearchGroup
+
+Researcher "0..*" -- "0..*" WorkPackage
+Researcher "0..*" -- "0..*" WorkPackage
+WorkPackage "0..*" -- "0..*" Researcher
+@enduml

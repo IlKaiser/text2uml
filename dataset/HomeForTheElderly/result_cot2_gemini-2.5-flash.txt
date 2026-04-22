@@ -1,41 +1,65 @@
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Person{}
-class Stay{}
-class StayCategory{}
-class Proposal{}
-class Registration{}
-class Question{}
-class Assessment{}
-class WaitingListEntry{}
-class Invoice{}
-class CreditNote{}
-class Representative{}
-class InvoiceItem{}
 
-Home "1..1" -- "1..*" Department
+class Assessment {
+  resultedTypeOfStay: String
+}
+class Bed
+class Category {
+  price: Float
+  name: String
+}
+class CreditNote
+class Department
+class Inhabitant
+class Invoice {
+  outstandingAmount: Float
+  isPaid: Boolean
+}
+class InvoiceItem {
+  description: String
+  amount: Float
+  discount: Float
+}
+class NursingHome
+class Person {
+  basicIdentificationData: String
+}
+class Proposal {
+  status: String
+  isInvalidated: Boolean
+  requestedTypeOfStay: String
+}
+class Room
+class Stay {
+  isSuspended: Boolean
+  type: String
+  startDate: Date
+  endDate: Date
+}
+class WaitingList {
+  registrationDate: Date
+  requestedTypeOfStay: String
+}
+
+Assessment "1..1" -- "0..*" Category
+Bed "0..*" -- "1..1" Category
+Bed "0..1" -- "1..1" Inhabitant
 Department "1..1" -- "1..*" Room
-Room "1..1" -- "1..*" Bed
-Bed "0..*" -- "1..1" Stay
-StayCategory "1..*" -- "1..1" Bed
-Person "1..1" -- "0..*" Stay
-Person "1..1" -- "1..1" Registration
-Registration "0..*" -- "0..*" Question
-Person "1..1" -- "0..*" Assessment
-Assessment "0..*" -- "0..*" Question
-Assessment "0..*" -- "1..1" StayCategory
-Person "1..1" -- "0..1" WaitingListEntry
-WaitingListEntry "0..*" -- "1..1" StayCategory
-Person "1..1" -- "0..*" Proposal
-Proposal "0..*" -- "1..1" StayCategory
-Proposal "1..1" -- "0..1" Assessment
-Proposal "1..1" -- "0..1" Stay
-Stay "1..1" -- "0..*" Invoice
+Inhabitant "1..1" -- "0..*" Stay
 Invoice "1..1" -- "0..1" CreditNote
 Invoice "1..1" -- "1..*" InvoiceItem
-Representative "0..*" -- "0..1" Person
-Stay "0..*" -- "1..1" StayCategory
+NursingHome "1..1" -- "1..*" Department
+Person "1..1" -- "0..*" Assessment
+Person "1..1" -- "0..*" Proposal
+Person "1..1" -- "0..*" WaitingList
+Proposal "0..*" -- "1..1" Category
+Proposal "0..1" -- "1..1" Stay
+Proposal "0..*" -- "1..1" WaitingList
+Room "1..1" -- "1..*" Bed
+Stay "0..*" -- "1..1" Category
+Stay "1..1" -- "1..*" Invoice
+WaitingList "0..*" -- "1..1" Category
+
+Inhabitant --|> Person
+
 @enduml

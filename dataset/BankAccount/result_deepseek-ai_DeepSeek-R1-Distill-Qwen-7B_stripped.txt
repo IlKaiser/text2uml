@@ -1,0 +1,77 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: The following description of a bank is given. Create a suitable class diagram from the given informal description.
+A bank manages any number of customers. The first name and last name of type String are stored for each customer. A bank consists of any number of branches. A customer has at least one and at most five accounts. Each account has an owner who is a customer of the bank. There are two basic types of accounts: Current accounts and savings accounts. Each account has an account number of type int and a current account balance of type double. Current accounts also have an overdraft limit of type double.
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given bank description. Let me break this down step by step.
+
+First, I'll identify the main classes. The description mentions a bank, customers, branches, accounts, and types of accounts like current and savings. So, the primary classes are Bank, Customer, Branch, Account, CurrentAccount, and SavingsAccount.
+
+Next, I'll extract the attributes for each class. The Bank class doesn't have any attributes listed, so it will be empty. Customers have first name and last name, both Strings. Branches have a name, which is a String. Accounts have an owner, account number (int), and current balance (double). Additionally, CurrentAccounts have an overdraft limit (double).
+
+Now, I'll move on to the relations. The Bank manages any number of Customers and has any number of Branches. So, Bank will have two lines: one to Customer with "0..*" and another to Branch with "0..*". 
+
+For the Accounts, each customer can have between 1 to 5 accounts. So, the Customer class will have a relationship to Account with "1..5". Since each account is owned by a customer, the Account class should have a "has" relationship back to Customer, which in PlantUML is represented with a line from Customer to Account with "1..1".
+
+Each branch of the bank can have multiple customers. So, the Branch class will have a "0..*" relationship to Customer.
+
+Now, moving on to the types of accounts. Both CurrentAccount and SavingsAccount are subtypes of Account. So, I'll create inheritance arrows from Account to both CurrentAccount and SavingsAccount. 
+
+For the CurrentAccount, it has an overdraft limit in addition to the standard attributes. So, the CurrentAccount class will have an attribute "Overdraft Limit" of type double.
+
+Putting it all together, I'll start by drawing the Bank class with its attributes, then add the Customer and Branch classes. After that, I'll connect Bank to Customer and Branch with the appropriate cardinalities. Then, I'll link Customer to Account with 1..5, and Account to Customer with 1..1. Finally, I'll show that Account inherits from Bank and that CurrentAccount and SavingsAccount inherit from Account, with CurrentAccount also having the Overdraft Limit attribute.
+</think>
+
+```plantuml
+@startuml
+class Bank
+class Customer{ String FirstName, String LastName }
+class Branch{ String Name }
+class Account{ String AccountNumber, double CurrentBalance }
+class CurrentAccount extends Account{ double OverdraftLimit }
+class SavingsAccount extends Account
+
+Bank "0..*" -- Customer
+Bank "0..*" -- Branch
+Customer "1..5" -- Account
+Customer "1..1" -- Account
+
+Account <-@> Customer
+Account "0..*" <-@> Bank
+CurrentAccount "0..*" <-@> Account
+SavingsAccount "0..*" <-@> Account
+CurrentAccount{ OverdraftLimit }
+@enduml
+```

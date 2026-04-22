@@ -1,0 +1,49 @@
+@startuml
+
+class PlayerProfile {
+  String TargetPosition
+  String Name
+  int Value
+}
+
+class Scout {
+  String Name
+}
+
+class HeadCoach {
+  String Name
+}
+
+class HeadScout {
+  String Name
+}
+
+class Director {
+  String Name
+}
+
+class LongList {
+  int PlayerCount
+}
+
+class ScoutingReport {
+  String Pros
+  String Cons
+  String Recommendation
+}
+
+class ShortList {
+  int PlayerCount
+}
+
+PlayerProfile "1..*" -- "0..*" LongList : includes
+Scout "1..*" -- "0..*" LongList : observes
+HeadCoach "1..*" -- "0..*" LongList : observes
+HeadScout "1..*" -- "0..*" LongList : observes
+Director "1..*" -- "0..*" ShortList : creates
+Scout "1..*" -- "0..*" ScoutingReport : writes
+HeadCoach "1..*" -- "0..*" ScoutingReport : writes
+HeadScout "1..*" -- "0..*" ScoutingReport : writes
+ShortList "1..*" -- "0..*" PlayerProfile : contains
+LongList "1..*" -- "0..*" ScoutingReport : includes
+@enduml

@@ -1,24 +1,21 @@
 @startuml
 
-class User{}
-class BusinessOwner{}
-class HungryCustomer{}
-class Entertainer{}
-class Restaurant{}
-class Pizza{}
-class Order{}
-class EntertainmentOrder{}
-class Availability{}
-class Address{}
+class User{ String UserID, String Name, String Address, Date Birthday }
+class BusinessOwner extends User{ String LinkedIn }
+class HungryCustomer extends User{ String DeliveryAddress }
+class Entertainer extends User{ String StageName, String Bio, Double PricePer30Minutes }
+class Restaurant{ String ZipCode, String Address, String PhoneNumber, String Website, String OpeningHours }
+class Pizza{ String Name, String CrustStructure, Double Price }
+class Order{ String OrderID, Date PlacedDateTime, Date LatestDeliveryTime, int People }
+class EntertainmentOrder extends Order{ String EntertainmentType, int DurationMinutes }
+class Availability{ String Day }
 
-BusinessOwner "1" -- "0..*" Restaurant
-Restaurant "1" -- "0..*" Pizza
-HungryCustomer "1" -- "0..*" Order
-Order "0..1" -- "1" EntertainmentOrder
-EntertainmentOrder "1" -- "1" Entertainer
-Entertainer "0..*" -- "0..*" Restaurant
-Entertainer "0..*" -- "0..*" Availability
-Restaurant "0..*" -- "0..*" Availability
-HungryCustomer "1" -- "1" Address
+BusinessOwner "0..*" -- "1" Restaurant
+Restaurant "0..*" -- "1" Pizza
+HungryCustomer "0..*" -- "1" Order
+Order "1" -- "0..*" Pizza
+EntertainmentOrder "0..*" -- "1" Entertainer
+Entertainer "0..*" -- "1" Availability
+Restaurant "0..*" -- "1" Availability
 
 @enduml

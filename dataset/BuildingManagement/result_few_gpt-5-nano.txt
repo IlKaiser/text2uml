@@ -1,48 +1,46 @@
 @startuml
 
-class Portal{}
-class Building{}
-class Entry{}
-class TextEntry{}
-class NumericEntry{}
-class Image{}
-class Comment{}
-class User{}
-class Administrator{}
-class Visitor{}
-class RegisterUser{}
-class ActivateUserAccount{}
-class SignIn{}
-class CreateBuilding{}
-class ManageBuildingEntries{}
-class UploadImageForBuilding{}
-class MakeEntryPublic{}
-class CommentOnBuilding{}
-class SearchBuildings{}
-class AdminDeleteComment{}
+class Portal {
+    String Version
+    String Url
+}
+class Building {
+    String Id
+    String Name
+    String EnergyClass
+    String Address
+    Int YearOfConstruction
+}
+class Entry {
+    String Name
+    String Type
+    String Value
+    String Unit
+    Boolean Public
+}
+class Image {
+    String FileName
+    Boolean IsProfile
+}
+class User {
+    String Username
+    String Email
+    String Password
+}
+class Comment {
+    String Content
+}
+class AdminUser {
+    String IDCardNumber
+}
 
 Portal "1" -- "0..*" Building
 Building "1" -- "0..*" Entry
 Building "1" -- "0..*" Image
-Building "1" -- "0..*" Comment
+Image "0..*" -- "1" Building
 User "1" -- "0..*" Building
 User "1" -- "0..*" Comment
-Administrator --|> User
-
-Entry "1" --|> TextEntry
-Entry "1" --|> NumericEntry
-
-Visitor "1" -- "0..*" RegisterUser
-Visitor "1" -- "0..*" SearchBuildings
-
-User "1" -- "0..*" SignIn
-User "1" -- "0..*" CreateBuilding
-User "1" -- "0..*" ManageBuildingEntries
-User "1" -- "0..*" UploadImageForBuilding
-User "1" -- "0..*" MakeEntryPublic
-User "1" -- "0..*" CommentOnBuilding
-
-Administrator "1" -- "0..*" ActivateUserAccount
-Administrator "1" -- "0..*" AdminDeleteComment
+Building "1" -- "0..*" Comment
+User <|-- AdminUser
 
 @enduml

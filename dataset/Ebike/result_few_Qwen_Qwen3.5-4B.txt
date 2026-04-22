@@ -1,0 +1,54 @@
+@startuml
+class EBike {
+    String FrameMaterial
+    DriveSystem DriveSystem
+    Controller Controller
+    Battery Battery
+}
+class Frame {
+    String Material
+}
+class DriveSystem {
+    Motor Motor
+}
+class Motor {}
+class Controller {
+    String State
+    Date NextMaintenanceDate
+}
+class Battery {
+    Double EnergyWh
+}
+class BasicController {
+}
+class AdvancedController {
+}
+
+class Pump {
+    String Type
+    Boolean InUse
+    Double RefillThreshold
+    Boolean Blocked
+}
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+class CashTurn {}
+
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+GasStation "1" -- "0..*" Pump
+CardHolder "1" -- "0..*" Invoice
+CardHolder "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+
+EBike "1" -- "0..1" Battery
+Controller "1" -- "0..*" DriveSystem
+Controller "1" -- "1..1" BasicController
+Controller "1" -- "1..1" AdvancedController
+Controller "1" -- "1..1" Frame
+Frame "1" -- "1..2" Wheel
+Wheel "1" -- "1..1" EBike
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+class OilCompany{ String Name, String Address, String ContactPerson }
+class GasStation{ String Name, String Address, String Manager }
+class Customer{ String Name, String ID, String Address, String Phone, String Status, String CreditCard, String FuelCard }
+class RefuelTurn{ String ID, String Date, String Quantity, String Price, String PaymentMethod, String Status }
+class Invoice{ String ID, String Date, String Customer, String TotalAmount, String Discount, String Status }
+class Pump{ String ID, String Location, String GasolineType, String CurrentLevel, String ReorderLevel, String CriticalLevel, String Status }
+class Reservoir{ String PumpID, String CurrentQuantity, String ReorderQuantity }
+class Nozzle{ String PumpID, String Status }
+class Report{ String Date, String PumpID, String Action }
+
+OilCompany "1..*" -- "0..*" GasStation
+GasStation "1..*" -- "0..*" Pump
+Pump "1..*" -- "0..*" Reservoir
+Pump "1..*" -- "0..*" Nozzle
+Customer "1..*" -- "0..*" RefuelTurn
+RefuelTurn "1..*" -- "0..*" Invoice
+Invoice "1..*" -- "0..*" Customer
+Pump "1..*" -- "0..*" Report
+Nozzle "1..*" -- "0..*" RefuelTurn
+@enduml

@@ -1,0 +1,41 @@
+```plantuml
+@startuml
+
+class Department {
+    Int NumberOfRooms
+    Int NumberOfBeds
+}
+class Room {
+    Int BedNumber
+}
+class Bed {
+    String Category
+}
+class Inhabitant {
+    String Name
+    Date RegistrationDate
+}
+class Stay {
+    String Type
+    Date IntakeDate
+    Date EndDate
+}
+class Assessment {
+    String NeedsForHelp
+}
+class Invoice {
+    Int Number
+    Double Amount
+    String Status
+}
+
+Department "1" -- "*" Room
+Room "1" -- "*" Bed
+Inhabitant "1" -- "*" Bed
+Inhabitant "1" -- "*" Stay
+Stay "1" -- "1" Assessment
+Stay "1" -- "1" Invoice
+Bed "1" -- "1" Stay
+
+@enduml
+```

@@ -1,21 +1,63 @@
 @startuml
-class Employee {}
-class Actor {}
-class Director {}
-class Technician {}
-class FilmSet {}
-class Film {}
-class Screenwriter {}
-class Screenplay {}
-class Novel {}
-class Concept {}
+class Employee {
+  name : String
+  socialSecurityNumber : String
+}
+
+class Director {
+  assistantName : String
+  oscar : Boolean
+}
+
+class Actor {
+  education : String
+  oscar : Boolean
+}
+
+class Technician {
+  activityField : String
+}
+
+class FilmSet {
+  location : String
+}
+
+class Film {
+  title : String
+  year : Int
+  genre : String
+}
+
+class Screenwriter {
+  name : String
+  mostSuccessfulFilm : String
+}
+
+class Screenplay {
+  title : String
+  version : String
+  date : Date
+  numberOfScenes : Int
+  plot : String
+}
+
+class Novel {
+  title : String
+  author : String
+}
+
+class Concept
 
 Employee "0..*" -- "0..*" FilmSet
 FilmSet "1..*" -- "1..*" Film
-Screenwriter "1..*" -- "1..1" Screenplay
 Film "1..1" -- "1..1" Screenplay
-Screenplay "0..1" -- "0..*" Novel
-Screenplay "0..1" -- "0..*" Concept
-Film "0..*" -- "0..*" Actor
-Film "1..1" -- "0..*" Director
+Screenwriter "1..1" -- "1..*" Screenplay
+Screenplay "1..1" -- "0..1" Novel
+Screenplay "1..1" -- "0..1" Concept
+Actor "0..*" -- "1..1" Screenplay
+Film "1..1" -- "1..*" Director
+
+Director --|> Employee
+Actor --|> Employee
+Technician --|> Employee
 @enduml

@@ -1,0 +1,25 @@
+```plantuml
+@startuml
+class Car{ String LicensePlate, String Owner }
+
+class Owner{ String Name, String Email }
+
+class RideHailingService{ String PickupTime, String DropOffTime, String PickupLocation, String DropOffLocation, String RideDuration, String Distance, String Fee, String RequestMethod, String LeadCustomerName, String LeadCustomerPhone }
+
+class RideSharingService{ String PickupTime, String DropOffTime, String PickupLocation, String DropOffLocation, String RideDuration, String Distance, String Fee, String NumberOfPassengers, String[] CustomerNames, String UpfrontNegotiatedFee }
+
+class Accident{ String Date, String Location, String DamageAmount }
+
+class CarOwner{ Car "1..*" -- "0..*" Owner }
+
+class Car "1..1" -- "1..*" RideHailingService
+class Car "1..1" -- "1..*" RideSharingService
+class Car "1..*" -- "0..*" Accident
+
+class RideHailingService "1..1" -- "1..*" RideSharingService
+
+class RideHailingService "1..*" -- "0..*" Owner
+class RideSharingService "1..*" -- "0..*" Owner
+
+@enduml
+```

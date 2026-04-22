@@ -1,0 +1,79 @@
+```plantuml
+@startuml
+
+class HelpingHandsStore {
+    String Name
+    List<String> Cities
+}
+
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemDescription
+}
+
+class PickupVehicle {
+    String VehicleID
+    Integer StorageCapacity
+}
+
+class VolunteerDriver {
+    String DriverID
+    List<String> AvailableDays
+}
+
+class PickupRoute {
+    String RouteID
+    Date ScheduledDate
+    Time StartTime
+    Time EndTime
+}
+
+class SecondHandArticle {
+    String Description
+    String RFIDTag
+    String Category
+}
+
+class NonPerishableFood {
+    String Description
+}
+
+class DistributionCenter {
+    String CenterID
+}
+
+class FoodBank {
+    String BankID
+}
+
+class Client {
+    String ClientID
+    List<String> NeededCategories
+}
+
+class RFIDDevice {
+    String DeviceID
+}
+
+class Category {
+    String CategoryName
+}
+
+HelpingHandsStore "1" -- "1..*" Resident
+Resident "1" -- "1" PickupVehicle
+PickupVehicle "1" -- "1" VolunteerDriver
+VolunteerDriver "1" -- "1..*" PickupRoute
+PickupRoute "1" -- "1..*" SecondHandArticle
+PickupRoute "1" -- "1..*" NonPerishableFood
+SecondHandArticle "1" -- "1" RFIDDevice
+SecondHandArticle "1" -- "1" Category
+HelpingHandsStore "1" -- "1" DistributionCenter
+DistributionCenter "1" -- "1" FoodBank
+HelpingHandsStore "1" -- "1..*" Client
+Client "1" -- "1..*" SecondHandArticle
+
+@enduml
+```

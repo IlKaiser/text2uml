@@ -1,0 +1,102 @@
+```plantuml
+@startuml
+
+class Cinema {
+  name: String
+  location: Town
+}
+
+class Town {
+}
+
+class Theatre {
+  capacity: Int
+  location: Cinema
+}
+
+class Show {
+  startTime: Date
+  endTime: Date
+  movie: Movie
+  theatre: Theatre
+  program: Program
+}
+
+class Movie {
+  title: String
+  duration: Float
+}
+
+class Copy {
+  movie: Movie
+  location: Cinema
+}
+
+class Program {
+  startDate: Date
+  endDate: Date
+}
+
+class Reservation {
+  reservationTime: Date
+  show: Show
+  customer: Customer
+  creditCard: CreditCard
+  seat: Seat
+}
+
+class Customer {
+  name: String
+  email: String
+}
+
+class CreditCard {
+  cardNumber: String
+  expiryDate: Date
+  holderName: String
+}
+
+class Seat {
+  number: Int
+  theatre: Theatre
+  isReserved: Boolean
+}
+
+class Offer {
+  offerTime: Date
+  originalShow: Show
+  newShow: Show
+  customer: Customer
+}
+
+class Ticket {
+  issueTime: Date
+  show: Show
+  seat: Seat
+  isAnonymous: Boolean
+}
+
+class Display {
+  availableSeats: Int
+  show: Show
+}
+
+1..1 Cinema -- 1..* Town
+1..1 Cinema -- 0..* Theatre
+1..1 Theatre -- 0..* Show
+1..1 Cinema -- 0..* Copy
+1..1 Copy -- 1..1 Movie
+1..1 Show -- 1..1 Movie
+0..* Reservation -- 1..1 Show
+1..1 Reservation -- 1..1 Customer
+1..1 Reservation -- 1..1 CreditCard
+1..1 Reservation -- 1..1 Seat
+0..* Offer -- 1..1 Reservation
+1..1 Offer -- 1..1 Seat
+1..1 Ticket -- 1..1 Show
+1..1 Ticket -- 1..1 Seat
+1..1 Theatre -- 0..* Seat
+1..1 Display -- 1..1 Theatre
+
+@enduml
+```

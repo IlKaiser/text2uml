@@ -1,0 +1,52 @@
+@startuml
+class Student {
+  name: String
+  email: String
+}
+class Tutor {
+  name: String
+  email: String
+  bankAccount: String
+}
+class Subject {
+  name: String
+}
+class TutoringOffer {
+  expertiseLevel: String
+  hourlyPrice: Float
+}
+class TutoringRequest {
+  level: String
+  targetDate: Date
+  targetTime: String
+}
+class TutoringSession {
+  dateTime: Date
+  cancelled: Boolean
+  cancellationNoticePeriod: Float
+}
+class Availability {
+  dayOfWeek: String
+  startTime: String
+  endTime: String
+}
+class Payment {
+  amount: Float
+  method: String
+}
+class Award {
+  month: Date
+}
+Student "0..*" -- "0..*" TutoringRequest
+Tutor "0..*" -- "0..*" TutoringOffer
+TutoringOffer "0..*" -- "1..1" Subject
+TutoringRequest "1..1" -- "1..1" TutoringOffer
+TutoringRequest "1..1" -- "0..*" TutoringSession
+TutoringSession "0..*" -- "1..1" Student
+TutoringSession "0..*" -- "1..1" Tutor
+TutoringSession "1..1" -- "0..1" Payment
+Tutor "1..1" -- "0..*" Availability
+Award "0..*" -- "1..1" Tutor
+Award "0..*" -- "1..1" Subject
+Tutor --|> Student
+@enduml

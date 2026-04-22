@@ -1,36 +1,33 @@
-
+```plantuml
 @startuml
 
-class Employee{}
-class CreativeEmployee{}
-class Director{}
-class Actor{}
-class Technician{}
-class Location{}
-class Film{}
-class Genre{}
-class Screenwriter{}
-class Screenplay{}
-class Novel{}
+class Employee{ String Name, String SocialSecurityNumber }
 
-Employee "1..*" -- "1..1" Film
-Employee "1..*" -- "1..1" Location
-Employee "1..1" -- "0..1" Screenwriter
+class CreativeEmployee
+class Actor{ String Education, boolean HasOscar }
+class Director{ String AssistantName, boolean HasOscar }
 
-Employee <|-- CreativeEmployee
-CreativeEmployee -- Director
-CreativeEmployee -- Actor
-Actor "1..1" -- "0..1" Novel
+CreativeEmployee <|-- Actor
+CreativeEmployee <|-- Director
 
-Director "0..1" -- "0..1" Employee
-Actor "0..1" -- "0..1" Employee
-Technician "1..*" -- "1..1" Employee
+class Technician{ String FieldOfActivity }
 
-Film "1..*" -- "1..*" Screenplay
-Film "1..*" -- "1..*" Location
-Film "1..1" -- "1..1" Genre
+class Location
+class FilmSet
+class Film{ String Title, int YearOfRelease, String Genre }
+class Screenwriter{ String Name, String MostSuccessfulFilm }
+class Screenplay{ String Title, int Version, Date Date, int NumberOfScenes, String Plot }
+class Novel{ String Title, String Author }
 
-Screenwriter "1..1" -- "1..*" Screenplay
-Screenplay "1..1" -- "0..1" Novel
+FilmSet "0..*" -- "1..*" Film
+Film "1..*" -- "1..1" Screenplay
+Screenplay "*..1" -- "0..1" Novel
+Screenwriter "1..*" -- "1..*" Screenplay
+Screenwriter "0..1" -- "1..1" Film
+Actor "0..*" -- "0..*" Film
+Director "0..*" -- "0..*" Film
+Employee "0..*"-left- Technician
+FilmSet "1..1" -- "0..*" Location
 
 @enduml
+```

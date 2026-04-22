@@ -1,37 +1,71 @@
 ```plantuml
 @startuml
-class HelpingHandsStore{}
-class Location{}
-class Resident{}
-class Customer{}
-class PickupService{}
-class Vehicle{}
-class VolunteerDriver{}
-class Route{}
-class Item{}
-class DistributionCenter{}
-class FoodBank{}
-class Employee{}
-class RFIDDevice{}
-class Category{}
-class Client{}
 
-HelpingHandsStore "1..1" -- "1..*" Location
-Location "1..*" -- "1..*" Resident
-Resident "1..*" -- "0..*" PickupService
-PickupService "1..*" -- "1..1" Vehicle
-Vehicle "1..*" -- "1..*" Route
-Route "1..*" -- "1..*" VolunteerDriver
-VolunteerDriver "1..*" -- "1..*" PickupService
-PickupService "1..*" -- "1..*" Item
-Item "1..*" -- "1..1" DistributionCenter
-DistributionCenter "1..*" -- "1..*" Employee
-Employee "1..*" -- "1..*" Item
-Item "1..*" -- "1..1" RFIDDevice
-Item "1..*" -- "1..1" Category
-DistributionCenter "1..*" -- "1..*" FoodBank
-FoodBank "0..*" -- "0..*" Item
-DistributionCenter "0..*" -- "0..*" Client
-Client "0..*" -- "0..*" Category
+class Resident {
+  name: String
+  street address: String
+  phone number: String
+  email address: String
+  description of items: String
+}
+
+class PickupRequest {
+  street address: String
+  description of items: String
+}
+
+class Vehicle {
+  available storage space: Int
+  dimensions: String
+  weights: Float
+}
+
+class VolunteerDriver {
+  available days: String
+}
+
+class Article {
+  description: String
+  category: String
+}
+
+class Category {
+  standard list of categories: String
+}
+
+class Employee {
+  home address: String
+}
+
+class Client {
+  categories of articles: String
+}
+
+Customer --|> Resident
+VolunteerDriver --|> Employee
+Client --|> Customer
+
+PickupRequest "1..1" -- "0..1" Resident
+PickupRequest "1..1" -- "1..1" Vehicle
+PickupRequest "1..1" -- "1..1" VolunteerDriver
+PickupRequest "1..1" -- "1..1" Route
+PickupRequest "0..*" -- "0..*" Article
+Article "1..1" -- "1..1" Category
+DistributionCenter "1..1" -- "0..*" Employee
+DistributionCenter "1..1" -- "0..*" Article
+FoodBank "1..1" -- "0..*" Article
+Client "1..1" -- "0..*" Category
+Client "1..1" -- "0..1" Article
+HelpingHandsStore "1..1" -- "0..*" DistributionCenter
+HelpingHandsStore "1..1" -- "0..*" FoodBank
+HelpingHandsStore "1..1" -- "0..*" Employee
+HelpingHandsStore "1..1" -- "0..*" VolunteerDriver
+HelpingHandsStore "1..1" -- "0..*" Vehicle
+HelpingHandsStore "1..1" -- "0..*" PickupRequest
+HelpingHandsStore "1..1" -- "0..*" Article
+HelpingHandsStore "1..1" -- "0..*" Category
+HelpingHandsStore "1..1" -- "0..*" Client
+HelpingHandsStore "1..1" -- "0..*" Resident
+
 @enduml
 ```

@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+
+class Sensor {
+    String VendorId
+    String Description
+    String Unit
+    String Room
+}
+
+class TemperatureSensor extends Sensor {
+    Double MinValue
+    Double MaxValue
+}
+
+class PowerSensor extends Sensor {
+    Double CounterReading
+}
+
+class SensorController {
+    String ApartmentAddress
+    List<String> Inhabitants
+}
+
+class Inhabitant {
+    String Username
+    String Password
+    Boolean IsAdmin
+}
+
+class Threshold {
+    Double Value
+}
+
+class EMonitor {
+}
+
+class AlertMessage {
+    String EmailAddress
+}
+
+SensorController "1" -- "0..*" Sensor
+SensorController "1" -- "0..*" Inhabitant
+Inhabitant "1" -- "0..*" Threshold
+Sensor "1" -- "1" Threshold
+EMonitor "1" -- "0..*" AlertMessage
+SensorController "1" -- "0..*" AlertMessage
+Inhabitant "0..*" - "0..1" SensorController
+
+@enduml
+```

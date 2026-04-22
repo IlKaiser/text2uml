@@ -1,26 +1,78 @@
 @startuml
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class Appointment{}
-class Lab{}
-class TestGroup{}
-class RepetitionPattern{}
-class TestResult{}
-class Report{}
-
+class Doctor {
+  practitionerNumber: Int
+  signature: String
+  fullName: String
+  address: String
+  phoneNumber: String
+}
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+class Requisition {
+  doctorPractitionerNumber: Int
+  doctorSignature: String
+  doctorFullName: String
+  doctorAddress: String
+  doctorPhoneNumber: String
+  patientHealthNumber: String
+  patientFirstName: String
+  patientLastName: String
+  patientDateOfBirth: Date
+  patientAddress: String
+  patientPhoneNumber: String
+  requisitionDateFrom: Date
+  tests: String
+  repetitionPattern: RepetitionPattern
+}
+class Test {
+  name: String
+  duration: Int
+  groupName: String
+}
+class Lab {
+  name: String
+  registrationNumber: String
+  address: String
+  businessHours: String
+  fee: Float
+  openEveryDay: Boolean
+}
+class Appointment {
+  confirmationNumber: String
+  date: Date
+  startTime: String
+  endTime: String
+  labName: String
+  labRegistrationNumber: String
+  requisitionId: Int
+}
+class Result {
+  isPositive: Boolean
+  reportId: Int
+  testId: Int
+}
+class Report
+class TestGroup
+class Specimen
+class RepetitionPattern {
+  repetitionCount: Int
+  repetitionInterval: String
+}
 Doctor "0..*" -- "1..1" Requisition
 Patient "0..*" -- "1..1" Requisition
-Requisition "1..*" -- "1..1" Test
-Test "1..*" -- "0..*" TestGroup
+Requisition "1..*" -- "0..*" Test
+Test "1..1" -- "0..*" TestGroup
 Requisition "0..1" -- "0..*" RepetitionPattern
-Test "1..*" -- "1..*" Lab
+Test "1..1" -- "0..*" Specimen
+Lab "0..*" -- "1..1" Appointment
+Lab "0..*" -- "0..*" Test
 Appointment "1..1" -- "0..*" Requisition
-Appointment "1..1" -- "0..*" Lab
-Patient "0..*" -- "1..1" Appointment
-Test "1..*" -- "1..1" TestResult
-TestResult "1..1" -- "1..1" Report
-Doctor "0..*" -- "1..1" TestResult
-Patient "0..*" -- "1..1" TestResult
+Result "1..1" -- "1..1" Test
+Report "1..1" -- "1..1" Test
 @enduml

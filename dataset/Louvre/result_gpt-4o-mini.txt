@@ -1,19 +1,17 @@
 @startuml
 
-class Museum{}
-class Room{}
-class Exhibition{}
-class Employee{}
-class ExhibitionItem{}
-class Collector{}
-class Coaching{}
+class Museum{ String Name, String Location }
+class Room{ String Name }
+class Exhibition{ String Title, Date OpeningDate }
+class Employee{ String Name, String Position }
+class ExhibitionItem{ String Description }
+class Collector{ String Name }
 
 Museum "1..1" -- "1..*" Room
-Room "1..*" -- "1..*" Exhibition
-Exhibition "1..1" -- "1..1" Employee
-Exhibition "1..*" -- "1..*" ExhibitionItem
-ExhibitionItem "1..*" -- "1..*" Collector
-Employee "1..*" -- "1..1" Coaching
-Coaching "1..1" -- "1..1" Employee
+Room "1..1" -- "0..*" Exhibition
+Exhibition "1..*" -- "1..1" Employee
+Exhibition "1..*" -- "0..*" ExhibitionItem
+ExhibitionItem "1..*" -- "0..*" Collector
+Employee "1..1" -- "0..*" Employee : coach
 
 @enduml

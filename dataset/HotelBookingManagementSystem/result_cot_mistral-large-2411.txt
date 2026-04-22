@@ -1,29 +1,86 @@
+```plantuml
 @startuml
+class Traveller {
+    name: String
+    company name: String
+    address: String
+    travel preferences: String
+}
 
-class Traveller{}
-class HBMS{}
-class Hotel{}
-class Booking{}
-class Room{}
-class CreditCard{}
-class HotelChain{}
-class Offer{}
-class City{}
-class Address{}
+class Booking {
+    city: String
+    date of arrival: Date
+    date of departure: Date
+    number of needed rooms: Int
+    type of rooms: String
+    minimum hotel rating: Int
+    tentative budget: Float
+    price: Float
+    city area: String
+    hotel rating: Int
+    key preferences: String
+    unique booking identifier: String
+    cancellation deadline: Date
+}
 
-Traveller "0..*" -- "1..1" HBMS
-Traveller "0..*" -- "1..1" Booking
-Traveller "0..*" -- "1..1" CreditCard
-HBMS "1..1" -- "1..*" Hotel
-HBMS "1..1" -- "1..*" Booking
-HBMS "1..1" -- "1..*" Offer
-Hotel "1..1" -- "1..*" Room
-Hotel "1..1" -- "1..1" Address
-Hotel "0..*" -- "1..1" HotelChain
-Hotel "1..1" -- "1..1" City
-Hotel "1..1" -- "1..*" Offer
-Booking "0..*" -- "1..*" Room
-Booking "1..1" -- "1..1" CreditCard
-Offer "0..*" -- "1..1" Hotel
+class Hotel {
+    city: String
+    address: String
+    hotel chain: String
+}
 
+class CreditCard {
+}
+
+class ReliabilityRating {
+}
+
+class HBMS {
+}
+
+class Accommodation {
+}
+
+class City {
+}
+
+class Room {
+}
+
+class TravelPreference {
+}
+
+class Offer {
+}
+
+class HotelChain {
+}
+
+class Address {
+}
+
+class SpecialOffer {
+}
+
+class Confirmation {
+}
+
+Traveller "1..1" -- "0..*" HBMS
+HBMS "1..*" -- "0..*" Hotel
+HBMS "1..*" -- "0..*" Accommodation
+HBMS "1..*" -- "0..*" Booking
+Traveller "1..*" -- "0..*" Booking
+Booking "1..1" -- "0..*" CreditCard
+Booking "1..1" -- "0..*" Hotel
+Booking "1..1" -- "0..1" Confirmation
+HBMS "1..*" -- "0..*" City
+HBMS "1..*" -- "0..*" Offer
+Offer "1..*" -- "0..*" Hotel
+Hotel "1..1" -- "0..1" Address
+Hotel "0..1" -- "0..*" HotelChain
+Hotel "1..*" -- "0..*" Room
+Traveller "0..1" -- "0..*" TravelPreference
+Traveller "1..1" -- "0..1" ReliabilityRating
+Hotel "0..*" -- "0..*" SpecialOffer
 @enduml
+```

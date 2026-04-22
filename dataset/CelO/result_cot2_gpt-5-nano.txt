@@ -1,34 +1,61 @@
 @startuml
-class User{}
-class Organizer{}
-class Attendee{}
-class Event{}
-class EventType{}
-class Location{}
-class Address{}
-class Checklist{}
-class Task{}
-class TaskTemplate{}
-class Invitation{}
-class Attendance{}
-class Contribution{}
-class Item{}
-class InvitationStatus{}
-class Response{}
-
-Event "1..1" -- "0..*" EventType
-Event "1..1" -- "1..*" Location
-Address "0..*" -- "1..1" Location
-Event "1..1" -- "0..*" Invitation
-Attendee "1..1" -- "0..*" Invitation
-Invitation "1..1" -- "1..1" InvitationStatus
-Event "1..1" -- "0..*" Checklist
-Checklist "0..*" -- "1..*" Task
-TaskTemplate "0..*" -- "0..*" Task
-Attendee "1..1" -- "0..*" Contribution
-Item "1..1" -- "0..*" Contribution
-Event "1..1" -- "0..*" Attendance
-Attendee "1..1" -- "0..*" Attendance
-Invitation "1..1" -- "1..1" Response
-Attendee "1..1" -- "1..1" Response
+class Organizer {
+  firstName: String
+  lastName: String
+  email: String
+  postalAddress: String
+  phoneNumber: String
+  password: String
+  attendsEvent: Boolean
+}
+class Attendee {
+  email: String
+  password: String
+  itemsToBring: String
+  rsvpStatus: String
+}
+class Event {
+  startDateTime: Date
+  endDateTime: Date
+  occasion: String
+  locationName: String
+  locationAddress: String
+  eventType: String
+}
+class Location {
+  name: String
+  address: String
+}
+class Address
+class Account
+class Task {
+  name: String
+  status: String
+}
+class Checklist
+class Invitation {
+  firstName: String
+  lastName: String
+  email: String
+}
+class Attendance {
+  attendeeEmail: String
+  status: String
+}
+class EventType {
+  name: String
+}
+Organizer "0..*" -- "1..*" Event
+Event "1..1" -- "0..*" Location
+Location "1..1" -- "1..1" Address
+Organizer "1..1" -- "1..1" Address
+Attendee "0..1" -- "1..1" Account
+Event "0..*" -- "0..*" Invitation
+Attendee "0..*" -- "0..*" Invitation
+Event "1..1" -- "1..1" Checklist
+Checklist "1..1" -- "0..*" Task
+Task "0..1" -- "0..1" Attendee
+Attendee "0..*" -- "0..*" Attendance
+Event "0..*" -- "0..*" Attendance
+Event "1..1" -- "1..*" EventType
 @enduml

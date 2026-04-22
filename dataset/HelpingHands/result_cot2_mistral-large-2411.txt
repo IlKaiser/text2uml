@@ -1,34 +1,86 @@
-```plantuml
 @startuml
-class HelpingHandsStore{}
-class City{}
-class Resident{}
-class Item{}
-class Pickup{}
-class Route{}
-class VolunteerDriver{}
-class Vehicle{}
-class DistributionCenter{}
-class FoodBank{}
-class Employee{}
-class Category{}
-class Client{}
 
-Resident "0..*" -- "0..*" Pickup
-Pickup "1..*" -- "1..1" Vehicle
-Pickup "1..1" -- "1..1" VolunteerDriver
-Item "0..*" -- "0..1" Pickup
-Item "0..*" -- "0..1" Category
-Item "0..*" -- "0..1" DistributionCenter
-Item "0..*" -- "0..1" FoodBank
-DistributionCenter "1..1" -- "0..*" Employee
-Client "0..*" -- "1..1" DistributionCenter
-City "1..1" -- "0..*" HelpingHandsStore
-HelpingHandsStore "1..1" -- "0..*" VolunteerDriver
-HelpingHandsStore "1..1" -- "0..*" Vehicle
-HelpingHandsStore "1..1" -- "0..*" Employee
-HelpingHandsStore "1..1" -- "0..*" DistributionCenter
-HelpingHandsStore "1..1" -- "0..*" FoodBank
-HelpingHandsStore "0..*" -- "1..1" City
+class HelpingHandsStore {}
+
+class Article {
+    description: String
+    category: String
+}
+
+class Food {
+    description: String
+    category: String
+}
+
+class Resident {
+    name: String
+    street address: String
+    phone number: String
+    email address: String
+}
+
+class City {}
+
+class Location {}
+
+class Item {
+    description: String
+    dimensions: String
+    weights: Float
+}
+
+class Pickup {}
+
+class Delivery {}
+
+class Service {}
+
+class Customer {
+    home address: String
+}
+
+class Volunteer {
+    available days: Date
+}
+
+class Driver {
+    available days: Date
+}
+
+class Vehicle {
+    storage space: Int
+}
+
+class Route {}
+
+class Schedule {}
+
+class DistributionCenter {}
+
+class FoodBank {}
+
+class Employee {
+    available days: Date
+}
+
+0..* Resident "0..*" -- "0..*" Pickup
+1..1 Location "1..1" -- "1..1" HelpingHandsStore
+1..1 Driver "1..1" -- "1..1" Vehicle
+0..* Pickup "0..*" -- "0..*" Item
+0..* Pickup "0..*" -- "0..1" Schedule
+1..1 Pickup "1..1" -- "1..1" Route
+1..1 Pickup "1..1" -- "1..1" Vehicle
+1..1 Resident "1..1" -- "0..*" Article
+0..* Article "0..*" -- "1..1" DistributionCenter
+0..* Food "0..*" -- "1..1" FoodBank
+0..* Delivery "0..*" -- "0..*" Item
+0..* Delivery "0..*" -- "1..1" Customer
+0..* Delivery "0..*" -- "1..1" Schedule
+0..* Volunteer "0..*" -- "0..*" Route
+
+Food --|> Item
+Article --|> Item
+Driver --|> Volunteer
+Employee --|> Volunteer
+
 @enduml
-```

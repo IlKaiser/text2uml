@@ -1,0 +1,126 @@
+```plantuml
+@startuml
+
+class BusCompany {
+  name: String
+}
+
+class Bus {
+  lineNumber: Int
+}
+
+class Line {
+  category: String
+}
+
+class Trajectory {
+  approvalStatus: String
+  operationalDate: Date
+}
+
+class TownAuthority {
+}
+
+class Approval {
+  status: String
+  comments: String
+}
+
+class BusAssignment {
+  bus: Bus
+  trajectory: Trajectory
+}
+
+class Suspension {
+  reason: String
+  startDate: Date
+  endDate: Date
+}
+
+class Cancellation {
+  cancellationDate: Date
+}
+
+class Ticket {
+}
+
+class Invoice {
+  amount: Float
+  discount: Float
+  issueDate: Date
+}
+
+class Discount {
+  percentage: Float
+}
+
+class Payment {
+  amount: Float
+  paymentDate: Date
+}
+
+class User {
+  mensoCard: Card
+}
+
+class Card {
+  cardNumber: String
+}
+
+class TicketMachine {
+}
+
+class Subscription {
+  startDate: Date
+  endDate: Date
+}
+
+class PersonalData {
+  homeAddress: HomeAddress
+  officeAddress: OfficeAddress
+  workingHours: WorkingHours
+}
+
+class HomeAddress {
+  address: String
+}
+
+class OfficeAddress {
+  address: String
+}
+
+class WorkingHours {
+  startTime: Date
+  endTime: Date
+}
+
+class Route {
+}
+
+class Frequency {
+}
+
+1..* BusCompany -- 0..* Line
+1..* Line -- 0..* Trajectory
+1..1 Trajectory -- 0..1 Approval
+0..* Trajectory -- 0..* BusAssignment
+1..1 Trajectory -- 0..1 Suspension
+1..1 Trajectory -- 0..1 Cancellation
+1..* Bus -- 0..1 Line
+0..* User -- 0..* TicketMachine
+0..* User -- 0..* Ticket
+0..* User -- 0..1 Subscription
+1..1 Subscription -- 1..1 PersonalData
+1..1 PersonalData -- 1..1 HomeAddress
+1..1 PersonalData -- 1..1 OfficeAddress
+1..1 PersonalData -- 1..1 WorkingHours
+0..* TicketMachine -- 0..* Card
+0..* TicketMachine -- 0..* Payment
+0..* User -- 0..* Invoice
+1..1 Invoice -- 0..1 Discount
+1..1 Invoice -- 0..* Payment
+1..1 Line -- 1..1 Route
+1..1 Line -- 1..1 Frequency
+
+@enduml
+```

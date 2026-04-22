@@ -1,0 +1,97 @@
+Given the specification text, the relevant classes for a UML conceptual model diagram are:
+
+1. Department
+2. Room
+3. Bed
+4. Category
+5. Stay
+6. Person
+7. Registration
+8. Assessment
+9. WaitingList
+10. Invoice
+11. PaymentEvent
+12. CreditNote
+13. InvoicingProcess
+
+Here is the plantUML representation for these classes:
+
+```plantuml
+@startuml
+class Department {
+  +name: String
+  +description: String
+}
+
+class Room {
+  +department: Department
+  +number: Int
+}
+
+class Bed {
+  +room: Room
+  +category: Category
+  +price: Float
+}
+
+class Category {
+  +name: String
+  +price: Float
+}
+
+class Stay {
+  +person: Person
+  +type: String
+  +startDate: Date
+  +endDate: Date
+  +invoice: Invoice
+}
+
+class Person {
+  +registration: Registration
+  +assessment: Assessment
+  +stay: Stay
+  +basicIdentificationData: String
+  +needsForHelp: String
+}
+
+class Registration {
+  +person: Person
+  +date: Date
+}
+
+class Assessment {
+  +person: Person
+  +type: String
+  +date: Date
+}
+
+class WaitingList {
+  +person: Person
+  +position: Int
+}
+
+class Invoice {
+  +stay: Stay
+  +amount: Float
+  +status: String
+}
+
+class PaymentEvent {
+  +invoice: Invoice
+  +amountPaid: Float
+}
+
+class CreditNote {
+  +invoice: Invoice
+  +amountRefunded: Float
+}
+
+class InvoicingProcess {
+  +invoices: List<Invoice>
+}
+
+@enduml
+```
+
+This plantUML code represents the conceptual model diagram with the identified classes and their relationships.

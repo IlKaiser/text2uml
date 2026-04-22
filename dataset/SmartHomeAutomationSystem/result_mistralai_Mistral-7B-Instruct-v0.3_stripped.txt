@@ -1,0 +1,28 @@
+@startuml
+
+class SmartHomeAutomationSystem { String physicalAddress }
+class Room { String name }
+class SensorDevice { String deviceIdentifier, String type }
+class ActuatorDevice { String deviceIdentifier, String type }
+
+SmartHomeAutomationSystem "1" -- "0..*" Room
+Room "0..*" -- "0..*" SensorDevice
+Room "0..*" -- "0..*" ActuatorDevice
+
+class SensorReading { Double measuredValue, DateTime timestamp }
+class ControlCommand { String command, DateTime timestamp, String status }
+
+SensorDevice "0..1" -- "0..*" SensorReading
+ActuatorDevice "0..1" -- "0..*" ControlCommand
+
+class ActivityLog { List<SensorReading> sensorReadings, List<ControlCommand> controlCommands }
+SmartHomeAutomationSystem "1" -- "0..*" ActivityLog
+
+class AutomationRule { BooleanExpression precondition, List<ControlCommand> action }
+class BooleanExpression { String relationalTerms, String operators }
+
+class AtomicRelationalTerm { String reference }
+
+AutomationRule "1" -- "0..*" AtomicRelationalTerm
+
+@enduml

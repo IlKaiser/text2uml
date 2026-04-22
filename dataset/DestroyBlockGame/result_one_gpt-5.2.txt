@@ -1,0 +1,91 @@
+@startuml
+
+class User{
+  String Username
+  String Password
+}
+class Player{
+  Integer TotalScore
+  Integer Lives
+}
+class Admin{
+  String Mode
+}
+class Game{
+  String Name
+  Integer NumberOfBlocksAtLevelStart
+  Double MinimumBallSpeed
+  Double SpeedIncreaseFactor
+  Double PaddleMaximumLength
+  Double PaddleMinimumLength
+  String Status
+}
+class HallOfFame{
+  String Title
+}
+class HallOfFameEntry{
+  Integer Score
+  DateTime AchievedAt
+}
+class Block{
+  String Color
+  Integer Points
+}
+class Level{
+  Integer Number
+  Boolean IsRandom
+}
+class GridCell{
+  Integer X
+  Integer Y
+}
+class LevelBlockPlacement{
+  Integer X
+  Integer Y
+}
+class GameSession{
+  DateTime StartedAt
+  DateTime EndedAt
+  Integer CurrentLevelNumber
+  Integer CurrentScore
+  Integer RemainingLives
+  String Status
+}
+class SaveGame{
+  DateTime SavedAt
+  Integer CurrentLevelNumber
+  Integer CurrentScore
+  Integer RemainingLives
+}
+class Ball{
+  Double Speed
+  String Direction
+}
+class Paddle{
+  Double Length
+  String Position
+}
+
+User <|-- Player
+User <|-- Admin
+
+Game "1..1" -- "1..1" HallOfFame
+HallOfFame "1..1" -- "0..*" HallOfFameEntry
+Player "1..1" -- "0..*" HallOfFameEntry
+
+Admin "0..*" -- "0..1" Game
+Game "1..1" -- "1..*" Block
+Game "1..1" -- "1..*" Level
+
+Level "1..1" -- "0..*" LevelBlockPlacement
+Block "1..1" -- "0..*" LevelBlockPlacement
+GridCell "1..1" -- "0..*" LevelBlockPlacement
+
+Game "1..1" -- "0..*" GameSession
+Player "1..1" -- "0..*" GameSession
+GameSession "0..*" -- "0..*" SaveGame
+GameSession "1..1" -- "1..1" Ball
+GameSession "1..1" -- "1..1" Paddle
+Level "0..*" -- "0..*" GameSession
+
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+
+class HelpingHandsStore {
+    +String name
+    +String websiteURL
+}
+
+class Resident {
+    +String name
+    +String streetAddress
+    +String phoneNumber
+    +String email
+    +String itemsToPickup
+}
+
+class PickupVehicle {
+    +String vehicleID
+    +int availableDrivers
+}
+
+class PickupRoute {
+    +String vehicleID
+    +String pickupDay
+    +List<String> itemsToPickup
+    +String pickupTime
+}
+
+class DistributionCenter {
+    +String address
+    +List<String> categories
+    +List<RFIDTaggedArticle> articles
+}
+
+class RFIDTaggedArticle {
+    +String articleCategory
+    +String articleDescription
+    +RFIDTag tag
+}
+
+class FoodBank {
+    +String address
+}
+
+Resident "1" -- "0..*" PickupRoute
+Resident "1" -- "1" PickupVehicle
+PickupVehicle "1" -- "1" PickupRoute
+PickupVehicle "1" -- "1" DistributionCenter
+DistributionCenter "1" -- "0..*" RFIDTaggedArticle
+DistributionCenter "1" -- "1" FoodBank
+
+Resident "1" -- "1" HelpingHandsStore
+HelpingHandsStore "1" -- "1" DistributionCenter
+HelpingHandsStore "1" -- "1" FoodBank
+
+@enduml

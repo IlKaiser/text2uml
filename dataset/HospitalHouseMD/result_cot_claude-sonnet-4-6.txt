@@ -1,0 +1,24 @@
+@startuml
+class Patient
+class Doctor
+class Diagnosis
+class Illness {
+  priority_score: String
+}
+class Treatment {
+  stage: Int
+}
+class Nurse
+class Consent
+class Form
+Patient "1..*" -- "1..*" Doctor
+Patient "1..1" -- "0..*" Diagnosis
+Diagnosis "1..1" -- "1..1" Doctor
+Diagnosis "1..1" -- "1..1" Illness
+Diagnosis "0..*" -- "0..*" Treatment
+Illness "1..1" -- "0..*" Treatment
+Patient "0..1" -- "0..1" Consent
+Consent "1..1" -- "1..1" Form
+Patient "0..*" -- "0..*" Nurse
+Patient "0..*" -- "0..*" Treatment
+@enduml

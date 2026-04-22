@@ -1,37 +1,57 @@
 ```plantuml
 @startuml
-class OTS{}
-class Student{}
-class Tutor{}
-class Registration{}
-class Subject{}
-class LevelOfExpertise{}
-class TutoringSession{}
-class WeeklyAvailability{}
-class TutoringOffer{}
-class TutoringRequest{}
-class Time{}
-class Slot{}
-class FollowUpTutoringSession{}
-class Payment{}
-class Cancellation{}
-class TutorOfTheMonth{}
-class Award{}
+class OTS {
+}
+class Student {
+    name: String
+    email: String
+}
+class Tutor {
+    name: String
+    email: String
+    bankAccount: String
+    hourlyPrice: Float
+}
+class Registration {
+}
+class BankAccount {
+}
+class OnlineTutoring {
+}
+class Subject {
+}
+class Expertise {
+    level: String
+}
+class TutoringSession {
+    targetDate: Date
+    targetTime: Date
+}
+class Availability {
+    weeklyAvailability: String
+}
+class Request {
+    level: String
+}
+class FollowUpSession {
+}
+class Cancellation {
+    cancellationFee: Float
+}
+class Award {
+}
 
-OTS "1..*" -- "0..*" Student
-OTS "1..*" -- "0..*" Tutor
-Tutor "1..1" -- "1..1" Registration
-Tutor "1..*" -- "0..*" TutoringOffer
-Tutor "1..*" -- "0..*" WeeklyAvailability
-TutoringOffer "1..*" -- "0..*" Subject
-Student "1..1" -- "0..*" TutoringRequest
-Tutor "1..1" -- "0..*" TutoringSession
-TutoringSession "1..1" -- "0..1" FollowUpTutoringSession
-TutoringSession "1..1" -- "0..1" Cancellation
-TutoringSession "1..1" -- "0..1" Payment
-TutoringRequest "1..1" -- "1..1" Subject
-TutoringRequest "1..1" -- "1..1" LevelOfExpertise
-TutorOfTheMonth "0..*" -- "1..1" Tutor
-TutorOfTheMonth "1..1" -- "1..1" Subject
+Student --|> Tutor
+
+0..* Student -- 0..* Request
+1..1 Tutor -- 1..1 BankAccount
+0..* Tutor -- 0..* OnlineTutoring
+1..* Tutor -- 0..* Subject
+1..1 Tutor -- 0..* Availability
+1..1 Student -- 1..* TutoringSession
+1..1 Tutor -- 0..* TutoringSession
+0..* TutoringSession -- 0..* FollowUpSession
+0..* TutoringSession -- 0..* Cancellation
+1..* Tutor -- 0..* Award
 @enduml
 ```

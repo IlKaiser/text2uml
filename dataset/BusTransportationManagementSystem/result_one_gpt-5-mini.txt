@@ -1,0 +1,17 @@
+@startuml
+
+class Driver { String Name, String DriverID, Boolean IsSick }
+class Bus { String LicensePlate, Boolean InRepair }
+class Route { Integer Number }
+class Shift { String Type, Date Date }
+class BusRouteAssignment { Date AssignmentDate }
+class DriverAssignment { String AssignmentID }
+
+Bus "0..*" -- "1..1" BusRouteAssignment
+Route "0..*" -- "1..1" BusRouteAssignment
+Route "0..*" -- "1..1" Shift
+Shift "0..*" -- "1..1" DriverAssignment
+Driver "0..*" -- "1..1" DriverAssignment
+Bus "0..*" -- "1..1" DriverAssignment
+
+@enduml

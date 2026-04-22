@@ -1,28 +1,44 @@
 ```
 @startuml
-class Kinepolis{}
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Reservation{}
-class Customer{}
-class Ticket{}
-class Seat{}
-class Programming{}
-class Display{}
-
-Kinepolis "1..*" -- "0..*" Cinema  
-Cinema "1..*" -- "1..*" Theatre  
-Theatre "1..*" -- "0..*" Show  
-Cinema "1..*" -- "1..*" Copy  
-Copy "1..*" -- "1..1" Movie  
-Show "1..*" -- "1..1" Movie  
-Show "1..*" -- "0..*" Reservation  
-Reservation "1..*" -- "1..1" Customer  
-Show "1..*" -- "1..1" Display  
-Show "1..*" -- "1..*" Ticket  
-Ticket "1..*" -- "1..1" Seat  
+class Kinepolis {
+}
+class Cinema {
+}
+class Theatre {
+}
+class Show {
+}
+class Movie {
+}
+class Copy {
+}
+class Reservation {
+}
+class Customer {
+}
+class Seat {
+}
+class CreditCard {
+}
+class Cancellation {
+}
+class Ticket {
+}
+class TicketingDesk {
+}
+class Offer {
+}
+class SeatReservation {
+}
+Kinepolis "1..*" -- "1..*" Cinema
+Cinema "1..*" -- "1..*" Theatre
+Theatre "1..*" -- "0..*" Show
+Cinema "1..1" -- "1..*" Copy
+Copy "1..*" -- "0..*" Theatre
+Show "0..*" -- "0..*" Reservation
+Reservation "1..1" -- "1..1" CreditCard
+Reservation "0..*" -- "0..1" Cancellation
+Ticket "1..1" -- "0..1" Seat
+TicketingDesk "1..1" -- "0..*" Seat
 @enduml
 ```

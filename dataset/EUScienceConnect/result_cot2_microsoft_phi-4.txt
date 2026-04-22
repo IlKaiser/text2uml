@@ -1,0 +1,119 @@
+```plantuml
+@startuml
+
+class EuropeanUnion {
+}
+
+class ResearchDatabase {
+}
+
+class ScientificArticle {
+    DOI: String
+    Title: String
+}
+
+class Researcher {
+    PersonID: String
+    PhoneNumber: String
+    Keywords: String
+    Institution: InstitutionCode
+}
+
+class Institution {
+    InstitutionCode: String
+}
+
+class ScienceConnect {
+}
+
+class Person {
+    PersonID: String
+    PhoneNumber: String
+    Keywords: String
+    Institution: InstitutionCode
+}
+
+class Author {
+}
+
+class Reviewer {
+}
+
+class PeerReviewedArticle {
+    DOI: String
+    Title: String
+    CitationCount: Int
+    Reviewers: String
+}
+
+class TechnicalReport {
+    DOI: String
+    Title: String
+    Publisher: InstitutionCode
+}
+
+class DOI {
+    DOI: String
+}
+
+class Title {
+    Title: String
+}
+
+class Keyword {
+    Keyword: String
+}
+
+class ResearchTopic {
+}
+
+class PhoneNumber {
+    PhoneNumber: String
+}
+
+class InstitutionCode {
+    InstitutionCode: String
+}
+
+class PersonID {
+    PersonID: String
+}
+
+class ScientificPublisher {
+    Name: String
+}
+
+class Journal {
+    Name: String
+    ImpactFactor: Float
+}
+
+class Subscription {
+}
+
+class ImpactFactor {
+}
+
+EuropeanUnion "1" -- "1" ScienceConnect
+Researcher "1..*" -- "1" Person
+Researcher "1..*" -- "1" Institution
+Researcher "1" -- "1" PhoneNumber
+Researcher "1..*" -- "0..*" Keyword
+ScientificArticle "1" -- "1" DOI
+ScientificArticle "1" -- "1" Title
+ScientificArticle "1" -- "0..*" Author
+Author "1" -- "1" Person
+PeerReviewedArticle "1" -- "1" CitationCount
+PeerReviewedArticle "1" -- "0..*" Reviewer
+Reviewer "1" -- "1" Person
+TechnicalReport "1" -- "1" Institution
+ScientificPublisher "0..*" -- "1..*" Journal
+Journal "0..*" -- "0..*" Subscription
+Journal "1" -- "1" ImpactFactor
+PeerReviewedArticle "1" -- "1" Journal
+
+PeerReviewedArticle --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
+
+@enduml
+```

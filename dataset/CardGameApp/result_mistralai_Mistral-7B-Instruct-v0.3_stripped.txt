@@ -1,0 +1,26 @@
+@startuml
+
+class Game { String ID, List<Player> Players, List<Deck> Decks, List<ScoringTable> ScoringTables }
+class Player { String ID }
+class Deck { String ID, List<Card> Cards }
+class Card { String ID, String Suit, String ComparisonResult }
+enum Suit { Diamonds, Hearts, Spades, Clubs }
+enum ComparisonResult { Lower, Equal, Higher }
+
+class ScoringTable { String ID, List<Round> Rounds }
+class Round { String ID, List<Player> WinningPlayers, int PointValue, boolean IsJackRound, boolean IsSoloRound, boolean IsMandatorySoloRound, Player SoloPlayer }
+
+enum RoundType { JackRound, SoloRound, MandatorySoloRound }
+
+Round "1..*" -- "0..1" RoundType
+Round "0..1" -- "0..1" IsJackRound
+Round "0..1" -- "0..1" IsSoloRound
+Round "0..1" -- "0..1" IsMandatorySoloRound
+Round "0..1" -- "1..1" SoloPlayer
+ScoringTable "0..*" -- "1..*" Round
+Game "1..1" -- "1..*" ScoringTable
+Game "1..1" -- "1..*" Deck
+Game "1..1" -- "1..*" Player
+Deck "0..*" -- "0..48" Card
+
+@enduml

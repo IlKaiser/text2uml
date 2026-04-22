@@ -1,0 +1,99 @@
+```plantuml
+@startuml
+class Aircraft {
+    - name : String
+    - type : String
+    - yearOfManufacture : int
+    - dateOfNextInspection : Date
+    - numberOfSeats : int
+}
+
+class Flight {
+    - flightNumber : String
+    - date : Date
+}
+
+class Passenger {
+    - name : String
+    - passportNumber : String
+}
+
+class Ticket {
+    - ticketNumber : String
+    - price : float
+    - isUpgradeDesired : boolean
+}
+
+class SeatCategory {
+    - designation : String
+    - offersEntertainmentProgram : boolean
+    - numberOfSeats : int
+}
+
+class Airline {
+    - name : String
+}
+
+class FlightAttendant {
+    - name : String
+    - dateOfEmployment : Date
+    - isChiefSteward : boolean
+}
+
+class Pilot {
+    - name : String
+    - dateOfEmployment : Date
+    - license : String
+}
+
+class Airport {
+    - name : String
+    - address : String
+    - numberOfRunways : int
+}
+
+class Upgrade {
+    - desired : boolean
+}
+
+class PassportNumber {
+    - number : String
+}
+
+class Seat {
+    - number : int
+}
+
+class FlightNumber {
+    - number : String
+}
+
+class Date {
+    - date : Date
+}
+
+class Name {
+    - value : String
+}
+
+class Price {
+    - amount : float
+}
+
+Aircraft "1" -- "*" Flight : performs
+Aircraft "1" -- "*" Passenger : has
+Aircraft "1" -- "1" SeatCategory : has
+Aircraft "1" -- "1" Airline : is part of
+Aircraft "1" -- "1" Airport : has home
+Flight "1" -- "*" Passenger : takes part in
+Flight "1" -- "1" Ticket : has
+Ticket "1" -- "1" SeatCategory : for
+Airline "1" -- "*" FlightAttendant : employs
+Airline "1" -- "*" Pilot : employs
+FlightAttendant "1" -- "*" Flight : works on
+Pilot "1" -- "1" Aircraft : flies
+Airport "1" -- "*" Flight : has departure
+Airport "1" -- "*" Flight : has destination
+
+@enduml
+```

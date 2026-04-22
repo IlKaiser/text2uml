@@ -1,0 +1,67 @@
+@startuml
+
+class OTS {
+}
+
+class Student {
+  - name
+  - email address
+  - registration
+}
+
+class Tutor {
+  - name
+  - email address
+  - bank account
+  - registration
+  - levelOfExpertise
+  - hourlyPrice
+  - weeklyAvailability
+  - subjects
+}
+
+class Registration {
+}
+
+class Subject {
+}
+
+class BankAccount {
+}
+
+class CreditCard {
+}
+
+class WireTransfer {
+}
+
+class TutoringSession {
+  - subject
+  - levelOfExpertise
+  - hourlyPrice
+  - weeklyAvailability
+  - targetDateAndTime
+  - agreedDateAndTime
+  - student
+  - tutor
+  - creditCard
+  - wireTransfer
+}
+
+OTS "1" -- "0..*" Student
+OTS "1" -- "0..*" Tutor
+Tutor "1" -- "1" Registration
+Tutor "1" -- "1" BankAccount
+Tutor "1" -- "1..*" Subject
+Tutor "1" -- "1" LevelOfExpertise
+Tutor "1" -- "1" HourlyPrice
+Tutor "1" -- "1" WeeklyAvailability
+Student "1" -- "1" Registration
+Student "0..*" TutoringSession
+TutoringSession "1" -- "1" Subject
+TutoringSession "1" -- "1" Student
+TutoringSession "1" -- "1" Tutor
+TutoringSession "0..1" CreditCard
+TutoringSession "0..1" WireTransfer
+
+@enduml

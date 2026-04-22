@@ -1,19 +1,27 @@
-```
 @startuml
 
-class City {}
-class BTMS {}
-class Driver {}
-class Bus {}
-class BusRoute {}
-class Shift {}
-class Schedule {}
+class Driver {
+    String Name
+    String UniqueID
+    Boolean SickLeave
+}
+class Bus {
+    String LicencePlate
+    Boolean InRepair
+}
+class Route {
+    Int Number
+}
+class Shift {
+    String TimeOfDay
+}
+class Schedule {
+    Date Date
+}
 
-BusRoute "1" -- "0..*" Bus
-BusRoute "1" -- "0..*" Shift
-Shift "0..*" -- "1" Driver
-Schedule "1" -- "0..*" Shift
+Bus "1..*" -- "1" Route
+Route "1" -- "0..*" Shift
+Shift "1" -- "0..*" Driver
 Driver "0..*" -- "0..*" Schedule
 
 @enduml
-```

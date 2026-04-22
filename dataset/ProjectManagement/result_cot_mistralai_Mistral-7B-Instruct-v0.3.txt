@@ -1,0 +1,269 @@
+<s>[INST] Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery..
+
+##############
+
+The class list is:
+[/INST] [University, ResearchGroup, Department, Researcher, ResearchProject, WorkPackage, Assignment]
+
+##############
+
+The cardinality list is:
+
+<s>[INST] Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery.
+
+##############
+
+The cardinality list is:
+[/INST] [("Researcher", 0..*, "ResearchGroup"), ("ResearchGroup", 0..*, "Department"),
+("ResearchGroup", 1..1, "WorkPackage"), ("WorkPackage", 1..*, "Researcher"),
+("Researcher", 0..1, "WorkPackage"), ("Researcher", 0..1, "ResearchGroup")]
+
+##############
+
+The attributes dictionary is:
+
+<s>[INST] Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery..
+
+##############
+
+The class list is:
+[/INST] [University, ResearchGroup, Department, Researcher, ResearchProject, WorkPackage, Assignment]
+
+#############
+
+The specification text is:
+
+The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery.
+
+##############
+
+The attributes dictionary is:
+[/INST] {
+"University": [],
+"ResearchGroup": ["department:String"],
+"Department": [],
+"Researcher": ["researchGroup:ResearchGroup"],
+"ResearchProject": [],
+"WorkPackage": ["researchGroup:ResearchGroup", "leader:ResearchGroup"],
+"Assignment": ["researcher:Researcher", "workPackage:WorkPackage"]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery..
+
+##############
+
+The class list is:
+[/INST] [University, ResearchGroup, Department, Researcher, ResearchProject, WorkPackage, Assignment]
+
+#############
+
+The specification text is:
+
+The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery.
+
+##############
+[/INST] ASSOCIATIONS:
+[(ResearchGroup, Researcher), (ResearchGroup, WorkPackage), (Researcher, WorkPackage), (Researcher, Assignment)]
+
+##############
+
+The plant uml is:
+[/INST] @startuml
+
+University "University"
+Department "Department" --|> University
+ResearchGroup "ResearchGroup" -- "department"
+Researcher "Researcher" -- "researchGroup"
+ResearchProject "ResearchProject"
+WorkPackage "WorkPackage" -- "researchGroup" :leader
+Researcher "Researcher" -- "WorkPackage"
+Assignment "Assignment" -- "researcher"
+Assignment "Assignment" -- "workPackage"
+
+@enduml

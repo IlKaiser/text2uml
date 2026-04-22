@@ -1,0 +1,63 @@
+@startuml
+
+class Person {
+    String Name
+    String Address
+    String PhoneNumber
+    String EmailAddress
+}
+
+abstract class UserRole {}
+
+class Client {
+    ItemCategory[] neededCategories
+}
+
+class Volunteer {}
+
+class Resident{}
+
+class Date {}
+
+class FoodItem{}
+
+class SecondHandArticle {
+    String CodeRFID
+    Boolean Discarded
+    ItemCategory Category
+}
+
+class Vehicle {
+    String Dimension
+    Int WeightRestriction
+}
+
+abstract class Item {
+    String Description
+    String Dimension
+    Int Weight
+    Date RequestedPickedDate
+}
+
+class Route {
+    Date date
+}
+
+
+UserRole "0..*" -- "0..*" Client
+UserRole "0..*" -- "0..*" Volunteer
+UserRole "0..*" -- "0..*" Resident
+Item "0..*" -- "0..*" SecondHandArticle
+Item "0..*" -- "0..*" FoodItem
+
+Volunteer "1..*" -- "0..*" Date : availableDates
+
+Person "1" -- "0..*" UserRole
+Client "0..1" -- "0..*" SecondHandArticle
+Volunteer "1" -- "0..*" Route
+Route "0..*" -- "1" Vehicle
+Route "0..1" - "0..*" Item : pickupRoute
+Route "0..*" -- "0..*" SecondHandArticle : dropOffRoute
+Resident "1" -- "0..*" Item
+
+@enduml

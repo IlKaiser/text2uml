@@ -1,23 +1,17 @@
-```plantuml
 @startuml
 
-class Boeing{}
-class Aircraft{}
-class AirlineCompany{}
-class SalesAgreement{}
-class Contract{}
-class Acquisition{}
-class Salesperson{}
-class Employee{}
+class Boeing{ String Name, String Address, String Phone}
+class Aircraft{ String Model, Date ProductionDate, String SerialNumber}
+class AirlineCompany{ String Name, String Address, String Phone, String IATACode}
+class Contract{ Date StartDate, Date EndDate, String DeliveryConditions, String LegalAspects}
+class Acquisition{ String Model, float Price, String Options, Date DeliveryDate}
+class Salesperson{ String Name, String EmployeeID, Date HireDate}
 
 Boeing "1..1" -- "1..*" Aircraft
-Boeing "1..1" -- "1..*" AirlineCompany
-Boeing "1..1" -- "1..*" SalesAgreement
-SalesAgreement "1..1" -- "1..1" Contract
+Boeing "1..1" -- "1..*" Contract
 Contract "1..1" -- "1..*" Acquisition
 Contract "1..1" -- "1..1" Salesperson
-Salesperson "1..1" -- "1..1" Employee
-AirlineCompany "1..1" -- "0..*" AirlineCompany
+AirlineCompany "1..1" -- "1..*" Aircraft
+AirlineCompany "1..1" -- "1..1" AirlineCompany
 
 @enduml
-```

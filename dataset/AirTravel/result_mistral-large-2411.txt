@@ -1,31 +1,29 @@
-```plantuml
 @startuml
 
-class Aircraft{}
-class Flight{}
-class Passenger{}
-class Ticket{}
-class PassengerAircraft{}
-class SeatCategory{}
-class Airline{}
-class FlightAttendant{}
-class Pilot{}
-class Airport{}
+class Aircraft{ String Name, String Type, int YearOfManufacture, Date NextInspectionDate }
+class Flight{ String FlightNumber, Date FlightDate }
+class Passenger{ String Name, String PassportNumber }
+class Ticket{ String TicketNumber, float Price, Boolean UpgradeDesired }
+class PassengerAircraft{ int NumberOfSeats }
+class SeatCategory{ String Designation, Boolean EntertainmentProgram, int NumberOfSeats }
+class Airline{ String Name }
+class FlightAttendant{ String Name, Date EmploymentDate, Boolean ChiefSteward }
+class Pilot{ String Name, Date EmploymentDate, String License }
+class Airport{ String Name, String Address, int NumberOfRunways }
 
 Aircraft "1..1" -- "1..*" Flight
-Flight "1..*" -- "1..*" Passenger
-Flight "1..*" -- "1..*" Ticket
+Flight "0..*" -- "0..*" Passenger
+Flight "1..1" -- "1..*" Ticket
 PassengerAircraft "1..1" -- "1..*" SeatCategory
-Ticket "1..1" -- "1..1" SeatCategory
-Aircraft "1..1" -- "0..1" Airline
+Ticket "0..*" -- "1..1" SeatCategory
+Aircraft "0..*" -- "1..1" Airline
 Airline "1..1" -- "1..*" FlightAttendant
 Airline "1..1" -- "1..*" Pilot
-Flight "1..*" -- "1..*" FlightAttendant
-Flight "1..1" -- "1..1" Pilot
-Flight "1..2" -- "1..*" Pilot
-Aircraft "1..1" -- "0..1" Airport
+Flight "1..1" -- "1..*" FlightAttendant
+Flight "1..1" -- "1..2" Pilot
+Aircraft "0..*" -- "1..1" Airport
 Flight "1..1" -- "1..1" Airport
 Flight "1..1" -- "1..1" Airport
+PassengerAircraft "1..1" -- "0..*" Aircraft
 
 @enduml
-```

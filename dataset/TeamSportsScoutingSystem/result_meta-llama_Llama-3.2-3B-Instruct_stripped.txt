@@ -1,0 +1,70 @@
+```plantuml
+@startuml
+class Employee {
+    String Name
+    String Role
+}
+
+class Player {
+    String Name
+    String Position
+    String Value
+}
+
+class TargetProfile {
+    String Position
+    String Attribute1
+    String Attribute2
+}
+
+class ScoutingReport {
+    String PlayerName
+    String Recommendation
+}
+
+class Scout {
+    String Name
+    String Role
+}
+
+class HeadCoach {
+    String Name
+    String Role
+}
+
+class Director {
+    String Name
+    String Role
+}
+
+class ScoutingAssignment {
+    String PlayerName
+    String Position
+    String Attribute1
+    String Attribute2
+}
+
+Employee "0..*" -- "1..*" TeamSportsScoutingSystem
+Employee "1..1" -- "1..1" HeadCoach
+Employee "1..1" -- "1..1" Director
+Employee "1..1" -- "1..*" Scout
+Employee "1..1" -- "1..1" HeadScout
+
+Player "0..*" -- "1..*" TargetProfile
+Player "0..*" -- "1..*" ScoutingReport
+Player "0..*" -- "1..*" ScoutingAssignment
+
+Scout "0..*" -- "1..*" ScoutingAssignment
+Scout "0..*" -- "1..*" ScoutingReport
+Scout "0..*" -- "1..*" TargetProfile
+
+HeadCoach "0..*" -- "1..*" ScoutingAssignment
+HeadCoach "0..*" -- "1..*" ScoutingReport
+HeadCoach "0..*" -- "1..*" TargetProfile
+
+Director "0..*" -- "1..*" ScoutingAssignment
+Director "0..*" -- "1..*" ScoutingReport
+Director "0..*" -- "1..*" TargetProfile
+
+@enduml
+```

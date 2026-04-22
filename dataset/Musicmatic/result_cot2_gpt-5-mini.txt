@@ -1,29 +1,45 @@
 @startuml
-class Song{}
-class Artist{}
-class User{}
-class RegularUser{}
-class BusinessUser{}
-class Album{}
-class Single{}
-class Hit{}
-class Track{}
-class Purchase{}
-class Suggestion{}
-class PurchasingBehavior{}
+class Song {
+  title: String
+  year: Int
+  length: Int
+  genre: String
+}
+class Single
+class Hit
+class Artist {
+  name: String
+  dateOfBirth: Date
+  website: String
+}
+class User {
+  id: Int
+  name: String
+  address: String
+  vatNumber: String
+}
+class Role
+class Album
+class Track {
+  trackNumber: Int
+}
+class Purchase
+class Upload
+class Suggestion
 
-Song "1..1" -- "0..*" Artist.
-Song "1..1" -- "0..1" Single.
-Song "1..1" -- "0..1" Hit.
-BusinessUser "0..*" -- "0..1" Song.
-Album "1..1" -- "0..*" Hit.
-Album "1..1" -- "0..*" Track.
-Track "1..1" -- "1..1" Hit.
-Album "1..1" -- "0..*" RegularUser.
-Purchase "1..1" -- "0..*" RegularUser.
-Purchase "1..1" -- "0..1" Single.
-Purchase "1..1" -- "0..1" Album.
-Suggestion "1..1" -- "1..1" Album.
-Suggestion "1..1" -- "0..*" RegularUser.
-PurchasingBehavior "0..*" -- "0..*" RegularUser.
+Song "0..*" -- "1..1" Artist
+User "0..*" -- "0..*" Role
+Upload "0..*" -- "1..1" User
+Song "1..1" -- "1..1" Upload
+User "0..*" -- "1..1" Purchase
+Single "0..1" -- "0..*" Purchase
+Album "0..1" -- "0..*" Purchase
+User "1..1" -- "0..*" Album
+Track "1..*" -- "1..1" Album
+Track "0..*" -- "1..1" Hit
+Album "1..1" -- "0..*" Suggestion
+User "1..1" -- "0..*" Suggestion
+
+Single --|> Song
+Hit --|> Song
 @enduml

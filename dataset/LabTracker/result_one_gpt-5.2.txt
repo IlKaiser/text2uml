@@ -1,0 +1,89 @@
+@startuml
+
+class Doctor {
+  Integer PractitionerNumber
+  Image Signature
+  String FullName
+  String Address
+  String PhoneNumber
+}
+
+class Patient {
+  String HealthNumber
+  String FirstName
+  String LastName
+  Date DateOfBirth
+  String Address
+  String PhoneNumber
+}
+
+class Requisition {
+  Date ValidFromDate
+  Integer RepeatTimes
+  String RepeatInterval
+}
+
+class TestGroup {
+  String Name
+}
+
+class Test {
+  String Name
+  Integer DurationMinutes
+  Boolean AppointmentRequired
+  Boolean WalkInOnly
+  Boolean SampleDropOffOnly
+  Boolean FixedDurationRegardlessOfCount
+}
+
+class TestResult {
+  String ResultValue
+}
+
+class Report {
+  String Content
+}
+
+class LabNetwork {
+  String Name
+}
+
+class Lab {
+  String Name
+  String RegistrationNumber
+  String Address
+  Double ChangeCancellationFee
+}
+
+class BusinessHours {
+  Time DayStartTime
+  Time DayEndTime
+}
+
+class Appointment {
+  String ConfirmationNumber
+  Date Date
+  Time StartTime
+  Time EndTime
+  String Status
+  DateTime ChangedOrCancelledAt
+}
+
+Doctor "0..*" -- "0..*" Patient
+Doctor "1..1" -- "0..*" Requisition
+Requisition "1..1" -- "1..1" Patient
+Requisition "1..1" -- "1..*" Test
+TestGroup "1..1" -- "0..*" Test
+Requisition "1..1" -- "1..1" TestGroup
+Test "1..1" -- "0..*" TestResult
+Patient "1..1" -- "0..*" TestResult
+Doctor "1..1" -- "0..*" TestResult
+TestResult "1..1" -- "0..1" Report
+LabNetwork "1..1" -- "0..*" Test
+LabNetwork "1..1" -- "0..*" Lab
+Lab "1..1" -- "0..*" BusinessHours
+Requisition "1..1" -- "0..*" Appointment
+Patient "1..1" -- "0..*" Appointment
+Lab "1..1" -- "0..*" Appointment
+
+@enduml

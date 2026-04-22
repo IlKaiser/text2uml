@@ -1,32 +1,26 @@
 ```plantuml
 @startuml
 
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Program{}
-class Reservation{}
-class Seat{}
-class Customer{}
-class Offer{}
-class Ticket{}
+class Cinema{ String Name, String Town }
+class Theatre{ String Name, int SeatNumber }
+class Show{ DateTime StartTime, DateTime EndTime }
+class Movie{ String Title, String Director, int Duration }
+class Copy{ String Format }
+class Reservation{ DateTime ReservationTime, String CreditCardNumber }
+class Seat{ int SeatNumber }
+class Offer{ DateTime ExpirationTime }
+class Ticket{ int SeatNumber, boolean IsAnonymous }
 
-Cinema "1" -- "1..*" Theatre
-Theatre "1" -- "1..*" Show
-Show "1" -- "1..*" Reservation
-Show "1" -- "1" Movie
-Cinema "1" -- "1..*" Copy
-Movie "1" -- "1..*" Copy
-Copy "1" -- "1..*" Show
-Program "1" -- "1..*" Show
-Reservation "1" -- "1" Seat
-Reservation "1" -- "1" Customer
-Show "1" -- "1..*" Offer
-Offer "1" -- "1" Customer
-Customer "1" -- "1..*" Ticket
-Show "1" -- "1..*" Ticket
+Cinema "1..*" -- "1..*" Theatre
+Theatre "1..*" -- "1..*" Show
+Show "1..*" -- "1..*" Copy
+Movie "1..*" -- "1..*" Copy
+Copy "1..*" -- "1..*" Seat
+Reservation "1..*" -- "1..*" Seat
+Show "1..*" -- "1..*" Reservation
+Show "1..*" -- "0..1" Offer
+Offer "0..*" -- "0..1" Seat
+Reservation "1..*" -- "1..1" Ticket
 
 @enduml
 ```

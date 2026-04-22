@@ -1,20 +1,43 @@
 @startuml
 
-class TaxiCompany{}
-class SelfDrivingCab{}
-class CarOwner{}
-class RideHailingService{}
-class RideSharingService{}
-class RideHailRequest{}
-class RideShareRequest{}
-class Accident{}
+class TaxiService {
+    String Type
+    Double Fee
+    Int NumberOfPassengers
+}
+class RideHailService {
+    Date PickUpTime
+    Date DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    String RequestType
+    String LeadCustomerName
+}
+class RideShareService {
+    Date PickUpTime
+    Date DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    String NegotiatedFee
+    List<String> CustomerNames
+}
+class SelfDrivingCar {
+    String Model
+    String OwnerName
+}
+class Accident {
+    Date Date
+    String Location
+    Double DamageAmount
+}
 
-TaxiCompany "1..1" -- "1..*" SelfDrivingCab
-TaxiCompany "1..1" -- "0..*" CarOwner
-SelfDrivingCab "1..1" -- "0..*" RideHailingService
-SelfDrivingCab "1..1" -- "0..*" RideSharingService
-RideHailingService "1..*" -- "0..*" RideHailRequest
-RideSharingService "1..*" -- "0..*" RideShareRequest
-SelfDrivingCab "1..1" -- "0..*" Accident
+SelfDrivingCar "1" -- "0..*" Accident
+SelfDrivingCar "1" -- "0..*" TaxiService
+TaxiService "1" -- "0..1" RideHailService
+TaxiService "1" -- "0..1" RideShareService
 
 @enduml

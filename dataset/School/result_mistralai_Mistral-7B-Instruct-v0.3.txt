@@ -1,0 +1,56 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: A school has a name. Teachers work there and students attend classes. Students and teachers have in common that their first and last names are recorded. Teachers' email addresses are also known. Students attend exactly one school, whereas a teacher can teach at a maximum of three schools. The number of hours for each such teaching relationship is known. Each school has exactly one principal, who is chosen from among the teachers. Although a teacher can teach at several schools, they can only be the principal of one school.
+In addition to the people working at the school, it also consists of a large number of rooms. These can be classrooms with a name and capacity, or other rooms such as a gym, which also have a name and a size specification in square meters. Between 10 and 31 students form a class group, which has a name (e.g., 5a). A student is always in exactly one class group. A class group is assigned to exactly one classroom and vice versa.[/INST] @startuml
+
+class School{ String Name }
+class Teacher{ String FirstName, String LastName, String Email }
+class Student{ String FirstName, String LastName }
+class Principal extends Teacher{ }
+
+School "0..*" -- "1" Principal
+Teacher "0..3" -- "0..*" School
+
+class ClassGroup{ String Name }
+class Classroom{ String Name, int Capacity }
+class Gym{ String Name, int Size_in_sq_meters }
+
+Classroom "1" -- "1..31" ClassGroup
+ClassGroup "1" -- "1" Classroom
+Gym "0..*" -- "0..*" School
+
+@enduml

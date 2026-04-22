@@ -1,0 +1,43 @@
+@startuml
+class Hospital
+
+class Patient
+
+class Doctor
+
+class Nurse
+
+class Illness
+
+class Diagnosis
+
+class Treatment {
+  stage: Int
+}
+
+class Consent
+
+class Form
+
+class PriorityScore {
+  level: String
+}
+
+class Outbreak
+
+class Virus
+
+Hospital "1..1" -- "0..*" Patient
+Patient "0..*" -- "1..*" Doctor
+Patient "1..1" -- "0..*" Diagnosis
+Doctor "0..*" -- "0..*" Diagnosis
+Diagnosis "0..*" -- "0..*" Treatment
+Illness "1..1" -- "0..*" Treatment
+Illness "1..1" -- "1..1" PriorityScore
+Patient "0..*" -- "0..*" Consent
+Consent "1..1" -- "1..1" Form
+Patient "0..*" -- "0..*" Nurse
+Treatment "0..*" -- "0..*" Nurse
+Treatment "0..*" -- "0..*" Doctor
+Outbreak "1..1" -- "1..1" Virus
+@enduml

@@ -1,18 +1,52 @@
 
 @startuml
+class User {
+    birthday: Date
+    name: String
+    address: String
+    uniqueID: String
+}
 
-class AppUser{}
-class BusinessOwner{}
-class PizzaRestaurant{}
-class Pizza{}
-class Order{}
-class EntertainmentOrder{}
-class Entertainer{}
+class BusinessOwner {
+    LinkedInAccount: String
+}
 
-AppUser "0..*" -- "1..1" BusinessOwner.
-BusinessOwner "1..*" -- "1..*" PizzaRestaurant.
+class PizzaRestaurant {
+    zipCode: String
+    address: String
+    phoneNumber: String
+    website: String
+    openingHours: String
+}
+
+class Pizza {
+    name: String
+    crustStructure: String
+    price: Float
+}
+
+class Order {
+    ID: Int
+    dateTime: Date
+    latestDeliveryTime: Date
+    numberOfPeople: Int
+}
+
+class EntertainmentOrder {
+    entertainmentType: String
+    duration: Int
+}
+
+class Entertainer {
+    stageName: String
+    bio: String
+    pricePer30Minutes: Float
+}
+
+User "1..1" -- "0..*" BusinessOwner.
+BusinessOwner "1..1" -- "1..*" PizzaRestaurant.
 PizzaRestaurant "1..*" -- "1..*" Pizza.
-AppUser "0..*" -- "1..*" Order.
-Order "0..*" -- "1..*" EntertainmentOrder.
+Order "0..*" -- "0..*" EntertainmentOrder.
+Entertainer "0..*" -- "0..*" PizzaRestaurant.
 
 @enduml

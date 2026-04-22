@@ -1,20 +1,19 @@
-
+```plantuml
 @startuml
 
-class CelO{}
-class Organizer{}
-class Event{}
-class Location{}
-class Attendee{}
-class Task{}
+class Organizer{ String FirstName, String LastName, String Email, String Address, String Phone, String Password }
+class Event{ String Kind, DateTime StartDateTime, DateTime EndDateTime, String Occasion, String Location }
+class Location{ String Name, String Address }
+class Attendee{ String FirstName, String LastName, String Email, Boolean AttendanceStatus }
+class Task{ String Description, Enum Status }
+class Checklist{ List<Task> Tasks }
 
-CelO "1..1" -- "1..*" Organizer
-CelO "1..1" -- "1..*" Event
-Organizer "1..*" -- "1..*" Event
-Organizer "1..1" -- "1..*" Task
-Event "1..1" -- "0..*" Location
-Organizer "1..*" -- "1..*" Attendee
-Attendee "1..*" -- "1..*" Event
-Task "0..*" -- "1..*" Attendee
+Organizer "1..1" -- "1..*" Event
+Organizer "0..*" -- "0..*" Attendee
+Event "1..1" -- "0..*" Attendee
+Event "1..1" -- "1..*" Task
+Event "1..1" -- "1..1" Location
+Event "1..1" -- "1..1" Checklist
 
 @enduml
+```  

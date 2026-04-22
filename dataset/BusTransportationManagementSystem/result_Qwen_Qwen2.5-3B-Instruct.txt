@@ -1,0 +1,40 @@
+@startuml
+
+class City {
+    +void assignBusesToRoutes()
+    +void postDriverSchedules()
+}
+
+class Driver {
+    -String name
+    -Boolean onSickLeave
+}
+
+class Bus {
+    -String licencePlate
+    -Boolean inRepairShop
+}
+
+class BusRoute {
+    -int routeNumber
+}
+
+City "1" -- "0..*" Driver
+City "1" -- "0..*" Bus
+City "1" -- "0..*" BusRoute
+
+BusRoute "1" -- "1" Bus
+Bus "1" -- "1" BusRoute
+
+Driver "1" -- "1" BusRoute
+Driver "1" -- "1" Bus
+
+BusRoute "1" -- "1..*" Bus
+Bus "1" -- "1" BusRoute
+
+Bus "1" -- "1..1" Driver
+
+Bus "1" -- "0..1" onSickLeave
+Bus "1" -- "0..1" inRepairShop
+
+@enduml

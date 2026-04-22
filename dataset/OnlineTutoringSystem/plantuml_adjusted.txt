@@ -1,0 +1,76 @@
+@startuml
+
+
+class User {
+    string name
+    string email
+}
+
+class BestTutorAward {
+    int year
+    int month
+}
+
+class Tutor {
+    string bankAccount
+}
+
+class TutoringOffer {
+    float hourlyPrice
+}
+
+class Subject {
+    string name
+}
+
+class TutorAvailability {
+    Date startTime
+    Time endTime
+}
+
+abstract class TutoringRole {}
+abstract class TutoringElement {
+    LevelOfTutoring tutoringLevel
+}
+
+class Student {}
+class TutoringRequest {}
+class TutoringSession {
+    Date sessionDate
+    float totalPrice
+    SessionStatus sessionStatus
+}
+class Payment {
+    PaymentKind paymentForm
+    date paymentDate
+}
+
+
+TutoringRole "0..*" -- "0..*" Tutor
+TutoringRole "0..*" -- "0..*" Student
+TutoringRequest "0..*" -- "0..*" TutoringElement
+TutoringOffer "0..*" -- "0..*" TutoringElement
+
+Tutor "1" -- "0..*" TutoringOffer
+Tutor "1" -- "0..*" TutorAvailability
+
+User "1" -- "0..*" TutoringRole : roles
+
+Student "1" -- "0..*" TutoringRequest
+
+TutoringRequest "1" -- "0..*" TutoringSession : allSessions
+TutoringSession "1" -- "0..1" Payment
+
+Subject "1" -- "0..*" TutoringOffer
+Subject "1" -- "0..*" TutoringRequest
+
+
+TutoringOffer "0..1" -- "0..*" TutoringRequest
+
+
+TutoringSession "1" -- "0..1" TutoringSession : nextSession
+TutoringRequest "1" -- "0..1" TutoringSession : firstSession
+
+
+Tutor "1" -- "0..*" BestTutorAward
+@enduml

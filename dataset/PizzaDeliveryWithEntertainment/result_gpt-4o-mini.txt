@@ -1,24 +1,22 @@
 ```plantuml
 @startuml
 
-class User{}
-class BusinessOwner{}
-class HungryCustomer{}
-class Entertainer{}
-class PizzaRestaurant{}
-class Pizza{}
-class Order{}
-class EntertainmentOrder{}
+class User{ String Name, Date Birthday, String Address }
+class BusinessOwner{ String LinkedIn }
+class PizzaRestaurant{ String ZipCode, String Address, String PhoneNumber, String Website, String OpeningHours }
+class Pizza{ String Name, String CrustStructure, Double Price }
+class Order{ String ID, DateTime OrderDateTime, DateTime LatestDeliveryTime, Integer PeopleCount }
+class EntertainmentOrder{ String EntertainmentType, Duration Duration }
+class Entertainer{ String StageName, String Bio, Double PricePer30Minutes }
 
-User "1..1" -- "1..1" BusinessOwner
-User "1..1" -- "1..1" HungryCustomer
-User "1..1" -- "0..*" Entertainer
-
-BusinessOwner "1..1" -- "1..*" PizzaRestaurant
-PizzaRestaurant "1..1" -- "1..*" Pizza
-HungryCustomer "1..1" -- "1..*" Order
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+BusinessOwner "1..*" -- "0..*" PizzaRestaurant
+PizzaRestaurant "1..*" -- "1..*" Pizza
+HungryCustomer "1..*" -- "1..*" Order
 Order "1..1" -- "0..1" EntertainmentOrder
 EntertainmentOrder "1..1" -- "1..1" Entertainer
+Entertainer "1..*" -- "0..*" PizzaRestaurant
 
 @enduml
 ```

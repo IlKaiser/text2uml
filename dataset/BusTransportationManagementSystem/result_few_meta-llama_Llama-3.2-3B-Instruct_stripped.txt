@@ -1,0 +1,76 @@
+Here is the UML output for the given specification text:
+
+@startuml
+
+class City {
+    String Name
+}
+class BusRoute {
+    Int Number
+}
+class Bus {
+    String LicencePlate
+}
+class Driver {
+    String Name
+    String ID
+}
+class Shift {
+    String Type
+    Date Date
+}
+class Schedule {
+    Int Number
+    Shift MorningShift
+    Shift AfternoonShift
+    Shift NightShift
+}
+class BTMS {
+    String Name
+}
+class BusAssignment {
+    Bus Route
+    Driver
+    Shift
+}
+class BusDriver {
+    String Name
+    String ID
+    Boolean Sick
+}
+class BusStatus {
+    String Status
+}
+class RepairShop {
+    String Name
+}
+class Repair {
+    String Type
+    Date Date
+}
+class Overview {
+    BusRoute Number
+    Bus LicencePlate
+    Shift Date
+    Driver Name
+    Driver ID
+}
+
+City "1" -- "0..*" BTMS
+BusRoute "1..9999" -- "0..*" Bus
+Bus "1..*" -- "0..*" BusAssignment
+BusAssignment "1" -- "0..*" Shift
+Shift "1" -- "0..*" Schedule
+Schedule "1" -- "0..*" BusAssignment
+BusAssignment "1" -- "0..*" BusDriver
+BusDriver "1" -- "0..*" Shift
+Shift "1" -- "0..*" Overview
+Overview "1" -- "0..*" BusAssignment
+BusAssignment "1" -- "0..*" BusStatus
+BusStatus "1" -- "0..*" Bus
+Bus "1" -- "0..*" RepairShop
+RepairShop "1" -- "0..*" Repair
+Repair "1" -- "0..*" Bus
+Bus "1" -- "0..*" Overview
+
+@enduml

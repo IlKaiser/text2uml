@@ -1,0 +1,25 @@
+@startuml
+
+class HospitalHouseMD { String Name }
+class Patient { String ID, String Name, Date DOB }
+class Doctor { String ID, String Name, String Specialty }
+class HeadDoctor { }
+class Nurse { String ID, String Name }
+class Illness { String Name, String Priority }
+class Diagnosis { Date DateDiagnosed, Boolean Approved }
+class Treatment { String Name, Integer Stage }
+class Consent { Date SignedDate, Boolean Active }
+
+Patient "0..*" -- "1..*" Doctor
+Patient "1..1" -- "0..*" Diagnosis
+Doctor "1..1" -- "0..*" Diagnosis
+HeadDoctor "1..1" -- "0..*" Diagnosis
+Illness "0..*" -- "0..*" Treatment
+Diagnosis "0..*" -- "0..*" Treatment
+Patient "1..1" -- "0..*" Consent
+Patient "1..1" -- "0..*" Treatment
+Treatment "0..*" -- "0..*" Nurse
+Treatment "0..*" -- "0..*" Doctor
+HeadDoctor --|> Doctor
+
+@enduml

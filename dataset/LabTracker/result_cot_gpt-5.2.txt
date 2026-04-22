@@ -1,0 +1,81 @@
+@startuml
+class LabTracker
+
+class Doctor {
+  practitionerNumber:Int
+  signature:String
+  fullName:String
+  address:String
+  phoneNumber:String
+}
+
+class Patient {
+  healthNumber:String
+  firstName:String
+  lastName:String
+  dateOfBirth:Date
+  address:String
+  phoneNumber:String
+}
+
+class Requisition {
+  validFrom:Date
+}
+
+class Test {
+  duration:Int
+}
+
+class TestGroup
+
+class LabNetwork
+
+class TestResult {
+  result:Boolean
+}
+
+class Report
+
+class Appointment {
+  confirmationNumber:String
+  date:Date
+  startTime:String
+  endTime:String
+}
+
+class Lab {
+  name:String
+  registrationNumber:String
+  address:String
+}
+
+class BusinessHours {
+  dayStartTime:String
+  dayEndTime:String
+}
+
+class RepetitionPattern {
+  numberOfTimes:Int
+  interval:String
+}
+
+class Fee {
+  amount:Float
+}
+
+Doctor "0..*" -- "1..1" Requisition
+Patient "0..*" -- "1..1" Requisition
+Requisition "1..*" -- "0..*" Test
+Test "1..1" -- "0..*" TestGroup
+LabNetwork "1..1" -- "0..*" Test
+Requisition "0..1" -- "0..*" RepetitionPattern
+TestResult "0..*" -- "1..1" Test
+Report "0..*" -- "1..1" TestResult
+Doctor "0..*" -- "1..1" TestResult
+Patient "0..*" -- "1..1" TestResult
+Appointment "0..*" -- "1..1" Patient
+Appointment "0..*" -- "1..1" Requisition
+Appointment "0..*" -- "1..1" Lab
+Lab "1..1" -- "1..1" BusinessHours
+Lab "1..1" -- "0..1" Fee
+@enduml

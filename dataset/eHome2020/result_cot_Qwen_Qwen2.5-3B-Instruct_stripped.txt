@@ -1,0 +1,49 @@
+@startuml
+title Infrastructure and Software Platform for Capturing Energy Consumption Data in Private Homes
+
+class Sensor {
+    +vendorId: String
+    +description: String
+    +unit: String
+    +valueRangeMin: Float
+    +valueRangeMax: Float
+}
+
+class SensorController {
+    +apartments: List[Apartment]
+    +thresholds: Map[String, Float]
+    +emailAddresses: Map[String, String]
+}
+
+class Apartment {
+    +address: String
+    +rooms: List[Room]
+    +inhabitants: List[Inhabitant]
+}
+
+class Inhabitant {
+    +username: String
+    +password: String
+    +sensorThresholds: Map[String, Float]
+    +emailAddress: String?
+}
+
+class EMonitor {
+    +apartments: List[Apartment]
+    +sendAlerts: Boolean
+}
+
+class Room {
+    +description: String
+    +sensors: List[Sensor]
+}
+
+class TemperatureSensor extends Sensor {
+    +value: Float
+}
+
+class PowerSensor extends Sensor {
+    +counterReading: Float
+}
+
+@enduml

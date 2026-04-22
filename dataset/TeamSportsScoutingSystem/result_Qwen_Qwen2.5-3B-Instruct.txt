@@ -1,0 +1,31 @@
+@startuml
+
+class TeamSportsScoutingSystem{}
+
+class HeadCoach{
+  +String identifyPlayerProfiles()
+  +void setTargetPositions(String position)
+  +void setOtherAttributes(String attribute, String value)
+}
+
+class DirectorOfClub{}
+
+class Scout{
+  +void notePlayersOnLongList(List<Player> players)
+  +void evaluateAndSetScoutingAssignments(List<Player> players)
+  +void submitScoutingReport(Player player, List<String> prosCons, String recommendation)
+}
+
+class Player{
+  +String getTargetPosition()
+  +String[] getAttributes()
+}
+
+TeamSportsScoutingSystem "1" -- "0..*" HeadCoach
+TeamSportsScoutingSystem "1" -- "0..*" DirectorOfClub
+HeadCoach "1" -- "1" Scout
+Scout "1" -- "1" Player
+Scout "1" -- "0..*" Player
+DirectorOfClub "1" -- "1" Scout
+
+@enduml

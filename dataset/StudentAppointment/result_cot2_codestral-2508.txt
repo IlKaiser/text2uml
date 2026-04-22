@@ -1,15 +1,42 @@
 ```plantuml
 @startuml
-class Student{}
-class Question{}
-class Course{}
-class Appointment{}
-class TeachingAssistant{}
 
-Student "0..*" -- "1..*" Appointment
-Appointment "1..1" -- "1..1" TeachingAssistant
-Appointment "1..1" -- "1..1" Course
-Course "1..1" -- "1..*" TeachingAssistant
-Course "1..1" -- "0..*" Student
+class Student {
+    id:String
+    name:String
+}
+
+class Question {
+    id:String
+    content:String
+    studentId:String
+}
+
+class Course {
+    id:String
+    name:String
+}
+
+class Appointment {
+    id:String
+    date:Date
+    studentId:String
+    taId:String
+    courseId:String
+}
+
+class TeachingAssistant {
+    id:String
+    name:String
+}
+
+class System
+
+Student "1..1" -- "0..*" Appointment
+TeachingAssistant "1..1" -- "0..*" Appointment
+Course "1..1" -- "0..*" Appointment
+Student "1..1" -- "1..*" Course
+TeachingAssistant "1..1" -- "1..*" Course
+
 @enduml
 ```

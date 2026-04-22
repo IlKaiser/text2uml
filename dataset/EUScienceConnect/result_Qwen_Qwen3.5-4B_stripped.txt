@@ -1,0 +1,16 @@
+@startuml
+class Person{ String PersonID, String PhoneNumber, String Keyword1, String Keyword2, String Keyword3, String InstitutionCode }
+class Institution{ String InstitutionCode }
+class Article{ String DOI, String Title, String Author1, String Author2, String Author3, String AuthorPosition1, String AuthorPosition2, String AuthorPosition3, String ReviewerName, String CitationCount }
+class TechnicalReport{ String InstitutionCode }
+class Journal{ String JournalName, String ImpactFactor }
+class Publisher{ String PublisherName }
+
+Person "1..1" -- "1..1" Institution
+Person "0..*" -- "0..*" Article
+Article "1..1" -- "1..1" Person
+TechnicalReport "1..1" -- "1..1" Institution
+Article "1..1" -- "1..1" Journal
+Journal "1..1" -- "1..1" Publisher
+Publisher "1..*" -- "1..*" Journal
+@enduml

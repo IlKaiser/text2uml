@@ -1,0 +1,65 @@
+Given the refined specification text, the necessary classes for the UML conceptual model diagram are:
+
+1. **Song**
+2. **Artist**
+3. **User**
+4. **RegularUser**
+5. **BusinessUser**
+6. **Album**
+7. **Track**
+
+Here is the UML class diagram represented in PlantUML format:
+
+```plantuml
+@startuml
+class Song {
+    +title:String
+    +year:Int
+    +length:Float
+    +genre:String
+}
+
+class Artist {
+    +name:String
+    +dateOfBirth:Date
+    +websiteURL:String
+    +id:UUID // Assuming UUID for uniqueness
+}
+
+class User {
+    +id:UUID
+    +name:String
+    +address:String
+}
+
+class RegularUser extends User {
+    +purchases:[Album]
+}
+
+class BusinessUser extends User {
+    +vatNumber:String
+    +uploads:[Song]
+}
+
+class Album {
+    +id:UUID
+    +title:String
+    +tracks:[Track]
+}
+
+class Track {
+    +id:UUID
+    +position:Int
+    +song:Song
+}
+
+// Relationships
+Song -- Artist
+Album -- Song
+Album -- Track
+RegularUser -- Album
+BusinessUser -- Song
+@enduml
+```
+
+This PlantUML code represents the necessary classes and their relationships based on the specified requirements.

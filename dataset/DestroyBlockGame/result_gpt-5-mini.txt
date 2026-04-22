@@ -1,29 +1,35 @@
 @startuml
 
-class User{}
-class Player{}
-class Admin{}
-class Game{}
-class HallOfFame{}
-class Block{}
-class Level{}
-class GridCell{}
-class GameSession{}
-class Ball{}
-class Paddle{}
+class User{ String username, String password }
+class Player{ int currentLives, int totalScore }
+class Admin{ }
+class Game{ String name, int maxLevels, int blocksAtStart, double minSpeed, double speedIncreaseFactor, int maxPaddleLength, int minPaddleLength, boolean published }
+class Block{ String color, int points }
+class Level{ int number, boolean random }
+class BlockPlacement{ int column, int row }
+class Ball{ double speed, double direction }
+class Paddle{ int length, int position }
+class HallOfFame{ }
+class HallOfFameEntry{ int score, Date date }
+class PlaySession{ Date startTime, boolean paused, int livesRemaining, int currentLevel, int totalScore }
+class SavedGame{ Date savedAt }
 
-User "1..1" -- "1..1" Player
-User "0..1" -- "0..1" Admin
+Player extends User
+Admin extends User
+
 Admin "0..*" -- "1..1" Game
-Game "1..1" -- "1..1" HallOfFame
-Game "1..1" -- "1..99" Level
+Player "0..*" -- "0..*" Game
 Game "1..1" -- "0..*" Block
-Level "1..1" -- "0..*" GridCell
-Block "0..*" -- "0..*" GridCell
-Player "0..*" -- "0..*" GameSession
-Game "0..*" -- "0..*" GameSession
-GameSession "1..1" -- "1..1" Ball
-GameSession "1..1" -- "1..1" Paddle
-HallOfFame "1..1" -- "0..*" GameSession
+Game "1..1" -- "1..*" Level
+Level "1..1" -- "0..*" BlockPlacement
+Block "1..1" -- "0..*" BlockPlacement
+Game "1..1" -- "1..1" HallOfFame
+HallOfFame "1..1" -- "0..*" HallOfFameEntry
+HallOfFameEntry "1..1" -- "1..1" Player
+Player "1..1" -- "0..*" PlaySession
+PlaySession "1..1" -- "1..1" Game
+PlaySession "1..1" -- "1..1" Ball
+PlaySession "1..1" -- "1..1" Paddle
+PlaySession "1..1" -- "0..*" SavedGame
 
 @enduml

@@ -1,0 +1,87 @@
+@startuml
+
+class Resident{
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemDescription
+}
+
+class PickupRequest{
+    Date PickupDate
+    String TimeWindow
+    String StreetAddress
+}
+
+class SecondHandArticle{
+    String Description
+    Boolean RFIDTagged
+}
+
+class NonPerishableFood{
+    String Description
+}
+
+class ArticleCategory{
+    String Name
+}
+
+class DistributionCenter{
+    String Name
+    String Address
+}
+
+class FoodBank{
+    String Name
+    String Address
+}
+
+class PickupVehicle{
+    String VehicleId
+    String StorageSpace
+    String Dimensions
+    Double WeightCapacity
+}
+
+class VolunteerDriver{
+    String Name
+    String AvailableDays
+}
+
+class PickupRoute{
+    Date RouteDate
+    String TimeWindow
+}
+
+class H2SEmployee{
+    String Name
+    String Role
+}
+
+class DeliveryEvent{
+    Date DeliveryDate
+    String Status
+    String CategoriesRequested
+}
+
+class City{
+    String Name
+}
+
+Resident "0..*" -- "1" PickupRequest
+PickupRequest "1" -- "0..*" SecondHandArticle
+PickupRequest "1" -- "0..*" NonPerishableFood
+PickupVehicle "1" -- "0..*" PickupRoute
+VolunteerDriver "0..*" -- "0..*" PickupRoute
+PickupRoute "1" -- "0..*" PickupRequest
+SecondHandArticle "0..*" -- "1" DistributionCenter
+DistributionCenter "0..*" -- "1" City
+ArticleCategory "0..*" -- "1" SecondHandArticle
+NonPerishableFood "0..*" -- "1" FoodBank
+DeliveryEvent "1" -- "0..*" SecondHandArticle
+DeliveryEvent "1" -- "1" VolunteerDriver
+Resident "0..*" -- "1" DeliveryEvent
+H2SEmployee "0..*" -- "1" SecondHandArticle
+
+@enduml

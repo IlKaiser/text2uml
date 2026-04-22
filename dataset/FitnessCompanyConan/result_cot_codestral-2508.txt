@@ -1,23 +1,48 @@
 ```plantuml
 @startuml
+class FitnessCompany {
+  name: String
+}
 
-class FitnessCompany{}
-class Center{}
-class Room{}
-class Person{}
-class Trainer{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
+class FitnessCenter {
+  name: String
+  address: String
+}
 
-FitnessCompany "1" -- "1..*" Center
-Center "1..*" -- "1..*" Room
-Person "0..*" -- "0..1" Trainer
-Person "0..*" -- "0..*" Session
-Trainer "0..*" -- "1..*" Session
-Session "1..*" -- "1" Room
-GroupSession "1" -- "1" Session
-IndividualSession "1" -- "1" Session
+class Room {
+  number: Int
+  capacity: Int
+}
 
+class Person {
+  firstName: String
+  familyName: String
+  birthDate: Date
+}
+
+class Trainer {
+  diploma: String
+}
+
+class Session {
+  date: Date
+  startHour: Float
+}
+
+class GroupSession {
+  type: String
+}
+
+class IndividualSession
+
+FitnessCompany "1..*" -- "1..*" FitnessCenter
+FitnessCenter "1..1" -- "1..*" Room
+Person "0..*" -- "1..*" Session
+Trainer "0..*" -- "1..1" Session
+Session "1..*" -- "1..1" Room
+
+Trainer --|> Person
+GroupSession --|> Session
+IndividualSession --|> Session
 @enduml
 ```

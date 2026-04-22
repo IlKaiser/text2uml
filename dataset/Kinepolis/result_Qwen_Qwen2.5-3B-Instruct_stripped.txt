@@ -1,0 +1,57 @@
+@startuml
+
+class Kinepolis {
+    +void publishWeeklyProgramme()
+    +void cancelShow(Show)
+    +void offerNewSeat(Show)
+    +void issueFreeTicket(Customer)
+}
+
+class Show {
+    +String movieTitle
+    +Date startTime
+    +int theatreId
+}
+
+class Theatre {
+    +String name
+    +int capacity
+    +List<Show> shows
+}
+
+class Customer {
+    +String name
+    +CreditCard creditCard
+    +SeatReservation seatReservation
+}
+
+class SeatReservation {
+    +Customer customer
+    +Show show
+    +Date cancellationTime
+}
+
+class CreditCard {
+    +String number
+}
+
+Kinepolis "1" -- "0..*" Show
+Kinepolis "1" -- "0..*" Theatre
+Kinepolis "1" -- "0..*" Customer
+Kinepolis "1" -- "0..*" SeatReservation
+Kinepolis "1" -- "0..*" CreditCard
+Show "1" -- "1" Theatre
+Theatre "1" -- "*" Show
+Customer "1" -- "1" SeatReservation
+Customer "1" -- "1" CreditCard
+Show "1" -- "0..1" SeatReservation
+Show "1" -- "0..1" CreditCard
+Theatre "1" -- "0..*" SeatReservation
+Theatre "1" -- "0..*" CreditCard
+Customer "1" -- "0..*" SeatReservation
+Customer "1" -- "0..*" CreditCard
+Show "1" -- "0..1" OfferedSeat
+OfferedSeat "1" -- "1" SeatReservation
+OfferedSeat "1" -- "0..1" FreeTicket
+FreeTicket "1" -- "1" Customer
+@enduml

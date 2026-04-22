@@ -1,31 +1,94 @@
 @startuml
 
-class WebPortal {}
-class Building {}
-class User {}
-class Administrator {}
+class WebPortal {
+    String Version
+    String URL
+}
+class Building {
+    String ID
+    String Name
+    String EnergyClass
+    String Address
+    Int YearOfConstruction
+}
+class User {
+    String Username
+    String Email
+    String Password
+    Boolean Activated
+}
 class Visitor {}
-class AdditionalEntry {}
-class TextEntry {}
-class NumericEntry {}
-class Image {}
-class Comment {}
+class Administrator {
+    String IDCardNumber
+}
+class AdditionalEntry {
+    String Name
+    Boolean PublicRelease
+}
+class TextEntry {
+    String Text
+}
+class NumericEntry {
+    Double Value
+    String Unit
+}
+class Image {
+    String FileName
+    Boolean ProfilePhoto
+}
+class Comment {
+    String Text
+    Date CreatedAt
+}
+class Confirmation {
+    String Token
+    Date SentAt
+    Boolean Confirmed
+}
+
+class Register {}
+class ConfirmEmail {}
+class Login {}
+class CreateBuilding {}
+class AddEntry {}
+class AddTextEntry {}
+class AddNumericEntry {}
+class ReleaseEntryPublicly {}
+class UploadImage {}
+class SetProfilePhoto {}
+class CommentOnBuilding {}
+class SearchBuildings {}
+class AdminSetupUser {}
+class DeleteComment {}
 
 User --|> Visitor
 Administrator --|> User
 TextEntry --|> AdditionalEntry
 NumericEntry --|> AdditionalEntry
+AddTextEntry --|> AddEntry
+AddNumericEntry --|> AddEntry
 
-WebPortal "1" -- "0..*" Building
-WebPortal "1" -- "0..*" User
-Visitor "0..*" -- "1" WebPortal
-User "1" -- "0..*" Building
-Building "1" -- "0..*" AdditionalEntry
-Building "0..*" -- "0..*" Image
-Building "1" -- "0..1" Image
-Building "1" -- "1" User
-Comment "1" -- "1" User
-Comment "1" -- "1" Building
-AdditionalEntry "0..*" -- "1" User
+WebPortal "1..1" -- "0..*" Building
+User "1..1" -- "0..*" Building
+Building "1..1" -- "0..*" AdditionalEntry
+Building "1..1" -- "0..*" Image
+User "1..1" -- "0..*" Comment
+Building "1..1" -- "0..*" Comment
+Confirmation "0..*" -- "1..1" User
+
+Visitor "1..1" -- "0..*" Register
+Visitor "1..1" -- "0..*" ConfirmEmail
+User "1..1" -- "0..*" Login
+User "1..1" -- "0..*" CreateBuilding
+User "1..1" -- "0..*" AddTextEntry
+User "1..1" -- "0..*" AddNumericEntry
+User "1..1" -- "0..*" ReleaseEntryPublicly
+User "1..1" -- "0..*" UploadImage
+User "1..1" -- "0..*" SetProfilePhoto
+User "1..1" -- "0..*" CommentOnBuilding
+Visitor "1..1" -- "0..*" SearchBuildings
+User "1..1" -- "0..*" SearchBuildings
+Administrator "1..1" -- "0..*" AdminSetupUser
+Administrator "1..1" -- "0..*" DeleteComment
 
 @enduml

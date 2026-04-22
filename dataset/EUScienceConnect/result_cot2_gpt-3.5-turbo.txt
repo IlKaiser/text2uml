@@ -1,25 +1,43 @@
 
 @startuml
-class ResearchDatabase{}
-class ScienceConnect{}
-class Person{}
-class ResearchInstitution{}
-class ScientificArticle{}
-class ArticleAuthor{}
-class PeerReviewedPaper{}
-class TechnicalReport{}
-class DOI{}
-class AuthorPosition{}
-class CitationCount{}
-class Publisher{}
-class Journal{}
-class ImpactFactor{}
+class Person {
+  personID: String
+  phone_number: String
+  keywords: String
+  institution: Institution
+}
 
-ResearchInstitution "1..1" -- "0..*" TechnicalReport
-ResearchInstitution "1..1" -- "0..*" ScientificArticle
-Person "1..1" -- "0..1" ScientificArticle
-Person "1..1" -- "0..*" PeerReviewedPaper
-Publisher "1..1" -- "1..*" Journal
-Journal "1..1" -- "0..*" PeerReviewedPaper
-Journal "1..1" -- "0..*" CitationCount
+class Institution {
+  institution_code: String
+}
+
+class Article {
+  DOI: String
+  title: String
+  authors: String
+  position: Int
+}
+
+class Publisher {
+  name: String
+}
+
+class Journal {
+  name: String
+}
+
+class Author {
+}
+
+class Reviewer {
+}
+
+Person "1..1" -- "1..1" Institution
+Person "0..*" -- "1..1" Article
+Person "0..*" -- "1..1" Publisher
+Article "1..*" -- "1..*" Author
+Article "0..*" -- "0..*" Reviewer
+Article "1..*" -- "1..1" Journal
+Publisher "1..*" -- "1..*" Journal
+Publisher "1..*" -- "1..5" Institution
 @enduml

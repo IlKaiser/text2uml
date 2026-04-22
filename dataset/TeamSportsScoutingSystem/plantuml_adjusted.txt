@@ -1,0 +1,66 @@
+@startuml
+
+
+
+abstract class Person {
+    String FirstName
+    String LastName
+}
+
+class Player {
+    ScoutingStatus Status
+}
+
+class HeadCoach {}
+
+class Director {}
+
+class Scout {
+    ScoutKind ScoutKind
+}
+
+class Club {}
+
+class Offer {
+    Int Value
+}
+
+class ScoutingAssignment {}
+
+class ScoutReport {
+    String Pro
+    String Con
+    Recommendation Recommendation
+}
+
+class PlayerProfile {
+    Position Position
+}
+
+class PlayerAttribute {
+    String Name
+    Int Value
+}
+
+Person "0..*" -- "0..*" Player
+Person "0..*" -- "0..*" HeadCoach
+Person "0..*" -- "0..*" Director
+Person "0..*" -- "0..*" Scout
+
+Director "1..*" -- "0..*" Offer
+Club "1..*" -- "0..1" Director
+Club "1..*" -- "0..1" HeadCoach
+Club "1..*" -- "0..*" Player
+Club "1..*" -- "0..*" Scout
+Scout "1..*" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1..*" -- "0..1" ScoutReport 
+HeadCoach "1..*" -- "0..*" PlayerProfile
+PlayerProfile "1..*" -- "0..*" PlayerAttribute
+
+
+Player "0..1" -- "0..*" Offer
+Player "0..1" -- "0..1" PlayerProfile
+Player "1..1" -- "0..*" ScoutingAssignment
+ScoutReport "0..1" -- "0..1" ScoutReport : nextReport
+
+@enduml

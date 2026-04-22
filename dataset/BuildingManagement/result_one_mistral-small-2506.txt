@@ -1,0 +1,58 @@
+Here is the PlantUML class diagram based on the project description:
+
+```plantuml
+@startuml
+
+class WebPortal {
+    String VersionNumber
+    String URL
+}
+
+class Building {
+    String ID
+    String Name
+    String EnergyClass
+    String Address
+    Integer YearOfConstruction
+}
+
+class User {
+    String UserName
+    String Email
+    String Password
+    Boolean IsActivated
+}
+
+class AdditionalEntry {
+    String Name
+    String Content
+    String Unit
+    Boolean IsPublic
+}
+
+class Image {
+    String FileName
+}
+
+class Comment {
+    String Text
+}
+
+class Administrator {
+    String IDCardNumber
+}
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "1" User
+Building "1" -- "0..*" AdditionalEntry
+Building "1" -- "1..*" Image
+Building "1" -- "0..*" Comment
+User "1" -- "0..*" Building
+User "1" -- "0..*" Comment
+User "1" -- "0..*" AdditionalEntry
+Administrator --|> User
+AdditionalEntry "1" -- "0..1" Building
+Image "1" -- "0..1" Building
+
+@enduml
+```

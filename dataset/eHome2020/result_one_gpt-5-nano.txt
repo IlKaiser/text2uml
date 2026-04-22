@@ -1,0 +1,73 @@
+@startuml
+
+enum Unit {
+    CELSIUS
+    WATT
+}
+
+class SensorController {
+    String Name
+}
+
+class EMonitor {
+    String Name
+}
+
+class Apartment {
+    String Address
+    String EmailAddress
+}
+
+class Room {
+    String Description
+}
+
+class Sensor {
+    String VendorId
+    String Description
+    Unit Unit
+    Double MinValue
+    Double MaxValue
+    Double TotalPower
+    String Type
+}
+
+class SensorValue {
+    Date Timestamp
+    Double Value
+    Sensor Sensor
+}
+
+class Inhabitant {
+    String Username
+    String Password
+    Boolean Admin
+}
+
+class Threshold {
+    Double Value
+    Inhabitant Inhabitant
+    Sensor Sensor
+}
+
+class Alert {
+    String Message
+    Date Timestamp
+    Sensor Sensor
+    Apartment Apartment
+}
+
+SensorController "1" -- "0..*" Apartment
+Apartment "1" -- "2..*" Room
+Room "1" -- "0..*" Sensor
+Sensor "1" -- "0..*" SensorValue
+SensorValue "1" -- "1" Sensor
+Apartment "1" -- "0..*" Inhabitant
+Inhabitant "1" -- "1" Apartment
+Inhabitant "0..*" -- "0..*" Threshold
+Threshold "1" -- "1" Sensor
+EMonitor "1" -- "0..*" Sensor
+Alert "1" -- "1" Sensor
+Alert "1" -- "1" Apartment
+
+@enduml

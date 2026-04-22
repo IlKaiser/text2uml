@@ -1,0 +1,100 @@
+@startuml
+
+class User {
+    String Username
+    String Email
+    String Password
+    Boolean IsAdmin
+    String IDCardNumber
+}
+class Building {
+    String ID
+    String Name
+    String EnergyClass
+    String Address
+    String YearOfConstruction
+    String Owner
+}
+class Entry {
+    String Name
+    String Type
+    String Value
+    Boolean IsPublic
+}
+class Image {
+    String Name
+    String Url
+}
+class Catalog {
+    String Url
+}
+class Portal {
+    String Url
+}
+class UserAccount {
+    String Username
+    String Email
+    String Password
+}
+class Registration {
+    String Email
+    String Password
+}
+class Activation {
+    String Email
+    String Username
+}
+class Login {
+    String Username
+    String Password
+}
+class BuildingCreation {
+    String Name
+    String EnergyClass
+    String Address
+    String YearOfConstruction
+    String Owner
+}
+class EntryCreation {
+    String Name
+    String Type
+    String Value
+    String BuildingID
+}
+class CommentCreation {
+    String Text
+    String BuildingID
+    String Username
+    String Owner
+}
+class Search {
+    String Query
+}
+class AdminSetup {
+    String Username
+    String Email
+    String Password
+}
+class CommentDeletion {
+    String BuildingID
+    String Username
+    String Owner
+}
+
+User "1" -- "0..*" Portal
+Portal "1" -- "0..*" Catalog
+Catalog "1" -- "0..*" Building
+Building "1" -- "0..*" Entry
+Building "1" -- "0..*" Image
+Building "1" -- "0..*" UserAccount
+UserAccount "1" -- "0..*" Registration
+Registration "1" -- "0..*" Activation
+Activation "1" -- "0..*" Login
+Login "1" -- "0..*" BuildingCreation
+BuildingCreation "1" -- "0..*" EntryCreation
+EntryCreation "1" -- "0..*" CommentCreation
+CommentCreation "1" -- "0..*" CommentDeletion
+User "1" -- "0..*" AdminSetup
+AdminSetup "1" -- "0..*" CommentDeletion
+
+@enduml

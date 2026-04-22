@@ -1,12 +1,19 @@
 @startuml
-class Driver {}
-class Bus {}
-class Route {}
-class Shift {}
-class Assignment {}
-
-Driver "1" -- "0..*" Assignment
-Bus "1" -- "0..*" Assignment
+class Driver {
+  id: Int
+  name: String
+}
+class Bus {
+  licencePlate: String
+}
+class Route {
+  routeNumber: Int
+}
+class Schedule
+class Shift
+Schedule "0..*" -- "1" Driver
+Schedule "0..*" -- "1" Bus
+Schedule "0..*" -- "1" Route
+Schedule "0..*" -- "1" Shift
 Route "1" -- "0..*" Shift
-Shift "1" -- "0..*" Assignment
 @enduml

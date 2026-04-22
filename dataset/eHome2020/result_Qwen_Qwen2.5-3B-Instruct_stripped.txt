@@ -1,0 +1,59 @@
+@startuml
+class Sensor{
+    +String vendorId
+    +String description
+    +String unit
+    +String minValue
+    +String maxValue
+    +String roomId
+}
+
+class Room{
+    +String description
+    +Sensor[] sensors
+}
+
+class Apartment{
+    +String address
+    +Room[] rooms
+}
+
+class EHome2020{
+    +Apartment[] apartments
+    +SensorController sensorController
+    +System EMonitor
+}
+
+class User{
+    +String username
+    +String password
+    +String email
+    +boolean isAdmin
+}
+
+class SensorController{
+    +void logOn(User user)
+    +void logOff(User user)
+    +void configureSensor(Sensor sensor, String description)
+    +void setThreshold(Sensor sensor, double threshold)
+    +void checkThresholds()
+}
+
+class EHome2020{
+    +void addApartment(Apartment apartment)
+    +void removeApartment(Apartment apartment)
+    +void addSensor(Sensor sensor)
+    +void removeSensor(Sensor sensor)
+    +void checkThresholds()
+}
+
+User "1..*" -- "1..1" SensorController : logOn, logOff, configureSensor, setThreshold
+User "1..*" -- "0..*" EHome2020 : addApartment, removeApartment, addSensor, removeSensor
+Apartment "1..*" -- "1..*" SensorController : checkThresholds
+Apartment "1..*" -- "1..*" EHome2020 : checkThresholds
+Apartment "1..*" -- "1..*" User : addApartment, removeApartment, addSensor, removeSensor
+Apartment "1..*" -- "1..*" Sensor : addApartment, removeApartment, addSensor, removeSensor
+Sensor "1..1" -- "1..*" EHome2020 : addSensor, removeSensor
+Sensor "1..1" -- "1..*" User : configureSensor, setThreshold
+Sensor "1..1" -- "1..*" EHome2020 : checkThresholds
+@enduml

@@ -1,26 +1,69 @@
 @startuml
 
-class LabTracker{}
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class TestGroup{}
-class Appointment{}
-class Lab{}
-class Result{}
-class Report{}
+class Doctor {
+  String fullName
+  String address
+  String phoneNumber
+  Integer practitionerNumber
+  Image signature
+}
+
+class Patient {
+  String healthNumber
+  String firstName
+  String lastName
+  Date dateOfBirth
+  String address
+  String phoneNumber
+}
+
+class Requisition {
+  Date validFrom
+  String repetitionInterval
+  Integer repetitionCount
+}
+
+class Test {
+  String name
+  Integer duration
+  Boolean requiresAppointment
+  Boolean isWalkInOnly
+  Boolean requiresSampleDropOff
+}
+
+class TestGroup {
+  String groupName
+}
+
+class Appointment {
+  String confirmationNumber
+  Date appointmentDate
+  Time startTime
+  Time endTime
+  Boolean isCancelledOrChanged
+}
+
+class Lab {
+  String name
+  String address
+  String registrationNumber
+  Time dailyStartTime
+  Time dailyEndTime
+  Float changeCancellationFee
+}
+
+class TestResult {
+  String result
+  String report
+}
 
 Doctor "1..1" -- "0..*" Requisition
 Patient "1..1" -- "0..*" Requisition
 Requisition "1..1" -- "1..*" Test
 Test "1..1" -- "1..1" TestGroup
-Requisition "0..1" -- "0..1" Appointment
+Requisition "0..1" -- "0..*" Appointment
 Appointment "1..1" -- "1..1" Lab
-Test "1..1" -- "0..*" Result
-Result "1..1" -- "1..1" Report
-Patient "1..1" -- "0..*" Appointment
-Doctor "1..1" -- "0..*" Result
-Patient "1..1" -- "0..*" Result
+Test "0..*" -- "1..1" TestResult
+Patient "0..*" -- "0..*" Appointment
 
 @enduml

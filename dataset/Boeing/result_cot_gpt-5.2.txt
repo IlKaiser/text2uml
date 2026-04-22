@@ -1,0 +1,37 @@
+@startuml
+class Boeing
+
+class Aircraft
+
+class AirlineCompany
+
+class Contract
+
+class Acquisition {
+  negotiatedPrice: Float
+  deliveryDate: Date
+}
+
+class AircraftModel
+
+class Option
+
+class Customization
+
+class Salesperson
+
+class Employee
+
+Boeing "1..1" -- "0..*" AirlineCompany
+Boeing "1..1" -- "0..*" Contract
+Contract "1..1" -- "1..1" AirlineCompany
+Contract "1..1" -- "1..*" Acquisition
+Acquisition "1..1" -- "1..1" Aircraft
+Acquisition "1..1" -- "1..1" AircraftModel
+Acquisition "0..*" -- "0..*" Option
+Acquisition "0..*" -- "0..*" Customization
+Contract "1..1" -- "1..1" Salesperson
+AirlineCompany "0..*" -- "0..*" AirlineCompany
+
+Salesperson --|> Employee
+@enduml

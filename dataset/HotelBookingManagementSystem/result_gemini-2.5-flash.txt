@@ -1,42 +1,99 @@
 @startuml
 
-class Traveller{}
-class Hotel{}
-class AccommodationDeal{}
-class BillingInformation{}
-class TravelPreference{}
-class City{}
-class RoomType{}
-class PreliminaryBooking{}
-class Booking{}
-class SpecialOffer{}
-class CreditCardInformation{}
-class CancellationPolicy{}
-class Address{}
-class HotelChain{}
-class RoomAvailability{}
+class Traveller{
+    String Name
+    String BillingInformation
+    String CompanyName
+    String CompanyAddress
+    String TravelPreferences
+    Double ReliabilityRating
+}
 
-Traveller "1" -- "1" BillingInformation
-Traveller "0..*" -- "0..*" TravelPreference
-Hotel "1" -- "0..*" AccommodationDeal
-Traveller "1" -- "0..*" PreliminaryBooking
+class Hotel{
+    String Name
+    String Address
+    String City
+    Integer Rating
+}
+
+class HotelChain{
+    String Name
+}
+
+class HBMS{
+}
+
+abstract class Booking{
+    Date ArrivalDate
+    Date DepartureDate
+    Integer NumberOfRooms
+    String RoomType
+}
+
+class PreliminaryBooking{
+    String UniqueBookingIdentifier
+}
+
+class FinalizedBooking{
+    String PaymentType
+    Boolean IsConfirmed
+    Date CancellationDeadline
+}
+
+class Offer{
+    Double Price
+    String CityArea
+    Integer HotelRating
+    String KeyPreferences
+}
+
+class SpecialOffer{
+    String Description
+    Double Price
+}
+
+class SearchCriteria{
+    String City
+    Date ArrivalDate
+    Date DepartureDate
+    Integer NumberOfRooms
+    String RoomType
+    Integer MinimumHotelRating
+    Double MaxCostPerNight
+    String FilterPreferences
+}
+
+class CreditCardInformation{
+    String CardNumber
+    String ExpiryDate
+    String CardHolderName
+}
+
+class RoomTypeAvailability{
+    String RoomType
+    Date StartDate
+    Date EndDate
+    Integer AvailableRooms
+}
+
+Booking <|-- PreliminaryBooking
+Booking <|-- FinalizedBooking
+
+Traveller "1" -- "0..*" SearchCriteria
 Traveller "1" -- "0..*" Booking
-Booking "0..*" -- "1..*" RoomType
-PreliminaryBooking "0..*" -- "1..*" RoomType
-City "0..*" -- "1" Booking
-City "0..*" -- "1" PreliminaryBooking
-AccommodationDeal "0..*" -- "1" Booking
-AccommodationDeal "0..*" -- "1" PreliminaryBooking
-PreliminaryBooking "1" -- "0..*" SpecialOffer
-Hotel "1" -- "0..*" SpecialOffer
-SpecialOffer "0..*" -- "1" Booking
 Traveller "1" -- "0..*" CreditCardInformation
-CreditCardInformation "0..*" -- "1" Booking
-CancellationPolicy "0..*" -- "1" Booking
-City "1" -- "0..*" Hotel
-Hotel "1" -- "1" Address
-HotelChain "0..*" -- "0..1" Hotel
-Hotel "1" -- "0..*" RoomAvailability
-RoomType "0..*" -- "1" RoomAvailability
+Hotel "1..*" -- "0..1" HotelChain
+Hotel "1" -- "0..*" RoomTypeAvailability
+Hotel "1" -- "0..*" Offer
+Hotel "1" -- "0..*" SpecialOffer
+Hotel "1" -- "0..*" FinalizedBooking
+HBMS "1" -- "0..*" Traveller
+HBMS "1" -- "0..*" Hotel
+HBMS "1" -- "0..*" Offer
+HBMS "1" -- "0..*" PreliminaryBooking
+HBMS "1" -- "0..*" FinalizedBooking
+Booking "1" -- "0..*" Offer
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+FinalizedBooking "1" -- "0..*" CreditCardInformation
 
 @enduml

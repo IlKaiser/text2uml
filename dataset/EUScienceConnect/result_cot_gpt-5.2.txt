@@ -1,0 +1,36 @@
+@startuml
+class Person {
+  personId: String
+  phoneNumber: String
+  keywords: String
+}
+class ResearchInstitution {
+  institutionCode: String
+}
+class ScientificArticle {
+  doi: String
+  title: String
+}
+class PeerReviewedPaper {
+  citationCount: Int
+}
+class TechnicalReport
+class Publisher {
+  name: String
+}
+class Journal {
+  name: String
+  impactFactor: Float
+}
+
+Person "0..*" -- "0..*" ResearchInstitution
+Person "0..*" -- "1..*" ScientificArticle
+Person "0..*" -- "0..*" PeerReviewedPaper
+ResearchInstitution "1..1" -- "0..*" TechnicalReport
+Publisher "1..1" -- "0..*" Journal
+ResearchInstitution "0..*" -- "0..*" Journal
+Journal "0..*" -- "0..*" PeerReviewedPaper
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
+@enduml

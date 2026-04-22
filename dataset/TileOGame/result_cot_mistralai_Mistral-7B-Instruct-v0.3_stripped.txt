@@ -1,0 +1,48 @@
+@startuml
+
+class Game {
+    - gameBoard: Board
+}
+
+class Board {
+    - tiles: Set<Tile>
+    - connectionPieces: Set<ConnectionPiece>
+    - hiddenTile: Tile
+    - startingPositions: Set<Player>
+    - actionTiles: Set<Tile>
+    - actionCards: ActionCardDeck
+}
+
+class Tile {
+    - color: String
+    - visited: Boolean
+    - isActionTile: Boolean
+}
+
+class ConnectionPiece {
+}
+
+class Player {
+    - game: Game
+    - color: String
+    - currentTile: Tile
+}
+
+class ActionCard {
+    - instructions: String
+}
+
+class ActionCardDeck {
+    - actionCards: List<ActionCard>
+}
+
+Board "1" -- "1" Game
+Board "0..*" -- "0..*" Tile
+Board "0..*" -- "0..*" ConnectionPiece
+Board "0..*" -- "0..*" ActionCard
+Tile "0..1" -- "0..1" ConnectionPiece
+Player "1" -- "1" Game
+Player "1" -- "1" ActionCard
+ActionCard "1" -- "1" Game
+
+@enduml

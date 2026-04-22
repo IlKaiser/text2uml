@@ -1,18 +1,24 @@
-
+```plantuml
 @startuml
 
-class LabTracker{}
-class Doctor{}
-class Patient{}
-class Test{}
-class Requisition{}
-class Appointment{}
-class Lab{}
+class Doctor{ NumericPractitionerNumber, Signature, FullName, Address, PhoneNumber }
+class Patient{ HealthNumber, FirstName, LastName, DateOfBirth, Address, PhoneNumber }
+class Test{ Duration }
+class Lab{ Address, BusinessHours, RegistrationNumber, Fee }
+class Requisition{ ValidFromDate }
+class TestGroup
+class Appointment{ ConfirmationNumber, Date, StartTime, EndTime }
 
-Doctor "1..*" -- "0..*" Requisition
-Patient "1..*" -- "0..*" Requisition
-Requisition "1..*" -- "1..*" Test
-Requisition "1..*" -- "1" Appointment
+Doctor "1" -- "0..*" Requisition
+Doctor "0..*" -- "0..*" Doctor : Prescribe tests
+Patient "1" -- "0..*" Requisition
+Test "1" -- "1" Lab
+Requisition "1" -- "0..*" Test
+Requisition "1" -- "0..1" TestGroup
+Test "0..*" -- "1" Duration
+Test "0..*" -- "1" Test : Repeated tests
+Patient "1" -- "0..1" Appointment
 Appointment "1" -- "1" Lab
 
 @enduml
+```  

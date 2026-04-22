@@ -1,0 +1,69 @@
+@startuml
+    class User {
+        String username
+        String password
+        String email
+    }
+
+    class Administrator {
+        String idCardNumber
+    }
+
+    class WebPortal {
+        String versionNumber
+        String url
+    }
+
+    class Building {
+        String id
+        String label
+        String address
+        int yearOfConstruction
+    }
+
+    class Entry {
+        String name
+        boolean public
+    }
+
+    class TextEntry {
+        String text
+    }
+
+    class NumericEntry {
+        double value
+        String unit
+    }
+
+    class EntryGroup
+
+    enum EnergyClass <<enum>> {
+        A
+        B
+        C
+        D
+    }
+
+    class Comment {
+        String text
+    }
+
+    class Image {
+        String fileName
+    }
+
+    WebPortal "1" -- "0..*" Entry : id
+    WebPortal "0..1" -- "1" User : username
+    EntryGroup "1" -- "0..*" Entry
+
+    Entry "0..*" -- "0..*" TextEntry
+    Entry "0..*" -- "0..*" NumericEntry
+
+    User "0..*" -- "0..*" Administrator
+
+    User "1" -- "0..*" Building : owner
+    User "1" -- "0..*" Building : author
+    Building "1" -- "0..*" Comment
+    Building "1" -- "1" Image : profilePicture
+    Building "1" -- "1" EnergyClass
+@enduml

@@ -1,37 +1,43 @@
 @startuml
 
-class SmartHome {}
-class Room {}
-class SensorDevice {}
-class ActuatorDevice {}
-class InfrastructureMap {}
-class SensorReading {}
-class ControlCommand {}
-class ActivityLog {}
+class SmartHome { String Address }
+class Room { String Name }
+class Device { String DeviceID, String DeviceType, Boolean Active }
+class Sensor { String SensorType }
+class Actuator { String SupportedCommands }
+class SensorReading { Double MeasuredValue, Date Timestamp }
+class ControlCommand { String Name, Date Timestamp, String Status }
+class ActivityLog { String LogID, Date Created }
+class AutomationRule { String Precondition, String ActionSequence, Boolean Active }
+class RuleTrigger { Date Timestamp }
+class User { String Name, String Email }
 class Owner {}
-class AutomationRule {}
-class RuleTrigger {}
 
-SmartHome "1" -- "1..*" Room
-Room "1" -- SensorDevice
-Room "1" -- ActuatorDevice
-SensorDevice "1" -- SensorReading
-ActuatorDevice "1" -- ControlCommand
-SmartHome "1" -- "1" ActivityLog
-ActivityLog "1" -- SensorReading
-ActivityLog "1" -- ControlCommand
-Owner "1" -- SmartHome
-Owner "1" -- AutomationRule
-AutomationRule "1" -- ControlCommand
-AutomationRule -- Room
-AutomationRule -- SensorDevice
-AutomationRule -- ActuatorDevice
-AutomationRule -- SensorReading
-AutomationRule -- AutomationRule
-SmartHome "1" -- "1" InfrastructureMap
-InfrastructureMap "1" -- SensorDevice
-InfrastructureMap "1" -- ActuatorDevice
-SmartHome "1" -- RuleTrigger
-RuleTrigger "1" -- AutomationRule
+Sensor --|> Device
+Actuator --|> Device
+
+SmartHome "1" -- "0..*" Room
+Room "1" -- "0..*" Device
+Sensor "1" -- "0..*" SensorReading
+Actuator "1" -- "0..*" ControlCommand
+
+SmartHome "1" -- "0..*" ActivityLog
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" ControlCommand
+
+Owner "1" -- "0..*" SmartHome
+User "0..*" -- "0..*" SmartHome
+SmartHome "1" -- "0..*" AutomationRule
+Owner "1" -- "0..*" AutomationRule
+
+AutomationRule "0..*" -- "0..*" ControlCommand
+AutomationRule "0..*" -- "0..*" Room
+AutomationRule "0..*" -- "0..*" Sensor
+AutomationRule "0..*" -- "0..*" Actuator
+AutomationRule "0..*" -- "0..*" SensorReading
+AutomationRule "0..*" -- "0..*" AutomationRule
+
+AutomationRule "1" -- "0..*" RuleTrigger
+SmartHome "1" -- "0..*" RuleTrigger
 
 @enduml

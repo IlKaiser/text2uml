@@ -1,0 +1,1568 @@
+@startuml
+
+class Customer {
+    String Name
+    String CompanyName
+    String CompanyAddress
+    String Email
+    String TravelPreferences
+    Double Budget
+    Double ReliabilityRating
+    String CreditCardNumber
+}
+
+class Hotel {
+    String Name
+    String Address
+    String City
+    String Chain
+    String Rating
+    String RoomTypes
+    String RoomAvailability
+}
+
+class Room {
+    String Type
+    Boolean Availability
+}
+
+class Booking {
+    String BookingId
+    String City
+    String HotelName
+    String RoomType
+    String CheckInDate
+    String CheckOutDate
+    Double Price
+    String CreditCardNumber
+    String Status
+    Double ReliabilityRating
+    Double CancellationDeadline
+}
+
+class PreliminaryBooking {
+    String BookingId
+    String City
+    String HotelName
+    String RoomType
+    String CheckInDate
+    String CheckOutDate
+    Double Price
+    String CreditCardNumber
+    String Status
+    Double ReliabilityRating
+    Double CancellationDeadline
+}
+
+class SpecialOffer {
+    String OfferId
+    String City
+    String HotelName
+    String RoomType
+    String CheckInDate
+    String CheckOutDate
+    Double Price
+    String CreditCardNumber
+    String Status
+}
+
+class HotelChain {
+    String Name
+    String Address
+    String City
+    String Rating
+}
+
+class Traveler {
+    String Name
+    String CompanyName
+    String CompanyAddress
+    String Email
+    String TravelPreferences
+    Double Budget
+    Double ReliabilityRating
+    String CreditCardNumber
+}
+
+class BookingManager {
+    String BookingId
+    String City
+    String HotelName
+    String RoomType
+    String CheckInDate
+    String CheckOutDate
+    Double Price
+    String CreditCardNumber
+    String Status
+    Double ReliabilityRating
+    Double CancellationDeadline
+}
+
+class HotelManager {
+    String HotelName
+    String Address
+    String City
+    String Rating
+    String RoomTypes
+    String RoomAvailability
+}
+
+class RoomManager {
+    String RoomType
+    Boolean Availability
+}
+
+class BookingService {
+    String BookingId
+    String City
+    String HotelName
+    String RoomType
+    String CheckInDate
+    String CheckOutDate
+    Double Price
+    String CreditCardNumber
+    String Status
+    Double ReliabilityRating
+    Double CancellationDeadline
+}
+
+class HotelService {
+    String HotelName
+    String Address
+    String City
+    String Rating
+    String RoomTypes
+    String RoomAvailability
+}
+
+class TravelService {
+    String TravelerId
+    String City
+    String HotelName
+    String RoomType
+    String CheckInDate
+    String CheckOutDate
+    Double Price
+    String CreditCardNumber
+    String Status
+    Double ReliabilityRating
+    Double CancellationDeadline
+}
+
+class PaymentService {
+    String BookingId
+    String City
+    String HotelName
+    String RoomType
+    String CheckInDate
+    String CheckOutDate
+    Double Price
+    String CreditCardNumber
+    String Status
+    Double ReliabilityRating
+    Double CancellationDeadline
+}
+
+Customer "1" -- "0..*" Booking
+Booking "1" -- "0..*" Hotel
+Hotel "1" -- "0..*" Room
+Room "1" -- "0..*" RoomManager
+Booking "1" -- "0..*" BookingManager
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" TravelService
+TravelService "1" -- "0..*" BookingManager
+BookingManager "1" -- "0..*" PreliminaryBooking
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+SpecialOffer "1" -- "0..*" Booking
+Booking "1" -- "0..*" Hotel
+Hotel "1" -- "0..*" HotelChain
+HotelChain "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..*" HotelService
+HotelService "1" -- "0..*" HotelManager
+HotelManager "1" -- "0..*" RoomManager
+RoomManager "1" -- "0..*" Room
+Room "1" -- "0..*" Booking
+Booking "1" -- "0..*" Traveler
+Traveler "1" -- "0..*" BookingService
+BookingService "1" -- "0..*" PaymentService
+PaymentService "1" -- "0..

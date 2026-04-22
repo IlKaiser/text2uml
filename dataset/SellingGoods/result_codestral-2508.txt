@@ -1,25 +1,19 @@
-```plantuml
 @startuml
 
-class Customer{}
-class Address{}
-class Product{}
-class Order{}
-class OrderLine{}
-class Shipment{}
-class Invoice{}
-class Delivery{}
-class Warehouse{}
+class Customer{ String Name, String Address, String VATNumber, String HeadOfficeAddress }
+class Product{ String Name, String Description, int StockLevel }
+class Order{ Date OrderDate, Date PaymentDate, Date ShipmentDate, String Status }
+class OrderLine{ int Quantity }
+class Invoice{ Date InvoiceDate, Date PaymentDate, String Status }
+class Shipment{ Date PackedDate, Date ShippedDate, Date ReceivedDate, String Status }
+class Delivery{ String Status }
 
-Customer "1" -- "1..*" Address
-Customer "1" -- "1..*" Order
-Product "1" -- "1..*" OrderLine
-Order "1" -- "1..*" OrderLine
-Order "1" -- "1" Invoice
-Order "1" -- "1..*" Shipment
-OrderLine "1" -- "1" Shipment
-Shipment "1" -- "1..*" Delivery
-Warehouse "1" -- "1..*" Address
+Customer "1..*" -- "1..*" Order
+Order "1..*" -- "1..*" OrderLine
+OrderLine "1..1" -- "1..1" Product
+Order "1..1" -- "1..1" Invoice
+Order "1..*" -- "1..*" Shipment
+Shipment "1..*" -- "1..*" OrderLine
+Shipment "1..1" -- "1..1" Delivery
 
 @enduml
-```

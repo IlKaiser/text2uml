@@ -1,25 +1,40 @@
-
+```plantuml
 @startuml
 
-class TeamSportsScoutingSystem{}
-class HeadCoach{}
-class Director{}
-class Scouts{}
-class Player{}
-class PlayerAttribute{}
-class ScoutingAssignment{}
-class ScoutingReport{}
+class TeamSportsScoutingSystem
+class Employee
+class HeadCoach
+class Director
+class Scout
+class PlayerProfile
+class TargetPosition
+class PlayerAttribute
+class LongList
+class ScoutingAssignment
+class ScoutingReport
+class ProsAndCons
+class Recommendation
+class ShortList
+class OfficialOffer
 
-TeamSportsScoutingSystem -- "1..*" HeadCoach
-TeamSportsScoutingSystem -- "1" Director
-TeamSportsScoutingSystem -- "1..*" Scouts
-HeadCoach -- "1..*" Player
-HeadCoach -- "1..*" PlayerAttribute
-Scouts -- "1..*" Player
-Scouts -- "1" ScoutingAssignment
-ScoutingAssignment -- "1" Player
-ScoutingAssignment -- "1" ScoutingReport
-ScoutingReport -- "1" Player
-ScoutingReport -- "1" Scouts
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+HeadCoach "0..*" -- "1..*" PlayerProfile
+PlayerProfile "1..*" -- "1..*" TargetPosition
+PlayerProfile "1..*" -- "1..*" PlayerAttribute
+Scout "0..*" -- "1..*" LongList
+HeadScout "1" -- "1..*" ScoutingAssignment
+ScoutingAssignment "1..1" -- "1" Player
+ScoutingAssignment "1" -- "1" ScoutingReport
+ScoutingReport "1" -- "1" ProsAndCons
+ScoutingReport "1" -- "1" Recommendation
+Player "1..*" -- "0..1" ShortList
+ShortList "1" -- "0..*" ScoutingAssignment
+ScoutingAssignment .. HeadScout
+Player "0..1" -- "0..1" ShortList
+ShortList "0..*" -- "1" OfficialOffer
+OfficialOffer -- Director
 
 @enduml
+```  

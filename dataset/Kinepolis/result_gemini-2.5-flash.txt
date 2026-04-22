@@ -1,37 +1,110 @@
 @startuml
 
-class Kinepolis{}
-class Cinema{}
-class Theatre{}
-class Movie{}
-class MovieCopy{}
-class Show{}
-class WeeklyProgram{}
-class Customer{}
-class OnlineSeatReservation{}
-class CreditCard{}
-class Seat{}
-class SeatOffer{}
-class FreeTicket{}
-class EntranceTicket{}
+class Kinepolis{
+    String Name
+}
 
-Kinepolis "1..1" -- "1..*" Cinema
-Cinema "1..1" -- "1..*" Theatre
-Theatre "1..1" -- "0..*" Show
-Show "1..*" -- "1..1" Movie
-Cinema "1..1" -- "0..*" MovieCopy
-Movie "1..1" -- "1..*" MovieCopy
-MovieCopy "0..*" -- "1..1" Show
-WeeklyProgram "1..1" -- "1..*" Show
-Customer "1..1" -- "0..*" OnlineSeatReservation
-OnlineSeatReservation "1..*" -- "1..1" Show
-OnlineSeatReservation "1..*" -- "1..1" CreditCard
-Theatre "1..1" -- "1..*" Seat
-Seat "0..*" -- "1..1" OnlineSeatReservation
-Customer "1..1" -- "0..*" SeatOffer
-SeatOffer "1..1" -- "1..1" Show
-Customer "1..1" -- "0..*" FreeTicket
-EntranceTicket "1..*" -- "1..1" Show
-Seat "0..*" -- "1..1" EntranceTicket
+class Town{
+    String Name
+}
+
+class Cinema{
+    String Name
+    String Address
+}
+
+class Theatre{
+    String Name
+    int Capacity
+}
+
+class Seat{
+    String SeatNumber
+    int Row
+    int Column
+}
+
+class Movie{
+    String Title
+    String Director
+    int DurationInMinutes
+    String Genre
+}
+
+class MovieCopy{
+    String CopyID
+}
+
+class Show{
+    DateTime StartTime
+    DateTime EndTime
+    BigDecimal BasePrice
+    boolean IsCancelledByKinepolis
+}
+
+class Program{
+    Date StartDate
+    Date EndDate
+}
+
+class Person{
+    String Name
+    String Email
+}
+
+class Reservation{
+    DateTime ReservationDate
+    boolean IsCancelled
+    DateTime CancellationDate
+    boolean IsPaid
+    DateTime PaymentDebitedDate
+}
+
+class Payment{
+    BigDecimal Amount
+    String TransactionID
+    DateTime PaymentDate
+}
+
+class Offer{
+    DateTime OfferDate
+    DateTime ExpiryDate
+    boolean IsAccepted
+}
+
+class FreeTicket{
+    String TicketCode
+    DateTime ExpiryDate
+    DateTime IssueDate
+}
+
+class Ticket{
+    String TicketID
+    BigDecimal Price
+    DateTime PurchaseDate
+    boolean IsAnonymous
+}
+
+Kinepolis "1" -- "1..*" Cinema
+Cinema "1" -- "0..*" Town
+Cinema "1" -- "1..*" Theatre
+Theatre "1" -- "1..*" Seat
+Movie "1" -- "1..*" MovieCopy
+Cinema "0..*" -- "1" MovieCopy
+Theatre "1" -- "0..*" Show
+Show "0..*" -- "1" Movie
+Show "0..*" -- "1" MovieCopy
+Cinema "1" -- "0..*" Program
+Program "1" -- "0..*" Show
+Person "1" -- "0..*" Reservation
+Reservation "0..*" -- "1" Show
+Reservation "0..*" -- "1" Seat
+Reservation "1" -- "1" Payment
+Reservation "1" -- "0..1" Offer
+Offer "0..*" -- "1" Show
+Offer "0..*" -- "1" Seat
+Person "1" -- "0..*" FreeTicket
+Ticket "0..*" -- "1" Show
+Ticket "0..*" -- "1" Seat
 
 @enduml

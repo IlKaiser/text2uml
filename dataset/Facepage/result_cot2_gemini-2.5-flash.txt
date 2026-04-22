@@ -1,20 +1,48 @@
 @startuml
-class User{}
-class Account{}
-class PersonalAccount{}
-class BusinessAccount{}
-class Company{}
-class Page{}
-class AdvertisementPage{}
-class MarketingCampaign{}
-class FriendRequest{}
-class Visitor{}
+class User {
+  ID: Int
+  name: String
+  email: String
+  date_of_birth: Date
+}
+
+class Account {
+  account_number: Int
+}
+
+class BusinessAccount {
+  monthly_fee: Float
+}
+
+class PersonalAccount
+
+class Company {
+  name: String
+}
+
+class FriendRequest
+
+class Page {
+  name: String
+  number_of_visits: Int
+}
+
+class Privilege
+
+class AdvertisementPage {
+  bounce_rate: Float
+  click_through_rate: Float
+  conversion_rate: Float
+}
 
 User "1..1" -- "1..1" Account
-BusinessAccount "1..1" -- "0..*" Company
-BusinessAccount "1..1" -- "0..*" MarketingCampaign
-PersonalAccount "0..*" -- "0..*" FriendRequest
-Account "1..1" -- "0..*" Page
-PersonalAccount "0..*" -- "0..*" Page
-Page "0..*" -- "0..*" Visitor
+BusinessAccount "1..1" -- "0..1" Company
+PersonalAccount "2..2" -- "0..*" FriendRequest
+Account "0..*" -- "1..1" Page
+PersonalAccount "0..*" -- "1..1" Privilege
+Page "0..*" -- "1..1" Privilege
+
+BusinessAccount --|> Account
+PersonalAccount --|> Account
+AdvertisementPage --|> Page
 @enduml

@@ -1,0 +1,143 @@
+Given the specification text and the identified classes, here is the PlantUML representation of the UML conceptual model diagram:
+
+```plantuml
+@startuml
+class Customer {
+  +id: Int
+  +name: String
+  +email: String
+  +phone: String
+  +address: String
+  +policyTypes: Set<PolicyType>
+  +insuranceProducts: Set<InsuranceProduct>
+  +insuredEvents: Set<InsuredEvent>
+  +claimCases: Set<ClaimCase>
+  +reports: Set<Report>
+  +documents: Set<Document>
+  +compensations: Set<Compensation>
+  +payments: Set<Payment>
+  +legalDepartments: Set<LegalDepartment>
+}
+
+class AccountManager {
+  +id: Int
+  +name: String
+  +customer: Customer
+}
+
+class Broker {
+  +id: Int
+  +name: String
+  +customer: Customer
+}
+
+class Contract {
+  +id: Int
+  +customer: Customer
+  +broker: Broker
+  +insuranceProduct: InsuranceProduct
+}
+
+class Offer {
+  +id: Int
+  +customer: Customer
+  +broker: Broker
+  +insuranceProduct: InsuranceProduct
+}
+
+class InsuranceProduct {
+  +id: Int
+  +name: String
+  +type: String
+  +coverage: String
+  +price: Float
+  +customer: Customer
+}
+
+class PolicyType {
+  +id: Int
+  +name: String
+  +customer: Customer
+}
+
+class InsuredEvent {
+  +id: Int
+  +customer: Customer
+  +description: String
+  +date: Date
+}
+
+class ClaimCase {
+  +id: Int
+  +customer: Customer
+  +estimators: Set<Estimator>
+  +reports: Set<Report>
+  +documents: Set<Document>
+  +compensation: Compensation
+}
+
+class Estimator {
+  +id: Int
+  +name: String
+  +expertise: String
+  +claimCase: ClaimCase
+}
+
+class Report {
+  +id: Int
+  +claimCase: ClaimCase
+  +reportText: String
+}
+
+class Document {
+  +id: Int
+  +claimCase: ClaimCase
+  +documentType: String
+  +documentContent: String
+}
+
+class Compensation {
+  +id: Int
+  +claimCase: ClaimCase
+  +costsEligible: Set<String>
+  +payment: Payment
+}
+
+class Payment {
+  +id: Int
+  +customer: Customer
+  +amount: Float
+  +date: Date
+}
+
+class Database {
+  +id: Int
+  +reports: Set<Report>
+  +documents: Set<Document>
+  +compensations: Set<Compensation>
+}
+
+class LegalDepartment {
+  +id: Int
+  +name: String
+}
+
+Customer -- AccountManager: 1
+Customer -- Broker: 1
+Customer -- Contract: 1
+Customer -- Offer: 1
+Customer -- InsuranceProduct: 1
+Customer -- PolicyType: 1
+Customer -- InsuredEvent: 1
+Customer -- ClaimCase: 1
+Customer -- Report: 1
+Customer -- Document: 1
+Customer -- Compensation: 1
+Customer -- Payment: 1
+Customer -- Database: 1
+Customer -- LegalDepartment: 0..1
+
+@enduml
+```
+
+This PlantUML code represents the conceptual model diagram with the identified classes and their relationships.

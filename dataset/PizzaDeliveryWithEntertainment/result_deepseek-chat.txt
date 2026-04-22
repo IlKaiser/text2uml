@@ -1,23 +1,67 @@
 @startuml
 
-class User{}
-class BusinessOwner{}
-class PizzaRestaurant{}
-class Pizza{}
-class HungryCustomer{}
-class Order{}
-class EntertainmentOrder{}
-class Entertainer{}
+class User {
+  String name
+  Date birthday
+  String address
+  String uniqueID
+}
 
-User "1..1" -- "0..*" BusinessOwner
-User "1..1" -- "0..*" HungryCustomer
-User "1..1" -- "0..*" Entertainer
-BusinessOwner "1..1" -- "1..*" PizzaRestaurant
-PizzaRestaurant "1..1" -- "1..*" Pizza
+class BusinessOwner {
+  String linkedInAccount
+}
+
+class PizzaRestaurant {
+  String zipCode
+  String address
+  String phoneNumber
+  String website
+  String openingHours
+}
+
+class Pizza {
+  String name
+  String crustStructure
+  Float price
+}
+
+class HungryCustomer {
+  String deliveryAddress
+}
+
+class Order {
+  String orderID
+  DateTime orderDateTime
+  Time latestDeliveryTime
+  Integer numberOfPeople
+}
+
+class EntertainmentOrder {
+  String entertainmentType
+  Duration duration
+}
+
+class Entertainer {
+  String stageName
+  String bio
+  Float pricePer30Minutes
+}
+
+class Availability {
+  String day
+}
+
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+BusinessOwner "1..1" -- "0..*" PizzaRestaurant
+PizzaRestaurant "1..1" -- "0..*" Pizza
 HungryCustomer "1..1" -- "0..*" Order
-Order "1..1" -- "1..*" Pizza
-Order "1..1" -- "0..1" EntertainmentOrder
+Order "1..1" -- "0..*" Pizza
+Order <|-- EntertainmentOrder
 EntertainmentOrder "1..1" -- "1..1" Entertainer
-Entertainer "1..*" -- "1..*" PizzaRestaurant
+Entertainer "1..1" -- "0..*" PizzaRestaurant
+Entertainer "1..1" -- "0..*" Availability
 
 @enduml

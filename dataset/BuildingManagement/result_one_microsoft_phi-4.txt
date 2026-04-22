@@ -1,0 +1,93 @@
+```plantuml
+@startuml
+
+class WebPortal {
+    String VersionNumber
+    String URL
+}
+
+class Building {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    Integer YearOfConstruction
+}
+
+class User {
+    String UserName
+    String Email
+    String Password
+}
+
+class Administrator extends User {
+    String IDCardNumber
+}
+
+class Entry {
+    String Name
+    String Type
+    String Unit
+    String Value
+}
+
+class Image {
+    String FileName
+}
+
+class Comment {}
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "1" User
+Building "1" -- "0..*" Entry
+Building "1" -- "0..*" Image
+User "1" -- "0..*" Comment
+Building "1" -- "0..*" Comment
+User "1" -- "0..*" Building
+Administrator "1" -- "0..*" User
+Administrator "1" -- "0..*" Comment
+
+@enduml
+```
+
+### Use Cases and Actors
+
+1. **Register User**
+   - **Actor:** Visitor
+   - **Description:** Visitor registers with a unique username, email, and password.
+
+2. **Activate User**
+   - **Actor:** System
+   - **Description:** System sends confirmation email and activates user account.
+
+3. **Log In**
+   - **Actor:** User
+   - **Description:** User logs in using their credentials.
+
+4. **Create Building**
+   - **Actor:** User
+   - **Description:** User creates a new building entry.
+
+5. **Manage Building Entries**
+   - **Actor:** User
+   - **Description:** User adds or updates entries for their buildings.
+
+6. **Comment on Building**
+   - **Actor:** User
+   - **Description:** User comments on other users' buildings.
+
+7. **Search Buildings**
+   - **Actor:** Visitor
+   - **Description:** Visitor searches for buildings using full-text search.
+
+8. **Set Up User Account**
+   - **Actor:** Administrator
+   - **Description:** Administrator sets up user accounts.
+
+9. **Delete Comment**
+   - **Actor:** Administrator
+   - **Description:** Administrator deletes inappropriate comments.
+
+10. **Release Entry Publicly**
+    - **Actor:** User
+    - **Description:** User releases additional entries publicly.

@@ -1,18 +1,41 @@
 
 @startuml
-class Sensor{}
-class SensorController{}
-class Apartment{}
-class Inhabitant{}
-class System{}
-class E-Monitor{}
-class Room{}
+class Sensor {
+    vendor_id: String
+    description: String
+    unit: String
+}
+
+class SensorController {
+}
+
+class Apartment {
+}
+
+class User {
+}
+
+class Threshold {
+}
+
+class E-Monitor {
+}
+
+class Room {
+    description: String
+}
+
+class Value {
+    timestamp: Date
+    value: Float
+}
 
 Sensor "1..*" -- "1" SensorController
-Sensor "1" -- "1" Room
-Apartment "1" -- "2..*" Inhabitant
-Inhabitant "1..*" -- "1" SensorController
-Room "1" -- "1" Sensor
-SensorController "1" -- "1" System
-System "1" -- "1" E-Monitor
+SensorController "1" -- "1" Apartment
+Apartment "1" -- "0..*" User
+Apartment "2..*" -- "*" Room
+Room "1" -- "*" Sensor
+User "0..*" -- "*" Threshold
+E-Monitor "*" -- "*" Threshold
+
 @enduml

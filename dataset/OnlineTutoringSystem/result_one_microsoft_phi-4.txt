@@ -1,0 +1,47 @@
+```plantuml
+@startuml
+
+class Student {
+    String Name
+    String Email
+}
+class Tutor {
+    String Name
+    String Email
+    String BankAccount
+}
+class Subject {
+    String Name
+}
+class TutoringOffer {
+    String LevelOfExpertise
+    Double HourlyPrice
+    String Availability
+}
+class TutoringRequest {
+    Date TargetDateTime
+}
+class TutoringSession {
+    Date SessionDateTime
+}
+class Payment {
+    String Method
+}
+class TutoringAward {
+    String Month
+}
+
+Student "1" -- "0..*" TutoringRequest
+TutoringRequest "1" -- "1" TutoringOffer
+TutoringRequest "1" -- "1" Student
+TutoringOffer "1" -- "1" Tutor
+TutoringOffer "1" -- "1" Subject
+TutoringRequest "1" -- "1" TutoringSession
+TutoringSession "1" -- "1" Payment
+Student "1" -- "0..*" TutoringSession
+Tutor "1" -- "0..*" TutoringSession
+Tutor "1" -- "0..*" TutoringAward
+Subject "1" -- "0..*" TutoringAward
+
+@enduml
+```

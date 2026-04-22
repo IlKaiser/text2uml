@@ -1,0 +1,159 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+A school has a name. Teachers work there and students attend classes. Students and teachers have in common that their first and last names are recorded. Teachers' email addresses are also known. Students attend exactly one school, whereas a teacher can teach at a maximum of three schools. The number of hours for each such teaching relationship is known. Each school has exactly one principal, who is chosen from among the teachers. Although a teacher can teach at several schools, they can only be the principal of one school.
+In addition to the people working at the school, it also consists of a large number of rooms. These can be classrooms with a name and capacity, or other rooms such as a gym, which also have a name and a size specification in square meters. Between 10 and 31 students form a class group, which has a name (e.g., 5a). A student is always in exactly one class group. A class group is assigned to exactly one classroom and vice versa.
+
+##############
+
+Based on the example, the uml output is:
+[/INST] @startuml
+
+class School {
+    String Name
+}
+
+class Teacher {
+    String FirstName
+    String LastName
+    String Email
+}
+
+class Student {
+    String FirstName
+    String LastName
+}
+
+class ClassGroup {
+    String Name
+    Teacher Principal
+}
+
+class Classroom {
+    String Name
+    Int Capacity
+}
+
+Teacher "0..3" -- "1" School
+School "1" -- "0..1" ClassGroup
+ClassGroup "1" -- "1" Classroom
+Classroom "1" -- "10..31" ClassGroup
+Student "0..*" -- "1" ClassGroup
+
+@enduml

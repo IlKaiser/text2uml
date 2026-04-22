@@ -1,0 +1,57 @@
+```plantuml
+@startuml
+
+class Resident {
+    String Name
+    String Address
+    String PhoneNumber
+    String Email
+}
+
+class PickupRequest {
+    String ItemsDescription
+    String PickupDate
+}
+
+class PickupRoute {
+    String RouteSchedule
+}
+
+class PickupVehicle {
+    String VehicleID
+    int Capacity
+}
+
+class RFIDTag {
+    String TagID
+}
+
+class SecondHandArticle {
+    String Description
+    String Category
+}
+
+class DistributionCenterEmployee {
+    String EmployeeID
+}
+
+class FoodBank {
+    String FoodBankID
+}
+
+class VolunteerDriver {
+    String DriverID
+    String AvailableDays
+}
+
+Resident "1" -- "0..*" PickupRequest
+PickupRequest "1" -- "1" PickupRoute
+PickupRoute "1" -- "1" PickupVehicle
+PickupVehicle "1" -- "0..*" RFIDTag
+SecondHandArticle "1" -- "0..*" RFIDTag
+DistributionCenterEmployee "1" -- "0..*" SecondHandArticle
+FoodBank "1" -- "0..*" SecondHandArticle
+VolunteerDriver "0..*" -- "0..*" PickupRoute
+
+@enduml
+```

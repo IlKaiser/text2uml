@@ -1,24 +1,44 @@
+```plantuml
 
-@startuml
+class Person {
+    String PersonID
+    String PhoneNUmber
+    List<String> ResearchTopics
+}
 
-class Person {}
-class Institution {}
-class ScientificArticle {}
-class PeerReviewedPaper {}
+class Institution {
+    String InstitutionCode
+}
+
+class Article {
+    String DOI
+    String Title
+    List<String> Authors
+}
+
+class ScientificArticle {
+    Int CitationCount
+    List<String> Reviewers
+}
+
 class TechnicalReport {}
-class Reviewer {}
-class Author {}
-class ResearchPublisher {}
-class Journal {}
 
-Person "1" -- "0..*" ScientificArticle
-Person "1" -- "0..*" Reviewer
-Person "1" -- "0..*" Author
-ScientificArticle "1" -- "0..*" Author
-ScientificArticle "1" -- "0..1" PeerReviewedPaper
-ScientificArticle "1" -- "0..1" TechnicalReport
-PeerReviewedPaper "1" -- "0..*" Reviewer
-TechnicalReport "1" -- "1" Institution
-ResearchPublisher "1" -- "0..*" Journal
+class Publisher {
+    String Name
+}
 
-@enduml
+class Journal {
+    String Name
+    Double ImpactFactor
+}
+
+Person "1..1" -- "0..*" Article
+Person "1..1" -- "0..*" Institution
+Article "1..1" -- "0..*" Person
+Article -- ScientificArticle
+Article -- TechnicalReport
+TechnicalReport -- "1..1" Institution
+Publisher "1..*" -- "0..*" Journal
+Journal "1..1" -- "0..1" Publisher
+
+```

@@ -1,31 +1,35 @@
 @startuml
 
-class Hospital{}
-class Doctor{}
-class Patient{}
-class Examination{}
-class ExaminationType{}
-class TreatmentPlan{}
-class Problem{}
-class Diagnosis{}
-class ActualTreatment{}
-class MedicalAction{}
+class Hospital{ String Name, String Address }
+class Doctor{ String Name, String Specialty }
+class Patient{ String Name, Date BirthDate, String MedicalRecordNumber }
+class ExaminationType{ String Name, String Code }
+class Examination{ Date DatePerformed, String Result, String Notes }
+class TreatmentPlan{ String Name, String Description }
+class Problem{ String Name, String Code }
+class Diagnosis{ Date Date, String Notes }
+class ActualTreatment{ Date StartDate, Date EndDate, String Notes }
+class MedicalAction{ String Description, String ActionType }
+class PermissionApplication{ Date ApplicationDate, String Status }
 
-Hospital "1..*" -- "1..1" Doctor
-Patient "0..*" -- "1..1" Diagnosis
-Doctor "0..*" -- "1..1" Diagnosis
-Hospital "0..*" -- "1..1" Diagnosis
-Problem "0..*" -- "1..1" Diagnosis
-Problem "1..1" -- "1..1" TreatmentPlan
-Hospital "1..1" -- "0..*" TreatmentPlan
-TreatmentPlan "1..1" -- "0..*" ExaminationType
-Hospital "0..*" -- "0..*" ExaminationType
+Hospital "1..1" -- "0..*" Doctor
+Doctor "1..1" -- "0..*" Examination
+Patient "1..1" -- "0..*" Examination
 ExaminationType "1..1" -- "0..*" Examination
-Patient "0..*" -- "1..1" Examination
-Doctor "0..*" -- "1..1" Examination
-Hospital "0..*" -- "1..1" Examination
+Hospital "1..1" -- "0..*" Examination
+Hospital "0..*" -- "0..*" ExaminationType
+PermissionApplication "0..*" -- "1..1" Hospital
+PermissionApplication "0..*" -- "1..1" ExaminationType
+Problem "1..1" -- "1..1" TreatmentPlan
+TreatmentPlan "0..*" -- "0..*" ExaminationType
+Doctor "1..1" -- "0..*" Diagnosis
+Patient "1..1" -- "0..*" Diagnosis
+Problem "1..1" -- "0..*" Diagnosis
 Diagnosis "1..1" -- "1..1" ActualTreatment
-ActualTreatment "1..1" -- "0..*" MedicalAction
-ActualTreatment "1..1" -- "0..*" Examination
+TreatmentPlan "1..1" -- "0..*" ActualTreatment
+Examination "0..*" -- "1..1" ActualTreatment
+MedicalAction "0..*" -- "1..1" ActualTreatment
+Doctor "1..1" -- "0..*" ActualTreatment
+Patient "1..1" -- "0..*" ActualTreatment
 
 @enduml

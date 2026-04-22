@@ -1,0 +1,50 @@
+```plantuml
+@startuml
+
+class EBike {
+  frame: Frame
+  driveSystem: DriveSystem
+  controller: Controller
+  battery: Battery
+}
+
+class Frame {
+  material: String
+}
+
+class DriveSystem {
+  motor: String
+}
+
+class Controller {
+  state: String
+}
+
+class Wheel {
+}
+
+class Battery {
+  storedEnergy: Float
+}
+
+class BasicController {
+}
+
+class AdvancedController {
+  nextInspectionDate: Date
+}
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "1" Controller
+EBike "1" -- "2" Wheel
+EBike "0..1" -- "1" Battery
+Frame "1" -- "2" Wheel
+Controller "1" -- "0..1" Battery
+Controller "1" -- "1" DriveSystem
+
+BasicController --|> Controller
+AdvancedController --|> Controller
+
+@enduml
+```

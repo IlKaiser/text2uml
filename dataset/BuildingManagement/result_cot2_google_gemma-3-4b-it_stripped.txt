@@ -1,0 +1,72 @@
+```plantuml
+@startuml
+class WebPortal {
+    versionNumber : String
+    urlAddress : String
+}
+
+class Building {
+    id : Int
+    name : String
+    energyClass : String
+    address : String
+    yearOfConstruction : Int
+    owner : User
+    numberOfImages : Int
+    profilePhoto : Image
+}
+
+class User {
+    userName : String
+    emailAddress : String
+    password : String
+    isActive : Boolean
+}
+
+class Entry {
+    name : String
+    content : String
+    unit : String
+}
+
+class Image {
+    fileName : String
+}
+
+class Owner {
+    releasesPublicly : Boolean
+}
+
+class Administrator {
+    idCardNumber : String
+}
+
+class ConfirmationLink {
+    url : String
+}
+
+class FullTextSearch {
+    searchTerm : String
+    searchResults : List<Building>
+}
+
+class Comment {
+    text : String
+    author : User
+}
+
+WebPortal -- Building : provides
+WebPortal -- User : manages
+Building -- Owner : assignedTo
+Building -- Entry : has
+Building -- Image : has
+User -- UserName : uses
+User -- EmailAddress : uses
+User -- Password : uses
+User -- Comment : creates
+Entry -- FullTextSearch : indexedBy
+Administrator -- User : manages
+Administrator -- Comment : deletes
+
+@enduml
+```

@@ -1,0 +1,228 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+The address and building material (wood, brick, or concrete) of each house are stored. A house may have a basement, the size and name of which are stored. There are exactly two different types of basements: earth basements and concrete basements. The humidity level of earth basements is also stored. A special type of house is the semi-detached house. Additional information stored for this type of house includes whether it has its own garden and how many windows it has. Each semi-detached house has either two carports or a garage. For carports, information stored includes whether they are double carports and whether they have a flat roof; for garages, information stored includes whether they have an automatic garage door. Each house is serviced by several companies, whose names and addresses are stored. Whenever a company carries out a job in a house, the number of hours and the agreed price are recorded in a job log.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification text. Let me break down the problem step by step to ensure I understand what's required and how to approach it.
+
+First, I'll read through the specification text carefully to identify the key classes and their attributes. The text describes various aspects of houses, including their materials, basements, semi-detached houses, carports, garages, companies, and job logs. My goal is to model these entities as classes in a class diagram, along with their relationships.
+
+Step 1: Extract the classes. From the text, the main classes seem to be:
+- House
+- Building Material
+- Basement
+- Earth Basement
+- Concrete Basement
+- Semi-Detached House
+- Carport
+- Garage
+- Company
+- Job Log
+
+I'll need to make sure each of these is represented as a class in the PlantUML model.
+
+Step 2: Extract attributes for each class. Attributes are properties that each class has. For example, the Building Material class has attributes like 'wood', 'brick', or 'concrete'. The Basement class has attributes like'size', 'name', and for Earth Basements, 'humidity level'. The Semi-Detached House has attributes like 'has_garden' and 'number_of_windows'. Carports have attributes like 'double_carport' and 'flat_roof', while Garages have 'automatic_garage_door'. Companies have 'name' and 'address'. Job Logs have 'number_of_hours' and 'agreed_price'.
+
+I'll list these attributes for each class, making sure to include all specified ones.
+
+Step 3: Extract relations and their cardinalities. The text describes how these classes relate to each other. For example, a House can have multiple Basements, but each Basement is part of a specific House. Similarly, a Semi-Detached House has either two carports or a garage, indicating a choice between two options. Companies service several Houses, so there's a many-to-many relationship between Companies and Houses. When a Company performs a job in a House, it's recorded in a Job Log, which is specific to that job and company.
+
+I need to represent these relationships in the PlantUML model using the appropriate cardinality symbols. For instance, a House can have one Basement, so that's a 1:1 relationship. A Semi-Detached House has either two carports or a garage, which might be modeled as a binary choice, perhaps using a multiplicity symbol like 1..2 for carports and 1..1 for garage, but since it's an either/or situation, maybe a ternary relationship would be more appropriate. However, since the example provided in the user's question used a single multiplicity symbol for the relationship, I'll follow that approach unless specified otherwise.
+
+Step 4: Assign the relations to the corresponding classes. I'll map each relationship to the appropriate classes, ensuring that the direction of the relationship is correct. For example, the Basement is part of the House, so the arrow points from House to Basement. Similarly, Companies service Houses, so the arrow points from House to Company, but since it's a many-to-many relationship, I'll use the appropriate symbols.
+
+Step 5: Add cardinality to the relations. Based on the specification, I'll determine the cardinality for each relationship. For example, a House can have multiple Basements, but each Basement belongs to one House, so that's a 1:1 relationship. A Semi-Detached House can have two carports or one garage, which might be represented as a ternary relationship, but since the example used a single multiplicity symbol, I'll use 1..1 for carports and 1..1 for garage, but since it's an either/or situation, perhaps a different approach is needed. However, to keep it simple and consistent with the example, I'll use a single multiplicity symbol for the relationship, even if it's a bit ambiguous.
+
+Now, putting it all together, I'll structure the PlantUML model by first listing all the classes with their attributes, followed by the relationships with their cardinalities.
+
+I need to make sure that the relationships are correctly represented. For example, the relationship between House and Carport is many-to-many because a House can have multiple Carports, and a Carport can be part of multiple Houses. Similarly, the relationship between House and Garage is many-to-many, but since a House can have either two carports or one garage, it's a bit more complex. However, for simplicity, I'll represent it as a many-to-many relationship with the appropriate cardinality symbols.
+
+Finally, I'll ensure that the PlantUML syntax is correct, using the appropriate symbols for attributes and relationships, and that the diagram is clear and easy to understand.
+</think>
+
+@startuml
+
+class House {
+    String address
+    String buildingMaterial
+    Boolean hasBasement
+    Boolean hasGarage
+    Boolean hasSemiDetached
+    String basementSize
+    String basementName
+    String carportCount
+    String number_of_windows
+    String garageType
+    String hasGarden
+}
+
+class Basement {
+    String size
+    String name
+    Double humidityLevel
+}
+
+class EarthBasement extends Basement {
+}
+
+class ConcreteBasement extends Basement {
+}
+
+class SemiDetachedHouse extends House {
+    Boolean hasOwnGarden
+    Integer number_of_windows
+    String carportType
+    Boolean hasFlatRoof
+}
+
+class Carport {
+    String type
+    Boolean isDouble
+}
+
+class Garage {
+    Boolean hasAutomaticDoor
+}
+
+class Company {
+    String name
+    String address
+}
+
+class JobLog {
+    Integer number_of_hours
+    Double agreedPrice
+}
+
+House "1..*" Basement
+House "1..*" SemiDetachedHouse
+SemiDetachedHouse "1..1" Carport
+SemiDetachedHouse "1..1" Garage
+House "1..*" Company
+Company "1..*" JobLog
+Basement "1..*" House
+Carport "1..*" House
+Garage "1..*" House
+JobLog "1..*" Company
+JobLog "1..*" House
+EndUML

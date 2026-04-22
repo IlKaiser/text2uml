@@ -1,0 +1,37 @@
+@startuml
+
+class Hospital { }
+class Patient {
+    String Name
+}
+class Doctor { }
+class Illness {
+    String Name
+    String PriorityScore
+}
+class Treatment {
+    String Stage
+    String Consent
+}
+class Diagnosis {
+    String Illness
+}
+class Database {
+    String TreatmentDatabase
+}
+class HeadDoctor {
+    String Approval
+}
+class Nurses { }
+
+Patient "0..*" -- "0..*" Treatment
+Treatment "0..*" -- "0..*" Diagnosis
+Diagnosis "0..*" -- "0..*" Illness
+Illness "0..*" -- "0..*" Database
+Doctor "0..*" -- "0..*" Diagnosis
+Hospital "1" -- "0..*" Doctor
+Hospital "1" -- "0..*" Nurses
+Treatment "0..*" -- "0..1" HeadDoctor
+Illness "0..*" -- "0..*" HeadDoctor
+
+@enduml

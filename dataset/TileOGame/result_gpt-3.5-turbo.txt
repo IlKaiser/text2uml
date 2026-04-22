@@ -1,21 +1,53 @@
-
+```plantuml
 @startuml
 
-class Game{}
-class GameDesigner{}
-class Player{}
-class Board{}
-class Tile{}
-class ConnectionPiece{}
-class ActionCard{}
+class Tile-OApplication
+class GameDesigner
+class Game
+class Player
+class Tile
+class ConnectionPiece
+class ActionCard
 
-GameDesigner "1..1" -- "1..1" Game
-Game "1..1" -- "2..4" Player
-Game "1..1" -- "1..1" Board
-Board "1..*" -- "1..*" Tile
-Board "1..32" -- "1..32" ConnectionPiece
-Board "1..5" -- "1..32" ActionCard
-Player "1..1" -- "1..*" PlayingPiece
-PlayingPiece "1..1" -- "1..1" Tile
+GameDesigner {
+    String layout
+    Tile[] tiles
+    ConnectionPiece[] connectionPieces
+    Tile hiddenTile
+    Tile[] startingPositions
+    Tile[] actionTiles
+    ActionCard[] actionCards
+}
+
+Game {
+    Tile boardTiles
+}
+
+Player {
+    String color
+}
+
+Tile {
+    String position
+    Tile[] connectedTiles
+    Boolean visited
+}
+
+ConnectionPiece
+
+ActionCard {
+    String instruction
+}
+
+GameDesigner -- Game
+GameDesigner "1..1" -- "1..*" Tile
+GameDesigner -- ActionCard
+
+Game -- Tile
+Tile -- Tile
+Tile -- ConnectionPiece
+
+Player -- Game
 
 @enduml
+```  

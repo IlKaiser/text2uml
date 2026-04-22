@@ -1,0 +1,62 @@
+```plantuml
+@startuml
+
+class OilCompany {
+    String Name
+}
+
+class GasStation {
+    String Location
+}
+
+class Pump {
+    String Type
+    Double GasolineLevel
+    Double ReorderingLevel
+    Double CriticalLevel
+}
+
+class Customer {
+    String Name
+    String ContactInfo
+    Boolean IsSuspended
+}
+
+class RefuelCard {
+    String CardNumber
+    Double Balance
+}
+
+class Invoice {
+    Date InvoiceDate
+    Double TotalAmount
+    Double Discount
+    Boolean IsPaid
+}
+
+class Payment {
+    Date PaymentDate
+    Double Amount
+}
+
+class RefuelTurn {
+    Date Date
+    Double Amount
+    String PaymentMethod
+}
+
+class GasolineType {
+    String Name
+    Double PricePerLiter
+}
+
+OilCompany "1" -- "*" GasStation
+GasStation "1" -- "*" Pump
+Customer "0..*" -- "1" RefuelCard
+Customer "0..*" -- "*" Invoice
+Invoice "1" -- "*" RefuelTurn
+Invoice "1" -- "1" Payment
+Pump "1" -- "1" GasolineType
+
+@enduml
+```

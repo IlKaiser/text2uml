@@ -1,40 +1,39 @@
-
+```plantuml
 @startuml
 
-class Bus{}
-class BusLine{}
-class Trajectory{}
-class Approval{}
-class TownAuthorities{}
-class Suspension{}
-class Cancellation{}
-class Line{}
-class MENSO{}
-class Category{}
-class Ticket{}
-class MENSOCard{}
-class Trip{}
-class Discount{}
-class Invoice{}
-class Customer{}
-class PersonalData{}
+class BusCompany
+class Bus
+class BusLine
+class Trajectory
+class Approval
+class TownAuthorities
+class SeasonTicket
+class Trip
+class MENSOCard
+class TicketMachine
+class Invoice
+class Discount
+class Customer
+class PersonalData
 
-Bus "1..*" -- "1..*" BusLine
-BusLine "1..*" -- "1..*" Trajectory
-Trajectory "1..1" -- "0..*" Approval
-Approval "1..1" -- "0..1" TownAuthorities
-Trajectory "1..*" -- "0..*" Suspension
-Suspension "1..1" -- "0..1" Cancellation
-Bus "1..*" -- "1..*" Line
-Line "1..*" -- "1..1" Category
-Line "1..*" -- "1..*" Trajectory
-Line "1..*" -- "0..*" Trajectory
-Line "1..*" -- "0..*" Trajectory
-MENSO "1..*" -- "1..1" Category
-MENSO "1..1" -- "0..*" Ticket
-MENSOCard "1..*" -- "0..*" Trip
-Discount "1..1" -- "0..1" Invoice
-Invoice "1..*" -- "0..1" Customer
-Customer "1..1" -- "0..1" PersonalData
+BusCompany -- "0..*" Bus
+Bus -- "0..*" BusLine
+BusLine -- "1..*" Trajectory
+Approval -- "0..1" TownAuthorities
+Approval -- "0..1" BusCompany
+Trajectory -- "0..*" Approval
+Trajectory -- "0..*" Bus
+Trajectory -- "0..*" SeasonTicket
+BusLine -- "1..*" SeasonTicket
+MENSOCard -- "1..*" Trip
+Trip -- "1..*" Bus
+Trip -- "1" Line
+Trip -- "1" MENSOCard
+TicketMachine -- "1" Bus
+Invoice -- "0..*" Customer
+Invoice -- "1" Discount
+Customer -- "1" MENSOCard
+Customer -- "1" PersonalData
 
 @enduml
+```   

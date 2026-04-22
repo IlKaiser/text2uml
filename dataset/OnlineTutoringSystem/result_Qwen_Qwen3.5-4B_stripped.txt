@@ -1,0 +1,36 @@
+@startuml
+class Student { String Name, String Email }
+class Tutor { String Name, String Email, String BankAccount }
+class Subject { String Name }
+class TutorLevel { String Name }
+class Price { String Amount }
+class Availability { String Days, String StartTime, String EndTime }
+class TutorOffer { String Subject, TutorLevel, Price, Availability }
+class TutorSession { String Date, String Time, String Subject, String Student, String Tutor, String Status }
+class Payment { String Method, String Amount }
+class Award { String Subject, String Tutor }
+
+class Student { String Name, String Email }
+class Tutor { String Name, String Email, String BankAccount }
+class Subject { String Name }
+class TutorLevel { String Name }
+class Price { String Amount }
+class Availability { String Days, String StartTime, String EndTime }
+class TutorOffer { String Subject, TutorLevel, Price, Availability }
+class TutorSession { String Date, String Time, String Subject, String Student, String Tutor, String Status }
+class Payment { String Method, String Amount }
+class Award { String Subject, String Tutor }
+
+Student "0..*" -- "0..*" Tutor
+Tutor "0..*" -- "0..*" Student
+Tutor "0..*" -- "0..*" Subject
+Tutor "0..*" -- "0..*" TutorLevel
+Tutor "0..*" -- "0..*" Price
+Tutor "0..*" -- "0..*" Availability
+Tutor "0..*" -- "0..*" TutorOffer
+TutorOffer "0..*" -- "0..*" TutorSession
+TutorSession "0..*" -- "0..*" Student
+TutorSession "0..*" -- "0..*" Tutor
+TutorSession "0..*" -- "0..*" Payment
+Tutor "0..*" -- "0..*" Award
+@enduml

@@ -1,33 +1,60 @@
 @startuml
-class Club{}
-class Team{}
-class Employee{}
-class Player{}
-class PlayerProfile{}
-class Position{}
-class Attribute{}
-class LongList{}
-class ShortList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Offer{}
+class Club
+class Employee
+class HeadCoach
+class Director
+class Scout
+class HeadScout
+class Team
+class Player
+class PlayerProfile
+class DesignatedPlayerProfile {
+  targetPositions: String
+}
+class Position {
+  code: String
+  description: String
+}
+class PlayerAttribute {
+  name: String
+  value: String
+}
+class LongList
+class ShortList
+class ScoutingAssignment
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: String
+}
+class Recommendation {
+  type: String
+}
+class Offer
 
-Club "1..1" -- "0..*" Team.
-Club "1..1" -- "0..*" Employee.
-Club "1..1" -- "0..*" PlayerProfile.
-Team "1..1" -- "0..*" Player.
-LongList "0..*" -- "0..*" Player.
-ShortList "0..*" -- "0..*" Player.
-ScoutingAssignment "0..*" -- "1..1" Team.
-ScoutingAssignment "1..1" -- "1..1" Employee.
-ScoutingAssignment "1..1" -- "0..1" ScoutingReport.
-ScoutingReport "1..1" -- "1..1" Player.
-ScoutingReport "1..1" -- "1..1" Employee.
-Player "0..*" -- "0..*" PlayerProfile.
-PlayerProfile "1..*" -- "0..*" Position.
-PlayerProfile "1..*" -- "0..*" Attribute.
-Player "0..*" -- "0..*" Position.
-Player "0..*" -- "0..*" Attribute.
-Player "1..1" -- "0..*" Offer.
-Employee "1..1" -- "0..*" Offer.
+Club "1..1" -- "1..*" Employee
+HeadCoach "1..1" -- "0..*" DesignatedPlayerProfile
+DesignatedPlayerProfile "1..1" -- "0..*" Position
+DesignatedPlayerProfile "1..1" -- "0..*" PlayerAttribute
+Scout "0..*" -- "0..*" LongList
+DesignatedPlayerProfile "1..1" -- "0..*" LongList
+LongList "0..*" -- "0..*" Player
+HeadScout "1..1" -- "0..*" ScoutingAssignment
+Team "1..1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "0..*" -- "1..1" Player
+ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+ScoutingReport "1..1" -- "1..1" Scout
+ScoutingReport "1..1" -- "1..1" Recommendation
+ScoutingReport "1..1" -- "1..1" Player
+DesignatedPlayerProfile "1..1" -- "0..*" ShortList
+ShortList "0..*" -- "0..*" Player
+Director "1..1" -- "0..*" Offer
+Offer "0..*" -- "1..1" Player
+HeadScout "1..1" -- "0..1" Team
+
+HeadCoach --|> Employee
+Director --|> Employee
+Scout --|> Employee
+HeadScout --|> Scout
+DesignatedPlayerProfile --|> PlayerProfile
 @enduml

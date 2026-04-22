@@ -1,27 +1,72 @@
 @startuml
-class Aircraft{}
-class PassengerAircraft{}
-class Flight{}
-class Passenger{}
-class Ticket{}
-class SeatCategory{}
-class Airline{}
-class FlightAttendant{}
-class Pilot{}
-class Airport{}
+class Aircraft {
+  name: String
+  type: String
+  year_of_manufacture: Int
+  date_of_next_inspection: Date
+}
 
-Aircraft "1..1" -- "0..*" Flight.
-Flight "0..*" -- "0..*" Passenger.
-Ticket "1..1" -- "0..*" Passenger.
-Ticket "1..1" -- "0..*" SeatCategory.
-PassengerAircraft "1..1" -- "1..*" SeatCategory.
-Airline "0..*" -- "0..1" Aircraft.
-Airline "0..*" -- "0..1" FlightAttendant.
-Airline "0..*" -- "0..1" Pilot.
-Flight "0..*" -- "0..*" FlightAttendant.
-Flight "0..*" -- "0..*" Pilot.
-Flight "1..1" -- "0..*" Airport.
-Flight "1..1" -- "0..*" Airport.
-Aircraft "0..1" -- "0..*" Airport.
-Ticket "1..1" -- "0..*" Flight.
+class PassengerAircraft {
+  number_of_seats: Int
+}
+
+class Flight {
+  flight_number: String
+  date: Date
+}
+
+class Passenger {
+  name: String
+  passport_number: String
+}
+
+class Ticket {
+  ticket_number: String
+  price: Float
+  upgrade_desired: Boolean
+}
+
+class SeatCategory {
+  designation: String
+  offers_entertainment_program: Boolean
+  number_of_seats: Int
+}
+
+class Airline {
+  name: String
+}
+
+class FlightAttendant {
+  name: String
+  date_of_employment: Date
+  is_chief: Boolean
+}
+
+class Pilot {
+  name: String
+  date_of_employment: Date
+  license: String
+}
+
+class Airport {
+  name: String
+  address: String
+  number_of_runways: Int
+}
+
+Aircraft "1..1" -- "0..*" Flight
+Passenger "1..1" -- "0..*" Ticket
+Flight "1..1" -- "0..*" Ticket
+PassengerAircraft "1..1" -- "0..*" SeatCategory
+SeatCategory "1..1" -- "0..*" Ticket
+Airline "0..1" -- "0..*" Aircraft
+Airline "1..1" -- "0..*" FlightAttendant
+Airline "1..1" -- "0..*" Pilot
+FlightAttendant "0..*" -- "0..*" Flight
+Flight "1..*" -- "1..*" Pilot
+Airport "1..1" -- "0..*" Flight
+Airport "1..1" -- "0..*" Flight
+Airport "0..1" -- "0..*" Aircraft
+
+PassengerAircraft --|> Aircraft
 @enduml

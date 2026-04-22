@@ -1,55 +1,94 @@
 @startuml
 
-class H2SLocation{}
-class City{}
-class Resident{}
-class Client{}
-class Article{}
-class Food{}
-class PickupRequest{}
-class Address{}
-class ItemDescription{}
-class Vehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class FoodBank{}
-class H2SEmployee{}
-class RFIDDevice{}
-class ArticleCategory{}
-class Delivery{}
-class Website{}
+class Address {
+    String Street
+    String City
+    String PostalCode
+}
+class Article {
+    String QualityStatus
+    String RFIDTagID
+    String CorrectedDescription
+}
+class Category {
+    String Name
+    String Code
+}
+class Client {
+    String Name
+    String PhoneNumber
+    String EmailAddress
+}
+class Delivery {
+    Date DeliveryDate
+    String DeliveryTime
+}
+class DistributionCenter {
+}
+class Food {
+}
+class FoodBank {
+}
+class H2SEmployee {
+    String Name
+}
+class H2SLocation {
+    String Name
+}
+abstract class Item {
+    String Description
+    String Dimensions
+    Double Weight
+}
+class Pickup {
+    String RequestedWeekday
+    String ScheduledTimeRange
+    Date Date
+}
+class PickupRoute {
+    Date RouteDate
+}
+class Resident {
+    String Name
+    String PhoneNumber
+    String EmailAddress
+}
+class Vehicle {
+    String LicensePlate
+    Double StorageSpaceCapacity
+}
+class VolunteerDriver {
+    String Name
+    String AvailableDays
+}
 
-City "1" -- "0..*" H2SLocation
+Item <|-- Article
+Item <|-- Food
+
+H2SLocation "1" -- "1" Address
+H2SLocation "1" -- "0..*" Resident
+H2SLocation "1" -- "0..*" Client
 H2SLocation "1" -- "1" DistributionCenter
-H2SLocation "1" -- "1" FoodBank
+H2SLocation "1" -- "0..*" FoodBank
 H2SLocation "1" -- "0..*" Vehicle
-Website "1" -- "0..*" H2SLocation
-Resident "1" -- "0..*" PickupRequest
-Resident "1" -- "0..*" Website
-PickupRequest "1" -- "1" Address
-PickupRequest "1" -- "1" ItemDescription
-PickupRequest "1" -- "0..*" Article
-PickupRequest "1" -- "0..*" Food
-Vehicle "1" -- "0..*" PickupRoute
+H2SLocation "1" -- "0..*" VolunteerDriver
+Resident "1" -- "1" Address
+Resident "1" -- "0..*" Pickup
+Client "1" -- "1" Address
+Client "0..*" -- "0..*" Category
+Client "1" -- "0..*" Delivery
+Pickup "1" -- "1..*" Item
+PickupRoute "1" -- "1..*" Pickup
+PickupRoute "1" -- "1" Vehicle
 VolunteerDriver "1" -- "0..*" PickupRoute
-VolunteerDriver "1" -- "0..*" Website
-PickupRoute "1" -- "0..*" PickupRequest
-VolunteerDriver "1" -- "0..*" Article
-VolunteerDriver "1" -- "0..*" Food
+VolunteerDriver "1" -- "0..*" Delivery
 DistributionCenter "1" -- "0..*" Article
 DistributionCenter "1" -- "0..*" H2SEmployee
-FoodBank "1" -- "0..*" Food
 H2SEmployee "1" -- "0..*" Article
-Article "1" -- "1" RFIDDevice
-ArticleCategory "1" -- "0..*" Article
-Client "0..*" -- "0..*" ArticleCategory
-H2SEmployee "0..*" -- "0..*" Client
+H2SEmployee "1" -- "0..*" Client
 H2SEmployee "1" -- "0..*" Delivery
-Client "1" -- "0..*" Delivery
-Delivery "1" -- "1" Address
-Delivery "1" -- "0..*" Article
-VolunteerDriver "1" -- "0..*" Delivery
-ItemDescription "1" -- "0..*" Article
+Article "0..*" -- "1" Category
+FoodBank "1" -- "0..*" Food
+Delivery "1" -- "1..*" Article
 
-@endumuml
+@enduml

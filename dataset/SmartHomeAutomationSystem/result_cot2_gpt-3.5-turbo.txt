@@ -1,41 +1,65 @@
 
 @startuml
 
-class SmartHome{}
-class Room{}
-class Sensor{}
-class Actuator{}
-class Device{}
-class InfrastructureMap{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class Alert{}
-class AutomationRule{}
-class Precondition{}
-class Action{}
-class BooleanExpression{}
-class RelationalTerm{}
-class BasicBooleanOperator{}
-class AtomicRelationalTerm{}
-class RuleHierarchy{}
-class Timestamp{}
+class SmartHome {
+}
 
-SmartHome "1..*" -- "1..*" Room
-Room "1..*" -- "0..*" Sensor
-Room "1..*" -- "0..*" Actuator
-Sensor "1..*" -- "1..*" SensorReading
-Actuator "1..*" -- "1..*" ControlCommand
-SmartHome "1..*" -- "1..*" ActivityLog
-SmartHome "1..*" -- "1..*" Alert
-SmartHome "1..*" -- "1..*" AutomationRule
-AutomationRule "1..*" -- "1..*" Precondition
-AutomationRule "1..*" -- "1..*" Action
-Precondition "1..*" -- "1..*" BooleanExpression
-BooleanExpression "1..*" -- "1..*" RelationalTerm
-RelationalTerm "1..*" -- "1..*" BasicBooleanOperator
-RelationalTerm "1..*" -- "1..*" AtomicRelationalTerm
-AutomationRule "1..*" -- "1..*" RuleHierarchy
-Alert "1..*" -- "1..*" Timestamp
+class Room {
+    roomName: String
+}
+
+class SensorDevice {
+    uniqueDeviceID: Int
+}
+
+class ActuatorDevice {
+    uniqueDeviceID: Int
+}
+
+class Device {
+    uniqueDeviceID: Int
+}
+
+class SensorReading {
+    measuredValue: Float
+    timestamp: Date
+}
+
+class ControlCommand {
+    timestamp: Date
+    status: String
+}
+
+class InfrastructureMap {
+}
+
+class Alert {
+}
+
+class Owner {
+}
+
+class AutomationRule {
+}
+
+class Precondition {
+}
+
+class Action {
+}
+
+class AtomicRelationalTerm {
+}
+
+SmartHome "1" -- "0..*" Room
+Room "0..*" -- "0..*" SensorDevice
+Room "0..*" -- "0..*" ActuatorDevice
+Room "0..*" -- "0..*" Device
+SensorDevice "0..*" -- "0..*" SensorReading
+ActuatorDevice "0..*" -- "0..*" ControlCommand
+Device "0..*" -- "0..*" AutomationRule
+AutomationRule "0..*" -- "0..*" Precondition
+AutomationRule "0..*" -- "0..*" Action
+Action "0..*" -- "0..*" AtomicRelationalTerm
 
 @enduml

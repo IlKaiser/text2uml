@@ -1,19 +1,36 @@
-
+```plantuml
 @startuml
 
-class TaxiCompany{}
-class SelfDrivingCar{}
-class CarOwner{}
-class SoberApp{}
-class Ride{}
-class Customer{}
-class Accident{}
+class TaxiCompany
+class CarOwner
+class Car
+class SoberApp
+class HailingService
+class ImageRecognitionSystem
+class RideHailService
+class RideShareService
+class Customer
+class Accident
 
-TaxiCompany "1..1" -- "1..*" SelfDrivingCar
-TaxiCompany "1..1" -- "0..*" CarOwner
-TaxiCompany "1..1" -- "0..1" SoberApp
-TaxiCompany "1..*" -- "0..*" Ride
-Ride "0..*" -- "1..*" Customer
-SelfDrivingCar "1..*" -- "0..*" Accident
+TaxiCompany
+CarOwner
+Car
+SoberApp
+HailingService
+ImageRecognitionSystem
+RideHailService
+RideShareService
+Customer
+Accident
+
+CarOwner "0..*" -- "0..1" Car
+HailingService "1..*" -- "0..1" SoberApp
+HailingService "1..*" -- "1..1" ImageRecognitionSystem
+RideHailService "0..*" -- "1..*" Customer
+RideShareService "0..*" -- "1..*" Customer
+RideShareService "1..1" -- "1..*" TaxiCompany
+RideShareService "0..*" -- "0..1" Accident
+Accident "1..1" -- "1..1" Car
 
 @enduml
+```

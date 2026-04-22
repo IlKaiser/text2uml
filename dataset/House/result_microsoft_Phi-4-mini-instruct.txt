@@ -1,0 +1,65 @@
+<|system|>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|end|><|user|>Transform into plant uml this specification text: The address and building material (wood, brick, or concrete) of each house are stored. A house may have a basement, the size and name of which are stored. There are exactly two different types of basements: earth basements and concrete basements. The humidity level of earth basements is also stored. A special type of house is the semi-detached house. Additional information stored for this type of house includes whether it has its own garden and how many windows it has. Each semi-detached house has either two carports or a garage. For carports, information stored includes whether they are double carports and whether they have a flat roof; for garages, information stored includes whether they have an automatic garage door. Each house is serviced by several companies, whose names and addresses are stored. Whenever a company carries out a job in a house, the number of hours and the agreed price are recorded in a job log.<|end|><|assistant|>@startuml
+
+class House{
+  String Address, BuildingMaterial, BasementName, BasementSize
+  Boolean HasBasement
+  String BasementType
+  Double BasementHumidity
+  Boolean HasGarden
+  Integer NumberOfWindows
+  Boolean IsSemiDetached
+  Boolean HasCarports
+  Boolean HasGarage
+  String CarportType
+  Boolean CarportFlatRoof
+  String GarageType
+  Boolean GarageAutomaticDoor
+  List<String> ServiceCompanies
+  List<Job> JobLogs
+}
+
+class Job{
+  String CompanyName, CompanyAddress
+  Integer Hours
+  Double Price
+}
+
+House "1..*" -- "0..*" Job
+House "1..*" -- "0..*" Carport
+House "1..*" -- "0..*" Garage
+
+@enduml

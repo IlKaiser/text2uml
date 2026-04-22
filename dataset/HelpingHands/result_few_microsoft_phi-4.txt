@@ -1,0 +1,67 @@
+```plantuml
+@startuml
+
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemDescription
+}
+
+class PickupVehicle {
+    String VehicleID
+    Int StorageCapacity
+}
+
+class VolunteerDriver {
+    String Name
+    List<String> AvailableDays
+}
+
+class PickupRoute {
+    List<Resident> Residents
+    PickupVehicle Vehicle
+    VolunteerDriver Driver
+}
+
+class SecondHandArticle {
+    String Description
+    String RFIDTag
+    String Category
+}
+
+class NonPerishableFood {}
+
+class DistributionCenter {
+    List<SecondHandArticle> Articles
+}
+
+class FoodBank {}
+
+class Client {
+    String Name
+    String HomeAddress
+    List<String> NeededCategories
+}
+
+class Delivery {
+    Client Client
+    SecondHandArticle Article
+    VolunteerDriver Driver
+}
+
+Resident "1" -- "0..*" PickupRoute
+PickupRoute "1" -- "1" PickupVehicle
+PickupRoute "1" -- "1" VolunteerDriver
+PickupRoute "1" -- "0..*" Resident
+PickupRoute "1" -- "0..*" SecondHandArticle
+PickupRoute "1" -- "0..*" NonPerishableFood
+SecondHandArticle "1" -- "1" DistributionCenter
+NonPerishableFood "1" -- "1" FoodBank
+Client "1" -- "0..*" Delivery
+Delivery "1" -- "1" SecondHandArticle
+Delivery "1" -- "1" VolunteerDriver
+
+@enduml
+```

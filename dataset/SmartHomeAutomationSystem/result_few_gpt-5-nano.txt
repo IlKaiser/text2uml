@@ -1,35 +1,58 @@
 @startuml
-class SHAS{}
-class SmartHome{}
-class Room{}
-class Sensor{}
-class Actuator{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class Precondition{}
-class RelationalTerm{}
-class Action{}
-class Alert{}
-class Owner{}
 
-SHAS "1" -- "0..*" SmartHome
+class SmartHome {
+    String Name
+    String Address
+}
+class Room {
+    String Name
+}
+class SensorDevice {
+    String DeviceId
+    String Type
+    Boolean Active
+}
+class ActuatorDevice {
+    String DeviceId
+    String Type
+    Boolean Active
+}
+class SensorReading {
+    Date Timestamp
+    Double Value
+}
+class ControlCommand {
+    Date Timestamp
+    String CommandName
+    String Status
+}
+class ActivityLog {
+    Date GeneratedAt
+}
+class AutomationRule {
+    String Name
+    String PreconditionExpression
+    String ActionSequence
+    Boolean Active
+}
+class Owner {
+    String Name
+}
+class RuleTriggerEvent {
+    Date Timestamp
+}
+
 SmartHome "1" -- "0..*" Room
-Room "1" -- "0..*" Sensor
-Room "1" -- "0..*" Actuator
-Sensor "1" -- "0..*" SensorReading
-Actuator "1" -- "0..*" ControlCommand
-SHAS "1" -- "0..*" ActivityLog
+Room "1" -- "0..*" SensorDevice
+Room "1" -- "0..*" ActuatorDevice
+SensorDevice "1" -- "0..*" SensorReading
+ActuatorDevice "1" -- "0..*" ControlCommand
+SmartHome "1" -- "1" ActivityLog
 ActivityLog "1" -- "0..*" SensorReading
 ActivityLog "1" -- "0..*" ControlCommand
+AutomationRule "1" -- "0..*" RuleTriggerEvent
+RuleTriggerEvent "1" -- "1" AutomationRule
 Owner "1" -- "0..*" AutomationRule
-AutomationRule "1" -- "1" Precondition
-AutomationRule "1" -- "1" Action
-Precondition "1" -- "0..*" RelationalTerm
-RelationalTerm "0..1" -- "1" Room
-RelationalTerm "0..1" -- "1" Sensor
-RelationalTerm "0..1" -- "1" Actuator
-RelationalTerm "0..1" -- "1" SensorReading
-RelationalTerm "0..1" -- "1" ControlCommand
+AutomationRule "0..*" -- "0..*" AutomationRule
+
 @enduml

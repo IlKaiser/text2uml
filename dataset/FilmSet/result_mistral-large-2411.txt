@@ -1,30 +1,42 @@
-```plantuml
 @startuml
 
-class Employee{}
+class Employee{ String Name, String SocialSecurityNumber }
 class CreativeEmployee{}
-class Director{}
-class Actor{}
-class Technician{}
-class FilmSet{}
-class Film{}
+class Director{ String AssistantName }
+class Actor{ String Education }
+class OscarWinner{}
+class Technician{ String FieldOfActivity }
+class FilmSet{ String Location }
+class Film{ String Title, Date YearOfRelease }
 class Genre{}
-class Screenwriter{}
-class Screenplay{}
-class Novel{}
+class Thriller{}
+class Action{}
+class Horror{}
+class Comedy{}
+class Screenwriter{ String Name, String MostSuccessfulFilm }
+class Screenplay{ String Title, String Version, Date Date, int NumberOfScenes, String Plot }
+class Novel{ String Title, String Author }
+class Concept{}
 
-Employee "1..1" -- "1..*" CreativeEmployee
-CreativeEmployee "1..1" -- "1..*" Director
-CreativeEmployee "1..1" -- "1..*" Actor
-Employee "1..1" -- "1..*" Technician
-FilmSet "1..1" -- "1..*" Film
-Film "1..*" -- "1..*" FilmSet
-Film "1..1" -- "1..1" Genre
+CreativeEmployee -- "0..*" Director
+CreativeEmployee -- "0..*" Actor
+Director -- "0..1" OscarWinner
+Actor -- "0..1" OscarWinner
+Technician --|> Employee
+Director --|> CreativeEmployee
+Actor --|> CreativeEmployee
+CreativeEmployee --|> Employee
+FilmSet "1..*" -- "1..*" Film
+Genre --|> Thriller
+Genre --|> Action
+Genre --|> Horror
+Genre --|> Comedy
+Film  "1..1" -- "1..1" Genre
 Screenwriter "1..1" -- "1..*" Screenplay
-Screenplay "1..1" -- "1..1" Novel
+Novel --|> Screenplay
+Concept --|>  Screenplay
 Film "1..1" -- "1..1" Screenplay
-Screenplay "1..1" -- "1..*" Actor
+Screenplay "1..*" -- "1..1" Actor
 Screenplay "1..1" -- "1..1" Director
 
 @enduml
-```

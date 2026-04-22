@@ -1,33 +1,61 @@
-Here is the PlantUML class diagram based on the provided specification:
-
-```plantuml
 @startuml
 
-class Provider {}
-class Cruise {}
-class Employee {}
-class Guest {}
-class Ship {}
-class TravelAgency {}
-class Booking {}
-class DestinationArea {}
-class Show {}
-class Ticket {}
+class Provider {
+    String Name
+    String Location
+}
+class Cruise {
+    String Number
+    String Name
+    Date StartDate
+    Date EndDate
+}
+class Employee {
+    String Name
+    String SocialSecurityNumber
+}
+class Guest {
+    String Name
+    Boolean IsVIP
+}
+class Ship {
+    String Name
+    Int NumberOfDecks
+    Double Length
+    Int MaxPassengers
+}
+class TravelAgency {
+    String Name
+    String Address
+}
+class Booking {
+    String BookingNumber
+    Date BookingDate
+}
+class DestinationArea {
+    String Name
+    String SeaName
+}
+class Show {
+    String Title
+    Int Duration
+}
+class Ticket {
+    String TicketNumber
+}
 
-Cruise "1" -- "1" Provider
-Cruise "1..*" -- "0..*" Employee
-Cruise "0..*" -- "1..*" Guest
-Guest "0..*" -- "1..*" Cruise
-Cruise "1" -- "1" Ship
+Provider "1" -- "0..*" Cruise
+Cruise "1" -- "0..*" Employee
+Cruise "1" -- "0..*" Guest
+Guest "1" -- "0..*" Cruise
 Ship "1" -- "0..*" Cruise
 Cruise "1" -- "1" TravelAgency
-TravelAgency "0..*" -- "1..*" Booking
+TravelAgency "1" -- "0..*" Booking
 Booking "1" -- "1" Cruise
 Cruise "1" -- "1" DestinationArea
 Cruise "1" -- "0..*" Show
 Cruise "1" -- "0..*" Ticket
+Guest "1" -- "0..*" Ticket
 Ticket "1" -- "1" Cruise
-Guest "0..*" -- "0..*" Ticket
 
 @enduml
-```

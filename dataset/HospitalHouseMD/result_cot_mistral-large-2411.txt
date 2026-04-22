@@ -1,27 +1,53 @@
-```
+```plantuml
 @startuml
-class HospitalHouseMD{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Treatment{}
-class Stage{}
-class Consent{}
-class Form{}
-class FollowUp{}
-class Illness{}
-class PriorityScore{}
+class Hospital {
+}
 
-HospitalHouseMD "1..1" -- "0..*" Patient
-Patient "1..*" -- "1..1" Doctor
-Doctor "1..*" -- "1..1" Diagnosis
-Diagnosis "0..*" -- "1..1" Treatment
-Treatment "1..1" -- "1..1" Stage
-Stage "0..*" -- "1..1" Consent
-Consent "1..1" -- "1..1" Form
-Treatment "0..*" -- "1..1" FollowUp
+class Patient {
+  assignedDoctors: String
+}
+
+class Doctor {
+}
+
+class Diagnosis {
+  approved: Boolean
+}
+
+class Illness {
+  priorityScore: String
+}
+
+class Treatment {
+  stage: Int
+  consentGiven: Boolean
+}
+
+class Consent {
+}
+
+class Nurse {
+}
+
+class PriorityScore {
+}
+
+Hospital "1..1" -- "1..*" Patient
+Hospital "1..1" -- "1..*" Doctor
+Hospital "1..1" -- "1..*" Diagnosis
+Hospital "1..1" -- "1..*" Treatment
+Hospital "1..1" -- "1..*" Nurse
+Hospital "1..1" -- "1..*" PriorityScore
+Patient "1..*" -- "1..*" Doctor
+Patient "1..*" -- "1..*" Diagnosis
+Patient "1..*" -- "1..*" Treatment
+Patient "1..1" -- "0..1" Consent
+Doctor "1..*" -- "1..*" Diagnosis
+Doctor "1..*" -- "1..*" Treatment
+Diagnosis "1..1" -- "1..1" Illness
+Diagnosis "1..*" -- "1..*" Treatment
+Illness "1..1" -- "1..1" Treatment
 Illness "1..1" -- "1..1" PriorityScore
-PriorityScore "0..*" -- "0..*" Treatment
-PriorityScore "0..*" -- "0..*" Stage
+Treatment "1..*" -- "0..1" Consent
 @enduml
 ```

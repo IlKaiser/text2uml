@@ -1,0 +1,27 @@
+@startuml
+
+class Customer {
+    String FirstName
+    String LastName
+}
+class Bank {
+}
+class Branch {
+}
+class Account {
+    int AccountNumber
+    double Balance
+}
+class CurrentAccount {
+    double OverdraftLimit
+}
+class SavingsAccount {}
+
+Bank "0..*" -- "0..*" Branch
+Bank "0..*" -- "1..5" Customer
+Customer "1" -- "1..5" Account
+Account "1" -- "1" Customer
+Account "1".. CurrentAccount
+Account "1".. SavingsAccount
+
+@enduml

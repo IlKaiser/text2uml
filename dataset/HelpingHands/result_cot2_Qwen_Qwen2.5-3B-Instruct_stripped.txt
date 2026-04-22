@@ -1,0 +1,127 @@
+Given the specification text, the relevant classes for the conceptual model diagram are:
+
+1. **H2S**
+2. **Store**
+3. **Pickup**
+4. **Delivery**
+5. **Vehicle**
+6. **Driver**
+7. **Route**
+8. **Employee**
+9. **Article**
+10. **Item**
+11. **Client**
+12. **Category**
+13. **Service**
+14. **Food Bank**
+
+These classes capture the essential entities and processes described in the specification, including the main organizational structure, the pickup and delivery service, the various roles involved, and the items being handled.
+
+### PlantUML Class Diagram:
+
+```plantuml
+@startuml
+class H2S {
+    +name: String
+    +location: String
+}
+
+class Store {
+    +name: String
+    +address: String
+}
+
+class Pickup {
+    +pickup_date: Date
+    +pickup_time: Time
+    +items: Article[]
+}
+
+class Delivery {
+    +delivery_date: Date
+    +delivery_time: Time
+    +items: Article[]
+}
+
+class Vehicle {
+    +vehicle_id: String
+    +storage_space: Integer
+    +dimensions: String
+    +weight_capacity: Integer
+}
+
+class Driver {
+    +driver_id: String
+    +availability_days: Day[]
+}
+
+class Route {
+    +route_id: String
+    +pickup_route: String
+}
+
+class Employee {
+    +employee_id: String
+    +assigned_articles: Article[]
+}
+
+class Article {
+    +article_id: String
+    +category: Category
+    +description: String
+}
+
+class Item {
+    +item_id: String
+    +quantity: Integer
+}
+
+class Client {
+    +client_id: String
+    +needs_categories: Category[]
+}
+
+class Category {
+    +category_id: String
+    +category_name: String
+}
+
+class Service {
+    +service_id: String
+    +service_type: String
+}
+
+class FoodBank {
+    +food_bank_id: String
+    +food_items: Item[]
+}
+
+H2S -- Store
+Store -- Pickup
+Store -- Delivery
+Store -- Vehicle
+Store -- Driver
+Store -- Route
+Store -- Employee
+Store -- Article
+Store -- Item
+Store -- Client
+Store -- Category
+Store -- Service
+Store -- FoodBank
+
+Employee --|> Store
+Vehicle --|> Store
+Driver --|> Store
+Route --|> Store
+Article --|> Store
+Item --|> Store
+Client --|> Store
+Category --|> Store
+Service --|> Store
+FoodBank --|> Store
+
+@enduml
+```
+
+This PlantUML code defines the relationships between the classes based on the provided specification text.

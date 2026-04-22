@@ -1,24 +1,55 @@
 @startuml
 
-class User {}
-class Player {}
-class Admin {}
-class Game {}
-class Block {}
-class Level {}
-class HallOfFame {}
-class Score {}
+class User {
+    String Username
+    String Password
+}
+class Player {
+    Int Lives
+    Int TotalScore
+}
+class Admin {
+    String AdminMode
+}
+class Game {
+    String Name
+    String Status
+}
+class Block {
+    String Color
+    Int Points
+}
+class Level {
+    Int LevelNumber
+    Boolean IsRandom
+}
+class GridPosition {
+    Int Row
+    Int Column
+}
+class HallOfFame {
+    Int HighScore
+}
+class Paddle {
+    Double Length
+}
+class Ball {
+    Double Speed
+    Double Direction
+}
 
 User "1" -- "1" Player
 User "1" -- "0..1" Admin
-Game "1" -- "1" Admin
+Admin "1" -- "1" Game
+Game "1" -- "0..*" Block
+Game "1" -- "0..*" Level
+Level "1" -- "0..*" GridPosition
+Level "1" -- "0..*" Block
 Game "1" -- "1" HallOfFame
-Game "1" -- "1..*" Block
-Game "1" -- "1..99" Level
-Level "1" -- "1..*" Block
-Level "1" -- "1" Game
-Player "1" -- "0..*" Score
-Score "1" -- "1" HallOfFame
-Score "1" -- "1" Player
+Game "1" -- "1" Paddle
+Game "1" -- "1" Ball
+Player "1" -- "0..*" Game
+Player "1" -- "1" Paddle
+Player "1" -- "1" Ball
 
 @enduml

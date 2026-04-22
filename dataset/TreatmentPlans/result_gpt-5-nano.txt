@@ -1,26 +1,28 @@
 @startuml
 
-class Hospital{}
-class Doctor{}
-class Patient{}
-class ExaminationType{}
-class Examination{}
-class Problem{}
-class TreatmentPlan{}
-class Treatment{}
-class MedicalAction{}
+class Hospital{ String Name, String Address }
+class Doctor{ String Name, String Specialty }
+class Patient{ String Name, Date BirthDate }
+class ExaminationType{ String TypeName }
+class Examination{ Date PerformedDate, String Notes }
+class Problem{ String Description }
+class TreatmentPlan{ String Name, String Description }
+class Diagnosis{ Date DiagnosisDate, String Notes }
+class ActualTreatment{ String Notes }
+class MedicalAction{ String Description, Date ActionDate }
 
-Hospital "1..*" -- "1" Doctor
-Hospital "1" -- "0..*" Patient
-Examination "1" -- "1..*" ExaminationType
-Examination "1" -- "1" Hospital
-Hospital "0..*" -- "0..*" ExaminationType
-TreatmentPlan "1" -- "1" Problem
+Doctor "0..*" -- "1" Diagnosis
+Patient "0..*" -- "1" Diagnosis
+Hospital "0..*" -- "1" Diagnosis
+Diagnosis "1" -- "1" Problem
 TreatmentPlan "0..*" -- "0..*" ExaminationType
-Treatment "1" -- "1" Doctor
-Treatment "1" -- "1" Patient
-Treatment "0..*" -- "0..*" Examination
-Treatment "0..*" -- "0..*" MedicalAction
-Treatment "1" -- "1" Problem
+Problem "1" -- "1" TreatmentPlan
+ActualTreatment "1" -- "1" TreatmentPlan
+Diagnosis "1" -- "1" ActualTreatment
+ActualTreatment "0..*" -- "1" Examination
+Examination "1" -- "1" ExaminationType
+Hospital "0..*" -- "1" Examination
+Examination "1" -- "1" Doctor
+ActualTreatment "0..*" -- "1" MedicalAction
 
 @enduml

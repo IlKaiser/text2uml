@@ -1,0 +1,29 @@
+```plantuml
+@startuml
+class GameArea {
+    String Name
+    GameElement "1..*" -- "1..*" GameElement
+    GameElement "1..2" -- "1..*" GamePiece
+    GamePiece "1..1" -- "1..1" Opponent
+}
+
+class GameElement {
+    protected long X
+    protected long Y
+}
+
+class Shape {
+    GameElement "0..*" -- "0..*" GameElement
+}
+
+class Object {
+    GameElement "0..*" -- "0..*" GameElement
+}
+
+class Opponent {
+    protected int Lives
+    GameElement "1..1" -- "1..1" GameArea
+}
+
+@enduml
+```

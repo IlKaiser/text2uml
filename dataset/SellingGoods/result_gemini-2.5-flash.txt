@@ -1,23 +1,56 @@
 @startuml
 
-class Customer{}
-class Order{}
-class Product{}
-class OrderLine{}
-class Shipment{}
-class Address{}
-class Invoice{}
-class Payment{}
+class Customer{
+  String VATNumber
+  String HeadOfficeAddress
+}
+class DeliveryAddress{
+  String Street
+  String City
+  String PostalCode
+  String Country
+  String Name
+}
+class Product{
+  String Name
+  String Description
+  Decimal UnitPrice
+}
+class Stock{
+  Integer CurrentLevel
+}
+class Order{
+  Date OrderDate
+  String Status
+}
+class OrderLine{
+  Integer Quantity
+}
+class Invoice{
+  String InvoiceNumber
+  Date IssueDate
+  Date DueDate
+  Decimal AmountDue
+  Date PaymentReceivedDate
+}
+class Delivery{
+  Date DeliveryDate
+  String TrackingNumber
+  String Status
+  String CarrierInfo
+}
+class DeliveryLineItem{
+  Integer QuantityDelivered
+}
 
 Customer "1" -- "0..*" Order
+Customer "1" -- "0..*" DeliveryAddress
 Order "1" -- "1..*" OrderLine
-Product "1" -- "0..*" OrderLine
-Customer "1" -- "1..*" Address
-Address "1" -- "0..*" Order
+OrderLine "1..*" -- "1" Product
+Product "1" -- "1" Stock
 Order "1" -- "1" Invoice
-Customer "1" -- "0..*" Invoice
-Invoice "1" -- "0..1" Payment
-Order "1" -- "0..*" Shipment
-Shipment "1" -- "1..*" OrderLine
+Order "0..*" -- "1" DeliveryAddress
+Delivery "1" -- "1..*" DeliveryLineItem
+OrderLine "1" -- "0..*" DeliveryLineItem
 
 @enduml

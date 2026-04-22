@@ -1,49 +1,58 @@
 
 @startuml
-class WebPortal{}
-class Version{}
-class URL{}
-class Building{}
-class User{}
-class Owner{}
-class AdditionalEntry{}
-class TextualInformation{}
-class FloatingPointNumber{}
-class Unit{}
-class Images{}
-class ProfilePhoto{}
-class Visitor{}
-class RegisteredVisitor{}
-class Administrator{}
-class UniqueUserName{}
-class EmailAddress{}
-class Password{}
-class ConfirmationLink{}
-class Comment{}
-class FullTextSearch{}
-class UserAccount{}
-class IDCardNumber{}
+class WebPortal {
+  version_number: String
+  URL_address: String
+}
 
-WebPortal "1..1" -- "1..1" Version
-WebPortal "1..1" -- "1..1" URL
-WebPortal "1..1" -- "1..*" Building
-Building "1..*" -- "1..1" User (Owner)
-Building "1..*" -- "0..*" AdditionalEntry
-AdditionalEntry "1..*" -- "1..1" TextualInformation
-AdditionalEntry "1..*" -- "1..1" FloatingPointNumber
-FloatingPointNumber "1..*" -- "0..1" Unit
-Building "1..*" -- "1..*" Images
-Images "1..*" -- "1..1" ProfilePhoto
-User "1..*" -- "1..1" UniqueUserName
-User "1..*" -- "1..1" EmailAddress
-User "1..*" -- "1..1" Password
-User "1..*" -- "0..*" ConfirmationLink
-User "1..*" -- "1..*" Comment
-User "1..*" -- "1..*" FullTextSearch
-User "1..*" -- "1..1" UserAccount
-Visitor "1..*" -- "1..1" User
-User "1..*" -- "0..*" Visitor
-RegisteredVisitor "1..*" -- "1..1" User
-Administrator "1..*" -- "1..1" User
-Administrator "1..*" -- "1..1" IDCardNumber
+class Building {
+  ID: Int
+  name: String
+  energy_class: String
+  address: String
+  year_of_construction: Date
+}
+
+class User {
+  user_name: String
+  email_address: String
+  password: String
+}
+
+class AdditionalEntry {
+  name: String
+}
+
+class Entry {
+}
+
+class TextualInformation {
+}
+
+class FloatingPointNumber {
+}
+
+class Visitor {
+  user_name: String
+  email_address: String
+  password: String
+}
+
+class Administrator {
+  ID_card_number: String
+}
+
+class Image {
+  file_name: String
+}
+
+WebPortal "1..*" -- "1..*" Building
+Building "1..1" -- "1..1" User
+Building "0..*" -- "0..*" AdditionalEntry
+AdditionalEntry "0..*" -- "1..1" Entry
+Entry "0..*" -- "0..*" TextualInformation
+Entry "0..*" -- "0..*" FloatingPointNumber
+Building "0..*" -- "0..*" Image
+User "1..1" -- "0..*" Visitor
+WebPortal "1..1" -- "0..*" Administrator
 @enduml

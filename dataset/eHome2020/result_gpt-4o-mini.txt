@@ -1,28 +1,23 @@
-```plantuml
 @startuml
 
-class Sensor{}
-class SensorController{}
-class Apartment{}
-class Inhabitant{}
-class Room{}
-class TemperatureSensor{}
-class PowerSensor{}
+class Sensor{ String VendorId, String Description, String Unit }
+class TemperatureSensor{ Float MinValue, Float MaxValue }
+class PowerSensor{ Float CounterReading }
+class SensorController{ String Username, String Password }
+class Apartment{ String Address }
+class Room{ String Description }
+class Inhabitant{ String Username, String Password, Boolean IsAdmin }
 class EMonitor{}
-class Value{}
-class LastValue{}
+class MeasuredValue{ Float Value, Date Timestamp }
 
-Sensor "1..*" -- "1..1" Room
-Room "1..*" -- "1..1" Apartment
-Apartment "1..1" -- "1..*" Inhabitant
-SensorController "1..1" -- "1..*" Sensor
-Sensor "1..1" -- "0..1" Value
-Sensor "1..1" -- "0..1" LastValue
-EMonitor "1..1" -- "1..*" Sensor
-Inhabitant "0..*" -- "0..*" Sensor
+Sensor <|-- TemperatureSensor
+Sensor <|-- PowerSensor
 
-TemperatureSensor "1..1" -- "1..1" Sensor
-PowerSensor "1..1" -- "1..1" Sensor
+Apartment "1..1" -- "1..*" Room
+Room "1..*" -- "1..1" Sensor
+Apartment "1..*" -- "0..*" Inhabitant
+Inhabitant "0..*" -- "1..*" SensorController
+Sensor "1..1" -- "0..*" MeasuredValue
+SensorController "1..1" -- "0..1" EMonitor
 
 @enduml
-```

@@ -1,0 +1,102 @@
+Given the specification text, the relevant classes for the conceptual model diagram are:
+
+1. Aircraft
+2. Flight
+3. Passenger
+4. Ticket
+5. SeatCategory
+6. PassengerAircraft
+7. Airline
+8. FlightAttendant
+9. Pilot
+10. Airport
+11. Runway
+12. HomeAirport
+13. DepartureAirport
+14. DestinationAirport
+
+Here is the PlantUML representation for these classes:
+
+```plantuml
+@startuml
+class Aircraft {
+    +name: String
+    +type: String
+    +yearOfManufacture: Int
+    +nextInspectionDate: Date
+    +flights: Flight[]
+}
+
+class Flight {
+    +flightNumber: String
+    +date: Date
+    +passengers: Passenger[]
+    +tickets: Ticket[]
+}
+
+class Passenger {
+    +name: String
+    +passportNumber: String
+    +tickets: Ticket[]
+    +seatCategories: SeatCategory[]
+}
+
+class Ticket {
+    +ticketNumber: String
+    +price: Float
+    +upgradeDesired: Boolean
+}
+
+class SeatCategory {
+    +designation: String
+    +entertainmentProgramOffered: Boolean
+    +numberOfSeats: Int
+}
+
+class PassengerAircraft {
+    +numberOfSeats: Int
+}
+
+class Airline {
+    +name: String
+    +passengerAircrafts: PassengerAircraft[]
+}
+
+class FlightAttendant {
+    +name: String
+    +dateOfEmployment: Date
+    +isChiefStewardOrStewardess: Boolean
+}
+
+class Pilot {
+    +name: String
+    +dateOfEmployment: Date
+    +license: String
+}
+
+class Airport {
+    +name: String
+    +address: String
+    +runways: Runway[]
+}
+
+class Runway {
+    +number: Int
+}
+
+class HomeAirport {
+    +aircraft: Aircraft
+}
+
+class DepartureAirport {
+    +flight: Flight
+}
+
+class DestinationAirport {
+    +flight: Flight
+}
+
+@enduml
+```
+
+This PlantUML code defines the classes and their relationships based on the provided specification text.

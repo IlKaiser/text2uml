@@ -1,0 +1,85 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Project description:
+Each web portal has a version number and a URL address such as “http://www.ebuntu-nrw.org” and provides a catalog of buildings with their energy information. A building has a unique ID, a name, an energy class (A, B, C, D), an address, a year of construction and is assigned to a user as the owner, who can add additional entries to the buildings. Each additional entry has a name. An entry can be either textual information or a floating point number with an additional unit (the latter as freely definable text). The owner can optionally release each of these additional entries publicly, i.e. also for all non-registered visitors to the respective web portal. In addition, each building has a number of images, one of which is used as a profile photo. Images are saved with a file name.
+Visitors can register with a web portal as a user with a unique user name, their email address and a password. During registration, the system checks the user name for uniqueness and the correct email address by sending a confirmation link. In the meantime, the user is set up for the web portal by an administrator. Once these processes have been completed, users are automatically informed by email that they have been activated and can log in accordingly. After logging in, users can create buildings, manage entries for their buildings and comment on other users' buildings. All visitors to the site can search for corresponding buildings in the system using a full-text search. Administrators are special users. Their ID card number is stored in addition to their user information. The administrative functions include setting up user accounts and deleting comments. 
+
+Create a UML class diagram based on the project description. Assign the use cases to the corresponding actors. For the evaluation of the task, 10 meaningful use cases are sufficient. Use the concepts of generalization and, if possible, model meaningful relationships between the individual use cases.
+[/INST] @startuml
+
+class WebPortal { String URL }
+class Version { Integer VersionNumber }
+
+WebPortal "1" -- "1..*" Version
+
+class Building { String ID, String Name, String EnergyClass, Address, Date YearOfConstruction, User Owner }
+class User { String Username, String Email, String Password, Boolean IsAdmin, String IDCardNumber }
+
+Building "1..*" -- "0..*" User
+
+class Entry { String Name, String Content, Boolean IsPublic, User Owner }
+class TextualEntry { String Content }
+class NumericEntry { Float Value, String Unit }
+
+Entry "0..*" -- "0..*" Building
+TextualEntry "1" -- "0..*" Entry
+NumericEntry "1" -- "0..*" Entry
+
+class Image { String FileName }
+
+Building "1..*" -- "0..*" Image
+Image "1" -- "0..*" Building { profile_photo }
+
+class Comment { String Content, User Owner }
+
+Building "0..*" -- "0..*" Comment
+
+class FullTextSearch { String Query }
+
+@enduml
+
+Use cases:
+1. Register as a user
+2. Activate user account
+3. Log in as a user
+4. Create a building
+5. Manage entries for a building
+6. Comment on a building
+7. Search for buildings using full-text search
+8. Set up user accounts
+9. Delete comments
+10. Check user name and email during registration.

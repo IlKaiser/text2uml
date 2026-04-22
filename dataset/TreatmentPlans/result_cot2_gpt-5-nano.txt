@@ -1,35 +1,74 @@
 @startuml
-class Hospital{}
-class Doctor{}
-class Patient{}
-class Examination{}
-class ExaminationType{}
-class Permission{}
-class TreatmentPlan{}
-class Treatment{}
-class Problem{}
-class Diagnosis{}
-class AdvisedExamination{}
-class FreelyChosenAction{}
-class MedicalAction{}
-class ProblemType{}
-
-Hospital "1" -- "0..*" Doctor
-Doctor "1" -- "0..*" Examination
-Patient "1" -- "0..*" Examination
-Examination "1" -- "1" ExaminationType
-Hospital "1" -- "0..*" Permission
-Permission "0..*" -- "1" ExaminationType
-Patient "1" -- "1" Hospital
-Diagnosis "1" -- "1" Patient
-Diagnosis "1" -- "1" Doctor
-Diagnosis "1" -- "1" Problem
-Treatment "1" -- "1" TreatmentPlan
-Diagnosis "1" -- "1" Treatment
-Treatment "1" -- "0..*" AdvisedExamination
-AdvisedExamination "1" -- "1" ExaminationType
-Examination "1" -- "1" Hospital
-Treatment "1" -- "0..*" FreelyChosenAction
-Treatment "1" -- "0..*" MedicalAction
-ProblemType "1" -- "1" TreatmentPlan
+class Hospital
+class Doctor
+class Affiliation {
+  doctor: String
+  hospital: String
+}
+class Patient
+class HospitalVisit {
+  patient: String
+  hospital: String
+}
+class Problem {
+  type: String
+}
+class ProblemType {
+  name: String
+}
+class Diagnosis {
+  patient: String
+  doctor: String
+  hospital: String
+  problemType: String
+}
+class TreatmentPlan {
+  problemType: String
+  advisedExaminations: String
+}
+class StandardTreatmentPlan {
+  problemType: String
+}
+class AdvisedExamination {
+  examinationType: String
+}
+class ExaminationType {
+  name: String
+}
+class Examination {
+  examinationType: String
+  hospital: String
+}
+class Permission {
+  hospital: String
+  examinationType: String
+}
+class ActualTreatment {
+  treatmentPlan: String
+  problemType: String
+  examinations: String
+  medicalActions: String
+}
+class AdvisedTreatment {
+  problemType: String
+}
+class MedicalAction {
+  description: String
+}
+StandardTreatmentPlan --|> TreatmentPlan
+Doctor "1..1" -- "0..*" AdvisedExamination
+AdvisedExamination "0..*" -- "1..1" ExaminationType
+TreatmentPlan "1..*" -- "0..*" AdvisedExamination
+Problem "0..*" -- "1..1" ProblemType
+Diagnosis "0..*" -- "1..1" Patient
+Diagnosis "0..*" -- "1..1" Doctor
+Diagnosis "1..1" -- "1..1" Problem
+Diagnosis "1..1" -- "1..1" ActualTreatment
+ActualTreatment "0..*" -- "0..*" MedicalAction
+ActualTreatment "0..*" -- "0..*" AdvisedExamination
+Examination "1..1" -- "1..1" ExaminationType
+Hospital "1..1" -- "0..*" Permission
+ExaminationType "1..1" -- "0..*" Permission
+Doctor "1..1" -- "0..*" Affiliation
+Hospital "1..1" -- "0..*" Affiliation
 @enduml

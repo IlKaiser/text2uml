@@ -1,50 +1,119 @@
 @startuml
 
-class H2S{}
-class Location{}
-class Resident{}
-class Pickup{}
-class SecondHandArticle{}
-class NonPerishableFood{}
-class Vehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class FoodBank{}
-class Employee{}
-class Category{}
-class Client{}
-class Delivery{}
+class HelpingHandsStore {
+    String Name
+}
 
-H2S "1" -- "1..*" Location
-Location "1" -- "1" DistributionCenter
-Location "1" -- "0..1" FoodBank
-Location "1" -- "0..*" Pickup
-Location "1" -- "0..*" PickupRoute
-Location "1" -- "0..*" Delivery
+class H2SLocation {
+    String Name
+}
 
+class City {
+    String Name
+}
+
+class StreetAddress {
+    String Street
+    String City
+    String PostalCode
+}
+
+class Resident {
+    String Name
+    String PhoneNumber
+    String EmailAddress
+}
+
+class Client {
+    String Name
+}
+
+abstract class Article {
+    String InitialDescription
+}
+
+class SecondHandArticle extends Article {
+    Boolean IsUsable
+    String CorrectedDescription
+    Double Dimensions
+    Double Weight
+}
+
+class NonPerishableFood extends Article {
+}
+
+class Pickup {
+    Date ScheduledDate
+    Time ScheduledTimeStart
+    Time ScheduledTimeEnd
+}
+
+class Website {
+    String URL
+}
+
+class Vehicle {
+    Integer StorageSpace
+}
+
+class VolunteerDriver {
+    String Name
+    Set<DayOfWeek> AvailableDays
+}
+
+class PickupRoute {
+    Date RouteDate
+}
+
+class DistributionCenter {
+    String Name
+}
+
+class FoodBank {
+    String Name
+}
+
+class H2SEmployee {
+    String Name
+}
+
+class RFIDDevice {
+    String RFIDTagID
+}
+
+class Category {
+    String Name
+}
+
+class Delivery {
+    Date ScheduledDate
+}
+
+HelpingHandsStore "1" -- "0..*" H2SLocation
+H2SLocation "1" -- "1" City
+Resident "1" -- "1" StreetAddress
+Client "1" -- "1" StreetAddress
+Pickup "1" -- "1" StreetAddress
 Resident "1" -- "0..*" Pickup
-Pickup "1" -- "1..*" SecondHandArticle
-Pickup "1" -- "1..*" NonPerishableFood
-
-H2S "1" -- "0..*" Vehicle
-H2S "1" -- "0..*" VolunteerDriver
-Vehicle "1" -- "1" PickupRoute
-VolunteerDriver "1" -- "1" PickupRoute
-PickupRoute "1" -- "0..*" Pickup
-
+Pickup "1" -- "0..*" Article
+H2SLocation "1" -- "0..*" Vehicle
+H2SLocation "1" -- "0..*" VolunteerDriver
+VolunteerDriver "1" -- "0..*" PickupRoute
+Vehicle "1" -- "0..*" PickupRoute
+PickupRoute "1" -- "1..*" Pickup
+H2SLocation "1" -- "1" DistributionCenter
 SecondHandArticle "0..*" -- "1" DistributionCenter
 NonPerishableFood "0..*" -- "1" FoodBank
-
-DistributionCenter "1" -- "0..*" Employee
-DistributionCenter "1" -- "0..*" Client
-
-Category "1" -- "0..*" SecondHandArticle
+DistributionCenter "1" -- "0..*" H2SEmployee
+SecondHandArticle "0..1" -- "1" RFIDDevice
+SecondHandArticle "0..*" -- "1" Category
 Client "0..*" -- "0..*" Category
-
-Employee "1" -- "0..*" Delivery
+H2SEmployee "0..*" -- "0..*" Client
 Client "1" -- "0..*" Delivery
-SecondHandArticle "0..1" -- "1..*" Delivery
-VolunteerDriver "1" -- "0..*" Delivery
+Delivery "1" -- "1" StreetAddress
+Delivery "1" -- "1..*" SecondHandArticle
+VolunteerDriver "0..*" -- "1" Delivery
+Resident "0..*" -- "1" Website
+VolunteerDriver "0..*" -- "1" Website
 
 @enduml

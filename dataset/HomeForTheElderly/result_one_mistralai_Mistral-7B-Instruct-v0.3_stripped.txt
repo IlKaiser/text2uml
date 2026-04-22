@@ -1,0 +1,52 @@
+@startuml
+
+class HomeForTheElderly { }
+class Department { }
+class Room { }
+class Bed { String Category }
+class Inhabitant { String Name }
+class Stay { String Type }
+class RestHome { }
+class RestAndNursingHome { }
+class ServiceFlat { }
+class Registration { }
+class BasicIdentificationData { }
+class Abilities { }
+class WaitingList { }
+class Proposal { }
+class Invoice { Double OutstandingAmount }
+class Payment { }
+class CreditNote { }
+class Refund { }
+class Complaint { }
+class InvoiceModification { }
+class Death { }
+class Move { }
+
+HomeForTheElderly "1" -- "0..*" Department
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+Inhabitant "1" -- "0..*" Bed
+Bed "1" -- "0..*" Stay
+Stay "1" -- "0..*" Invoice
+Inhabitant "1" -- "0..*" Registration
+Registration "1" -- "0..*" BasicIdentificationData
+Registration "1" -- "0..*" Abilities
+Abilities "1" -- "0..*" WaitingList
+WaitingList "1" -- "0..*" Proposal
+Proposal "1" -- "0..*" Inhabitant
+Inhabitant "1" -- "0..*" RestHome
+Inhabitant "1" -- "0..*" RestAndNursingHome
+Inhabitant "1" -- "0..*" ServiceFlat
+RestHome "1" -- "0..*" Stay
+RestAndNursingHome "1" -- "0..*" Stay
+ServiceFlat "1" -- "0..*" Stay
+Invoice "1" -- "0..*" Payment
+Invoice "1" -- "0..*" CreditNote
+Invoice "1" -- "0..*" Refund
+Invoice "1" -- "0..*" Complaint
+Invoice "1" -- "0..*" InvoiceModification
+Inhabitant "0..*" -- "0..1" Death
+Inhabitant "0..*" -- "0..1" Move
+
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+class SoberApp {
+    String AppVersion
+    String UserInterface
+}
+class Car {
+    String LicensePlate
+    String OwnerName
+    String OwnerContact
+    String CarType
+    String Status
+}
+class RideHailRequest {
+    String RequestId
+    String CustomerName
+    String CustomerPhone
+    String PickupLocation
+    String DropoffLocation
+    String PickupTime
+    String DropoffTime
+    String RideDuration
+    String Distance
+    Integer PassengerCount
+    String Fee
+    String RequestMethod
+    String LeadCustomerName
+}
+class RideShareRequest {
+    String RequestId
+    String Customer1Name
+    String Customer1Phone
+    String Customer2Name
+    String Customer2Phone
+    String PickupLocation
+    String DropoffLocation
+    String PickupTime
+    String DropoffTime
+    String RideDuration
+    String Distance
+    String NegotiatedFee
+    String Customer1Contact
+    String Customer2Contact
+}
+class Accident {
+    String AccidentDate
+    String AccidentLocation
+    String DamageAmount
+    String CarLicensePlate
+}
+class TreePlanting {
+    String TreeId
+    String CustomerName
+    String TreeType
+    String PlantingDate
+}
+
+SoberApp "1..*" -- "0..*" RideHailRequest
+SoberApp "1..*" -- "0..*" RideShareRequest
+Car "1..*" -- "0..*" RideHailRequest
+Car "1..*" -- "0..*" RideShareRequest
+Car "1..*" -- "0..*" Accident
+RideHailRequest "1..*" -- "1..*" TreePlanting
+RideShareRequest "1..*" -- "1..*" TreePlanting
+@enduml

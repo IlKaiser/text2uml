@@ -1,0 +1,47 @@
+@startuml
+
+class User {
+    String Username
+    String Password
+    Boolean Admin
+}
+
+class Game {
+    String Name
+    List<Block> Blocks
+    List<Level> Levels
+    User Admin
+    String HallOfFame
+}
+
+class Block {
+    String Color
+    Int Points
+}
+
+class Level {
+    Int Number
+    Int Speed
+    Int PaddleLength
+    Boolean Random
+    List<Block> Blocks
+}
+
+class Ball {
+    Int Speed
+    String Direction
+}
+
+class Paddle {
+    Int Length
+}
+
+Game "1" -- "0..1" User.Admin
+User "1" -- "0..*" Game
+Game "1" -- "0..*" Level
+Level "1" -- "0..*" Block
+Block "0..*" -- "0..1" Level
+Game "1" -- "0..*" Ball
+Game "1" -- "0..*" Paddle
+
+@enduml

@@ -1,0 +1,88 @@
+```plantuml
+@startuml
+class Kinepolis {
+    String Name
+    String Address
+}
+
+class Cinema {
+    String Name
+    String Location
+    Kinepolis "1..*" -- "1..*" 
+}
+
+class Theatre {
+    String Name
+    String Location
+    Cinema "1..*" -- "1..*" 
+}
+
+class Movie {
+    String Title
+    String Description
+}
+
+class Copy {
+    String Title
+    Movie "1..*" -- "1..*" 
+    Theatre "1..*" -- "1..*" 
+}
+
+class Show {
+    String Title
+    Date Date
+    Copy "1..*" -- "1..*" 
+    Theatre "1..*" -- "1..*" 
+}
+
+class Reservation {
+    Date Date
+    Show "1..*" -- "1..*" 
+    Customer "1..*" -- "1..*" 
+    SeatNumber "1..*" -- "1..*" 
+}
+
+class Customer {
+    String Name
+    String Email
+    Reservation "0..*" -- "1..*" 
+}
+
+class Payment {
+    Date Date
+    Reservation "1..*" -- "1..*" 
+    CreditCard "1..*" -- "1..*" 
+}
+
+class CreditCard {
+    String Number
+    Customer "1..*" -- "1..*" 
+}
+
+class Ticket {
+    String Number
+    Show "1..*" -- "1..*" 
+    SeatNumber "1..*" -- "1..*" 
+    Customer "0..*" -- "1..*" 
+}
+
+class Offer {
+    Date Date
+    Show "1..*" -- "1..*" 
+    Theatre "1..*" -- "1..*" 
+    Customer "1..*" -- "1..*" 
+}
+
+class CancelledOffer {
+    Date Date
+    Show "1..*" -- "1..*" 
+    Customer "1..*" -- "1..*" 
+}
+
+class TicketDesk {
+    String Name
+    Show "1..*" -- "1..*" 
+}
+
+@enduml
+```

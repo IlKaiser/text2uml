@@ -1,0 +1,140 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: A transport company wants to modernize its operations and switch to a computerized solution. To this end, the structure and organization of the company were discussed in a meeting with the managing director. The following minutes are available to you: 
+I currently employ around 60 drivers and 6-7 other employees (planners and administrative staff) in my company. I need to be able to store their names and social security numbers. Planners and administrative staff should be able to log into the system with a username and password. The administrative staff's field of activity is known. I also need to store my customers' details. The customer's name and billing address are important. In addition to customers and employees, I also want to manage my vehicles. I distinguish between different types of vehicles, such as refrigerated trucks, small vans, loading platforms, and box trucks. I want to store the license plate number and mileage for the vehicles. Of course, it can happen that a vehicle needs to be repaired or inspected. For this purpose, I want to store the repair shop (name and address are known), the employee who took the vehicle to the repair shop, and the duration and cost of the repair.
+Orders can be assigned to each driver. Usually, a customer calls and tells us when they need a transport vehicle and how big the package is. Based on this, the planner knows which type of vehicle is needed for the order. I always want to know which planner has assigned an order to a vehicle. It must also be possible to save a comment with additional information about the order, and I need to know when the driver starts and finishes the order. It is also important that I always know which driver has completed which order with which vehicle. For each order, there is always a customer who is the client, and both the pick-up and delivery addresses are known. The order can be placed directly with an administrative employee or with a partner company whose name and address are known.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification. Let me start by understanding the requirements and extracting the necessary classes, their attributes, and the relationships between them.
+
+First, the user is a transport company looking to modernize their operations with a computerized system. They have employees, customers, vehicles, orders, and repair shops. Let me list each class and their attributes.
+
+Starting with the employees. The specification mentions drivers and other employees like planners and administrative staff. So, I'll create a general Employee class. They have a name, social security number, and can log in with a username and password. So, the attributes would be Name, SocialNumber, Username, and Password. Since login details are specific to each employee, I'll include them as attributes.
+
+Next, customers. They need to store customer's name, address, and billing address. So, the Customer class will have Name, Address, and BillingAddress as attributes.
+
+Vehicles are another class. They have types like refrigerated trucks, small vans, etc., each with a license plate and mileage. So, the Vehicle class will have VehicleType, LicensePlate, and Mileage. Since vehicle types can be further specified, maybe I should make VehicleType a sub-type, but for simplicity, I'll include it as a general attribute.
+
+Orders are assigned to drivers and involve customers. Each order has a customer, pick-up and delivery addresses, and is placed by either an administrative staff or a partner company. So, the Order class will have Customer, PickUpAddress, DeliveryAddress, and maybe an Assignee attribute for who placed the order. Also, each order is assigned to a driver, so there's an AssignToDriver attribute. Additionally, orders can have comments and track start and end times.
+
+Repair Shops are where vehicles are sent for maintenance. Each repair shop has a name and address. The vehicle sent there will have an attribute indicating the repair shop. Also, each repair entry includes the employee who performed the repair, the duration, and the cost.
+
+Now, onto the relationships. Employees can log in with their credentials, so the login relationship is between Employee and their Credentials. But since the specification doesn't specify this as a separate class, maybe it's better to include it as an attribute in the Employee class instead.
+
+Employees can be assigned to Orders. So, the Order class has an Assignee attribute, which is an Employee. Also, each Order is assigned to a specific driver, so Order has an AssignToDriver attribute of type Employee.
+
+Vehicles can be assigned to Orders. So, the Order class has a Vehicle attribute, which is a Vehicle. Additionally, each vehicle has a list of repair entries, so Vehicle has a Repairs attribute, which is a collection of Repair entries.
+
+Customers are related to Orders as the client. So, the Order class has a Customer attribute.
+
+Administrative staff is a subset of Employees, so I'll include it as an attribute in the Employee class under a separate section.
+
+Now, setting up the PlantUML syntax. I'll start by defining each class with their attributes. Then, I'll define the relationships using the appropriate cardinalities. For example, an Employee can have multiple Credentials, but since the spec doesn't specify, maybe it's better to include it as an attribute. However, the main relationships are between Orders and Employees, Orders and Vehicles, and Vehicles and Repairs.
+
+I think I've covered all the necessary classes and their attributes. Now, I'll structure the PlantUML accordingly, making sure to use bi-directional arcs for relationships and assign the correct cardinalities based on the spec.
+</think>
+
+```plantuml
+@startuml
+title Transport Company System
+
+class Employee{
+    String Name
+    String SocialNumber
+    String Username
+    String Password
+
+    class AdminEmployee extends Employee{
+        String Name
+    }
+}
+
+class Customer{
+    String Name
+    String Address
+    String BillingAddress
+}
+
+class Vehicle{
+    String VehicleType
+    String LicensePlate
+    Integer Mileage
+    Collection<Repair> Repairs
+}
+
+class Order{
+    Integer Customer
+    String PickUpAddress
+    String DeliveryAddress
+    String Comment
+    Integer StartTime
+    IntegerEndTime
+    Collection<Employee> Assignees
+    Collection<Vehicle> VehiclesAssigned
+}
+
+class Repair{
+    String Name
+    String Address
+    Integer Duration
+    Integer Cost
+    Vehicle Vehicle
+}
+
+@relationship
+Employee -> "credentials" -> Username, Password
+
+@relationship
+Employee -> AdminEmployee
+
+@relationship
+Order -> "assigned by" -> AdminEmployee
+Order -> "assigned to" -> Employee
+Order -> "has vehicle" -> Vehicle
+Order -> "has repair" -> Repair
+
+@relationship
+Vehicle -> Repairs
+Repair -> Vehicle
+
+@relationship
+Order -> "has customer" -> Customer
+Order -> "has pick-up" -> PickUpAddress
+Order -> "has delivery" -> DeliveryAddress
+Order -> "has comment" -> Comment
+Order -> "has start time" -> StartTime
+Order -> "has end time" ->EndTime
+Order -> "assigned to" -> Collection<Assignee>
+Order -> "assigned to" -> Collection<Vehicles>
+@enduml
+```

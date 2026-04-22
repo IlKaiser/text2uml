@@ -1,44 +1,65 @@
-```
 @startuml
-class H2S{}
-class Resident{}
-class Address{}
-class Phone{}
-class Email{}
-class Item{}
-class Vehicle{}
-class Driver{}
-class Route{}
-class DistributionCenter{}
-class Article{}
-class RFID{}
-class Employee{}
-class Client{}
-class HomeAddress{}
-class FoodBank{}
 
-H2S "1..*" -- "0..*" Resident
-H2S "1..*" -- "0..*" Item
-H2S "1..*" -- "0..*" Article
-H2S "1..*" -- "0..*" Vehicle
-H2S "1..*" -- "0..*" Driver
-H2S "1..*" -- "0..*" Route
-H2S "1..1" -- "1..1" DistributionCenter
-H2S "1..1" -- "1..1" FoodBank
-H2S "1..*" -- "0..*" RFID
-H2S "1..*" -- "0..*" Employee
-H2S "1..*" -- "0..*" Client
-Resident "1..1" -- "1..1" Address
-Resident "1..1" -- "1..1" Phone
-Resident "0..1" -- "0..1" Email
-Resident "1..*" -- "0..*" Item
-Vehicle "1..1" -- "1..1" Driver
-Vehicle "1..1" -- "1..1" Route
-Driver "1..1" -- "1..1" Route
-Article "1..1" -- "1..1" RFID
-Article "1..1" -- "1..1" DistributionCenter
-Employee "1..1" -- "1..1" DistributionCenter
-Client "1..1" -- "1..1" DistributionCenter
+class Resident {
+    name: String
+    street address: String
+    phone number: String
+    email address: String
+    description of the items: String
+}
+
+class Item {
+    dimensions: String
+    weights: Float
+    description: String
+    category: Category
+}
+
+class Vehicle {
+    available storage space: Float
+}
+
+class Driver {
+    available days: Date
+}
+
+class PickupRoute {
+    weekday: Date
+    vehicle: Vehicle
+}
+
+class Employee {
+    description of the article: String
+}
+
+class Category {
+    category: String
+}
+
+class Client {
+    home address: String
+}
+
+class HomeAddress {
+    home address: String
+}
+
+class FoodBank
+
+class DistributionCenter
+
+Resident "0..*" -- "1..*" Item
+Vehicle "1..*" -- "1..1" Driver
+Vehicle "1..*" -- "1..1" PickupRoute
+PickupRoute "1..*" -- "0..*" Item
+PickupRoute "1..*" -- "0..*" Resident
+Driver "1..*" -- "1..1" DistributionCenter
+Driver "1..*" -- "1..1" FoodBank
+Item "1..1" -- "1..1" Category
+Item "0..*" -- "1..1" DistributionCenter
 Client "1..1" -- "1..1" HomeAddress
+Client "0..*" -- "0..*" Category
+Employee "1..*" -- "1..1" DistributionCenter
+Employee "0..*" -- "0..*" Client
+
 @enduml
-```

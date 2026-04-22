@@ -1,0 +1,127 @@
+@startuml
+
+class Hotel {
+    String Address
+    String City
+    String Chain
+    String Type
+    String Status
+    String RoomAvailability
+}
+class Room {
+    String Type
+    String Status
+    String RoomNumber
+}
+class Booking {
+    String BookingId
+    String City
+    String HotelName
+    String Type
+    String RoomType
+    Double Price
+    String Status
+    String PaymentMethod
+    String CancellationDeadline
+    String PaymentDate
+}
+class Traveler {
+    String Name
+    String Email
+    String CompanyName
+    String Address
+    String CreditCardNumber
+    Double Budget
+    Double ReliabilityRating
+}
+class City {
+    String Name
+}
+class HotelChain {
+    String Name
+}
+class TravelPreference {
+    String Preference
+}
+class AccommodationDeal {
+    String Price
+    String City
+    String HotelName
+    String Type
+    String Status
+}
+class BookingOffer {
+    String BookingId
+    String Price
+    String City
+    String HotelName
+    String Type
+    String RoomType
+    String Status
+}
+class BookingRequest {
+    String BookingId
+    String City
+    String HotelName
+    String Type
+    String RoomType
+    String Status
+    String PaymentMethod
+    String CancellationDeadline
+    String PaymentDate
+}
+class Hotel {
+    "1..*" -- "0..*" Room
+    "1..*" -- "0..*" Booking
+    "0..*" -- "0..*" Traveler
+    "0..*" -- "0..*" City
+    "0..*" -- "0..*" HotelChain
+    "0..*" -- "0..*" TravelPreference
+    "0..*" -- "0..*" AccommodationDeal
+    "0..*" -- "0..*" BookingOffer
+    "0..*" -- "0..*" BookingRequest
+}
+class Booking {
+    "1..1" -- "0..*" Traveler
+    "1..1" -- "0..*" City
+    "1..1" -- "0..*" HotelChain
+    "1..1" -- "0..*" TravelPreference
+    "1..1" -- "0..*" AccommodationDeal
+    "1..1" -- "0..*" BookingOffer
+    "1..1" -- "0..*" BookingRequest
+    "1..1" -- "0..*" Room
+    "1..1" -- "0..*" Room
+    "1..1" -- "0..*" Booking
+}
+class Room {
+    "1..1" -- "0..*" Booking
+    "1..1" -- "0..*" Booking
+}
+class Traveler {
+    "1..1" -- "0..*" Booking
+    "1..1" -- "0..*" City
+    "1..1" -- "0..*" HotelChain
+    "1..1" -- "0..*" TravelPreference
+    "1..1" -- "0..*" AccommodationDeal
+    "1..1" -- "0..*" BookingOffer
+    "1..1" -- "0..*" BookingRequest
+}
+class City {
+    "0..*" -- "0..*" Hotel
+}
+class HotelChain {
+    "0..*" -- "0..*" Hotel
+}
+class TravelPreference {
+    "0..*" -- "0..*" Hotel
+}
+class AccommodationDeal {
+    "0..*" -- "0..*" Hotel
+}
+class BookingOffer {
+    "0..*" -- "0..*" Hotel
+}
+class BookingRequest {
+    "0..*" -- "0..*" Hotel
+}
+@enduml

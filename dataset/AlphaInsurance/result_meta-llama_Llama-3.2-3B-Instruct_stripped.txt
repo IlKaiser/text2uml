@@ -1,0 +1,26 @@
+```plantuml
+@startuml
+class Customer{ String Name, String Email, String Phone }
+class Broker{ String Name, String Email, String Phone }
+class InsuranceProduct{ String Type, String Description, String Price }
+class Contract{ String Type, String StartDate, String EndDate }
+class Claim{ String Type, String Description, String Status }
+class Estimator{ String Name, String Email, String Phone }
+class HeadOffice{ String Name, String Email, String Phone }
+class HelpDesk{ String Name, String Email, String Phone }
+class System{ String Name, String Email, String Phone }
+
+Customer "0..*" -- "1..*" Broker
+Broker "1..1" -- "0..*" Customer
+Broker "1..1" -- "0..*" HelpDesk
+Broker "1..1" -- "0..*" HeadOffice
+Broker "1..*" -- "0..*" InsuranceProduct
+InsuranceProduct "0..*" -- "0..*" Contract
+Contract "0..*" -- "0..*" Claim
+Claim "0..*" -- "0..*" Estimator
+Estimator "0..*" -- "0..*" Claim
+Estimator "0..*" -- "0..*" System
+System "0..*" -- "0..*" Claim
+System "0..*" -- "0..*" Estimator
+@enduml
+```

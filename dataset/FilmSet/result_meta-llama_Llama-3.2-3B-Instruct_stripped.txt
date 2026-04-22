@@ -1,0 +1,66 @@
+```plantuml
+@startuml
+class Employee{
+    String Name, String SocialSecurityNumber
+}
+
+class CreativeEmployee{
+    Employee "0..*" -- "1..*" OscarWinner
+    Employee "0..*" -- "1..*" DirectorAssistant
+}
+
+class Technician{
+    Employee "0..*" -- "1..*" FieldOfActivity
+}
+
+class FilmSet{
+    String Location
+}
+
+class Film{
+    String Title, String YearOfRelease, String Genre
+    FilmSet "0..*" -- "1..*" 
+    Film "0..*" -- "1..*" 
+    Screenwriter "0..*" -- "1..*" 
+    Screenplay "0..*" -- "1..*" 
+    Actor "0..*" -- "1..*" 
+    Director "0..*" -- "1..*" 
+}
+
+class Screenwriter{
+    Employee "0..*" -- "1..*" 
+    String MostSuccessfulFilm, String MostSuccessfulFilmTitle
+    Screenplay "0..*" -- "1..*" 
+}
+
+class Screenplay{
+    String Title, String Version, String Date, String NumberOfScenes, String Plot
+    Screenwriter "1..1" -- "1..*" 
+    Novel "0..*" -- "1..*" 
+    Concept "0..*" -- "1..*" 
+    Film "1..1" -- "1..*" 
+}
+
+class Novel{
+    String Title, String Author
+    Screenplay "0..*" -- "1..*" 
+}
+
+class Concept{
+    Screenplay "0..*" -- "1..*" 
+}
+
+class Actor{
+    Employee "0..*" -- "1..*" 
+    String Role
+    Screenplay "0..*" -- "1..*" 
+}
+
+class Director{
+    Employee "0..*" -- "1..*" 
+    Screenplay "0..*" -- "1..*" 
+    Film "1..1" -- "1..*" 
+}
+
+@enduml
+```

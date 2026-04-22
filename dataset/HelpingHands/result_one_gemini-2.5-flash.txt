@@ -1,0 +1,78 @@
+@startuml
+
+abstract class Item {
+}
+class Location {
+    String City
+}
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String EmailAddress
+}
+class Pickup {
+    Date RequestedDate
+    Time PickupStartTime
+    Time PickupEndTime
+    String InitialItemDescription
+}
+class SecondHandArticle {
+    String Description
+    String RFIDTagID
+    String QualityStatus
+}
+class NonPerishableFood {
+    String Description
+}
+class PickupVehicle {
+    Double AvailableStorageSpace
+}
+class VolunteerDriver {
+    String AvailableDays
+}
+class PickupRoute {
+    Date RouteDate
+}
+class DistributionCenter {
+    String Address
+}
+class FoodBank {
+    String Name
+    String Address
+}
+class H2SEmployee {
+    String Name
+}
+class Category {
+    String Name
+}
+class Delivery {
+    Date DeliveryDate
+}
+
+Item <|-- SecondHandArticle
+Item <|-- NonPerishableFood
+
+Location "1" -- "0..*" Resident
+Location "1" -- "0..*" PickupVehicle
+Location "1" -- "1" DistributionCenter
+Location "1" -- "0..*" FoodBank
+Resident "1" -- "0..*" Pickup
+Resident "0..*" -- "0..*" Category
+Resident "1" -- "0..*" Delivery
+Pickup "1" -- "0..*" SecondHandArticle
+Pickup "1" -- "0..*" NonPerishableFood
+PickupRoute "1" -- "0..*" Pickup
+PickupVehicle "1" -- "0..*" PickupRoute
+VolunteerDriver "1" -- "0..*" PickupRoute
+VolunteerDriver "1" -- "0..*" Delivery
+DistributionCenter "1" -- "0..*" H2SEmployee
+DistributionCenter "1" -- "0..*" SecondHandArticle
+FoodBank "1" -- "0..*" NonPerishableFood
+H2SEmployee "1" -- "0..*" SecondHandArticle
+H2SEmployee "1" -- "0..*" Delivery
+Category "1" -- "0..*" SecondHandArticle
+Delivery "1" -- "0..*" SecondHandArticle
+
+@enduml

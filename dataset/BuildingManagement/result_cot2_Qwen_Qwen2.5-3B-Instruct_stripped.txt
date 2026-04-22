@@ -1,0 +1,271 @@
+Based on the provided specification text, here is the list of nouns that can potentially be class names:
+
+1. Web Portal
+2. Version Number
+3. URL Address
+4. Building
+5. Energy Class
+6. Address
+7. Year of Construction
+8. User
+9. Owner
+10. Additional Entry
+11. Textual Information
+12. Floating Point Number
+13. Unit
+14. Image
+15. Visitor
+16. Registration
+17. Confirmation Link
+18. Email Address
+19. Password
+20. Full-Text Search
+21. Administrator
+22. ID Card Number
+
+Now, let's create a UML class diagram based on these class names and assign some meaningful use cases to the actors. We'll also consider generalization and meaningful relationships between the classes.
+
+### UML Class Diagram
+
+```plaintext
++-------------------+
+|   Web Portal      |
++-------------------+
+| - versionNumber    |
+| - url              |
++-------------------+
+| + getCatalog()     |
+| + addBuilding()    |
+| + deleteBuilding() |
++-------------------+
+
++-------------------+
+|   Building        |
++-------------------+
+| - id               |
+| - name             |
+| - energyClass      |
+| - address          |
+| - yearOfConstruction|
+| - owner            |
+| - additionalEntries|
++-------------------+
+| + getEnergyInfo()  |
+| + addEntry()       |
+| + removeEntry()    |
++-------------------+
+
++-------------------+
+|   Additional Entry|
++-------------------+
+| - name             |
+| - value            |
+| - unit             |
++-------------------+
+| + getValue()       |
++-------------------+
+
++-------------------+
+|   User            |
++-------------------+
+| - userName         |
+| - email            |
+| - password         |
++-------------------+
+| + register()       |
+| + login()          |
++-------------------+
+
++-------------------+
+|   Owner           |
++-------------------+
+| - buildings       |
++-------------------+
+| + addBuilding()   |
+| + removeBuilding()|
++-------------------+
+
++-------------------+
+|   Image           |
++-------------------+
+| - fileName         |
++-------------------+
+| + getImage()       |
++-------------------+
+
++-------------------+
+|   Visitor         |
++-------------------+
+| - buildings       |
++-------------------+
+| + searchBuildings()|
++-------------------+
+
++-------------------+
+|   Administrator   |
++-------------------+
+| - idCardNumber    |
++-------------------+
+| + setupUser()     |
+| + deleteComment() |
++-------------------+
+
++-------------------+
+|   Registration    |
++-------------------+
+| - userName         |
+| - email            |
+| - password         |
++-------------------+
+| + checkUniqueness()|
+| + sendConfirmation()|
++-------------------+
+
++-------------------+
+|   ConfirmationLink |
++-------------------+
+| - link            |
++-------------------+
+| + getLink()       |
++-------------------+
+
++-------------------+
+|   EmailAddress    |
++-------------------+
+| - address         |
++-------------------+
+| + getAddress()    |
++-------------------+
+
++-------------------+
+|   Full-TextSearch |
++-------------------+
+| - query           |
++-------------------+
+| + search()        |
++-------------------+
+
++-------------------+
+|   IDCardNumber    |
++-------------------+
+| - number          |
++-------------------+
+| + getNumber()     |
++-------------------+
+
+```
+
+### Use Cases and Relationships
+
+#### Generalization Relationships
+- **Web Portal** generalizes **Building**
+- **Owner** generalizes **Building**
+
+#### Relationships
+- **Building** has many **Additional Entries**
+- **Building** has many **Images**
+- **User** has many **Buildings**
+- **Visitor** has many **Buildings**
+- **Administrator** has many **Buildings**
+- **User** registers through **Registration**
+- **User** logs in through **Registration**
+- **User** searches for buildings through **Full-Text Search**
+- **Administrator** sets up user accounts through **Registration**
+- **Administrator** deletes comments through **Delete Comment**
+
+This UML class diagram and use case assignments provide a structured representation of the system based on the given specification.
+
+### PlantUML Representation
+
+```plantuml
+@startuml
+class WebPortal {
+  versionNumber : Int
+  url : String
+  + getCatalog()
+  + addBuilding()
+  + deleteBuilding()
+}
+
+class Building {
+  id : String
+  name : String
+  energyClass : String
+  address : String
+  yearOfConstruction : Int
+  owner : Owner
+  additionalEntries : Set[AdditionalEntry]
+  + getEnergyInfo()
+  + addEntry()
+  + removeEntry()
+}
+
+class AdditionalEntry {
+  name : String
+  value : Float
+  unit : String
+  + getValue()
+}
+
+class User {
+  userName : String
+  email : String
+  password : String
+  + register()
+  + login()
+}
+
+class Owner {
+  buildings : Set[Building]
+  + addBuilding()
+  + removeBuilding()
+}
+
+class Image {
+  fileName : String
+  + getImage()
+}
+
+class Visitor {
+  buildings : Set[Building]
+  + searchBuildings()
+}
+
+class Administrator {
+  idCardNumber : String
+  + setupUser()
+  + deleteComment()
+}
+
+class Registration {
+  userName : String
+  email : String
+  password : String
+  + checkUniqueness()
+  + sendConfirmation()
+}
+
+class ConfirmationLink {
+  link : String
+  + getLink()
+}
+
+class EmailAddress {
+  address : String
+  + getAddress()
+}
+
+class Full-TextSearch {
+  query : String
+  + search()
+}
+
+class IDCardNumber {
+  number : String
+  + getNumber()
+}
+
+@enduml
+```
+
+This PlantUML representation captures the classes and their relationships as described in the specification.

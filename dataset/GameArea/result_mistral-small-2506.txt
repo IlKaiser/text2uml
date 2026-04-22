@@ -1,21 +1,19 @@
-```plantuml
 @startuml
 
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
-class Enemy{}
+class GameArea{ String Name }
+class GameElement{ long x, long y }
+class Shape{ }
+class Object{ }
+class Opponent{ }
+class Enemy{ int lives }
 
 GameArea "1..1" -- "1..*" GameElement
 GameArea "1..1" -- "1..2" GamePiece
-GameElement "1..*" -- "1..1" GameArea
-GameElement "1..*" -- "1..1" Shape
-GameElement "1..*" -- "1..1" Object
-GameElement "1..*" -- "1..1" Opponent
-Shape "1..*" -- "0..*" Shape : connected
-Opponent "1..1" -- "1..1" GameArea : boss
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "1..*" -- "1..*" Shape
+GameArea "1..1" -- "1..1" Opponent : boss
+GameElement <|-- Enemy
 
 @enduml
-```

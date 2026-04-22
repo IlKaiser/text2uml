@@ -1,0 +1,26 @@
+@startuml
+
+class ResearchGroup {
+    String Name
+    String Department
+}
+class Researcher {
+    String Name
+}
+class WorkPackage {
+    String Name
+    ResearchGroup WPLeader
+}
+class Project {
+    String Name
+    WorkPackage[] WPs
+}
+
+Researcher "1" -- "0..*" WorkPackage
+WorkPackage "1" -- "1" ResearchGroup
+Project "1" -- "0..*" WorkPackage
+
+Researcher "1" -- "1" ResearchGroup
+ResearchGroup "1" -- "1" Researcher
+
+@enduml

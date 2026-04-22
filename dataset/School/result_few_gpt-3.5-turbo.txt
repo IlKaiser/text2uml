@@ -1,17 +1,44 @@
 
 @startuml
 
-class School {}
-class Teacher {}
-class Student {}
-class Room {}
-class ClassGroup {}
+class School {
+    String Name
+}
 
-Teacher "0..3" -- "1..*" School
-Student "1" -- "1" School
-Teacher "1" -- "0..1" School
-Room "1..*" -- "0..*" School
-ClassGroup "1" -- "1" Student
-ClassGroup "1" -- "1" Room
+class Person {
+    String FirstName
+    String LastName
+}
+
+class Teacher {
+    String Email
+}
+
+class Student {}
+
+class Principal {}
+
+class Room {
+    String Name
+    Int Capacity
+}
+
+class Classroom {}
+
+class Gym {
+    Int SizeInSquareMeters
+}
+
+class ClassGroup {
+    String Name
+}
+
+School "1" -- "0..*" Teacher
+School "1" -- "1" Principal
+School "0..*" -- "1" Room
+Room "1" -- "1" Classroom
+Room "1" -- "0..*" Gym
+ClassGroup "1" -- "1" Classroom
+Student "1" -- "1" ClassGroup
 
 @enduml

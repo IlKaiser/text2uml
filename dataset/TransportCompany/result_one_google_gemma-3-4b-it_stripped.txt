@@ -1,0 +1,60 @@
+```plantuml
+@startuml
+
+class Driver {
+    String Name
+    String SocialSecurityNumber
+}
+
+class Employee {
+    String Username
+    String Password
+}
+
+class Planner extends Employee {
+    String FieldOfActivity
+}
+
+class AdministrativeStaff extends Employee {
+    String FieldOfActivity
+}
+
+class Customer {
+    String Name
+    String BillingAddress
+}
+
+class Vehicle {
+    String LicensePlateNumber
+    int Mileage
+    String Type
+}
+
+class RepairShop {
+    String Name
+    String Address
+}
+
+class Order {
+    String Comment
+    int StartTime
+    int FinishTime
+}
+
+class Repair {
+    int Duration
+    double Cost
+}
+
+Customer "1" -- "0..*" Order
+Driver "1" -- "0..*" Order
+Planner "1" -- "0..*" Order
+AdministrativeStaff "1" -- "0..*" Order
+Vehicle "1" -- "0..*" Order
+Order "1" -- "1" Customer
+Order "1" -- "1" RepairShop
+Order "1" -- "1" Repair
+Order "1" -- "1" Driver
+Order "1" -- "1" Employee
+@enduml
+```

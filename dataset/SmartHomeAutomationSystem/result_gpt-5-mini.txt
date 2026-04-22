@@ -1,44 +1,36 @@
 @startuml
 
-class SHAS{}
-class SmartHome{}
-class PhysicalAddress{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class InfrastructureMap{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class Owner{}
-class AutomationRule{}
-class Precondition{}
-class Action{}
-class AtomicRelationalTerm{}
+class SmartHomeAutomationSystem{ String SystemId }
+class SmartHome{ String Address }
+class Room{ String Name }
+class Device{ String DeviceId, String Type, Boolean Active }
+class SensorDevice{ String SensorType }
+class ActuatorDevice{ String ActuatorType }
+class SensorReading{ DateTime Timestamp, String Value }
+class ControlCommand{ String CommandName, DateTime Timestamp, String Status }
+class ActivityLog{ String LogId }
+class Owner{ String OwnerId, String Name }
+class AutomationRule{ String RuleId, Boolean Active, String PreconditionExpression, String ActionSequence }
+class RuleTrigger{ DateTime Timestamp }
+class InfrastructureMap{ DateTime LastUpdated }
 
-SmartHome "1..1" -- "1..1" PhysicalAddress
+SmartHomeAutomationSystem "1..1" -- "0..*" SmartHome
 SmartHome "1..1" -- "1..*" Room
-Room "0..*" -- "1..1" SensorDevice
-Room "0..*" -- "1..1" ActuatorDevice
-SHAS "1..1" -- "1..1" InfrastructureMap
-InfrastructureMap "0..*" -- "1..1" SensorDevice
-InfrastructureMap "0..*" -- "1..1" ActuatorDevice
+Room "1..1" -- "0..*" SensorDevice
+Room "1..1" -- "0..*" ActuatorDevice
+Device <|-- SensorDevice
+Device <|-- ActuatorDevice
 SensorDevice "1..1" -- "0..*" SensorReading
 ActuatorDevice "1..1" -- "0..*" ControlCommand
 SmartHome "1..1" -- "1..1" ActivityLog
 ActivityLog "1..1" -- "0..*" SensorReading
 ActivityLog "1..1" -- "0..*" ControlCommand
-ActivityLog "1..1" -- "0..*" AutomationRule
-SmartHome "1..1" -- "1..1" Owner
+Owner "1..1" -- "0..*" SmartHome
 Owner "1..1" -- "0..*" AutomationRule
-AutomationRule "1..1" -- "1..1" Precondition
-AutomationRule "1..1" -- "1..1" Action
-Precondition "1..1" -- "0..*" AtomicRelationalTerm
-AtomicRelationalTerm "0..*" -- "0..1" Room
-AtomicRelationalTerm "0..*" -- "0..1" SensorDevice
-AtomicRelationalTerm "0..*" -- "0..1" ActuatorDevice
-AtomicRelationalTerm "0..*" -- "0..1" SensorReading
-AtomicRelationalTerm "0..*" -- "0..1" ControlCommand
+AutomationRule "1..1" -- "0..*" ControlCommand
+AutomationRule "1..1" -- "0..*" RuleTrigger
+SmartHomeAutomationSystem "1..1" -- "0..*" RuleTrigger
 AutomationRule "0..*" -- "0..*" AutomationRule
+SmartHome "1..1" -- "0..1" InfrastructureMap
 
 @enduml

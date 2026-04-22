@@ -1,0 +1,36 @@
+```plantuml
+@startuml
+class Customer {
+  String FirstName
+  String LastName
+}
+
+class Account {
+  int AccountNumber
+  double CurrentAccountBalance
+}
+
+class CurrentAccount extends Account {
+  double OverdraftLimit
+}
+
+class SavingsAccount extends Account {
+}
+
+class Bank {
+  Customer[] Customers
+  Branch[] Branches
+  Account[] Accounts
+}
+
+class Branch {
+}
+
+Bank "1..*" -- "1..*" Customer
+Bank "1..*" -- "1..*" Branch
+Customer "1..1" -- "1..5" Account
+Account "1..1" -- "1..1" Customer
+CurrentAccount "1..1" -- "1..1" Account
+SavingsAccount "1..1" -- "1..1" Account
+@enduml
+```

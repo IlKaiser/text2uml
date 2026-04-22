@@ -1,0 +1,37 @@
+```plantuml
+@startuml
+
+class Location {
+    String Address
+}
+class Driver {
+    String FirstName
+    String LastName
+}
+class Vehicle {
+    String VehicleNumber
+}
+class Truck {
+    Double Weight
+}
+class Car {
+    Integer NumberOfSeats
+}
+class Van {}
+class Order {
+    String Origin
+    String Destination
+    Date ExecutionDate
+}
+
+Location "1" -- "0..*" Driver
+Location "1" -- "0..*" Order
+Driver "1" -- "0..1" Order
+Order "1" -- "1..*" Driver
+Driver "0..1" -- "1" Vehicle
+Vehicle "0..*" -- "1" Truck
+Vehicle "0..*" -- "1" Car
+Vehicle "0..*" -- "1" Van
+
+@enduml
+```

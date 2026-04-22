@@ -1,18 +1,41 @@
 @startuml
-class Museum{}
-class Location{}
-class Exhibition{}
-class Employee{}
-class ExhibitionItem{}
-class Piece{}
-class Collector{}
+class Location
 
-Museum "1..*" -- "1..1" Location
-Location "1..*" -- "1..1" Exhibition
-Exhibition "1..1" -- "0..*" Employee
-Exhibition "1..*" -- "1..1" ExhibitionItem
-ExhibitionItem "1..*" -- "0..*" Piece
-Piece "1..1" -- "1..*" Collector
-Employee "0..1" -- "0..*" Employee
-ExhibitionItem "1..*" -- "0..*" Collector
+class Exhibition {
+  openingDate: Date
+  stage: String
+  coordinator: String
+}
+
+class ExhibitionItem
+
+class Piece {
+  unique: Boolean
+}
+
+class Collector
+
+class Employee {
+  seniority: String
+}
+
+class LoanRequest {
+  piece: String
+  collector: String
+}
+
+class CoachingAssignment {
+  junior: String
+  coach: String
+}
+
+Location "0..*" -- "1..1" Exhibition.
+Exhibition "1..1" -- "0..*" Employee.
+Exhibition "1..*" -- "1..1" ExhibitionItem.
+ExhibitionItem "0..*" -- "0..*" Piece.
+Piece "1..1" -- "0..*" Collector.
+LoanRequest "1..1" -- "0..*" ExhibitionItem.
+LoanRequest "1..1" -- "0..*" Piece.
+LoanRequest "1..1" -- "0..*" Collector.
+CoachingAssignment "2..2" -- "0..*" Employee.
 @enduml

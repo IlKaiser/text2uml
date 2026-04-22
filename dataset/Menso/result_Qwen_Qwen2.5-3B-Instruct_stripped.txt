@@ -1,0 +1,23 @@
+@startuml
+
+class BusCompany{ String Name }
+class Bus{ String LineNumber }
+class Trajectory{ String Name }
+class Category{ String Name }
+class MensoTicket{ String Type }
+class Invoice{ String CustomerID, String Month, String Amount }
+
+BusCompany "1" -- "1" Bus
+Bus "1" -- "1" Trajectory
+Bus "1" -- "1" Category
+Bus "1" -- "1" MensoTicket
+Bus "1" -- "1" Invoice
+
+Bus "1" -- "0..*" Trajectory
+Trajectory "1" -- "1" Category
+MensoTicket "1" -- "1" Invoice
+
+Bus "1" -- "0..*" MensoTicket
+Invoice "0..*" -- "1" Bus
+
+@enduml

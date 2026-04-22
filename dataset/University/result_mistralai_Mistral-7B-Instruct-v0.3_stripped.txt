@@ -1,0 +1,27 @@
+@startuml
+
+class University{ int TotalEmployees }
+class Faculty{ String Name }
+class Institute{ String Name, String Address }
+class Dean extends Employee{ Faculty faculty }
+
+Faculty "1..1" -- "0..*" Institute
+University "1..1" -- "0..*" Dean
+
+class Employee{ String SocialSecurityNumber, String Name, String Email }
+class ResearchStaff extends Employee{ ResearchAssistant rA }
+class AdministrativeStaff extends Employee
+
+class ResearchAssistant extends ResearchStaff{ Institute institute, String FieldOfResearch }
+class Lecturer extends ResearchStaff{ Course... courses }
+
+ResearchAssistant "1..1" -- "0..*" Institute
+ResearchAssistant "0..*" -- "0..*" Project
+class Project{ String Name, Date StartDate, Date EndDate }
+
+class Course{ int ID, String Name, int WeeklyDuration }
+
+ResearchAssistant "0..*" -- "0..*" Lecturer
+Lecturer "0..*" -- "0..*" Course
+
+@enduml

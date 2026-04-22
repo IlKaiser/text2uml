@@ -1,0 +1,109 @@
+@startuml
+
+class WebPortal {
+    String version
+    String url
+}
+
+class Building {
+    String id
+    String name
+    String energyClass
+    String address
+    int yearOfConstruction
+}
+
+class AdditionalEntry {
+    String name
+    Boolean released
+}
+
+class TextEntry {
+}
+
+class NumericEntry {
+    String unit
+}
+
+class Image {
+    String fileName
+}
+
+class User {
+    String username
+    String email
+    String password
+}
+
+class Administrator {
+    String idCardNumber
+}
+
+class Comment {
+}
+
+class UC_Register {
+}
+
+class UC_ConfirmEmail {
+}
+
+class UC_CreateBuilding {
+}
+
+class UC_ManageEntries {
+}
+
+class UC_CommentBuilding {
+}
+
+class UC_SearchBuilding {
+}
+
+class UC_ActivateUser {
+}
+
+class UC_SetUpUserAccount {
+}
+
+class UC_DeleteComment {
+}
+
+class UC_UploadImage {
+}
+
+class Visitor {
+}
+
+class RegisteredUser {
+}
+
+class AdministratorActor {
+}
+
+WebPortal "1" -- "0..*" Building
+Building "1" -- "0..*" AdditionalEntry
+AdditionalEntry <|-- TextEntry
+AdditionalEntry <|-- NumericEntry
+Building "1" -- "0..*" Image
+Building "1" -- "1" User
+User "1" -- "0..*" Building
+Building "1" -- "0..*" Comment
+User "1" -- "0..*" Comment
+WebPortal "1" -- "0..*" User
+
+Visitor "0..*" -- "0..*" UC_SearchBuilding
+Visitor "0..*" -- "0..*" UC_Register
+RegisteredUser "0..*" -- "0..*" UC_ConfirmEmail
+RegisteredUser "0..*" -- "0..*" UC_CreateBuilding
+RegisteredUser "0..*" -- "0..*" UC_ManageEntries
+RegisteredUser "0..*" -- "0..*" UC_CommentBuilding
+RegisteredUser "0..*" -- "0..*" UC_UploadImage
+AdministratorActor "0..*" -- "0..*" UC_SetUpUserAccount
+AdministratorActor "0..*" -- "0..*" UC_ActivateUser
+AdministratorActor "0..*" -- "0..*" UC_DeleteComment
+
+User <|-- RegisteredUser
+User <|-- Administrator
+
+@enduml

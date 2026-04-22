@@ -1,0 +1,43 @@
+@startuml
+class Researcher {
+  personID: String
+  phoneNumber: String
+}
+class Institution {
+  institutionCode: String
+}
+class ScientificArticle {
+  DOI: String
+  title: String
+}
+class PeerReviewedPaper {
+  citationCount: Int
+}
+class Journal {
+  name: String
+  impactFactor: Float
+}
+class Publisher {
+  name: String
+}
+class Fund
+class Keyword
+class ResearchTopic
+class TechnicalReport
+class Subscription
+
+Researcher "1..*" -- "1..1" Institution
+Researcher "1..1" -- "0..*" Keyword
+Keyword "1..1" -- "0..*" ResearchTopic
+Researcher "0..*" -- "0..*" ScientificArticle
+Researcher "0..*" -- "0..1" PeerReviewedPaper
+TechnicalReport "1..1" -- "1..1" Institution
+Publisher "1..*" -- "0..*" Journal
+Institution "0..*" -- "0..*" Journal
+PeerReviewedPaper "1..1" -- "1..1" Journal
+Researcher "0..*" -- "0..*" Fund
+Institution "1..1" -- "0..*" Fund
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+class Employee {
+  name: String
+  socialSecurityNumber: String
+}
+class CreativeEmployee
+class Director {
+  assistantName: String
+  hasOscar: Boolean
+}
+class Actor {
+  education: String
+  hasOscar: Boolean
+}
+class Technician {
+  fieldOfActivity: String
+}
+class FilmSet
+class Location
+class Film {
+  title: String
+  yearOfRelease: Int
+  genre: String
+}
+class Genre
+class Screenwriter {
+  name: String
+  mostSuccessfulFilm: String
+}
+class Screenplay {
+  title: String
+  version: String
+  date: Date
+  numberOfScenes: Int
+  plot: String
+}
+class Novel {
+  title: String
+  author: String
+}
+class Concept
+class Scene
+class Role
+
+Employee "1..*" -- "1..1" FilmSet
+FilmSet "1..1" -- "1..1" Location
+FilmSet "0..*" -- "0..*" Film
+Film "1..1" -- "1..1" Genre
+Screenwriter "1..1" -- "1..*" Screenplay
+Screenplay "1..1" -- "1..1" Film
+Actor "0..*" -- "0..*" Screenplay
+Director "1..1" -- "0..*" Film
+Screenplay "1..1" -- "0..1" Novel
+Screenplay "1..1" -- "0..1" Concept
+Film "1..1" -- "0..*" Scene
+Screenplay "1..1" -- "0..*" Scene
+Actor "1..1" -- "0..*" Role
+Role "1..1" -- "1..1" Film
+
+CreativeEmployee --|> Employee
+Technician --|> Employee
+Director --|> CreativeEmployee
+Actor --|> CreativeEmployee
+@enduml

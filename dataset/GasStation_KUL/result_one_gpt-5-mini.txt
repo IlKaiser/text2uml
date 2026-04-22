@@ -1,0 +1,30 @@
+@startuml
+
+class OilCompany { String Name }
+class GasStation { String Id, String Location }
+class Pump { String Id, String FuelType, Double CurrentLevel, Double ReorderLevel, Double CriticalLevel, Boolean Blocked }
+class Reservoir { Double Capacity, Double CurrentLevel, Double ReorderLevel, Double CriticalLevel }
+class Customer { String Name, String Email, String Status, Integer MissedInvoices, Boolean Preferred }
+class FuelCard { String CardNumber, Boolean Blocked }
+class RefuelTurn { Date StartTime, Date EndTime, Double Volume, Double Amount }
+class Invoice { Date InvoiceMonth, Double TotalAmount, String Status }
+class Payment { Date PaymentDate, Double Amount, String Method }
+class DailyReport { Date ReportDate }
+class RefillOperation { Date Date, Double QuantityOrdered, Boolean TemporarilyBlocked }
+
+OilCompany "1" -- "0..*" GasStation
+GasStation "1" -- "1..*" Pump
+Pump "1" -- "1..1" Reservoir
+GasStation "1" -- "0..*" RefillOperation
+Pump "1" -- "0..*" RefillOperation
+DailyReport "1" -- "0..*" Pump
+Customer "1" -- "0..*" FuelCard
+FuelCard "1" -- "0..*" RefuelTurn
+Customer "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" RefuelTurn
+Customer "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+RefuelTurn "0..1" -- "0..1" Payment
+
+@enduml

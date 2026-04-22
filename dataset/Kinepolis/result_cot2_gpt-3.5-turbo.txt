@@ -1,41 +1,66 @@
 
 @startuml
 
-class Kinepolis{}
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Program{}
-class Sunday{}
-class Week{}
-class Reservation{}
-class CreditCard{}
-class Customer{}
-class SeatReservation{}
-class Offer{}
-class Ticket{}
-class Entrance{}
-class SeatNumber{}
-class Display{}
+class Kinepolis
+
+class Cinema
+
+class Theatre
+
+class Show
+
+class Movie {
+  - title: String
+  - duration: Int
+}
+
+class Copy
+
+class Program
+
+class Reservation {
+  - startingTime: Date
+  - creditCard: CreditCard
+}
+
+class CreditCard
+
+class Customer
+
+class Seat
+
+class Cancellation
+
+class Offer {
+  - expirationTime: Date
+}
+
+class Ticket {
+  - seatNumber: Int
+}
+
+class Entrance
+
+class Desk
+
+class Display {
+  - availableSeats: Int
+}
 
 Kinepolis "1..1" -- "1..*" Cinema
 Cinema "1..*" -- "1..*" Theatre
 Theatre "1..*" -- "1..*" Show
-Cinema "1..*" -- "1..*" Copy
-Copy "1..*" -- "1..*" Theatre
-Sunday "1..*" -- "1..1" Week
-Week "1..*" -- "0..*" Program
-Show "1..*" -- "0..*" Reservation
+Show "1..1" -- "1..*" Copy
+Copy "1..*" -- "1..1" Cinema
+Program "1..*" -- "1..*" Show
 Reservation "1..*" -- "1..1" CreditCard
-Reservation "1..*" -- "0..*" SeatReservation
-Show "1..*" -- "0..*" Offer
+Customer "1..1" -- "0..*" Reservation
+Reservation "1..*" -- "1..*" Seat
+Customer "1..*" -- "0..*" Cancellation
+Show "1..*" -- "0..1" Cancellation
+Cancellation "1..*" -- "0..1" Offer
 Offer "1..*" -- "0..*" Reservation
-Ticket "1..*" -- "1..1" Customer
-Ticket "1..*" -- "1..1" Show
-SeatReservation "1..*" -- "1..*" SeatNumber
-Entrance "1..*" -- "1..*" Ticket
-Entrance "1..*" -- "1..*" Display
+Entrance "1..*" -- "0..*" Ticket
+Desk "1..*" -- "1..1" Display
 
 @enduml

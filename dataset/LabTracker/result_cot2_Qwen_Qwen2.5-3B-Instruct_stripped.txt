@@ -1,0 +1,103 @@
+Given the specification text, the relevant classes and their relationships have been identified. Below is the PlantUML representation of the UML conceptual model diagram based on the identified classes and their associations.
+
+```plantuml
+@startuml
+class Doctor {
+    +numericPractitionerNumber: Int
+    +fullName: String
+    +address: String
+    +phoneNumber: String
+    +signature: Image
+    +validFrom: Date
+}
+
+class Patient {
+    +healthNumber: String
+    +firstName: String
+    +lastName: String
+    +dateOfBirth: Date
+    +address: String
+    +phoneNumber: String
+}
+
+class Requisition {
+    +doctorPractitionerNumber: Int
+    +doctorSignature: Image
+    +validFrom: Date
+    +patientHealthNumber: String
+    +patientFirstName: String
+    +patientLastName: String
+    +patientAddress: String
+    +patientPhoneNumber: String
+    +tests: Tests
+}
+
+class Test {
+    +duration: Duration
+}
+
+class Examination {
+    +type: String
+}
+
+class Lab {
+    +registrationNumber: String
+    +address: String
+    +businessHours: BusinessHours
+}
+
+class Appointment {
+    +confirmationNumber: String
+    +date: Date
+    +startTime: Time
+    +endTime: Time
+    +labRegistrationNumber: String
+}
+
+class HealthNumber {
+    +patient: Patient
+}
+
+class Duration {
+    +labNetwork: LabNetwork
+}
+
+class LabFee {
+    +fee: Float
+}
+
+class BusinessHours {
+    +start: Time
+    +end: Time
+}
+
+class Result {
+    +test: Test
+    +result: String
+}
+
+class Sample {
+    +type: String
+}
+
+Doctor -- 1..1 Patient
+Doctor -- 0..1 Requisition
+Requisition -- 0..1 Doctor
+Requisition -- 0..* Tests
+Test -- 0..1 Requisition
+Patient -- 0..1 Requisition
+Patient -- 0..1 Appointment
+Appointment -- 0..1 Patient
+Appointment -- 0..1 Lab
+Lab -- 0..* Appointments
+Lab -- 0..* Tests
+Test -- 0..1 Duration
+Duration -- 1..1 LabNetwork
+Lab -- 0..1 LabFee
+Lab -- 0..1 BusinessHours
+Patient -- 0..1 HealthNumber
+HealthNumber -- 1..1 Patient
+@enduml
+```
+
+This PlantUML code represents the UML conceptual model diagram with the identified classes and their relationships.

@@ -1,0 +1,34 @@
+```plantuml
+@startuml
+class Student {
+    - name : String
+    - course_id : String
+    - registered_courses : List<String>
+}
+
+class Course {
+    - course_id : String
+    - name : String
+}
+
+class TeachingAssistant {
+    - name : String
+    - course_id : String
+}
+
+class Appointment {
+    - student_id : String
+    - course_id : String
+    - teaching_assistant_id : String
+    - appointment_time : Date
+}
+
+Student "1" -- "*" Course : follows
+Student "1" -- "1" Appointment : requests
+TeachingAssistant "1" -- "*" Course : teaches
+TeachingAssistant "1" -- "1" Appointment : provides
+Appointment "1" -- "1" Course : for
+Appointment "1" -- "1" TeachingAssistant : with
+
+@enduml
+```

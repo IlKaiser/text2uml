@@ -1,36 +1,74 @@
 @startuml
-class BusCompany{}
-class Bus{}
-class Line{}
-class Trajectory{}
-class Approval{}
-class TownAuthority{}
-class SeasonTicket{}
-class MENSO{}
-class Trip{}
-class Invoice{}
-class Customer{}
-class Discount{}
+class BusCompany {
+}
 
-BusCompany "1" -- "1..*" Bus
-BusCompany "1" -- "1..*" Line
-BusCompany "1" -- "1..*" Trajectory
-BusCompany "1" -- "1..*" Approval
-BusCompany "1" -- "1..*" TownAuthority
-BusCompany "1" -- "1..*" SeasonTicket
-BusCompany "1" -- "1" MENSO
-BusCompany "1" -- "1..*" Invoice
-BusCompany "1" -- "1..*" Customer
-Line "1..*" -- "1..*" Trajectory
-Trajectory "1" -- "1..*" Approval
-TownAuthority "1..*" -- "1..*" Approval
-SeasonTicket "1" -- "1" MENSO
-MENSO "1" -- "1..*" Trip
-MENSO "1" -- "1..*" Customer
-Trip "1..*" -- "1" Invoice
-Trip "1" -- "1" Line
-Trip "1" -- "1" Customer
-Invoice "1" -- "1" Customer
-Invoice "0..1" -- "1" Discount
-Customer "0..1" -- "1" Discount
+class Bus {
+  line: String
+}
+
+class BusLine {
+  category: String
+}
+
+class Trajectory {
+  operationalDate: Date
+  suspended: Boolean
+  cancelled: Boolean
+}
+
+class TownAuthority {
+}
+
+class Approval {
+  refused: Boolean
+  changeRequested: Boolean
+  approvalDate: Date
+}
+
+class MENSO_Ticket {
+  validYear: Int
+}
+
+class User {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
+
+class Trip {
+  time: Date
+  date: Date
+  line: String
+}
+
+class Invoice {
+  amount: Float
+  month: Date
+}
+
+class Discount {
+  percentage: Float
+}
+
+class Subscription {
+  startDate: Date
+}
+
+BusCompany "1..*" -- "0..*" Bus
+BusCompany "1..*" -- "0..*" BusLine
+BusCompany "1..*" -- "0..*" Trajectory
+BusCompany "1..*" -- "0..*" Approval
+Bus "0..*" -- "1..*" BusLine
+BusLine "1..*" -- "1..*" Trajectory
+TownAuthority "1..*" -- "0..*" Approval
+Trajectory "1..*" -- "0..*" Approval
+User "1..*" -- "0..*" MENSO_Ticket
+User "1..*" -- "0..*" Trip
+User "1..*" -- "0..*" Invoice
+User "1..*" -- "0..1" Subscription
+MENSO_Ticket "1..1" -- "0..*" Trip
+Trip "1..*" -- "1..1" BusLine
+Trip "1..*" -- "0..*" Invoice
+Invoice "1..*" -- "0..1" Discount
+Subscription "1..1" -- "0..*" MENSO_Ticket
 @enduml

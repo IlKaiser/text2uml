@@ -1,0 +1,42 @@
+```plantuml
+@startuml
+
+class CityStaff {
+    String Name
+}
+
+class Driver {
+    String Name
+    String ID
+    Boolean OnSickLeave
+}
+
+class Bus {
+    String LicencePlate
+    Boolean InRepairShop
+}
+
+class Route {
+    Integer RouteNumber
+}
+
+class Shift {
+    String TimeOfDay
+}
+
+class Schedule {
+    Date Date
+}
+
+CityStaff "1" -- "0..*" Driver
+CityStaff "1" -- "0..*" Bus
+CityStaff "1" -- "0..*" Route
+CityStaff "1" -- "0..*" Schedule
+
+Route "1" -- "0..*" Schedule
+Schedule "1" -- "0..*" Shift
+Schedule "1" -- "0..*" Driver
+Schedule "1" -- "0..*" Bus
+
+@enduml
+```

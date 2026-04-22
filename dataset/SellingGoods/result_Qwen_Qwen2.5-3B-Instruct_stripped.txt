@@ -1,0 +1,28 @@
+@startuml
+
+class Customer{
+    +String Address
+    +String VATNumber
+}
+
+class Product{
+    +String Name
+    +int StockLevel
+}
+
+class Order{
+    +List<OrderLine> OrderLines
+    +Date PaymentDate
+    +Date ShipmentDate
+}
+
+class OrderLine{
+    +Product Product
+    +int Quantity
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "1..*" OrderLine
+OrderLine "1" -- "1" Product
+
+@enduml

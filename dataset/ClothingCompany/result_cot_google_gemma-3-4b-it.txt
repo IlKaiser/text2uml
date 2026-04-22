@@ -1,0 +1,352 @@
+<bos><start_of_turn>user
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date..
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Customer, Product, Order, Representative, Country, VATRate, Currency, ConversionRate]
+
+##############
+
+The cardinality list is:
+
+<bos><start_of_turn>user
+Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date.
+
+##############
+
+The cardinality list is:<end_of_turn>
+<start_of_turn>model
+[
+(Customer, 0..*, Product, 0..*),
+(Customer, 0..*, Country, 0..*),
+(Product, 0..*, Manufacturer, 1..1),
+(Product, 1..1, Country, 0..*),
+(Country, 1..1, VATRate, 1..1),
+(Country, 1..1, Currency, 1..1),
+(Currency, 1..1, ConversionRate, 1..1),
+(Representative, 1..1, Country, 1..1),
+(Representative, 1..1, Customer, 0..*),
+(Order, 1..1, Product, 1..1),
+(Order, 1..1, Representative, 1..1)
+]
+
+##############
+
+The attributes dictionary is:
+
+<bos><start_of_turn>user
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date..
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Customer, Product, Order, Representative, Country, VATRate, Currency, ConversionRate]
+
+#############
+
+The specification text is:
+
+Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date.
+
+##############
+
+The attributes dictionary is:<end_of_turn>
+<start_of_turn>model
+```json
+{
+    "Customer": [
+        "name:String",
+        "address:String",
+        "telephoneNumber:String",
+        "emailAddress:String",
+        "countries:List"
+    ],
+    "Product": [
+        "name:String",
+        "description:String",
+        "netPrice:Float",
+        "manufacturer:String",
+        "country:String"
+    ],
+    "Order": [
+        "orderId:Int",
+        "orderDate:Date",
+        "deliveryDate:Date",
+        "quantity:Int"
+    ],
+    "Representative": [
+        "firstName:String",
+        "lastName:String",
+        "socialSecurityNumber:String",
+        "telephoneNumber:String",
+        "emailAddress:String",
+        "country:String"
+    ],
+    "VATRate": [
+        "rate:Float"
+    ],
+    "Currency": [
+        "name:String",
+        "conversionRateToEuro:Float"
+    ],
+    "ConversionRate": [
+        "country:String",
+        "conversionRateToEuro:Float"
+    ]
+}
+```
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date..
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Customer, Product, Order, Representative, Country, VATRate, Currency, ConversionRate]
+
+#############
+
+The specification text is:
+
+Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date.
+
+##############<end_of_turn>
+<start_of_turn>model
+ASSOCIATIONS:
+[Product, Country]
+[Product, VATRate]
+[Product, Currency]
+[Product, ConversionRate]
+[Representative, Country]
+[Representative, Order]
+[Customer, Order]
+[Customer, Country]
+[Order, Product]
+
+##############
+
+The plant uml is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class Customer {
+}
+
+class Product {
+}
+
+class Order {
+}
+
+class Representative {
+}
+
+class Country {
+}
+
+class VATRate {
+}
+
+class Currency {
+}
+
+class ConversionRate {
+}
+
+Product "1" -- "1" Country : manufactured in
+Product "1" -- "0..*" VATRate : has
+Product "1" -- "0..*" Currency : uses
+Product "1" -- "0..*" ConversionRate : uses
+Representative "1" -- "1" Country : responsible for
+Representative "1" -- "0..*" Order : places
+Customer "1" -- "0..*" Order : places
+Customer "1" -- "0..*" Country : resells in
+
+@enduml
+```

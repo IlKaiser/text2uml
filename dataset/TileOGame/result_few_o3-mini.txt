@@ -1,23 +1,50 @@
 @startuml
 
-class Designer {}
-class BoardGame {}
-class Tile {}
-class ConnectionPiece {}
-class Deck {}
-class ActionCard {}
-class Player {}
-class PlayingPiece {}
-class Die {}
+class GameDesigner {
+    String Name
+}
 
-Designer "1" -- "1" BoardGame
-BoardGame "1" -- "1..*" Tile
-BoardGame "1" -- "0..*" ConnectionPiece
-BoardGame "1" -- "1" Deck
-Deck "1" -- "32" ActionCard
-BoardGame "1" -- "2..4" Player
+class Game {
+    String Status
+}
+
+class Board {
+}
+
+class Tile {
+    String Color
+    Boolean IsHidden
+    Boolean IsAction
+    int ActionTileDuration
+}
+
+class Player {
+    String Name
+}
+
+class PlayingPiece {
+    String Color
+}
+
+class Die {
+}
+
+class Deck {
+    int NumberOfCards
+}
+
+class ActionCard {
+    String ActionType
+}
+
+GameDesigner "1" -- "1" Game
+Game "1" -- "1" Board
+Board "1" -- "0..*" Tile
+Game "1" -- "0..*" Player
 Player "1" -- "1" PlayingPiece
-BoardGame "1" -- "1" Die
-Tile "0..4" -- "2" ConnectionPiece
+Game "1" -- "1" Die
+Game "1" -- "1" Deck
+Deck "1" -- "0..*" ActionCard
+Tile "0..4" -- "0..4" Tile
 
 @enduml

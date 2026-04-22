@@ -1,24 +1,41 @@
 ```plantuml
 @startuml
-class GameDesigner{}
-class Game{}
-class Board{}
-class Tile{}
-class ConnectionPiece{}
-class Player{}
-class PlayingPiece{}
-class ActionCard{}
-class Die{}
-class ActionTile{}
+class Game {
+  objective: String
+  hiddenTile: String
+  startingPositions: String
+  actionTiles: String
+}
+
+class Tile {
+  color: String
+}
+
+class Player {
+  currentTile: String
+}
+
+class PlayingPiece {
+  color: String
+}
+
+class ActionCard {
+  instruction: String
+  type: String
+}
+
+class ActionTile {
+  isVisited: Boolean
+  duration: Int
+}
 
 GameDesigner "1..1" -- "1..1" Game
 Game "1..1" -- "1..1" Board
-Board "1..*" -- "0..*" Tile
+Board "1..1" -- "1..*" Tile
 Tile "0..*" -- "0..*" ConnectionPiece
-Game "2..4" -- "1..*" Player
-Player "1..1" -- "1..1" PlayingPiece
-Game "0..*" -- "1..1" ActionCard
+Player "1..4" -- "1..1" PlayingPiece
+PlayingPiece "1..1" -- "1..1" Die
+Player "1..4" -- "0..*" ActionCard
 Tile "0..*" -- "0..*" ActionTile
-Tile "0..*" -- "0..*" Die
 @enduml
 ```

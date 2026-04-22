@@ -1,19 +1,17 @@
-```plantuml
 @startuml
 
-class User{}
-class Account{}
+class Account{ String AccountNumber, Date CreationDate }
+class BusinessAccount{ String CompanyName, Float MonthlyFee }
 class PersonalAccount{}
-class BusinessAccount{}
-class Page{}
-class AdvertisementPage{}
+class Page{ String PageName, Integer NumberOfVisits }
+class AdvertisementPage{ Float BounceRate, Float ClickThroughRate, Float ConversionRate}
+class User{ String ID, String Name, String Email, Date DateOfBirth }
 
-User "1..1" -- "1..1" Account
-Account "1..1" -- "0..*" Page
+Account <|-- BusinessAccount
+Account <|-- PersonalAccount
+Page <|-- AdvertisementPage
+
+Account "1..1" -- "1..*" Page
 PersonalAccount "1..1" -- "0..*" Page
-BusinessAccount "1..1" -- "0..*" AdvertisementPage
-Page "1..1" -- "1..1" Account
-AdvertisementPage "1..1" -- "1..1" BusinessAccount
 
 @enduml
-```

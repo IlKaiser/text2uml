@@ -1,18 +1,40 @@
 ```plantuml
 @startuml
 
-class Student{}
-class Tutor{}
-class TutoringOffer{}
-class TutoringRequest{}
-class TutoringSession{}
-class Payment{}
+class Student {
+    String Name
+    String Email
+}
+class Tutor {
+    String Name
+    String Email
+    String BankAccount
+    Double HourlyPrice
+}
+class Subject {
+    String Name
+    String LevelOfExpertise
+}
+class TutoringRequest {
+    Date TargetDate
+    Time TargetTime
+}
+class TutoringSession {
+    Date Date
+    Time Time
+    Double Price
+    Boolean IsCancelled
+}
+class MonthlyAward {
+    String AwardType
+}
 
-Tutor "1" -- "0..*" TutoringOffer
+Tutor "0..*" -- "0..*" Subject
 Student "1" -- "0..*" TutoringRequest
-TutoringOffer "1" -- "0..*" TutoringRequest
-TutoringRequest "1" -- "1" TutoringSession
-TutoringSession "1" -- "1" Payment
+TutoringRequest "1" -- "1" Tutor
+TutoringSession "1" -- "1" Tutor
+TutoringSession "1" -- "1" Student
+Tutor "0..*" -- "0..*" MonthlyAward
 
 @enduml
 ```

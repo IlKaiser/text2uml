@@ -1,0 +1,65 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans.[/INST] @startuml
+
+class Hospital{ String Name }
+class Doctor{ String Name, String Specialization }
+class Patient{ String Name }
+class Problem{ String Description }
+class TreatmentPlan{ String ProblemType, "0..*" ExaminationType }
+class Examination{ String Type, "0..1" HospitalPermission }
+class CardiologicTest{ }
+class Echography{ }
+class Radiology{ }
+class Scanner{ }
+class NMRScan{ }
+class ExaminationResult{ String Result }
+class Treatment{ "0..*" Examination, "0..*" MedicalAction }
+
+Hospital "1" -- "0..*" Doctor
+Doctor "1" -- "0..*" Treatment
+Treatment "0..1" -- "1" Problem
+Problem "1" -- "0..1" TreatmentPlan
+TreatmentPlan "1" -- "1..*" ExaminationType
+ExaminationType "1" -- Examination
+Examination "0..*" Hospital
+Hospital "0..*" ExaminationPermission
+Examination "0..1" ExaminationResult
+Treatment "0..*" Patient
+
+@enduml

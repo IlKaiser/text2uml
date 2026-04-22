@@ -1,0 +1,69 @@
+```plantuml
+@startuml
+
+class GasStation {
+  ID: String
+  address: Address
+  fuelPumps: List[FuelPump]
+}
+
+class FuelPump {
+  number: Int
+  isSelfService: Boolean
+  fuels: List[Fuel]
+}
+
+class Fuel {
+  name: String
+  octaneRating: OctaneRating
+}
+
+class DailyFuelPrice {
+  date: Date
+  fuel: Fuel
+  gasStation: GasStation
+  pricePerLiter: PricePerLiter
+}
+
+class FuelPurchase {
+  purchaseID: PurchaseID
+  fuelPump: FuelPump
+  fuel: Fuel
+  dailyPrice: DailyFuelPrice
+  numberOfLiters: NumberOfLiters
+}
+
+class Address {
+}
+
+class Date {
+}
+
+class PricePerLiter {
+}
+
+class OctaneRating {
+}
+
+class FuelName {
+}
+
+class PurchaseID {
+}
+
+class NumberOfLiters {
+}
+
+0..12 GasStation -- 0..* FuelPump
+0..* FuelPump -- 0..* Fuel
+0..* GasStation -- 0..* DailyFuelPrice
+1..1 DailyFuelPrice -- 1..1 Fuel
+1..1 DailyFuelPrice -- 1..1 GasStation
+1..1 FuelPurchase -- 1..1 FuelPump
+1..1 FuelPurchase -- 1..1 Fuel
+1..1 FuelPurchase -- 1..1 DailyFuelPrice
+1..1 FuelPurchase -- 1..1 PricePerLiter
+1..1 FuelPurchase -- 1..1 NumberOfLiters
+
+@enduml
+```

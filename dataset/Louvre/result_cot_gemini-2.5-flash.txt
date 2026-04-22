@@ -1,15 +1,28 @@
 @startuml
-class Location{}
-class Exhibition{}
-class Employee{}
-class ExhibitionItem{}
-class Piece{}
-class Collector{}
+class Collector
+class Employee
+class Exhibition {
+  name:String
+  openingDate:Date
+  stageOfAdvancement:String
+}
+class ExhibitionItem {
+  desiredPeriod:String
+  desiredMedia:String
+  desiredSubject:String
+}
+class Location {
+  description:String
+}
+class Piece {
+  title:String
+  artist:String
+}
 
-Location "1..1" -- "0..*" Exhibition
-Exhibition "0..*" -- "1..1" Employee
-Exhibition "1..1" -- "1..*" ExhibitionItem
-ExhibitionItem "0..1" -- "1..*" Piece
-Piece "0..*" -- "1..1" Collector
+Location "1..*" -- "1..1" Exhibition
+Exhibition "1..1" -- "0..*" Employee
+Exhibition "1..*" -- "1..1" ExhibitionItem
+Piece "1..1" -- "0..*" Collector
+ExhibitionItem "1..*" -- "0..*" Piece
 Employee "0..*" -- "1..1" Employee
 @enduml

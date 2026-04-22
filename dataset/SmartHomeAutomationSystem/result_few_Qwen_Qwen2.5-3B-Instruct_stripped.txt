@@ -1,0 +1,38 @@
+@startuml
+
+class User {
+    String Name
+}
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class SensorDevice {
+    String DeviceIdentifier
+}
+class ActuatorDevice {
+    String DeviceIdentifier
+}
+class ActivityLog {
+    String Timestamp
+    String Action
+}
+class AutomationRule {
+    String Precondition
+    String ActionSequence
+}
+class Alert {
+    String Description
+}
+
+SmartHome "1" -- "0..*" Room
+Room "1" -- "0..*" SensorDevice
+Room "1" -- "0..*" ActuatorDevice
+SensorDevice "1" -- "0..1" ActivityLog
+ActuatorDevice "1" -- "0..1" ActivityLog
+User "1" -- "0..*" AutomationRule
+AutomationRule "1" -- "0..1" Alert
+
+@enduml

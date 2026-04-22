@@ -1,0 +1,60 @@
+@startuml
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String Description
+}
+
+class Pickup {
+    String PickupDate
+    String PickupTime
+    String ItemsDescription
+}
+
+class Vehicle {
+    String VehicleID
+    int StorageCapacity
+}
+
+class Route {
+    int RouteID
+    String RouteDay
+}
+
+class VolunteerDriver {
+    String DriverID
+    String AvailableDays
+}
+
+class Article {
+    int ArticleID
+    String Description
+    String Category
+    boolean IsTagged
+}
+
+class DistributionCenter {
+    String CenterID
+}
+
+class PickupVehicle {
+    Vehicle Vehicle
+    Route Route
+}
+
+class DeliveryDriver {
+    String DriverID
+    Vehicle Vehicle
+}
+
+Resident "1..*" -- "1..*" Pickup
+Pickup "1..1" -- "1..1" Route
+Route "1..1" -- "1..1" Vehicle
+Vehicle "1..1" -- "1..1" PickupVehicle
+Article "1..*" -- "1..*" PickupVehicle
+VolunteerDriver "1..*" -- "1..*" Route
+PickupVehicle "1..1" -- "1..1" DeliveryDriver
+DistributionCenter "1..1" -- "1..*" Article
+@enduml

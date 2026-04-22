@@ -1,0 +1,18 @@
+@startuml
+
+class Traveller{ String Name, String BillingInfo, String CompanyName, String CompanyAddress, String TravelPreferences }
+class Hotel{ String Address, String City, String HotelChain }
+class Booking{ String UniqueBookingIdentifier, Decimal Price, String CityArea, Integer HotelRating, String KeyPreferences, Boolean IsPrePaid, Date CancellationDeadline }
+class Offer{ Decimal MaxCostPerNight, String RoomType, Integer MinimumHotelRating, Integer NumberOfRooms, String FurtherTravelPreferences }
+class Payment{ String CreditCardInfo }
+class Confirmation{ Boolean IsConfirmed, Date ConfirmationDate }
+
+Traveller "1" -- "0..*" Booking
+Booking "1" -- "1" Payment
+Booking "1" -- "1" Confirmation
+Hotel "1" -- "0..*" Offer
+Offer "1" -- "0..*" Booking
+Traveller "1" -- "0..*" Offer
+Hotel "1" -- "*" Booking
+
+@enduml

@@ -1,0 +1,102 @@
+<|system|>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|end|><|user|>Transform into plant uml this specification text: Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes.<|end|><|assistant|>@startuml
+
+class AlphaInsurance
+class Broker
+class Customer
+class InsurancePolicy
+class Contract
+class Claim
+class ClaimCase
+class Estimator
+class Compensation
+class Document
+
+AlphaInsurance "1" -- "0..*" Broker
+AlphaInsurance "1" -- "0..*" Customer
+AlphaInsurance "1" -- "0..*" InsurancePolicy
+AlphaInsurance "1" -- "0..*" Contract
+AlphaInsurance "1" -- "0..*" Claim
+AlphaInsurance "1" -- "0..*" ClaimCase
+AlphaInsurance "1" -- "0..*" Estimator
+AlphaInsurance "1" -- "0..*" Compensation
+AlphaInsurance "1" -- "0..*" Document
+
+Broker "1" -- "0..*" Customer
+Broker "1" -- "0..*" Contract
+Broker "1" -- "0..*" Claim
+Broker "1" -- "0..*" ClaimCase
+Broker "1" -- "0..*" Estimator
+Broker "1" -- "0..*" Compensation
+Broker "1" -- "0..*" Document
+
+Customer "1" -- "0..*" Contract
+Customer "1" -- "0..*" Claim
+Customer "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Estimator
+Customer "1" -- "0..*" Compensation
+Customer "1" -- "0..*" Document
+
+InsurancePolicy "1" -- "0..*" Contract
+InsurancePolicy "1" -- "0..*" Claim
+InsurancePolicy "1" -- "0..*" ClaimCase
+InsurancePolicy "1" -- "0..*" Estimator
+InsurancePolicy "1" -- "0..*" Compensation
+InsurancePolicy "1" -- "0..*" Document
+
+Contract "1" -- "0..*" Claim
+Contract "1" -- "0..*" ClaimCase
+Contract "1" -- "0..*" Estimator
+Contract "1" -- "0..*" Compensation
+Contract "1" -- "0..*" Document
+
+Claim "1" -- "0..*" ClaimCase
+Claim "1" -- "0..*" Estimator
+Claim "1" -- "0..*" Compensation
+Claim "1" -- "0..*" Document
+
+ClaimCase "1" -- "0..*" Estimator
+ClaimCase "1" -- "0..*" Compensation
+ClaimCase "1" -- "0..*" Document
+
+Estimator "1" -- "0..*" Compensation
+Estimator "1" -- "0..*" Document
+
+Compensation "1" -- "0..*" Document
+
+@enduml

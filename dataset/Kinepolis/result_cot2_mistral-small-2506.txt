@@ -1,50 +1,53 @@
 ```plantuml
 @startuml
 
-class Kinepolis{}
-class Cinema{}
-class Town{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Program{}
-class Reservation{}
-class CreditCard{}
-class SeatReservation{}
-class CancellationPeriod{}
-class PublishedShow{}
-class Seat{}
-class Offer{}
-class Ticket{}
-class Home{}
-class Entrance{}
-class SeatNumber{}
-class TicketingDesk{}
-class Display{}
+class Cinema {
+  location: String
+}
 
-Kinepolis "1..1" -- "1..*" Cinema
-Cinema "1..1" -- "1..*" Town
-Cinema "1..1" -- "1..*" Theatre
-Theatre "1..1" -- "1..*" Show
-Show "1..1" -- "1..1" Movie
-Movie "1..1" -- "1..*" Copy
-Copy "1..1" -- "1..1" Cinema
-Show "1..1" -- "1..1" PublishedShow
-PublishedShow "1..1" -- "0..*" Reservation
-Reservation "1..1" -- "1..1" CreditCard
-Reservation "1..1" -- "1..1" SeatReservation
-SeatReservation "1..1" -- "0..1" CancellationPeriod
-SeatReservation "1..1" -- "0..1" Offer
+class Theatre {
+  numberOfSeats: Int
+}
+
+class Show {
+  startingTime: Date
+  isCancelled: Boolean
+}
+
+class Copy {
+  location: String
+}
+
+class Reservation {
+  creditCard: String
+  cancellationTime: Date
+}
+
+class Seat {
+  seatNumber: String
+}
+
+class Ticket {
+  seatNumber: String
+}
+
+class Offer {
+  expiryTime: Date
+  isAccepted: Boolean
+}
+
+Cinema "1..1" -- "0..*" Town
+Cinema "1..1" -- "0..*" Theatre
+Theatre "1..1" -- "0..*" Show
+Cinema "1..1" -- "0..*" Copy
+Copy "1..1" -- "0..1" Movie
+Show "1..1" -- "0..*" Reservation
+Reservation "1..1" -- "1..1" Customer
+Reservation "1..1" -- "1..1" Seat
+Seat "1..1" -- "0..1" Ticket
+Show "1..1" -- "0..*" Offer
+Offer "1..1" -- "1..1" Customer
 Offer "1..1" -- "0..1" Ticket
-Ticket "1..1" -- "0..1" Home
-Ticket "1..1" -- "1..1" SeatNumber
-SeatNumber "1..1" -- "1..1" Seat
-Seat "1..1" -- "1..1" Theatre
-Show "1..1" -- "1..*" Ticket
-TicketingDesk "1..1" -- "1..1" Display
-Display "1..1" -- "1..1" Show
-Entrance "1..1" -- "1..1" TicketingDesk
 
 @enduml
 ```

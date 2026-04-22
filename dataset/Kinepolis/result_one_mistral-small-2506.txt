@@ -1,0 +1,68 @@
+Here is the PlantUML class diagram based on the specification text:
+
+```plantuml
+@startuml
+
+class Cinema {
+    String Name
+    String Town
+}
+
+class Theatre {
+    String Name
+    Integer Capacity
+}
+
+class Show {
+    DateTime StartTime
+    DateTime EndTime
+    Boolean IsCancelled
+}
+
+class Movie {
+    String Title
+    String Duration
+}
+
+class Copy {
+    String Location
+}
+
+class Reservation {
+    DateTime ReservationTime
+    Boolean IsCancelled
+    DateTime CancellationTime
+}
+
+class Customer {
+    String Name
+    String Email
+    String CreditCardNumber
+}
+
+class Ticket {
+    String SeatNumber
+    Boolean IsOnline
+}
+
+class Offer {
+    DateTime ExpiryTime
+    Boolean IsAccepted
+}
+
+Cinema "1" -- "0..*" Theatre
+Theatre "1" -- "0..*" Show
+Show "1" -- "1" Movie
+Movie "1" -- "0..*" Copy
+Copy "1" -- "0..*" Theatre
+Cinema "1" -- "0..*" Copy
+Show "1" -- "0..*" Reservation
+Reservation "1" -- "1" Customer
+Customer "1" -- "0..*" Reservation
+Show "1" -- "0..*" Ticket
+Ticket "1" -- "0..1" Offer
+Offer "1" -- "1" Customer
+Show "1" -- "0..*" Offer
+
+@enduml
+```

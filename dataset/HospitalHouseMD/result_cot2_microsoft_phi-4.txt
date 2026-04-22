@@ -1,0 +1,55 @@
+```plantuml
+@startuml
+
+class HospitalHouseMD
+
+class Patient {
+  doctors: List[Doctor]
+}
+
+class Doctor
+
+class Diagnosis
+
+class Illness {
+  treatments: List[Treatment]
+  priorityScore: String
+}
+
+class Treatment {
+  stage: Int
+  consent: Consent
+}
+
+class Stage
+
+class Consent {
+  form: Form
+}
+
+class Form
+
+class FollowUpRate
+
+class Nurse
+
+class PriorityScore
+
+class Outbreak
+
+class Virus
+
+1..* Patient -- 0..* Doctor
+1..* Doctor -- 0..* Diagnosis
+1..* Diagnosis -- 0..* Treatment
+1..* Treatment -- 1..1 Stage
+1..1 Patient -- 0..* Consent
+1..1 Consent -- 1..1 Form
+1..* Treatment -- 0..1 FollowUpRate
+1..* Treatment -- 0..* Nurse
+1..1 Illness -- 1..1 PriorityScore
+1..1 Illness -- 0..* Outbreak
+1..1 Outbreak -- 0..* Virus
+
+@enduml
+```

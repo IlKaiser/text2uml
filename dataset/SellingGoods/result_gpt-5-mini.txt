@@ -1,30 +1,27 @@
 @startuml
 
-class Customer{}
-class Address{}
-class Product{}
-class Stock{}
-class Order{}
-class OrderLine{}
-class Shipment{}
-class Invoice{}
-class Payment{}
-class Warehouse{}
-class DeliveryService{}
+class Customer{ String Name, String VATNumber }
+class Address{ String Street, String City, String PostalCode, String Country }
+class Warehouse{ String Name }
+class Product{ String Name, String SKU, Decimal Price, Integer StockLevel }
+class Order{ Date OrderDate, String Status, Decimal TotalAmount }
+class OrderLine{ Integer Quantity, Decimal LinePrice, String ShippingStatus }
+class Invoice{ Date InvoiceDate, Decimal Amount, Date PaidDate, String Status }
+class Payment{ Date PaymentDate, Decimal Amount, String Method }
+class Shipment{ Date PackedDate, Date ShippedDate, Date ReceivedDate, String Status }
+class StockAdjustment{ Date AdjustmentDate, Integer QuantityChange, String Reason }
 
-Customer "1..1" -- "1..*" Address
-Customer "1..*" -- "1..1" Order
+Customer "1..1" -- "0..*" Order
 Order "1..1" -- "1..*" OrderLine
-Product "1..*" -- "1..1" OrderLine
-Product "1..1" -- "1..1" Stock
-Order "1..*" -- "0..*" Shipment
-Shipment "1..*" -- "0..*" OrderLine
-Order "1..1" -- "1..1" Invoice
-Customer "1..*" -- "0..*" Invoice
-Invoice "0..1" -- "1..1" Payment
-Customer "1..*" -- "0..*" Payment
-Customer "1..*" -- "0..*" Warehouse
+Product "1..1" -- "0..*" OrderLine
+Customer "1..1" -- "1..1" Address
+Customer "1..1" -- "0..*" Address
+Customer "1..1" -- "0..*" Warehouse
 Warehouse "1..1" -- "1..1" Address
-DeliveryService "0..*" -- "0..1" Shipment
+Order "1..1" -- "1..1" Invoice
+Invoice "1..1" -- "0..1" Payment
+Order "1..1" -- "0..*" Shipment
+Shipment "1..1" -- "0..*" OrderLine
+Product "1..1" -- "0..*" StockAdjustment
 
 @enduml

@@ -1,0 +1,54 @@
+@startuml
+
+class Game {
+    int ID
+    int PlayersCount
+    Deck deck
+    ScoringTable scoringTable
+}
+
+class Deck {
+    int ID
+    int MaxCards
+}
+
+class Card {
+    int ID
+    String Suit
+    int Height
+}
+
+class ScoringTable {
+    int ID
+    int RoundsCount
+}
+
+class Round {
+    int ID
+    int Points
+    List<Player> WinningPlayers
+    boolean JackRound
+    boolean SoloRound
+    boolean MandatorySoloRound
+    SoloType SoloType
+    Player SoloPlayer
+}
+
+class Player {
+    int ID
+}
+
+class SoloType {
+    String Type
+}
+
+Game "1" -- "0..1" Deck
+Deck "0..1" -- "0..48" Card
+Card "0..48" -- "1" Game
+Game "1" -- "0..*" ScoringTable
+ScoringTable "1" -- "0..*" Round
+Round "1" -- "0..*" Player
+Round "1" -- "0..1" SoloPlayer
+SoloType "1" -- "0..1" Round
+
+@enduml

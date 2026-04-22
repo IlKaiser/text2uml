@@ -1,36 +1,43 @@
 @startuml
-class Boeing{}
-class Aircraft{}
-class AirlineCompany{}
-class SalesAgreement{}
-class Contract{}
-class GlobalContract{}
-class Acquisition{}
-class Model{}
-class Option{}
-class Customization{}
-class DeliveryCondition{}
-class LegalAspect{}
-class Price{}
-class Salesperson{}
-class Employee{}
-class PartnerAirline{}
-class MotherDaughterRelationship{}
+class AirlineCompany
+class Aircraft
+class Acquisition {
+  model: String
+  price: Float
+  deliveryDate: Date
+  options: String
+  customizations: String
+}
+class Model
+class SalesAgreement {
+  salesperson: String
+}
+class GlobalContract {
+  deliveryConditions: String
+  legalAspects: String
+}
+class DeliveryCondition
+class LegalAspect
+class Option
+class Customization
+class Employee
+class Salesperson
+class MotherDaughterRelationship
+class PartnerAirline
+class OriginalBuyer
+class SoldAircraft
 
-Boeing "0..*" -- "0..*" SalesAgreement
-AirlineCompany "0..*" -- "0..*" SalesAgreement
-SalesAgreement "0..*" -- "0..*" Contract
-GlobalContract "1..*" -- "1..*" Contract
-GlobalContract "0..*" -- "0..*" DeliveryCondition
-GlobalContract "0..*" -- "0..*" LegalAspect
-Contract "1..*" -- "1..*" Acquisition
-Acquisition "1..*" -- "1" Model
-Acquisition "1..*" -- "1" Price
+SalesAgreement "0..*" -- "1..1" OriginalBuyer
+Acquisition "1..*" -- "1..1" Model
 Acquisition "0..*" -- "0..*" Option
 Acquisition "0..*" -- "0..*" Customization
-Contract "1..*" -- "1" Salesperson
-Salesperson "1..*" -- "1" Employee
-Employee "0..*" -- "0..*" Contract
-AirlineCompany "0..*" -- "0..*" PartnerAirline
+SoldAircraft "0..*" -- "1..1" OriginalBuyer
+SoldAircraft "0..*" -- "0..1" PartnerAirline
+GlobalContract "1..*" -- "0..*" DeliveryCondition
+GlobalContract "1..*" -- "0..*" LegalAspect
+SalesAgreement "0..*" -- "1..1" Salesperson
+MotherDaughterRelationship "0..*" -- "0..*" AirlineCompany
 AirlineCompany "0..*" -- "0..*" MotherDaughterRelationship
+
+Salesperson --|> Employee
 @enduml

@@ -1,0 +1,81 @@
+@startuml
+
+class Employee{
+  String Name
+}
+class HeadCoach{
+  String CoachingStyle
+}
+class Director{
+  String Department
+}
+class Scout{
+  String Region
+}
+class HeadScout{
+  String Team
+}
+class Player{
+  String Name
+  Date DateOfBirth
+}
+class DesignatedPlayerProfile{
+  String ProfileName
+}
+class TargetPosition{
+  String Code
+  String Description
+}
+class PlayerAttribute{
+  String AttributeName
+  String AttributeValue
+}
+class LongList{
+  Date CreatedOn
+}
+class ShortList{
+  Date CreatedOn
+}
+class ScoutingAssignment{
+  Date AssignedDate
+  String Status
+}
+class ScoutingReport{
+  String Pros
+  String Cons
+  String Recommendation
+}
+class OfficialOffer{
+  Date OfferDate
+  Double Amount
+  String Status
+}
+
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+Scout <|-- HeadScout
+
+HeadCoach "0..*" -- "0..*" DesignatedPlayerProfile
+DesignatedPlayerProfile "0..*" -- "0..*" TargetPosition
+DesignatedPlayerProfile "0..*" -- "0..*" PlayerAttribute
+
+LongList "1..1" -- "0..*" Player
+HeadScout "0..*" -- "0..*" LongList
+
+ShortList "1..1" -- "0..*" Player
+HeadCoach "0..*" -- "0..*" ShortList
+HeadScout "0..*" -- "0..*" ShortList
+
+HeadScout "0..*" -- "0..*" ScoutingAssignment
+Scout "0..*" -- "0..*" ScoutingAssignment
+ScoutingAssignment "0..*" -- "1..1" Player
+ScoutingAssignment "1..1" -- "0..1" ScoutingReport
+Scout "0..*" -- "0..*" ScoutingReport
+ScoutingReport "0..*" -- "1..1" Player
+DesignatedPlayerProfile "0..*" -- "0..*" ScoutingReport
+
+Director "0..*" -- "0..*" OfficialOffer
+OfficialOffer "0..*" -- "1..1" Player
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+
+class LouvreMuseum {
+    String Name
+}
+class Location {
+    String Description
+}
+class Exhibition {
+    String Title
+    Date OpeningDate
+}
+class Employee {
+    String Name
+    String Role
+}
+class ExhibitionItem {
+    String Description
+}
+class Piece {
+    String Title
+    String Artist
+}
+class Collector {
+    String Name
+}
+class Request {
+    Date RequestDate
+    String Status
+}
+
+LouvreMuseum "1" -- "1..*" Location
+Location "1" -- "0..*" Exhibition
+Exhibition "1" -- "0..1" Employee
+Employee "1" -- "0..*" Employee
+Exhibition "1" -- "1..*" ExhibitionItem
+ExhibitionItem "1" -- "1..*" Piece
+Piece "1" -- "1..*" Collector
+(ExhibitionItem, Collector) .. Request
+
+@enduml

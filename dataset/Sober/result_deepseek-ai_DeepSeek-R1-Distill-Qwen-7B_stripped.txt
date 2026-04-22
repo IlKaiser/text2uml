@@ -1,0 +1,117 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: 100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification. Let me start by understanding the problem and breaking it down step by step.
+
+First, the user is a new taxi company deploying self-driving cars. They offer two types of services: ride-hailing and ride-sharing. Each service has different requirements and data storage needs. Additionally, they have a fleet of self-driving cars and want to track ownership and accident information.
+
+I'll begin by identifying all the classes mentioned in the specification. From the text, the main classes are:
+
+1. Sober (the company)
+2. Cab (self-driving cars)
+3. Customer (users who register their cars)
+4. RideHailing (the service)
+5. RideSharing (the other service)
+6. Request (for ride-hailing)
+7. Trip (each ride's data)
+8. Accident (storage for accident info)
+
+Now, I'll extract the attributes for each class. Attributes are properties specific to each class.
+
+- Sober: Name, FleetSize, DriverRate, TrackingEnabled, TreePlantingPerCustomer
+- Cab: CarID, Year, Make, Model, Condition, AssignedTo
+- Customer: Name, ContactInfo, CarID, HasSoberCab
+- RideHailing: RequestType, ViaApp, HandWave, MaxPassengers, Fare, Tip, PickUpTime, DropOffTime, Location, RideDuration, Distance, Passengers, FareType
+- RideSharing: RequestType, ViaApp, HandWave, MaxPassengers, Fare, UpfrontFee, PickUpTime, DropOffTime, Location, RideDuration, Distance, Passengers, FareType
+- Request: Type (Hail or Share), ViaApp, HandWave, CustomerID, CabID, PickUpTime, DropOffTime, Location, RideDuration, Distance, Passengers, Fare, Tip
+- Trip: Same attributes as Request
+- Accident: Date, Location, DamageAmount
+
+Next, I need to identify the relationships between these classes. Relationships are how the classes interact or are connected.
+
+1. Sober has a fleet of Cabs. Sober -> Cab (Multiplicity: 1..N)
+2. Sober allows Customers to register their Cabs. Sober -> Customer (Multiplicity: 1..N)
+3. Sober offers RideHailing and RideSharing services. Sober has both services. Sober -> RideHailing and Sober -> RideSharing
+4. RideHailing and RideSharing are provided by Cabs. RideHailing -> Cab and RideSharing -> Cab
+5. Customers can use RideHailing and RideSharing. Customer -> RideHailing and Customer -> RideSharing
+6. Each RideHailing and RideSharing request is stored in a Trip. So, each service has a Trip attribute. RideHailing -> Trip and RideSharing -> Trip
+7. Each Trip has details like pickup time, drop-off time, location, etc., which are the same for both services. So, Trip includes all these attributes.
+8. Cabs can have accidents. Cab -> Accident (Multiplicity: 1..N)
+
+Now, I'll assign cardinalities to each relationship based on the specification. If not specified, default to 0..*.
+
+- Sober to Cab: 1..N
+- Sober to Customer: 1..N
+- Sober to RideHailing and RideSharing: 1 (since Sober offers these services, not multiple instances)
+- RideHailing and RideSharing to Cab: 1..N (since a cab can provide multiple rides)
+- Customer to RideHailing and RideSharing: 1..N (each customer can use each service multiple times)
+- Trip to RideHailing and Trip to RideSharing: 1..N (each ride is a trip)
+- Cab to Accident: 1..N (each cab can have multiple accidents)
+
+I need to make sure that all classes are included and that the relationships are correctly represented with bi-directional arcs where necessary. Also, attributes should be added to each class without descriptions, just using the format class { attributes }.
+
+I think I've covered all the classes and their attributes. Now, I'll structure the PlantUML code accordingly, starting with all the classes and then the relationships.
+</think>
+
+```plantuml
+@startuml
+
+class Sober{ String Name, Integer FleetSize, Integer DriverRate, Boolean TrackingEnabled, Integer TreePlantingPerCustomer }
+class Cab{ String CarID, Integer Year, String Make, String Model, String Condition, String AssignedTo }
+class Customer{ String Name, String ContactInfo, String CarID, Boolean HasSoberCab }
+class RideHailing{ String RequestType, Boolean ViaApp, Boolean HandWave, Integer MaxPassengers, String Fare, String Tip, Date PickUpTime, Date DropOffTime, String Location, Integer RideDuration, Integer Distance, List String Passengers, String FareType }
+class RideSharing{ String RequestType, Boolean ViaApp, Boolean HandWave, Integer MaxPassengers, String Fare, String UpfrontFee, Date PickUpTime, Date DropOffTime, String Location, Integer RideDuration, Integer Distance, List String Passengers, String FareType }
+class Request{ String Type, Boolean ViaApp, Boolean HandWave, Integer CustomerID, Integer CabID, Date PickUpTime, Date DropOffTime, String Location, Integer RideDuration, Integer Distance, List String Passengers, String Fare, String Tip }
+class Trip{ String PickUpTime, Date DropOffTime, String Location, Integer RideDuration, Integer Distance, List String Passengers, String Fare, String Tip }
+class Accident{ String Date, String Location, String DamageAmount }
+
+Sober "1..N" -- "1..*" Cab
+Sober "1..N" -- "1..*" Customer
+Sober "1" -- "1..*" RideHailing
+Sober "1" -- "1..*" RideSharing
+RideHailing "1..N" -- "1..*" Cab
+RideSharing "1..N" -- "1..*" Cab
+Customer "1..N" -- "1..*" RideHailing
+Customer "1..N" -- "1..*" RideSharing
+Trip "1..N" -- "1..*" RideHailing
+Trip "1..N" -- "1..*" RideSharing
+Cab "1..N" -- "1..*" Accident
+
+@enduml
+```

@@ -1,0 +1,75 @@
+@startuml
+
+class User {
+    String Id
+    String Name
+    String Address
+    Boolean IsBusiness
+    String VatNumber
+}
+class Artist {
+    String Name
+    String DateOfBirth
+    String Website
+}
+class Song {
+    String Title
+    String Year
+    Double Length
+    String Genre
+    String Artist {
+        "1..1" -- "0..*" User
+    }
+}
+class Album {
+    String Title
+    String Artist {
+        "1" -- "0..*" User
+    }
+    String TrackNumber
+    String Type {
+        "0..*" -- "0..*" Song
+    }
+}
+class BusinessUser {
+    String Id
+    String Name
+    String Address
+    String VatNumber
+    String Type {
+        "1" -- "0..*" User
+    }
+}
+class Single {
+    String Title
+    String Artist {
+        "1" -- "0..*" User
+    }
+    String Type {
+        "1" -- "0..*" Album
+    }
+}
+class Hit {
+    String Title
+    String Artist {
+        "1" -- "0..*" User
+    }
+    String Type {
+        "1" -- "0..*" Album
+    }
+}
+class AlbumSuggestion {
+    String Title
+    String Artist {
+        "1" -- "0..*" User
+    }
+    String Type {
+        "1" -- "0..*" Album
+    }
+}
+class UserBehavior {
+    String Type {
+        "0..*" -- "0..*" Album
+    }
+}
+@enduml

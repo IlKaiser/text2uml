@@ -1,26 +1,73 @@
 ```plantuml
 @startuml
-class EuropeanUnion{}
-class ResearchDatabase{}
-class ScientificArticle{}
-class Researcher{}
-class ResearchInstitution{}
-class PeerReviewedPaper{}
-class TechnicalReport{}
-class Publisher{}
-class Journal{}
 
-EuropeanUnion "0..*" -- "1..*" ResearchDatabase
-ResearchDatabase "1..*" -- "0..*" ScientificArticle
-ResearchDatabase "1..*" -- "0..*" Researcher
-ResearchDatabase "1..*" -- "0..*" ResearchInstitution
-Researcher "1..*" -- "1..1" ResearchInstitution
-ScientificArticle "1..*" -- "0..*" Researcher
-Researcher "0..*" -- "0..*" PeerReviewedPaper
-PeerReviewedPaper "1..*" -- "0..*" Researcher
+class EuropeanUnion {
+}
+
+class ResearchDatabase {
+}
+
+class ScientificArticle {
+  doi:String
+  title:String
+  authors:Person
+}
+
+class Person {
+  personId:String
+  phoneNumber:String
+  keywords:Keyword
+  institution:ResearchInstitution
+}
+
+class ResearchInstitution {
+  institutionCode:String
+}
+
+class Publisher {
+  name:String
+}
+
+class Journal {
+  name:String
+  impactFactor:Float
+}
+
+class Keyword {
+}
+
+class ResearchTopic {
+}
+
+class Author {
+}
+
+class Reviewer {
+}
+
+class PeerReviewedPaper {
+  citationCount:Int
+  reviewer:Reviewer
+}
+
+class TechnicalReport {
+  publisher:ResearchInstitution
+}
+
+Person "1..1" -- "1..1" ResearchInstitution
+Person "1..*" -- "0..*" Keyword
+Person "0..*" -- "0..*" ScientificArticle
+ScientificArticle "1..*" -- "0..*" Person
+ScientificArticle "1..*" -- "1..1" ResearchDatabase
+PeerReviewedPaper "1..*" -- "0..*" Person
+PeerReviewedPaper "1..*" -- "1..*" Journal
 TechnicalReport "1..*" -- "1..1" ResearchInstitution
-Publisher "1..*" -- "0..*" Journal
-Journal "1..*" -- "0..*" ResearchInstitution
-PeerReviewedPaper "1..*" -- "1..1" Journal
+Journal "1..*" -- "1..1" Publisher
+ResearchInstitution "0..*" -- "0..*" TechnicalReport
+ResearchInstitution "0..*" -- "0..*" ScientificArticle
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
+
 @enduml
 ```

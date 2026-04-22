@@ -1,0 +1,224 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+The Tile-O application first allows a game designer to design a board game and then allows players to play the game. Only one game can be played at a time and it cannot be paused or saved. The objective of the game is to find a hidden tile on the board. Two to four players take turns by moving their playing pieces along connected tiles based on the roll of a die. Each playing piece has a different color.
+
+A designer first defines the whole game including the layout of the game board. The designer places the tiles on the board and connects them with connection pieces. A tile can be connected to other tiles on its right side, left side, top side, and bottom side. At the most one tile can be connected on each side. In addition, the designer indicates the hidden tile, the starting positions of each player, as well as the location of action tiles.
+
+The designer also defines a deck of 32 action cards by choosing from the following predefined choices: (i) roll the die for an extra turn, (ii) connect two adjacent tiles with a connection piece from the pile of 32 spare connection pieces, (iii) remove a connection piece from the board and place it in the pile of spare connection pieces, (iv) move your playing piece to an arbitrary tile that is not your current tile, and (v) lose your next turn.
+
+Players take turns, with Player 1 starting the game, followed by Player 2, Player 3 (if applicable), and Player 4 (if applicable). The player whose turn it is rolls the die and them moves their playing piece along connected tiles. If the player lands on any tile, the color of the tile changes from white to black to indicate that the tile has been visited during the game. If the player lands on the hidden tile, the game ends and the player wins the game. If the player lands on an action tile, the player takes the first action card from the deck of action cards and follows the instructions on the action card. In addition, the action tile turns into a regular tile for a number of turns as specified by the game designer. Players do not know whether a tile is an action tile until a player lands on it.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the components involved.
+
+First, the application allows a game designer to create a board game and then lets players to play it. Only one game can be active at a time, and it can't be paused or saved. The objective is to find a hidden tile on the board. Up to four players take turns moving their pieces based on a die roll. Each piece has a different color.
+
+The designer first defines the game, which includes the board layout. They place tiles, connect them with connection pieces, and set the hidden tile. They also define action cards, which are part of a deck of 32. The designer can choose from five predefined actions: roll the die for an extra turn, connect two adjacent tiles, remove a connection piece, move to another tile, or lose the next turn.
+
+Players take turns, starting with Player 1, then 2, 3, and 4. On a turn, the player rolls the die and moves their piece along connected tiles. Landing on a tile changes it to black. If they land on the hidden tile, they win. If they land on an action tile, they draw an action card and follow its instructions. Action tiles become regular tiles for a set number of turns specified by the designer.
+
+Now, I need to identify the classes, their attributes, and the relationships between them.
+
+Classes:
+1. Game: Represents the board game. It has tiles, connection pieces, hidden tile, action cards, and action tiles.
+2. Player: Each player has a name and a playing piece color.
+3. Tile: Tiles can be white or black. They are connected to other tiles on their sides.
+4. ConnectionPiece: Connects two tiles, with a maximum of one per side.
+5. ActionCard: One of five predefined actions.
+6. ActionTile: Tiles that trigger action cards when landed on.
+
+Attributes:
+- Game: String Name (not specified, but needed for class), String HiddenTile, String ActionCard1-5, String ActionTile1-32.
+- Player: String Name, String Color.
+- Tile: String Color (white/black), Int32 X, Int32 Y, List of connected tiles.
+- ConnectionPiece: String ID, Int32 X, Int32 Y, Int32 ConnectedTileId.
+- ActionCard: String Description.
+- ActionTile: String TileId, String ActionCardId.
+
+Relationships:
+- Game has tiles, connection pieces, action cards, and action tiles.
+- Players are created by the designer and take turns.
+- Tiles are connected by connection pieces.
+- Action tiles are part of the game and have action cards.
+- Players move on tiles, changing their color when visited.
+- Landing on an action tile triggers an action card.
+- The game ends when a player lands on the hidden tile.
+
+I need to represent these in PlantUML syntax, starting with all classes and then their relationships. I'll use bi-directional arcs for cardinality unless specified otherwise. Default cardinality is 0..*, but some relationships are enforced (like one game having multiple action tiles).
+
+I should also ensure that the relationships are correctly represented, such as the game having tiles, players, and action tiles, and the action tiles having action cards.
+</think>
+
+```
+@startuml
+
+class Game {
+    String Name
+    String HiddenTile
+    List<String> ActionCards
+    List<String> ActionTiles
+    List<Tile> Tiles
+    List<ConnectionPiece> ConnectionPieces
+}
+
+class Player {
+    String Name
+    String Color
+}
+
+class Tile {
+    String Color
+    Int32 X
+    Int32 Y
+    List<Tile> ConnectedTiles
+}
+
+class ConnectionPiece {
+    String ID
+    Int32 X
+    Int32 Y
+    Int32 ConnectedTileId
+}
+
+class ActionCard {
+    String Description
+}
+
+class ActionTile {
+    String TileId
+    String ActionCardId
+}
+
+Game "1..*" -- "0..*" Player
+Game "1..*" -- "0..*" ActionTile
+Game "1..*" -- "0..*" ActionCard
+Game "1..*" -- "0..*" Tile
+
+ActionTile "0..*" - "1..*" ActionCard
+ActionTile "1..*" -- "0..1" ActionCard
+
+Player "1..*" -- "0..*" ActionTile
+
+@enduml
+```

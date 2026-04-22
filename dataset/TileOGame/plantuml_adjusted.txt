@@ -1,0 +1,72 @@
+@startuml
+
+
+class TileO {}
+
+class Game {
+    int currentConnectionPieces
+    Mode mode
+    int SpareConnectionPieces
+    int NumberOfActionCards
+}
+
+class Connection {}
+
+class Die {}
+
+class Deck {}
+
+abstract class Tile{
+    int x
+    int y
+    Boolean hasBeenVisited
+}
+
+abstract class ActionCard {
+    string instructions
+}
+
+class RollDieActionCard {}
+class ConnectTilesActionCard {}
+class RemoveConnectionActionCard {}
+class TeleportActionCard {}
+class LoseTurnActionCard {}
+
+class WinTile {}
+class ActionTile {
+   int inactivityPeriod
+   int tunrsUntilActive
+}
+class NormalTile {}
+
+class Player {
+    int number
+    int turnsUntilActive
+    Color color
+}
+
+WinTile "0..*" -- "0..*" Tile
+Tile "0..*" -- "0..*" ActionTile
+Tile "0..*" -- "0..*" NormalTile
+
+ActionCard "0..*" -- "0..*" RollDieActionCard
+ActionCard "0..*" -- "0..*" ConnectTilesActionCard
+ActionCard "0..*" -- "0..*" RemoveConnectionActionCard
+ActionCard "0..*" -- "0..*" TeleportActionCard 
+ActionCard "0..*" -- "0..*" LoseTurnActionCard 
+
+TileO "1" -- "0..*" Game : games
+Game  "1" -- "0..*" Tile : tiles
+Game  "1" -- "0..*" Connection : connections
+Game  "1" -- "1" Die : die
+Game  "1" -- "1" Deck : deck
+Game  "1" -- "0..1" Player : currentPlayer
+Game  "1" -- "1..*" Player : players
+Deck  "1" -- "0..*" ActionCard : cards
+
+Game  "1" -- "0..1" WinTile : winTile
+Tile  "1..*" -- "0..*" Connection : connections-tiles
+Player "1" -- "0..1" Tile : startingTile
+Player "0..*" -- "0..1" Tile : currentTile
+Deck  "1" -- "0..1" ActionCard : currentCard
+@enduml

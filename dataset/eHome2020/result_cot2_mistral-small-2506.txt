@@ -1,20 +1,59 @@
 ```plantuml
 @startuml
-class Apartment{}
-class Inhabitant{}
-class Sensor{}
-class SensorController{}
-class Room{}
-class EMonitor{}
-class AlertMessage{}
-class SensorValue{}
 
-Apartment "0..*" -- "0..*" Inhabitant
+class Apartment {
+  address: String
+}
+
+class Inhabitant {
+  username: String
+  password: String
+}
+
+class Sensor {
+  vendor-id: String
+  description: String
+  unit: String
+}
+
+class Room {
+  description: String
+}
+
+class AlertMessage {
+}
+
+class EmailAddress {
+}
+
+class Threshold {
+}
+
+class TemperatureSensor {
+  min: Float
+  max: Float
+}
+
+class PowerSensor {
+}
+
+class MeasuredValue {
+  timestamp: Date
+  value: Float
+}
+
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
+
 Sensor "1..1" -- "1..1" SensorController
-Sensor "1..1" -- "1..1" Room
-Inhabitant "0..*" -- "0..1" AlertMessage
-Sensor "1..1" -- "0..*" SensorValue
-SensorController "1..1" -- "0..1" EMonitor
-Apartment "1..1" -- "0..*" Sensor
+SensorController "1..1" -- "1..1" Apartment
+Apartment "0..*" -- "0..*" Inhabitant
+Apartment "1..1" -- "0..*" Room
+Room "1..1" -- "1..*" Sensor
+Sensor "1..1" -- "0..*" MeasuredValue
+Sensor "1..1" -- "0..1" Threshold
+Inhabitant "1..1" -- "0..*" EmailAddress
+EmailAddress "1..1" -- "0..*" AlertMessage
+
 @enduml
 ```

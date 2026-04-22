@@ -1,22 +1,25 @@
 ```plantuml
 @startuml
 
-class Driver{}
-class Bus{}
-class Route{}
-class Schedule{}
-class Shift{}
-class Day{}
+class Driver {
+    String Name
+    Boolean OnSickLeave
+}
+class Route {
+    Int Number
+}
+class Bus {
+    String LicencePlate
+    Boolean InRepairShop
+}
+class Schedule {
+    Date Date
+    String Shift
+}
 
-Driver "1" -- "0..*" Bus
-Driver "1" -- "0..*" Shift
-Bus "1" -- "0..*" Route
-Bus "1" -- "0..*" Day
-Route "1" -- "0..*" Bus
-Route "1" -- "0..*" Shift
-Shift "1" -- "0..*" Driver
-Shift "1" -- "0..*" Day
-Day "1" -- "0..*" Schedule
+Driver "1" -- "0..*" Schedule
+Bus "1" -- "0..*" Schedule
+Route "1" -- "0..*" Schedule
 
 @enduml
 ```

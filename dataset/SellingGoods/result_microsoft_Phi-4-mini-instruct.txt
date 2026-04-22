@@ -1,0 +1,113 @@
+<|system|>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|end|><|user|>Transform into plant uml this specification text: This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+<|end|><|assistant|>@startuml
+
+class Customer{
+  String Name, Address, VATNumber
+}
+
+class Product{
+  String Name, Description, Price
+}
+
+class Stock{
+  String ProductName, Quantity
+}
+
+class OrderLine{
+  String ProductName, Quantity
+}
+
+class Order{
+  String CustomerName, Date, Status
+  0..* "1" OrderLine
+}
+
+class Delivery{
+  String OrderID, Status, Date
+  0..* "1" Order
+}
+
+class Invoice{
+  String OrderID, Date, Amount
+  0..* "1" Order
+}
+
+class Warehouse{
+  String Location, Address
+}
+
+class Supermarket{
+  String Name, Location, Warehouse
+}
+
+Customer "1..*" -- "0..*" Order
+Order "1..*" -- "0..*" OrderLine
+Order "1..*" -- "0..*" Delivery
+Order "1..*" -- "0..*" Invoice
+Order "1..*" -- "0..*" Supermarket
+Supermarket "1..*" -- "0..*" Warehouse
+
+@enduml

@@ -1,0 +1,60 @@
+@startuml
+
+class Home{ String Name }
+class Department{ String Name }
+class Room{ String Number }
+class Bed{ String Code }
+class Category{ String Code, String Name, Decimal Price }
+class Person{ String PersonId, String FirstName, String LastName, Date BirthDate }
+class Inhabitant{ Date InhabitantSince }
+class Representative{ String Relationship }
+class Registration{ Date RegistrationDate, String Status }
+class Question{ String Text }
+class Answer{ String Value }
+class Assessment{ Date AssessmentDate }
+class WaitingListEntry{ Date RegistrationDate, Integer Position }
+class Proposal{ Date ProposalDate, Date ResponseDeadline, String Status }
+class Stay{ Date StartDate, Date EndDate, String Status, Boolean Suspended, Decimal DiscountPercent }
+class Invoice{ String InvoiceNumber, Date InvoiceDate, Decimal TotalAmount, Decimal OutstandingAmount, String Status }
+class InvoiceItem{ String Description, Decimal Amount }
+class PaymentEvent{ Date PaymentDate, Decimal Amount }
+class CreditNote{ String CreditNoteNumber, Date CreditNoteDate, Decimal Amount }
+class RefundEvent{ Date RefundDate, Decimal Amount }
+
+Home "1..1" -- "0..*" Department
+Department "1..1" -- "0..*" Room
+Room "1..1" -- "0..*" Bed
+Bed "0..*" -- "1..1" Category
+
+Person <|-- Inhabitant
+Person <|-- Representative
+
+Inhabitant "1..1" -- "0..*" Stay
+Stay "0..*" -- "0..1" Bed
+Stay "0..*" -- "1..1" Category
+
+Person "1..1" -- "0..*" Registration
+Registration "1..1" -- "0..*" Answer
+Answer "0..*" -- "1..1" Question
+
+Person "1..1" -- "0..*" Assessment
+Assessment "0..*" -- "1..1" Category
+
+Person "1..1" -- "0..*" WaitingListEntry
+WaitingListEntry "0..*" -- "1..1" Category
+
+WaitingListEntry "1..1" -- "0..*" Proposal
+Proposal "0..*" -- "0..1" Bed
+Proposal "0..*" -- "1..1" Category
+Proposal "0..*" -- "0..1" Assessment
+Proposal "0..*" -- "0..1" Stay
+
+Inhabitant "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" InvoiceItem
+Invoice "1..1" -- "0..*" PaymentEvent
+Invoice "0..1" -- "0..*" CreditNote
+CreditNote "0..*" -- "0..*" RefundEvent
+
+Inhabitant "0..1" -- "0..*" Representative
+
+@enduml

@@ -1,22 +1,46 @@
 @startuml
-class Tutor {}
-class Student {}
-class TutoringOffer {}
-class TutoringRequest {}
-class TutoringSession {}
-class Subject {}
-class Payment {}
-class Award {}
-class BankAccount {}
+class Student {
+  name: String
+  email: String
+}
 
-Tutor "1..1" -- "1..1" BankAccount
-Tutor "0..*" -- "1..1" TutoringOffer
-TutoringOffer "1..1" -- "0..*" Subject
-Student "0..*" -- "0..*" TutoringOffer
-Student "0..*" -- "1..1" TutoringRequest
-Tutor "0..*" -- "1..1" TutoringRequest
-Tutor "0..*" -- "1..1" TutoringSession
-Student "0..*" -- "1..1" TutoringSession
+class Tutor {
+  name: String
+  email: String
+  bankAccount: String
+}
+
+class TutoringOffer {
+  expertise: String
+  hourlyPrice: Float
+  availability: String
+}
+
+class TutoringRequest {
+  tutoringLevel: String
+  targetDateTime: Date
+}
+
+class TutoringSession {
+  sessionTime: Date
+}
+
+class Payment {
+  paymentMethod: String
+}
+
+class Subject
+
+class Award
+
+Tutor --|> Student
+
+Tutor "1..*" -- "1..1" TutoringOffer
+TutoringOffer "1..1" -- "1..*" Subject
+Student "1..*" -- "1..1" TutoringRequest
+Tutor "1..*" -- "1..1" TutoringRequest
+Student "1..*" -- "1..1" TutoringSession
+Tutor "1..*" -- "1..1" TutoringSession
 TutoringSession "0..1" -- "1..1" Payment
 Award "1..1" -- "0..*" Tutor
 Award "1..1" -- "0..*" Subject

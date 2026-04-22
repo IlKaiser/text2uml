@@ -1,45 +1,90 @@
 @startuml
-class Doctor{}
-class Patient{}
-class Requisition{}
-class RequisitionItem{}
-class Test{}
-class TestGroup{}
-class Sample{}
-class Lab{}
-class Appointment{}
-class AppointmentConfirmation{}
-class RepeatPattern{}
-class Result{}
-class Report{}
-class DigitalSignature{}
-class BusinessHours{}
-class Address{}
-class PhoneNumber{}
+class Doctor {
+  practitionerNumber: Int
+  signature: String
+  fullName: String
+  address: String
+  phoneNumber: String
+}
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+class Requisition {
+  doctorPractitionerNumber: Int
+  doctorSignature: String
+  doctorFullName: String
+  doctorAddress: String
+  doctorPhoneNumber: String
+  patientHealthNumber: String
+  patientFirstName: String
+  patientLastName: String
+  patientDateOfBirth: Date
+  patientAddress: String
+  patientPhoneNumber: String
+  validFrom: Date
+  repetitionCount: Int
+  repetitionInterval: String
+}
+class Test {
+  duration: Int
+  requiresAppointment: Boolean
+  walkInOnly: Boolean
+  dropOffOnly: Boolean
+  durationIndependentOfCount: Boolean
+}
+class TestGroup
+class Lab {
+  name: String
+  registrationNumber: String
+  address: String
+  businessHours: String
+  cancellationFee: Float
+}
+class LabNetwork
+class Appointment {
+  confirmationNumber: String
+  date: Date
+  startTime: Date
+  endTime: Date
+}
+class Sample
+class Result {
+  isPositive: Boolean
+}
+class Report
+class RepetitionPattern {
+  count: Int
+  interval: String
+}
+class BusinessHours {
+  startTime: String
+  endTime: String
+}
+class Address
 
-Doctor "1..1" -- "0..*" Requisition
-Patient "1..1" -- "0..*" Requisition
-Requisition "1..1" -- "1..*" RequisitionItem
-RequisitionItem "0..*" -- "1..1" Test
-Test "0..*" -- "1..1" TestGroup
-Requisition "0..*" -- "0..1" RepeatPattern
-Patient "1..1" -- "0..*" Appointment
-Requisition "1..1" -- "0..*" Appointment
-Lab "1..1" -- "0..*" Appointment
-Appointment "1..1" -- "0..1" AppointmentConfirmation
-Lab "1..1" -- "1..1" Address
-Doctor "1..1" -- "1..1" Address
-Patient "1..1" -- "1..1" Address
-Lab "1..1" -- "0..*" PhoneNumber
-Doctor "1..1" -- "0..*" PhoneNumber
-Patient "1..1" -- "0..*" PhoneNumber
-Lab "1..1" -- "1..1" BusinessHours
-Test "1..1" -- "0..*" Result
-Result "1..1" -- "0..1" Report
-Doctor "1..1" -- "0..1" DigitalSignature
-Requisition "1..1" -- "0..1" DigitalSignature
-Requisition "1..1" -- "0..*" Sample
-Sample "0..*" -- "0..*" Test
-Lab "0..*" -- "0..*" Test
-Lab "1..1" -- "0..*" AppointmentConfirmation
+Doctor "1..1" -- "0..*" Requisition.
+Patient "1..1" -- "0..*" Requisition.
+Test "1..*" -- "0..*" Requisition.
+Test "0..*" -- "1..1" TestGroup.
+Test "0..*" -- "1..1" LabNetwork.
+Lab "0..*" -- "1..1" LabNetwork.
+Patient "1..1" -- "0..*" Appointment.
+Lab "1..1" -- "0..*" Appointment.
+Requisition "1..1" -- "0..*" Appointment.
+Lab "1..1" -- "1..1" BusinessHours.
+Lab "0..*" -- "1..1" Address.
+Doctor "0..*" -- "1..1" Address.
+Patient "0..*" -- "1..1" Address.
+Sample "0..*" -- "0..*" Test.
+Sample "0..*" -- "1..1" Requisition.
+Sample "0..*" -- "0..1" Appointment.
+Result "0..*" -- "1..1" Test.
+Result "0..*" -- "1..1" Requisition.
+Result "1..1" -- "1..1" Report.
+RepetitionPattern "0..1" -- "1..1" Requisition.
 @enduml

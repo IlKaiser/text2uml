@@ -1,34 +1,77 @@
 
 @startuml
 
-class Game{}
-class Designer{}
-class Board{}
-class Players{}
-class GameBoard{}
-class Tiles{}
-class ConnectionPieces{}
-class PlayerPieces{}
-class Colors{}
-class ActionCards{}
-class Deck{}
-class Die{}
-class Turns{}
-class Instructions{}
-class ActionTiles{}
+class Game {
+}
+
+class Designer {
+}
+
+class Board {
+}
+
+class Player {
+    color: String
+}
+
+class Turn {
+}
+
+class Die {
+}
+
+class Piece {
+}
+
+class Color {
+}
+
+class Layout {
+}
+
+class Connection {
+}
+
+class Side {
+}
+
+class Position {
+}
+
+class Location {
+}
+
+class Deck {
+    actionCards: List<Card>
+}
+
+class Card {
+    choice: String
+}
+
+class Choice {
+}
+
+class Spare {
+}
+
+class Roll {
+}
 
 Game "1..1" -- "1..1" Designer
+Game "1..*" -- "1..*" Player
 Game "1..1" -- "1..1" Board
-Game "1..1" -- "2..4" Players
-Board "1..1" -- "1..*" Tiles
-Board "1..1" -- "1..*" ConnectionPieces
-Players "1..*" -- "1..*" PlayerPieces
-PlayerPieces "1..*" -- "1..1" Colors
-Board "1..1" -- "1..*" ActionTiles
-Game "1..1" -- "1..1" Deck
-Deck "1..1" -- "1..*" ActionCards
-Game "1..1" -- "1..1" Die
-Game "1..1" -- "1..*" Turns
-Game "1..1" -- "1..1" Instructions
+Player "1..*" -- "1..1" Turn
+Player "1..1" -- "1..1" Piece
+Piece "1..1" -- "1..1" Color
+Board "1..*" -- "0..*" Tile
+Tile "0..*" -- "0..*" Connection
+Connection "0..*" -- "1..1" Side
+Deck "1..1" -- "0..*" Card
+Card "0..*" -- "0..*" Choice
+Choice "0..*" -- "0..*" Spare
+Turn "1..*" -- "1..1" Die
+Piece "1..1" -- "1..1" Position
+Tile "1..1" -- "1..1" Location
 
 @enduml

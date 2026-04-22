@@ -1,30 +1,36 @@
-```plaintext
+```plantuml
 @startuml
 
-class Center {}
-class Room {}
-class Person {}
-class Trainer {}
-class Session {}
-class GroupSession {}
-class IndividualSession {}
-class City {}
+class FitnessCenter {
+    String Name
+    String Address
+}
+class Room {
+    Int Number
+    Int MaxCapacity
+}
+class Session {
+    Date Date
+    Time StartingHour
+}
+class GroupSession {
+    String Type
+}
+class Person {
+    String FirstName
+    String FamilyName
+    Date BirthDate
+}
+class Trainer {
+    String Diploma
+}
 
-Center "1" -- "0..*" Room
-Center "1" -- "0..*" Session
-Center "1" -- "1" City
-Room "1" -- "1" Center
-Session "0..*" -- "0..1" Trainer
-Session "0..*" -- "1" Room
-Session "0..*" -- "0..*" Person
-Trainer "1" -- "0..*" GroupSession
-Trainer "1" -- "0..*" Person
-Person "1" -- "0..*" IndividualSession
-Person "1" -- "0..*" GroupSession
-GroupSession "1" -- "1" Trainer
-GroupSession "0..*" -- "0..*" Person
-IndividualSession "0..*" -- "1" Person
-City "1" -- "1..*" Center
+FitnessCenter "1" -- "0..*" Room
+Room "1" -- "0..*" Session
+Session "1" -- "0..1" GroupSession
+Session "1" -- "0..*" Person
+Person "0..*" -- "0..1" Trainer
+GroupSession "0..*" -- "1" Trainer
 
 @enduml
 ```

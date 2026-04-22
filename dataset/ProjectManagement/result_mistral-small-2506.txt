@@ -1,19 +1,19 @@
-```plantuml
 @startuml
 
-class University{}
-class Department{}
-class ResearchGroup{}
-class Researcher{}
-class Project{}
-class WorkPackage{}
+class University{ String Name, String Address }
+class Department{ String Name, String Description }
+class ResearchGroup{ String Name, String Description }
+class Researcher{ String Name, String Email, Date StartDate, Date EndDate }
+class Project{ String Title, String Description, Date StartDate, Date EndDate }
+class WorkPackage{ String Title, String Description, Date StartDate, Date EndDate }
+class Assignment{ Date StartDate, Date EndDate }
 
-University "1..*" -- "1..*" Department
-Department "1..*" -- "1..*" ResearchGroup
-ResearchGroup "1..*" -- "1..1" Researcher
-Project "1..*" -- "1..*" WorkPackage
-WorkPackage "1..1" -- "1..*" Researcher
+University "1..1" -- "1..*" Department
+Department "1..1" -- "1..*" ResearchGroup
+ResearchGroup "1..1" -- "1..*" Researcher
+Project "1..1" -- "1..*" WorkPackage
 WorkPackage "1..1" -- "1..1" ResearchGroup
+WorkPackage "1..1" -- "1..*" Assignment
+Assignment "1..1" -- "1..1" Researcher
 
 @enduml
-```

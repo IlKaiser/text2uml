@@ -1,0 +1,100 @@
+```plantuml
+@startuml
+class Student {
+    - name : String
+    - emailAddress : String
+}
+
+class Tutor {
+    - name : String
+    - emailAddress : String
+    - bankAccount : String
+}
+
+class Subject {
+    - name : String
+}
+
+class TutoringSession {
+    - startTime : Date
+    - endTime : Date
+    - price : Float
+    - level : String
+}
+
+class Offer {
+    - subject : String
+    - tutor : Tutor
+    - level : String
+    - price : Float
+}
+
+class Request {
+    - tutor : Tutor
+    - level : String
+    - suggestedDateTime : Date
+}
+
+class Level {
+    - name : String
+}
+
+class Price {
+    - hourlyRate : Float
+}
+
+class Availability {
+    - dayOfWeek : String
+    - startTime : Time
+    - endTime : Time
+}
+
+class Session {
+    - tutor : Tutor
+    - student : Student
+    - date : Date
+    - time : Time
+}
+
+class Cancellation {
+    - session : TutoringSession
+    - cancellingParty : User
+    - timeBefore : Integer
+}
+
+class Discount {
+    - session : TutoringSession
+    - percentage : Float
+}
+
+class CreditCard {
+    - cardNumber : String
+    - expiryDate : Date
+}
+
+class WireTransfer {
+    - accountNumber : String
+}
+
+Student "1" -- "1" Registration : registers
+Tutor "1" -- "1" Registration : registers
+Tutor "1" -- "*" Subject : teaches
+TutoringSession "1" -- "*" Subject : belongs to
+TutoringSession "1" -- "1" Tutor : is taught by
+TutoringSession "1" -- "1" Student : is attended by
+TutoringSession "1" -- "1" Offer : offers
+Request "1" -- "1" Tutor : made by
+Request "1" -- "1" Student : requested by
+Request "1" -- "1" TutoringSession : relates to
+TutoringSession "0..*" -- "1" Cancellation : can be cancelled
+Cancellation "1" -- "1" Student : cancelled by
+Cancellation "1" -- "1" Tutor : cancelled by
+TutoringSession "0..*" -- "1" Discount : has discount
+Discount "1" -- "1" Student : applies to
+Discount "1" -- "1" Tutor : applies to
+TutoringSession "0..*" -- "1" Session : is part of
+Session "1" -- "1" Tutor : is taught by
+Session "1" -- "1" Student : is attended by
+
+@enduml
+```

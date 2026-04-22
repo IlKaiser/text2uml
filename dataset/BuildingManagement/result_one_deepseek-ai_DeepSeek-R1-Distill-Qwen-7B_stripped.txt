@@ -1,0 +1,247 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Project description:
+Each web portal has a version number and a URL address such as “http://www.ebuntu-nrw.org” and provides a catalog of buildings with their energy information. A building has a unique ID, a name, an energy class (A, B, C, D), an address, a year of construction and is assigned to a user as the owner, who can add additional entries to the buildings. Each additional entry has a name. An entry can be either textual information or a floating point number with an additional unit (the latter as freely definable text). The owner can optionally release each of these additional entries publicly, i.e. also for all non-registered visitors to the respective web portal. In addition, each building has a number of images, one of which is used as a profile photo. Images are saved with a file name.
+Visitors can register with a web portal as a user with a unique user name, their email address and a password. During registration, the system checks the user name for uniqueness and the correct email address by sending a confirmation link. In the meantime, the user is set up for the web portal by an administrator. Once these processes have been completed, users are automatically informed by email that they have been activated and can log in accordingly. After logging in, users can create buildings, manage entries for their buildings and comment on other users' buildings. All visitors to the site can search for corresponding buildings in the system using a full-text search. Administrators are special users. Their ID card number is stored in addition to their user information. The administrative functions include setting up user accounts and deleting comments. 
+
+Create a UML class diagram based on the project description. Assign the use cases to the corresponding actors. For the evaluation of the task, 10 meaningful use cases are sufficient. Use the concepts of generalization and, if possible, model meaningful relationships between the individual use cases.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a UML class diagram based on the provided project description. Let me start by carefully reading through the description to understand all the components involved.
+
+First, the project involves a web portal where users can interact with buildings. There are several entities mentioned: buildings, entries, images, users, visitors, and administrators. I'll need to identify each of these as classes in the UML diagram.
+
+Looking at the description, each building has a unique ID, name, energy class, address, year of construction, and is assigned to a user as the owner. Additionally, each building has images, one of which is a profile photo. So, I'll create a Building class with these attributes.
+
+Each building can have multiple entries, which can be either textual information or numerical data with a unit. These entries are added by the owner and can be optionally made public. So, an Entry class is needed, which will have a name and a value. The owner of the building will be a User, so the Building class should have a reference to a User.
+
+Users have a unique username, email, and password. When a user registers, the system checks for username uniqueness and email validity. So, a User class is necessary with attributes for username, email, and password. Since users can be either regular or administrators, I'll include a role attribute in the User class.
+
+Visitors can register as users, so a Visitor class might be useful, but since registration is handled by the system, maybe the User class can handle both visitors and administrators. However, administrators have additional attributes like ID card number and special functions, so perhaps the User class should have a separate attribute for role.
+
+When a user registers, the system sends a confirmation link, and upon activation, the user is set up by an administrator. So, an Administrator class is needed with attributes for ID card number and system administrator status.
+
+Entries can be either textual or numerical. So, an Entry class with a name and value makes sense. Additionally, entries can be public or private, so maybe a public attribute for Entry.
+
+Buildings can have multiple entries, so the relationship between Building and Entry should be a collection. Similarly, each building has multiple images, so an Image class with a filename is needed, and a collection relationship between Building and Image.
+
+Users can add entries to buildings, so a reference from Entry to User is necessary. Also, users can comment on other users' buildings, so a Comment class with a content field and a reference to the building it belongs to is needed.
+
+Visitors can search buildings using full-text search, so a SearchTerm class with a text field and a reference to the building is appropriate.
+
+Now, considering the relationships:
+
+- A Building has multiple Entries and Images.
+- An Entry can belong to a Building and be added by a User.
+- A Comment is associated with a Building and a User.
+- A Visitor can search for Buildings, so a Visitor has a SearchTerm reference to a Building.
+- An Administrator has special functions and can manage Users and Buildings.
+
+I need to map these entities and their relationships into UML classes and associations. I'll start by listing all the classes: Building, User, Visitor, Administrator, Entry, Comment, Image, SearchTerm.
+
+For each class, I'll define the attributes based on the description. For example, Building has uniqueID, name, energyClass, address, yearOfConstruction, ownerId. User has username, email, password, role. Visitor has username, email, password as well, but since registration is handled, maybe Visitor is just for users who aren't necessarily assigned roles yet.
+
+The relationships:
+
+- Building has a collection of Entries and Images.
+- Entry has a reference to a Building and a User.
+- Comment has references to a Building and a User.
+- Visitor has a SearchTerm reference to a Building.
+- Administrator has a User reference for their ID card number.
+
+I'll assign cardinality to each relationship. For example, a Building can have many Entries and Images, so 0..* cardinality. An Entry can belong to one Building and be added by one User, so 1..1. A Comment can be associated with one Building and one User, so 1..1.
+
+I need to ensure that all entities are included and that the relationships are accurately represented. Also, I should avoid using class properties and focus on the necessary attributes and relationships.
+
+Finally, I'll structure the UML diagram starting with the main classes and then the relationships, ensuring that all entities are properly connected with the correct cardinality.
+</think>
+
+```
+@startuml
+
+class Building {
+    String uniqueID
+    String name
+    String energyClass
+    String address
+    Date yearOfConstruction
+    Building_owner ownerId
+    collection(0..*) Entry
+    collection(0..*) Image
+}
+
+class User {
+    String username
+    String email
+    String password
+    String role
+    User_role role
+}
+
+class Visitor {
+    String username
+    String email
+    String password
+}
+
+class Administrator {
+    String IDCardNumber
+    User user
+}
+
+class Entry {
+    String name
+    Value value
+    Entry owner
+}
+
+class Comment {
+    String content
+    Building building
+    User user
+}
+
+class Image {
+    String filename
+    Image owner
+}
+
+class SearchTerm {
+    String text
+    Building building
+}
+
+Customer "1" -- "0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator).. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+```

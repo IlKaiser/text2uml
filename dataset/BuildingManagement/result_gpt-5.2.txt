@@ -1,0 +1,77 @@
+@startuml
+
+class WebPortal{ String VersionNumber, String UrlAddress }
+class Building{ String UniqueId, String Name, String EnergyClass, String Address, Integer YearOfConstruction }
+class Image{ String FileName, Boolean IsProfilePhoto }
+class AdditionalEntry{ String Name, Boolean IsPubliclyReleased }
+class TextEntry{ String TextValue }
+class NumericEntry{ Float NumericValue, String Unit }
+class Visitor{ }
+class User{ String UserName, String EmailAddress, String Password, Boolean IsActivated }
+class Administrator{ String IdCardNumber }
+class Comment{ String Content, Date CreatedAt }
+class EmailConfirmation{ String ConfirmationLink, Boolean IsConfirmed }
+class UseCase{ String Name }
+
+class Register
+class ConfirmEmail
+class SetupUserAccount
+class ActivateUser
+class Login
+class CreateBuilding
+class ManageBuildingEntries
+class ReleaseEntryPublicly
+class CommentOnBuilding
+class FullTextSearchBuildings
+class DeleteComment
+
+AdditionalEntry <|-- TextEntry
+AdditionalEntry <|-- NumericEntry
+Visitor <|-- User
+User <|-- Administrator
+UseCase <|-- Register
+UseCase <|-- ConfirmEmail
+UseCase <|-- SetupUserAccount
+UseCase <|-- ActivateUser
+UseCase <|-- Login
+UseCase <|-- CreateBuilding
+UseCase <|-- ManageBuildingEntries
+UseCase <|-- ReleaseEntryPublicly
+UseCase <|-- CommentOnBuilding
+UseCase <|-- FullTextSearchBuildings
+UseCase <|-- DeleteComment
+
+WebPortal "0..*" -- "0..*" Building
+WebPortal "0..*" -- "0..*" User
+WebPortal "0..*" -- "0..*" Visitor
+
+Building "1..1" -- "1..1" User
+Building "1..1" -- "0..*" AdditionalEntry
+Building "1..1" -- "0..*" Image
+Building "1..1" -- "0..*" Comment
+
+Comment "0..*" -- "1..1" User
+
+User "1..1" -- "0..*" EmailConfirmation
+
+Visitor "0..*" -- "0..*" FullTextSearchBuildings
+Visitor "0..*" -- "0..*" Register
+Visitor "0..*" -- "0..*" ConfirmEmail
+
+User "0..*" -- "0..*" Login
+User "0..*" -- "0..*" CreateBuilding
+User "0..*" -- "0..*" ManageBuildingEntries
+User "0..*" -- "0..*" ReleaseEntryPublicly
+User "0..*" -- "0..*" CommentOnBuilding
+
+Administrator "0..*" -- "0..*" SetupUserAccount
+Administrator "0..*" -- "0..*" ActivateUser
+Administrator "0..*" -- "0..*" DeleteComment
+
+Register "0..*" -- "0..*" ConfirmEmail
+Register "0..*" -- "0..*" SetupUserAccount
+SetupUserAccount "0..*" -- "0..*" ActivateUser
+ActivateUser "0..*" -- "0..*" Login
+ManageBuildingEntries "0..*" -- "0..*" ReleaseEntryPublicly
+
+@enduml

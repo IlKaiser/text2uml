@@ -1,19 +1,27 @@
-Here is the PlantUML model based on your class list and cardinality list:
-
 ```plantuml
 @startuml
-class Customer{}
-class Bank{}
-class Branch{}
-class Account{}
-class CurrentAccount{}
-class SavingsAccount{}
 
-Bank "0..*" -- "1..*" Customer
-Bank "0..*" -- "1..*" Branch
-Customer "1..5" -- "1..*" Account
-Account "1..*" -- "1..1" Customer
-Account "1..1" -- "0..1" CurrentAccount
-Account "1..1" -- "0..1" SavingsAccount
+class Customer {
+  firstName:String
+  lastName:String
+}
+
+class Account {
+  accountNumber:Int
+  currentAccountBalance:Float
+}
+
+class CurrentAccount {
+  overdraftLimit:Float
+}
+
+class Branch
+
+Customer "1..5" -- "1..1" Account
+Customer "0..*" -- "0..*" Branch
+
+CurrentAccount --|> Account
+SavingsAccount --|> Account
+
 @enduml
 ```

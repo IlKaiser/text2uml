@@ -1,0 +1,43 @@
+```plantuml
+@startuml
+
+class School {
+    String Name
+}
+class Teacher {
+    String FirstName
+    String LastName
+    String Email
+}
+class Student {
+    String FirstName
+    String LastName
+}
+class Classroom {
+    String Name
+    Double Capacity
+}
+class ClassGroup {
+    String Name
+}
+class TeachingRelationship {
+    Double Hours
+}
+class Principal {
+    String FirstName
+    String LastName
+}
+
+School "1" -- "1" Principal
+School "1" -- "0..*" Teacher
+School "1" -- "0..*" Classroom
+Teacher "0..*" -- "0..*" TeachingRelationship
+Teacher "1" -- "0..*" School
+Student "1" -- "1" School
+ClassGroup "1" -- "1" Classroom
+ClassGroup "1" -- "1" Teacher
+ClassGroup "1" -- "1..*" Student
+TeachingRelationship "1" -- "1..*" ClassGroup
+
+@enduml
+```

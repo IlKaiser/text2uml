@@ -1,0 +1,58 @@
+```plantuml
+@startuml
+
+class User {
+    ID: String
+    name: String
+    email: String
+    dateOfBirth: Date
+}
+
+class Account {
+    accountNumber: String
+}
+
+class BusinessAccount {
+    companyName: String
+    monthlyFee: Float
+}
+
+class PersonalAccount {
+}
+
+class Page {
+    pageName: String
+    numberOfVisits: Int
+}
+
+class AdvertisementPage {
+    bounceRate: Float
+    clickThroughRate: Float
+    conversionRate: Float
+}
+
+class Company {
+    name: String
+}
+
+class FriendRequest {
+}
+
+class TermsOfUse {
+}
+
+User "1..1" -- "1..1" Account
+Account "1..1" -- "0..1" BusinessAccount
+Account "1..1" -- "0..1" PersonalAccount
+BusinessAccount "1..1" -- "1..1" Company
+PersonalAccount "1..1" -- "0..*" FriendRequest
+Account "1..1" -- "1..*" Page
+PersonalAccount "1..1" -- "0..*" Page
+BusinessAccount "1..1" -- "0..*" AdvertisementPage
+
+BusinessAccount --|> Account
+PersonalAccount --|> Account
+AdvertisementPage --|> Page
+
+@enduml
+```

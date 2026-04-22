@@ -1,0 +1,73 @@
+@startuml
+
+class Student {
+  String Name
+  String EmailAddress
+}
+
+class Tutor {
+  String Name
+  String EmailAddress
+  String BankAccount
+}
+
+class Subject {
+  String Name
+}
+
+class TutoringOffer {
+  String LevelOfExpertise
+  Double HourlyPrice
+}
+
+class AvailabilitySlot {
+  String DayOfWeek
+  Time StartTime
+  Time EndTime
+}
+
+class TutoringRequest {
+  String RequestedLevel
+  DateTime SuggestedFirstSessionDateTime
+  String Status
+}
+
+class TutoringSession {
+  DateTime ScheduledDateTime
+  String Status
+  Double AgreedPrice
+}
+
+class Payment {
+  Double Amount
+  DateTime PaymentDateTime
+  String Method
+}
+
+class Cancellation {
+  DateTime CancelledAt
+  String CancelledBy
+  Double FeePercentage
+  Double DiscountPercentageNextSession
+}
+
+class TutorOfTheMonthAward {
+  Date AwardMonth
+  String Title
+}
+
+Tutor "0..*" -- "0..*" Student
+Tutor "1..1" -- "0..*" TutoringOffer
+Subject "1..1" -- "0..*" TutoringOffer
+Tutor "1..1" -- "0..*" AvailabilitySlot
+Student "1..1" -- "0..*" TutoringRequest
+Tutor "1..1" -- "0..*" TutoringRequest
+TutoringRequest "1..1" -- "0..*" TutoringSession
+Student "1..1" -- "0..*" TutoringSession
+Tutor "1..1" -- "0..*" TutoringSession
+TutoringSession "1..1" -- "0..*" Payment
+TutoringSession "1..1" -- "0..*" Cancellation
+Tutor "1..1" -- "0..*" TutorOfTheMonthAward
+Subject "1..1" -- "0..*" TutorOfTheMonthAward
+
+@enduml

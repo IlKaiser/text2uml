@@ -1,0 +1,355 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the entities and their relationships.
+
+First, the specification talks about a research database set up by Science Connect. It involves scientific articles, researchers, and institutions. I'll need to identify the main classes here.
+
+1. **Researchers (Person)**: Each researcher has a unique ID and is affiliated with an institution. They have phone numbers, research keywords, and work at an institution. They can be both authors and reviewers.
+
+2. **Institutions**: Each has a unique code and can publish multiple technical reports. They can be associated with multiple researchers.
+
+3. **Scientific Articles**: These are of two types—peer-reviewed papers and technical reports. Peer-reviewed papers are published in journals and have citation counts and reviewers. Technical reports are published by institutions.
+
+4. **Journals**: Each has a name and is published by a publisher. Journals can have the same name as other publishers.
+
+5. **Publishers**: Identified by name, can publish multiple journals, and have an impact factor.
+
+6. **Technical Reports**: Stored by institutions, can be published multiple times.
+
+7. **Impact Factors**: Measured for journals.
+
+8. **Citations**: For peer-reviewed papers, indicating how many times they've been cited.
+
+9. **Keywords**: For researchers and articles.
+
+10. **Positions**: For researchers in articles.
+
+11. **Authors**: For articles, each can have a position.
+
+12. **DOI**: Unique identifier for articles.
+
+Now, I'll map these entities into classes in PlantUML. Each class will have its attributes, and relationships will be defined with appropriate cardinalities.
+
+Starting with Researchers:
+- Name
+- PersonID
+- InstitutionCode
+- Phone
+- Keywords
+- ResearchTopics
+- Affiliation
+
+Institutions:
+- Name
+- InstitutionCode
+- PubCount
+- TechnicalReports
+- Researchers
+
+ScientificArticles:
+- DOI
+- Title
+- Authors
+- Keywords
+- Journal
+- PubYear
+- Type (PeerReviewed/PeerReview)
+- ImpactFactor
+- CitationCount
+- Reviewers
+- Positions
+
+Journals:
+- Name
+- Publisher
+- PubYear
+- ImpactFactor
+- Issues (Journals can have multiple issues)
+
+Publishers:
+- Name
+- PubCount
+- Journals (Can publish multiple journals)
+
+TechnicalReports:
+- Name
+- Institution
+- PubCount
+- Content
+- Keywords
+
+ImpactFactors:
+- Journal
+- ImpactValue
+
+Citations:
+- Article
+- CitedArticle
+- Count
+
+Positions:
+- Article
+- Position
+- Role
+
+Authors:
+- Article
+- Author
+- Position
+
+Now, defining the relationships:
+
+- Researchers have an ID and are affiliated with an Institution (1..1).
+- Institutions can have multiple Researchers (0..*).
+- Each Article has Authors, which are Researchers (1..*).
+- Each Article has Keywords (0..*).
+- Each Article is associated with a Journal (1..1).
+- Journals are published by Publishers (1..1).
+- Each Journal can have multiple Issues (0..*).
+- Each Article can have multiple Positions (0..*).
+- Each Article can have multiple Reviewers (0..*).
+- Each Article is a PeerReview or TechnicalReport (exclusive OR).
+- TechnicalReports are published by Institutions (1..1).
+- Each Article can cite multiple other Articles (0..*).
+- Each Article can have multiple Keywords (0..*).
+- Each Article has a unique DOI (1..1).
+- Each Article is published in a specific Year (PubYear) (1..1).
+- Each Article can have multiple Authors (1..*).
+- Each Article can have multiple Positions (1..*).
+- Each Article can have multiple Reviewers (1..*).
+- Each Article can have multiple Keywords (1..*).
+- Each Article can have multiple Issues (1..*).
+- Each Article can have multiple TechnicalReports (0..*).
+- Each Article can have multiple Citations (1..*).
+- Each Article can have multiple Keywords (1..*).
+- Each Article can have multiple Positions (1..*).
+- Each Article can have multiple Reviewers (1..*).
+- Each Article can have multiple Keywords (1..*).
+- Each Article can have multiple Issues (1..*).
+- Each Article can have multiple TechnicalReports (0..*).
+- Each Article can have multiple Citations (1..*).
+
+I need to ensure that the cardinalities are correctly assigned. For example, a Journal is published by one Publisher (1..1), but a Publisher can have multiple Journals (0..*). Similarly, each Article can have multiple Citations (1..*), meaning each Citation is linked to one Article.
+
+I also need to make sure that the relationships are bidirectional where appropriate. For example, the relationship between Article and Journal is bidirectional because an Article is published in a Journal, and a Journal hosts multiple Articles.
+
+I should also define the attributes for each class, such as PersonID, InstitutionCode, etc., and ensure that they are correctly placed within the class definitions.
+
+Finally, I'll structure the PlantUML code by first listing all the classes and their attributes, followed by the relationships with their respective cardinalities.
+</think>
+
+Here is the PlantUML class diagram based on the provided specification text:
+
+```plantuml
+@startuml
+
+class Person {
+    String Name
+    String PersonID
+    String InstitutionCode
+    String Phone
+    String Keywords
+    String ResearchTopics
+    String Affiliation
+}
+
+class Institution {
+    String Name
+    String InstitutionCode
+    Int PubCount
+    Int TechnicalReports
+    Person Affiliation
+}
+
+class ScientificArticle {
+    String DOI
+    String Title
+    List<Person> Authors
+    List<String> Keywords
+    Reference Journal
+    Date PubYear
+    String Type
+    Double ImpactFactor
+    Int CitationCount
+    List<Person> Reviewers
+    List<Position> Positions
+}
+
+class Journal {
+    String Name
+    String Publisher
+    Date PubYear
+    Double ImpactFactor
+    Int Issues
+}
+
+class Publisher {
+    String Name
+    Int PubCount
+    List>Journal Journals
+}
+
+class TechnicalReport {
+    String Name
+    Institution Affiliation
+    Int PubCount
+    String Content
+    List<String> Keywords
+}
+
+class ImpactFactor {
+    String Journal
+    Double ImpactValue
+}
+
+class Citation {
+    ScientificArticle Article
+    ImpactFactor CitedArticle
+    Int Count
+}
+
+class Position {
+    ScientificArticle Article
+    String Position
+    String Role
+}
+
+class Keywords {
+    ScientificArticle Article
+    String Keyword
+}
+
+class References {
+    ScientificArticle Article
+    List<ScientificArticle> References
+}
+
+@enduml
+```

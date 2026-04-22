@@ -1,0 +1,94 @@
+```plantuml
+@startuml
+class Home {
+}
+
+class Department {
+}
+
+class Room {
+}
+
+class Bed {
+  BedNumber : Int
+  Category : String
+}
+
+class Inhabitant {
+  name : String
+  dateOfBirth : Date
+  registrationDate : Date
+  abilityLevel : Int
+}
+
+class Category {
+  categoryType : String
+  price : Float
+}
+
+class Stay {
+  startDate : Date
+  endDate : Date
+  type : String
+  inhabitant : Inhabitant
+}
+
+class Registration {
+  date : Date
+  data : String
+}
+
+class Proposal {
+  proposalId : Int
+  dateCreated : Date
+  accepted : Boolean
+  inhabitant : Inhabitant
+}
+
+class Assessment {
+  date : Date
+  results : String
+}
+
+class Invoice {
+  invoiceNumber : Int
+  date : Date
+  amount : Float
+  paymentStatus : String
+  inhabitant : Inhabitant
+}
+
+class Payment {
+  paymentDate : Date
+  amount : Float
+}
+
+class CreditNote {
+  creditNoteNumber : Int
+  dateIssued : Date
+  amount : Float
+}
+
+class Refund {
+  refundDate : Date
+  amount : Float
+}
+
+class Place {
+  name : String
+}
+
+Home "1" -- "*" Department : contains
+Department "1" -- "*" Room : contains
+Room "1" -- "*" Bed : has
+Bed "1" -- "1" Category : belongs to
+Stay "1" -- "1" Inhabitant : assigned to
+Category "1" -- "*" Invoice : associated with
+Invoice "1" -- "1" Payment : has
+Inhabitant "1" -- "1" Registration : has
+Proposal "1" -- "1" Inhabitant : relates to
+Inhabitant "1" -- "1" Assessment : has
+Stay "1" -- "1" Assessment : has
+
+@enduml
+```

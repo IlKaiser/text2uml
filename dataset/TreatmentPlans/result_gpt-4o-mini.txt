@@ -1,24 +1,21 @@
-```
 @startuml
 
-class Hospital{}
-class Doctor{}
-class Patient{}
-class Examination{}
-class TreatmentPlan{}
-class Problem{}
-class ActualTreatment{}
-class TypeOfExamination{}
+class Hospital{ String Name, String Address }
+class Doctor{ String Name, String LicenseNumber }
+class Patient{ String Name, String ID }
+class ExaminationType{ String Name }
+class Examination{ String Date, String Result }
+class TreatmentPlan{ String ProblemIdentifier }
+class ActualTreatment{ String Date }
 
-Hospital "1..*" -- "0..*" Examination
-Hospital "1..*" -- "0..*" TreatmentPlan
-Hospital "1..*" -- "0..*" Doctor
-Doctor "1..*" -- "0..*" Patient
-Doctor "1..*" -- "1..*" Examination
+Hospital "0..*" -- "0..*" Doctor
+Hospital "0..*" -- "0..*" Patient
+Hospital "0..*" -- "1..*" ExaminationType
+Doctor "1..*" -- "0..*" Examination
+Doctor "1..*" -- "1..*" ActualTreatment
+TreatmentPlan "1..*" -- "0..*" ExaminationType
+ActualTreatment "0..*" -- "0..*" ExaminationType
 Patient "1..1" -- "1..*" ActualTreatment
-TreatmentPlan "1..1" -- "1..*" TypeOfExamination
-Problem "1..1" -- "1..*" TreatmentPlan
-ActualTreatment "0..*" -- "0..*" Examination
+Patient "1..1" -- "1..1" Doctor
 
 @enduml
-```

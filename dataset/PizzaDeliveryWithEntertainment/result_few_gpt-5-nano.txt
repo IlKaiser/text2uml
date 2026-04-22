@@ -1,23 +1,65 @@
 @startuml
 
-class BusinessOwner{}
-class LinkedInProfile{}
-class PizzaRestaurant{}
-class Pizza{}
-class HungryCustomer{}
-class Order{}
-class EntertainmentOrder{}
-class Entertainer{}
-class Availability{}
+class User {
+    String UserId
+    String Name
+    String Address
+    Date Birthday
+}
 
-BusinessOwner "1" -- "1" LinkedInProfile
+class BusinessOwner extends User {
+    String LinkedIn
+}
+
+class HungryCustomer extends User {
+    String DeliveryAddress
+}
+
+class Entertainer extends User {
+    String StageName
+    String Bio
+    Double PricePer30Min
+}
+
+class PizzaRestaurant {
+    String ZipCode
+    String Address
+    String PhoneNumber
+    String Website
+    String OpeningHours
+}
+
+class Pizza {
+    String Name
+    String CrustStructure
+    Double Price
+}
+
+class Availability {
+    String DayOfWeek
+}
+
+class Order {
+    String OrderId
+    Date PlacedAt
+    Date DeliveryDeadline
+    Int PeopleCount
+    String DeliveryAddress
+}
+
+class EntertainmentOrder extends Order {
+    String EntertainmentType
+    Int DurationMinutes
+}
+
 BusinessOwner "1" -- "0..*" PizzaRestaurant
 PizzaRestaurant "1" -- "0..*" Pizza
 HungryCustomer "1" -- "0..*" Order
 Order "1" -- "0..*" Pizza
-EntertainmentOrder "1" -- "1" Entertainer
-Order "0..1" -- "1" EntertainmentOrder
-Entertainer "1" -- "0..*" Availability
-PizzaRestaurant "1" -- "0..*" Availability
+Entertainer "0..*" -- "1" EntertainmentOrder
+Entertainer "0..*" -- "1" Availability
+PizzaRestaurant "0..*" -- "1" Availability
+Availability "1" -- "1" Entertainer
+Availability "1" -- "1" PizzaRestaurant
 
 @enduml

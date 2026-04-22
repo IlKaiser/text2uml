@@ -1,23 +1,61 @@
 
 @startuml
-class FitnessCompany{}
-class Trainer{}
-class Member{}
-class Session{}
-class Center{}
-class Room{}
-class IndividualSession{}
-class GroupSession{}
-class Prospect{}
-class Intern{}
+class FitnessCompany
 
-FitnessCompany "0..*" -- "1..*" Center
-Center "1..*" -- "1..*" Room
-Center "0..*" -- "0..*" Session
-Session "0..*" -- "0..*" Member
-Trainer "1..*" -- "0..*" Session
-Session "0..*" -- "1..1" IndividualSession
-Session "0..*" -- "1..1" GroupSession
-Prospect "0..*" -- "0..*" Member
-Intern "0..*" -- "0..*" Trainer
+class Database
+
+class Member {
+    // attributes
+}
+
+class Trainer {
+    // attributes
+    diploma: String
+}
+
+class Center {
+    // attributes
+    name: String
+    address: String
+}
+
+class City
+
+class Room {
+    // attributes
+    number: Int
+    max_capacity: Int
+}
+
+class Session {
+    // attributes
+    date: Date
+    starting_hour: Date
+    type: String
+}
+
+class Person {
+    // attributes
+    first_name: String
+    family_name: String
+    birth_date: Date
+}
+
+class Prospect {
+    // attributes
+}
+
+class Intern {
+    // attributes
+}
+
+Member "1..*" -- "1..*" Session
+Session "1..1" -- "0..1" Trainer
+Center "0..*" -- "1..*" Room
+City "1..*" -- "1..*" Center
+Person "0..1" -- "0..*" Session
+Trainer "0..1" -- "1..*" Session
+Prospect "0..1" -- "0..1" Person
+Intern "0..1" -- "0..*" Trainer
+
 @enduml

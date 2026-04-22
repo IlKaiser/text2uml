@@ -1,0 +1,680 @@
+<bos><start_of_turn>user
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - an association list (with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+ClassName1, ClassName2, ...
+
+The association list format is:
+mul1 ClassName1 -- mul2 ClassName2
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every entry in the association list write:
+  ClassName1 "mul1" -- "mul2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, focusing on capturing the core concepts:
+
+*   Celebration
+*   Organization
+*   System
+*   CelO (Application Name - could be a class)
+*   Organizer
+*   Attendee
+*   Event
+*   Task
+*   Location
+*   Invitation
+*   Party (Birthday Party, Graduation Party)
+*   List
+*   Checklist
+*   Username
+*   Password
+*   Address
+*   Email
+*   Phone Number
+
+I've included "CelO" as it's the name of the application, and might be a good candidate for a top-level class.
+
+##############
+
+The text specification is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Celebration
+Organization
+CelO
+Organizer
+Attendee
+Event
+Task
+Location
+Invitation
+Party
+List
+Checklist
+Username
+Password
+Address
+Email
+Phone Number
+
+
+##############
+
+The association list is:
+
+mul1 Class1 -- mul2 Class2
+...
+
+##############
+
+The attributes dictionary is:
+
+<bos><start_of_turn>user
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, focusing on capturing the core concepts:
+
+*   Celebration
+*   Organization
+*   System
+*   CelO (Application Name - could be a class)
+*   Organizer
+*   Attendee
+*   Event
+*   Task
+*   Location
+*   Invitation
+*   Party (Birthday Party, Graduation Party)
+*   List
+*   Checklist
+*   Username
+*   Password
+*   Address
+*   Email
+*   Phone Number
+
+I've included "CelO" as it's the name of the application, and might be a good candidate for a top-level class.
+
+##############
+
+The text specification is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Celebration
+Organization
+CelO
+Organizer
+Attendee
+Event
+Task
+Location
+Invitation
+Party
+List
+Checklist
+Username
+Password
+Address
+Email
+Phone Number
+
+
+#############
+
+The specification text is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+The attributes dictionary is:<end_of_turn>
+<start_of_turn>model
+```json
+{
+    "Celebration": [
+        "name",
+        "start_date_time",
+        "end_date_time",
+        "occasion",
+        "location"
+    ],
+    "Organization": [
+        "name"
+    ],
+    "CelO": [
+        "version"
+    ],
+    "Organizer": [
+        "first_name",
+        "last_name",
+        "email_address",
+        "username",
+        "postal_address",
+        "phone_number",
+        "password"
+    ],
+    "Attendee": [
+        "first_name",
+        "last_name",
+        "email_address",
+        "password",
+        "will_attend",
+        "selected_tasks"
+    ],
+    "Event": [
+        "name",
+        "type",
+        "start_date_time",
+        "end_date_time",
+        "occasion",
+        "location"
+    ],
+    "Task": [
+        "description",
+        "status",
+        "is_applicable",
+        "assigned_to"
+    ],
+    "Location": [
+        "name",
+        "address"
+    ],
+    "Invitation": [
+        "event_id",
+        "sent_date",
+        "status"
+    ],
+    "Party": [
+        "type"
+    ],
+    "List": [
+        "name"
+    ],
+    "Checklist": [
+        "event_id",
+        "tasks"
+    ],
+    "Username": [
+        "email_address"
+    ],
+    "Password": [
+        "password"
+    ],
+    "Address": [
+        "street",
+        "city",
+        "state",
+        "zip_code"
+    ],
+    "Email": [
+        "email_address"
+    ],
+    "Phone_Number": [
+        "phone_number"
+    ]
+}
+```
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, focusing on capturing the core concepts:
+
+*   Celebration
+*   Organization
+*   System
+*   CelO (Application Name - could be a class)
+*   Organizer
+*   Attendee
+*   Event
+*   Task
+*   Location
+*   Invitation
+*   Party (Birthday Party, Graduation Party)
+*   List
+*   Checklist
+*   Username
+*   Password
+*   Address
+*   Email
+*   Phone Number
+
+I've included "CelO" as it's the name of the application, and might be a good candidate for a top-level class.
+
+##############
+
+The text specification is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Celebration
+Organization
+CelO
+Organizer
+Attendee
+Event
+Task
+Location
+Invitation
+Party
+List
+Checklist
+Username
+Password
+Address
+Email
+Phone Number
+
+
+#############
+
+The specification text is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############<end_of_turn>
+<start_of_turn>model
+ASSOCIATIONS:
+Organizer -- 0..* Event
+Organizer -- 0..* Task
+Organizer -- 0..* Invitation
+Organizer -- 0..* Location
+Organizer -- 0..* Attendee
+Attendee -- 0..* Invitation
+Attendee -- 0..* Task
+Attendee -- 0..* Event
+Event -- 0..* Task
+Event -- 0..* Location
+
+##############
+
+The plant uml is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class Organizer {
+    - first_name : String
+    - last_name : String
+    - email_address : String
+    - username : String
+    - postal_address : String
+    - phone_number : String
+    - password : String
+}
+
+class Attendee {
+    - first_name : String
+    - last_name : String
+    - email_address : String
+    - password : String
+    - will_attend : Boolean
+    - selected_tasks : List<Task>
+}
+
+class Event {
+    - name : String
+    - type : String
+    - start_date_time : Date
+    - end_date_time : Date
+    - occasion : String
+    - location : Location
+}
+
+class Task {
+    - description : String
+    - status : String
+    - is_applicable : Boolean
+    - assigned_to : Organizer
+}
+
+class Location {
+    - name : String
+    - address : String
+}
+
+class Invitation {
+    - event_id : int
+    - sent_date : Date
+    - status : String
+}
+
+class Party {
+    - type : String
+}
+
+class List {
+    - name : String
+}
+
+class Checklist {
+    - event_id : int
+    - tasks : List<Task>
+}
+
+class Username {
+    - email_address : String
+}
+
+class Password {
+    - password : String
+}
+
+class Address {
+    - street : String
+    - city : String
+    - state : String
+    - zip_code : String
+}
+
+class Email {
+    - email_address : String
+}
+
+class Phone_Number {
+    - phone_number : String
+}
+
+Organizer "1" -- "*" Event : organizes
+Organizer "1" -- "*" Task : creates
+Organizer "1" -- "*" Invitation : sends
+Organizer "1" -- "1" Location : manages
+Organizer "1" -- "*" Attendee : invites
+Attendee "1" -- "*" Invitation : receives
+Attendee "1" -- "*" Task : completes
+Attendee "1" -- "*" Event : attends
+Event "1" -- "*" Task : has
+Event "1" -- "1" Location : takes place
+Task "1" -- "1" Organizer : assigned to
+Location "1" -- "1" Address : located at
+
+@enduml
+```

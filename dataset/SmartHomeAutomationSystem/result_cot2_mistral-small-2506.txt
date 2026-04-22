@@ -1,29 +1,47 @@
 ```plantuml
 @startuml
-class SmartHomeAutomationSystem{}
-class User{}
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class DeviceType{}
-class AutomationRule{}
-class Alert{}
-class ActivityLog{}
 
-SmartHomeAutomationSystem "1..1" -- "0..*" SmartHome
+class SmartHome {
+  physicalAddress: String
+}
+
+class SensorDevice {
+  deviceIdentifier: DeviceIdentifier
+}
+
+class ActuatorDevice {
+  deviceIdentifier: DeviceIdentifier
+}
+
+class SensorReading {
+  measuredValue: Float
+  timestamp: Date
+}
+
+class ControlCommand {
+  timestamp: Date
+  status: String
+}
+
+DeviceType <|-- SensorDevice
+DeviceType <|-- ActuatorDevice
+
 SmartHome "1..1" -- "0..*" Room
 Room "1..1" -- "0..*" SensorDevice
 Room "1..1" -- "0..*" ActuatorDevice
-SensorDevice "1..1" -- "1..1" DeviceType
-ActuatorDevice "1..1" -- "1..1" DeviceType
-SmartHome "1..1" -- "0..*" AutomationRule
-AutomationRule "1..1" -- "0..*" Alert
+SensorDevice "1..1" -- "1..1" DeviceIdentifier
+ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
+SensorDevice "1..1" -- "0..*" SensorReading
+ActuatorDevice "1..1" -- "0..*" ControlCommand
 SmartHome "1..1" -- "0..*" ActivityLog
-ActivityLog "1..1" -- "0..*" SensorDevice
-ActivityLog "1..1" -- "0..*" ActuatorDevice
-AutomationRule "1..1" -- "0..*" SensorDevice
-AutomationRule "1..1" -- "0..*" ActuatorDevice
-AutomationRule "1..1" -- "0..*" ActivityLog
+SmartHome "1..1" -- "1..1" Owner
+Owner "1..1" -- "0..*" Alert
+Owner "1..1" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+AutomationRule "1..1" -- "0..*" RuleHierarchy
+AutomationRule "1..1" -- "0..*" RuleConflict
+SmartHome "1..1" -- "0..*" InfrastructureMap
+
 @enduml
 ```

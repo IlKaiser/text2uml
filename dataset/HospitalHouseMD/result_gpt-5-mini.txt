@@ -1,31 +1,36 @@
 @startuml
 
-class HospitalHouseMD{}
-class Patient{}
-class Doctor{}
-class HeadDoctor{}
-class Diagnosis{}
-class Illness{}
-class Treatment{}
-class Consent{}
-class Stage{}
-class Nurse{}
-class PriorityScore{}
+class HospitalHouseMD{ String Name }
+class Patient{ String Name, Boolean ConsentActive }
+class Doctor{ String Name, String Specialty }
+class HeadDoctor{ }
+class Nurse{ String Name }
+class Illness{ String Name, String PriorityScore }
+class Treatment{ String Name, String Description }
+class Diagnosis{ String Description, Boolean Approved }
+class AppliedTreatment{ Integer Stage, Date StartDate, Boolean FollowUpHigh }
+class Consent{ Date SignedDate, Boolean Active }
+
+HeadDoctor --|> Doctor
 
 HospitalHouseMD "1..1" -- "0..*" Patient
+HospitalHouseMD "1..1" -- "0..*" Doctor
 HospitalHouseMD "1..1" -- "0..*" Illness
-Patient "1..*" -- "1..*" Doctor
-Doctor "1..1" -- "0..*" Diagnosis
+HospitalHouseMD "1..1" -- "1..1" HeadDoctor
+
+Doctor "0..*" -- "1..*" Patient
+Doctor "0..*" -- "1..1" Diagnosis
+HeadDoctor "0..*" -- "1..1" Diagnosis
 Patient "1..1" -- "0..*" Diagnosis
-HeadDoctor "0..1" -- "0..*" Diagnosis
+
 Illness "1..1" -- "0..*" Treatment
-Treatment "0..*" -- "0..*" Diagnosis
-Patient "0..*" -- "0..*" Consent
-Consent "0..*" -- "0..*" Treatment
-Treatment "1..1" -- "1..1" Stage
-Illness "1..1" -- "1..1" PriorityScore
+
+Treatment "1..1" -- "0..*" AppliedTreatment
+Diagnosis "1..1" -- "0..*" AppliedTreatment
+Patient "1..1" -- "0..*" AppliedTreatment
+
+Patient "1..1" -- "0..1" Consent
+
 Nurse "0..*" -- "0..*" Patient
-Nurse "0..*" -- "0..*" Treatment
-Doctor "0..*" -- "0..*" Treatment
 
 @enduml

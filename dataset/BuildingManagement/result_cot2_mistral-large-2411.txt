@@ -1,24 +1,39 @@
-```plaintext
+```plantuml
 @startuml
+class WebPortal {
+    versionNumber: String
+    urlAddress: String
+}
+class Building {
+    id: String
+    name: String
+    energyClass: String
+    address: String
+    yearOfConstruction: Int
+    owner: User
+}
+class Entry {
+    name: String
+}
+class Image {
+    fileName: String
+}
+class User {
+    userName: String
+    email: String
+    password: String
+}
+class Administrator {
+    idCardNumber: String
+}
+class Comment
 
-class WebPortal{}
-class Catalog{}
-class Building{}
-class User{}
-class Entry{}
-class Image{}
-class Visitor{}
-class Administrator{}
-class Comment{}
-
-Building "1..*" -- "0..1" User
-User "1..*" -- "0..*" Comment
-Building "0..*" -- "0..*" Image
+WebPortal "1..1" -- "0..*" Building
+Building "0..*" -- "1..1" User
 Building "0..*" -- "0..*" Entry
-WebPortal "1..1" -- "1..1" Catalog
-Catalog "0..*" -- "0..*" Building
-WebPortal "1..1" -- "0..*" Visitor
-WebPortal "1..1" -- "0..*" User
-
+Building "0..*" -- "0..*" Image
+Entry "0..*" -- "0..1" User
+User "0..*" -- "0..*" Comment
+Administrator --|> User
 @enduml
 ```

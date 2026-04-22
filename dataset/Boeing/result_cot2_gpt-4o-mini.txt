@@ -1,42 +1,33 @@
 ```plantuml
 @startuml
-class Boeing{}
-class Aircraft{}
-class Airline{}
-class SalesAgreement{}
-class Customer{}
-class Airplane{}
-class Contract{}
-class Acquisition{}
-class DeliveryCondition{}
-class LegalAspect{}
-class Detail{}
-class Model{}
-class Price{}
-class Option{}
-class Customization{}
-class DeliveryDate{}
-class Salesperson{}
-class Employee{}
-class Relationship{}
-class PartnerAirline{}
-class MotherDaughterRelationship{}
+class SalesAgreement {
+    deliveryDate: Date
+}
+class Acquisition {
+    chosenModel: String
+    negotiatedPrice: Float
+    chosenOptions: String
+    chosenCustomizations: String
+    deliveryDate: Date
+}
+class Contract {
+    commonElements: String
+}
+class Employee {
+    isSalesperson: Boolean
+}
 
-Airline "1..*" -- "0..*" Acquisition  
-Airline "1..*" -- "0..*" SalesAgreement  
-SalesAgreement "1..1" -- "1..1" Customer  
-SalesAgreement "1..1" -- "1..1" Contract  
-Contract "1..1" -- "0..*" DeliveryCondition  
-Contract "1..1" -- "0..*" LegalAspect  
-Acquisition "1..*" -- "1..1" Airplane  
-Acquisition "1..1" -- "1..1" Model  
-Acquisition "1..1" -- "1..1" Price  
-Acquisition "0..*" -- "0..*" Option  
-Acquisition "0..*" -- "0..*" Customization  
-Acquisition "1..1" -- "1..1" DeliveryDate  
-Contract "1..*" -- "1..1" Salesperson  
-Salesperson "1..1" -- "0..*" Employee  
-Airline "0..*" -- "0..*" MotherDaughterRelationship  
-Airline "1..1" -- "0..*" PartnerAirline  
+1..* Boeing -- 0..* Airline
+1..* Customer -- 0..* SalesAgreement
+1..1 SalesAgreement -- 1..1 Contract
+1..* Contract -- 1..* Acquisition
+1..* Acquisition -- 1..1 AirplaneModel
+1..1 Acquisition -- 1..1 Price
+0..* Acquisition -- 0..* Option
+0..* Acquisition -- 0..* Customization
+1..1 Contract -- 1..1 DeliveryCondition
+1..1 Salesperson -- 0..* Contract
+1..* Airline -- 0..* Relationship
+1..1 Airline -- 0..* Airline
 @enduml
 ```

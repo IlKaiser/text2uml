@@ -1,0 +1,191 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading the text to understand the entities and their relationships.
+
+First, the Louvre Museum has locations where exhibitions can be held. These locations are like smaller museums within the museum, such as different floors or wings. So, I'll create a class called Location.
+
+Next, each location hosts multiple exhibitions. So, I'll have an Exhibitions class. Since each exhibition is assigned to a location, I'll define a relationship between Location and Exhibitions. The cardinality here is 1:many because one location can have many exhibitions.
+
+Each exhibition has several items. These items are specific pieces or artifacts related to the exhibition's theme. So, I'll create an ExhibitionsItems class. The relationship between Exhibitions and ExhibitionsItems should be many:many because one exhibition can have multiple items, and each item can belong to multiple exhibitions.
+
+Now, each item has a type, which could be a painting, sculpture, etc. So, I'll add a type attribute to the ExhibitionsItems class.
+
+Exhibitions are coordinated by employees. Each exhibition has a coordinator, which is an Employee. So, I'll create a Coordinator class and define a relationship between Exhibitions and Coordinator. The cardinality here is 1:1 because each exhibition has one coordinator.
+
+The system also tracks the pieces sourced from collectors. So, I'll create a Collector class. Each item is sourced from a collector, so there's a relationship between ExhibitionsItems and Collector. The cardinality is 1:1 because each item is sourced from one collector.
+
+Additionally, junior employees are assigned as coaches to senior employees. This relationship is a one-to-many relationship because one junior can have one senior, but a senior can have multiple juniors. So, I'll create a CoachingRelationship class and define the relationship accordingly.
+
+Putting it all together, I'll start by defining the Location class, then Exhibitions, ExhibitionsItems with its type attribute, Coordinator, Collector, and finally the CoachingRelationship. I'll ensure all relationships are correctly defined with the appropriate cardinalities and that all attributes are included where necessary.
+</think>
+
+```plantuml
+@startuml
+
+class Location {
+    String Name
+    String Address
+}
+
+class Exhibitions {
+    String Title
+    String StartDate
+    String EndDate
+}
+
+class ExhibitionsItems {
+    String Type
+}
+
+class Coordinator {
+    String Name
+}
+
+class Collector {
+    String Name
+}
+
+class CoachingRelationship {
+    String JuniorEmployee
+    String SeniorEmployee
+}
+
+Location "0..*" - "1" Exhibitions
+
+Exhibitions "1..*" - "1" Coordinator
+
+Exhibitions "1..*" - "1" ExhibitionsItems
+
+ExhibitionsItems "1" - "1" Collector
+
+Exhibitions "0..*" - "1" CoachingRelationship
+
+@enduml
+```

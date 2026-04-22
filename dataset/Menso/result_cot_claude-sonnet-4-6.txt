@@ -1,0 +1,45 @@
+@startuml
+class Bus {
+  lineNumber: Int
+}
+class BusLine {
+  category: String
+}
+class Trajectory {
+  operationalStartDate: Date
+  suspensionStatus: Boolean
+}
+class LineCategory
+class MensoTicket {
+  validityDuration: Int
+  price: Float
+}
+class Trip {
+  time: Date
+  date: Date
+  line: String
+}
+class Invoice {
+  month: Date
+  totalAmount: Float
+}
+class Customer {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
+class TicketMachine
+class Discount {
+  percentage: Float
+}
+BusLine "1..*" -- "1..*" Trajectory
+BusLine "1..1" -- "1..1" LineCategory
+Bus "0..*" -- "0..*" Trajectory
+MensoTicket "1..1" -- "1..1" Customer
+MensoTicket "0..*" -- "1..1" Trip
+Trip "1..1" -- "1..1" BusLine
+Trip "1..1" -- "1..1" TicketMachine
+Invoice "1..*" -- "1..1" Customer
+Invoice "1..1" -- "1..*" Trip
+Invoice "1..1" -- "0..1" Discount
+@enduml

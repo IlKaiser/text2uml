@@ -1,28 +1,27 @@
-```plantuml
 @startuml
 
-class University{}
-class Faculty{}
-class Institute{}
-class Employee{}
-class Dean{}
-class ResearchAssistant{}
-class AdministrativeStaff{}
-class Project{}
-class Course{}
-class Lecturer{}
+class University{ }
+class Faculty{ String Name}
+class Institute{ String Name, String Address }
+class Employee{ int SSN, String Name, String Email }
+class Dean{ }
+class ResearchAssistant{ String FieldOfResearch }
+class AdministrativeStaff{ }
+class Project{ String Name, Date StartDate, Date EndDate }
+class Lecturer{ }
+class Course{ int ID, String Name, int WeeklyDuration }
+
+Dean --|> Employee
+ResearchAssistant --|> Employee
+AdministrativeStaff --|> Employee
+Lecturer --|> ResearchAssistant
 
 University "1..1" -- "1..*" Faculty
 Faculty "1..1" -- "1..*" Institute
 Faculty "1..1" -- "1..1" Dean
-Dean "1..1" -- "1..1" Employee
-Employee "1..1" -- "1..1" ResearchAssistant
-Employee "1..1" -- "1..1" AdministrativeStaff
+University "1..1" -- "1..*" Employee
 Institute "1..1" -- "1..*" ResearchAssistant
-ResearchAssistant "1..1" -- "0..*" Project
-ResearchAssistant "1..1" -- "0..*" Lecturer
-Project "1..1" -- "1..*" ResearchAssistant
-Lecturer "1..1" -- "0..*" Course
+ResearchAssistant "0..*" -- "1..*" Project
+ResearchAssistant "0..*" -- "1..*" Course
 
 @enduml
-```

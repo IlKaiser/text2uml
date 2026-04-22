@@ -1,34 +1,70 @@
-```plantuml
 @startuml
 
-class HeadCoach{}
-class Director{}
-class Scout{}
-class DesignatedPlayerProfile{}
-class DesignatedTargetPosition{}
-class PlayerAttribute{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class ShortList{}
-class Player{}
-class ProsAndCons{}
-class Recommendation{}
-class Offer{}
+class ClubEmployee {
+  String Name
+  String Role
+}
 
-HeadCoach "1..1" -- "1..*" DesignatedPlayerProfile
-DesignatedPlayerProfile "1..1" -- "1..*" DesignatedTargetPosition
-DesignatedPlayerProfile "1..1" -- "1..*" PlayerAttribute
+class HeadCoach {
+  String Name
+}
+
+class Director {
+  String Name
+}
+
+class Scout {
+  String Name
+}
+
+class PlayerProfile {
+  String Name
+  String Position
+  String AttributeName
+  String AttributeValue
+}
+
+class LongList {
+  String PlayerName
+}
+
+class ScoutingAssignment {
+  String PlayerName
+  String ScoutName
+}
+
+class ScoutingReport {
+  String PlayerName
+  String Pros
+  String Cons
+  String Recommendation
+}
+
+class ShortList {
+  String PlayerName
+}
+
+class OfficialOffer {
+  String PlayerName
+  String OfferDetails
+}
+
+HeadCoach --|> ClubEmployee
+Director --|> ClubEmployee
+Scout --|> ClubEmployee
+
+HeadCoach "1..1" -- "1..*" PlayerProfile
+PlayerProfile "1..1" -- "0..*" LongList
 Scout "1..1" -- "1..*" LongList
-HeadScout "1..1" -- "1..*" ScoutingAssignment
-ScoutingAssignment "1..1" -- "1..*" ScoutingReport
-ScoutingReport "1..1" -- "1..1" ProsAndCons
-ScoutingReport "1..1" -- "1..1" Recommendation
-HeadCoach "1..1" -- "1..*" ShortList
-HeadScout "1..1" -- "1..*" ScoutingAssignment
-Player "1..1" -- "1..*" ScoutingReport
-HeadScout "1..1" -- "0..*" Offer
-Director "1..1" -- "0..*" Offer
+Scout "1..1" -- "1..*" ScoutingAssignment
+ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+HeadCoach "1..1" -- "1..*" ScoutingReport
+HeadScout "1..1" -- "1..*" ScoutingReport
+ScoutingReport "1..1" -- "0..*" ShortList
+HeadScout "1..1" -- "1..*" ShortList
+Scout "1..1" -- "1..*" ShortList
+Director "1..1" -- "1..*" ShortList
+ShortList "1..1" -- "1..*" OfficialOffer
+Director "1..1" -- "1..*" OfficialOffer
 
 @enduml
-```

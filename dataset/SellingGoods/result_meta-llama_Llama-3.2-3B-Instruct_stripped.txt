@@ -1,0 +1,88 @@
+```plantuml
+@startuml
+class Customer {
+    String Address
+    String VATNumber
+}
+
+class Product {
+    String Name
+    String Description
+    String StockLevel
+}
+
+class OrderLine {
+    Integer Quantity
+    Product Product
+    String Status
+}
+
+class Order {
+    Customer Customer
+    List<OrderLine> OrderLines
+    String PaymentStatus
+    String ShipmentStatus
+}
+
+class Warehouse {
+    String Address
+}
+
+class Supermarket {
+    String Name
+    List<Warehouse> Warehouses
+}
+
+class Invoice {
+    Order Order
+    String PaymentMethod
+    String PaymentStatus
+}
+
+class Delivery {
+    Order Order
+    String Status
+    String DeliveryDate
+}
+
+class DeliveryService {
+    String Name
+    String Status
+}
+
+class CustomerAddress {
+    Customer Customer
+    String Address
+}
+
+class OrderLineStatus {
+    OrderLine OrderLine
+    String Status
+}
+
+Customer "0..*" -- "1..*" Order
+Order "1..*" -- "1..*" OrderLine
+Order "1..*" -- "1..*" Invoice
+Order "1..*" -- "1..*" Delivery
+Order "1..*" -- "1..*" DeliveryService
+Order "1..*" -- "1..*" CustomerAddress
+OrderLine "1..*" -- "1..*" OrderLineStatus
+Product "0..*" -- "1..*" OrderLine
+OrderLine "1..*" -- "1..*" Delivery
+Delivery "1..*" -- "1..*" DeliveryService
+Delivery "1..*" -- "1..*" Order
+Supermarket "0..*" -- "1..*" Order
+Supermarket "0..*" -- "1..*" Invoice
+Supermarket "0..*" -- "1..*" Delivery
+Supermarket "0..*" -- "1..*" DeliveryService
+CustomerAddress "1..*" -- "1..*" Order
+CustomerAddress "1..*" -- "1..*" Invoice
+CustomerAddress "1..*" -- "1..*" Delivery
+CustomerAddress "1..*" -- "1..*" DeliveryService
+Invoice "1..*" -- "1..*" PaymentMethod
+Invoice "1..*" -- "1..*" PaymentStatus
+DeliveryService "1..*" -- "1..*" Status
+DeliveryService "1..*" -- "1..*" Name
+OrderLineStatus "1..*" -- "1..*" Status
+@enduml
+```

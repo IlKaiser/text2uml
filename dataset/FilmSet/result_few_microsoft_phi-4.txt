@@ -1,0 +1,60 @@
+```plantuml
+@startuml
+
+class Employee {
+    String Name
+    String SocialSecurityNumber
+}
+
+class CreativeEmployee extends Employee {
+}
+
+class Director extends CreativeEmployee {
+    String AssistantName
+    Boolean IsOscarWinner
+}
+
+class Actor extends CreativeEmployee {
+    String Education
+    Boolean IsOscarWinner
+}
+
+class Technician extends Employee {
+    String FieldOfActivity
+}
+
+class FilmSet {
+    String Location
+}
+
+class Film {
+    String Title
+    Int YearOfRelease
+    String Genre
+}
+
+class Screenwriter {
+    String Name
+    String MostSuccessfulFilm
+}
+
+class Screenplay {
+    String Title
+    String Version
+    Date Date
+    Int NumberOfScenes
+    String Plot
+}
+
+class Novel {
+    String Title
+    String Author
+}
+
+FilmSet "1" -- "0..*" Film
+Film "1" -- "1" Screenplay
+Screenplay "1" -- "1" Screenwriter
+Screenplay "0..1" -- "1" Novel
+
+@enduml
+```

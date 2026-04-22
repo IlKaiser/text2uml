@@ -1,23 +1,24 @@
 
 @startuml
 
-class Cruise{}
-class Provider{}
-class Employee{}
-class Guest{}
-class Ship{}
-class TravelAgency{}
-class DestinationArea{}
-class Show{}
-class Ticket{}
+class Provider{ String Name, String Location }
+class Cruise{ String Number, String Name, Date StartDate, Date EndDate }
+class Employee{ String Name, String SSN }
+class Guest{ String Name, boolean IsVIP }
+class Ship{ String ShipName, int NumDecks, int ShipLength, int NumPassengers }
+class TravelAgency{ String Name, String Address }
+class DestinationArea{ String Name, String SeaName }
+class Show{ String Title, int Duration }
+class Ticket{ }
 
 Cruise "1..1" -- "1..*" Employee
-Cruise "1..*" -- "1..*" Guest
-Cruise "1..*" -- "1..1" Ship
-Cruise "1..*" -- "1..1" TravelAgency
+Cruise "1..1" -- "0..*" Guest
+Cruise "1..*" -- "0..*" Ship
+Cruise "1..*" -- "1..*" Ticket
+Cruise "1..*" -- "0..*" Show
+Cruise "1..1" -- "1..1" TravelAgency
 Cruise "1..1" -- "1..*" DestinationArea
-Cruise "1..*" -- "1..*" Show
-Cruise "1..*" -- "0..*" Ticket
-Guest "1..*" -- "0..*" Ticket
+
+Guest "1..1" -- "0..*" Ticket
 
 @enduml

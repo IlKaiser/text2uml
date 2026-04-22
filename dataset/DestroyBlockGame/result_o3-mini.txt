@@ -1,24 +1,49 @@
 @startuml
+class User { 
+  String username
+  String password
+}
 
-class User{}
-class Game{}
-class HallOfFame{}
-class Block{}
-class Level{}
-class Ball{}
-class Paddle{}
-class SavedGame{}
+class Game { 
+  String name
+  int blocksAtStart
+  int minSpeed
+  int speedIncreaseFactor
+  int maxPaddleLength
+  int minPaddleLength
+}
 
-Game "1" -- "1" HallOfFame
-Game "1" -- "1..*" Block
-Game "1" -- "1..99" Level
-Level "1" -- "1..*" Block
-Game "1" -- "0..*" User
-User "0..*" -- "0..*" Game
-User "1" -- "0..*" SavedGame
-Game "1" -- "0..*" SavedGame
-SavedGame "1" -- "1" Ball
-SavedGame "1" -- "1" Paddle
-Level "1" -- "0..*" SavedGame
+class Block { 
+  String color
+  int points
+}
 
+class Level { 
+  int levelNumber
+  boolean isRandom
+}
+
+class GridCell { 
+  int column
+  int row
+}
+
+class HallOfFame { 
+}
+
+class Score { 
+  int totalScore
+}
+
+Game "1..1" -- "1..1" HallOfFame
+Game "1..1" -- "0..*" Level
+Level "1..1" -- "0..*" GridCell
+GridCell "1..1" -- "1..1" Block
+
+Game "1..1" -- "1..1" User
+Game "1..1" -- "0..*" User
+
+HallOfFame "1..1" -- "0..*" Score
+Score "1..1" -- "1..1" User
+Score "1..1" -- "1..1" Game
 @enduml

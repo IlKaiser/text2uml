@@ -1,21 +1,46 @@
+```plantuml
 @startuml
 
-class Person{}
-class Trainer{}
-class Member{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
-class Center{}
-class Room{}
+class Center {
+  String name
+  String address
+}
 
-Person "1..1" -- "0..*" Member
-Person "1..1" -- "0..*" Trainer
-Trainer "0..1" -- "0..*" GroupSession
-Member "0..*" -- "0..*" Session
+class Room {
+  Integer roomNumber
+  Integer maxCapacity
+}
+
+class Person {
+  String firstName
+  String familyName
+  Date birthDate
+}
+
+class Trainer {
+  String diploma
+}
+
+class Session {
+  Date date
+  Time startHour
+}
+
+class IndividualSession {
+}
+
+class GroupSession {
+  String type
+}
+
 Center "1..1" -- "1..*" Room
+Center "1..1" -- "0..*" Session
 Room "1..1" -- "0..*" Session
-Session "1..1" -- "0..1" GroupSession
-Session "1..1" -- "0..1" IndividualSession
+Person "0..*" -- "0..*" Session
+Trainer "0..1" -- "0..*" GroupSession
+Person <|-- Trainer
+Session <|-- IndividualSession
+Session <|-- GroupSession
 
 @enduml
+```

@@ -1,24 +1,72 @@
 @startuml
-class Sober{}
-class SelfDrivingCar{}
-class CarOwner{}
-class RideHailService{}
-class RideSharingService{}
-class Customer{}
-class SoberApp{}
-class ImageRecognitionSystem{}
-class Request{}
-class Accident{}
+class Sober {
+  fleet: String
+  carOwners: String
+  soberAppName: String
+  imageRecognitionSystem: String
+  ecoIncentiveThreshold: Int
+  accidentRecords: String
+  rideHailMaxPassengers: Int
+  rideShareMaxPassengers: Int
+  defaultRequestType: String
+}
+class CarOwner
+class Cab
+class SelfDrivingCar
+class Fleet
+class Location
+class Booking {
+  pickupTime: Date
+  dropoffTime: Date
+  pickupLocation: String
+  dropoffLocation: String
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  fee: Float
+  requestType: String
+  leadCustomerName: String
+  leadCustomerPhone: String
+  customerNames: String
+  negotiatedFee: Float
+}
+class Customer
+class SoberApp {
+  appName: String
+}
+class ImageRecognitionSystem {
+  waveGestureEnabled: Boolean
+}
+class WaveGesture
+class EcoFriendlyIncentive {
+  treePlantingThreshold: Int
+}
+class Accident {
+  date: Date
+  location: String
+  damageAmount: Float
+  carId: String
+}
+class CarRegistration
+class CarModel
+class ServiceType
+class Pricing
 
-Sober "1..*" -- "1..*" SelfDrivingCar
-CarOwner "0..*" -- "0..*" SelfDrivingCar
-SelfDrivingCar "0..1" -- "0..1" CarOwner
-Sober "1..*" -- "1..*" RideHailService
-Sober "1..*" -- "1..*" RideSharingService
-RideHailService "0..*" -- "0..*" Request
-RideSharingService "0..*" -- "0..*" Request
-SoberApp "0..*" -- "0..*" Request
-ImageRecognitionSystem "0..*" -- "0..*" Request
-Request "0..*" -- "0..*" Customer
-SelfDrivingCar "0..*" -- "0..*" Accident
+Sober "1..1" -- "1..1" Fleet
+Fleet "1..*" -- "1..*" SelfDrivingCar
+CarOwner "0..*" -- "0..*" CarRegistration
+CarRegistration "1..1" -- "1..1" CarModel
+CarRegistration "1..1" -- "1..1" Cab
+Booking "1..1" -- "1" Location
+Booking "1..1" -- "1" Customer
+Booking "1..1" -- "1" SoberApp
+Booking "0..1" -- "0..1" WaveGesture
+ImageRecognitionSystem "0..*" -- "0..*" WaveGesture
+Booking "1..1" -- "1" Pricing
+Booking "1..1" -- "1" ServiceType
+Customer "0..1" -- "0..1" EcoFriendlyIncentive
+Cab "0..*" -- "0..*" Accident
+Accident "0..*" -- "0..*" Cab
+EcoFriendlyIncentive "0..1" -- "0..1" Customer
+SelfDrivingCar --|> Cab
 @enduml

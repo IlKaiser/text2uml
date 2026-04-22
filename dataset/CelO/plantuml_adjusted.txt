@@ -1,0 +1,66 @@
+@startuml
+
+
+class Person {
+    String LastName
+    String FirstName
+    String EmailAddress
+    String Password
+}
+
+abstract class PersonRole {}
+
+class Organizer {
+    String Address
+    String PhoneNumber
+}
+
+class Attendee {}
+
+class TaskStatus {
+    CompletionStatus status
+}
+
+class Registration {
+    AttendeeStatus Status
+}
+
+class CheckListTask {
+    String Description
+}
+
+class Location {
+    String Name
+    String Address
+}
+
+class Event {
+    String Occasion
+    Date StartTime
+    Date EndTime
+}
+
+class EventType {
+    String Name
+}
+
+PersonRole "0..*" -- "0..*" Organizer
+PersonRole "0..*" -- "0..*" Attendee
+
+Person "1" -- "0..*" PersonRole
+
+Organizer "1..*" -- "0..*" Event
+Attendee "0..1" -- "0..*" TaskStatus
+
+Attendee "0..*" - "0..*" Event
+Attendee .. Registration
+Attendee .. Event
+
+Event "0..*" - "0..*" CheckListTask
+Event .. TaskStatus
+Event .. CheckListTask
+
+Location "1" -- "0..*" Event
+EventType "1" -- "0..*" Event
+EventType "1" -- "0..*" CheckListTask
+@enduml

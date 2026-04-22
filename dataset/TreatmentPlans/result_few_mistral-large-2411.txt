@@ -1,33 +1,39 @@
-```plantuml
 @startuml
 
-class Hospital {}
-class Doctor {}
-class Patient {}
-class Problem {}
-class TreatmentPlan {}
-class Examination {}
-class ExaminationType {}
-class Permission {}
-class MedicalAction {}
-class Diagnosis {}
-class ActualTreatment {}
+class Doctor {
+    String Name
+}
+class Patient {
+    String Name
+}
+class Hospital {
+    String Name
+}
+class ExaminationType {
+    String Type
+}
+class Examination {
+    String Result
+}
+class TreatmentPlan {
+    String ProblemType
+}
+class ActualTreatment {
+    String Diagnosis
+}
+class Permission {
+    String Type
+}
 
+Doctor "1" -- "0..*" Patient
+Patient "1" -- "0..*" Examination
 Hospital "1" -- "0..*" Doctor
-Hospital "1" -- "0..*" Patient
 Hospital "1" -- "0..*" Permission
-Hospital "1" -- "0..*" Examination
-Doctor "1" -- "0..*" Diagnosis
-Doctor "1" -- "0..*" ActualTreatment
-Patient "1" -- "0..*" Diagnosis
-Patient "1" -- "0..*" ActualTreatment
-Problem "1" -- "0..*" TreatmentPlan
+Hospital "1" -- "0..*" TreatmentPlan
+ExaminationType "1" -- "0..*" Examination
 TreatmentPlan "1" -- "0..*" ExaminationType
-Examination "1" -- "1" ExaminationType
-ExaminationType "1" -- "0..*" Permission
+ActualTreatment "1" -- "0..*" TreatmentPlan
 ActualTreatment "1" -- "0..*" Examination
-ActualTreatment "1" -- "0..*" MedicalAction
-Diagnosis "1" -- "1" Problem
+Permission "1" -- "0..*" ExaminationType
 
 @enduml
-```

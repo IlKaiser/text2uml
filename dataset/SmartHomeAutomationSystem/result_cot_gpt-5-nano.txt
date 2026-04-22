@@ -1,33 +1,66 @@
 @startuml
-class SHAS{}
-class Room{}
-class Device{}
-class Sensor{}
-class Actuator{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class InfrastructureMap{}
-class AutomationRule{}
-class User{}
-class RuleTrigger{}
+class SmartHomeAutomationSystem
+class User
+class Owner
+class SmartHome {
+  address: String
+}
+class Room
+class Device
+class Sensor {
+  deviceIdentifier: String
+}
+class Actuator {
+  deviceIdentifier: String
+}
+class SensorReading {
+  value: Float
+  timestamp: Date
+}
+class ControlCommand {
+  timestamp: Date
+  status: String
+  commandName: String
+}
+class ActivityLog
+class AutomationRule {
+  precondition: String
+  action: String
+  isActive: Boolean
+  lastTriggeredAt: Date
+}
+class BooleanExpression
+class RelationalTerm
+class AutomationAction {
+  commands: String
+}
+class RuleTrigger {
+  timestamp: Date
+}
 
-SHAS "1..*" -- "1..1" User
-SHAS "1..*" -- "1..1" Room
+Sensor --|> Device
+Actuator --|> Device
+Owner --|> User
+
+SmartHomeAutomationSystem "0..*" -- "0..*" User
+SmartHomeAutomationSystem "1..1" -- "1..1" SmartHome
+SmartHome "1..*" -- "1..1" Room
 Room "0..*" -- "1..1" Sensor
 Room "0..*" -- "1..1" Actuator
 Sensor "0..*" -- "1..1" SensorReading
-Sensor "1..1" -- "1..1" Device
-Actuator "1..1" -- "1..1" Device
-ControlCommand "1..1" -- "0..*" Actuator
-SensorReading "1..1" -- "0..*" ActivityLog
-ControlCommand "1..1" -- "0..*" ActivityLog
-SHAS "0..*" -- "1..1" ActivityLog
-SHAS "1..1" -- "1..1" InfrastructureMap
-InfrastructureMap "1..*" -- "1..1" Sensor
-InfrastructureMap "1..*" -- "1..1" Actuator
-AutomationRule "1..1" -- "0..*" User
-SHAS "0..*" -- "1..1" AutomationRule
-AutomationRule "1..1" -- "0..*" RuleTrigger
-AutomationRule "0..*" -- "1..1" ControlCommand
+Actuator "0..*" -- "1..1" ControlCommand
+ActivityLog "0..*" -- "1..1" SensorReading
+ActivityLog "0..*" -- "1..1" ControlCommand
+AutomationRule "1..1" -- "1..1" BooleanExpression
+AutomationRule "1..1" -- "1..1" AutomationAction
+AutomationAction "0..*" -- "1..1" ControlCommand
+BooleanExpression "1..*" -- "1..1" RelationalTerm
+RelationalTerm "0..*" -- "1..1" Room
+RelationalTerm "0..*" -- "1..1" Sensor
+RelationalTerm "0..*" -- "1..1" Actuator
+RelationalTerm "0..*" -- "1..1" SensorReading
+RelationalTerm "0..*" -- "1..1" ControlCommand
+RuleTrigger "0..*" -- "1..1" AutomationRule
+Owner "0..*" -- "1..1" AutomationRule
+ActivityLog "0..*" -- "1..1" SmartHome
 @enduml

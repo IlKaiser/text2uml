@@ -1,0 +1,50 @@
+@startuml
+
+class Customer {
+    String HeadOfficeAddress
+    String VatNumber
+}
+class Product {
+    String Name
+    Int StockLevel
+}
+class Order {
+    Date PaidDate
+}
+class OrderLine {
+    Int QuantityOrdered
+}
+class DeliveryAddress {
+    String Street
+    String City
+    String PostalCode
+    String Country
+    String Name
+}
+class Invoice {
+    Date InvoiceDate
+    Double TotalAmount
+    Date PaymentDueDate
+}
+class Shipment {
+    String Status
+    Date PackedDate
+    Date ShippedDate
+    Date ReceivedDate
+}
+class ShipmentLine {
+    Int Quantity
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "1..*" OrderLine
+OrderLine "0..*" -- "1" Product
+Customer "1" -- "0..*" DeliveryAddress
+DeliveryAddress "1" -- "0..*" Order
+Customer "1" -- "0..*" Invoice
+Order "1" -- "1" Invoice
+Order "1" -- "0..*" Shipment
+Shipment "1" -- "1..*" ShipmentLine
+OrderLine "1" -- "0..*" ShipmentLine
+
+@enduml

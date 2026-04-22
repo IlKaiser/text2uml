@@ -1,0 +1,63 @@
+@startuml
+
+class AlphaInsurance {
+}
+class Customer {
+    - name
+    - contract
+}
+class Broker {
+    - name
+    - registration
+}
+class InsurancePolicy {
+    - type
+}
+class HeadOffice {
+}
+class Claim {
+    - insured_event
+}
+class ClaimCase {
+    - case_number
+    - type
+    - status
+}
+class Estimator {
+    - name
+    - expertise
+}
+class Contract {
+    - signing_date
+    - product
+    - signatures
+    - invoice_frequency
+    - price
+}
+class InsuranceProduct {
+    - name
+    - price
+}
+class Invoice {
+    - due_date
+    - amount
+}
+class Compensation {
+    - claim_case
+    - decision
+    - eligible_costs
+    - sum
+    - payment_date
+}
+
+Broker "1" -- "1" Customer
+Customer "1" -- "0..*" InsurancePolicy
+InsurancePolicy "1" -- "1" HeadOffice
+Customer "1" -- "0..*" Claim
+Claim "1" -- "1" ClaimCase
+ClaimCase "1" -- "0..*" Estimator
+Estimator "0..*" -- "0..*" ClaimCase
+Claim "1" -- "1" Compensation
+Compensation "1" -- "1" Customer
+
+@enduml

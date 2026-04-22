@@ -1,24 +1,50 @@
-Here is the PlantUML model based on your class and cardinality lists:
-
 ```plantuml
 @startuml
 
-class Museum{}
-class Location{}
-class Exhibition{}
-class Employee{}
-class ExhibitionItem{}
-class Collector{}
-class Piece{}
-class Coaching{}
+class Museum {
+    name: String
+    location: String
+}
 
-Museum "1..*" -- "*..1" Location
-Location "1..*" -- "*..1" Exhibition
-Exhibition "1..1" -- "1..1" Employee
-Exhibition "1..*" -- "*..1" ExhibitionItem
-ExhibitionItem "1..*" -- "*..1" Piece
-ExhibitionItem "1..*" -- "*..1" Collector
-Employee "0..1" -- "1..1" Employee
+class Location {
+    name: String
+    capacity: Int
+}
+
+class Exhibition {
+    openingDate: Date
+    coordinator: Employee
+}
+
+class Employee {
+}
+
+class ExhibitionItem {
+    desiredItem: String
+    pieces: Piece
+}
+
+class Collector {
+    name: String
+    pieces: Piece
+}
+
+class Piece {
+    title: String
+    artist: String
+    year: Int
+}
+
+class Coaching {
+    juniorEmployee: Employee
+    seniorEmployee: Employee
+}
+
+Museum "1..*" -- "1..1" Location.
+Location "1..*" -- "1..1" Exhibition.
+Exhibition "1..1" -- "1..1" Employee.
+ExhibitionItem "1..*" -- "1..1" Collector.
+Employee "0..*" -- "1..1" Employee.
 
 @enduml
 ```

@@ -1,14 +1,26 @@
 @startuml
 
-class Student{}
-class Course{}
-class Appointment{}
-class TeachingAssistant{}
+class Student{
+    String studentId
+    String name
+}
+class Course{
+    String courseCode
+    String title
+}
+class TeachingAssistant{
+    String taId
+    String name
+}
+class Appointment{
+    DateTime scheduledTime
+    String topic
+}
 
 Student "0..*" -- "0..*" Course
 TeachingAssistant "0..*" -- "0..*" Course
-Student "0..*" -- "1..*" Appointment
-TeachingAssistant "0..*" -- "1..1" Appointment
-Course "0..*" -- "1..1" Appointment
+Student "1" -- "0..*" Appointment
+TeachingAssistant "1" -- "0..*" Appointment
+Appointment "1" -- "0..*" Course
 
 @enduml

@@ -1,0 +1,72 @@
+```plantuml
+@startuml
+
+class Hospital {
+    permissions: List[String]
+}
+
+class Doctor {
+}
+
+class Patient {
+}
+
+class Examination {
+    type: String
+}
+
+class CardiologicTest {
+}
+
+class Echography {
+}
+
+class Radiology {
+}
+
+class Scanner {
+}
+
+class TreatmentPlan {
+    problem: String
+    advisedExaminations: List[String]
+}
+
+class Problem {
+}
+
+class Diagnosis {
+}
+
+class ActualTreatment {
+    examinations: List[String]
+    medicalActions: List[String]
+}
+
+class MedicalAction {
+}
+
+class Permission {
+}
+
+Hospital "0..*" -- "*" Doctor
+Doctor "0..*" -- "*" Patient
+Doctor "0..*" -- "*" Examination
+Hospital "0..*" -- "*" Examination
+Problem "0..*" -- "*" TreatmentPlan
+TreatmentPlan "1..*" -- "*" Examination
+Doctor "0..*" -- "*" Diagnosis
+Problem "0..*" -- "*" Diagnosis
+Diagnosis "1..*" -- "*" TreatmentPlan
+TreatmentPlan "1..*" -- "*" ActualTreatment
+ActualTreatment "0..*" -- "*" Examination
+ActualTreatment "0..*" -- "*" MedicalAction
+Doctor "0..*" -- "*" ActualTreatment
+
+CardiologicTest --|> Examination
+Echography --|> Examination
+Radiology --|> Examination
+Scanner --|> Examination
+
+@enduml
+```

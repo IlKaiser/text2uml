@@ -1,41 +1,107 @@
 @startuml
-class OilCompany{}
-class GasStation{}
-class GasStationResponsible{}
-class Pump{}
-class Reservoir{}
-class Nozzle{}
-class FuelType{}
-class Customer{}
-class Car{}
-class FuelCard{}
-class RefuelTurn{}
-class Invoice{}
-class InvoiceItem{}
-class Payment{}
-class CustomerSuspension{}
-class DailyReport{}
-class RefillOrder{}
+class OilCompany {
+  numberOfGasStations: Int
+}
+class GasStation {
+  numberOfPumps: Int
+}
+class Pump {
+  fuelType: String
+  isAvailable: Boolean
+  isBlocked: Boolean
+}
+class Reservoir {
+  currentLevel: Float
+  reorderLevel: Float
+  criticalLevel: Float
+}
+class FuelType {
+  name: String
+}
+class Customer
+class Car
+class RefuelTurn {
+  startTime: Date
+  endTime: Date
+  date: Date
+  amount: Float
+}
+class FuelCard
+class CreditCard
+class Invoice {
+  month: Date
+  sent: Boolean
+  totalAmount: Float
+  discountAmount: Float
+  isPaid: Boolean
+}
+class InvoiceItem {
+  amount: Float
+}
+class Payment {
+  amount: Float
+  date: Date
+  method: String
+}
+class Discount {
+  amount: Float
+}
+class Turnover {
+  amount: Float
+  month: Date
+}
+class AccountState {
+  state: String
+}
+class Suspension {
+  startDate: Date
+  endDate: Date
+  isActive: Boolean
+}
+class BlockEvent {
+  startTime: Date
+  endTime: Date
+  reason: String
+  temporary: Boolean
+}
+class RefillOrder {
+  orderDate: Date
+  quantity: Float
+}
+class DailyReport {
+  date: Date
+}
+class PumpReportEntry {
+  currentLevel: Float
+  quantityToOrder: Float
+  needsRefill: Boolean
+}
 
-OilCompany "1..1" -- "0..*" GasStation
-GasStationResponsible "1..1" -- "0..*" GasStation
-GasStation "1..1" -- "0..*" Pump
-Pump "1..1" -- "1..1" Reservoir
-Pump "1..1" -- "1..1" Nozzle
-Nozzle "1..1" -- "0..*" RefuelTurn
-Car "1..1" -- "0..*" RefuelTurn
-Customer "1..1" -- "0..*" Car
-Customer "1..1" -- "0..*" FuelCard
-FuelCard "0..1" -- "0..*" RefuelTurn
-Pump "1..1" -- "0..*" RefuelTurn
-FuelType "1..1" -- "0..*" RefuelTurn
-Invoice "1..1" -- "0..*" InvoiceItem
-RefuelTurn "1..1" -- "0..1" InvoiceItem
-Invoice "1..1" -- "0..*" Payment
-Customer "1..1" -- "0..*" Invoice
-Customer "1..1" -- "0..1" CustomerSuspension
-DailyReport "1..1" -- "0..*" Pump
-Reservoir "1..1" -- "0..*" RefillOrder
-GasStationResponsible "1..1" -- "0..*" Pump
-FuelCard "0..1" -- "0..*" Invoice
+OilCompany "1..1" -- "0..*" GasStation.
+GasStation "1..1" -- "0..*" Pump.
+Pump "1..1" -- "1..1" Reservoir.
+Pump "0..*" -- "1..1" FuelType.
+Customer "1..1" -- "0..*" Car.
+Customer "1..1" -- "0..*" FuelCard.
+Customer "1..1" -- "0..*" RefuelTurn.
+Car "1..1" -- "0..*" RefuelTurn.
+Pump "1..1" -- "0..*" RefuelTurn.
+FuelCard "0..1" -- "0..*" RefuelTurn.
+FuelCard "1..1" -- "0..*" Invoice.
+Invoice "1..1" -- "0..*" InvoiceItem.
+InvoiceItem "1..1" -- "1..1" RefuelTurn.
+Invoice "1..1" -- "0..*" Payment.
+Customer "1..1" -- "0..*" Invoice.
+Payment "0..*" -- "0..1" CreditCard.
+Customer "1..1" -- "0..*" Payment.
+Reservoir "1..1" -- "0..*" RefillOrder.
+DailyReport "1..1" -- "0..*" PumpReportEntry.
+PumpReportEntry "1..1" -- "1..1" Pump.
+Pump "1..1" -- "0..*" BlockEvent.
+FuelCard "1..1" -- "0..*" BlockEvent.
+Customer "1..1" -- "0..*" Suspension.
+Customer "1..1" -- "0..*" Turnover.
+Invoice "1..1" -- "0..1" Discount.
+
+Suspension --|> AccountState.
 @enduml

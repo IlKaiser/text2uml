@@ -1,39 +1,60 @@
 ```plantuml
 @startuml
-class Company{}
-class Customer{}
-class Address{}
-class VATNumber{}
-class Product{}
-class Stock{}
-class Order{}
-class OrderLine{}
-class Quantity{}
-class Payment{}
-class Delivery{}
-class Shipment{}
-class Invoice{}
-class Warehouse{}
-class HeadOffice{}
-class Watchlist{}
-class DeliveryService{}
-class Status{}
+class Company {
+}
+class Customer {
+    address: String
+    VATNumber: String
+}
+class Address {
+}
+class VATNumber {
+}
+class Product {
+    stock: Int
+}
+class Order {
+    paid: Boolean
+    shipped: Boolean
+}
+class OrderLine {
+    quantity: Int
+}
+class Quantity {
+}
+class Payment {
+}
+class Delivery {
+    status: String
+}
+class Shipment {
+}
+class Invoice {
+}
+class Warehouse {
+    headOfficeAddress: String
+    deliveryAddress: String
+}
+class HeadOffice {
+}
+class Watchlist {
+}
+class Status {
+}
+class DeliveryService {
+}
 
-"1..*" Company -- "0..*" Customer  
-"1..1" Customer -- "0..1" Address  
-"1..1" Customer -- "1..1" VATNumber  
-"1..*" Product -- "0..*" Stock  
-"1..*" Order -- "1..*" OrderLine  
-"1..1" OrderLine -- "1..1" Product  
-"1..1" OrderLine -- "1..1" Quantity  
-"1..1" Order -- "1..1" Payment  
-"1..1" Order -- "1..1" Delivery  
-"1..1" Delivery -- "1..*" Shipment  
-"1..1" Shipment -- "1..1" Status  
-"1..1" Order -- "0..1" Invoice  
-"0..*" Company -- "0..*" Warehouse   
-"1..1" Customer -- "0..1" HeadOffice  
-"1..1" Customer -- "0..*" Address  
-"1..1" DeliveryService -- "0..*" Delivery  
+Company "1..*" -- "0..*" Customer
+Customer "0..*" -- "0..1" Address
+Customer "0..1" -- "1..1" VATNumber
+Customer "1..*" -- "0..*" Order
+Order "1..*" -- "1..*" OrderLine
+OrderLine "1..*" -- "1..1" Product
+Order "1..*" -- "0..1" Invoice
+Order "1..*" -- "1..*" Shipment
+Shipment "1..*" -- "0..1" Delivery
+OrderLine "1..*" -- "0..*" DeliveryService
+Customer "0..1" -- "0..1" Address
+Company "1..1" -- "0..1" Address
 @enduml
 ```

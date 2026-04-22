@@ -1,0 +1,125 @@
+```plantuml
+@startuml
+
+class Doctor {
+  practitioner number: Int
+  signature: String
+  full name: String
+  address: Address
+  phone number: PhoneNumber
+}
+
+class Patient {
+  health number: HealthNumber
+  first name: String
+  last name: String
+  date of birth: Date
+  address: Address
+  phone number: PhoneNumber
+}
+
+class Requisition {
+  valid date: Date
+  repetition pattern: RepetitionPattern
+  signature: Signature
+}
+
+class Test {
+  duration: Int
+}
+
+class GroupOfTests {
+}
+
+class Lab {
+  address: Address
+  business hours: BusinessHours
+  registration number: String
+}
+
+class Appointment {
+  confirmation number: String
+  date: Date
+  start time: Date
+  end time: Date
+  lab name: String
+}
+
+class Sample {
+}
+
+class Result {
+  outcome: String
+}
+
+class Report {
+}
+
+class Confirmation {
+}
+
+class LabNetwork {
+}
+
+class Practitioner {
+}
+
+class Signature {
+  image: String
+}
+
+class Address {
+  street: String
+  city: String
+  postal code: String
+  country: String
+}
+
+class PhoneNumber {
+  number: String
+}
+
+class HealthNumber {
+  number: String
+}
+
+class RepetitionPattern {
+  interval: String
+}
+
+class BusinessHours {
+  start time: Date
+  end time: Date
+}
+
+class ChangeCancellationFee {
+  fee: Float
+}
+
+1..* Doctor -- 1..1 Requisition
+1..1 Requisition -- 1..1 Doctor
+1..1 Requisition -- 1..1 Patient
+0..* Patient -- 1..* Requisition
+0..* Requisition -- 1..1 Test
+1..1 Test -- 1..1 GroupOfTests
+0..1 Requisition -- 0..1 RepetitionPattern
+0..1 Requisition -- 0..1 Appointment
+1..1 Appointment -- 1..1 Patient
+1..1 Appointment -- 1..1 Lab
+1..1 Appointment -- 1..1 Confirmation
+1..1 Confirmation -- 1..1 Appointment
+0..* Patient -- 0..* Appointment
+1..* Lab -- 1..* BusinessHours
+1..1 Appointment -- 1..1 BusinessHours
+0..1 Appointment -- 0..1 ChangeCancellationFee
+1..1 Doctor -- 1..1 PhoneNumber
+1..1 Doctor -- 1..1 Address
+1..1 Patient -- 1..1 HealthNumber
+1..1 Patient -- 1..1 Address
+1..1 Patient -- 1..1 PhoneNumber
+1..1 Requisition -- 1..1 Signature
+1..1 Doctor -- 1..1 Signature
+1..* Lab -- 1..* Test
+
+@enduml
+```

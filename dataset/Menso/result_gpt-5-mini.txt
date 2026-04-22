@@ -1,38 +1,41 @@
 @startuml
 
-class BusCompany{}
-class Bus{}
-class Trajectory{}
-class ApprovalRequest{}
-class TownAuthority{}
-class Line{}
-class Category{}
-class Customer{}
-class MensoCard{}
-class Trip{}
-class Invoice{}
+class Company{ String Name }
+class Bus{ String RegistrationNumber, Integer Capacity, String Model }
+class Trajectory{ String Id, String Description, String Status, Date OperationalStartDate, Date CancellationDate }
+class TownAuthority{ String Name, String Contact }
+class Approval{ Date RequestDate, Date ResponseDate, String Status, String Comments }
+class Line{ String Number, String Name }
+class Category{ String Name, Double PricePerTrip }
+class Customer{ String CustomerId, String Name, String Email, String Phone, String HomeAddress, String OfficeAddress, String WorkingHours, Date SubscriptionDate }
+class MENSOCard{ String CardNumber, Date IssueDate, Date ValidFrom, Date ValidTo, Boolean Active }
+class Trip{ DateTime Timestamp, String RecordedLineNumber }
+class Invoice{ Integer Month, Integer Year, Double TotalAmount, Double DiscountApplied, String Status }
+class Payment{ Date Date, Double Amount, String Method }
+class MENSOTicket{ Date ValidFrom, Date ValidTo }
 
-BusCompany "1..1" -- "0..*" Bus
-BusCompany "1..1" -- "0..*" Trajectory
-BusCompany "1..1" -- "0..*" Line
-BusCompany "1..1" -- "0..*" Customer
+Company "1..1" -- "0..*" Bus
+Company "1..1" -- "0..*" Trajectory
+Company "1..1" -- "0..*" Approval
+Company "1..1" -- "0..*" Customer
 
-Bus "0..*" -- "0..*" Trajectory
-
-Trajectory "1..1" -- "0..*" ApprovalRequest
-TownAuthority "1..*" -- "0..*" ApprovalRequest
-TownAuthority "1..*" -- "0..*" Trajectory
-
+Trajectory "1..1" -- "0..*" Approval
+Trajectory "0..*" -- "0..*" TownAuthority
+Trajectory "0..*" -- "0..*" Bus
 Line "1..1" -- "0..*" Trajectory
-Line "1..1" -- "0..1" Category
+Category "1..1" -- "0..*" Line
+Bus "0..*" -- "0..*" Line
 
-Customer "1..1" -- "0..1" MensoCard
-Customer "0..*" -- "0..*" Invoice
+Customer "1..1" -- "0..*" MENSOCard
+Customer "1..1" -- "0..*" Invoice
+Customer "1..1" -- "0..*" MENSOTicket
 
-MensoCard "1..1" -- "0..*" Trip
-Trip "0..*" -- "0..1" Line
-Trip "0..*" -- "0..1" Invoice
+MENSOCard "1..1" -- "0..*" Trip
+Line "1..1" -- "0..*" Trip
+Invoice "1..1" -- "0..*" Trip
 
 Invoice "0..*" -- "0..*" Payment
+
+TownAuthority "1..1" -- "0..*" Approval
 
 @enduml

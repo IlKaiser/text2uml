@@ -1,0 +1,100 @@
+```plaintext
+@startuml
+
+class InsuranceCompany
+
+class Client
+
+class Broker
+
+class CustomerFile
+
+class AccountManager
+
+class InsurancePolicy
+
+class CustomerProfile
+
+class HeadOffice
+
+class Contract {
+  type: String
+  price: Float
+  choice: String
+}
+
+class InsuranceProduct
+
+class Offer
+
+class Coverage
+
+class Invoice {
+  frequency: String
+  price: Float
+}
+
+class Claim
+
+class ClaimCase
+
+class Accident
+
+class MaterialDamage
+
+class PhysicalDamage
+
+class CaseFile
+
+class Estimator
+
+class AreaOfExpertise
+
+class Report
+
+class CompensationDecision
+
+class Cost
+
+class Refund
+
+class Document
+
+class SumOfCompensation
+
+class Payment
+
+class CustomerAccount
+
+class Database {
+}
+
+1..1 Broker -- 1..1 CustomerFile
+1..1 Broker -- 1..1 Client
+1..1 CustomerProfile -- 1..1 Client
+0..1 CustomerFile -- 1..1 HeadOffice
+1..1 Offer -- 1..1 InsuranceProduct
+1..1 Contract -- 1..1 Client
+1..1 Contract -- 1..1 InsuranceProduct
+1..1 Coverage -- 1..1 InsurancePolicy
+1..* Invoice -- 1..1 Client
+1..* Claim -- 1..1 Client
+1..* ClaimCase -- 1..1 Claim
+0..* Accident -- 1..1 ClaimCase
+0..* MaterialDamage -- 1..1 ClaimCase
+0..* PhysicalDamage -- 1..1 ClaimCase
+1..1 CaseFile -- 1..1 ClaimCase
+0..* Estimator -- 1..1 CaseFile
+1..1 AreaOfExpertise -- 1..1 Estimator
+1..* Report -- 1..1 Estimator
+1..1 CompensationDecision -- 1..1 ClaimCase
+0..* Cost -- 1..1 CompensationDecision
+0..* Refund -- 1..1 CompensationDecision
+0..* Document -- 1..1 CaseFile
+1..1 SumOfCompensation -- 1..1 CompensationDecision
+1..* Payment -- 1..1 Client
+1..1 Payment -- 1..1 CustomerAccount
+1..* Report -- 1..1 Database
+
+@enduml
+```

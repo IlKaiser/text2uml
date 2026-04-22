@@ -1,0 +1,99 @@
+@startuml
+
+class Customer {
+  String Name
+  String Email
+}
+class InsurancePolicy {
+  String Type
+  Double MonthlyPrice
+  Double YearlyPrice
+}
+class Offer {
+  Date OfferDate
+  String Channel
+  String Status
+}
+class Contract {
+  String Status
+  String InvoiceFrequency
+  Date SignedDate
+}
+class Invoice {
+  Date InvoiceDate
+  Double Amount
+}
+class Broker {
+  String Name
+  String EmployeeId
+}
+class HelpDeskAgent {
+  String Name
+  String AgentId
+}
+class HeadOffice {
+  String Name
+  String Address
+}
+class CustomerFile {
+  String FileNumber
+  String Status
+}
+class ProfileAssessment {
+  Date AssessmentDate
+  String Result
+}
+class Claim {
+  Date ClaimDate
+  String Status
+}
+class ClaimCase {
+  String CaseType
+  String Status
+  String CompensationDecision
+}
+class Estimator {
+  String Name
+  String AreaOfExpertise
+}
+class Report {
+  Date ReportDate
+  String Content
+}
+class Document {
+  String DocumentType
+  Date ReceivedDate
+}
+class CompensationPayment {
+  Date PaymentDate
+  Double Amount
+}
+class BankAccount {
+  String IBAN
+  String AccountHolderName
+}
+
+Customer "1..1" -- "0..*" CustomerFile
+Broker "1..1" -- "0..*" CustomerFile
+Customer "0..*" -- "0..1" Broker
+HelpDeskAgent "0..*" -- "0..*" Contract
+Customer "1..1" -- "0..*" Offer
+InsurancePolicy "1..1" -- "0..*" Offer
+Offer "0..1" -- "0..1" Contract
+Customer "1..1" -- "0..*" Contract
+InsurancePolicy "1..1" -- "0..*" Contract
+Contract "1..1" -- "0..*" Invoice
+CustomerFile "1..1" -- "0..*" ProfileAssessment
+HeadOffice "1..1" -- "0..*" ProfileAssessment
+Customer "1..1" -- "0..*" Claim
+Claim "1..1" -- "1..*" ClaimCase
+Contract "1..1" -- "0..*" ClaimCase
+Estimator "0..*" -- "0..*" ClaimCase
+Report "0..*" -- "0..*" ClaimCase
+Report "0..*" -- "0..*" Estimator
+ClaimCase "1..1" -- "0..*" Document
+ClaimCase "1..1" -- "0..*" CompensationPayment
+Customer "1..1" -- "0..*" BankAccount
+CompensationPayment "1..1" -- "1..1" BankAccount
+
+@enduml

@@ -1,0 +1,58 @@
+```plantuml
+@startuml
+class User {
+    String Username
+    String Password
+    String Mode
+}
+
+class Admin extends User {
+    String GameName
+    String HallOfFame
+}
+
+class Game {
+    String Name
+    String HallOfFame
+    String[] Blocks
+    Level[] Levels
+    int MinSpeed
+    int SpeedIncFactor
+    int MaxLength
+    int MinLength
+}
+
+class Level {
+    int Number
+    String[] Blocks
+    int NumBlocks
+    int MinSpeed
+    int MaxLength
+}
+
+class Block {
+    String Color
+    int Points
+}
+
+class Page {
+    String Content
+}
+
+Admin "1..1" -- "0..*" Game
+User "0..*" -- "1..*" Game
+Game "1..1" -- "1..*" Level
+Level "1..*" -- "1..*" Block
+Level "1..*" -- "1..*" Page
+Level "0..*" -- "1..*" Level
+Level "0..*" -- "1..*" Block
+Level "0..*" -- "1..*" Page
+Block "1..*" -- "1..*" Page
+Admin "1..1" -- "1..*" Level
+Admin "1..1" -- "1..*" Block
+Admin "1..1" -- "1..*" Page
+User "1..1" -- "1..*" Level
+User "1..1" -- "1..*" Block
+User "1..1" -- "1..*" Page
+@enduml
+```

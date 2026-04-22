@@ -1,25 +1,25 @@
-
+```plantuml
 @startuml
 
-class School{}
-class Teacher{}
-class Student{}
-class Principal{}
-class Room{}
-class Classroom{}
-class Gym{}
-class ClassGroup{}
+class School{ String Name }
+class Teacher{ String FirstName, String LastName, String Email }
+class Student{ String FirstName, String LastName }
+class Room{ String Name, int Capacity }
+class Classroom{ String Name }
+class Gym{ String Name, int Size }
+class ClassGroup{ String Name }
+class Principal
 
-School "1..1" -- "1..*" Teacher
-School "1..1" -- "1..*" Student
-Teacher "0..3" -- "1..*" School
-Teacher "1..1" -- "1..1" Principal
-Teacher "0..*" -- "0..*" School : teaches
-Student "1..1" -- "1..1" ClassGroup
-Principal "1..1" -- "0..*" School : leads
-Room "1..*" -- "1..1" School
-Room "1..1" -- "1..*" Classroom
-Room "1..1" -- "1..*" Gym
-ClassGroup "1..1" -- "1..1" Classroom
+Teacher "0..3" -- "1..*" School : Teaches
+Teacher "0..1" -- "0..1" Principal : Is
+
+Student "1..1" -- "1..1" School : Attends
+Room "0..*" -- "1..1" School : Belongs to
+ClassGroup "1..1" -- "1..1" Classroom : Is in
+
+Classroom -- Classrom : "0..*" - "0..*"
+Room <|-- Classroom
+Room <|-- Gym
 
 @enduml
+```  

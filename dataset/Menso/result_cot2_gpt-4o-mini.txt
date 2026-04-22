@@ -1,39 +1,79 @@
-```plantuml
+```
 @startuml
-class BusCompany{}
-class Trajectory{}
-class TownAuthority{}
-class Approval{}
-class Line{}
-class SeasonTicket{}
-class MENSO{}
-class Ticket{}
-class User{}
-class Card{}
-class TicketMachine{}
-class Trip{}
-class Invoice{}
-class Customer{}
-class Discount{}
-class Address{}
-class WorkingHours{}
-class Pattern{}
-class Route{}
-class Frequency{}
-
-BusCompany "1..*" -- "0..*" Trajectory  
-TownAuthority "1..*" -- "0..*" Approval  
-Approval "1..1" -- "0..1" Trajectory  
-Trajectory "1..*" -- "0..*" Line  
-Line "1..1" -- "1..*" Trip  
-MENSO "1..*" -- "0..*" Ticket  
-MENSO "1..1" -- "1..1" Customer  
-Ticket "1..1" -- "1..1" Invoice  
-Customer "1..*" -- "0..1" Address  
-Customer "1..1" -- "0..*" WorkingHours  
-Customer "1..*" -- "0..*" Discount  
-Trip "1..*" -- "1..1" TicketMachine  
-Trip "0..*" -- "0..*" Pattern  
-Pattern "0..*" -- "1..1" Frequency  
+class BusCompany {
+}
+class Bus {
+}
+class BusLine {
+}
+class Destination {
+}
+class Trajectory {
+}
+class Approval {
+}
+class TownAuthority {
+}
+class CalendarYear {
+}
+class Ticket {
+}
+class MENSO {
+    validity: Int
+    price: Float
+}
+class User {
+}
+class Category {
+}
+class Trip {
+    time: Date
+    date: Date
+    line: String
+}
+class Invoice {
+    amount: Float
+    discount: Float
+}
+class Discount {
+}
+class Customer {
+    personalData: String
+    homeAddress: String
+    officeAddress: String
+    workingHours: String
+}
+class PersonalData {
+}
+class HomeAddress {
+}
+class OfficeAddress {
+}
+class WorkingHours {
+}
+class Route {
+}
+class Frequency {
+}
+class Behaviour {
+}
+class Pattern {
+}
+BusCompany "1..*" -- "0..*" Bus
+BusCompany "1..*" -- "0..*" BusLine
+BusLine "1..1" -- "0..*" Trajectory
+Trajectory "1..1" -- "0..1" Approval
+Trajectory "1..*" -- "0..*" Destination
+BusLine "1..1" -- "0..1" Category
+User "0..*" -- "1..1" MENSO
+MENSO "0..*" -- "0..*" Invoice
+Invoice "0..*" -- "0..1" Discount
+Customer "0..*" -- "0..*" PersonalData
+PersonalData "0..*" -- "0..1" HomeAddress
+PersonalData "0..*" -- "0..1" OfficeAddress
+PersonalData "0..*" -- "0..1" WorkingHours
+User "0..*" -- "0..*" Trip
+Trip "0..*" -- "1..1" BusLine
+Trip "0..*" -- "0..*" CalendarYear
 @enduml
 ```

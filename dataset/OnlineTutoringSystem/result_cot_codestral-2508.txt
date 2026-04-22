@@ -1,27 +1,69 @@
 ```plantuml
 @startuml
 
-class User{}
-class Tutor{}
-class Student{}
-class Subject{}
-class TutoringOffer{}
-class TutoringRequest{}
-class TutoringSession{}
-class Payment{}
-class Award{}
+class User {
+  name: String
+  email: String
+}
 
-Tutor "1..*" -- "0..*" Student
+class Tutor {
+  bankAccount: String
+  levelOfExpertise: String
+  hourlyPrice: Float
+  weeklyAvailability: String
+}
+
+class Student {
+}
+
+class Subject {
+}
+
+class TutoringOffer {
+  subject: String
+  levelOfExpertise: String
+  hourlyPrice: Float
+}
+
+class TutoringRequest {
+  levelOfTutoring: String
+  targetDate: Date
+  targetTime: String
+}
+
+class TutoringSession {
+  date: Date
+  time: String
+}
+
+class Payment {
+  amount: Float
+  method: String
+}
+
+class CancellationPolicy {
+  cancellationFee: Float
+  discount: Float
+}
+
+class Award {
+}
+
+User "1..1" -- "1..1" Tutor
+User "1..1" -- "1..1" Student
 Tutor "1..*" -- "1..*" Subject
 Tutor "1..*" -- "1..*" TutoringOffer
 Student "1..*" -- "1..*" TutoringRequest
-TutoringRequest "1..1" -- "1..*" TutoringOffer
-TutoringSession "1..1" -- "1..1" TutoringOffer
-Tutor "1..*" -- "1..*" TutoringSession
 Student "1..*" -- "1..*" TutoringSession
+Tutor "1..*" -- "1..*" TutoringSession
+TutoringOffer "1..1" -- "1..1" Subject
+TutoringRequest "1..1" -- "0..1" TutoringSession
 TutoringSession "1..1" -- "1..1" Payment
-Tutor "1..*" -- "0..*" Award
-Subject "1..*" -- "0..*" Award
+TutoringSession "1..1" -- "1..1" CancellationPolicy
+Tutor "1..*" -- "1..*" Award
+
+Tutor --|> User
+Student --|> User
 
 @enduml
 ```

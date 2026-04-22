@@ -1,21 +1,23 @@
-
+```plantuml
 @startuml
 
-class Kinepolis{}
-class Cinema{}
-class Theatre{}
-class Show{}
-class MovieCopy{}
-class Movie{}
-class Reservation{}
-class Ticket{}
+class Kinepolis
+class Cinema
+class Theatre
+class Show
+class MovieCopy
+class Movie
+class Reservation
+class Ticket
 
 Kinepolis "1..*" -- "1..*" Cinema
 Cinema "1..*" -- "1..*" Theatre
-Cinema "1..*" -- "1..*" MovieCopy
-Cinema "1..*" -- "0..*" Show
-MovieCopy "1..*" -- "0..*" Theatre
+Cinema "1..*" -- "0..*" MovieCopy
+Theatre "1..*" -- "0..*" Show
+MovieCopy "1..1" -- "1..*" Theatre
+Show "1..1" -- "1..1" MovieCopy
 Show "1..*" -- "0..*" Reservation
-Reservation "1" -- "1" Ticket
+Show "1..*" -- "0..*" Ticket
 
 @enduml
+```  

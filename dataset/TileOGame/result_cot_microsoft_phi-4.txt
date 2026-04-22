@@ -1,0 +1,68 @@
+```plantuml
+@startuml
+
+class GameDesigner {
+}
+
+class BoardGame {
+}
+
+class GameBoard {
+    layout
+}
+
+class Tile {
+    rightConnection
+    leftConnection
+    topConnection
+    bottomConnection
+    color
+    visited
+}
+
+class ConnectionPiece {
+}
+
+class HiddenTile {
+}
+
+class StartingPosition {
+}
+
+class ActionTile {
+    turnsToRegular
+}
+
+class Player {
+    color
+}
+
+class PlayingPiece {
+    color
+}
+
+class Die {
+}
+
+class ActionCard {
+    actionType
+}
+
+class DeckOfActionCards {
+    numberOfCards
+}
+
+GameDesigner "0..1" -- "1..*" BoardGame
+BoardGame "1..1" -- "1..1" GameBoard
+GameBoard "1..1" -- "1..*" Tile
+Tile "1..1" -- "0..1" ConnectionPiece
+Tile "1..1" -- "0..1" HiddenTile
+Tile "1..1" -- "0..1" StartingPosition
+Tile "1..1" -- "0..1" ActionTile
+Player "2..4" -- "1..1" PlayingPiece
+Player "2..4" -- "1..1" Die
+Player "2..4" -- "0..*" ActionCard
+ActionTile "1..1" -- "1..1" DeckOfActionCards
+
+@enduml
+```

@@ -1,0 +1,49 @@
+@startuml
+
+class HomeTec {
+    String Name
+    String Address
+}
+class Apartment {
+    String Description
+    List[Room] Rooms
+}
+class Room {
+    String Description
+    List[Sensor] Sensors
+}
+class Sensor {
+    String Description
+    String Unit
+    String VendorId
+    String UniqueId
+    String Room
+    Float MinValue
+    Float MaxValue
+    Float LastValue
+    Date Timestamp
+}
+class SensorController {
+    void reportSensorValues(List<Sensor> sensors)
+}
+class EMonitor {
+    void checkThresholds(List<Sensor> sensors)
+    void sendAlert(String email, String message)
+}
+class EHome2020 {
+    void configureSensors(Admin admin)
+}
+class Admin {
+    void assignSensorToRoom(Sensor sensor, Room room)
+    void changeSensorDescription(Sensor sensor, String description)
+}
+
+HomeTec "1" -- "0..*" Apartment
+Apartment "1" -- "0..*" Room
+Room "1" -- "0..*" Sensor
+Sensor "1" -- "0..1" SensorController
+Sensor "1" -- "0..1" EMonitor
+Sensor "1" -- "0..1" EHome2020
+Admin "0..*" -- "0..1" EHome2020
+
+@enduml

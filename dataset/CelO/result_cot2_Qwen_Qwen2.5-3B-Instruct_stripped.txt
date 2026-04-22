@@ -1,0 +1,73 @@
+Given the specification text, the relevant classes for the conceptual model diagram are:
+
+1. **Organizer**
+2. **Attendee**
+3. **Event**
+4. **Task**
+5. **Checklist**
+6. **Location**
+
+Here is the PlantUML representation for these classes:
+
+```plantuml
+@startuml
+class Organizer {
+    +firstName: String
+    +lastName: String
+    +email: String
+    +postalAddress: String
+    +phoneNumber: String
+    +password: String
+    +events: Event[]
+    +tasks: Task[]
+    +checklists: Checklist[]
+    +locations: Location[]
+    +attendees: Attendee[]
+}
+
+class Attendee {
+    +firstName: String
+    +lastName: String
+    +email: String
+    +tasks: Task[]
+    +checklists: Checklist[]
+    +locations: Location[]
+}
+
+class Event {
+    +startDate: Date
+    +endDate: Date
+    +occasion: String
+    +location: Location
+    +tasks: Task[]
+    +checklists: Checklist[]
+}
+
+class Task {
+    +name: String
+    +status: String // 'toDo', 'done', 'notApplicable'
+}
+
+class Checklist {
+    +tasks: Task[]
+}
+
+class Location {
+    +name: String
+    +address: String
+}
+
+Organizer -- Event : 0..* -- 1..1
+Organizer -- Task : 0..* -- 0..*
+Organizer -- Checklist : 0..* -- 0..*
+Organizer -- Location : 0..* -- 0..*
+Organizer -- Attendee : 0..* -- 0..*
+
+Attendee -- Task : 0..* -- 0..*
+Attendee -- Checklist : 0..* -- 0..*
+Attendee -- Location : 0..* -- 0..*
+
+@enduml
+```
+
+This PlantUML code defines the classes and their relationships based on the provided specification.

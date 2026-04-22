@@ -1,23 +1,49 @@
-Here is the PlantUML model based on your class and cardinality lists:
-
 ```plantuml
 @startuml
 
-class Person{}
-class Institution{}
-class Article{}
-class PeerReviewedPaper{}
-class TechnicalReport{}
-class Publisher{}
-class Journal{}
+class Person {
+    personID: String
+    phoneNumber: String
+    keywords: String
+    institution: Institution
+}
+
+class Article {
+    DOI: String
+    title: String
+    authors: String
+    authorPosition: Int
+}
+
+class PeerReviewedPaper {
+    citationCount: Int
+    reviewers: String
+}
+
+class TechnicalReport {
+    publisher: Institution
+}
+
+class Publisher {
+    name: String
+}
+
+class Journal {
+    name: String
+    impactFactor: Float
+}
+
+class Institution {
+}
 
 Person "1..1" -- "0..*" Institution
-Person "0..*" -- "1..*" Article
+Person "0..*" -- "0..*" Article
 Person "0..*" -- "0..*" PeerReviewedPaper
-Article "0..1" -- "0..*" Publisher
+Institution "0..*" -- "1..1" TechnicalReport
 Publisher "0..*" -- "0..*" Journal
-Institution "1..*" -- "0..1" TechnicalReport
-PeerReviewedPaper "0..*" -- "1..1" Journal
+
+PeerReviewedPaper --|> Article
+TechnicalReport --|> Article
 
 @enduml
 ```

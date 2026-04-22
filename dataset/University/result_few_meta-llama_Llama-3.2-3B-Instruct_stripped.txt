@@ -1,0 +1,48 @@
+@startuml
+
+class Employee {
+    String SocialSecurityNumber
+    String Name
+    String Email
+    Boolean IsResearchAssistant
+    Boolean IsLecturer
+    String FacultyName
+    String InstituteName
+    Date HireDate
+    Date EndDate
+}
+
+class Faculty {
+    String Name
+    String Address
+    Employee "1" -- "0..*" Employee
+}
+
+class Institute {
+    String Name
+    String Address
+    Faculty "1" -- "0..*" Employee
+}
+
+class Project {
+    String Name
+    Date StartDate
+    Date EndDate
+    Integer HoursWorked
+    Employee "0..*" Employee
+}
+
+class Course {
+    String ID
+    String Name
+    Integer Duration
+    Employee "0..*" Employee
+}
+
+class University {
+    String Name
+    Integer TotalEmployees
+    Employee "0..*" Employee
+}
+
+@enduml

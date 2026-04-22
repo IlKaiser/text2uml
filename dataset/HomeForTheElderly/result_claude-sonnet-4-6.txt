@@ -1,0 +1,45 @@
+@startuml
+
+class Home { String Name, String Address }
+class Department { String Name }
+class Room { String RoomNumber }
+class Bed { String BedNumber }
+class BedCategory { String CategoryName, Float Price }
+class Person { String FirstName, String LastName, Date RegistrationDate }
+class Inhabitant { Date IntakeDate }
+class Assessment { Date AssessmentDate, String Result }
+class WaitingList { }
+class WaitingListPosition { Integer Position, Date RegistrationDate }
+class Stay { Date StartDate, Date EndDate, Boolean Suspended, String Status }
+class StayType { String TypeName }
+class Proposal { Date ProposalDate, String Status, Boolean Invalidated }
+class Invoice { Date InvoiceDate, Float TotalAmount, Float OutstandingAmount, String Status }
+class CreditNote { Date CreditNoteDate, Float Amount }
+class Payment { Date PaymentDate, Float Amount }
+class Question { String QuestionText }
+class Registration { Date RegistrationDate }
+
+Home "1..1" -- "1..*" Department
+Department "1..1" -- "1..*" Room
+Room "1..1" -- "1..*" Bed
+Bed "1..1" -- "1..1" BedCategory
+BedCategory "1..1" -- "1..1" StayType
+Person "1..1" -- "0..*" Assessment
+Person "1..1" -- "1..1" Registration
+Registration "0..*" -- "0..*" Question
+Person "0..1" -- "0..1" WaitingListPosition
+WaitingListPosition "0..*" -- "1..1" WaitingList
+WaitingList "1..1" -- "1..1" StayType
+WaitingListPosition "0..*" -- "0..*" Proposal
+Proposal "0..*" -- "1..1" Bed
+Person "1..1" -- "0..*" Stay
+Stay "1..1" -- "1..1" StayType
+Stay "1..1" -- "1..1" Bed
+Inhabitant "1..1" -- "1..*" Stay
+Person "1..1" -- "1..1" Inhabitant
+Stay "1..*" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" Payment
+Invoice "0..1" -- "0..1" CreditNote
+Assessment "0..*" -- "1..1" StayType
+
+@enduml

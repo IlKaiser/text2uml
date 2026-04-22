@@ -1,23 +1,60 @@
 @startuml
 
-class Cinema {}
-class Theatre {}
-class Show {}
-class MovieCopy {}
-class Movie {}
-class Reservation {}
-class CreditCard {}
-class Ticket {}
-class Customer {}
+class Cinema {
+    String Name
+    String Town
+}
+
+class Theatre {
+    Int Capacity
+}
+
+class Movie {
+    String Title
+    String Duration
+}
+
+class Copy {
+    String Location
+}
+
+class Show {
+    DateTime StartTime
+    DateTime EndTime
+    String Status
+}
+
+class Reservation {
+    DateTime ReservationTime
+    Boolean Cancelled
+    DateTime CancellationTime
+}
+
+class Customer {
+    String Name
+    String CreditCardNumber
+}
+
+class Ticket {
+    String SeatNumber
+    Boolean IsOnline
+    Boolean IsCancelled
+}
+
+class Offer {
+    DateTime ExpiryTime
+    Boolean Accepted
+}
 
 Cinema "1" -- "0..*" Theatre
-Cinema "1" -- "0..*" MovieCopy
 Theatre "1" -- "0..*" Show
-MovieCopy "1" -- "1" Movie
-MovieCopy "1" -- "0..*" Theatre
+Movie "1" -- "0..*" Copy
+Copy "1" -- "0..*" Show
 Show "1" -- "0..*" Reservation
-Reservation "1" -- "1" CreditCard
-Reservation "1" -- "1" Customer
+Customer "1" -- "0..*" Reservation
+Reservation "1" -- "0..1" Ticket
 Show "1" -- "0..*" Ticket
+Show "1" -- "0..*" Offer
+Offer "1" -- "0..1" Reservation
 
 @enduml

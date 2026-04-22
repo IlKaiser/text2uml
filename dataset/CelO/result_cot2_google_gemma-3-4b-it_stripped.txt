@@ -1,0 +1,99 @@
+```plantuml
+@startuml
+class Organizer {
+    - first_name : String
+    - last_name : String
+    - email_address : String
+    - username : String
+    - postal_address : String
+    - phone_number : String
+    - password : String
+}
+
+class Attendee {
+    - first_name : String
+    - last_name : String
+    - email_address : String
+    - password : String
+    - will_attend : Boolean
+    - selected_tasks : List<Task>
+}
+
+class Event {
+    - name : String
+    - type : String
+    - start_date_time : Date
+    - end_date_time : Date
+    - occasion : String
+    - location : Location
+}
+
+class Task {
+    - description : String
+    - status : String
+    - is_applicable : Boolean
+    - assigned_to : Organizer
+}
+
+class Location {
+    - name : String
+    - address : String
+}
+
+class Invitation {
+    - event_id : int
+    - sent_date : Date
+    - status : String
+}
+
+class Party {
+    - type : String
+}
+
+class List {
+    - name : String
+}
+
+class Checklist {
+    - event_id : int
+    - tasks : List<Task>
+}
+
+class Username {
+    - email_address : String
+}
+
+class Password {
+    - password : String
+}
+
+class Address {
+    - street : String
+    - city : String
+    - state : String
+    - zip_code : String
+}
+
+class Email {
+    - email_address : String
+}
+
+class Phone_Number {
+    - phone_number : String
+}
+
+Organizer "1" -- "*" Event : organizes
+Organizer "1" -- "*" Task : creates
+Organizer "1" -- "*" Invitation : sends
+Organizer "1" -- "1" Location : manages
+Organizer "1" -- "*" Attendee : invites
+Attendee "1" -- "*" Invitation : receives
+Attendee "1" -- "*" Task : completes
+Attendee "1" -- "*" Event : attends
+Event "1" -- "*" Task : has
+Event "1" -- "1" Location : takes place
+Task "1" -- "1" Organizer : assigned to
+Location "1" -- "1" Address : located at
+
+@enduml
+```

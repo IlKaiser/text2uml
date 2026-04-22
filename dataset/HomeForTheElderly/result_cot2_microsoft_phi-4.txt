@@ -1,0 +1,132 @@
+```plantuml
+@startuml
+
+class Home {
+}
+
+class Department {
+}
+
+class Room {
+}
+
+class Bed {
+  category: Category
+}
+
+class Category {
+  price: Float
+}
+
+class Inhabitant {
+  stay: Stay
+  registration: Registration
+}
+
+class Stay {
+  type: TypeOfStay
+  startDate: Date
+  endDate: Date
+}
+
+class Registration {
+  date: Date
+}
+
+class Question {
+  text: String
+}
+
+class Person {
+  basicIdentificationData: String
+  abilitiesAssessment: Assessment
+}
+
+class WaitingList {
+  position: Int
+  registrationDate: Date
+}
+
+class Proposal {
+  accepted: Boolean
+  typeOfStay: TypeOfStay
+  validationDate: Date
+}
+
+class Invoice {
+  amount: Float
+  status: String
+  date: Date
+}
+
+class Payment {
+  amount: Float
+  date: Date
+}
+
+class Event {
+}
+
+class CreditNote {
+  amount: Float
+  date: Date
+}
+
+class Refund {
+  amount: Float
+  date: Date
+}
+
+class Assessment {
+  results: String
+}
+
+class TypeOfStay {
+  name: String
+}
+
+class Complaint {
+  items: String
+}
+
+class Item {
+}
+
+class Death {
+  date: Date
+}
+
+class InvoicingProcess {
+}
+
+class Discount {
+  amount: Float
+}
+
+RestHome --|> TypeOfStay
+RestNursingHome --|> TypeOfStay
+ServiceFlat --|> TypeOfStay
+
+1..* Home -- 1..* Department
+1..* Department -- 1..* Room
+1..* Room -- 1..* Bed
+1..1 Bed -- 1..1 Category
+1..1 Inhabitant -- 0..1 Bed
+1..1 Inhabitant -- 0..* Stay
+1..1 Stay -- 1..1 TypeOfStay
+1..1 Person -- 1..1 Registration
+1..1 Registration -- 0..* Question
+1..1 Person -- 1..1 Assessment
+1..1 Assessment -- 1..1 TypeOfStay
+1..1 Person -- 1..1 WaitingList
+1..1 WaitingList -- 0..* Proposal
+1..1 Proposal -- 1..1 Person
+1..1 Stay -- 0..* Invoice
+1..1 Invoice -- 0..* Payment
+1..1 Invoice -- 0..1 CreditNote
+1..1 Invoice -- 0..1 Refund
+1..1 Stay -- 1..1 InvoicingProcess
+1..1 Stay -- 0..1 Discount
+
+@enduml
+```

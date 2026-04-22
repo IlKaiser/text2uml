@@ -1,0 +1,108 @@
+```plantuml
+@startuml
+
+class Traveller {
+  name: String
+  billing information: String
+  company name: String
+  address: String
+  travel preferences: String
+  reliability rating: Int
+}
+
+class HBMS
+
+class Booking {
+  price: Float
+  city area: String
+  hotel rating: Int
+  key preferences: String
+  unique booking identifier: String
+  cancellation deadline: Date
+}
+
+class Hotel {
+  location: City
+  address: Address
+  hotel chain: HotelChain
+  reliability rating: Int
+}
+
+class Room {
+  type: String
+}
+
+class City
+
+class Address
+
+class HotelChain
+
+class Offer
+
+class CreditCardInformation
+
+class BookingConfirmation
+
+class CancellationDeadline
+
+class ReliabilityRating
+
+class PreliminaryBooking {
+  price: Float
+  city area: String
+  hotel rating: Int
+  key preferences: String
+  unique booking identifier: String
+}
+
+class SpecialOffer
+
+class PaymentMethod
+
+class BookingInformation {
+  date of arrival: Date
+  date of departure: Date
+  number of needed rooms: Int
+  type of rooms: String
+  minimum hotel rating: Int
+  tentative budget: Float
+}
+
+Traveller "1..*" -- "1..1" HBMS
+Traveller "1..1" -- "1..*" Booking
+Traveller "1..1" -- "0..*" Hotel
+Traveller "1..*" -- "0..*" Offer
+Traveller "1..1" -- "1..*" CreditCardInformation
+Traveller "1..1" -- "0..*" BookingConfirmation
+Traveller "1..1" -- "1..*" BookingInformation
+Booking "1..1" -- "1..1" Hotel
+Booking "1..1" -- "1..*" Room
+Booking "1..1" -- "1..1" City
+Booking "1..1" -- "1..1" Address
+Booking "1..1" -- "0..1" HotelChain
+Booking "1..1" -- "0..*" Offer
+Booking "1..1" -- "1..1" CreditCardInformation
+Booking "1..1" -- "0..1" BookingConfirmation
+Booking "1..1" -- "0..1" CancellationDeadline
+Booking "1..1" -- "0..1" ReliabilityRating
+Booking "1..1" -- "0..1" PreliminaryBooking
+Booking "1..1" -- "0..*" SpecialOffer
+Booking "1..1" -- "1..1" PaymentMethod
+Hotel "1..1" -- "1..1" City
+Hotel "1..1" -- "1..1" Address
+Hotel "1..1" -- "0..1" HotelChain
+Hotel "1..1" -- "1..*" Room
+Room "1..1" -- "1..1" City
+Offer "1..1" -- "1..1" Hotel
+Offer "1..1" -- "1..1" Room
+CreditCardInformation "1..1" -- "1..1" Booking
+BookingConfirmation "1..1" -- "1..1" Booking
+CancellationDeadline "1..1" -- "1..1" Booking
+ReliabilityRating "1..1" -- "1..1" Traveller
+PreliminaryBooking "1..1" -- "1..1" Booking
+SpecialOffer "1..1" -- "1..1" Offer
+PaymentMethod "1..1" -- "1..1" Booking
+
+@enduml
+```

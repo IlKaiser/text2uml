@@ -1,24 +1,65 @@
+```plantuml
 @startuml
 
-class User{}
-class BusinessOwner{}
-class PizzaRestaurant{}
-class Pizza{}
-class HungryCustomer{}
-class Order{}
-class EntertainmentOrder{}
-class Entertainer{}
-class Availability{}
+class User {
+    String Name
+    Date Birthday
+    String Address
+}
 
-User "1" -- "0..*" BusinessOwner
+class BusinessOwner {
+    String LinkedInAccount
+}
+
+class PizzaRestaurant {
+    String ZipCode
+    String Address
+    String PhoneNumber
+    String Website
+    String OpeningHours
+}
+
+class Pizza {
+    String Name
+    String CrustStructure
+    Double Price
+}
+
+class HungryCustomer {
+    String DeliveryAddress
+}
+
+class Order {
+    String OrderID
+    Date OrderDate
+    Time OrderTime
+    Time LatestDeliveryTime
+    Int NumberOfPeople
+}
+
+class EntertainmentOrder {
+    String TypeOfEntertainment
+    Int Duration
+}
+
+class Entertainer {
+    String StageName
+    String Bio
+    Double PricePer30Minutes
+}
+
+class Availability {
+    String Day
+}
+
 User "1" -- "0..*" HungryCustomer
+User "1" -- "0..*" BusinessOwner
 BusinessOwner "1" -- "0..*" PizzaRestaurant
 PizzaRestaurant "1" -- "0..*" Pizza
 HungryCustomer "1" -- "0..*" Order
-Order "1" -- "0..*" Pizza
 Order "1" -- "0..1" EntertainmentOrder
-EntertainmentOrder "1" -- "1" Entertainer
 Entertainer "1" -- "0..*" PizzaRestaurant
 Entertainer "1" -- "0..*" Availability
 
 @enduml
+```

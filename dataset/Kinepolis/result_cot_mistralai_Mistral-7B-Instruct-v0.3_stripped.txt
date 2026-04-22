@@ -1,0 +1,74 @@
+@startuml
+
+class Kinepolis {
+    - location: String
+}
+
+class Cinema {
+    - location: String
+    *- Theatre: Theatre
+    *- Movie: Movie
+}
+
+class Theatre {
+    - number_of_seats: Int
+    *- Show: Show
+    *- Copy: Copy
+    *- Ticket: Ticket
+}
+
+class Movie {
+}
+
+class Copy {
+    - cinema: Cinema
+    - movie: Movie
+}
+
+class Show {
+    - cinema: Cinema
+    - theatre: Theatre
+    - movie: Movie
+    - start_time: Date
+    - published: Boolean
+    *- Reservation: Reservation
+}
+
+class Reservation {
+    - customer: Customer
+    - show: Show
+    - seat_number: Int
+    - credit_card: CreditCard
+}
+
+class Customer {
+    - name: String
+}
+
+class CreditCard {
+    - card_number: String
+    - expiration_date: Date
+}
+
+class Seat {
+    - number: Int
+}
+
+class Ticket {
+    - customer: Customer
+    - seat: Seat
+}
+
+Cinema "owns" Movie
+Cinema "owns" Copy
+Theatre "has" Show
+Theatre "has" Copy
+Theatre "has" Ticket
+Show "has" Reservation
+Reservation "has" Customer
+Reservation "has" CreditCard
+Reservation "has" Seat
+Cinema "has" Ticket
+Theatre "has" Ticket
+
+@enduml

@@ -1,0 +1,59 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class Location { String Address }
+class Driver { String FirstName, LastName }
+class Vehicle { String VehicleNumber }
+class Truck { int Weight }
+class Car { int Seats }
+class Van { int Capacity }
+class Order { String Origin, Destination, ExecutionDate }
+
+Location "1..*" -- "0..*" Driver
+Driver "1..*" -- "0..*" Order
+Vehicle "1..*" -- "0..*" Order
+Truck "1..*" -- "0..*" Driver
+Car "1..*" -- "0..*" Driver
+Van "1..*" -- "0..*" Driver
+Order "1..1" -- "1..1" Driver
+Vehicle "1..*" -- "0..*" Driver
+@enduml
+```

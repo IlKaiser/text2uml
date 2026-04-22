@@ -1,20 +1,25 @@
 ```plantuml
 @startuml
 
-class Center{}
-class Room{}
-class Person{}
-class Trainer{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
+class Person{ String FirstName, String FamilyName, Date BirthDate }
+class Trainer{ String Diploma }
+class Member{ }
+class Session{ Date Date, Time StartTime }
+class GroupSession{ String Type }
+class IndividualSession{ }
+class Center{ String Name, String Address }
+class Room{ int Number, int Capacity }
 
-Center "1..*" -- "1..1" Room
-Room "1..1" -- "1..*" Session
-Person "1..*" -- "1..*" Session
-Trainer "1..*" -- "1..*" GroupSession
-GroupSession "1..1" -- "1..1" Session
-IndividualSession "1..1" -- "1..1" Session
+Person <|-- Trainer
+Person <|-- Member
+Session <|-- GroupSession
+Session <|-- IndividualSession
+
+Center "1..*" -- "1..*" Room
+Center "1..*" -- "0..*" Session
+Room "1..*" -- "0..*" Session
+Person "0..*" -- "0..*" Session
+Trainer "1..1" -- "0..*" GroupSession
 
 @enduml
 ```

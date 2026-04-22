@@ -1,34 +1,93 @@
 ```plantuml
 @startuml
-class ProjectManager{}
-class SoftwareCompany{}
-class System{}
-class Sensor{}
-class SensorController{}
-class Apartment{}
-class Inhabitant{}
-class ExternalSystem{}
-class EMonitor{}
-class AlertMessage{}
-class Room{}
-class Value{}
-class Timestamp{}
-class Prototype{}
-class TargetPlatform{}
-class Environment{}
-class Functionality{}
+class ProjectManager {
+}
+class SoftwareCompany {
+}
+class System {
+}
+class Infrastructure {
+}
+class Software {
+}
+class EnergyConsumptionData {
+}
+class PrivateHome {
+}
+class Customer {
+}
+class HomeTec {
+}
+class Sensor {
+    vendor-id: String
+    description: String
+    unit: String
+}
+class SensorController {
+}
+class Apartment {
+    address: String
+}
+class Inhabitant {
+}
+class ExternalSystem {
+}
+class EMonitor {
+}
+class AlertMessage {
+}
+class Room {
+    description: String
+}
+class TemperatureSensor {
+    valid value range:min: Float
+    valid value range:max: Float
+}
+class PowerSensor {
+    total power consumption: Float
+}
+class Appliance {
+}
+class MeasuredValue {
+    value: Float
+}
+class Timestamp {
+    timestamp: Date
+}
+class Prototype {
+}
+class TargetPlatform {
+}
+class Environment {
+}
+class Functionality {
+}
 
-ProjectManager "1..*" -- "1..1" SoftwareCompany  
-Sensor "0..*" -- "1..1" Room  
-SensorController "0..*" -- "0..*" Apartment  
-Apartment "1..1" -- "0..*" Inhabitant  
-Sensor "0..*" -- "0..1" AlertMessage  
-Sensor "0..*" -- "0..*" Value  
-Value "0..*" -- "1..1" Timestamp  
-Sensor "0..*" -- "1..1" Room  
-EMonitor "0..*" -- "1..1" ExternalSystem  
-Prototype "0..*" -- "1..1" TargetPlatform  
-Prototype "1..1" -- "1..1" Environment  
-Prototype "1..1" -- "0..*" Functionality  
+SoftwareCompany "0..*" -- "1..1" ProjectManager
+ProjectManager "0..*" -- "0..*" System
+System "0..*" -- "0..*" Infrastructure
+Infrastructure "0..*" -- "0..*" Software
+Customer "0..*" -- "0..1" HomeTec
+HomeTec "0..*" -- "0..*" Sensor
+SensorController "0..*" -- "1..*" Sensor
+SensorController "1..1" -- "0..1" Apartment
+Apartment "0..*" -- "1..*" Inhabitant
+Inhabitant "0..*" -- "0..1" Sensor
+Apartment "1..1" -- "0..*" Room
+Room "1..1" -- "0..*" Sensor
+Sensor "0..*" -- "0..*" MeasuredValue
+MeasuredValue "0..*" -- "1..1" Timestamp
+Sensor "0..*" -- "0..1" AlertMessage
+ExternalSystem "1..1" -- "0..1" EMonitor
+EMonitor "0..*" -- "0..*" AlertMessage
+Sensor "0..*" -- "0..1" TemperatureSensor
+Sensor "0..*" -- "0..1" PowerSensor
+PowerSensor "0..*" -- "0..1" Appliance
+Sensor "0..*" -- "0..1" Functionality
+Prototype "0..*" -- "1..1" TargetPlatform
+TargetPlatform "1..1" -- "1..1" Environment
+
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
 @enduml
 ```

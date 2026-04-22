@@ -1,0 +1,20 @@
+
+@startuml
+
+class University{}
+class ResearchGroup{}
+class Department{}
+class Researcher{}
+class Project{}
+class WorkPackage{}
+class ServiceDelivery{}
+
+University "1" -- "0..*" ResearchGroup
+Department "1" -- "0..*" ResearchGroup
+ResearchGroup "1" -- "1..*" Researcher
+Project "1" -- "1..*" WorkPackage
+ResearchGroup "1" -- "1" WorkPackage : WP leader
+Researcher "0..*" -- "1..*" WorkPackage : Assigned
+Researcher "1" -- "0..1" ServiceDelivery
+
+@enduml

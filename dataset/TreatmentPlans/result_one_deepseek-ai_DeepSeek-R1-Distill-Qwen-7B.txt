@@ -1,0 +1,211 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading the text to understand the entities and their relationships.
+
+First, the text talks about hospitals prescribing examinations. So, the primary entities I can identify are:
+
+1. **Hospital**: A healthcare institution.
+2. **ExaminationType**: Different types of exams like cardiologic tests, echography, etc.
+3. **Patient**: The individuals undergoing these examinations.
+4. **Problem**: The medical issues that patients present.
+5. **TreatmentPlan**: Defined for each type of problem, outlining advised examinations.
+6. **ActualTreatment**: May include both planned exams and other medical actions.
+7. **Doctor**: The medical personnel prescribing treatments.
+8. **Permission**: Allows or denies certain examinations in a hospital.
+
+Next, I'll extract the attributes for each class. Attributes are properties that describe each entity. For example, a Hospital might have a name and location.
+
+Now, moving on to the relationships. The text mentions several interactions:
+
+- Hospitals can prescribe examinations, which are of specific types.
+- Examinations are linked to treatment plans based on the problem they're used to diagnose.
+- Doctors prescribe actual treatments, which can include both planned exams and other actions.
+- Examinations can be performed at different hospitals if the current one doesn't have permission.
+- Treatment plans are registered, and actual treatments are logged to monitor adherence.
+
+I need to represent these relationships using PlantUML syntax. I'll use bi-directional arcs for general relationships and directional arcs where necessary. Cardinality indicators like "0..*" (any number) or "1..*" (one or more) will be assigned based on the text.
+
+I should also consider inheritance. For instance, ExaminationType might inherit from a more general Exam class, but since the text doesn't specify, I'll keep it simple.
+
+Putting it all together, I'll structure the diagram with classes, their attributes, and the relationships between them, ensuring that the cardinality is correctly assigned based on the provided information.
+</think>
+
+```
+@startuml
+
+class Hospital {
+    String Name
+    String Location
+    Set<Permission> PermittedExaminations
+}
+
+class ExaminationType {
+    String Name
+    String Description
+}
+
+class Patient {
+    String Name
+    String Email
+}
+
+class Problem {
+    String Name
+    String Type
+}
+
+class TreatmentPlan {
+    String Name
+    Set<ExaminationType> AdvisedExaminations
+}
+
+class ActualTreatment {
+    String Name
+    Set<ExaminationType> PerformedExaminations
+    Set<MedicalAction> OtherActions
+}
+
+class Doctor {
+    String Name
+    String Specialization
+}
+
+class Permission {
+    String Type
+    String Hospital
+}
+
+ExaminationType "1..*" - "0..*" Hospital
+Hospital "0..*" - "0..1" Doctor
+Problem "1..*" - "1..*" TreatmentPlan
+TreatmentPlan "1..*" - "1..*" ActualTreatment
+ActualTreatment "1..*" - "1..*" Doctor
+ExaminationType "0..*" - "1..*" ActualTreatment
+Permission "0..*" - "0..*" Doctor
+Permission "1..*" - "1..*" Hospital
+@enduml
+```

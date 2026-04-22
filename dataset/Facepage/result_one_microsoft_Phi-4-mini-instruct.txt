@@ -1,0 +1,195 @@
+<|user|>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Recently, a new social network site, Facepage, was founded. Given the current trends, the managers of Facepage are convinced that this will be the new hype in the near future.
+When new users want tot join Facepage, they first need to fill in a form with their personal information (i.e., ID, name, email, and date of birth). A user has a unique ID. Afterwards, an account is created. An account is uniquely identified by an account number, automatically generated by the database system. The user needs to specify which type of account he/she prefers: a business account or a personal account. A business account is specifically designed to support companies in their marketing campaigns. When a user decides to open a business account, he/she has to specify the name of the company. Users with a business account pay a monthly fee. When a user opts for a personal account, he/she can keep in touch with other Facepage users. Only personal accounts can send or receive friend requests.
+Maintaining multiple accounts, regardless of the purpose, is a violation of Facepage’s Terms of Use. If a user already has a personal (business) account, then Facepage cannot allow the user to create an additional personal or business account for any reason.
+Each account can create several pages. While each page must be administrated by exactly one account, personal accounts can be granted privileges (e.g., to write something on the all of friends, adjust some information) to pages belonging to other personal accounts. For each page, the page name and the number of visits are logged. For each account, no two pages can exist with the same name. Users with a business profile can create a special type of page: an advertisement page. This page records several features, like the bounce rate, the click-through rate, and the conversion rate. The bounce rate is the percentage of visitors on the page that leave immediately. The click-through rate is the percentage of visitors that click on ta certain banner on the page. The conversion rate is the percentage of visitors that accomplish the intended goal, like a purchase or a transaction.
+
+##############
+
+Based on the example, the uml output is:
+<|end|><|assistant|>@startuml
+
+class User {
+    String ID
+    String Name
+    String Email
+    Date DateOfBirth
+}
+
+class Account {
+    String AccountNumber
+    String AccountType
+}
+
+class BusinessAccount extends Account {
+    String CompanyName
+    Double MonthlyFee
+}
+
+class PersonalAccount extends Account {
+    Boolean CanSendFriendRequests
+}
+
+class Page {
+    String PageName
+    Integer NumberOfVisits
+}
+
+class AdvertisementPage extends Page {
+    Double BounceRate
+    Double ClickThroughRate
+    Double ConversionRate
+}
+
+class FriendRequest {
+    String FromUserID
+    String ToUserID
+}
+
+class FriendRequestStatus {
+    String Status
+}
+
+class FriendRequest extends FriendRequest {
+    FriendRequestStatus Status
+}
+
+class FriendRequestManager {
+    String UserID
+    List<FriendRequest> FriendRequests
+}
+
+class FriendRequestManager extends User {
+    List<FriendRequest> FriendRequests
+}
+
+class FriendRequestManager "0..*" -- "0..*" FriendRequest
+
+class FriendRequest "1" -- "0..*" FriendRequestStatus
+
+class User "1" -- "0..*" Account
+Account "1" -- "0..*" BusinessAccount
+Account "1" -- "0..*" PersonalAccount
+Page "1" -- "0..*" AdvertisementPage
+Page "1" -- "0..*" FriendRequestManager
+FriendRequestManager "1" -- "0..*" FriendRequest
+
+@enduml

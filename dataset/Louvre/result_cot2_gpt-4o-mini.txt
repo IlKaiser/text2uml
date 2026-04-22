@@ -1,30 +1,52 @@
 ```plantuml
 @startuml
-class LouvreMuseum{}
-class Room{}
-class Exhibition{}
-class Location{}
-class Employee{}
-class Coordinator{}
-class ExhibitionItem{}
-class Piece{}
-class Collector{}
-class CandidatePiece{}
-class SunflowerPainting{}
-class JuniorEmployee{}
-class SeniorEmployee{}
-class Coach{}
-class Relationship{}
+class LouvreMuseum {
+}
+class Room {
+}
+class Exhibition {
+    openingDate: Date
+    coordinator: Employee
+}
+class Location {
+}
+class Series {
+}
+class Employee {
+}
+class Coordinator {
+}
+class ExhibitionItem {
+    desiredItems: String
+}
+class Collector {
+}
+class Piece {
+}
+class CandidatePiece {
+}
+class SunflowerPainting {
+}
+class CoachingRelationship {
+    juniorEmployee: JuniorEmployee
+    seniorEmployee: SeniorEmployee
+}
+class JuniorEmployee {
+}
+class SeniorEmployee {
+}
 
-LouvreMuseum "1..*" -- "0..*" Room  
-Room "0..*" -- "0..*" Exhibition  
-Location "0..*" -- "0..*" Exhibition  
-Exhibition "1..1" -- "1..1" Employee  
-Exhibition "1..1" -- "0..*" ExhibitionItem  
-ExhibitionItem "1..1" -- "0..*" Piece  
-Piece "0..*" -- "0..*" Collector  
-Piece "0..*" -- "0..*" CandidatePiece  
-JuniorEmployee "1..1" -- "1..1" SeniorEmployee  
-SeniorEmployee "1..1" -- "0..*" JuniorEmployee  
+Room "0..*" -- "0..*" Exhibition
+Exhibition "1..1" -- "1..1" Employee
+Location "1..*" -- "1..*" Series
+Series "1..1" -- "0..*" ExhibitionItem
+ExhibitionItem "0..*" -- "0..*" Piece
+Piece "0..*" -- "0..*" Collector
+CandidatePiece "0..*" -- "0..*" Piece
+JuniorEmployee "1..*" -- "1..1" SeniorEmployee
+SeniorEmployee "1..1" -- "0..*" CoachingRelationship
+
+JuniorEmployee --|> Employee
+SeniorEmployee --|> Employee
 @enduml
 ```

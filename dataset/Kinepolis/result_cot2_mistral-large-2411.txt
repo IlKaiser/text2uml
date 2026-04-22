@@ -1,19 +1,36 @@
-```plantuml
+```
 @startuml
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Program{}
-class Reservation{}
-class Customer{}
-class Ticket{}
+class Cinema {
+}
 
-Cinema "1..*" -- "1..*" Theatre
-Theatre "0..*" -- "1..*" Show
+class Theatre {
+  seats: Int
+}
+
+class Show {
+  startingTime: Date
+}
+
+class Movie {
+}
+
+class Customer {
+}
+
+class Reservation {
+  cancellationPeriod: Date
+  startingTime: Date
+}
+
+class Ticket {
+  seatNumber: Int
+}
+
+Theatre "1..*" -- "1..1" Cinema
+Show "0..*" -- "1..1" Theatre
 Movie "1..1" -- "0..*" Cinema
 Reservation "0..*" -- "1..1" Show
-Customer "1..*" -- "0..*" Reservation
-Ticket "0..*" -- "0..*" Customer
+Customer "1..1" -- "0..*" Reservation
+Ticket "1..1" -- "1..1" Customer
 @enduml
 ```

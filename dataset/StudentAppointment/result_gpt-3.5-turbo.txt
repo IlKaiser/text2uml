@@ -1,15 +1,18 @@
-
+```plantuml
 @startuml
 
-class Student{}
-class Course{}
-class TeachingAssistant{}
-class Appointment{}
+class Student{ String Name, String ID }
+class TeachingAssistant{ String Name, String ID }
+class Course{ String Name, String Code }
 
-Student "1..*" -- "1..*" Course
-TeachingAssistant "1..*" -- "1..*" Course
-Appointment "1..1" -- "1..1" Course
-Appointment "1..1" -- "1..1" TeachingAssistant
-Appointment "1..*" -- "1..1" Student
+Student "0..*" -- "1..1" Course
+TeachingAssistant "0..*" -- "1..1" Course
+TeachingAssistant "1..*" -- "0..*" Student
+TeachingAssistant "1..*" -- "0..*" Student
+Course "1..*" -- "0..*" Appointment
+Student "0..*" -- "1..*" Appointment
+
+class Appointment{ Date Date, Time Time }
 
 @enduml
+```  

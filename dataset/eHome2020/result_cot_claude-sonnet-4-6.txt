@@ -1,0 +1,43 @@
+@startuml
+class Sensor {
+  vendorId: String
+  description: String
+  unit: String
+}
+class SensorController
+class Apartment {
+  address: String
+}
+class Inhabitant {
+  username: String
+  password: String
+  email: String
+}
+class Room {
+  description: String
+}
+class TemperatureSensor {
+  min: Float
+  max: Float
+}
+class PowerSensor {
+  counterReading: Float
+}
+class MeasuredValue {
+  timestamp: Date
+  value: Float
+}
+class Threshold
+
+SensorController "1..1" -- "1..1" Apartment
+SensorController "1..1" -- "1..*" Sensor
+Apartment "1..1" -- "1..*" Inhabitant
+Apartment "1..1" -- "2..*" Room
+Room "1..1" -- "1..*" Sensor
+Sensor "1..1" -- "0..*" MeasuredValue
+Sensor "1..1" -- "0..*" Threshold
+Inhabitant "1..*" -- "0..*" Threshold
+
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
+@enduml

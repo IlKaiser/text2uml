@@ -1,0 +1,81 @@
+@startuml
+
+class GasStation {
+    String Id
+    String Address
+    Integer FuelPumps
+    String SelfService
+    String FuelPumpNumber
+    String FuelName
+    String OctaneRating
+    Date DailyPriceDate
+    Double DailyPrice
+    FuelPrice "0..*" -- "0..*" DailyPrice
+    Fuel "0..*" -- "0..*" FuelPrice
+    FuelPrice "0..*" -- "0..*" Fuel
+    FuelPurchase "0..*" -- "0..*" FuelPrice
+    FuelPurchase "0..*" -- "0..*" Fuel
+    FuelPurchase "0..*" -- "0..*" FuelDispensed
+}
+
+class Fuel {
+    String Name
+    String OctaneRating
+}
+
+class DailyPrice {
+    Date Date
+    String Fuel
+    Double Price
+    GasStation "0..*" -- "0..*" DailyPrice
+    Fuel "0..*" -- "0..*" DailyPrice
+}
+
+class FuelPrice {
+    Double Price
+    Fuel "0..*" -- "0..*" FuelPrice
+    DailyPrice "0..*" -- "0..*" FuelPrice
+}
+
+class FuelPurchase {
+    String Id
+    Integer Liters
+    FuelPump "0..*" -- "0..*" FuelPurchase
+    Fuel "0..*" -- "0..*" FuelPurchase
+    DailyPrice "0..*" -- "0..*" FuelPurchase
+    FuelPrice "0..*" -- "0..*" FuelPurchase
+    FuelDispensed "0..*" -- "0..*" FuelPurchase
+}
+
+class FuelDispensed {
+    Integer Liters
+    FuelPurchase "0..*" -- "0..*" FuelDispensed
+}
+
+class FuelPump {
+    String Number
+    String Fuel
+    String SelfService
+    GasStation "1" -- "1..*" FuelPump
+    Fuel "0..*" -- "0..*" FuelPump
+}
+
+class GasStation {
+    String Id
+    String Address
+    Integer FuelPumps
+    String SelfService
+    String FuelPumpNumber
+    String FuelName
+    String OctaneRating
+    Date DailyPriceDate
+    Double DailyPrice
+    FuelPrice "0..*" -- "0..*" DailyPrice
+    Fuel "0..*" -- "0..*" FuelPrice
+    FuelPrice "0..*" -- "0..*" Fuel
+    FuelPurchase "0..*" -- "0..*" FuelPrice
+    FuelPurchase "0..*" -- "0..*" Fuel
+    FuelPurchase "0..*" -- "0..*" FuelDispensed
+}
+
+@enduml

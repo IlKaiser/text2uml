@@ -1,0 +1,36 @@
+@startuml
+
+class Hospital {
+    String Name
+    String Address
+    String ContactNumber
+    String TreatmentPlans
+}
+class Patient {
+    String Name
+    String Problem
+}
+class Doctor {
+    String Name
+    String Affiliation
+}
+class Examination {
+    String Type
+    String PermissionStatus
+}
+class TreatmentPlan {
+    String Problem
+    List<Examination> AdvisedExaminations
+}
+class ActualTreatment {
+    String Problem
+    List<Examination> PerformedExaminations
+    List<MedicalAction> MedicalActions
+}
+
+Hospital "1" -- "0..*" TreatmentPlan
+TreatmentPlan "1" -- "0..*" Examination
+Doctor "1" -- "0..*" TreatmentPlan
+Patient "1" -- "0..*" ActualTreatment
+
+@enduml

@@ -1,38 +1,38 @@
 @startuml
 
-class BusCompany {}
-class Bus {}
-class Line {}
-class Trajectory {}
-class TownAuthority {}
-class ApprovalRequest {}
-class Customer {}
-class MENSOSubscription {}
-class Card {}
-class Trip {}
-class Invoice {}
-class Payment {}
-class Category {}
+class BusCompany { String Name }
+class Bus { String RegistrationNumber, String Model, Int Capacity }
+class Trajectory { String Name, String Status, Date OperationalStartDate, Boolean Suspended, Boolean Cancelled }
+class ApprovalRequest { Date RequestDate, String Outcome, Int AttemptNumber }
+class TownAuthority { String Name }
+class Line { String Number, String Name }
+class LineCategory { String Name, Double PricePerTrip }
+class MensoTicket { Date StartDate, Date EndDate, Boolean Active }
+class MensoCard { String CardNumber, Date IssueDate, Boolean Active }
+class Customer { String Name, String HomeAddress, String OfficeAddress, String WorkingHours }
+class Trip { DateTime Timestamp }
+class Invoice { Date InvoiceDate, Double TotalAmount, Double Discount, String Status }
+class InvoiceLine { Double Amount }
+class Payment { Date PaymentDate, Double Amount }
 
-BusCompany "1" -- Bus
-BusCompany "1" -- Line
-BusCompany "1" -- Trajectory
-
-Line "1" -- Trajectory
-Trajectory "1" -- Bus
-
-TownAuthority "1" -- ApprovalRequest
-Trajectory "1" -- ApprovalRequest
-
-Customer "1" -- MENSOSubscription
-MENSOSubscription "1" -- Card
-Card "1" -- Trip
-Trip "1" -- Line
-
-Customer "1" -- Invoice
-Invoice "1" -- Trip
-Invoice "1" -- Payment
-
-Category "1" -- Line
+BusCompany "1" -- "0..*" Bus
+BusCompany "1" -- "0..*" Trajectory
+BusCompany "1" -- "0..*" Line
+Trajectory "1" -- "0..*" ApprovalRequest
+TownAuthority "1" -- "0..*" ApprovalRequest
+BusCompany "1" -- "0..*" ApprovalRequest
+Line "1" -- "0..*" Trajectory
+Bus "0..*" -- "0..*" Trajectory
+Bus "0..*" -- "0..*" Line
+LineCategory "1" -- "0..*" Line
+Customer "1" -- "0..*" MensoTicket
+Customer "1" -- "0..*" MensoCard
+MensoCard "1" -- "0..*" Trip
+Line "1" -- "0..*" Trip
+Invoice "1" -- "0..*" InvoiceLine
+Trip "1" -- "0..1" InvoiceLine
+Customer "1" -- "0..*" Invoice
+Payment "0..*" -- "0..*" Invoice
+Customer "1" -- "0..*" Trip
 
 @enduml

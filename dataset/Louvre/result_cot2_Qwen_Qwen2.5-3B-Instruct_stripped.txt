@@ -1,0 +1,104 @@
+Given the provided specification text, the relevant classes for the UML conceptual model diagram are:
+
+1. **LouvreMuseum**
+2. **Exhibition**
+3. **Room**
+4. **Coordinator**
+5. **DesiredItem**
+6. **Collector**
+7. **Piece**
+8. **Sunflower**
+9. **VincentVanGogh**
+10. **JuniorEmployee**
+11. **SeniorEmployee**
+12. **CoachingRelationship**
+
+Here is the UML conceptual model diagram represented in PlantUML format:
+
+```plantuml
+@startuml
+title Louvre Museum Management System Conceptual Model
+
+class LouvreMuseum {
+    +name: String
+    +address: String
+    +numberOfRooms: Int
+}
+
+class Room {
+    +name: String
+    +location: String
+    +exhibitions: Exhibition[]
+}
+
+class Exhibition {
+    +name: String
+    +startDate: Date
+    +endDate: Date
+    +coordinator: Coordinator
+    +desiredItems: DesiredItem[]
+}
+
+class Coordinator {
+    +name: String
+    +exhibition: Exhibition
+}
+
+class DesiredItem {
+    +name: String
+    +piece: Piece
+    +collector: Collector
+}
+
+class Collector {
+    +name: String
+    +pieces: Piece[]
+}
+
+class Piece {
+    +name: String
+    +artist: String
+    +unique: Boolean
+    +candidates: Collector[]
+}
+
+class Sunflower {
+    +name: String
+    +artist: String
+}
+
+class VincentVanGogh {
+    +name: String
+}
+
+class JuniorEmployee {
+    +name: String
+    +seniorEmployee: SeniorEmployee
+}
+
+class SeniorEmployee {
+    +name: String
+    +juniorEmployees: JuniorEmployee[]
+}
+
+class CoachingRelationship {
+    +coach: SeniorEmployee
+    +student: JuniorEmployee
+}
+
+LouvreMuseum -- Room : contains
+LouvreMuseum -- Exhibition : organizes
+Exhibition -- Coordinator : assigned
+Exhibition -- DesiredItem : includes
+DesiredItem -- Piece : contains
+Collector -- Piece : holds
+Piece -- Sunflower : related to
+Piece -- VincentVanGogh : related to
+JuniorEmployee -- SeniorEmployee : coaches
+SeniorEmployee -- JuniorEmployee : coachedBy
+Exhibition -- CoachingRelationship : coaching
+
+@enduml
+```
+
+This PlantUML code represents the conceptual model diagram for the Louvre Museum management system, including the relationships and attributes described in the specification text.

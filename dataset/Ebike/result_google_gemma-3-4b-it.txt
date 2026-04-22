@@ -1,0 +1,86 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Generate a class diagram of an EBike according to these specifications:
+The EBike is composed of a frame (made out of steel), a drive system, and a controller.
+Two wheels are inserted into each frame. The drive system is composed of a motor.
+Each EBike can be connected to a removable battery. The battery has a stored energy
+measured in Watt-hours (Wh). The controller can be in one of three states: On, Off, and
+Charging. It also controls the battery, if one is connected, and commands the drive
+system. The company plans two different variants of the controller, a basic controller,
+and an advanced controller. The advanced controller should be able to estimate the
+next Date the bike should be inspected for maintenance.<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+
+class Frame {
+}
+
+class DriveSystem {
+}
+
+class Controller {
+  String state
+}
+
+class Wheel {
+}
+
+class Battery {
+  double energy
+}
+
+EBike {
+  Frame frame
+  DriveSystem driveSystem
+  Controller controller
+  Wheel wheel1
+  Wheel wheel2
+  Battery battery
+}
+
+Frame "1" -- "1..*" Wheel
+DriveSystem "1" -- "1" Controller
+Controller "1" -- "0..1" Battery
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "0..1" Controller
+EBike "1" -- "0..1" Battery
+
+@enduml
+```

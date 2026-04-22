@@ -1,0 +1,77 @@
+```plantuml
+@startuml
+class ProjectManager {
+}
+
+class System {
+}
+
+class Sensor {
+  +vendorId : String
+  +description : String
+  +unit : String
+}
+
+class SensorController {
+  +apartment : Apartment
+  +inhabitants : Inhabitant
+}
+
+class EHome2020 {
+  +sensorController : SensorController
+  +eMonitor : EMonitor
+}
+
+class EMonitor {
+  +apartment : Apartment
+  +emailAddress : String
+}
+
+class Apartment {
+  +address : String
+  +rooms : Room
+}
+
+class Room {
+  +description : String
+}
+
+class Inhabitant {
+  +username : String
+  +password : String
+  +administrativeRights : Boolean
+}
+
+class SensorData {
+  +timestamp : Date
+  +value : Float
+}
+
+class Value {
+  +sensor : Sensor
+}
+
+class Unit {
+  +name : String
+  +value : String
+}
+
+class Threshold {
+  +sensor : Sensor
+  +value : Float
+}
+
+ProjectManager -- System : manages
+System "1..*" -- Sensor : contains
+SensorController "1..*" -- Apartment : manages
+Apartment "1..*" -- Inhabitant : contains
+Sensor "1..*" -- Room : assignedTo
+Sensor "1..*" -- Value : has
+Value "1..*" -- Sensor : belongsTo
+Sensor "1..*" -- Unit : uses
+Sensor "1..*" -- Threshold : has
+EMonitor -- EHome2020 : uses
+EHome2020 -- EMonitor : uses
+
+@enduml
+```

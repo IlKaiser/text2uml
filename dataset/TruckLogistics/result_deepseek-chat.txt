@@ -1,21 +1,22 @@
 @startuml
 
-class Location{}
-class Driver{}
-class Vehicle{}
-class Truck{}
-class Car{}
-class Van{}
-class Order{}
+class Location{ String Address }
+class Driver{ String FirstName, String LastName }
+class Vehicle{ String VehicleNumber }
+class Truck
+class Car
+class Van
+class Order{ Date ExecutionDate }
 
-Location "1..1" -- "1..*" Driver
-Location "1..1" -- "1..*" Vehicle
 Vehicle <|-- Truck
 Vehicle <|-- Car
 Vehicle <|-- Van
-Order "1..1" -- "1..*" Driver
-Order "1..1" -- "1..1" Location : origin >
-Order "1..1" -- "1..1" Location : destination >
-Driver "0..1" -- "1..*" Vehicle
+
+Location "1..1" -- "0..*" Driver
+Location "1..1" -- "0..*" Vehicle
+Driver "0..1" -- "0..*" Order
+Order "1..*" -- "1..1" Location : Origin >
+Order "1..*" -- "1..1" Location : Destination >
+Driver "0..1" -- "0..*" Vehicle
 
 @enduml

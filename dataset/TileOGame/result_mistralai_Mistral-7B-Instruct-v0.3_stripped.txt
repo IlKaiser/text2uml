@@ -1,0 +1,64 @@
+@startuml
+
+class Game {
+    String Name
+}
+
+class Board {
+    String Layout
+    List<Tile> Tiles
+    List<ConnectionPiece> ConnectionPieces
+    Tile HiddenTile
+    List<Position> StartingPositions
+    List<ActionTile> ActionTiles
+}
+
+class Tile {
+    String Color
+    List<Connection> Connections
+}
+
+class Connection {
+    Tile Tile1
+    Tile Tile2
+}
+
+class Position {
+    String Color
+}
+
+class ActionTile extends Tile {
+    List<ActionCard> ActionCards
+    int TurnsToReset
+}
+
+class ActionCard {
+    String Action
+}
+
+class Player {
+    String Color
+    Position Position
+}
+
+class Deck {
+    List<ActionCard> Cards
+}
+
+Game "1" -- "1" Board
+Board "1..*" Tile
+Board "1..*" ConnectionPiece
+Board "1" HiddenTile
+Board "1..*" StartingPosition
+Board "1..*" ActionTile
+ActionTile "1..*" ActionCard
+ActionTile "1" TurnsToReset
+Board "0..*" Connection
+Tile "0..1" Connection.Tile1
+Tile "0..1" Connection.Tile2
+Board "0..*" Position
+Player "0..4" Board
+Player "1" Position
+Deck "1" Board
+
+@enduml

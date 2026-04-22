@@ -1,38 +1,59 @@
 @startuml
-class Broker{}
-class Claim{}
-class ClaimCase{}
-class Company{}
-class Compensation{}
-class Contract{}
-class Customer{}
-class Damage{}
-class Estimator{}
-class Event{}
-class InsurancePolicy{}
-class InsuranceProduct{}
-class Offer{}
-class Payment{}
-class Report{}
+class Broker {
+}
+class Claim {
+}
+class ClaimCase {
+  approved: Boolean
+}
+class CompensationDecision {
+  partialRefund: Boolean
+}
+class Contract {
+  signed: Boolean
+  invoicingFrequency: String
+  price: Float
+}
+class Customer {
+  trustworthy: Boolean
+}
+class Estimator {
+}
+class Event {
+}
+class File {
+  complete: Boolean
+}
+class Offer {
+}
+class Payment {
+}
+class Policy {
+  type: String
+  price: Float
+}
+class Report {
+  storageDurationYears: Int
+}
 
-Company "1..1" -- "0..*" Customer
-Company "1..1" -- "0..*" InsuranceProduct
-Customer "0..*" -- "0..*" Broker
-Customer "0..*" -- "0..*" Claim
-Customer "0..*" -- "0..*" Compensation
-Customer "0..*" -- "0..*" Contract
-Customer "0..*" -- "1..1" Offer
-Claim "1..1" -- "1..*" ClaimCase
-Claim "0..*" -- "1..1" Event
-ClaimCase "1..1" -- "0..1" Compensation
-ClaimCase "1..1" -- "0..*" Damage
-ClaimCase "0..*" -- "0..*" Estimator
-ClaimCase "1..1" -- "0..*" Report
-Compensation "1..1" -- "0..1" Payment
-Contract "1..1" -- "1..1" InsurancePolicy
-Contract "1..1" -- "0..*" Payment
-Estimator "0..*" -- "0..*" Report
-InsurancePolicy "1..1" -- "1..1" InsuranceProduct
+Customer "1..1" -- "0..*" Policy
+Broker "0..*" -- "1..1" Customer
+Customer "1..1" -- "1..1" File
+Customer "1..1" -- "0..*" Contract
+Policy "1..1" -- "0..*" Contract
+Customer "1..1" -- "0..*" Offer
+Policy "1..1" -- "0..*" Offer
 Offer "0..1" -- "0..1" Contract
-Offer "0..*" -- "1..1" InsuranceProduct
+Contract "1..1" -- "0..*" Payment
+Policy "1..1" -- "0..*" Event
+Event "1..1" -- "0..*" Claim
+Customer "1..1" -- "0..*" Claim
+Claim "1..1" -- "1..*" ClaimCase
+ClaimCase "1..1" -- "1..1" File
+Estimator "0..*" -- "0..*" ClaimCase
+Estimator "1..1" -- "0..*" Report
+ClaimCase "1..1" -- "0..*" Report
+ClaimCase "1..1" -- "0..1" CompensationDecision
+CompensationDecision "1..1" -- "1..1" Payment
+Customer "1..1" -- "0..*" Payment
 @enduml

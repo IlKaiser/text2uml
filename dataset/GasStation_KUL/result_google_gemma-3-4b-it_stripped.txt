@@ -1,0 +1,63 @@
+@startuml
+
+class Customer {
+  String Name
+  String Address
+  String PhoneNumber
+}
+
+class GasStation {
+  String Name
+  String Location
+}
+
+class Pump {
+  String Id
+  String GasolineType
+  int CurrentGasLevel
+  int ReorderLevel
+}
+
+class RefuelTurn {
+  int TurnId
+  Date Date
+  double Amount
+  int PumpId
+}
+
+class RefuelCard {
+  int CardId
+  Customer Customer
+  String ExpiryDate
+}
+
+class Invoice {
+  int InvoiceId
+  Customer Customer
+  Date InvoiceDate
+  double TotalAmount
+  Date DueDate
+  boolean Paid
+}
+
+class Discount {
+  int DiscountId
+  Invoice Invoice
+  double DiscountPercentage
+}
+
+class DailyReport {
+  Date Date
+  String PumpId
+  double CurrentGasLevel
+  double QuantityToOrder
+}
+
+Customer "1..*" -- "1..*" RefuelCard : holds
+GasStation "1..*" -- "1..*" Pump : has
+Pump "1..*" -- "1..*" RefuelTurn : serves
+RefuelTurn "1..*" -- "1..*" Invoice : belongs to
+Invoice "1..*" -- "0..*" Discount : has
+Pump "1..*" --> DailyReport : generates
+
+@enduml

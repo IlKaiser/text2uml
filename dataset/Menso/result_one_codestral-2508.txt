@@ -1,0 +1,45 @@
+@startuml
+
+class Bus {
+    String LineNumber
+}
+class BusLine {
+    String Category
+}
+class Trajectory {
+    String Status
+    Date ApprovalDate
+}
+class ApprovalRequest {}
+class ApprovalResponse {}
+class Line {}
+class MENSOCard {
+    String CardNumber
+}
+class Customer {
+    String HomeAddress
+    String OfficeAddress
+    String WorkingHours
+}
+class Trip {
+    DateTime Time
+    Date Date
+}
+class Invoice {
+    Double TotalAmount
+    Double Discount
+}
+
+Bus "0..*" -- "1" Line
+BusLine "0..*" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" ApprovalRequest
+ApprovalRequest "1" -- "0..*" ApprovalResponse
+BusLine "0..*" -- "1" Line
+Line "0..*" -- "0..*" Trajectory
+Customer "1" -- "0..*" MENSOCard
+MENSOCard "1" -- "0..*" Trip
+BusLine "1" -- "0..*" Trip
+Customer "1" -- "0..*" Invoice
+Trip "0..*" -- "1" Invoice
+
+@enduml

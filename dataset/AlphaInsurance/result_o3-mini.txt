@@ -1,30 +1,66 @@
 @startuml
-class AlphaInsurance {}
-class Customer {}
-class Broker {}
-class HelpDesk {}
-class HeadOffice {}
-class InsurancePolicy {}
-class Contract {}
-class Invoice {}
-class Claim {}
-class ClaimCase {}
-class Estimator {}
-class EstimatorReport {}
-class CompensationDecision {}
 
-AlphaInsurance "1..1" -- "0..*" Customer
-Broker "1..*" -- "1" Customer
-Broker "1..*" -- "1..1" Contract
-Customer "1..1" -- "1..*" Contract
-InsurancePolicy "1..1" -- "1..*" Contract
-HeadOffice "1..1" -- "0..*" Customer
-Contract "1..1" -- "1..*" Invoice
+class InsuranceCompany {
+  String name
+}
+
+class Customer {
+  String name
+}
+
+class Broker {
+  String brokerId
+  String name
+}
+
+class HelpDesk {
+}
+
+class Contract {
+  Date signedDate
+  String period
+}
+
+class Offer {
+  String insuranceProduct
+  String deliveryMethod
+}
+
+class InsurancePolicy {
+  String type
+}
+
+class Claim {
+  Date claimDate
+}
+
+class ClaimCase {
+  String caseType
+}
+
+class Estimator {
+  String areaOfExpertise
+}
+
+class CompensationDecision {
+  String eligibleCosts
+}
+
+class Report {
+  Date reportDate
+}
+
+InsuranceCompany "1..1" -- "0..*" Customer
+Customer "1..1" -- "1..1" Contract
+Broker "1..1" -- "1..1" Contract
+Customer "1..1" -- "1..1" Broker
+Contract "1..1" -- "0..1" Offer
+Customer "1..1" -- "0..*" InsurancePolicy
+Broker "1..1" -- "0..*" InsurancePolicy
 Customer "1..1" -- "0..*" Claim
 Claim "1..1" -- "1..*" ClaimCase
-ClaimCase "1..1" -- "1..*" Estimator
+ClaimCase "1..1" -- "0..*" Estimator
 ClaimCase "1..1" -- "0..1" CompensationDecision
-ClaimCase "1..1" -- "1..*" EstimatorReport
-Estimator "1..1" -- "1..*" EstimatorReport
-HelpDesk "1..1" -- "1..*" Broker
+Estimator "1..1" -- "0..*" Report
+
 @enduml

@@ -1,0 +1,70 @@
+```plantuml
+@startuml
+
+class OilCompany {
+}
+
+class GasStation {
+  number of pumps: Int
+}
+
+class Customer {
+  turnover: Float
+  payment status: String
+}
+
+class CreditCard {
+}
+
+class RefuelCard {
+}
+
+class Invoice {
+  amounts of refuel turns: Float
+  discounts: Float
+  month: Date
+}
+
+class Payment {
+}
+
+class GasPump {
+  type of gasoline: String
+  quantity of gasoline: Float
+  reordering level: Float
+  critical level: Float
+  availability: Boolean
+}
+
+class GasolineType {
+}
+
+class Reservoir {
+  quantity of gasoline: Float
+  reordering level: Float
+  critical level: Float
+}
+
+class DailyReport {
+  pump needs to be refilled: Boolean
+  current level of gasoline: Float
+  quantity to order: Float
+}
+
+class Nozzle {
+  availability: Boolean
+}
+
+OilCompany "1..*" -- "1..*" GasStation
+Customer "0..*" -- "0..1" CreditCard
+Customer "0..*" -- "0..1" RefuelCard
+Customer "1..*" -- "1..*" Invoice
+Invoice "1..*" -- "0..*" Payment
+GasStation "1..*" -- "1..*" GasPump
+GasPump "1..*" -- "1..1" GasolineType
+GasPump "1..*" -- "1..1" Reservoir
+GasPump "1..*" -- "1..1" Nozzle
+GasPump "1..*" -- "1..1" DailyReport
+
+@enduml
+```

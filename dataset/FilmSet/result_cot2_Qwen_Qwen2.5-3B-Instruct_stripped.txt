@@ -1,0 +1,78 @@
+Given the specification text and the identified classes, we can create a UML conceptual model diagram using PlantUML. Here is the PlantUML representation:
+
+```plantuml
+@startuml
+class Employee {
+  +name: String
+  +socialSecurityNumber: String
+}
+
+class Director {
+  +name: String
+  +assistant: Actor
+}
+
+class Actor {
+  +name: String
+  +education: String
+  +oscarWinner: Boolean
+}
+
+class Technician {
+  +name: String
+  +fieldOfActivity: String
+}
+
+class FilmSet {
+  +location: String
+}
+
+class Film {
+  +title: String
+  +yearOfRelease: Int
+  +genre: Genre
+  +screenplay: Screenplay
+}
+
+class Genre {
+  +name: String
+}
+
+class Screenplay {
+  +title: String
+  +version: String
+  +date: Date
+  +numberOfScenes: Int
+  +plot: String
+  +basedOn: Novel | Concept
+}
+
+class Novel {
+  +title: String
+  +author: String
+}
+
+class Screenwriter {
+  +name: String
+  +mostSuccessfulFilm: Film
+}
+
+Employee -- 0..* FilmSet : worksAt
+Employee -- 0..1 Film : directs
+Director -- 0..1 DirectorAssistant : assistantTo
+Actor -- 0..1 Film : appearsIn
+Actor -- 0..1 Education : completedEducation
+Actor -- 0..1 OscarWinner : oscarWinner
+Technician -- 0..1 FilmSet : worksAt
+Film -- 0..1 Genre : belongsToGenre
+Film -- 0..1 Screenplay : screenplayFor
+Screenplay -- 0..1 Novel : basedOn
+Screenplay -- 0..1 Screenwriter : writtenBy
+
+FilmSet -- 0..* Film : containsFilms
+FilmSet -- 0..* Technician : employs
+
+@enduml
+```
+
+This PlantUML code represents the UML conceptual model diagram for the specified classes and their relationships.

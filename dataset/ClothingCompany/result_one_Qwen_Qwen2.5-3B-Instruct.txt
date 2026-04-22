@@ -1,0 +1,43 @@
+@startuml
+
+class Product {
+    String Name
+    String Description
+    Double NetPrice
+    String Manufacturer
+    String Country
+}
+class ClothingProduct extends Product{}
+class Representative {
+    String FirstName
+    String LastName
+    String SocialSecurityNumber
+    String PhoneNumber
+    String Email
+    String CountryResponsible
+}
+class Company {
+    String Name
+}
+class Customer {
+    String Name
+    String Address
+    String PhoneNumber
+    String Email
+    String CountriesReselling
+}
+class Order {
+    String ProductName
+    Integer Quantity
+    Date OrderDate
+    Date DesiredDeliveryDate
+    String ProductId
+}
+
+Product "1" -- "0..*" Order
+ClothingProduct "1" -- "0..*" Order
+Representative "1" -- "1" Customer
+Company "1" -- "0..*" Representative
+Customer "1" -- "0..*" Order
+
+@enduml

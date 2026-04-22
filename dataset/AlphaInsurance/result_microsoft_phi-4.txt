@@ -1,0 +1,66 @@
+```plantuml
+@startuml
+
+class InsuranceCompany {
+    String Name
+}
+
+class Customer {
+    String Name
+    String ContactInfo
+}
+
+class Broker {
+    String Name
+    String RegistrationID
+}
+
+class InsurancePolicy {
+    String PolicyType
+    Date StartDate
+    Date EndDate
+    String CoverageDetails
+}
+
+class Contract {
+    String ContractID
+    Date DateSigned
+    String Status
+}
+
+class Claim {
+    String ClaimID
+    Date DateFiled
+    String Status
+}
+
+class ClaimCase {
+    String CaseID
+    Date DateOpened
+    String Status
+}
+
+class Estimator {
+    String Name
+    String ExpertiseArea
+}
+
+class Report {
+    String ReportID
+    Date DateIssued
+    String Findings
+}
+
+InsuranceCompany "1" -- "0..*" Customer
+Customer "1" -- "1" Broker
+Broker "1" -- "0..*" InsurancePolicy
+Customer "1" -- "0..*" Contract
+Contract "1" -- "1" InsurancePolicy
+Customer "1" -- "0..*" Claim
+Claim "1" -- "1..*" ClaimCase
+ClaimCase "1" -- "0..*" Estimator
+ClaimCase "1" -- "0..*" Report
+Report "1" -- "1" ClaimCase
+
+@enduml
+```

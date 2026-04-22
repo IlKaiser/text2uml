@@ -1,35 +1,64 @@
 @startuml
-class Resident{}
-class Address{}
-class PickupRequest{}
-class Item{}
-class FoodItem{}
-class Vehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class FoodBank{}
-class H2SEmployee{}
-class RFIDTag{}
-class Category{}
-class Client{}
-class Delivery{}
-class Location{}
+class Resident {
+  name:String
+  streetAddress:String
+  phoneNumber:String
+  emailAddress:String
+}
+class Client {
+  requestedCategories:String
+  homeAddress:String
+}
+class PickupRequest {
+  description:String
+  requestedDate:Date
+}
+class Article {
+  description:String
+  dimensions:String
+  weight:Float
+}
+class SecondHandArticle {
+  usable:Boolean
+  isTagged:Boolean
+  category:String
+}
+class NonPerishableFood
+class Category {
+  name:String
+}
+class RFIDTag
+class VolunteerDriver {
+  availableDays:String
+}
+class Vehicle {
+  availableStorageSpace:Float
+}
+class PickupRoute {
+  routeDate:Date
+}
+class DistributionCenter
+class FoodBank
+class H2SEmployee
+class Address {
+  street:String
+}
 
 Resident "1..1" -- "0..*" Address.
 Resident "0..*" -- "1..1" PickupRequest.
-PickupRequest "1..*" -- "1..1" Item.
-Item "0..1" -- "1..1" RFIDTag.
-Item "1..1" -- "0..*" Category.
-Item "0..1" -- "0..*" DistributionCenter.
-FoodItem "1..1" -- "0..*" FoodBank.
-PickupRequest "0..1" -- "1..*" PickupRoute.
+PickupRequest "1..*" -- "1..1" Article.
+PickupRequest "0..1" -- "0..*" PickupRoute.
 PickupRoute "1..1" -- "0..*" Vehicle.
 PickupRoute "1..1" -- "0..*" VolunteerDriver.
-Vehicle "1..1" -- "0..*" DistributionCenter.
-VolunteerDriver "0..*" -- "1..1" Delivery.
-Delivery "1..1" -- "0..*" Client.
+DistributionCenter "0..*" -- "1..1" SecondHandArticle.
+FoodBank "0..*" -- "1..1" NonPerishableFood.
+DistributionCenter "0..*" -- "1..1" H2SEmployee.
+SecondHandArticle "0..1" -- "1..1" RFIDTag.
+SecondHandArticle "1..1" -- "0..*" Category.
 Client "0..*" -- "0..*" Category.
-H2SEmployee "1..1" -- "0..*" DistributionCenter.
-H2SEmployee "0..*" -- "0..1" Item.
+Client "1..1" -- "0..*" Address.
+VolunteerDriver "0..*" -- "0..*" Client.
+
+SecondHandArticle --|> Article
+NonPerishableFood --|> Article
 @enduml

@@ -1,30 +1,59 @@
 ```plantuml
 @startuml
 
-class Musicmatic{}
-class Website{}
-class Song{}
-class Artist{}
-class User{}
-class BusinessUser{}
-class RegularUser{}
-class Album{}
-class Hit{}
-class Single{}
+class Song {
+    title:String
+    year:Int
+    length:Float
+    genre:String
+}
+
+class Artist {
+    date of birth:Date
+    name:String
+    URL:String
+}
+
+class RegularUser {
+    ID:String
+    name:String
+    address:String
+}
+
+class BusinessUser {
+    ID:String
+    name:String
+    address:String
+    VAT number:String
+}
+
+class Album {
+    track number:Int
+}
+
+class Hit {
+}
+
+class Single {
+}
+
+class Suggestion {
+}
+
+class User {
+}
+
+class Musicmatic {
+}
 
 Song "1..1" -- "1..1" Artist
-User "0..*" -- "1..1" RegularUser
-User "0..*" -- "1..1" BusinessUser
-Album "1..*" -- "0..*" Hit
-Hit "1..1" -- "1..1" Album
-RegularUser "1..*" -- "0..*" Single
-RegularUser "1..*" -- "0..*" Album
-BusinessUser "1..*" -- "0..*" Song
-Song "1..1" -- "1..1" Hit
-Song "1..1" -- "1..1" Single
-Website "1..1" -- "0..*" Song
-Website "1..1" -- "0..*" Artist
-Website "1..1" -- "0..*" User
+Album "0..*" -- "1..*" Hit
+Album "1..1" -- "0..1" Suggestion
+User "0..*" -- "0..*" Single
+User "0..*" -- "0..*" Album
+
+RegularUser --|> User
+BusinessUser --|> User
 
 @enduml
 ```

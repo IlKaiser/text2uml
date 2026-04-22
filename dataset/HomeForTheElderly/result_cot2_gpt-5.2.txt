@@ -1,0 +1,57 @@
+@startuml
+class Home
+class Department
+class Room
+class Bed
+class Category {
+  price: Float
+}
+class Inhabitant
+class Stay
+class Registration
+class Assessment
+class WaitingList {
+  position: Int
+}
+class Proposal {
+  accepted: Boolean
+  refused: Boolean
+  invalidated: Boolean
+}
+class Invoice {
+  outstandingAmount: Float
+  paid: Boolean
+}
+class CreditNote
+class Representative
+class Complaint
+class InvoiceItem {
+  amount: Float
+}
+class Discount {
+  amount: Float
+}
+
+Home "1..1" -- "1..*" Department
+Department "1..1" -- "1..*" Room
+Room "1..1" -- "1..*" Bed
+Stay "0..*" -- "1..1" Bed
+Bed "0..*" -- "1..1" Category
+Inhabitant "0..*" -- "1..*" Stay
+Registration "1..1" -- "1..1" Inhabitant
+Inhabitant "1..1" -- "0..*" Assessment
+WaitingList "0..*" -- "1..1" Category
+WaitingList "0..*" -- "0..*" Inhabitant
+Proposal "0..*" -- "1..1" Inhabitant
+Proposal "0..*" -- "1..1" Category
+Proposal "0..*" -- "0..1" Bed
+Invoice "0..*" -- "1..1" Inhabitant
+Invoice "1..1" -- "1..*" InvoiceItem
+InvoiceItem "0..*" -- "0..1" Stay
+CreditNote "0..*" -- "1..1" Invoice
+Inhabitant "0..*" -- "0..1" Representative
+Complaint "0..*" -- "1..1" Invoice
+Complaint "0..*" -- "1..1" Inhabitant
+Discount "0..*" -- "1..1" Stay
+Discount "0..*" -- "0..1" InvoiceItem
+@enduml

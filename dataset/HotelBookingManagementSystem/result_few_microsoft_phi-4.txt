@@ -1,0 +1,67 @@
+```plantuml
+@startuml
+
+class Traveller {
+    String Name
+    String BillingInformation
+    String CompanyName
+    String CompanyAddress
+    String TravelPreferences
+}
+
+class Hotel {
+    String Name
+    String Address
+    String City
+    String HotelChain
+}
+
+class Booking {
+    String BookingIdentifier
+    Date ArrivalDate
+    Date DepartureDate
+    Int NumberOfRooms
+    String RoomType
+    Int HotelRating
+    Double Budget
+    String Status
+    Date CancellationDeadline
+}
+
+class SpecialOffer {
+    Double Price
+    String CityArea
+    Int HotelRating
+    String KeyPreferences
+}
+
+class CreditCard {
+    String CardNumber
+    String ExpiryDate
+    String CVV
+}
+
+class BookingConfirmation {
+    Date ConfirmationDate
+}
+
+class PastBooking {
+    Date BookingDate
+    Double TotalCost
+}
+
+class ReliabilityRating {
+    Double Rating
+}
+
+Traveller "1" -- "0..*" Booking
+Traveller "1" -- "0..*" PastBooking
+Traveller "1" -- "1" ReliabilityRating
+Booking "1" -- "0..*" SpecialOffer
+Booking "1" -- "1" CreditCard
+Booking "1" -- "0..1" BookingConfirmation
+Hotel "1" -- "0..*" Booking
+Booking "1" -- "0..1" Hotel
+
+@enduml
+```

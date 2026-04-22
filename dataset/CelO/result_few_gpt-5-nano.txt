@@ -1,21 +1,67 @@
 @startuml
 
-class Organizer{}
-class Attendee{}
-class Event{}
-class Location{}
-class Task{}
-class Attendance{}
-class TaskAssignment{}
-class Account{}
+class Organizer{
+    String FirstName
+    String LastName
+    String Email
+    String Password
+    String Address
+    String Phone
+}
 
-Event "0..*" -- "0..*" Organizer
-Event "0..*" -- "1" Location
+class Attendee{
+    String FirstName
+    String LastName
+    String Email
+    String Password
+}
+
+class Location{
+    String Name
+    String Address
+}
+
+class EventType{
+    String Name
+}
+
+class Event{
+    String Occasion
+    Date StartDateTime
+    Date EndDateTime
+}
+
+class Attendance{
+    String Status
+    Date ResponseDate
+}
+
+class Task{
+    String Description
+    String Status
+}
+
+class Item{
+    String Name
+    String Quantity
+}
+
+Event "1..*" -- "0..*" Attendance
+Attendee "0..*" -- "0..*" Attendance
+
 Event "0..*" -- "0..*" Task
-Attendee "1" -- "0..*" Attendance
-Event "1" -- "0..*" Attendance
-Task "1" -- "0..*" TaskAssignment
-Attendee "1" -- "0..*" TaskAssignment
-Attendee "0..1" -- "1" Account
+Task "0..*" -- "0..*" Attendee
+
+Event "1" -- "1" Location
+Location "0..*" -- "1" Event
+
+Event "1" -- "0..1" EventType
+EventType "0..*" -- "1" Event
+
+Event "1..*" -- "0..*" Organizer
+Organizer "0..*" -- "1..*" Event
+
+Event "0..*" -- "0..*" Item
+Attendee "0..*" -- "0..*" Item
 
 @enduml

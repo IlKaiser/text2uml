@@ -1,0 +1,46 @@
+```plantuml
+@startuml
+
+class User {
+    String username
+    String password
+    String mode
+}
+class Admin {
+    String username
+    String password
+}
+class Game {
+    String name
+    String hallOfFame
+}
+class Block {
+    String color
+    int points
+}
+class Level {
+    int levelNumber
+    boolean isRandom
+}
+class GameConfig {
+    double minSpeed
+    double speedIncreaseFactor
+    double maxPaddleLength
+    double minPaddleLength
+}
+class DestroyBlockGame {
+    Game game
+    List<Block> blocks
+    List<Level> levels
+    GameConfig config
+}
+
+User "1" -- "0..*" Admin : is
+Admin "1" -- "1" Game : manages
+Game "1" -- "1" DestroyBlockGame : has
+DestroyBlockGame "1" -- "0..*" Block : uses
+DestroyBlockGame "1" -- "0..*" Level : has
+GameConfig "1" -- "1" DestroyBlockGame : configures
+
+@enduml
+```

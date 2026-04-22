@@ -1,32 +1,46 @@
 @startuml
-class Company{}
-class Customer{}
-class Address{}
-class Warehouse{}
-class Product{}
-class StockItem{}
-class Order{}
-class OrderLine{}
-class Invoice{}
-class Payment{}
-class Shipment{}
-class DeliveryService{}
+class Customer {
+  vatNumber: String
+  address: String
+  headOfficeAddress: String
+  deliveryAddresses: String
+}
+class Address
+class Product {
+  available: Boolean
+}
+class Inventory {
+  currentStock: Int
+}
+class Order {
+  paidDate: Date
+  shippedDate: Date
+  fullyShipped: Boolean
+}
+class OrderLine {
+  quantity: Int
+  shipped: Boolean
+  shippedDate: Date
+}
+class Invoice {
+  paid: Boolean
+  paidDate: Date
+}
+class Shipment {
+  status: String
+  packedDate: Date
+  shippedDate: Date
+  receivedDate: Date
+}
+class DeliveryService
 
-Company "1..1" -- "0..*" Customer.
-Company "0..*" -- "1..1" Warehouse.
-Company "1..1" -- "0..*" Product.
 Customer "1..*" -- "1..1" Address.
-Customer "0..*" -- "1..1" Warehouse.
-Warehouse "1..1" -- "1..1" Address.
-Product "1..1" -- "0..*" StockItem.
-StockItem "1..1" -- "0..*" Warehouse.
-Order "1..1" -- "0..*" Customer.
+Customer "0..*" -- "1..1" Order.
 Order "1..1" -- "0..*" Address.
 Order "1..*" -- "1..1" OrderLine.
-Order "1..1" -- "0..1" Invoice.
-Order "0..*" -- "1..1" Shipment.
+Order "1..1" -- "1..1" Invoice.
 OrderLine "1..1" -- "0..*" Product.
-OrderLine "0..1" -- "1..*" Shipment.
-Invoice "0..1" -- "1..1" Payment.
-Shipment "0..1" -- "0..*" DeliveryService.
+OrderLine "0..*" -- "1..*" Shipment.
+Shipment "1..1" -- "0..*" DeliveryService.
+Product "1..1" -- "1..1" Inventory.
 @enduml

@@ -1,35 +1,82 @@
 ```plantuml
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Inhabitant{}
-class Category{}
-class Stay{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Invoice{}
-class Payment{}
-class CreditNote{}
+class Home {
+    String Name
+    String Address
+}
+
+class Department {
+    String Name
+}
+
+class Room {
+    String Name
+}
+
+class Bed {
+    String Name
+}
+
+class Category {
+    String Name
+    Double Price
+}
+
+class Inhabitant {
+    String Name
+    Date BirthDate
+    String Address
+}
+
+class Stay {
+    Date StartDate
+    Date EndDate
+    Boolean IsActive
+}
+
+class Registration {
+    Date RegistrationDate
+    String Status
+}
+
+class Assessment {
+    Date AssessmentDate
+    String Result
+}
+
+class WaitingList {
+    Integer Position
+}
+
+class Invoice {
+    Date InvoiceDate
+    Double Amount
+    String Status
+}
+
+class Payment {
+    Date PaymentDate
+    Double Amount
+}
+
+class CreditNote {
+    Date Date
+    Double Amount
+}
 
 Home "1" -- "1..*" Department
 Department "1" -- "1..*" Room
 Room "1" -- "1..*" Bed
-Bed "1" -- "1..*" Inhabitant
 Bed "1" -- "1" Category
-Category "1" -- "1..*" Stay
-Inhabitant "1..*" -- "1..*" Stay
-Registration "1" -- "1" Inhabitant
+Inhabitant "1" -- "0..*" Stay
+Stay "1" -- "1" Category
+Inhabitant "1" -- "1" Registration
 Registration "1" -- "1" Assessment
 Assessment "1" -- "1" WaitingList
-WaitingList "1" -- "1..*" Proposal
-Proposal "1" -- "1" Stay
+WaitingList "1" -- "1" Category
 Stay "1" -- "1..*" Invoice
-Invoice "1" -- "1..*" Payment
+Invoice "1" -- "0..*" Payment
 Payment "1" -- "0..1" CreditNote
 
 @enduml

@@ -1,0 +1,32 @@
+@startuml
+
+class SmartHome{ String Name, String Address }
+class Room{ String Name }
+class SensorDevice{ String DeviceId, String Type, Boolean Active }
+class ActuatorDevice{ String DeviceId, String Type, Boolean Active }
+class SensorReading{ Double Value, Date Timestamp }
+class CommandLog{ String CommandName, Date Timestamp, String Status }
+class ActivityLog{ Date CreatedAt }
+class AutomationRule{ String Precondition, String Action, String Status, Date LastTriggered }
+class User{ String UserId, String Name, String Role }
+
+SmartHome "1" -- "0..*" Room
+Room "1" -- "0..*" SensorDevice
+Room "1" -- "0..*" ActuatorDevice
+SensorDevice "1" -- "0..*" SensorReading
+ActuatorDevice "1" -- "0..*" CommandLog
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" CommandLog
+SmartHome "1" -- "0..*" ActivityLog
+SensorReading "1" -- "1" SensorDevice
+CommandLog "1" -- "1" ActuatorDevice
+User "1" -- "0..*" AutomationRule
+AutomationRule "0..*" -- "0..*" Room
+AutomationRule "0..*" -- "0..*" SensorDevice
+AutomationRule "0..*" -- "0..*" ActuatorDevice
+AutomationRule "0..*" -- "0..*" SensorReading
+AutomationRule "0..*" -- "0..*" CommandLog
+AutomationRule "0..*" -- "0..*" AutomationRule : dependsOn
+AutomationRule "0..*" -- "0..*" AutomationRule : conflictsWith
+
+@enduml

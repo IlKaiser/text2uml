@@ -1,53 +1,65 @@
 @startuml
-class HelpingHandsStore{}
-class DistributionCenter{}
-class FoodBank{}
-class Website{}
-class Resident{}
-class StreetAddress{}
-class Article{}
-class SecondHandArticle{}
-class NonPerishableFood{}
-class RFIDDevice{}
-class Category{}
-class Day{}
-class TimeWindow{}
-class Schedule{}
-class Pickup{}
-class PickupRoute{}
-class Vehicle{}
-class Driver{}
-class VolunteerDriver{}
-class StorageSpace{}
-class Dimension{}
-class Weight{}
-class DeliveryService{}
-class PickupService{}
-class DistributionCenterEmployee{}
-Resident "0..*" -- "0..*" Pickup
-Pickup "1" -- "1" StreetAddress
-StreetAddress "0..*" -- "0..*" Pickup
-Pickup "0..*" -- "0..*" SecondHandArticle
-Pickup "0..*" -- "0..*" NonPerishableFood
-Vehicle "0..*" -- "0..*" PickupRoute
-PickupRoute "1" -- "1" Vehicle
-VolunteerDriver "0..*" -- "0..*" PickupRoute
-PickupRoute "1" -- "1" Day
-Day "0..*" -- "0..*" PickupRoute
-PickupRoute "1" -- "1" StorageSpace
-SecondHandArticle "0..1" -- "0..1" RFIDDevice
-NonPerishableFood "1" -- "1" Category
-SecondHandArticle "1" -- "1" Category
-Category "0..*" -- "0..*" NonPerishableFood
-Category "0..*" -- "0..*" SecondHandArticle
-DistributionCenter "0..*" -- "0..*" DistributionCenterEmployee
-DistributionCenterEmployee "1" -- "1" DistributionCenter
-DeliveryService "1" -- "1" StreetAddress
-DeliveryService "1" -- "1" Resident
-DeliveryService "0..*" -- "0..*" VolunteerDriver
-DeliveryService "0..*" -- "0..*" SecondHandArticle
-FoodBank "0..*" -- "0..*" NonPerishableFood
-DistributionCenter "0..*" -- "0..*" SecondHandArticle
-SecondHandArticle "1" -- "1" Resident
-NonPerishableFood "1" -- "1" Resident
+class HelpingHandsStore
+class DistributionCenter
+class FoodBank
+class StreetAddress
+class Address
+class City
+class Resident {
+  name: String
+  streetAddress: String
+  phoneNumber: String
+  emailAddress: String
+  itemsDescription: String
+}
+class Vehicle
+class PickupVehicle {
+  storageSpace: Int
+}
+class Driver
+class VolunteerDriver {
+  availableDays: String
+}
+class Route
+class PickupRoute
+class Schedule
+class Day
+class Weekday
+class Time
+class RFIDDevice
+class Employee
+class Article {
+  description: String
+  rfidTag: String
+  category: String
+}
+class SecondHandArticle
+class NonPerishableFood
+class Category
+class ArticleCategory
+class Website
+class AvailabilityDays
+class Fleet
+SecondHandArticle --|> Article
+NonPerishableFood --|> Article
+PickupRoute --|> Route
+PickupVehicle --|> Vehicle
+VolunteerDriver --|> Driver
+Website "1" -- "0..*" Resident
+StreetAddress "1" -- "0..*" Resident
+Address "1" -- "1" StreetAddress
+City "1" -- "1" Address
+DistributionCenter "1" -- "0..*" SecondHandArticle
+FoodBank "1" -- "0..*" NonPerishableFood
+Employee "1" -- "0..*" DistributionCenter
+Article "1" -- "0..*" Resident
+Article "1" -- "0..1" RFIDDevice
+ArticleCategory "1" -- "1" Category
+Article "1" -- "0..*" ArticleCategory
+Fleet "1" -- "0..*" PickupVehicle
+Vehicle "1" -- "0..*" PickupRoute
+PickupRoute "1" -- "1" Schedule
+Schedule "1" -- "1" Time
+VolunteerDriver "1" -- "0..*" AvailabilityDays
+AvailabilityDays "1" -- "1" Weekday
 @enduml

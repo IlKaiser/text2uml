@@ -1,30 +1,54 @@
-```plantuml
+```puml
 @startuml
 
-class Traveller {}
-class HBMS {}
-class Hotel {}
-class Booking {}
-class Room {}
-class City {}
-class HotelChain {}
-class SpecialOffer {}
-class CreditCard {}
-class Confirmation {}
-class Cancellation {}
+class Traveller {
+    String Name
+    String BillingInformation
+    String TravelPreferences
+}
+class Hotel {
+    String Name
+    String Address
+    String HotelChain
+}
+class Booking {
+    String City
+    Date ArrivalDate
+    Date DepartureDate
+    Int NumberOfRooms
+    String TypeOfRooms
+    Int HotelRating
+    Double Budget
+    String Status
+    Date CancellationDeadline
+    String BookingIdentifier
+    String ReliabilityRating
+}
+class RoomType {
+    String Type
+}
+class SpecialOffer {
+    Double Price
+    String CityArea
+    Int HotelRating
+    String Preferences
+    String BookingIdentifier
+}
+class CreditCard {
+    String CardNumber
+    String ExpiryDate
+    String CVV
+}
+class Confirmation {
+    String Status
+}
 
-Traveller "0..*" -- "1" HBMS
-HBMS "1" -- "0..*" Hotel
-Hotel "1" -- "0..*" Room
-Hotel "0..*" -- "1" City
-Hotel "0..*" -- "1" HotelChain
 Traveller "1" -- "0..*" Booking
-Booking "0..*" -- "1" Hotel
-Booking "1" -- "0..*" Room
+Hotel "1" -- "0..*" Booking
 Booking "1" -- "0..*" SpecialOffer
-Booking "1" -- "0..*" CreditCard
-Booking "1" -- "0..*" Confirmation
-Booking "1" -- "0..*" Cancellation
+Booking "1" -- "1" CreditCard
+Booking "1" -- "0..1" Confirmation
+Hotel "1" -- "0..*" RoomType
 
 @enduml
 ```

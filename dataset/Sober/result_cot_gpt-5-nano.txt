@@ -1,29 +1,42 @@
 @startuml
-class Sober{}
-class Car{}
-class SelfDrivingCar{}
-class Owner{}
-class Customer{}
-class Ride{}
-class RideHailService{}
-class RideShareService{}
-class App{}
-class GestureRecognition{}
-class Accident{}
-class Location{}
-
-Sober "1..*" -- "1..1" SelfDrivingCar
-Sober "1..1" -- "0..*" RideHailService
-Sober "1..1" -- "0..*" RideShareService
-Sober "1..1" -- "1..1" App
-Sober "0..*" -- "1..1" Owner
+class Car
+class Owner
+class Customer
+class RideHail {
+  pickupTime: Date
+  dropoffTime: Date
+  pickupLocation: String
+  dropoffLocation: String
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  fee: Float
+  requestType: String
+  leadCustomerName: String
+  leadCustomerNumber: Int
+  maxPassengers: Int
+}
+class RideShare {
+  pickupTime: Date
+  dropoffTime: Date
+  pickupLocation: String
+  dropoffLocation: String
+  rideDuration: Float
+  distance: Float
+  numberOfCustomers: Int
+  customerNames: String
+  negotiatedFee: Float
+  maxPassengers: Int
+}
+class Accident {
+  accidentDate: Date
+  accidentLocation: String
+  damageAmount: Float
+}
 Car "1..1" -- "0..*" Owner
-GestureRecognition "0..*" -- "1..1" Ride
-App "1..*" -- "1..1" Customer
-App "1..*" -- "0..*" RideHailService
-Customer "0..*" -- "1..1" Ride
-Ride "2..2" -- "0..*" Location
-Ride "1..1" -- "1..*" RideHailService
-Ride "1..1" -- "1..*" RideShareService
+Car "0..*" -- "1..1" RideHail
+Car "0..*" -- "1..1" RideShare
+RideHail "1..1" -- "0..*" Customer
+RideShare "1..10" -- "0..*" Customer
 Accident "1..1" -- "0..*" Car
 @enduml

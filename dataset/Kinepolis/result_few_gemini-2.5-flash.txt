@@ -1,36 +1,74 @@
 @startuml
 
-class Town {}
-class Cinema {}
-class Theatre {}
-class Movie {}
-class MovieCopy {}
-class Show {}
-class Program {}
-class Customer {}
-class Reservation {}
-class CreditCard {}
-class Seat {}
-class Offer {}
-class FreeTicket {}
-class Ticket {}
+class Cinema {
+    String Name
+    String Town
+}
+class Theatre {
+    String Number
+}
+class Movie {
+    String Title
+    String Director
+    Int DurationMinutes
+}
+class MovieCopy {
+    String Identifier
+}
+class Show {
+    Date StartTime
+    Double Price
+    Date PublicationDate
+    Boolean IsCancelled
+}
+class Customer {
+    String Name
+    String Email
+}
+class Reservation {
+    Date BookingTime
+    String Status
+    Double TotalAmount
+}
+class CreditCard {
+    String MaskedNumber
+    String HolderName
+    Date ExpiryDate
+}
+class Seat {
+    String SeatNumber
+}
+class Offer {
+    String Status
+    Date ExpiryTime
+}
+class FreeTicket {
+    String Code
+    Date ExpiryDate
+}
+class Ticket {
+    Date PurchaseTime
+    Double Price
+}
 
-Town "1" -- "0..*" Cinema
 Cinema "1" -- "1..*" Theatre
-Cinema "1" -- "0..*" MovieCopy
-Movie "1" -- "1..*" MovieCopy
 Theatre "1" -- "1..*" Seat
 Theatre "1" -- "0..*" Show
+Movie "1" -- "1..*" MovieCopy
+Cinema "1" -- "0..*" MovieCopy
 MovieCopy "1" -- "0..*" Show
-Program "1" -- "1..*" Show
+Movie "1" -- "0..*" Show
 Customer "1" -- "0..*" Reservation
 Reservation "0..*" -- "1" Show
-Reservation "0..*" -- "1" Seat
-Reservation "0..*" -- "1" CreditCard
-Customer "1" -- "0..*" Offer
+CreditCard "1" -- "0..*" Reservation
+Customer "1" -- "0..*" CreditCard
+Reservation "1" -- "1..*" Seat
+Reservation "1" -- "0..1" Offer
 Offer "0..*" -- "1" Show
+Offer "0..*" -- "1" Seat
 Customer "1" -- "0..*" FreeTicket
+Reservation "0..1" -- "0..1" FreeTicket
 Ticket "0..*" -- "1" Show
-Ticket "0..*" -- "1" Seat
+Ticket "1" -- "1" Seat
 
 @enduml

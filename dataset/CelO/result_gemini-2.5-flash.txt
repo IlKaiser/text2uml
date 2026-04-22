@@ -1,23 +1,75 @@
 @startuml
 
-class Organizer{}
-class Event{}
-class EventType{}
-class Location{}
-class Attendee{}
-class Account{}
-class Attendance{}
-class Checklist{}
-class Task{}
+class Person {
+  String FirstName
+  String LastName
+  String EmailAddress
+  String Password
+}
 
-Organizer "1..*" -- "1..*" Event
-Event "1..1" -- "0..*" EventType
-Event "1..1" -- "0..*" Location
-Attendee "1..1" -- "0..1" Account
-Event "1..1" -- "0..*" Attendance
-Attendee "1..1" -- "0..*" Attendance
-Event "1..1" -- "1..1" Checklist
-Checklist "1..*" -- "0..*" Task
-Attendee "0..*" -- "0..*" Task
+class Organizer {
+  String PostalAddress
+  String PhoneNumber
+}
+
+class Attendee {
+}
+
+class Event {
+  DateTime StartDateTime
+  DateTime EndDateTime
+  String Occasion
+}
+
+class EventType {
+  String Name
+}
+
+class Location {
+  String Name
+  String Address
+}
+
+class Task {
+  String Description
+}
+
+class EventInvitation {
+  AttendingStatus Status
+}
+
+class EventTask {
+  TaskStatus Status
+}
+
+enum AttendingStatus {
+  WillAttend
+  MaybeAttend
+  CannotAttend
+  NotReplied
+}
+
+enum TaskStatus {
+  ToDo
+  Done
+  NotApplicable
+}
+
+Person <|-- Organizer
+Person <|-- Attendee
+
+EventType "1" -- "0..*" Event
+Location "1" -- "0..*" Event
+Organizer "0..*" -- "1..*" Event
+
+Attendee "1" -- "0..*" EventInvitation
+Event "1" -- "0..*" EventInvitation
+
+Event "1" -- "0..*" EventTask
+Task "1" -- "0..*" EventTask
+
+EventType "0..*" -- "0..*" Task
+
+Attendee "0..*" -- "0..1" EventTask
 
 @enduml

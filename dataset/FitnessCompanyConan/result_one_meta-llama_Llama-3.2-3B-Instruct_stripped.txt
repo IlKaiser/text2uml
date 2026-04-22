@@ -1,0 +1,93 @@
+@startuml
+
+class Person {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class Trainer {
+    String Diploma
+}
+class TrainerSession {
+    String SessionType
+    Date SessionDate
+    Time SessionTime
+    String RoomNumber
+    String CenterName
+}
+class Session {
+    String SessionType
+    Date SessionDate
+    Time SessionTime
+    String RoomNumber
+    String CenterName
+}
+class GroupSession {
+    String SessionType
+    Date SessionDate
+    Time SessionTime
+    String RoomNumber
+    String CenterName
+}
+class Participant {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class ParticipantSession {
+    String SessionType
+    Date SessionDate
+    Time SessionTime
+    String RoomNumber
+    String CenterName
+    Participant "1" -- "0..*" ParticipantSession
+    TrainerSession "0..*" -- "0..*" ParticipantSession
+    Session "1" -- "0..*" ParticipantSession
+    GroupSession "1" -- "0..*" ParticipantSession
+}
+class TrainerSession {
+    Trainer "1" -- "0..*" TrainerSession
+    ParticipantSession "0..*" -- "0..*" TrainerSession
+    Session "0..*" -- "0..*" TrainerSession
+    GroupSession "0..*" -- "0..*" TrainerSession
+}
+class Center {
+    String Name
+    String Address
+    String RoomNumber
+    Integer MaxCapacity
+}
+class City {
+    String Name
+}
+class FitnessCenter {
+    String Name
+    String Address
+    String City
+    Center "1" -- "0..*" FitnessCenter
+}
+class Trainer {
+    String Name
+    String Diploma
+    TrainerSession "0..*" -- "0..*" Trainer
+    ParticipantSession "0..*" -- "0..*" Trainer
+}
+class Person {
+    String Name
+    String LastName
+    Date BirthDate
+    ParticipantSession "0..*" -- "0..*" Person
+    TrainerSession "0..*" -- "0..*" Person
+}
+class Prospect {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class Intern {
+    String Name
+    String Diploma
+    TrainerSession "0..*" -- "0..*" Intern
+}
+
+@enduml

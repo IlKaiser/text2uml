@@ -1,0 +1,62 @@
+@startuml
+class HelpingHandsStore
+class Location
+class Resident {
+  name: String
+  streetAddress: String
+  phoneNumber: String
+  emailAddress: String
+}
+class PickupRequest {
+  weekdayRequestedForPickup: String
+  itemDescription: String
+}
+class Item {
+  description: String
+  dimensions: String
+  weight: Float
+}
+class Address
+class Vehicle {
+  availableStorageSpace: Float
+}
+class VolunteerDriver {
+  availableDays: String
+}
+class PickupRoute
+class DistributionCenter
+class Employee
+class RFIDTag {
+  device: String
+}
+class Category {
+  name: String
+}
+class Client {
+  neededCategories: String
+  homeAddress: String
+}
+class Delivery
+class FoodBank
+
+HelpingHandsStore "0..*" -- "1..1" Location
+HelpingHandsStore "0..*" -- "1..1" Vehicle
+HelpingHandsStore "0..*" -- "1..1" DistributionCenter
+HelpingHandsStore "0..*" -- "1..1" FoodBank
+Resident "0..*" -- "1..1" PickupRequest
+PickupRequest "1..1" -- "1..1" Address
+PickupRequest "1..*" -- "1..1" Item
+Item "0..1" -- "1..1" RFIDTag
+Item "1..1" -- "0..*" Category
+Vehicle "0..*" -- "1..1" PickupRoute
+VolunteerDriver "0..*" -- "1..1" PickupRoute
+PickupRoute "0..*" -- "1..1" PickupRequest
+VolunteerDriver "0..*" -- "0..*" Vehicle
+Employee "0..*" -- "1..1" DistributionCenter
+Employee "0..*" -- "0..*" Item
+Client "0..*" -- "0..*" Category
+Employee "0..*" -- "1..1" Delivery
+Delivery "1..*" -- "0..1" Item
+Delivery "0..*" -- "1..1" Client
+Delivery "1..1" -- "1..1" Address
+@enduml

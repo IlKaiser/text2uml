@@ -1,0 +1,83 @@
+@startuml
+
+class Employee {
+    - name
+    - socialSecurityNumber
+}
+
+class CreativeEmployee {
+    - education
+}
+
+class Director {
+    - directorAssistant
+}
+
+class Actor {
+    - Oscar
+}
+
+class Technician {
+    - fieldOfActivity
+}
+
+class Location {
+}
+
+class Film {
+    - title
+    - yearOfRelease
+    - genre
+    - oscar
+    - screenplay
+}
+
+class Screenwriter {
+    - mostSuccessfulFilm
+}
+
+class Screenplay {
+    - title
+    - version
+    - date
+    - numberOfScenes
+    - plot
+    - novel
+    - concept
+    - film
+    - actors
+}
+
+class Novel {
+    - title
+    - author
+}
+
+class Genre {
+}
+
+Employee "0..*" -- FilmSet
+CreativeEmployee "0..*" -- FilmSet
+Director "1" -- DirectorAssistant
+Actor "0..*" -- Film
+Technician "0..*" -- FilmSet
+FilmSet "1" -- Location
+Film "1" -- "0..*" Film
+Film "1" -- Genre
+Film "1" -- Oscar
+Screenwriter "1" -- Screenplay
+Screenplay "1" -- Screenplay
+Screenplay "0..*" -- Novel
+Screenplay "1" -- Screenplay
+Screenplay "0..*" -- Actor
+Screenplay "1" -- Screenplay
+Screenplay "1" -- Director
+Screenplay "1" -- Title
+Screenplay "1" -- Version
+Screenplay "1" -- Date
+Screenplay "1" -- NumberOfScenes
+Screenplay "1" -- Plot
+Novel "1" -- Title
+Novel "1" -- Author
+
+@enduml

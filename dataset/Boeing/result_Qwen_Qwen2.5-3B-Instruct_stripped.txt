@@ -1,0 +1,53 @@
+@startuml
+
+class Boeing{
+    +void makeSalesAgreement(AirlineCompany)
+    +void manageContract(AirlineCompany, Contract)
+}
+
+class AirlineCompany{
+    -String name
+    -List<Contract> contracts
+}
+
+class Contract{
+    -AirlineCompany buyer
+    -List<Acquisition> acquisitions
+}
+
+class Acquisition{
+    -Boeing.Aircraft aircraft
+    -AirlineCompany seller
+    -String model
+    -Double price
+    -List<Option> options
+    -Date deliveryDate
+}
+
+class Option{
+    -String name
+    -Boolean selected
+}
+
+class SalesPerson{
+    -Boeing Boeing
+    -AirlineCompany AirlineCompany
+    -List<Contract> managedContracts
+}
+
+class Option{
+    -String name
+    -Boolean selected
+}
+
+Boeing "1" -- "0..*" AirlineCompany
+AirlineCompany "1" -- "1" Contract
+Contract "1" -- "1" Acquisition
+Acquisition "1" -- "*" Boeing.Aircraft
+Acquisition "1" -- "1" Option
+Option "0..*" -- "1" Acquisition
+AirlineCompany "1" -- "0..*" Option
+AirlineCompany "1" -- "1" SalesPerson
+SalesPerson "1" -- "1" Boeing
+SalesPerson "1" -- "0..*" Contract
+@enduml

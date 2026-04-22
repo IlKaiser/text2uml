@@ -1,0 +1,40 @@
+```plantuml
+@startuml
+
+class ResearchProject {
+  Work Packages: List[Work Package]
+}
+
+class WorkPackage {
+  WP Leader: Research Group
+  Team Members: List[Researcher]
+}
+
+class ResearchGroup {
+  Department: Department
+  Researchers: List[Researcher]
+}
+
+class Department {
+  Research Groups: List[Research Group]
+}
+
+class Researcher {
+  Research Group: Research Group
+  Work Package Assignments: List[Work Package]
+}
+
+class ServiceDelivery {
+  Service Deliveries: List[Researcher]
+}
+
+ResearchProject "1..*" -- "1..*" WorkPackage
+ResearchProject "1..*" -- "0..*" Researcher
+WorkPackage "1..1" -- "1..1" ResearchGroup
+WorkPackage "1..*" -- "0..*" Researcher
+ResearchGroup "1..1" -- "1..*" Researcher
+ResearchGroup "1..*" -- "1..1" Department
+Researcher "1..1" -- "1..1" ResearchGroup
+
+@enduml
+```

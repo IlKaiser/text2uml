@@ -1,14 +1,39 @@
 
 @startuml
 
-class Person{}
-class Institution{}
-class ScientificArticle{}
-class Publisher{}
-class Journal{}
+class ScientificStaff {
+    personID: String
+    phoneNumber: String
+    researchTopics: String
+    institution: ResearchInstitution
+}
 
-Person "1..*" -- "1..*" ScientificArticle
-ScientificArticle "1..1" -- "1..*" Journal
-Publisher "1..*" -- "1..*" Journal
+class ResearchInstitution {
+    institutionCode: String
+}
+
+class ScientificArticle {
+    DOI: String
+    title: String
+    authors: String
+    authorPosition: Int
+    articleType: String
+    citationCount: Int
+    reviewer: ScientificStaff
+}
+
+class Publisher {
+    name: String
+}
+
+class Journal {
+    name: String
+    impactFactor: Float
+}
+
+ScientificStaff "1..*" -- "1..1" ResearchInstitution.
+ScientificStaff "1..1" -- "0..*" ScientificArticle.
+ScientificArticle "1..1" -- "1..*" Publisher.
+Publisher "1..*" -- "0..*" Journal.
 
 @enduml

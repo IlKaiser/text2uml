@@ -1,0 +1,84 @@
+Here is the UML output for the given specification text:
+
+@startuml
+
+class Person {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class Trainer {
+    String Diploma
+}
+class Session {
+    Date Date
+    Time StartHour
+    String Type
+    String RoomNumber
+    String CenterName
+}
+class GroupSession {
+    String Type
+}
+class IndividualSession {
+    String RoomNumber
+    String CenterName
+}
+class Center {
+    String Name
+    String Address
+    Integer Capacity
+    String RoomNumber
+}
+class Room {
+    Integer Number
+}
+class TrainerSession {
+    String SessionType
+    String TrainerName
+}
+class Participant {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class Prospect {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class Intern {
+    String Diploma
+}
+
+Center "1..*" -- "0..*" Room
+Room "1..*" -- "0..*" Session
+Session "1..*" -- "0..*" Participant
+Session "1..*" -- "0..*" TrainerSession
+Session "1..*" -- "0..*" GroupSession
+Session "1..*" -- "0..*" IndividualSession
+Participant "1..*" -- "0..*" Session
+Participant "1..*" -- "0..*" TrainerSession
+Participant "1..*" -- "0..*" GroupSession
+Participant "1..*" -- "0..*" IndividualSession
+Trainer "1..*" -- "0..*" Session
+Trainer "1..*" -- "0..*" TrainerSession
+Trainer "1..*" -- "0..*" GroupSession
+Trainer "1..*" -- "0..*" IndividualSession
+TrainerSession "1..*" -- "0..*" Session
+TrainerSession "1..*" -- "0..*" Participant
+TrainerSession "1..*" -- "0..*" GroupSession
+TrainerSession "1..*" -- "0..*" IndividualSession
+GroupSession "1..*" -- "0..*" Session
+GroupSession "1..*" -- "0..*" Participant
+GroupSession "1..*" -- "0..*" TrainerSession
+IndividualSession "1..*" -- "0..*" Session
+IndividualSession "1..*" -- "0..*" Participant
+IndividualSession "1..*" -- "0..*" TrainerSession
+Prospect "1..*" -- "0..*" Person
+Intern "1..*" -- "0..*" Person
+Person "1..*" -- "0..*" TrainerSession
+Person "1..*" -- "0..*" GroupSession
+Person "1..*" -- "0..*" IndividualSession
+
+@enduml

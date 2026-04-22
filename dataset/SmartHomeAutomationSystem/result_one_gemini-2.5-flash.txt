@@ -1,0 +1,61 @@
+@startuml
+
+class SHAS {
+}
+class User {
+    String Name
+    String Email
+}
+class SmartHome {
+    String PhysicalAddress
+}
+class Room {
+    String Name
+}
+class Device {
+    String DeviceIdentifier
+    String Type
+    Boolean IsActive
+}
+class Sensor {
+}
+class Actuator {
+}
+class SensorReading {
+    String MeasuredValue
+    DateTime Timestamp
+}
+class ControlCommand {
+    String CommandName
+    DateTime Timestamp
+    String Status
+}
+class ActivityLog {
+}
+class AutomationRule {
+    String Precondition
+    String Action
+    String Status
+}
+class RuleTriggerEvent {
+    DateTime Timestamp
+}
+
+Device <|-- Sensor
+Device <|-- Actuator
+SHAS "1" -- "0..*" SmartHome
+User "1" -- "0..*" SmartHome
+SmartHome "1" -- "1..*" Room
+Room "1" -- "0..*" Device
+Sensor "1" -- "0..*" SensorReading
+Actuator "1" -- "0..*" ControlCommand
+SmartHome "1" -- "1" ActivityLog
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" ControlCommand
+SmartHome "1" -- "0..*" AutomationRule
+User "1" -- "0..*" AutomationRule
+AutomationRule "0..*" -- "0..*" AutomationRule
+AutomationRule "1" -- "0..*" RuleTriggerEvent
+SHAS "1" -- "0..*" RuleTriggerEvent
+
+@enduml

@@ -1,0 +1,50 @@
+```plantuml
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class Broker {
+    String Name
+}
+class InsurancePolicy {
+    String Type
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {
+    String Number
+}
+class Claim {
+    Double CompensationTotal
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1" -- "1..*" Broker
+Broker "1" -- "1..*" Customer
+Customer "1" -- "0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+ClaimCase "1" -- "0..*" Report
+Estimator "0..*" -- "0..*" ClaimCase
+CompensationPayment "1" -- "1" Invoice
+
+@enduml
+```

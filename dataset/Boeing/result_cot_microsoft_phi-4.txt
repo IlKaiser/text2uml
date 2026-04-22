@@ -1,0 +1,53 @@
+```plantuml
+@startuml
+
+class Aircraft {
+  model: String
+  price: Float
+  options: String
+  customizations: String
+  deliveryDate: Date
+}
+
+class SalesAgreement {
+}
+
+class Contract {
+  deliveryConditions: String
+  legalAspects: String
+}
+
+class Acquisition {
+  model: String
+  price: Float
+  options: String
+  customizations: String
+  deliveryDate: Date
+}
+
+class AirlineCompany {
+  motherCompany: String
+  daughterCompany: String
+}
+
+class Salesperson {
+}
+
+class Employee {
+}
+
+class Boeing {
+}
+
+Boeing "1..*" -- "0..*" AirlineCompany
+SalesAgreement "1..1" -- "1..1" AirlineCompany
+Contract "1..*" -- "1..1" AirlineCompany
+Acquisition "1..*" -- "1..1" Contract
+Salesperson "1..1" -- "1..*" Contract
+Employee "1..*" -- "1..*" Salesperson
+AirlineCompany "0..*" -- "1..1" AirlineCompany
+
+AirlineCompany --|> AirlineCompany
+
+@enduml
+```

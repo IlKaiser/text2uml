@@ -1,29 +1,66 @@
 @startuml
 
-class Employee {}
-class Director {}
-class Actor {}
-class Technician {}
-class FilmSet {}
-class Location {}
-class Film {}
-class Genre {}
-class Screenwriter {}
-class Screenplay {}
-class Novel {}
-class Concept {}
-class Author {}
+class Employee {
+    String Name
+    String SocialSecurityNumber
+}
 
-FilmSet "1" -- "0..*" Employee
-FilmSet "1" -- "1" Location
-FilmSet "1..*" -- "1..*" Film
-Film "1" -- "1" Genre
+class Actor {
+    String Education
+    Boolean HasOscar
+}
+
+class Director {
+    String AssistantName
+    Boolean HasOscar
+}
+
+class Technician {
+    String FieldOfActivity
+}
+
+class FilmSet {
+    String Location
+}
+
+class Film {
+    String Title
+    int Year
+    String Genre
+}
+
+class Screenwriter {
+    String Name
+    String MostSuccessfulFilm
+}
+
+class Screenplay {
+    String Title
+    String Version
+    Date Date
+    int NumberOfScenes
+    String Plot
+}
+
+class Novel {
+    String Title
+    String Author
+}
+
+class Concept {
+}
+
+Employee <|-- Actor
+Employee <|-- Director
+Employee <|-- Technician
+
 Screenwriter "1" -- "0..*" Screenplay
+Film "1" -- "1" Screenplay
 Screenplay "1" -- "0..1" Novel
 Screenplay "1" -- "0..1" Concept
-Novel "1" -- "1" Author
-Film "1" -- "1" Screenplay
-Actor "*" -- "*" Screenplay
-Director "0..*" -- "1" Screenplay
+
+FilmSet "0..*" -- "0..*" Film
+Actor "0..*" -- "0..*" Film
+Film "1" -- "0..1" Director
 
 @enduml

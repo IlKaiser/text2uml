@@ -1,31 +1,64 @@
 @startuml
-class Employee{}
-class Director{}
-class Actor{}
-class Technician{}
-class Screenwriter{}
-class FilmSet{}
-class Location{}
-class Film{}
-class Genre{}
-class Screenplay{}
-class Novel{}
-class Concept{}
-class Author{}
-class Role{}
+class Employee {
+  name: String
+  socialSecurityNumber: String
+}
+class CreativeEmployee
+class Director {
+  assistantName: String
+  hasOscar: Boolean
+}
+class Actor {
+  education: String
+  hasOscar: Boolean
+}
+class Screenwriter {
+  name: String
+  mostSuccessfulFilm: String
+}
+class Technician {
+  fieldOfActivity: String
+}
+class FilmSet
+class Location
+class Film {
+  title: String
+  yearOfRelease: Int
+}
+class Genre
+class Screenplay {
+  title: String
+  version: Int
+  date: Date
+  numberOfScenes: Int
+  plot: String
+}
+class Novel {
+  title: String
+  author: String
+}
+class Concept
+class Author
+class Role
 
-Employee "1..*" -- "0..*" FilmSet
-Location "1..1" -- "0..*" FilmSet
-Film "0..*" -- "0..*" FilmSet
-Genre "1..1" -- "0..*" Film
-Screenwriter "1..1" -- "0..*" Screenplay
-Novel "0..1" -- "0..*" Screenplay
-Concept "0..1" -- "0..*" Screenplay
-Film "1..1" -- "0..*" Screenplay
-Actor "0..*" -- "0..*" Role
-Film "1..1" -- "0..*" Role
-Screenplay "1..1" -- "0..*" Role
-Director "1..1" -- "0..*" Film
-Author "1..1" -- "0..*" Novel
-Film "0..1" -- "0..*" Screenwriter
+Employee "0..*" -- "0..*" FilmSet
+FilmSet "1..1" -- "0..*" Location
+FilmSet "0..*" -- "0..*" Film
+Film "1..1" -- "0..*" Genre
+Screenwriter "1..*" -- "1..1" Screenplay
+Screenplay "0..1" -- "0..*" Novel
+Screenplay "0..1" -- "0..*" Concept
+Novel "1..1" -- "0..*" Author
+Film "0..*" -- "1..1" Screenplay
+Film "1..1" -- "0..*" Director
+Actor "0..*" -- "0..*" Film
+Role "1..1" -- "0..*" Film
+Role "1..1" -- "0..*" Actor
+Role "1..1" -- "0..*" Screenplay
+Screenplay "1..1" -- "0..*" Director
+
+CreativeEmployee --|> Employee
+Director --|> CreativeEmployee
+Actor --|> CreativeEmployee
+Technician --|> Employee
 @enduml

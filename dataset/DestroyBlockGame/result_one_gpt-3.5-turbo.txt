@@ -1,0 +1,72 @@
+
+@startuml
+
+class User{
+    String Username
+    String Password
+}
+class Player{
+    //attributes not specified in text
+}
+class Admin {
+    //attributes not specified in text
+}
+class Game {
+    String Name
+}
+class Block {
+    String Color
+    int Points
+}
+class Level {
+    int LevelNumber
+    String Arrangement
+}
+class GridSystem {
+    int PositionX
+    int PositionY
+}
+class Ball {
+    int Speed
+    int Direction
+}
+class Paddle {
+    int Length
+}
+class PlayArea {
+    //attributes not specified in text
+}
+class Life {
+    //attributes not specified in text
+}
+class Score {
+    //attributes not specified in text
+}
+class HallOfFame {
+    //attributes not specified in text
+}
+
+User "1" -- "1" Player
+User "1" -- "0..1" Admin
+User "1" -- "0..*" Game
+Admin "1" -- "1" Game
+Game "1" -- "1" HallOfFame
+Game "1" -- "0..*" Block
+Game "1" -- "0..99" Level
+Level "1" -- "1..*" Block
+Block "1" -- "1" Color
+Block "1" -- "1" Points
+Level "1" -- "0..*" GridSystem
+Ball "1" -- "1" Speed
+Ball "1" -- "1" Direction
+Paddle "1" -- "1" Length
+PlayArea "1" -- "1" Block
+PlayArea "1" -- "1" Ball
+PlayArea "1" -- "1" Paddle
+PlayArea "1" -- "1" Player
+PlayArea "1" -- "1" Level
+Player "0..*" -- "1" Life
+Player "0..*" -- "1" Score
+
+@enduml
+

@@ -1,0 +1,84 @@
+```plantuml
+@startuml
+
+class FilmSet {
+}
+
+class Employee {
+    name: String
+    social security number: String
+}
+
+class CreativeEmployee {
+}
+
+class Director {
+    Oscar winner: Boolean
+    assistant name: String
+}
+
+class Actor {
+    education: String
+    Oscar winner: Boolean
+}
+
+class Technician {
+    field of activity: String
+}
+
+class Location {
+}
+
+class Film {
+    title: String
+    year of release: Int
+}
+
+class Genre {
+}
+
+class Screenwriter {
+    name: String
+    most successful film: String
+}
+
+class Screenplay {
+    title: String
+    version: String
+    date: Date
+    number of scenes: Int
+    plot: String
+}
+
+class Novel {
+    title: String
+    author: String
+}
+
+class Concept {
+}
+
+CreativeEmployee --|> Employee
+Director --|> CreativeEmployee
+Actor --|> CreativeEmployee
+Technician --|> Employee
+
+Employee "1..*" -- "1..1" FilmSet
+CreativeEmployee "0..*" -- "1..1" Employee
+Director "0..*" -- "1..1" CreativeEmployee
+Actor "0..*" -- "1..1" CreativeEmployee
+Technician "0..*" -- "1..1" Employee
+FilmSet "1..1" -- "1..1" Location
+FilmSet "1..*" -- "1..*" Film
+Film "1..*" -- "1..*" FilmSet
+Film "1..1" -- "1..1" Genre
+Screenwriter "1..*" -- "1..*" Screenplay
+Screenplay "1..1" -- "1..1" Screenwriter
+Screenplay "0..1" -- "1..1" Novel
+Screenplay "0..1" -- "1..1" Concept
+Film "1..1" -- "1..1" Screenplay
+Actor "0..*" -- "1..*" Screenplay
+Director "1..1" -- "1..1" Screenplay
+
+@enduml
+```

@@ -1,0 +1,42 @@
+@startuml
+atlas = House
+basement = Basement
+earthBasement = EarthBasement
+concreteBasement = ConcreteBasement
+semiDetachedHouse = SemiDetachedHouse
+garden = Garden
+windows = Windows
+carport = Carport
+garage = Garage
+company = Company
+job = Job
+
+house --> basement
+basement: size, name
+basement: humidityLevel (if earthBasement)
+
+semiDetachedHouse --> garden
+semiDetachedHouse --> windows
+
+carport --> isDoubleCarport
+carport --> hasFlatRoof
+
+garage --> hasAutomaticGarageDoor
+
+house --> company
+house --> job (hours, price)
+
+basement "1" -- "1" : size
+basement "1" -- "1" : name
+basement "1" -- "*" : humidityLevel (if earthBasement)
+
+semiDetachedHouse "1" -- "*" : garden
+semiDetachedHouse "1" -- "*" : windows
+
+carport "0..*" -- "1" : house
+garage "0..*" -- "1" : house
+
+company "0..*" -- "1" : house
+job "0..*" -- "1" : house
+
+@enduml

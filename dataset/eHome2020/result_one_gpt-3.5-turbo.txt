@@ -1,0 +1,40 @@
+@startuml
+
+class HomeTec{}
+class Sensor{}
+class SensorController{}
+class Apartment{}
+class Inhabitant{}
+class User{
+    String Username
+    String Password
+}
+class Threshold{}
+class EMonitor{}
+class Room{
+    String Description
+}
+class TemperatureSensor{
+    Double MinValue
+    Double MaxValue
+}
+class PowerSensor{}
+class Value{
+    Date Timestamp
+    Double Value
+}
+
+HomeTec -- "1..*" Sensor
+Sensor -- "1" SensorController
+SensorController -- "1" Apartment
+Apartment -- "2..*" Room
+Inhabitant "1" -- "0..*" User
+User "1" -- "0..1" Apartment
+User "1" -- "0..*" Threshold
+EMonitor "1" -- "1" SensorController
+Inhabitant "1" -- "1..*" Room
+TemperatureSensor -- "1" Sensor
+PowerSensor -- "1" Sensor
+Value -- "1" Sensor
+
+@enduml

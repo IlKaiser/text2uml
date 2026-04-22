@@ -1,34 +1,50 @@
 @startuml
-class Cinema{}
-class Premise{}
-class Theatre{}
-class Movie{}
-class MovieCopy{}
-class Show{}
-class Reservation{}
-class OnlineReservation{}
-class Seat{}
-class SeatReservation{}
-class Ticket{}
-class TicketingDesk{}
-class Offer{}
-class Program{}
-class CreditCard{}
-
-Cinema "1" -- "0..*" Premise
-Premise "1" -- "0..*" Theatre
-Premise "1" -- "0..*" MovieCopy
-Movie "0..*" -- "1" MovieCopy
-Theatre "1" -- "0..*" Show
-Program "1" -- "0..*" Show
-Show "0..*" -- "1" OnlineReservation
+class Cinema
+class Premise
+class Town
+class Theatre
+class Movie
+class MovieCopy
+class Show {
+  startTime: Date
+  published: Boolean
+  availableSeats: Int
+}
+class Program
+class Week
+class Customer
+class Reservation {
+  leadTimeHours: Int
+}
+class Seat
+class SeatReservation {
+  cancellationWindowHours: Int
+}
+class CreditCard
+class Ticket {
+  seatNumber: Int
+}
+class TicketingDesk
+class Offer {
+  expiresAt: Date
+  status: String
+}
+Town "0..*" -- "1" Cinema
+Cinema "0..*" -- "1" Theatre
+Premise "0..*" -- "1" MovieCopy
+MovieCopy "0..*" -- "1" Movie
+Show "0..*" -- "1" Theatre
+Show "0..*" -- "1" MovieCopy
+Program "0..*" -- "1..*" Show
+Week "1..*" -- "1" Program
+Customer "0..*" -- "0..*" Reservation
+Reservation "0..*" -- "0..*" SeatReservation
+SeatReservation "0..*" -- "1" Seat
+Show "0..*" -- "0..*" SeatReservation
 Reservation "0..*" -- "1" CreditCard
-Seat "0..*" -- "0..*" SeatReservation
-SeatReservation "1" -- "1" Show
-SeatReservation "1" -- "1" Seat
+CreditCard "0..*" -- "0..*" Reservation
 Ticket "0..*" -- "1" Show
 Ticket "0..*" -- "1" Seat
-TicketingDesk "1" -- "0..*" Show
+TicketingDesk "0..*" -- "1" Show
 Offer "0..*" -- "1" Show
-CreditCard "0..*" -- "1" Reservation
 @enduml

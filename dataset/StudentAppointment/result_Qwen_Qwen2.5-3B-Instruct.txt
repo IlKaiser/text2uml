@@ -1,0 +1,26 @@
+@startuml
+
+class Student{
+    +String name
+    +String id
+    +Course[] registeredCourses
+}
+
+class TeachingAssistant{
+    +String name
+    +String id
+    +Course[] coursesTaught
+}
+
+class Appointment{
+    +TeachingAssistant ta
+    +Student student
+    +Course course
+}
+
+Student "1" -- "0..*" Appointment
+Appointment "1" -- "1" TeachingAssistant
+Appointment "1" -- "1" Course
+TeachingAssistant "1" -- "0..*" Appointment
+
+@enduml

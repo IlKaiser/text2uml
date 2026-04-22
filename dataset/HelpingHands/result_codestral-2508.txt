@@ -1,32 +1,28 @@
-```plantuml
 @startuml
 
-class Resident{}
-class PickupRequest{}
-class Item{}
-class PickupVehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class Employee{}
-class Category{}
-class FoodBank{}
-class Client{}
-class DeliveryRequest{}
+class Resident{ String Name, String StreetAddress, String PhoneNumber, String EmailAddress }
+class Pickup{ Date PickupDate, String ItemsDescription }
+class Vehicle{ String LicensePlate, Integer StorageCapacity }
+class Driver{ String Name, String PhoneNumber }
+class Schedule{ Date AvailableDate, Time PickupTime }
+class Item{ String Description, Integer Weight, Integer Dimensions }
+class Article{ String RFIDTag, String CorrectedDescription }
+class Category{ String Name }
+class Client{ String Name, String PhoneNumber, String StreetAddress }
+class DistributionCenter{ String Address }
+class FoodBank{ String Address }
 
-Resident "1..*" -- "1..*" PickupRequest
-PickupRequest "1..*" -- "1..*" Item
-PickupVehicle "1..*" -- "1..*" PickupRoute
-VolunteerDriver "1..*" -- "1..*" PickupRoute
-PickupRoute "1..*" -- "1..*" PickupRequest
-DistributionCenter "1..*" -- "1..*" Employee
-DistributionCenter "1..*" -- "1..*" Item
-Employee "1..*" -- "1..*" Category
-Item "1..*" -- "1..1" Category
-DistributionCenter "1..1" -- "1..*" FoodBank
-Client "1..*" -- "1..*" DeliveryRequest
-Employee "1..*" -- "1..*" DeliveryRequest
-Item "1..*" -- "1..*" DeliveryRequest
+Resident "1..*" -- "1..*" Pickup
+Pickup "1..*" -- "1..*" Item
+Vehicle "1..*" -- "1..*" Schedule
+Driver "1..*" -- "1..*" Schedule
+Schedule "1..*" -- "1..*" Pickup
+Item "1..*" -- "1..1" Article
+Article "1..*" -- "1..1" Category
+Client "1..*" -- "1..*" Category
+DistributionCenter "1..*" -- "1..*" Article
+DistributionCenter "1..*" -- "1..*" Client
+DistributionCenter "1..*" -- "1..*" Vehicle
+FoodBank "1..*" -- "1..*" Item
 
 @enduml
-```

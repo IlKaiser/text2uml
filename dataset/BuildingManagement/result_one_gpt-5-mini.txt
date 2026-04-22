@@ -1,0 +1,122 @@
+@startuml
+
+class WebPortal {
+    String Version
+    String URL
+}
+class Building {
+    String BuildingID
+    String Name
+    String EnergyClass
+    String Address
+    Integer YearOfConstruction
+}
+class User {
+    String Username
+    String Email
+    String Password
+    Boolean Activated
+}
+class Administrator {
+    String IDCardNumber
+}
+class AdditionalEntry {
+    String Name
+    Boolean IsPublic
+}
+class TextEntry {
+    String TextContent
+}
+class NumericEntry {
+    Double Value
+    String Unit
+}
+class Image {
+    String FileName
+}
+class Comment {
+    String Content
+    Date CreatedAt
+}
+
+class AccountManagement {
+    String Title
+}
+class Register {
+    Date RequestDate
+}
+class ConfirmEmail {
+    String Token
+}
+class ActivateUser {
+    Date ActivationDate
+}
+
+class ManageContent {
+    String Title
+}
+class CreateBuilding {
+}
+class AddAdditionalEntry {
+}
+class ReleaseEntryPublicly {
+}
+class UploadImage {
+}
+class SetProfilePhoto {
+}
+class CommentOnBuilding {
+}
+class SearchBuildings {
+}
+class DeleteComment {
+}
+
+class Visitor {
+}
+ 
+Administrator --|> User
+TextEntry --|> AdditionalEntry
+NumericEntry --|> AdditionalEntry
+
+Register --|> AccountManagement
+ConfirmEmail --|> AccountManagement
+ActivateUser --|> AccountManagement
+
+CreateBuilding --|> ManageContent
+AddAdditionalEntry --|> ManageContent
+UploadImage --|> ManageContent
+SetProfilePhoto --|> ManageContent
+ReleaseEntryPublicly --|> ManageContent
+
+WebPortal "1" -- "0..*" Building
+User "1" -- "0..*" Building
+Building "1" -- "0..*" AdditionalEntry
+User "1" -- "0..*" AdditionalEntry
+Building "1" -- "0..*" Image
+User "1" -- "0..*" Image
+Building "0..1" -- "1" Image
+User "1" -- "0..*" Comment
+Building "1" -- "0..*" Comment
+WebPortal "1" -- "0..*" User
+
+Visitor "0..*" -- "0..*" Register
+Visitor "0..*" -- "0..*" SearchBuildings
+
+User "0..*" -- "0..*" CreateBuilding
+User "0..*" -- "0..*" AddAdditionalEntry
+User "0..*" -- "0..*" ReleaseEntryPublicly
+User "0..*" -- "0..*" UploadImage
+User "0..*" -- "0..*" SetProfilePhoto
+User "0..*" -- "0..*" CommentOnBuilding
+User "0..*" -- "0..*" SearchBuildings
+
+Administrator "0..*" -- "0..*" ActivateUser
+Administrator "0..*" -- "0..*" DeleteComment
+Administrator "0..*" -- "0..*" Register
+Administrator "0..*" -- "0..*" SearchBuildings
+
+Register "0..*" -- "0..*" ConfirmEmail
+ConfirmEmail "0..*" -- "0..*" ActivateUser
+
+@enduml

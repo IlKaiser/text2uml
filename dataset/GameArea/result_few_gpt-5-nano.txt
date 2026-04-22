@@ -1,12 +1,27 @@
 @startuml
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
 
-GameArea "1" -- "1..*" GameElement
-Shape "0..*" -- "0..*" Shape
-GameArea "1" -- "1" Opponent : boss
+class "game area" {
+    String Name
+}
+class "game element" {
+    Long X
+    Long Y
+}
+class "shape" {
+    String ShapeType
+}
+class "object" {
+    String ObjectType
+}
+class "opponent" {
+    Int Lives
+}
+
+shape --|> "game element"
+object --|> "game element"
+opponent --|> "game element"
+
+"game area" "AreaElements" -- "1..*" "game element" : contains
+"game area" "boss" -- "1" opponent
 
 @enduml

@@ -1,40 +1,52 @@
 @startuml
-class Designer{}
-class Game{}
-class Board{}
-class Tile{}
-class HiddenTile{}
-class ActionTile{}
-class RegularTile{}
-class ConnectionPiece{}
-class Player{}
-class PlayingPiece{}
-class Die{}
-class ActionCard{}
-class Deck{}
-class Color{}
-class Position{}
-class StartingPosition{}
-class Turn{}
-
-Designer "1..1" -- "Deck"
-Designer "1..1" -- "Board"
-Deck "0..*" -- "ActionCard"
-Game "0..*" -- "Turn"
-Game "1..*" -- "Player"
-Game "1..1" -- "Board"
-Board "0..*" -- "Tile"
-Board "0..*" -- "HiddenTile"
-Board "0..*" -- "ActionTile"
-Board "0..*" -- "RegularTile"
-Board "0..*" -- "ConnectionPiece"
-Tile "0..*" -- "ConnectionPiece"
-Tile "1..1" -- "Color"
-ActionTile "1..1" -- "Deck"
-StartingPosition "1..1" -- "Position"
-Player "1..1" -- "StartingPosition"
-Player "1..1" -- "PlayingPiece"
-PlayingPiece "1..1" -- "Color"
-Turn "1..1" -- "Player"
-Turn "1..1" -- "Die"
+class Game
+class Board
+class Tile {
+  color: String
+  isHidden: Boolean
+  isActionTile: Boolean
+}
+class ActionTile {
+  duration: Int
+}
+class ConnectionPiece {
+  side: String
+  connectedTile: String
+}
+class Connection {
+  tileA: String
+  tileB: String
+}
+class Layout
+class Player
+class PlayingPiece {
+  color: String
+}
+class Die
+class ActionCard {
+  instruction: String
+}
+class ActionCardDeck {
+  count: Int
+}
+class SpareConnectionPiece
+class StartingPosition {
+  player: String
+  startTile: String
+}
+class Position
+class Pile {
+  count: Int
+}
+Board "0..*" -- "1..1" Tile
+Game "1..1" -- "1..1" Board
+Board "1..1" -- "1..1" Layout
+ActionCardDeck "0..*" -- "0..*" ActionCard
+Pile "0..*" -- "0..*" SpareConnectionPiece
+StartingPosition "0..*" -- "1..1" Position
+Player "1..1" -- "1..1" PlayingPiece
+Tile "0..*" -- "0..*" ConnectionPiece
+ConnectionPiece "0..*" -- "0..*" Tile
+ActionTile --|> Tile
+SpareConnectionPiece --|> ConnectionPiece
 @enduml

@@ -1,0 +1,1636 @@
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class Trajectory {
+    String Name
+    String Description
+}
+class TrajectoryApproval {
+    String Status
+    String Reason
+}
+class Trajectory {
+    String Name
+    String Description
+    TrajectoryApproval Approval
+    String ApprovalDate
+}
+class Line {
+    String Name
+    String Description
+    Trajectory[] Trajectories
+}
+class Bus {
+    String Number
+    String Line
+    String Status
+}
+class SeasonTicket {
+    String Type
+    Double Price
+}
+class Trip {
+    String Date
+    String Time
+    String Line
+    String Trajectory
+}
+class TicketMachine {
+    String Type
+    String CardType
+}
+class Card {
+    String Type
+    String Number
+    String ExpirationDate
+}
+class Invoice {
+    Int Number
+    Double Total
+    Double Discount
+    String Status
+}
+class Payment {
+    String Type
+    Double Amount
+    String Date
+}
+class CustomerData {
+    String HomeAddress
+    String OfficeAddress
+    String WorkingHours
+}
+class MENSO {
+    String Type
+    Double Price
+}
+class TripRecord {
+    String Date
+    String Time
+    String Line
+    String Trajectory
+    String CardType
+}
+
+Customer "1" -- "0..*" Invoice
+Customer "1" -- "0..*" Payment
+Customer "1" -- "0..*" CustomerData
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+TripRecord "1" -- "0..*" Invoice
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+Line "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TrajectoryApproval
+Trajectory "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Payment
+Payment "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" CustomerData
+CustomerData "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" TicketMachine
+TicketMachine "1" -- "0..*" Card
+Card "1" -- "0..*" Customer
+Customer "0..*" TrajectoryApproval
+TrajectoryApproval "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Bus "1" -- "0..*" Trip
+Trip "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" TripRecord
+TripRecord "1" -- "0..*" Customer
+Customer "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Payment

@@ -1,0 +1,42 @@
+@startuml
+
+class EBike {
+}
+class Frame {
+}
+class Steel {
+}
+class DriveSystem {
+}
+class Motor {
+}
+class Controller {
+  state: State
+  controls_battery: Boolean
+  controls_drive_system: Boolean
+}
+class State {
+}
+class Battery {
+  stored_energy: WattHours
+}
+class WattHours {
+}
+class BasicController {
+}
+class AdvancedController {
+  estimated_maintenance_date: Date
+}
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "1" Controller
+EBike "0..*" -- "0..*" Battery
+DriveSystem "1" -- "1" Motor
+EBike "2" -- "2" Wheel
+Controller "1" -- "1" State
+Controller "1" -- "0..*" Battery
+
+Controller "BasicController" -- "0..*" AdvancedController
+
+@enduml

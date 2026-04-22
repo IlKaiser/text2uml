@@ -1,35 +1,54 @@
 @startuml
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class MovieCopy{}
-class Program{}
-class Website{}
-class Reservation{}
-class Customer{}
-class CreditCard{}
-class Seat{}
-class Ticket{}
-class FreeTicket{}
-class Offer{}
+class Cinema {
+    town:String
+}
 
-Cinema "1..*" -- "0..*" Theatre
+class Theatre {
+    seats:Int
+}
+
+class Show {
+    startingTime:Date
+    day:Date
+}
+
+class Movie {
+}
+
+class Copy {
+}
+
+class Reservation {
+    cancellationPeriod:Date
+}
+
+class Customer {
+}
+
+class Ticket {
+    seatNumber:Int
+}
+
+class Seat {
+}
+
+Cinema "1..1" -- "0..*" Theatre
 Theatre "1..1" -- "0..*" Show
-Movie "1..1" -- "1..*" MovieCopy
-Cinema "1..1" -- "0..*" MovieCopy
-MovieCopy "1..1" -- "0..*" Show
-Website "1..1" -- "0..*" Program
-Program "1..1" -- "0..*" Show
+Show "1..1" -- "1..1" Theatre
+Cinema "1..1" -- "0..*" Copy
+Copy "1..1" -- "1..1" Cinema
+Copy "1..1" -- "0..*" Show
+Show "1..1" -- "0..1" Copy
 Show "1..1" -- "0..*" Reservation
+Reservation "1..1" -- "1..1" Show
+Reservation "1..1" -- "1..1" Customer
 Customer "1..1" -- "0..*" Reservation
-CreditCard "1..1" -- "0..*" Reservation
-Theatre "1..1" -- "1..*" Seat
-Show "1..1" -- "0..*" Seat
-Reservation "1..1" -- "1..1" Seat
+Reservation "1..1" -- "0..*" Ticket
+Ticket "1..1" -- "0..1" Reservation
 Show "1..1" -- "0..*" Ticket
+Ticket "1..1" -- "1..1" Show
+Theatre "1..1" -- "1..*" Seat
+Seat "1..1" -- "1..1" Theatre
+Reservation "1..1" -- "1..1" Seat
 Ticket "1..1" -- "1..1" Seat
-FreeTicket "1..1" -- "1..1" Customer
-Offer "1..1" -- "1..1" Customer
-Show "1..1" -- "0..1" Offer
 @enduml

@@ -1,37 +1,65 @@
 @startuml
-class Insurance Company{}
-class Customer{}
-class Broker{}
-class Customer File{}
-class Offer{}
-class Contract{}
-class Insurance Product{}
-class Invoice{}
-class Insured Event{}
-class Claim{}
-class Claim Case{}
-class Estimator{}
-class Report{}
-class Compensation Decision{}
+class Customer {
+  isTrustworthy: Boolean
+  isExisting: Boolean
+  accountNumber: String
+}
+class Broker {
+  isRegistered: Boolean
+}
+class "Insurance Product" {
+  type: String
+  price: Float
+}
+class "Insurance Policy" {
+  type: String
+}
+class Offer {
+  isPreliminary: Boolean
+  deliveryMethod: String
+  isAccepted: Boolean
+}
+class Contract {
+  isSigned: Boolean
+  invoicingFrequency: String
+}
+class Invoice
+class Claim {
+  purpose: String
+}
+class "Claim Case" {
+  type: String
+  isComplete: Boolean
+  isApproved: Boolean
+}
+class Estimator {
+  areaOfExpertise: String
+}
+class "Estimator Report"
+class "Compensation Decision" {
+  isRegistered: Boolean
+  eligibleCosts: String
+  isPartialRefund: Boolean
+}
+class "Claim Document" {
+  isSupplied: Boolean
+}
 
-Broker "0..*" -- "1..1" Customer
-Broker "0..*" -- "1..1" Customer File
-Claim "1..*" -- "1..1" Claim Case
-Claim Case "0..1" -- "1..1" Compensation Decision
-Claim Case "1..*" -- "0..*" Estimator
-Claim Case "1..*" -- "1..1" Report
-Compensation Decision "1..1" -- "0..*" Customer
+Claim "1..*" -- "1..1" "Claim Case"
+"Claim Case" "1..*" -- "1..1" "Claim Document"
+"Claim Case" "0..1" -- "1..1" "Compensation Decision"
+"Claim Case" "1..*" -- "0..*" Estimator
+"Claim Case" "1..*" -- "1..1" "Estimator Report"
+"Compensation Decision" "1..1" -- "0..*" Customer
 Contract "1..1" -- "0..*" Customer
-Contract "1..1" -- "0..*" Insurance Product
 Contract "1..*" -- "1..1" Invoice
-Contract "1..1" -- "0..1" Offer
-Customer "1..1" -- "1..1" Customer File
-Customer "1..1" -- "0..*" Insurance Company
-Customer "0..*" -- "0..*" Insurance Product
+Customer "1..1" -- "0..*" Broker
+Customer "0..*" -- "1..1" Claim
+Customer "0..*" -- "1..1" "Insurance Policy"
 Customer "0..*" -- "1..1" Invoice
 Customer "0..*" -- "1..1" Offer
-Estimator "1..*" -- "1..1" Report
-Insurance Company "0..*" -- "1..1" Claim Case
-Insurance Company "1..*" -- "1..1" Insurance Product
-Offer "1..1" -- "0..*" Insurance Product
+Estimator "0..*" -- "1..1" "Estimator Report"
+"Insurance Policy" "1..1" -- "0..*" "Insurance Product"
+Offer "0..1" -- "1..1" Contract
+Offer "1..1" -- "0..*" "Insurance Product"
 @enduml

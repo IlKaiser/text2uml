@@ -1,42 +1,55 @@
 @startuml
-class Traveller{}
-class Hotel{}
-class HotelChain{}
-class City{}
-class Address{}
-class RoomType{}
-class Booking{}
-class PreliminaryBooking{}
-class FinalizedBooking{}
-class SpecialOffer{}
-class CreditCard{}
-class Payment{}
-class TravelPreference{}
-class SearchCriteria{}
-class ReliabilityRating{}
-class CancellationPolicy{}
-
-Traveller "0..*" -- "1..1" TravelPreference
-Traveller "1..1" -- "0..*" Address
-Traveller "0..*" -- "1..1" CreditCard
-Traveller "0..*" -- "1..1" SearchCriteria
-Traveller "0..*" -- "1..1" PreliminaryBooking
-Traveller "0..*" -- "1..1" FinalizedBooking
-Traveller "1..1" -- "1..1" ReliabilityRating
-Traveller "0..*" -- "0..*" SpecialOffer
-City "1..*" -- "1..1" Hotel
-Hotel "1..1" -- "1..1" Address
-Hotel "0..1" -- "0..*" HotelChain
-Hotel "0..*" -- "1..1" RoomType
-Hotel "0..*" -- "1..1" SpecialOffer
-FinalizedBooking "1..1" -- "1..*" Hotel
-FinalizedBooking "0..1" -- "0..*" CancellationPolicy
-PreliminaryBooking "1..1" -- "0..*" Hotel
-PreliminaryBooking "0..*" -- "0..*" TravelPreference
-PreliminaryBooking "1..1" -- "0..*" ReliabilityRating
-City "0..*" -- "1..1" SearchCriteria
-SearchCriteria "0..*" -- "1..1" RoomType
-SearchCriteria "0..*" -- "0..*" TravelPreference
-Payment "1..1" -- "0..*" CreditCard
-FinalizedBooking "1..1" -- "1..1" Payment
+class Traveller {
+  name: String
+  billingInfo: BillingInfo
+  travelPreferences: TravelPreference[]
+  reliabilityRating: Float
+}
+class Hotel {
+  city: City
+  address: Address
+  hotelChain: HotelChain
+  availableRoomTypes: RoomType[]
+  fullyBookedRoomTypes: RoomType[]
+}
+class RoomType {
+  name: String
+}
+class Booking {
+  bookingId: String
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: TravelPreference[]
+  creditCard: CreditCard
+  prepaid: Boolean
+  cancellationDeadline: Date
+}
+class CreditCard {
+  cardNumber: String
+  expiryDate: Date
+  cvv: String
+  nameOnCard: String
+}
+class BillingInfo {
+  companyName: String
+  address: Address
+}
+class TravelPreference {
+  preferenceName: String
+}
+class SearchCriteria {
+  city: City
+  arrivalDate: Date
+  departureDate: Date
+  numberOfRooms: Int
+  roomType: RoomType
+  minHotelRating: Int
+  maxBudget: Float
+  travelPreferences: TravelPreference[]
+}
+class City
+class Address
+class HotelChain
+class Offer
 @enduml

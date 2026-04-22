@@ -1,22 +1,31 @@
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class BedCategory{}
-class Inhabitant{}
-class Stay{}
-class StayType{}
-class Invoice{}
-@enduml
+class Home{ String Name }
+class Department{ String Name }
+class Room{ String Number }
+class Bed{ String Number }
+class BedCategory{ String Name, double Price }
+class Inhabitant{ String FirstName, String LastName, String ID }
+class StayType{ String Code, String Name, double Price }
+class Stay{ Inhabitant Inhabitant, Bed Bed, StayType StayType, Date IntakeDate, Date EndDate, Boolean Suspended }
+class Assessment{ int EatingNeeds, int DressingNeeds, int PersonalCareNeeds, Date AssessmentDate, StayType StayType }
+class Invoice{ String InvoiceNumber, double AmountTotal, double OutstandingAmount, Boolean Paid, Date IssueDate, Date DueDate, Boolean Modified }
+class Registration{ Inhabitant Inhabitant, Date RegistrationDate, Boolean BasicDataCompleted, Boolean AssessmentCompleted }
+class WaitingListEntry{ Inhabitant Inhabitant, StayType StayType, Date RegistrationDate, int Position }
+class Proposal{ Inhabitant Inhabitant, StayType StayType, Date ProposalDate, Boolean Accepted, Date IntakeDate, Boolean Invalidated }
 
-@startuml
-Home "0..*" -- "1" Department
-Department "0..*" -- "1" Room
-Room "0..*" -- "1" Bed
-Bed "1" -- "0..*" Stay
+Home "1" -- "0..*" Department
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+Bed "1" -- "0..*" BedCategory
 Inhabitant "0..*" -- "1" Stay
+Stay "1" -- "0..*" Bed
 Stay "1" -- "1" StayType
-Bed "1" -- "1" BedCategory
-Stay "0..*" -- "1" Invoice
+Stay "1" -- "0..*" Invoice
+Registration "1" -- "1" Inhabitant
+Assessment "1" -- "1" Inhabitant
+Assessment "1" -- "1" StayType
+WaitingListEntry "0..*" -- "1" Inhabitant
+WaitingListEntry "0..*" -- "1" StayType
+Proposal "0..*" -- "1" Inhabitant
+Proposal "0..*" -- "1" StayType
 @enduml

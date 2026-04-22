@@ -1,0 +1,37 @@
+@startuml
+class Tile {
+  color: String
+}
+class ActionTile {
+  turnsAsRegular: Int
+}
+class HiddenTile
+class PlayingPiece {
+  color: String
+}
+class Deck {
+  size: Int
+}
+class Game
+class Designer
+class Player
+class Board
+class ConnectionPiece
+class Die
+class ActionCard
+
+Game "1..1" -- "1..1" Designer
+Game "1..1" -- "2..4" Player
+Game "1..1" -- "1..1" Board
+Game "1..1" -- "1..1" Deck
+Board "1..1" -- "1..*" Tile
+Board "1..1" -- "0..*" ConnectionPiece
+Tile "0..4" -- "1..1" ConnectionPiece
+Player "1..1" -- "1..1" PlayingPiece
+Game "1..1" -- "1..1" Die
+Deck "1..1" -- "1..32" ActionCard
+Player "1..1" -- "0..1" ActionCard
+
+ActionTile --|> Tile
+HiddenTile --|> Tile
+@enduml

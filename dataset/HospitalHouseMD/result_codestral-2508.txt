@@ -1,27 +1,20 @@
 ```plantuml
 @startuml
 
-class HospitalHouseMD{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Illness{}
-class Treatment{}
-class PriorityScore{}
-class Stage{}
-class Consent{}
+class HospitalHouseMD
+class Patient{ String Name, String Symptoms }
+class Doctor{ String Name, String Specialization }
+class Illness{ String Name, String PriorityScore }
+class Treatment{ String Name, String Stage, Boolean ConsentGiven }
+class Diagnosis{ Date DateOfDiagnosis }
+class HeadDoctor{ String Name, String Specialization }
 
-HospitalHouseMD "1..*" -- "1..1" Patient
+HospitalHouseMD "1..*" -- "1..*" Patient
 Patient "1..*" -- "1..*" Doctor
-Patient "1..*" -- "1..*" Diagnosis
 Doctor "1..*" -- "1..*" Diagnosis
-Illness "1..*" -- "1..*" Diagnosis
 Illness "1..*" -- "1..*" Treatment
-Treatment "1..*" -- "1..*" Diagnosis
-Treatment "1..*" -- "1..*" Stage
-Illness "1..1" -- "1..1" PriorityScore
-Patient "1..*" -- "1..*" Consent
-Treatment "1..*" -- "1..*" Consent
+Diagnosis "1..*" -- "1..*" Treatment
+HeadDoctor "1..1" -- "1..*" Doctor
 
 @enduml
 ```

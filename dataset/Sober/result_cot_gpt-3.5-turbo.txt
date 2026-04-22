@@ -1,20 +1,40 @@
 
+```plantuml
 @startuml
-class Sober{}
-class SelfDrivingCar{}
-class CarOwner{}
-class TaxiService{}
-class RideHailingService{}
-class RideSharingService{}
-class Customer{}
-class Accident{}
-
-Sober "0..*" -- "1..*" SelfDrivingCar.
-Sober "0..*" -- "0..*" CarOwner.
-Sober "0..*" -- "1..*" TaxiService.
-TaxiService "1..*" -- "0..*" Customer.
-RideHailingService "1..*" -- "0..*" Customer.
-RideSharingService "1..*" -- "0..*" Customer.
-Sober "0..*" -- "0..*" Accident.
-
+class Sober
+class Car
+class Taxi
+class User
+class RideHailService {
+    timePickUp: Date
+    timeDropOff: Date
+    locationPickUp: String
+    locationDropOff: String
+    rideDuration: Float
+    distance: Float
+    numPassengers: Int
+    fee: Float
+    typeOfRequest: String
+    leadCustomerName: String
+}
+class RideShareService {
+    timePickUp: Date
+    timeDropOff: Date
+    locationPickUp: String
+    locationDropOff: String
+    rideDuration: Float
+    distance: Float
+    numCustomers: Int
+    customerNames: [String]
+    fee: Float
+}
+class Accident {
+    date: Date
+    location: String
+    damageAmount: Float
+}
+User "0..*" -- "0..*" Taxi.
+RideHailService "1..*" -- "1..*" Taxi.
+RideShareService "1..*" -- "1..*" Taxi.
 @enduml
+```

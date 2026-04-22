@@ -1,0 +1,79 @@
+@startuml
+
+class Game {
+  int ID
+}
+
+class Player {
+  int ID
+}
+
+class Deck {
+  int ID
+}
+
+class Card {
+  int ID
+  Suit suit
+  Compare compare(Card)
+}
+
+class Scoreboard {
+  int ID
+}
+
+class Round {
+  int ID
+  int points
+}
+
+abstract class RoundType {
+  int ID
+}
+
+class SoloRound {
+  SoloType solo
+}
+
+class MandatorySolo
+
+class DoubleRound 
+
+enum Suit <<enum>> {
+  Diamonds
+  Hearts
+  Spades
+  Clubs
+}
+
+enum Compare <<enum>> {
+  Lower
+  Higher
+  Equal
+}
+
+enum SoloType <<enum>> {
+  Trump
+  Jacks
+  Queens
+}
+
+Game "0..*" -- "1" Scoreboard
+Game "0..*" -- "1" Deck
+Game "0..*" -- "1..*" Player
+
+Deck "0..*" -- "0..*" Card
+
+Scoreboard "0..*" -- "0..*" Round
+
+Player "0..*" -- "1..*" Round
+Player "0..*" -- "1..*" RoundType
+
+RoundType "0..*" -- "0..*" SoloRound
+RoundType "0..*" -- "0..*" DoubleRound
+SoloRound "0..*" -- "0..*" MandatorySolo
+
+Card "0..*" -- "0..*" Suit
+Card "0..*" -- "0..*" Compare
+SoloRound "0..*" -- "0..*" SoloType
+@enduml

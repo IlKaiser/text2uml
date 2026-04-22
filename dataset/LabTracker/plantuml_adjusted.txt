@@ -1,0 +1,89 @@
+@startuml
+
+
+
+class Person {
+    String LastName
+    String FirstName
+    String Address
+    String PhoneNumber
+}
+
+abstract class PersonRole {
+    Int IdNumber
+}
+
+class Patient {
+    String DateOfBirth
+}
+
+class Doctor {
+    String Signature
+}
+
+class Requisition {
+    String EffectiveDate
+    Int RepetitionCount
+    Interval RepetitionInterval
+}
+
+class TestResult {
+    Boolean Result
+    String Report
+}
+
+class SpecificTest {
+    Date Date
+}
+
+class Appointment {
+    String Confirmation
+    Date Date
+    String startTime
+    String endTime
+}
+
+class BusinessHour {
+    DayOfWeek DayOfWeek
+    String startTime
+    String endTime
+}
+
+class Lab {
+    String RegistrationNumber
+    String Name
+    String Address
+    Boolean ChangeCancelFee
+}
+
+class Test {
+    String Name
+    String Duration
+}
+
+class TestType {
+    String Name
+    String DurationAdditive
+    AccessType Access
+}
+
+
+
+PersonRole "0..*" -- "0..*" Patient
+PersonRole "0..*" -- "0..*" Doctor
+
+Person "1" -- "0..*" PersonRole
+Patient "1" -- "0..*" Requisition
+Lab "1" - "0..*" Requisition
+Lab .. Appointment
+Lab .. Requisition
+
+Doctor "1" -- "0..*" Requisition
+Requisition "1" -- "0..*" SpecificTest
+SpecificTest "1" -- "0..1" TestResult
+BusinessHour "1..*" -- "1" Lab
+SpecificTest "0..*" -- "1" Test
+Test "0..*" -- "1" TestType
+
+
+@enduml

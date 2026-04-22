@@ -1,0 +1,324 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+################
+
+Here is another example:
+
+Specification text:
+
+An oil company possesses a number of gas stations spread across the country. Customers can pay their refuel turn in
+cash at the counter or with a personal credit card, but they can also ask for a refuel card.
+When using their refuel card, customers do not pay the refuel turn immediately.
+Rather, at the end of each month, the holder of the fuel card receives a monthly invoice with the amounts of
+all the refuel turns paid with the fuel card. On the monthly invoice discounts are given depending on the turnover
+of the customer during the invoiced month. Invoicing and paying occurs in any order:
+one can already receive a second invoice before having paid the first one.
+But obviously, each invoice must first have been sent before a payment can be received.
+Each refuel turn only appears on the invoice of the month of the refuel turn. If a customer doesn't pay the invoice,
+the unpaid refuel turns are not added to the next month's invoice. Instead, the invoice is simply sent again to the customer to
+remind him/her of the payment due. If a customer repeatedly does not pay the invoices (e.g. two months in a row),
+then the customer is suspended and his/her card is blocked until the bills have been paid.
+The exact threshold to block a customer is not 100% fixed: very good customers are given a bit more slack than new customers.
+If the bills are settled, a customer may return to the normal state.
+Each gas station has a number of pumps that each contain a particular type of gasoline.
+Obviously only one customer can refuel his/her car at a time at a given pump. When the nozzle is taken,
+the refueling can start. When the nozzle is put back the refueling is stopped. Between those two moments,
+no other customer can use this pump. As soon as the nozzle is put back, the pump becomes available for the next customer.
+Each pump has a separate reservoir that must be refilled when the quantity of gasoline drops below a certain preset reordering level.
+Refilling can occur at any time.
+The system should produce a daily report indicating which pump needs to be refilled and for each pump the current level of
+gasoline and the quantity to order. As the bottom of a tank can contain dirt, when the fuel drops below a critical level,
+the pump is automatically blocked so that no refueling can occur with this pump. For the same reason,
+when refilling a tank that was still above the critical level, the pump is temporarily blocked by the gas station responsible for
+approximatively an hour, so that dirt can sink to the bottom. The pump is released when the gas station responsible deems that
+refueling with this pump is safe again.
+
+The plant uml is:
+
+@startuml
+
+class CardHolder {
+    String Name
+    Boolean Suspended
+}
+class Invoice {
+    Int Number
+    Double Discount
+    String status
+}
+class InvoiceLine {
+    Int Number
+}
+class GasStation {
+    String Name
+}
+class Pump {
+    String Type
+    Boolean InUse
+    Double RefillThreshold
+    Boolean Blocked
+}
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+class CashTurn {}
+
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+GasStation "1" -- "0..*" Pump
+CardHolder "1" -- "0..*" Invoice
+CardHolder "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+
+@enduml
+
+##############
+
+The specification text is:
+
+A Home for the elderly is divided in departments.  Each department consists of a number of rooms and each room has a number of beds.  Each inhabitant is assigned a bed for his/her stay.  A bed belongs to a particular category.  Each category has a price.  The home offers different types of stays (=category): rest home (RH), rest & nursing home (RNH), service flat (SF).  An inhabitant can do more than one stay at a time. Suppose John stays in a service flat but breaks his leg and therefore has to stay in rest&nursing for a while. His stay in the service flat will then be suspended but not ended. The switch to rest&nursing doesn't require a proposal either as John is already an inhabitant.
+People wishing to reside in the home go through a registration process.  This registration process involves answering a set of questions concerning the person's basic identification data. As a final step, the data of the person is registered in the system. Once the basic registration is done, the abilities of a person are assessed by means of questions that gauge the person's needs for help for basic activities such as eating, dressing, personal care (like taking a shower), as this will give an indication of the type of stay best suited for that person. The assessment results in a type of stay defined for the person. As soon as a person has been assessed, the person is considered to be on the waiting list for the corresponding type of stay. The position on the waiting list is determined by the registration date only. When a bed of the corresponding category is free, it is proposed to the person that is on the highest position of the waiting list. The person needs then to inform the Rest & Nursing Home within three days about whether s/he accepts or refuses the proposal. If the proposal is refused, the person stays on the waiting list and a new proposal is made to the next person on the list who requested this type of stay, ... and so on until a person accepts the proposal.  Once a proposal is accepted, the person's abilities are re-assessed such as to validate the requested type of stay. After this validation, the date of intake is determined and the effective stay will start on that day.  In case the type of stay needs to be changed after the re-assessment, the proposal is marked as invalidated, and the requested type of stay is updated, but the person remains in the same position on the waiting list.
+Stays are invoiced once a month. For the sake of simplicity, payments will not be treated as objects, but as events. When a payment is received, this is registered and the outstanding amount of the invoice is reduced with the amount paid.  If the remaining amount is zero, the invoice is registered as "paid". If the remaining amount is still positive (paid amount too low), then the outstanding amount is adjusted, and the invoice is re-sent, indicating the remaining amount to pay.  If a person pays too much, the following actions are undertaken: the outstanding amount is set to zero, invoice is registered as paid and a credit note is created and the refund is executed immediately.  As long as an invoice is not registered as paid, it can be modified: if the inhabitant or his/her representative complains about the items that have been invoiced, this can be corrected.
+When a stay comes to an end (because of the inhabitant's death or because this person decides to move to another place), the invoicing processes will continue until all invoices are paid.  The type of the stay will determine the amount that is invoiced.  In case e.g. a service flat stay goes on while an inhabitant resides in rest & nursing for a while, both stays will be invoiced, but a discount will apply to the service flat stay.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the provided specification text. Let me start by carefully reading through the text to understand the entities and their relationships.
+
+First, the home for the elderly is divided into departments, each with rooms and beds. Inhabitants are assigned beds, and each bed belongs to a category with a specific price. The home offers different types of stays: rest home (RH), rest & nursing home (RNH), and service flat (SF). Inhabitants can have multiple stays at the same time. John's example shows that if he moves from SF to RNH, his SF stay is suspended but not ended.
+
+Next, there's a registration process for people wanting to reside in the home. This involves answering identification questions and basic care needs assessment, which determines the type of stay. The person then goes to the waiting list based on their registration date. Beds are allocated based on the highest priority on the waiting list.
+
+Stays are invoiced monthly. Payments are events that reduce the outstanding amount. If a payment is too high, it's set to zero, and a refund is issued. Invoices are marked as paid or re-sent if there's an outstanding balance. When a stay ends due to death or relocation, invoicing continues until all are paid, with discounts applied if different stays are involved.
+
+Now, I'll identify the main classes:
+
+1. **Home**: The main entity with departments, rooms, and beds.
+2. **Department**: Part of the home, containing rooms and beds.
+3. **Room**: Has beds, each with a category and price.
+4. **Bed**: Assigned to an inhabitant, with possible suspension during stays.
+5. **Inhabitant**: Assigned beds and can have multiple stays.
+6. **StayType**: RH, RNH, SF, each with different care needs and prices.
+7. **Registration**: Involves ID questions and assessment.
+8. **WaitingList**: Manages allocation of beds based on registration date.
+9. **Invoice**: Monthly, with payment events affecting the outstanding amount.
+10. **Payment**: Reduces outstanding balance or sets it to zero with refund.
+11. **EndOfStay**: Triggers continuation of invoicing until paid, applying discounts.
+
+Next, I'll extract attributes for each class. For example, Home has departments, rooms, beds, and price. Department has rooms and beds. Room has beds, category, and price. Bed has assigned to an inhabitant and a category.
+
+For relationships, I'll map how these entities interact. Home contains Departments, which contain Rooms, which contain Beds. Beds are assigned to Inhabitants. Inhabitants can have multiple Stays of different types. Stays are part of the Registration and WaitingList processes. Invoices are generated for stays and end of stays, with payments affecting them.
+
+I'll assign cardinalities based on the text. For example, a Home has many Departments, each with many Rooms, each with many Beds. Departments are nested within Home. Inhabitants can have multiple Stays, and Stays can be of different types.
+
+I need to ensure that the relationships are correctly represented with PlantUML syntax, using bi-directional arcs where necessary. Also, I'll avoid using class properties and focus on multiplicities.
+
+Finally, I'll structure the PlantUML code by first listing all classes with their attributes, then defining the relationships with their respective multiplicities.
+</think>
+
+```
+@startuml
+
+class Home {
+    String Name
+    List<Department> Departments
+    List<Room> Rooms
+    List<Beds> Beds
+    Double Price
+}
+
+class Department {
+    String Name
+    List<Room> Rooms
+    List<Beds> Beds
+}
+
+class Room {
+    String Name
+    List<Beds> Beds
+    String Category
+    Double Price
+}
+
+class Bed {
+    String Name
+    Integer AssignedToInhabitant
+    String Category
+}
+
+class Inhabitant {
+    String Name
+    String RegistrationDate
+    List<Stay> Stays
+}
+
+class StayType {
+    String Name
+    String CareLevel
+    Double Price
+}
+
+class Registration {
+    String Name
+    String Identification
+    String CareAssessment
+}
+
+class WaitingList {
+    String Name
+    String DateOfRegistration
+    List<Inhabitant> Inhabitants
+}
+
+class Invoice {
+    String Number
+    Double Amount
+    String payer
+    Boolean paid
+}
+
+class Payment {
+    String Amount
+    Invoice invoice
+    Date DateOfPayment
+}
+
+class EndOfStay {
+    String TypeOfStay
+    Invoice invoice
+    Date DateOfEnd
+}
+
+Bed "1" -- "0..*" Room
+Room "1" -- "0..*" Department
+Department "1" -- "0..*" Home
+Inhabitant "1" -- "0..*" StayType
+StayType "1" -- "0..1" Department
+StayType "1" -- "0..1" Room
+StayType "1" -- "0..1" Bed
+Registration "1" -- "0..1" Inhabitant
+WaitingList "1" -- "0..1" Inhabitant
+Invoice "1" -- "0..1" StayType
+Invoice "1" -- "0..1" EndOfStay
+Payment "1" -- "0..1" Invoice
+EndOfStay "1" -- "0..1" Inhabitant
+EndOfStay "1" -- "0..1" Invoice
+
+@enduml
+```

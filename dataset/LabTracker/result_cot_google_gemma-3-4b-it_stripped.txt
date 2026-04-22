@@ -1,0 +1,53 @@
+```plantuml
+@startuml
+class Doctor {
+    - practitionerNumber : String
+    - signature : String
+    - fullName : String
+    - address : String
+    - phoneNumber : String
+    - validFromDate : Date
+}
+
+class Patient {
+    - healthNumber : String
+    - firstName : String
+    - lastName : String
+    - dateOfBirth : Date
+    - address : String
+    - phoneNumber : String
+}
+
+class Requisition {
+    - tests : List of Test
+}
+
+class Test {
+    - name : String
+    - duration : Float
+}
+
+class Appointment {
+    - confirmationNumber : String
+    - date : Date
+    - startTime : Time
+    - endTime : Time
+    - labName : String
+    - labRegistrationNumber : String
+}
+
+class Lab {
+    - address : String
+    - businessHours : String
+    - fee : Float
+}
+
+Doctor "1" -- "*" Requisition : manages
+Patient "1" -- "*" Requisition : has
+Requisition "1" -- "*" Test : contains
+Test "1" -- "1" Lab : performed_at
+Appointment "1" -- "1" Lab : scheduled_at
+Lab "1" -- "*" Test : offers
+
+@enduml
+```

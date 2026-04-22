@@ -1,0 +1,27 @@
+```plantuml
+@startuml
+
+class WebPortal { String VersionNumber, String URL }
+class Building { String UniqueID, String Name, String EnergyClass, String Address, int YearOfConstruction }
+class AdditionalEntry { String Name, Boolean IsPublic }
+class TextualEntry { String Text }
+class NumericEntry { float Value, String Unit }
+class Image { String FileName, Boolean IsProfilePhoto }
+class User { String UserName, String Email, String Password, Boolean IsActivated }
+class Administrator { String IDCardNumber }
+class Comment { String Content }
+
+WebPortal "1..1" -- "0..*" Building
+Building "1..1" -- "0..*" AdditionalEntry
+Building "1..1" -- "1..*" Image
+Building "1..1" -- "1..1" User
+AdditionalEntry <|-- TextualEntry
+AdditionalEntry <|-- NumericEntry
+User "1..1" -- "0..*" Comment
+Building "1..1" -- "0..*" Comment
+User "1..1" -- "0..*" Building
+WebPortal "1..1" -- "0..*" User
+User <|-- Administrator
+
+@enduml
+```

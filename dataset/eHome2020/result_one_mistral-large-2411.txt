@@ -1,0 +1,59 @@
+```plantuml
+@startuml
+
+class Sensor {
+    String VendorID
+    String Description
+    String Unit
+    String Room
+    Float lastValue
+}
+class TemperatureSensor {
+    Float Min
+    Float Max
+}
+class PowerSensor {
+    Float TotalPowerConsumption
+}
+class SensorController {
+    String Address
+    String Username
+    String Password
+    queryValues()
+}
+class Inhabitant {
+    String Name
+    String Email
+}
+class Administrator {
+    configureSensors()
+}
+class Room {
+    String Description
+}
+class Apartment {
+    String Address
+}
+class MeasuredValue {
+    Date Timestamp
+    Float Value
+}
+class EMonitor {
+    checkThresholds()
+    sendAlertMessages()
+}
+
+Sensor "1..1" -- "0..*" SensorController
+SensorController "1..1" -- "0..*" Inhabitant
+SensorController "1..1" -- "0..*" Administrator
+SensorController "1..1" -- "0..*" MeasuredValue
+Inhabitant "1..1" -- "0..*" Apartment
+Apartment "1..1" -- "2..*" Room
+Room "1..1" -- "0..*" Sensor
+EMonitor "1..1" -- "0..*" Sensor
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
+SensorController "1..1" -- "0..*" EMonitor
+
+@enduml
+```

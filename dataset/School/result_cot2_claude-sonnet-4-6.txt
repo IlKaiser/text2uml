@@ -1,0 +1,39 @@
+@startuml
+class School {
+  name: String
+}
+class Teacher {
+  email: String
+}
+class Student {
+}
+class Person {
+  firstName: String
+  lastName: String
+}
+class Classroom {
+  name: String
+  capacity: Int
+}
+class Room {
+  name: String
+}
+class Gym {
+  size: Float
+}
+class ClassGroup {
+  name: String
+}
+
+Teacher "1..*" -- "1..3" School
+Student "1..1" -- "1..1" School
+School "1..1" -- "1..1" Teacher
+School "1..1" -- "1..*" Room
+ClassGroup "1..1" -- "1..1" Classroom
+Student "10..31" -- "1..1" ClassGroup
+
+Teacher --|> Person
+Student --|> Person
+Classroom --|> Room
+Gym --|> Room
+@enduml

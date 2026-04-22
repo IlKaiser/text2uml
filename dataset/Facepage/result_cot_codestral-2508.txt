@@ -1,14 +1,40 @@
 ```plantuml
 @startuml
 
-class User{}
-class Account{}
-class Page{}
-class AdvertisementPage{}
+class User {
+  id:Int
+  name:String
+  email:String
+  dateOfBirth:Date
+}
 
-User "1..1" -- "1..*" Account
+class Account {
+  accountNumber:Int
+}
+
+class Page {
+  pageName:String
+  numberOfVisits:Int
+}
+
+class BusinessAccount {
+  companyName:String
+  monthlyFee:Float
+}
+
+class PersonalAccount
+
+class AdvertisementPage {
+  bounceRate:Float
+  clickThroughRate:Float
+  conversionRate:Float
+}
+
+User "1..1" -- "1..1" Account
 Account "1..*" -- "1..1" Page
-Page "0..1" -- "1..1" AdvertisementPage
+BusinessAccount "1..*" -- "1..1" AdvertisementPage
+BusinessAccount --|> Account
+PersonalAccount --|> Account
 
 @enduml
 ```

@@ -1,31 +1,46 @@
 @startuml
-class HospitalHouseMD{}
-class Patient{}
-class Doctor{}
-class HeadDoctor{}
-class Nurse{}
-class Illness{}
-class Diagnosis{}
-class Treatment{}
-class AppliedTreatment{}
-class TreatmentStage{}
-class ConsentForm{}
-class TreatmentDatabase{}
+class Hospital
+class Patient {
+  consentSigned: Boolean
+}
+class Doctor {
+  isHead: Boolean
+}
+class Nurse
+class Diagnosis {
+  approved: Boolean
+}
+class Illness {
+  priorityScore: String
+}
+class Treatment
+class AppliedTreatment {
+  stage: Int
+  followUpRate: String
+}
+class Consent {
+  signed: Boolean
+  retracted: Boolean
+}
+class Stage {
+  level: Int
+  requiresConsent: Boolean
+  followUpRate: String
+}
 
-HospitalHouseMD "1..1" -- "0..*" Patient.
-HospitalHouseMD "1..1" -- "0..*" TreatmentDatabase.
-Patient "1..*" -- "0..*" Doctor.
-HeadDoctor "1..1" -- "0..*" Doctor.
-Diagnosis "1..1" -- "1..1" Illness.
-Doctor "0..*" -- "0..*" Diagnosis.
-Illness "1..1" -- "0..*" TreatmentDatabase.
-TreatmentDatabase "1..1" -- "0..*" Treatment.
-Diagnosis "1..1" -- "0..*" AppliedTreatment.
-Treatment "1..1" -- "0..*" AppliedTreatment.
-TreatmentStage "0..*" -- "0..*" AppliedTreatment.
-ConsentForm "0..1" -- "0..*" AppliedTreatment.
-Patient "1..1" -- "0..1" ConsentForm.
-Illness "1..1" -- "0..*" AppliedTreatment.
-Nurse "0..*" -- "0..*" AppliedTreatment.
-Doctor "0..*" -- "0..*" AppliedTreatment.
+Patient "0..*" -- "1..*" Doctor
+Patient "0..*" -- "1..1" Hospital
+Illness "1..1" -- "0..*" Treatment
+Treatment "1..1" -- "0..*" AppliedTreatment
+Diagnosis "0..*" -- "1..1" Patient
+Doctor "1..1" -- "0..*" Diagnosis
+Doctor "0..1" -- "0..*" Diagnosis
+Illness "1..1" -- "0..*" Diagnosis
+AppliedTreatment "0..*" -- "1..1" Stage
+AppliedTreatment "0..*" -- "1..1" Patient
+AppliedTreatment "0..*" -- "1..1" Diagnosis
+Nurse "0..*" -- "0..*" Patient
+Doctor "0..*" -- "1..1" Hospital
+Nurse "0..*" -- "1..1" Hospital
+Consent "0..*" -- "1..1" Patient
 @enduml

@@ -1,35 +1,83 @@
 @startuml
-class H2SLocation{}
-class City{}
-class Resident{}
-class Client{}
-class Address{}
-class PickupRequest{}
-class Item{}
-class Category{}
-class Vehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class FoodBank{}
-class Employee{}
-class Delivery{}
-class RFIDTag{}
+class HelpingHandsStore
+class City
+class Resident {
+  name:String
+  streetAddress:String
+  phoneNumber:String
+  email:String
+}
+class StreetAddress
+class DonationItem {
+  description:String
+  dimensions:String
+  weight:Float
+}
+class SecondHandArticle {
+  description:String
+  usable:Boolean
+  rfidTagged:Boolean
+  category:String
+}
+class NonPerishableFood
+class PickupRequest {
+  requestedDate:Date
+  timeWindow:String
+  description:String
+}
+class PickupRoute {
+  date:Date
+}
+class Vehicle {
+  availableStorageSpace:Float
+}
+class VolunteerDriver {
+  availableDays:String
+}
+class DistributionCenter
+class FoodBank
+class H2SEmployee
+class RFIDTag
+class Category {
+  name:String
+}
+class Client {
+  indicatedCategories:String
+  homeAddress:String
+}
+class DeliveryRequest
+class Delivery
 
-City "1..1" -- "0..*" H2SLocation.
-Resident "1..1" -- "1..1" Address.
-Resident "1..1" -- "0..*" PickupRequest.
-PickupRequest "1..1" -- "0..*" Item.
-PickupRoute "1..1" -- "0..*" PickupRequest.
-Vehicle "1..1" -- "0..*" PickupRoute.
-VolunteerDriver "1..1" -- "0..*" PickupRoute.
-VolunteerDriver "1..1" -- "0..*" Delivery.
-Client "1..1" -- "0..*" Delivery.
-Client "1..1" -- "1..1" Address.
-DistributionCenter "1..1" -- "0..*" Item.
-FoodBank "1..1" -- "0..*" Item.
-Employee "1..1" -- "0..*" Item.
-Item "1..1" -- "0..1" RFIDTag.
-Category "1..1" -- "0..*" Item.
-PickupRequest "1..1" -- "0..1" Delivery.
+Resident "0..*" -- "1..1" StreetAddress
+Resident "1..1" -- "0..*" PickupRequest
+PickupRequest "0..*" -- "1..1" StreetAddress
+PickupRequest "1..1" -- "0..*" DonationItem
+HelpingHandsStore "1..1" -- "0..*" Vehicle
+HelpingHandsStore "1..1" -- "1..1" DistributionCenter
+HelpingHandsStore "0..*" -- "1..1" City
+Vehicle "1..1" -- "0..*" PickupRoute
+VolunteerDriver "1..1" -- "0..*" PickupRoute
+PickupRoute "1..1" -- "0..*" PickupRequest
+SecondHandArticle "0..*" -- "1..1" DistributionCenter
+NonPerishableFood "0..*" -- "1..1" FoodBank
+H2SEmployee "1..1" -- "0..*" SecondHandArticle
+H2SEmployee "0..*" -- "1..1" DistributionCenter
+SecondHandArticle "1..1" -- "0..1" RFIDTag
+SecondHandArticle "0..*" -- "1..1" Category
+Client "0..*" -- "0..*" Category
+Client "1..1" -- "0..*" DeliveryRequest
+H2SEmployee "1..1" -- "0..*" DeliveryRequest
+DeliveryRequest "1..1" -- "1..1" SecondHandArticle
+Delivery "1..1" -- "1..1" DeliveryRequest
+VolunteerDriver "1..1" -- "0..*" Delivery
+Vehicle "1..1" -- "0..*" Delivery
+Client "1..1" -- "0..*" Delivery
+PickupRoute "1..1" -- "0..*" Delivery
+StreetAddress "0..*" -- "1..1" City
+DistributionCenter "0..*" -- "1..1" City
+FoodBank "0..*" -- "1..1" City
+HelpingHandsStore "1..1" -- "0..*" VolunteerDriver
+
+SecondHandArticle --|> DonationItem
+NonPerishableFood --|> DonationItem
 @enduml

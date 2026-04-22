@@ -1,21 +1,49 @@
 @startuml
 
-class WebPortal {}
-class Building {}
-class User {}
-class Entry {}
-class Image {}
+class WebPortal {
+    String VersionNumber
+    String URL
+}
+class Building {
+    String ID
+    String Name
+    String EnergyClass
+    String Address
+    Int YearOfConstruction
+}
+class Entry {
+    String Name
+    Boolean IsPublic
+}
+class TextEntry {
+    String Content
+}
+class NumberEntry {
+    Double Value
+    String Unit
+}
+class Image {
+    String FileName
+    Boolean IsProfilePhoto
+}
+class User {
+    String Username
+    String Email
+    String Password
+    Boolean IsActivated
+}
+class Admin {
+    String IDCardNumber
+}
 class Comment {}
-class Administrator {}
-class BuildingSearch {}
 
 WebPortal "1" -- "0..*" Building
 Building "1" -- "0..*" Entry
 Building "1" -- "0..*" Image
-Building "1" -- "1" User
+User "1" -- "0..*" Building
 User "1" -- "0..*" Comment
-Building "0..*" -- "1" Comment
-User "0..*" -- "1" Administrator
-WebPortal "1" -- "0..*" User
+Admin "1" -- "0..*" User
+Entry <|-- TextEntry
+Entry <|-- NumberEntry
 
 @enduml

@@ -1,0 +1,42 @@
+@startuml
+class Company
+class FitnessCenter {
+  name: String
+  address: String
+}
+class Room {
+  capacity: Int
+  number: Int
+}
+class Person {
+  firstName: String
+  familyName: String
+  birthDate: Date
+}
+class Trainer
+class Session {
+  date: Date
+  startingHour: String
+}
+class GroupSession {
+  type: String
+}
+class IndividualSession
+class Diploma {
+  name: String
+}
+class City
+
+FitnessCenter "1..*" -- "1..1" Company
+FitnessCenter "1..1" -- "1..1" City
+Room "1..*" -- "1..1" FitnessCenter
+Session "1..1" -- "1..1" Room
+Person "0..*" -- "0..*" Session
+GroupSession "1..1" -- "1..1" Trainer
+Diploma "1..*" -- "1..1" Trainer
+
+FitnessCenter --|> Company
+Trainer --|> Person
+GroupSession --|> Session
+IndividualSession --|> Session
+@enduml

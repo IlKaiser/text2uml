@@ -1,0 +1,65 @@
+Given the specification text and the identified classes, here is the PlantUML representation for the conceptual model diagram:
+
+```plantuml
+@startuml
+class HospitalHouseMD {
+  +headDoctor: Doctor
+  +treatmentDatabase: TreatmentDatabase
+}
+
+class TreatmentDatabase {
+  +treatments: Treatment[]
+  +illnesses: Illness[]
+}
+
+class Treatment {
+  +stage: String
+  +description: String
+}
+
+class Illness {
+  +priorityScore: String
+}
+
+class Patient {
+  +name: String
+  +symptoms: String
+  -diagnosis: Diagnosis
+  -treatment: Treatment
+}
+
+class Doctor {
+  +name: String
+  +specialization: String
+  -patients: Patient[]
+  -diagnoses: Diagnosis[]
+}
+
+class Diagnosis {
+  +patient: Patient
+  +doctor: Doctor
+  +treatment: Treatment
+}
+
+class ConsentForm {
+  +patient: Patient
+  +treatmentStage: String
+}
+
+HospitalHouseMD -- 1 headDoctor : has
+HospitalHouseMD -- 1 treatmentDatabase : has
+TreatmentDatabase -- 0..* treatments : contains
+TreatmentDatabase -- 0..* illnesses : contains
+Patient -- 1 diagnosis : has
+Patient -- 1 treatment : has
+Doctor -- 1..* patients : has
+Doctor -- 1..* diagnoses : has
+Diagnosis -- 1 patient : belongsTo
+Diagnosis -- 1 doctor : belongsTo
+Treatments -- 1 diagnosis : belongsTo
+ConsentForm -- 1 patient : belongsTo
+ConsentForm -- 1 treatment : belongsTo
+@enduml
+```
+
+This PlantUML code represents the conceptual model diagram with the identified classes and their relationships.

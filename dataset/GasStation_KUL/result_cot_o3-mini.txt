@@ -1,19 +1,29 @@
 @startuml
-class GasStation {}
-class Pump {}
-class Reservoir {}
-class Customer {}
-class RefuelCard {}
-class Invoice {}
-class RefuelTurn {}
-class Payment {}
-class FuelType {}
+class GasStation
+class Customer
+class FuelCard {
+  blocked: Boolean
+}
+class Invoice {
+  month: Date
+  discount: Float
+}
+class RefuelTurn
+class Pump {
+  fuelType: String
+  blocked: Boolean
+}
+class Reservoir {
+  currentLevel: Float
+  quantityToOrder: Float
+}
+class DailyReport
 
 GasStation "1..*" -- "1..1" Pump
 Pump "1..1" -- "1..1" Reservoir
-Pump "1..1" -- "0..*" FuelType
-Customer "0..1" -- "1..1" RefuelCard
-Customer "0..*" -- "1..1" Invoice
+DailyReport "1..*" -- "0..*" Pump
+Customer "0..1" -- "1..1" FuelCard
+Customer "0..*" -- "1..1" RefuelTurn
+FuelCard "1..*" -- "1..1" Invoice
 Invoice "1..*" -- "1..1" RefuelTurn
-Invoice "0..*" -- "1..1" Payment
 @enduml

@@ -1,26 +1,73 @@
 ```plantuml
 @startuml
-class Company{}
-class Employee{}
-class Driver{}
-class Planner{}
-class AdministrativeStaff{}
-class Customer{}
-class Vehicle{}
-class RepairShop{}
-class Order{}
-class PartnerCompany{}
+class Employee {
+    name: String
+    socialSecurityNumber: String
+}
 
-Company "1..1" -- "0..*" Employee
-Employee "0..*" -- "0..1" Driver
-Employee "0..*" -- "0..1" Planner
-Employee "0..*" -- "0..1" AdministrativeStaff
-Driver "0..*" -- "0..*" Order
-Planner "0..*" -- "0..*" Order
-Order "1..1" -- "1..1" Vehicle
-Order "1..1" -- "1..1" Customer
-Order "0..*" -- "0..1" PartnerCompany
-Vehicle "0..*" -- "0..1" RepairShop
-Employee "0..*" -- "0..1" RepairShop
+class Driver {
+    name: String
+    socialSecurityNumber: String
+}
+
+class Planner {
+    name: String
+    socialSecurityNumber: String
+    username: String
+    password: String
+}
+
+class AdministrativeStaff {
+    name: String
+    socialSecurityNumber: String
+    username: String
+    password: String
+    fieldOfActivity: String
+}
+
+class Customer {
+    name: String
+    billingAddress: String
+}
+
+class Vehicle {
+    licensePlateNumber: String
+    mileage: Int
+}
+
+class RepairShop {
+    name: String
+    address: String
+}
+
+class Order {
+    customer: Customer
+    pickUpAddress: String
+    deliveryAddress: String
+    comment: String
+    startTime: Date
+    finishTime: Date
+    vehicle: Vehicle
+    driver: Driver
+    planner: Planner
+    partnerCompany: PartnerCompany
+}
+
+class PartnerCompany
+
+Driver "1..*" -- "0..*" Vehicle
+Driver "1..*" -- "0..*" Order
+Planner "1..*" -- "0..*" Order
+Planner "1..*" -- "0..*" Vehicle
+Customer "1..*" -- "0..*" Order
+Order "1..*" -- "1" Vehicle
+Employee "1..*" -- "0..*" RepairShop
+Order "1..*" -- "1" Customer
+Order "1..*" -- "0..*" AdministrativeStaff
+Order "1..*" -- "0..*" PartnerCompany
+
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
 @enduml
 ```

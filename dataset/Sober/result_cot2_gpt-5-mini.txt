@@ -1,37 +1,65 @@
 @startuml
-class TaxiCompany{}
-class Fleet{}
-class Car{}
-class CarOwner{}
-class Customer{}
-class Ride{}
-class RideHail{}
-class RideShare{}
-class Request{}
-class App{}
-class ImageRecognitionSystem{}
-class Location{}
-class Fee{}
-class Pricing{}
-class Booking{}
-class Accident{}
+class TaxiCompany
+class Cab
+class CarOwner
+class Customer
+class Ride
+class RideHail {
+  pickUpTime: Date
+  dropOffTime: Date
+  pickUpLocation: String
+  dropOffLocation: String
+  duration: Float
+  distance: Float
+  numPassengers: Int
+  fee: Float
+  requestType: String
+  leadCustomerName: String
+  leadCustomerPhone: String
+  maxPassengers: Int
+}
+class RideShare {
+  pickUpTime: Date
+  dropOffTime: Date
+  pickUpLocation: String
+  dropOffLocation: String
+  duration: Float
+  distance: Float
+  numPassengers: Int
+  customerNames: String
+  fee: Float
+  maxPassengers: Int
+}
+class Request {
+  requestType: String
+}
+class Location
+class Accident {
+  date: Date
+  location: String
+  damageAmount: Float
+}
+class Incentive {
+  thresholdUses: Int
+  reward: String
+  service: String
+}
 
-TaxiCompany "1..1" -- "1..1" Fleet.
-Fleet "1..1" -- "0..*" Car.
-CarOwner "0..*" -- "0..1" Car.
-Car "0..*" -- "1..1" Accident.
-Customer "0..*" -- "0..*" Ride.
-RideShare "0..*" -- "0..*" Customer.
-RideHail "0..*" -- "1..1" Customer.
-Customer "0..*" -- "0..*" Booking.
-RideShare "1..1" -- "0..*" Booking.
-Booking "0..*" -- "1..1" RideShare.
-Customer "0..*" -- "1..1" Request.
-App "1..1" -- "0..*" Request.
-ImageRecognitionSystem "1..1" -- "0..*" Request.
-Request "0..*" -- "0..1" RideHail.
-Ride "0..*" -- "0..*" Location.
-RideHail "0..*" -- "1..1" Fee.
-RideShare "0..*" -- "1..1" Fee.
-Pricing "1..1" -- "0..*" Fee.
+TaxiCompany "1..1" -- "1..*" Cab
+CarOwner "0..1" -- "0..*" Cab
+Cab "1..1" -- "0..*" Ride
+Cab "1..1" -- "0..*" Accident
+Location "1..*" -- "0..*" Ride
+Customer "0..1" -- "0..*" Request
+Request "1..1" -- "0..1" RideHail
+Customer "1..*" -- "0..*" RideHail
+Customer "1..*" -- "0..*" RideShare
+Location "1..1" -- "0..*" Accident
+TaxiCompany "1..1" -- "0..*" Incentive
+Customer "0..*" -- "0..*" Incentive
+TaxiCompany "1..1" -- "0..*" Customer
+Location "1..1" -- "0..*" Request
+
+RideHail --|> Ride
+RideShare --|> Ride
 @enduml

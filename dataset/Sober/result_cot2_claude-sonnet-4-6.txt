@@ -1,0 +1,49 @@
+@startuml
+class Company
+class Car
+class Owner
+class Customer {
+  number: String
+  name: String
+}
+class Trip
+class RideHailing {
+  pickUpTime: Date
+  dropOffTime: Date
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  fee: Float
+  requestType: String
+}
+class RideSharing {
+  pickUpTime: Date
+  dropOffTime: Date
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  names: String
+  fee: Float
+}
+class Accident {
+  date: Date
+  damageAmount: Float
+}
+class Location {
+  pickUpLocation: String
+  dropOffLocation: String
+}
+class Driver
+
+Company "1..1" -- "0..*" Car
+Car "0..*" -- "0..1" Owner
+Trip "0..*" -- "1..1" Car
+Trip "1..1" -- "1..*" Customer
+Trip "0..*" -- "1..1" Location
+Accident "0..*" -- "1..1" Car
+Accident "0..*" -- "1..1" Location
+Driver "1..1" -- "1..1" Car
+
+RideHailing --|> Trip
+RideSharing --|> Trip
+@enduml

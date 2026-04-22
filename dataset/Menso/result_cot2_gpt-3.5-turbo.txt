@@ -1,67 +1,83 @@
 
 @startuml
 
-class BusCompany{}
-class Bus{}
-class Line{}
-class Trajectory{}
-class Approval{}
-class TownAuthorities{}
-class CalendarYear{}
-class Time{}
-class MENSO{}
-class Ticket{}
-class Category{}
-class User{}
-class Card{}
-class TicketMachine{}
-class System{}
-class Date{}
-class Invoice{}
-class Customer{}
-class Discount{}
-class Order{}
-class Behaviour{}
-class Subscription{}
-class PersonalData{}
-class Address{}
-class WorkingHours{}
-class Patterns{}
-class Habits{}
-class Routes{}
-class Frequency{}
+class Bus {
+    lineNumber: String
+}
 
-BusCompany "1..*" -- "0..*" Bus
-BusCompany "1..*" -- "1..*" Line
-Bus "1..*" -- "0..1" Line
-BusCompany "1..*" -- "1..*" Trajectory
-Trajectory "1..*" -- "1..*" Approval
-Approval "1..*" -- "0..*" TownAuthorities
-Trajectory "1..*" -- "0..*" Bus
-Trajectory "0..*" -- "0..*" CalendarYear
-Bus "1..*" -- "0..*" Trajectory
-Line "1..*" -- "0..*" Trajectory
-Line "1..*" -- "1..*" Category
-Category "1..*" -- "1..1" Ticket
-User "1..*" -- "1..*" MENSO
-MENSO "1..*" -- "1..*" Line
-TicketMachine "1..*" -- "0..*" Card
-System "1..*" -- "1..*" Time
-System "1..*" -- "1..*" Date
-System "1..*" -- "1..*" Invoice
-Invoice "1..*" -- "1..*" Customer
-Customer "1..*" -- "0..1" Discount
-MENSO "1..*" -- "1..*" Ticket
-User "1..*" -- "0..*" Subscription
-User "1..*" -- "1..*" PersonalData
-PersonalData "1..*" -- "1..*" Address
-PersonalData "1..*" -- "0..1" WorkingHours
-Ticket "1..*" -- "0..*" Time
-Ticket "1..*" -- "0..*" Date
-Ticket "1..*" -- "1..*" Line
-Discount "1..*" -- "1..*" Invoice
-MENSO "1..*" -- "0..*" Behaviour
-MENSO "1..*" -- "1..*" Routes
-Routes "1..*" -- "1..*" Frequency
+class Trajectory {
+    approved: Boolean
+    suspended: Boolean
+    cancelled: Boolean
+}
+
+class Line {
+    description: String
+}
+
+class SeasonTicket {
+    type: String
+    validityPeriod: Date
+    price: Float
+}
+
+class MENSO {
+    discount: Float
+}
+
+class Category {
+}
+
+class Trip {
+}
+
+class User {
+    homeAddress: String
+    officeAddress: String
+    workingHours: String
+}
+
+class Card {
+}
+
+class TicketMachine {
+}
+
+class Invoice {
+}
+
+class Customer {
+    totalInvoiceAmount: Float
+}
+
+class Order {
+}
+
+class PersonalData {
+}
+
+class MENSOCard {
+}
+
+class BehaviorPattern {
+}
+
+class Route {
+}
+
+class Frequency {
+}
+
+Bus "1..* " -- "1..*" Line
+Approval "0..*" -- "1..1" Trajectory
+Line "0..*" -- "0..*" Trajectory
+MENSO "1..1" -- "1..*" Line
+User "1..*" -- "0..1" MENSOCard
+MENSOCard "1..*" -- "1..*" Trip
+Trip "1..1" -- "1..*" Invoice
+Customer "1..*" -- "0..*" Order
+Customer "1..1" -- "0..*" PersonalData
+MENSOCard "1..*" -- "0..*" BehaviorPattern
+Trip "1..1" -- "0..*" Route
 
 @enduml

@@ -1,48 +1,28 @@
 @startuml
 
-class Traveller{}
-class BillingInformation{}
-class TravelPreference{}
-class PreliminaryBooking{}
-class Booking{}
-class CreditCardInfo{}
-class SpecialOffer{}
-class Hotel{}
-class HotelChain{}
-class City{}
-class Address{}
-class RoomType{}
-class RoomAnnouncement{}
-class Confirmation{}
-class Compensation{}
-class ReliabilityRating{}
+class Traveller { String Name, String CompanyName, String BillingAddress, String TravelPreferences, Double ReliabilityRating }
+class CreditCard { String CardNumber, String CardHolderName, Date ExpiryDate }
+class SearchCriteria { String City, Date ArrivalDate, Date DepartureDate, Int NumRooms, String RoomType, Int MinHotelRating, Double MaxBudget, String Preferences }
+class Booking { String BookingID, String Status, Double PricePerNight, Boolean PrePaid, Date ConfirmationDeadline, Date CancellationDeadline, Double CancellationPenalty }
+class SpecialOffer { String OfferID, Double Price, Date Expiration, String KeyPreferences }
+class Hotel { String Name, String City, String Address }
+class HotelChain { String Name }
+class RoomAvailability { String RoomType, Date StartDate, Date EndDate, Int AvailableRooms, Boolean FullyBooked }
+class Compensation { Double Amount, String Reason }
 
-Traveller "1" -- "1" BillingInformation
-Traveller "1" -- "0..*" TravelPreference
-Traveller "1" -- "0..*" PreliminaryBooking
 Traveller "1" -- "0..*" Booking
+Traveller "1" -- "0..*" CreditCard
+Traveller "1" -- "0..*" SearchCriteria
 Traveller "1" -- "0..*" SpecialOffer
-Traveller "1" -- "0..1" ReliabilityRating
 
-PreliminaryBooking "1" -- "1" Hotel
-PreliminaryBooking "1" -- "0..*" SpecialOffer
-SpecialOffer "1" -- "1" Hotel
+HotelChain "0..1" -- "0..*" Hotel
+Hotel "1" -- "0..*" RoomAvailability
+Hotel "1" -- "0..*" SpecialOffer
+Hotel "1" -- "0..*" Booking
 
-Booking "1" -- "1" Hotel
-Booking "1" -- "0..1" CreditCardInfo
-Booking "1" -- "0..1" Confirmation
-Booking "1" -- "0..*" Compensation
+CreditCard "0..1" -- "0..*" Booking
 
-Hotel "1" -- "1" City
-Hotel "1" -- "1" Address
-Hotel "0..*" -- "1" HotelChain
-Hotel "1" -- "0..*" RoomAnnouncement
-Hotel "1" -- "0..*" Confirmation
-
-RoomAnnouncement "1" -- "1" RoomType
-
-Compensation "1" -- "1" Traveller
-
-Confirmation "0..*" -- "1" Traveller
+Booking "1" -- "0..*" SpecialOffer
+Booking "1" -- "0..1" Compensation
 
 @enduml

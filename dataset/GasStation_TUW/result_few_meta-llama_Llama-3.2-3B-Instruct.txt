@@ -1,0 +1,245 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+################
+
+Here is another example:
+
+Specification text:
+
+An oil company possesses a number of gas stations spread across the country. Customers can pay their refuel turn in
+cash at the counter or with a personal credit card, but they can also ask for a refuel card.
+When using their refuel card, customers do not pay the refuel turn immediately.
+Rather, at the end of each month, the holder of the fuel card receives a monthly invoice with the amounts of
+all the refuel turns paid with the fuel card. On the monthly invoice discounts are given depending on the turnover
+of the customer during the invoiced month. Invoicing and paying occurs in any order:
+one can already receive a second invoice before having paid the first one.
+But obviously, each invoice must first have been sent before a payment can be received.
+Each refuel turn only appears on the invoice of the month of the refuel turn. If a customer doesn't pay the invoice,
+the unpaid refuel turns are not added to the next month's invoice. Instead, the invoice is simply sent again to the customer to
+remind him/her of the payment due. If a customer repeatedly does not pay the invoices (e.g. two months in a row),
+then the customer is suspended and his/her card is blocked until the bills have been paid.
+The exact threshold to block a customer is not 100% fixed: very good customers are given a bit more slack than new customers.
+If the bills are settled, a customer may return to the normal state.
+Each gas station has a number of pumps that each contain a particular type of gasoline.
+Obviously only one customer can refuel his/her car at a time at a given pump. When the nozzle is taken,
+the refueling can start. When the nozzle is put back the refueling is stopped. Between those two moments,
+no other customer can use this pump. As soon as the nozzle is put back, the pump becomes available for the next customer.
+Each pump has a separate reservoir that must be refilled when the quantity of gasoline drops below a certain preset reordering level.
+Refilling can occur at any time.
+The system should produce a daily report indicating which pump needs to be refilled and for each pump the current level of
+gasoline and the quantity to order. As the bottom of a tank can contain dirt, when the fuel drops below a critical level,
+the pump is automatically blocked so that no refueling can occur with this pump. For the same reason,
+when refilling a tank that was still above the critical level, the pump is temporarily blocked by the gas station responsible for
+approximatively an hour, so that dirt can sink to the bottom. The pump is released when the gas station responsible deems that
+refueling with this pump is safe again.
+
+The plant uml is:
+
+@startuml
+
+class CardHolder {
+    String Name
+    Boolean Suspended
+}
+class Invoice {
+    Int Number
+    Double Discount
+    String status
+}
+class InvoiceLine {
+    Int Number
+}
+class GasStation {
+    String Name
+}
+class Pump {
+    String Type
+    Boolean InUse
+    Double RefillThreshold
+    Boolean Blocked
+}
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+class CashTurn {}
+
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+GasStation "1" -- "0..*" Pump
+CardHolder "1" -- "0..*" Invoice
+CardHolder "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+
+@enduml
+
+##############
+
+The specification text is:
+
+A gas station chain wants to manage its gas stations electronically in the future. Model the following situation using a UML class diagram based on the following information:
+Each gas station has a unique ID and an address. It also has a number of fuel pumps (maximum 12), each of which is identified by a number. It is also noted whether or not it is a self-service fuel pump. For each fuel pump, it is known which fuels are offered at it. A fuel is uniquely identified by its name, and its octane rating is also noted.
+Each gas station archives all daily fuel prices. A daily price is identified by a date, the fuel to which it applies, and the gas station. The price per liter is also noted. A fuel purchase is uniquely identified by an ID, and it is noted at which fuel pump the fuel was purchased and which fuel was purchased at which daily price. In addition, the number of liters of fuel dispensed is also stored.
+
+
+##############
+
+Based on the example, the uml output is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+@startuml
+
+class GasStation {
+    String Id
+    String Address
+    Integer NumberOfPumps
+    String[] FuelTypes
+}
+class Pump {
+    Integer Number
+    Boolean SelfService
+    String[] FuelTypes
+}
+class Fuel {
+    String Name
+    Double OctaneRating
+}
+class DailyPrice {
+    Date Date
+    String Fuel
+    String GasStation
+    Double PricePerLiter
+}
+class FuelPurchase {
+    String Id
+    Integer Liters
+    String PumpNumber
+    String FuelName
+    String DailyPriceId
+}
+
+GasStation "1..*" -- "0..12" Pump
+Pump "1..12" -- "0..*" Fuel
+Fuel "1..*" -- "0..*" DailyPrice
+FuelPurchase "1..*" -- "0..1" DailyPrice
+FuelPurchase "1..*" -- "0..1" Pump
+@enduml

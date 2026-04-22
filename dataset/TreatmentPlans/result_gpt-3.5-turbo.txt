@@ -1,24 +1,26 @@
-
+```plantuml
 @startuml
 
-class Hospital{}
-class Doctor{}
-class Examination{}
-class Type{}
-class Permission{}
-class Problem{}
-class TreatmentPlan{}
-class Patient{}
+class Hospital
+class Doctor
+class Patient
+class Examination
+class ExaminationType
+class Problem
+class TreatmentPlan
 
-Hospital "1..*" -- "1..*" Doctor
-Hospital "1..*" -- "0..*" Permission
-Hospital "1..*" -- "0..*" Examination
-Doctor "1..*" -- "0..*" Patient
-Doctor "0..*" -- "0..*" Hospital
-Examination "1..1" -- "1..1" Type
-TreatmentPlan "1..*" -- "1..1" Problem
-TreatmentPlan "1..*" -- "1..*" Examination
-TreatmentPlan "1..*" -- "1..*" Type
-Patient "1..1" -- "1..*" Examination
+Doctor "1..*" -- "0..*" Examination : prescribes
+Examination "1" -- "1" ExaminationType : has
+Hospital "0..*" -- "1..*" ExaminationType : applies for permission
+TreatmentPlan "1" -- "0..*" ExaminationType : advises
+Doctor "1" -- "0..*" Hospital : affiliated to
+Doctor "1" -- "0..*" Hospital : visited by
+Doctor "1" -- "0..*" Hospital : can send patient to
+Doctor "1" -- "0..*" Hospital : doesn't have permission
+Patient "0..*" -- "1" Problem : comes with
+Doctor "1" -- "0..*" Problem : diagnoses
+Doctor "1" -- "0..*" TreatmentPlan : defines actual treatment
+Patient "1" -- "0..*" TreatmentPlan : deviation from standard treatment plan
 
 @enduml
+```

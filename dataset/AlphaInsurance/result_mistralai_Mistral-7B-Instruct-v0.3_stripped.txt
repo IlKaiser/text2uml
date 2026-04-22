@@ -1,0 +1,27 @@
+@startuml
+
+class Customer { String Name, String ContactDetails }
+class Broker { String BrokerID, String BrokerName }
+class InsurancePolicy { String PolicyType, Date EffectiveDate, Date ExpirationDate }
+class Contract { String ContractID, String CustomerID, String BrokerID, String PolicyType, Date SigningDate }
+class Invoice { String InvoiceID, String CustomerID, Date DueDate, Float Amount }
+class Claim { String ClaimID, String CustomerID, Date SubmissionDate }
+class ClaimCase { String ClaimCaseID, String ClaimID, String Status }
+class MaterialDamage { String MaterialDamageID, String ClaimCaseID, Float Cost }
+class PhysicalDamage { String PhysicalDamageID, String ClaimCaseID, Float Cost }
+class Estimator { String EstimatorID, String EstimatorName, String Expertise }
+class Compensation { String CompensationID, String ClaimID, Float Amount, Date PaymentDate }
+
+Broker "1..1" -- "0..*" Customer
+Customer "1..1" -- "0..*" Contract
+Contract "1..1" -- "1..*" InsurancePolicy
+Broker "1..1" -- "0..*" Contract
+Contract "1..1" -- "0..*" Invoice
+Customer "1..1" -- "0..*" Claim
+Claim "1..1" -- "1..*" ClaimCase
+ClaimCase "1..1" -- "0..*" MaterialDamage
+ClaimCase "1..1" -- "0..*" PhysicalDamage
+ClaimCase "1..1" -- "0..*" Estimator
+Compensation "1..1" -- "1..*" Claim
+
+@enduml

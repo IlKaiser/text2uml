@@ -1,0 +1,60 @@
+```plantuml
+@startuml
+
+class EBike {
+    String FrameMaterial
+    String BatteryStatus
+}
+
+class Frame {
+    String Material
+}
+
+class DriveSystem {
+    Motor Motor
+}
+
+class Motor {
+    String Type
+    Double Power
+}
+
+class Battery {
+    Double StoredEnergy
+}
+
+class Controller {
+    String State
+    Boolean isBatteryConnected
+    void controlBattery()
+    void commandDriveSystem()
+}
+
+class BasicController {
+    String State
+    Boolean isBatteryConnected
+    void controlBattery()
+    void commandDriveSystem()
+}
+
+class AdvancedController {
+    String State
+    Boolean isBatteryConnected
+    void controlBattery()
+    void commandDriveSystem()
+    Date estimateMaintenanceDate()
+}
+
+EBike "1" -- "0..*" Frame
+Frame "1" -- "2" Wheel
+EBike "1" -- "1" DriveSystem
+DriveSystem "1" -- "1" Motor
+EBike "1" -- "0..1" Battery
+EBike "1" -- "1" Controller
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+Controller "1" -- "0..1" Battery
+Controller "1" -- "1" DriveSystem
+
+@enduml
+```

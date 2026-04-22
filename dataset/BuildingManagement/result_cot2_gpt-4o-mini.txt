@@ -1,45 +1,63 @@
 ```plantuml
 @startuml
-class Project{}
-class WebPortal{}
-class Version{}
-class Catalog{}
-class Building{}
-class EnergyInformation{}
-class User{}
-class Owner{}
-class Entry{}
-class TextualInformation{}
-class FloatingPointNumber{}
-class Unit{}
-class Image{}
-class ProfilePhoto{}
-class Visitor{}
-class UniqueUserName{}
-class EmailAddress{}
-class Password{}
-class Administrator{}
-class UserAccount{}
-class Comment{}
-class ConfirmationLink{}
-class AdministrativeFunction{}
+class WebPortal {
+    version: String
+    URL: String
+}
 
-WebPortal "1..*" -- "1..*" Version  
-WebPortal "1..*" -- "1..*" Catalog  
-Catalog "1..*" -- "1..*" Building  
-Building "1..*" -- "1..1" User  
-Building "0..*" -- "0..*" Entry  
-Entry "1..*" -- "0..1" TextualInformation  
-Entry "1..*" -- "0..1" FloatingPointNumber  
-Building "0..*" -- "1..*" Image  
-Building "1..1" -- "1..1" ProfilePhoto  
-Visitor "0..*" -- "1..1" UserAccount  
-UserAccount "1..1" -- "0..1" ConfirmationLink  
-UserAccount "1..1" -- "1..1" UniqueUserName  
-UserAccount "1..1" -- "1..1" EmailAddress  
-UserAccount "1..1" -- "1..1" Password  
-User "1..*" -- "0..*" Comment  
-Administrator "1..1" -- "1..1" UserAccount  
-Administrator "1..*" -- "0..*" AdministrativeFunction  
+class Building {
+    uniqueID: String
+    name: String
+    energyClass: String
+    address: String
+    yearOfConstruction: Int
+    owner: User
+}
+
+class AdditionalEntry {
+    name: String
+}
+
+class Entry {
+    type: String
+    additionalUnit: String
+}
+
+class User {
+    userName: String
+    email: String
+    password: String
+    confirmationLink: String
+}
+
+class Administrator {
+    IDCard: String
+}
+
+WebPortal "1..1" -- "1..1" Version
+WebPortal "1..1" -- "1..1" URL
+WebPortal "1..*" -- "0..*" Catalog
+Catalog "1..*" -- "1..*" Building
+Building "1..1" -- "1..1" UniqueID
+Building "1..1" -- "1..1" EnergyClass
+Building "1..1" -- "1..1" Address
+Building "1..1" -- "1..1" Owner
+Owner "1..1" -- "1..1" User
+Building "1..*" -- "0..*" AdditionalEntry
+AdditionalEntry "1..1" -- "0..1" TextualInformation
+AdditionalEntry "1..1" -- "0..1" FloatingPointNumber
+Building "0..*" -- "0..*" Image
+Image "1..1" -- "1..1" ProfilePhoto
+User "0..*" -- "0..*" Comment
+UserAccount "1..1" -- "1..1" User
+User "1..1" -- "0..1" Administrator
+Administrator "1..1" -- "1..1" IDCard
+User "0..*" -- "0..1" ConfirmationLink
+User "1..1" -- "1..1" UserName
+User "1..1" -- "1..1" Email
+User "1..1" -- "1..1" Password
+User "0..1" -- "0..*" Visitor
+
+Administrator --|> User
 @enduml
 ```

@@ -1,23 +1,70 @@
 @startuml
-class User{}
-class Event{}
-class EventKind{}
-class Location{}
-class Address{}
-class Invitation{}
-class Task{}
-class TaskAssignment{}
+class Person
+class Organizer {
+  firstName: String
+  lastName: String
+  email: String
+  postalAddress: String
+  phoneNumber: String
+  password: String
+}
+class Attendee {
+  firstName: String
+  lastName: String
+  email: String
+  attendanceStatus: String
+  bringing: String
+}
+class Account {
+  username: String
+  password: String
+}
+class Event {
+  startDateTime: Date
+  endDateTime: Date
+  occasion: String
+  location: String
+  eventType: String
+}
+class EventType {
+  name: String
+}
+class Location {
+  name: String
+  address: String
+}
+class Address
+class Invitation {
+  firstName: String
+  lastName: String
+  email: String
+  responseStatus: String
+}
+class TaskTemplate {
+  name: String
+}
+class Task {
+  description: String
+  status: String
+  designatedForAttendees: Boolean
+}
+class TaskAssignment
 
-User "0..*" -- "1..*" Event
-Event "1..1" -- "0..*" EventKind
-Event "1..1" -- "0..*" Location
-Location "1..1" -- "0..*" Address
-Event "0..*" -- "1..1" Invitation
-Invitation "0..1" -- "0..*" User
-Task "1..1" -- "0..*" EventKind
-Event "0..*" -- "0..*" Task
-TaskAssignment "1..1" -- "0..*" Task
-TaskAssignment "1..1" -- "0..*" User
-TaskAssignment "1..1" -- "0..*" Event
-User "1..1" -- "0..*" Address
+Organizer "1..*" -- "0..*" Event
+Account "0..1" -- "1..1" Person
+Invitation "0..*" -- "1..1" Event
+Invitation "0..*" -- "1..1" Attendee
+Attendee "0..*" -- "0..*" Event
+EventType "1..1" -- "0..*" Event
+Location "1..1" -- "0..*" Event
+Location "1..1" -- "1..1" Address
+Address "0..1" -- "0..*" Person
+TaskTemplate "0..*" -- "1..1" EventType
+TaskTemplate "0..1" -- "0..*" Task
+Task "0..*" -- "1..1" Event
+TaskAssignment "0..*" -- "1..1" Task
+TaskAssignment "0..*" -- "1..1" Attendee
+
+Organizer --|> Person
+Attendee --|> Person
 @enduml

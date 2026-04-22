@@ -1,27 +1,51 @@
 @startuml
 
-class User{}
-class Admin{}
-class Player{}
-class Game{}
-class HallOfFame{}
-class Block{}
-class Level{}
-class LevelBlockArrangement{}
-class PlayedGame{}
-class HallOfFameEntry{}
+class User {
+    String Username
+    String Password
+}
+class Game {
+    String Name
+    Int InitialBlocksPerLevel
+    Double MinBallSpeed
+    Double SpeedIncreaseFactor
+    Double MaxPaddleLength
+    Double MinPaddleLength
+}
+class Block {
+    String Color
+    Int Points
+}
+class Level {
+    Int LevelNumber
+    Boolean IsRandom
+}
+class HallOfFame {
+}
+class HallOfFameEntry {
+    Int Score
+    Date DateAchieved
+}
+class PlaySession {
+    Int TotalScore
+    Int LivesRemaining
+    Int CurrentLevelNumber
+    String Status
+}
+class BlockPlacement {
+    Int XPosition
+    Int YPosition
+}
 
-User "1" -- "1" Player
-User "1" -- "0..1" Admin
-Admin -- "1" Game
+User "0..*" -- "1" Game
 Game "1" -- "1" HallOfFame
-Game "1" -- Block
+Game "1" -- "0..*" Block
 Game "1" -- "1..*" Level
-Level "1" -- "1" LevelBlockArrangement
-LevelBlockArrangement "1..*" -- Block
-Player -- "1" PlayedGame
-Game -- "1" PlayedGame
-HallOfFame "1" -- HallOfFameEntry
-Player -- "1" HallOfFameEntry
+(Level,Block) .. BlockPlacement
+HallOfFame "1" -- "0..*" HallOfFameEntry
+User "1" -- "0..*" HallOfFameEntry
+User "1" -- "0..*" PlaySession
+Game "1" -- "0..*" PlaySession
+PlaySession "0..*" -- "0..1" Level
 
 @enduml

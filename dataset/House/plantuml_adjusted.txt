@@ -1,0 +1,64 @@
+@startuml
+
+class ConcreteBasement {
+    Double Quality
+}
+
+abstract class Basement {
+    Double Size
+    String Name
+}
+
+
+
+class EarthBasement {
+    Double Humidity
+}
+
+abstract class SemiDetached {
+    Boolean Garden
+    Int Windows
+}
+
+class House {
+    String Address
+    BMType BuildingMaterial
+}
+
+class JobLog {
+    Int Hours
+    Double Price
+}
+
+class SemiDetachedWithCarport {}
+
+class SemiDetachedWithGarage {}
+
+class Company {
+    String Name
+    String Address
+}
+
+class Carport {
+    Boolean DoublePort
+    Boolean flatRoof
+}
+
+class Garage {
+    Boolean Automatic
+}
+
+
+ConcreteBasement "0..*" -- "0..*" Basement
+EarthBasement "0..*" -- "0..*" Basement
+Basement "0..1" -- "1" House
+House "0..*"-"0..*" Company
+House .. JobLog
+House .. Company
+House "0..*" -- "0..*" SemiDetached
+SemiDetached "0..*" -- "0..*" SemiDetachedWithCarport
+SemiDetached "0..*" -- "0..*" SemiDetachedWithGarage
+SemiDetachedWithCarport "1"-"1..*" Carport
+SemiDetachedWithGarage "1"-"1" Garage
+
+@enduml

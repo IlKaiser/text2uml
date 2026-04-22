@@ -1,13 +1,18 @@
 @startuml
-class Sober{}
-class Car{}
-class Customer{}
-class RideHail{}
-class RideShare{}
-class Accident{}
 
-Sober "1" -- "0..*" Car
-RideHail "1" -- "1" Customer
-RideShare "1" -- "0..*" Customer
-Car "0..*" -- "1" Accident
+class Sober{ String Name, String HeadquartersLocation }
+class Car{ String CarID, String LicensePlate, String Model, Integer Year, Boolean IsSelfDriving, String OwnerName, String OwnerContact }
+class Accident{ Date AccidentDate, String Location, Double DamageAmount }
+
+class TaxiService{ }
+class RideHail{ Date PickupTime, Date DropoffTime, String PickupLocation, String DropoffLocation, Integer RideDurationMin, Double DistanceKm, Integer NumPassengers, Double Fee, String RequestType, String LeadCustomerName, String LeadCustomerPhone, Integer MaxPassengers }
+class RideShare{ Date PickupTime, Date DropoffTime, String PickupLocation, String DropoffLocation, Integer RideDurationMin, Double DistanceKm, String[] PassengerNames, Double UpfrontFee, Integer MaxPassengers }
+
+Sober "0..*" -- "1" Car
+Car "1" -- "0..*" Accident
+Car "1" -- "0..*" RideHail
+Car "1" -- "0..*" RideShare
+RideHail --|> TaxiService
+RideShare --|> TaxiService
+
 @enduml

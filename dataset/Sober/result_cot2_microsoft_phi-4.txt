@@ -1,0 +1,106 @@
+```plantuml
+@startuml
+
+class TaxiCompany {
+}
+
+class SelfDrivingCar {
+  carOwner: String
+}
+
+class Fleet {
+}
+
+class Cab {
+}
+
+class CarOwner {
+}
+
+class RideHailingService {
+  pickupTime: Date
+  dropoffTime: Date
+  pickupLocation: String
+  dropoffLocation: String
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  fee: Float
+  typeOfRequest: String
+  leadCustomerName: String
+  leadCustomerNumber: Int
+}
+
+class RideSharingService {
+  pickupTime: Date
+  dropoffTime: Date
+  pickupLocation: String
+  dropoffLocation: String
+  rideDuration: Float
+  distance: Float
+  customerNames: String
+  negotiatedFee: Float
+}
+
+class Customer {
+}
+
+class Request {
+}
+
+class SoberApp {
+}
+
+class Notification {
+}
+
+class Gesture {
+}
+
+class ImageRecognitionSystem {
+}
+
+class Ride {
+}
+
+class Passenger {
+}
+
+class Fee {
+}
+
+class Pricing {
+}
+
+class Accident {
+  accidentDate: Date
+  location: String
+  damageAmount: Float
+}
+
+class Damage {
+}
+
+1..1 SoberApp -- 0..* Request
+1..1 Request -- 1..1 Ride
+1..1 Ride -- 1..6 Passenger
+1..1 Ride -- 1..1 Fee
+1..1 Ride -- 1..1 Pricing
+1..1 Ride -- 0..* Notification
+0..* Ride -- 0..1 ImageRecognitionSystem
+0..* Ride -- 0..* Gesture
+1..1 RideHailingService -- 1..* Ride
+1..1 RideSharingService -- 1..* Ride
+1..* Customer -- 0..* Ride
+1..* Customer -- 0..* RideSharingService
+1..* Customer -- 0..* RideHailingService
+1..1 Fleet -- 0..* SelfDrivingCar
+1..1 TaxiCompany -- 1..1 Fleet
+1..1 TaxiCompany -- 0..* SelfDrivingCar
+1..1 CarOwner -- 0..* Cab
+1..1 Cab -- 0..1 SelfDrivingCar
+1..1 Accident -- 1..1 Damage
+1..1 SelfDrivingCar -- 0..* Accident
+
+@enduml
+```

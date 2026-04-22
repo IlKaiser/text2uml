@@ -1,36 +1,54 @@
 @startuml
-class HelpingHandsStore{}
-class Location{}
-class DistributionCenter{}
-class FoodBank{}
-class Resident{}
-class Client{}
-class PickupRequest{}
-class Item{}
-class SecondHandArticle{}
-class NonPerishableFood{}
-class Category{}
-class Vehicle{}
-class VolunteerDriver{}
-class Route{}
-class Address{}
-class Employee{}
-
-HelpingHandsStore "1..*" -- "1" Location
-Location "1" -- "1" DistributionCenter
-Location "1" -- "1" FoodBank
-Resident "0..*" -- "1" PickupRequest
-PickupRequest "1" -- "0..*" Address
-PickupRequest "1..*" -- "1" Item
-Vehicle "0..*" -- "1" Route
-VolunteerDriver "0..*" -- "1" Route
-Route "1" -- "0..*" DistributionCenter
-VolunteerDriver "0..*" -- "0..*" Client
-NonPerishableFood "1" -- "0..*" FoodBank
-SecondHandArticle "1" -- "0..*" DistributionCenter
-Employee "1" -- "0..*" DistributionCenter
-Employee "0..*" -- "1" SecondHandArticle
-SecondHandArticle "1" -- "0..*" Category
+class Resident {
+  name: String
+  streetAddress: String
+  phoneNumber: String
+  emailAddress: String
+  itemsDescription: String
+}
+class Item
+class SecondHandArticle {
+  description: String
+  rfidTag: String
+  category: String
+}
+class NonPerishableFood
+class Vehicle {
+  availableStorage: Int
+}
+class Driver {
+  availableDays: String
+}
+class Route {
+  weekday: String
+}
+class DistributionCenter
+class FoodBank
+class Employee
+class RFIDTag
+class Category
+class Client
+class Address
+class Pickup {
+  timeWindowStart: Date
+  timeWindowEnd: Date
+}
+Resident "1..1" -- "0..*" Address
+Resident "0..*" -- "1..1" Pickup
+Route "1..1" -- "0..*" Vehicle
+Route "1..1" -- "0..*" Driver
+Route "0..*" -- "1..1" Pickup
+Pickup "1..*" -- "1..1" Item
+Item "0..1" -- "1..1" SecondHandArticle
+Item "0..1" -- "1..1" NonPerishableFood
+DistributionCenter "0..*" -- "1..1" Employee
+SecondHandArticle "0..1" -- "1..1" RFIDTag
+SecondHandArticle "1..1" -- "0..*" DistributionCenter
+SecondHandArticle "1..1" -- "0..*" Category
+FoodBank "0..*" -- "1..1" NonPerishableFood
+Client "1..1" -- "0..*" Address
 Client "0..*" -- "0..*" Category
-Client "0..*" -- "0..*" Address
+Client "0..*" -- "0..1" Driver
+SecondHandArticle --|> Item
+NonPerishableFood --|> Item
 @enduml

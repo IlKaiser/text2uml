@@ -1,0 +1,99 @@
+@startuml
+
+class HomeForElderly{
+    +String name
+    +String address
+    +List<Department> departments
+}
+
+class Department{
+    +String name
+    +List<Room> rooms
+}
+
+class Room{
+    +String name
+    +List<Beds> beds
+}
+
+class Beds{
+    +String category
+    +int quantity
+    +Category category
+}
+
+class Category{
+    +String name
+    +int price
+}
+
+class Stay{
+    +String type
+    +int duration
+    +HomeForElderly home
+    +Invoices invoices
+}
+
+class Invoices{
+    +List<Invoice> invoices
+}
+
+class Invoice{
+    +Stay stay
+    +int amount
+    +boolean paid
+}
+
+class Person{
+    +String id
+    +String firstName
+    +String lastName
+    +List<BasicIdentificationData> basicIdentificationData
+    +List<NeedsAssessment> needsAssessments
+    +List<Stays> stays
+}
+
+class BasicIdentificationData{
+    +String name
+    +String address
+    +String contactNumber
+}
+
+class NeedsAssessment{
+    +Person person
+    +Stay stay
+    +int score
+}
+
+class Stays{
+    +Person person
+    +Stay stay
+}
+
+class RegistrationProcess{
+    +Person person
+    +List<BasicIdentificationData> basicIdentificationData
+    +List<NeedsAssessment> needsAssessments
+    +List<Stays> stays
+}
+
+RegistrationProcess "1" -- "0..*" Person : has
+Person "1" -- "1" NeedsAssessment : assesses
+Person "1" -- "1" Stays : stays
+Stays "1" -- "1" Stay : stays
+Stay "1" -- "1" Invoices : invoices
+Invoices "1" -- "0..*" Invoice : has
+Invoice "1" -- "1" Stay : stays
+Stays "1" -- "1" RegistrationProcess : registers
+RegistrationProcess "1" -- "1" BasicIdentificationData : contains
+BasicIdentificationData "1" -- "1" Person : has
+NeedsAssessment "1" -- "1" Person : assesses
+NeedsAssessment "1" -- "1" Stay : stays
+Stays "1" -- "1" NeedsAssessment : assesses
+Stays "1" -- "1" Stay : stays
+Stay "1" -- "1" Category : has
+Category "1" -- "1" Beds : has
+Beds "1" -- "1" Room : has
+Room "1" -- "1" Department : has
+Department "1" -- "1" HomeForElderly : has
+@enduml

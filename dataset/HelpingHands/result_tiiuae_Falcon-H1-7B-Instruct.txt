@@ -1,0 +1,25 @@
+```plaintext
+@startuml
+
+class Resident{ String Name, String StreetAddress, String PhoneNumber, String Email, String ItemDescription }
+class PickupVehicle{ String VehicleID, String Capacity }
+class VolunteerDriver{ String DriverID, String Availability }
+class DistributionCenter{ String CenterID }
+class FoodBank{ String BankID }
+class RFID{ String RFIDNumber }
+class H2SEmployee{ String EmployeeID }
+class Article{ String Description, String Category, RFID RFID }
+class Category{ String CategoryName }
+
+Resident "1" -- "1..*" Article
+Article -- "1..*" RFID
+PickupVehicle -- "1..*" VolunteerDriver
+VolunteerDriver "1..*" -- "1..*" Resident
+PickupVehicle -- DistributionCenter
+DistributionCenter -- FoodBank
+H2SEmployee -- DistributionCenter
+H2SEmployee "1..*" -- "1..*" Article
+Category -- Article
+
+@enduml
+```

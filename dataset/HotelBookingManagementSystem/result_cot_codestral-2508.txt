@@ -1,36 +1,94 @@
 ```plantuml
 @startuml
-class BusinessTraveller{}
-class Hotel{}
-class Room{}
-class Booking{}
-class PreliminaryBooking{}
-class FinalizedBooking{}
-class Payment{}
-class Confirmation{}
-class HotelChain{}
-class City{}
-class Address{}
-class TravelPreference{}
-class Offer{}
-class ReliabilityRating{}
+class BusinessTraveller {
+  name:String
+  billingInformation:String
+  companyName:String
+  address:String
+  travelPreferences:TravelPreference
+}
 
-BusinessTraveller "1..*" -- "0..*" TravelPreference
-BusinessTraveller "1..*" -- "0..*" PreliminaryBooking
-BusinessTraveller "1..*" -- "0..*" FinalizedBooking
-BusinessTraveller "1..*" -- "1..1" ReliabilityRating
+class Booking {
+  city:City
+  arrivalDate:Date
+  departureDate:Date
+  numberOfRooms:Int
+  roomType:String
+  minHotelRating:Float
+  tentativeBudget:Float
+  travelPreferences:TravelPreference
+  price:Float
+  cityArea:String
+  hotelRating:Float
+  bookingIdentifier:String
+  paymentMethod:String
+  cancellationDeadline:Date
+  confirmed:Boolean
+}
+
+class Hotel {
+  address:String
+  availableRoomTypes:Room
+  fullyBookedRoomType:String
+}
+
+class Room {
+}
+
+class City {
+  name:String
+}
+
+class TravelPreference {
+  breakfastIncluded:Boolean
+  freeWifi:Boolean
+  frontDesk24h:Boolean
+}
+
+class SpecialOffer {
+  price:Float
+  cityArea:String
+  hotelRating:Float
+  keyPreferences:TravelPreference
+  bookingIdentifier:String
+}
+
+class Payment {
+  creditCardInfo:String
+  paymentMethod:String
+}
+
+class Confirmation {
+  confirmed:Boolean
+  confirmationTime:Date
+}
+
+class HotelChain {
+  name:String
+}
+
+class ReliabilityRating {
+  rating:Float
+}
+
+BusinessTraveller "1..*" -- "1..*" Booking
+BusinessTraveller "1..1" -- "0..*" TravelPreference
+BusinessTraveller "1..1" -- "1..1" ReliabilityRating
+Booking "1..*" -- "1..1" Hotel
+Booking "1..*" -- "1..*" Room
+Booking "1..*" -- "1..1" City
+Booking "1..*" -- "0..*" TravelPreference
+Booking "0..*" -- "1..*" SpecialOffer
+Booking "1..1" -- "1..1" Payment
+Booking "1..1" -- "1..1" Confirmation
 Hotel "1..*" -- "1..1" City
-Hotel "1..*" -- "1..1" Address
-Hotel "0..*" -- "1..*" HotelChain
+Hotel "0..1" -- "1..*" HotelChain
 Hotel "1..*" -- "1..*" Room
-Hotel "1..*" -- "0..*" Confirmation
-Room "1..*" -- "0..*" Booking
-PreliminaryBooking "1..1" -- "1..1" Booking
-FinalizedBooking "1..1" -- "1..1" Booking
-FinalizedBooking "1..1" -- "1..1" Payment
-FinalizedBooking "1..1" -- "0..1" Confirmation
-Payment "1..*" -- "1..1" Offer
-Offer "1..*" -- "0..*" TravelPreference
-Offer "1..*" -- "1..1" ReliabilityRating
+Hotel "0..*" -- "1..*" SpecialOffer
+Hotel "1..*" -- "1..*" Confirmation
+Room "0..*" -- "1..*" TravelPreference
+SpecialOffer "0..*" -- "1..*" TravelPreference
+SpecialOffer "0..*" -- "1..1" ReliabilityRating
+Payment "1..1" -- "1..1" Confirmation
 @enduml
 ```

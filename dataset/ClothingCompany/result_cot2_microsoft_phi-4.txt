@@ -1,0 +1,90 @@
+```plantuml
+@startuml
+
+class Company {
+}
+
+class Application {
+}
+
+class Customer {
+  name: String
+  address: String
+  telephone number: String
+  email address: String
+  countries in which they resell our goods: String
+}
+
+class Product {
+  unique name: String
+  description: String
+  net price: Float
+  manufacturer: String
+  country: String
+}
+
+class Order {
+  order quantity: Int
+  order date: Date
+  desired delivery date: Date
+}
+
+class Clothing {
+}
+
+class Shoe {
+}
+
+class Headwear {
+}
+
+class Manufacturer {
+}
+
+class Country {
+  VAT rate: Float
+  currency used: String
+  conversion rate to the euro: Float
+}
+
+class VATRate {
+}
+
+class Currency {
+}
+
+class Representative {
+  first name: String
+  last name: String
+  social security number: String
+  telephone number: String
+  email address: String
+  country: String
+}
+
+class Address {
+}
+
+class OrderItem {
+}
+
+1..1 Company -- 0..* Product
+1..1 Product -- 1..1 Country
+1..1 Country -- 1..1 VATRate
+1..1 Country -- 1..1 Currency
+0..* Product -- 0..* Representative
+1..1 Customer -- 0..* Country
+1..1 Order -- 1..1 Product
+1..1 Order -- 1..1 Customer
+1..1 Order -- 1..1 Representative
+1..1 Order -- 0..* OrderItem
+1..1 OrderItem -- 1..1 Product
+1..1 Representative -- 1..1 Country
+1..1 Customer -- 1..1 Address
+
+Clothing --|> Product
+Shoe --|> Product
+Headwear --|> Product
+
+@enduml
+```

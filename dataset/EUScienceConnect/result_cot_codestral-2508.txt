@@ -1,23 +1,46 @@
 ```plantuml
 @startuml
-class Person{}
-class ResearchInstitution{}
-class ScientificArticle{}
-class PeerReviewedPaper{}
-class TechnicalReport{}
-class Publisher{}
-class Journal{}
+class Person {
+  personID:String
+  phoneNumber:String
+  researchTopics:String
+  institution:String
+}
 
-Person "1..*" -- "1..1" ResearchInstitution
-Person "1..*" -- "1..*" ScientificArticle
-Person "1..*" -- "0..*" PeerReviewedPaper
-Person "1..*" -- "1..*" TechnicalReport
-ResearchInstitution "1..*" -- "0..*" ScientificArticle
-ResearchInstitution "1..*" -- "1..*" TechnicalReport
-ResearchInstitution "0..*" -- "0..*" Journal
-ScientificArticle "1..*" -- "0..1" Publisher
-PeerReviewedPaper "1..*" -- "0..1" Publisher
-PeerReviewedPaper "1..*" -- "1..1" Journal
+class ResearchInstitution {
+  institutionCode:String
+}
+
+class ScientificArticle {
+  DOI:String
+  title:String
+  authors:String
+}
+
+class PeerReviewedPaper {
+  citationCount:Int
+  reviewer:String
+}
+
+class TechnicalReport {
+  publisher:ResearchInstitution
+}
+
+class Publisher {
+  name:String
+}
+
+class Journal {
+  name:String
+  impactFactor:Float
+}
+
+Person "1..*" -- "1..1" ScientificArticle
+ResearchInstitution "1..*" -- "1..1" TechnicalReport
 Publisher "1..*" -- "1..*" Journal
+ResearchInstitution "0..*" -- "0..*" Journal
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
 @enduml
 ```

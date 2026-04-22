@@ -1,38 +1,57 @@
 @startuml
 
-class Director {}
-class HeadCoach {}
-class HeadScout {}
-class LongList {}
-class Offer {}
-class Player {}
-class PlayerAttribute {}
-class PlayerProfile {}
-class Recommendation {}
-class Scout {}
-class ScoutingAssignment {}
-class ScoutingReport {}
-class ShortList {}
-class TargetPosition {}
+class HeadCoach {
+    String Name
+}
+class Director {
+    String Name
+}
+class Scout {
+    String Name
+}
+class HeadScout {
+}
+class PlayerProfile {
+    String Name
+}
+class TargetPosition {
+    String Name
+}
+class PlayerAttribute {
+    String Name
+    String Value
+}
+class Player {
+    String Name
+    String Status
+}
+class ScoutingAssignment {
+    Date AssignmentDate
+    String Status
+}
+class ScoutingReport {
+    String Pros
+    String Cons
+    String Recommendation
+}
+class Offer {
+    Date OfferDate
+    Double Amount
+    String Status
+}
 
-HeadCoach "1" -- PlayerProfile
-PlayerProfile "1" -- "1..*" TargetPosition
-PlayerProfile "1" -- PlayerAttribute
-LongList -- Player
-Scout -- LongList
-Player -- PlayerProfile
-HeadScout "1" -- LongList
-HeadScout "1" -- ScoutingAssignment
-Player -- "1" ScoutingAssignment
-Scout "1" -- ScoutingAssignment
-Scout "1" -- ScoutingReport
-Player -- "1" ScoutingReport
-ScoutingAssignment "0..1" -- "1" ScoutingReport
-ScoutingReport "1" -- "1" Recommendation
-ShortList -- Player
-HeadCoach -- ShortList
-HeadScout -- ShortList
-Director "1" -- Offer
-Player -- "1" Offer
+Scout <|-- HeadScout
+
+HeadCoach "1" -- "0..*" PlayerProfile
+PlayerProfile "1..*" -- "0..*" TargetPosition
+PlayerProfile "1" -- "0..*" PlayerAttribute
+PlayerProfile "0..*" -- "0..*" Player
+HeadScout "1" -- "0..*" ScoutingAssignment
+Player "0..*" -- "1" ScoutingAssignment
+Scout "0..*" -- "0..*" ScoutingAssignment
+(Scout, ScoutingAssignment) .. ScoutingReport
+HeadScout "1" -- "0..1" Player
+Director "1" -- "0..*" Offer
+Player "0..*" -- "1" Offer
 
 @enduml

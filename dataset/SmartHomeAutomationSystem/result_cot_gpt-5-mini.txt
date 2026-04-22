@@ -1,31 +1,56 @@
 @startuml
-class SmartHome{}
-class Room{}
-class Device{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class Owner{}
-class BooleanExpression{}
-class InfrastructureMap{}
-class RuleTrigger{}
+class SmartHome {
+  address: String
+}
+class Room {
+  name: String
+}
+class Device {
+  type: String
+}
+class Sensor {
+  deviceId: String
+  active: Boolean
+}
+class Actuator {
+  deviceId: String
+  active: Boolean
+}
+class SensorReading {
+  value: Float
+  timestamp: Date
+}
+class ControlCommand {
+  name: String
+  timestamp: Date
+  status: String
+}
+class ActivityLog
+class AutomationRule {
+  action: String
+  active: Boolean
+}
+class Precondition {
+  expression: String
+}
+class User
+class RuleTrigger {
+  timestamp: Date
+}
 
 SmartHome "1..*" -- "1..1" Room.
 Room "0..*" -- "1..1" Device.
-Device "0..*" -- "1..1" SensorReading.
-Device "0..*" -- "1..1" ControlCommand.
-SmartHome "1..1" -- "1..1" InfrastructureMap.
-InfrastructureMap "0..*" -- "1..1" Device.
-SmartHome "1..1" -- "1..1" ActivityLog.
+Sensor "0..*" -- "1..1" SensorReading.
+Actuator "0..*" -- "1..1" ControlCommand.
 ActivityLog "0..*" -- "1..1" SensorReading.
 ActivityLog "0..*" -- "1..1" ControlCommand.
-Owner "0..*" -- "1..1" AutomationRule.
-AutomationRule "1..1" -- "1..1" BooleanExpression.
-AutomationRule "0..*" -- "0..1" ControlCommand.
+AutomationRule "1..1" -- "1..1" Precondition.
+AutomationRule "1..*" -- "0..*" ControlCommand.
+AutomationRule "1..1" -- "0..*" User.
+AutomationRule "0..*" -- "0..*" AutomationRule.
 AutomationRule "0..*" -- "1..1" RuleTrigger.
-BooleanExpression "0..*" -- "0..*" Room.
-BooleanExpression "0..*" -- "0..*" Device.
-BooleanExpression "0..*" -- "0..*" SensorReading.
-BooleanExpression "0..*" -- "0..*" ControlCommand.
+RuleTrigger "1..1" -- "0..*" ActivityLog.
+
+Sensor --|> Device
+Actuator --|> Device
 @enduml

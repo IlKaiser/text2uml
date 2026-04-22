@@ -1,31 +1,65 @@
 @startuml
 
-class Resident {}
-class PickupRequest {}
-class Item {}
-class Vehicle {}
-class PickupRoute {}
-class VolunteerDriver {}
-class DistributionCenter {}
-class H2SEmployee {}
-class FoodBank {}
-class Client {}
-class ArticleCategory {}
-class RFIDTag {}
-class Delivery {}
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+}
+class Item {
+    String Description
+    String Type
+    Double Weight
+    Double Dimensions
+}
+class PickupRequest {
+    Date RequestedDate
+    Time TimeWindowStart
+    Time TimeWindowEnd
+}
+class Vehicle {
+    String Identifier
+    Double AvailableStorage
+}
+class VolunteerDriver {
+    String Name
+    List<Date> AvailableDays
+}
+class PickupRoute {
+    Date RouteDate
+}
+class DistributionCenter {
+    String City
+}
+class H2SEmployee {
+    String Name
+}
+class ArticleCategory {
+    String Name
+}
+class Client {
+    String Name
+    String Address
+    String PhoneNumber
+}
+class Delivery {
+    Date DeliveryDate
+}
+class FoodBank {
+    String Name
+}
 
-Resident "1" -- "1..*" PickupRequest
+Resident "1" -- "0..*" PickupRequest
 PickupRequest "1" -- "1..*" Item
 Vehicle "1" -- "0..*" PickupRoute
 VolunteerDriver "1" -- "0..*" PickupRoute
 PickupRoute "1" -- "0..*" PickupRequest
 DistributionCenter "1" -- "0..*" H2SEmployee
-H2SEmployee "1" -- "0..*" Item
-Item "0..1" -- "1" RFIDTag
-Item "1" -- "1" ArticleCategory
+H2SEmployee "0..*" -- "0..*" Item
+Item "0..*" -- "0..1" ArticleCategory
 Client "1" -- "0..*" Delivery
 H2SEmployee "1" -- "0..*" Delivery
-VolunteerDriver "1" -- "0..*" Delivery
+Item "1" -- "0..1" Delivery
 FoodBank "1" -- "0..*" Item
 
 @enduml

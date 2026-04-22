@@ -1,44 +1,93 @@
 
-```
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Inhabitant{}
-class Category{}
-class Stay{}
-class RegistrationProcess{}
-class Question{}
-class Data{}
-class System{}
-class Abilities{}
-class BasicActivity{}
-class TypeOfStay{}
-class WaitingList{}
-class Proposal{}
-class RegistrationDate{}
-class Invoice{}
-class Payment{}
-class CreditNote{}
-class Refund{}
+class Department {
+  roomCount: Int
+}
 
-Home "1..*" -- "1..*" Department
+class Room {
+  bedCount: Int
+}
+
+class Bed {
+  category: String
+}
+
+class Category {
+  price: Float
+}
+
+class Inhabitant {
+}
+
+class Registration {
+}
+
+class Data {
+}
+
+class Abilities {
+}
+
+class Activity {
+}
+
+class Assessment {
+}
+
+class WaitingList {
+}
+
+class Proposal {
+}
+
+class RegistrationDate {
+}
+
+class IntakeDate {
+}
+
+class Invoice {
+}
+
+class Payment {
+}
+
+class Event {
+}
+
+class CreditNote {
+}
+
+class Refund {
+}
+
+class Death {
+}
+
+class Complaint {
+}
+
 Department "1..*" -- "1..*" Room
-Room "1..*" -- "1..*" Bed
-Bed "1..*" -- 1 Category
-Category "1..*" -- "1..*" Stay
+Room "1..1" -- "1..*" Bed
+Bed "1..*" -- "1" Category
+Category "1" -- "1" Price
 Inhabitant "1..*" -- "1..*" Stay
-Stay "1..*" -- "1" RegistrationProcess
-RegistrationProcess "1..*" -- "1..*" Question
-Question "1..*" -- "1" Data
-Inhabitant "1..*" -- "0..*" Abilities
-TypeOfStay "1..*" -- "1..*" WaitingList
-WaitingList "1..*" -- "1..*" Proposal
-Proposal "1..*" -- "1" RegistrationDate
-Stay "1..*" -- "1..*" Invoice
-Invoice "1..*" -- "1..*" Payment
-Payment "1..*" -- "0..*" CreditNote
-CreditNote "1..*" -- "0..*" Refund
+Inhabitant "1" -- "1" Registration
+Registration "1" -- "1" Data
+Data "1" -- "1" System
+Data "1" -- "1" Abilities
+Abilities "1" -- "1" Activity
+Abilities "1" -- "1..*" Assessment
+Assessment "1" -- "1" WaitingList
+WaitingList "1" -- "1" Proposal
+WaitingList "1" -- "1..*" RegistrationDate
+Proposal "1" -- "1..*" RegistrationDate
+Proposal "1" -- "1" IntakeDate
+IntakeDate "1" -- "1..*" Invoice
+IntakeDate "1" -- "1" Payment
+Payment "1" -- "1" Event
+Invoice "1" -- "1" CreditNote
+Invoice "1" -- "1" Refund
+Death "1" -- "1" Invoice
+Complaint "1" -- "1..*" Invoice
 @enduml
-```

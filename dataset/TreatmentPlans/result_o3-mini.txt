@@ -1,30 +1,64 @@
 @startuml
-class Hospital{}
-class Doctor{}
-class Patient{}
-class Examination{}
-class ExaminationType{}
-class Diagnosis{}
-class Problem{}
-class TreatmentPlan{}
-class ActualTreatment{}
-class MedicalAction{}
 
-Doctor "1..1" -- "0..*" Hospital
-Hospital "0..*" -- "0..*" ExaminationType
-Doctor "1..1" -- "0..*" Examination
-Patient "1..1" -- "0..*" Examination
-ExaminationType "0..*" -- "1..1" Examination
-Patient "1..1" -- "0..*" Hospital
+class Hospital { 
+  String name
+}
+
+class Doctor { 
+  String name
+}
+
+class Patient { 
+  String name
+}
+
+class Examination {
+  Date date
+}
+
+class ExaminationType {
+  String name
+}
+
+class Permission {
+}
+
+class TreatmentPlan {
+}
+
+class Problem {
+  String description
+}
+
+class Diagnosis {
+  Date date
+}
+
+class Treatment {
+}
+
+class MedicalAction {
+  String description
+}
+
+Hospital "1..1" -- "0..*" Permission
+Permission "1..1" -- "1..1" ExaminationType
+
+Hospital "1..1" -- "0..*" Diagnosis
 Doctor "1..1" -- "0..*" Diagnosis
 Patient "1..1" -- "0..*" Diagnosis
 Diagnosis "1..1" -- "1..1" Problem
-Diagnosis "1..1" -- "1..1" ActualTreatment
-ActualTreatment "1..1" -- "1..1" TreatmentPlan
-ActualTreatment "1..1" -- "0..*" Examination
-ActualTreatment "1..1" -- "0..*" MedicalAction
-Problem "1..1" -- "1..1" TreatmentPlan
-TreatmentPlan "1..1" -- "1..*" ExaminationType
-Doctor "1..1" -- "0..*" ActualTreatment
-Hospital "0..*" -- "0..*" Examination
+
+Problem "1..1" -- "0..1" TreatmentPlan
+TreatmentPlan "1..1" -- "0..*" ExaminationType
+
+Doctor "1..1" -- "0..*" Examination
+Patient "1..1" -- "0..*" Examination
+Examination "1..1" -- "1..1" ExaminationType
+Examination "1..1" -- "0..1" Hospital
+
+Diagnosis "1..1" -- "0..1" Treatment
+Treatment "1..1" -- "0..*" Examination
+Treatment "1..1" -- "0..*" MedicalAction
+
 @enduml

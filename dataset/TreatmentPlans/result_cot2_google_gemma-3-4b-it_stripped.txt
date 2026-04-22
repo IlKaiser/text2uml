@@ -1,0 +1,71 @@
+```plantuml
+@startuml
+class Hospital {
+    - name : String
+    - permissions : List<Permission>
+    - id : int
+}
+
+class Doctor {
+    - name : String
+    - id : int
+    - hospital_affiliation : Hospital
+}
+
+class Patient {
+    - name : String
+    - id : int
+    - problem : Problem
+}
+
+class Examination {
+    - type : String
+    - id : int
+    - performed_at : Date
+}
+
+class TreatmentPlan {
+    - problem_type : Problem
+    - id : int
+    - advised_examinations : List<Examination>
+}
+
+class Problem {
+    - name : String
+    - id : int
+}
+
+class Diagnosis {
+    - description : String
+    - date : Date
+}
+
+class Permission {
+    - examination_type : String
+    - hospital_id : int
+    - granted : boolean
+}
+
+class Scan {
+    - type : String
+    - id : int
+}
+
+class MedicalAction {
+    - name : String
+    - id : int
+}
+
+Hospital "1" -- "*" Doctor : employs
+Hospital "1" -- "*" Examination : has
+Hospital "1" -- "*" Permission : has
+Doctor "1" -- "*" Patient : treats
+Doctor "1" -- "1" Diagnosis : makes
+Examination "1" -- "*" Scan : involves
+TreatmentPlan "1" -- "*" Examination : includes
+Problem "1" -- "1" TreatmentPlan : defines
+TreatmentPlan "1" -- "*" Treatment : consists of
+Patient "1" -- "1" Problem : has
+
+@enduml
+```

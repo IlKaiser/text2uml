@@ -1,36 +1,55 @@
 @startuml
 
-class EHomeSystem {}
-class SensorController {}
-class Sensor {}
-class Apartment {}
-class Inhabitant {}
-class Threshold {}
-class EMonitorSystem {}
-class AlertMessage {}
-class Room {}
-class TemperatureSensor {}
-class PowerSensor {}
-class MeasuredValue {}
+class SensorController {
+}
+class Sensor {
+    String VendorId
+    String Description
+    String Unit
+    Float Threshold
+}
+class TemperatureSensor {
+    Float MinValue
+    Float MaxValue
+}
+class PowerSensor {
+    Float TotalPowerConsumption
+}
+class Apartment {
+    String Address
+    String EmailAddress
+}
+class Inhabitant {
+    String Username
+    String Password
+}
+class AdministratorInhabitant {
+}
+class EMonitor {
+}
+class AlertMessage {
+}
+class Room {
+    String Description
+}
+class MeasuredValue {
+    Date Timestamp
+    Float Value
+}
 
+Inhabitant <|-- AdministratorInhabitant
 Sensor <|-- TemperatureSensor
 Sensor <|-- PowerSensor
 
-EHomeSystem "1" -- Sensor
-Sensor -- "1" SensorController
-SensorController "1" -- Apartment
-Apartment "1" -- Inhabitant
+SensorController "1" -- "1" Apartment
+Apartment "1" -- "1..*" Inhabitant
 Apartment "1" -- "2..*" Room
-Sensor "1" -- Room
-Sensor "1" -- MeasuredValue
-Inhabitant -- Sensor
-Inhabitant "1" -- Threshold
-Sensor "1" -- "0..1" Threshold
-EMonitorSystem "1" -- "0..1" EHomeSystem
-EMonitorSystem "1" -- Threshold
-EMonitorSystem "1" -- AlertMessage
-AlertMessage -- "1" Apartment
-AlertMessage -- "1" Sensor
-Inhabitant -- "1" SensorController
+Room "1" -- "0..*" Sensor
+SensorController "1" -- "0..*" Sensor
+EMonitor "1" -- "1" SensorController
+EMonitor "1" -- "0..*" AlertMessage
+AlertMessage "0..*" -- "1" Sensor
+AlertMessage "0..*" -- "1" Apartment
+Sensor "1" -- "0..*" MeasuredValue
 
 @enduml

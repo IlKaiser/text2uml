@@ -1,0 +1,77 @@
+Here is the PlantUML class diagram based on the specification text:
+
+```plantuml
+@startuml
+
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemDescription
+}
+
+class PickupRequest {
+    Date PickupDate
+    Time PickupTime
+    String Status
+}
+
+class PickupVehicle {
+    Double AvailableStorageSpace
+    String VehicleType
+}
+
+class VolunteerDriver {
+    String Name
+    String AvailableDays
+}
+
+class Route {
+    String StartTime
+    String EndTime
+    String Status
+}
+
+class DistributionCenter {
+    String Location
+}
+
+class FoodBank {
+    String Location
+}
+
+class SecondHandArticle {
+    String Description
+    String Category
+    String RFIDTag
+}
+
+class Client {
+    String Name
+    String Address
+    String PhoneNumber
+    String Email
+    String PreferredCategories
+}
+
+class DeliveryRequest {
+    String Status
+    Date DeliveryDate
+    Time DeliveryTime
+}
+
+Resident "1" -- "0..*" PickupRequest
+PickupRequest "1" -- "0..*" PickupVehicle
+PickupVehicle "1" -- "0..*" VolunteerDriver
+PickupVehicle "1" -- "1" Route
+Route "1" -- "0..*" PickupRequest
+PickupVehicle "1" -- "1" DistributionCenter
+PickupVehicle "1" -- "1" FoodBank
+DistributionCenter "1" -- "0..*" SecondHandArticle
+SecondHandArticle "1" -- "0..*" Client
+Client "1" -- "0..*" DeliveryRequest
+VolunteerDriver "1" -- "0..*" DeliveryRequest
+
+@enduml
+```

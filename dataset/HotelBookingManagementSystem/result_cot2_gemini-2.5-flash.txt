@@ -1,18 +1,51 @@
 @startuml
-class Traveller{}
-class Booking{}
-class Offer{}
-class Hotel{}
-class RoomType{}
-class Preference{}
-class HotelChain{}
-Traveller "0..*" -- "1..1" Booking
-Traveller "0..*" -- "0..*" Preference
-Booking "1..1" -- "0..*" Offer
-Hotel "0..*" -- "1..1" Offer
-Hotel "1..*" -- "0..*" RoomType
-Offer "1..1" -- "0..*" RoomType
-Hotel "0..1" -- "1..*" HotelChain
-Booking "1..1" -- "0..*" Hotel
-Booking "0..*" -- "0..*" Preference
+class Traveller {
+  name: String
+  reliabilityRating: Float
+}
+
+class Booking {
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  bookingIdentifier: String
+  isPrePaid: Boolean
+  isConfirmed: Boolean
+  cancellationDeadline: Date
+}
+
+class Offer {
+  price: Float
+  hotelRating: Int
+  deadline: Date
+}
+
+class Hotel {
+  city: String
+  address: String
+  rating: Int
+}
+
+class Company {
+  name: String
+  address: String
+}
+
+class RoomType {
+  name: String
+}
+
+class CreditCard
+
+class HotelChain
+
+Traveller "1..1" -- "0..*" Booking
+Offer "0..*" -- "1..1" Booking
+Hotel "1..1" -- "0..*" Offer
+Company "0..*" -- "0..1" Traveller
+RoomType "0..*" -- "1..*" Booking
+Traveller "1..1" -- "0..*" CreditCard
+CreditCard "0..*" -- "0..1" Booking
+HotelChain "0..*" -- "0..1" Hotel
+RoomType "0..*" -- "1..*" Hotel
 @enduml

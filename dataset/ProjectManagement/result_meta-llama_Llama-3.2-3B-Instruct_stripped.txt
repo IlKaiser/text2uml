@@ -1,0 +1,15 @@
+```plantuml
+@startuml
+class Department{ String Name }
+class ResearchGroup{ String Name, String Description, Department }
+class Researcher{ String Name, String Email }
+class Project{ String Name, String Description }
+class WorkPackage{ String Name, String Description, Project, ResearchGroup "1..1" -- "1..*" Researcher }
+class ServiceDelivery{ String Description, ResearchGroup "1..1" -- "1..*" Researcher }
+
+Researcher "1..*" -- "0..*" Department
+ResearchGroup "1..*" -- "0..*" Department
+ResearchGroup "1..*" -- "0..*" Project
+WorkPackage "1..1" -- "1..*" ServiceDelivery
+@enduml
+```

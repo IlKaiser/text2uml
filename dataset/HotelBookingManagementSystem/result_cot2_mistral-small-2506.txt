@@ -1,38 +1,119 @@
 ```plantuml
 @startuml
 
-class BusinessTraveller{}
-class Hotel{}
-class AccommodationDeal{}
-class Booking{}
-class PreliminaryBooking{}
-class RegularBooking{}
-class SpecialOffer{}
-class HotelChain{}
-class City{}
-class RoomType{}
-class CreditCardInformation{}
-class Confirmation{}
-class CancellationDeadline{}
-class ReliabilityRating{}
-class FinancialCompensation{}
+class BusinessTraveller {
+  name: String
+  billingInformation: String
+  companyName: String
+  companyAddress: String
+  travelPreferences: String
+}
 
-BusinessTraveller "1..1" -- "0..*" Booking
-Booking "1..1" -- "1..1" CreditCardInformation
-Booking "1..1" -- "0..1" CancellationDeadline
-Booking "1..1" -- "0..1" Confirmation
-Booking "1..1" -- "0..1" FinancialCompensation
-Booking "1..1" -- "0..1" ReliabilityRating
-Hotel "1..1" -- "0..*" RoomType
-Hotel "1..1" -- "0..1" HotelChain
-Hotel "1..1" -- "1..1" City
-Hotel "1..1" -- "0..*" AccommodationDeal
-AccommodationDeal "1..1" -- "0..1" SpecialOffer
-PreliminaryBooking "1..1" -- "0..*" SpecialOffer
-RegularBooking "1..1" -- "0..1" Confirmation
-RegularBooking "1..1" -- "0..1" CancellationDeadline
-RegularBooking "1..1" -- "0..1" FinancialCompensation
-RegularBooking "1..1" -- "0..1" ReliabilityRating
+class Hotel {
+  city: String
+  address: String
+  hotelChain: String
+  rating: Int
+  availableRoomTypes: String
+}
+
+class AccommodationDeal {
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  uniqueBookingIdentifier: String
+}
+
+class Booking {
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  uniqueBookingIdentifier: String
+  creditCardInformation: String
+  isPrePaid: Boolean
+  cancellationDeadline: Date
+}
+
+class PreliminaryBooking {
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  uniqueBookingIdentifier: String
+}
+
+class RegularBooking {
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  uniqueBookingIdentifier: String
+  creditCardInformation: String
+  isPrePaid: Boolean
+  cancellationDeadline: Date
+}
+
+class SpecialOffer {
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  uniqueBookingIdentifier: String
+}
+
+class HotelChain {
+  name: String
+}
+
+class City {
+  name: String
+}
+
+class RoomType {
+  type: String
+}
+
+class TravelPreference {
+  preference: String
+}
+
+class CreditCardInformation {
+  cardNumber: String
+  expiryDate: String
+  cardHolderName: String
+}
+
+class Confirmation {
+  confirmationDate: Date
+}
+
+class CancellationDeadline {
+  deadlineDate: Date
+}
+
+class Reimbursement {
+  amount: Float
+  date: Date
+}
+
+1..1 BusinessTraveller -- 0..* Booking
+1..1 Booking -- 1..1 AccommodationDeal
+1..1 AccommodationDeal -- 1..1 Hotel
+1..1 Hotel -- 1..1 City
+0..1 Hotel -- 0..1 HotelChain
+1..1 Booking -- 0..1 CancellationDeadline
+1..1 Booking -- 0..1 Confirmation
+1..1 Booking -- 0..1 Reimbursement
+1..1 BusinessTraveller -- 0..1 TravelPreference
+1..1 Booking -- 1..1 CreditCardInformation
+1..1 PreliminaryBooking -- 0..* SpecialOffer
+1..1 PreliminaryBooking -- 1..1 Booking
+1..1 Booking -- 0..* RoomType
+
+PreliminaryBooking --|> Booking
+RegularBooking --|> Booking
 
 @enduml
 ```

@@ -1,0 +1,44 @@
+@startuml
+
+class SHAS {}
+class SmartHome { String PhysicalAddress }
+class Room { String Name }
+class Device { String DeviceIdentifier, String Type, Boolean IsActive }
+class SensorDevice { String MeasuredValue }
+class ActuatorDevice {}
+class SensorReading { String MeasuredValue, Date Timestamp }
+class ControlCommand { String CommandName, Date Timestamp, String Status }
+class ActivityLog {}
+class AutomationRule { String Name, Boolean IsActive }
+class Precondition {}
+class BooleanExpression { String Operator }
+class RelationalTerm { String Expression }
+class Action {}
+class User { String Username }
+class Owner {}
+class RuleTriggerRecord { Date Timestamp }
+
+SHAS "1..1" -- "0..*" SmartHome
+SHAS "1..1" -- "0..*" User
+SmartHome "1..1" -- "1..*" Room
+SmartHome "1..1" -- "1..1" ActivityLog
+SmartHome "1..1" -- "0..*" AutomationRule
+Room "1..1" -- "0..*" Device
+Device <|-- SensorDevice
+Device <|-- ActuatorDevice
+SensorDevice "1..1" -- "0..*" SensorReading
+ActuatorDevice "1..1" -- "0..*" ControlCommand
+ActivityLog "1..1" -- "0..*" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+AutomationRule "0..*" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "0..*" RuleTriggerRecord
+Precondition "1..1" -- "1..1" BooleanExpression
+BooleanExpression "0..*" -- "0..*" BooleanExpression
+BooleanExpression "1..1" -- "0..*" RelationalTerm
+Action "1..1" -- "1..*" ControlCommand
+User <|-- Owner
+Owner "1..1" -- "0..*" AutomationRule
+
+@enduml

@@ -1,35 +1,73 @@
 @startuml
-class TeamSportsScoutingSystem{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class PlayerProfile{}
-class Position{}
-class PlayerAttribute{}
-class Player{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Recommendation{}
-class ShortList{}
-class OfficialOffer{}
+class TeamSportsScoutingSystem {
+}
 
-Employee "1..1" -- "1..1" HeadCoach
-Employee "1..1" -- "1..1" Director
-Employee "1..*" -- "1..1" Scout
+class Employee {
+}
+
+class HeadCoach {
+}
+
+class Director {
+}
+
+class Scout {
+}
+
+class PlayerProfile {
+  targetPositions:TargetPosition
+  playerAttributes:PlayerAttribute
+}
+
+class TargetPosition {
+  name:String
+}
+
+class PlayerAttribute {
+  name:String
+  value:String
+}
+
+class Player {
+  name:String
+}
+
+class LongList {
+}
+
+class ScoutingAssignment {
+  player:Player
+}
+
+class ScoutingReport {
+  pros:String
+  cons:String
+  recommendation:Recommendation
+}
+
+class Recommendation {
+  type:String
+}
+
+class ShortList {
+}
+
+class OfficialOffer {
+}
+
 HeadCoach "1..*" -- "1..1" PlayerProfile
-PlayerProfile "1..*" -- "1..*" Position
-PlayerProfile "1..*" -- "1..*" PlayerAttribute
-Scout "1..*" -- "0..*" LongList
-LongList "1..*" -- "1..1" Player
-Scout "1..*" -- "1..*" ScoutingAssignment
+HeadCoach "1..1" -- "1..1" ShortList
+Scout "0..*" -- "0..*" LongList
+Scout "0..*" -- "0..*" ScoutingAssignment
 ScoutingAssignment "1..1" -- "1..1" Player
 ScoutingAssignment "1..1" -- "1..1" ScoutingReport
 ScoutingReport "1..1" -- "1..1" Recommendation
-HeadCoach "1..1" -- "1..1" ShortList
-Scout "1..1" -- "1..1" ShortList
-ShortList "1..*" -- "1..*" Player
 Director "1..1" -- "1..*" OfficialOffer
 OfficialOffer "1..1" -- "1..1" Player
+PlayerProfile "1..*" -- "1..*" TargetPosition
+PlayerProfile "1..*" -- "1..*" PlayerAttribute
+ShortList "1..*" -- "1..*" Player
+HeadCoach --|> Employee
+Director --|> Employee
+Scout --|> Employee
 @enduml

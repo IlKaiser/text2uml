@@ -1,15 +1,32 @@
 @startuml
-class Aircraft {}
-class Airline {}
-class SalesAgreement {}
-class Contract {}
-class Acquisition {}
-class Salesperson {}
 
-Airline "1" -- "0..*" Contract
-Contract "1" -- "1..*" Acquisition
-Acquisition "1" -- "1" Aircraft
-SalesAgreement "1" -- "1" Acquisition
-Salesperson "1" -- "0..*" Contract
-Airline "0..1" -- "0..*" Airline
+class Boeing
+
+class Aircraft
+
+class AirlineCompany
+
+class SalesAgreement
+
+class Contract {
+  deliveryConditions: String
+  legalAspects: String
+}
+
+class Acquisition {
+  model: String
+  price: Float
+  options: String
+  deliveryDate: Date
+}
+
+class Salesperson
+
+Boeing "1..1" -- "0..*" Aircraft
+AirlineCompany "1..1" -- "0..*" Contract
+Contract "1..1" -- "1..*" Acquisition
+Acquisition "1..1" -- "1..1" Aircraft
+Contract "1..1" -- "0..*" Salesperson
+AirlineCompany "0..1" -- "0..*" AirlineCompany
+
 @enduml

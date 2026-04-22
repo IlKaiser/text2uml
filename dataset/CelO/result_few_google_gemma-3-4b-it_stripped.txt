@@ -1,0 +1,53 @@
+```plantuml
+@startuml
+
+class Organizer {
+    String FirstName
+    String LastName
+    String Email
+    String Password
+    String PostalAddress
+    String PhoneNumber
+}
+
+class Event {
+    String EventType
+    Date StartDateTime
+    Date EndDateTime
+    String Occasion
+    String LocationName
+    String LocationAddress
+}
+
+class Attendee {
+    String FirstName
+    String LastName
+    String Email
+    String Password
+}
+
+class Invitation {
+    String Status
+}
+
+class Task {
+    String Description
+    boolean IsForAttendee
+}
+
+class Checklist {
+    String Name
+}
+
+Organizer "1" -- "0..*" Event
+Organizer "1" -- "0..*" Invitation
+Organizer "1" -- "0..*" Task
+Organizer "1" -- "0..*" Checklist
+Event "1" -- "0..*" Task
+Attendee "1" -- "0..*" Invitation
+Attendee "1" -- "0..*" Checklist
+Invitation "1" -- "0..*" Task
+Task "*" -- "0..*" InvitationLine
+
+@enduml
+```

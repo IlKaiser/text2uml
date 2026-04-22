@@ -1,0 +1,61 @@
+@startuml
+class User {
+    String Username
+    String Password
+    Boolean isAdmin
+}
+class Game {
+    String Name
+    Integer MaxLevels
+    Integer MinSpeed
+    Double SpeedIncreaseFactor
+    Integer MaxPaddleLength
+    Integer MinPaddleLength
+}
+class Block {
+    String Color
+    Integer Points
+}
+class Level {
+    Integer LevelNumber
+    Boolean IsRandom
+    Integer BlockCount
+}
+class GameHallOfFame {
+    String GameName
+}
+class Player {
+    String Name
+    Integer Lives
+    Integer CurrentScore
+}
+class Ball {
+    Double X
+    Double Y
+    Double SpeedX
+    Double SpeedY
+}
+class Paddle {
+    Double X
+    Double Length
+}
+class GridCell {
+    Integer Row
+    Integer Column
+}
+
+User "1" -- "0..1" Game
+User "1" -- "0..*" Player
+User "1" -- "0..*" GameHallOfFame
+Game "1" -- "0..*" Block
+Game "1" -- "0..*" Level
+Game "1" -- "0..*" GameHallOfFame
+Level "1" -- "0..*" Block
+Level "1" -- "0..*" GridCell
+Player "1" -- "0..*" Game
+Player "1" -- "0..*" GameHallOfFame
+Player "1" -- "0..*" Ball
+Player "1" -- "0..*" Paddle
+Ball "1" -- "0..*" GridCell
+Paddle "1" -- "0..*" GridCell
+@enduml

@@ -1,18 +1,33 @@
 @startuml
-class Driver{}
-class Bus{}
-class Route{}
-class Shift{}
-class Assignment{}
-class Schedule{}
-class CityStaff{}
+class Driver {
+  id:Int
+  name:String
+  isSick:Boolean
+}
 
-CityStaff "1..*" -- "1..1" Assignment.
-CityStaff "1..*" -- "1..1" Schedule.
-Bus "0..1" -- "0..*" Route.
-Shift "1..1" -- "3..3" Route.
-Assignment "1..1" -- "0..*" Driver.
-Assignment "1..1" -- "0..*" Bus.
-Assignment "1..1" -- "0..*" Shift.
-Schedule "0..*" -- "0..*" Driver.
+class Bus {
+  licencePlate:String
+  inRepair:Boolean
+}
+
+class Route {
+  routeNumber:Int
+}
+
+class Shift {
+  type:String
+}
+
+class Assignment {
+  date:Date
+  shiftType:String
+  driverId:Int
+  busLicencePlate:String
+}
+
+Bus "0..1" -- "0..*" Route
+Shift "1..1" -- "3..3" Route
+Assignment "1..1" -- "0..*" Driver
+Assignment "1..1" -- "0..*" Bus
+Assignment "1..1" -- "0..*" Shift
 @enduml

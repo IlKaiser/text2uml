@@ -1,45 +1,63 @@
 @startuml
 
-class SHAS{}
-class User{}
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class SensorReading{}
-class CommandDefinition{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class Precondition{}
-class Action{}
-class TriggeredRuleEvent{}
+class SHAS
+class User
+class SmartHome{
+  String PhysicalAddress
+}
+class Room
+abstract class Device{
+  String DeviceIdentifier
+}
+class SensorDevice
+class ActuatorDevice
+class SensorReading{
+  String MeasuredValue
+  DateTime Timestamp
+}
+class ControlCommand{
+  String CommandType
+  DateTime Timestamp
+  String Status
+}
+class ActivityLog
+class Owner
+class AutomationRule
+class Precondition
+class Action
+class RelationalTerm
+class BooleanOperator
+class RuleTriggerEvent{
+  DateTime Timestamp
+}
 
-SHAS "1" -- "1..*" User
-SHAS "1" -- "1" SmartHome
+User <|-- Owner
+Device <|-- SensorDevice
+Device <|-- ActuatorDevice
+
+SHAS "1" -- "0..*" User
+SHAS "1" -- "0..*" SmartHome
 SmartHome "1" -- "1..*" Room
-Room "1" -- "0..*" SensorDevice
-Room "1" -- "0..*" ActuatorDevice
-SHAS "1" -- "0..*" SensorDevice
-SHAS "1" -- "0..*" ActuatorDevice
+Room "1" -- "0..*" Device
 SensorDevice "1" -- "0..*" SensorReading
-ActuatorDevice "0..*" -- "0..*" CommandDefinition
-ControlCommand "0..*" -- "1" CommandDefinition
-ControlCommand "0..*" -- "1" ActuatorDevice
+ActuatorDevice "1" -- "0..*" ControlCommand
 SHAS "1" -- "1" ActivityLog
 ActivityLog "1" -- "0..*" SensorReading
 ActivityLog "1" -- "0..*" ControlCommand
-User "1" -- "0..*" AutomationRule
+Owner "1" -- "0..*" AutomationRule
+SmartHome "1" -- "0..*" AutomationRule
 AutomationRule "1" -- "1" Precondition
 AutomationRule "1" -- "1" Action
-Precondition "0..*" -- "0..*" Room
-Precondition "0..*" -- "0..*" SensorDevice
-Precondition "0..*" -- "0..*" ActuatorDevice
-Precondition "0..*" -- "0..*" SensorReading
-Precondition "0..*" -- "0..*" CommandDefinition
-Action "1" -- "1..*" CommandDefinition
+Precondition "1" -- "0..*" RelationalTerm
+Precondition "1" -- "0..*" BooleanOperator
+RelationalTerm "0..*" -- "0..*" Room
+RelationalTerm "0..*" -- "0..*" SensorDevice
+RelationalTerm "0..*" -- "0..*" ActuatorDevice
+RelationalTerm "0..*" -- "0..*" SensorReading
+RelationalTerm "0..*" -- "0..*" ControlCommand
+Action "1" -- "1..*" ControlCommand
 AutomationRule "0..*" -- "0..*" AutomationRule
-SHAS "1" -- "0..*" TriggeredRuleEvent
-AutomationRule "1" -- "0..*" TriggeredRuleEvent
+SHAS "1" -- "0..*" RuleTriggerEvent
+AutomationRule "1" -- "0..*" RuleTriggerEvent
 
 @enduml

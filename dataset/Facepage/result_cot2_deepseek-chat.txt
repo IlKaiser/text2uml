@@ -1,37 +1,53 @@
 @startuml
-class SocialNetworkSite{}
-class User{}
-class PersonalInformation{}
-class Account{}
-class BusinessAccount{}
-class PersonalAccount{}
-class Company{}
-class MarketingCampaign{}
-class TermsOfUse{}
-class Violation{}
-class Page{}
-class Privilege{}
-class AdvertisementPage{}
-class Visitor{}
-class Banner{}
-class Goal{}
-class Purchase{}
-class Transaction{}
+class User {
+  ID: String
+  name: String
+  email: String
+  dateOfBirth: Date
+}
 
-User "1..1" -- "0..1" PersonalInformation
-User "1..1" -- "1..*" Account
-Account "1..1" -- "1..1" User
-Account "0..1" -- "0..*" Page
-Page "1..1" -- "1..1" Account
-PersonalAccount "0..*" -- "0..*" Privilege
-BusinessAccount "0..1" -- "1..1" Company
-BusinessAccount "0..*" -- "0..*" MarketingCampaign
-BusinessAccount "1..1" -- "0..*" AdvertisementPage
-AdvertisementPage "1..1" -- "1..1" BusinessAccount
-Visitor "0..*" -- "0..*" Page
-Page "0..*" -- "0..*" Visitor
-Banner "0..*" -- "0..*" AdvertisementPage
-Goal "0..*" -- "0..*" AdvertisementPage
-Purchase "0..*" -- "0..*" Goal
-Transaction "0..*" -- "0..*" Goal
+class Account {
+  accountNumber: String
+}
+
+class PersonalAccount {
+}
+
+class BusinessAccount {
+  companyName: String
+  monthlyFee: Float
+}
+
+class Page {
+  pageName: String
+  numberOfVisits: Int
+}
+
+class AdvertisementPage {
+  bounceRate: Float
+  clickThroughRate: Float
+  conversionRate: Float
+}
+
+class FriendRequest {
+}
+
+class Company {
+}
+
+class MarketingCampaign {
+}
+
+User "1..1" -- "1..1" Account
+Account "0..*" -- "1..1" User
+Page "0..*" -- "1..1" Account
+AdvertisementPage "0..*" -- "1..1" BusinessAccount
+FriendRequest "0..*" -- "0..1" PersonalAccount
+FriendRequest "0..*" -- "0..1" PersonalAccount
+Company "0..1" -- "1..1" BusinessAccount
+MarketingCampaign "0..*" -- "1..1" BusinessAccount
+
+PersonalAccount --|> Account
+BusinessAccount --|> Account
+AdvertisementPage --|> Page
 @enduml

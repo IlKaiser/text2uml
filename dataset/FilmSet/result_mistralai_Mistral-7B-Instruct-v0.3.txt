@@ -1,0 +1,64 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Several employees work on a film set. The name and social security number of each employee is known. There are so-called creative employees, including directors and actors. The education completed by each actor is known, and the name of the director's assistant is stored. Both directors and actors can be Oscar winners, and it is stored whether the person in question has an Oscar. In addition, there are technicians, and the field of activity of each technician is known.
+The film set is located at a specific location. A film set can be used for several films, and a film can be shot at several different film sets. Each film has a title and a year of release. Furthermore, each film is assigned to a specific genre, with a distinction being made between thriller, action, horror, or comedy.
+The name and most successful film of a screenwriter are stored. A screenwriter creates several screenplays, and a screenplay comes from exactly one screenwriter. The title, version, date, number of scenes, and plot of each screenplay are known. A screenplay is based either on a novel or on a concept. Each novel has a title and an author. A film shot on a film set is based on a specific screenplay; a screenplay is written for exactly one film. The actors who appear in the film must prepare for their respective roles by reading the screenplay. The director of the film then implements the screenplay according to the specifications.[/INST] @startuml
+
+class Employee { String Name, String SocialSecurityNumber }
+class Director extends Employee { String DirectorAssistantName, boolean IsOscarWinner }
+class Actor extends Employee { boolean IsOscarWinner }
+class Technician { String FieldOfActivity }
+
+class FilmSet { String Location }
+
+class Film { String Title, Date YearOfRelease, Genre }
+class Thriller extends Film {}
+class Action extends Film {}
+class Horror extends Film {}
+class Comedy extends Film {}
+
+class Screenplay { String Title, Date Version, Date Date, int NumberOfScenes, String Plot }
+class Novel { String Title, String Author }
+
+Film "1..*" -- "0..*" FilmSet
+Film "1" -- "*" Screenplay
+Screenplay "1" -- "1" ScreenplayWriter
+Screenplay "1" -- "1" (Novel | Concept)
+Film "1" -- "*" Actor
+Actor "1" -- "1" Screenplay
+
+@enduml

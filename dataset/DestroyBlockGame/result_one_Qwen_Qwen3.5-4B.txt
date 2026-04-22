@@ -1,0 +1,47 @@
+@startuml
+class User {
+    String Username
+    String Password
+}
+class Admin {
+    String AdminMode
+}
+class Player {
+    String PlayMode
+}
+class Game {
+    String Name
+    String HallOfFame
+}
+class Block {
+    String Color
+    Integer Points
+}
+class Level {
+    Integer LevelNumber
+    Boolean IsRandom
+    Integer StartingBlockCount
+    Double MinimumSpeed
+    Double SpeedIncreaseFactor
+    Double MaximumPaddleLength
+    Double MinimumPaddleLength
+}
+class GameInstance {
+    Integer Lives
+    Integer CurrentLevel
+    Integer TotalScore
+    Boolean IsPaused
+}
+class HallOfFame {
+    Integer HighScore
+}
+
+User "1" -- "0..1" Admin
+User "1" -- "0..1" Player
+User "1" -- "0..*" Game
+Game "1" -- "0..*" Block
+Game "1" -- "0..*" Level
+Game "1" -- "1" HallOfFame
+Level "1" -- "0..*" GameInstance
+GameInstance "1" -- "0..*" HallOfFame
+@enduml

@@ -1,0 +1,65 @@
+```plantuml
+@startuml
+
+class TeamSportsScoutingSystem
+class Employee
+class Club
+class HeadCoach
+class Director
+class Scout
+class PlayerProfile {
+  targetPosition: String
+  playerAttributes: List[String, Float]
+}
+class TargetPosition {
+  positionName: String
+}
+class PlayerAttribute {
+  name: String
+  value: Float
+}
+class LongList {
+  players: List[PlayerProfile]
+}
+class ScoutingAssignment {
+  player: PlayerProfile
+}
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: String
+}
+class Recommendation
+class ShortList {
+  players: List[PlayerProfile]
+}
+class ScoutingRound {
+  player: PlayerProfile
+}
+class Offer {
+  player: PlayerProfile
+}
+
+1..* Employee -- 1..* TeamSportsScoutingSystem
+1..* HeadCoach -- 1..* PlayerProfile
+1..* PlayerProfile -- 1..* TargetPosition
+1..* PlayerProfile -- 1..* PlayerAttribute
+1..* Scout -- 1..* LongList
+1..* LongList -- 1..* PlayerProfile
+1..* HeadCoach -- 1..* ScoutingAssignment
+1..* ScoutingAssignment -- 1..* Scout
+1..* Scout -- 1..* ScoutingReport
+1..* ScoutingReport -- 1..* PlayerProfile
+1..* ScoutingReport -- 1..* Recommendation
+1..* HeadCoach -- 1..* ShortList
+1..* ShortList -- 1..* PlayerProfile
+1..* ScoutingRound -- 1..* ScoutingAssignment
+1..* ScoutingAssignment -- 1..* ScoutingRound
+1..* Scout -- 1..* ScoutingRound
+1..* HeadCoach -- 1..* ScoutingRound
+1..* ScoutingReport -- 1..* Recommendation
+1..* HeadCoach -- 1..* Offer
+1..* Director -- 1..* Offer
+
+@enduml
+```

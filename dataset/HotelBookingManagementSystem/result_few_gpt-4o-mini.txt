@@ -1,20 +1,45 @@
+```plantuml
 @startuml
 
-class Traveller {}
-class Hotel {}
-class Booking {}
-class PreliminaryBooking {}
-class RoomType {}
-class City {}
-class HotelChain {}
-class Offer {}
-class ReliabilityRating {}
+class Traveller {
+    String Name
+    String BillingInformation
+    String CompanyName
+    String Address
+    String TravelPreferences
+}
+class Booking {
+    String Status
+    String Type
+    Date CancellationDeadline
+}
+class Hotel {
+    String Name
+    String Address
+    String HotelChain
+}
+class Offer {
+    String Price
+    String CityArea
+    String HotelRating
+    String BookingIdentifier
+}
+class Room {
+    String Type
+    Double PricePerNight
+}
+class City {
+    String Name
+}
+class ReliabilityRating {
+    Double Rating
+}
 
-Booking "1" -- "0..1" Traveller
-Booking "1" -- "1" Hotel
-Booking "0..*" -- "1" RoomType
-PreliminaryBooking "1" -- "0..*" Offer
+Traveller "1" -- "0..*" Booking
+Booking "1" -- "0..*" Offer
+Hotel "1" -- "0..*" Room
 Hotel "1" -- "1" City
-Hotel "0..1" -- "0..1" HotelChain
+Booking "1" -- "0..1" ReliabilityRating
 
 @enduml
+```

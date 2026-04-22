@@ -1,28 +1,70 @@
 ```plantuml
 @startuml
 
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Reservation{}
-class Seat{}
-class Customer{}
-class Offer{}
-class Ticket{}
+class Cinema {
+    name:String
+    location:String
+}
+
+class Theatre {
+    theatreNumber:Int
+    capacity:Int
+}
+
+class Show {
+    date:Date
+    startTime:Date
+    endTime:Date
+    isCancelled:Boolean
+}
+
+class Movie {
+    title:String
+    duration:Int
+    description:String
+}
+
+class Copy {
+    copyNumber:Int
+    location:String
+}
+
+class Reservation {
+    reservationTime:Date
+    isCancelled:Boolean
+}
+
+class CreditCard {
+    cardNumber:String
+    expiryDate:Date
+    cardHolder:String
+}
+
+class Seat {
+    seatNumber:Int
+    isAvailable:Boolean
+}
+
+class Program {
+    publicationDate:Date
+    weekStartDate:Date
+    weekEndDate:Date
+}
+
+class Ticket {
+    seatNumber:Int
+    isAnonymous:Boolean
+}
 
 Cinema "1..*" -- "1..*" Theatre
-Cinema "1..*" -- "1..*" Movie
 Cinema "1..*" -- "1..*" Copy
 Theatre "1..*" -- "1..*" Show
-Movie "1..*" -- "1..*" Copy
+Show "1..*" -- "1..1" Copy
 Show "1..*" -- "0..*" Reservation
-Show "1..*" -- "1..*" Seat
-Reservation "1..*" -- "1..*" Customer
-Reservation "1..*" -- "1..1" Ticket
-Customer "1..*" -- "0..*" Offer
-Offer "1..*" -- "1..1" Seat
+Show "1..*" -- "0..*" Ticket
+Reservation "1..1" -- "1..1" CreditCard
+Reservation "1..*" -- "1..1" Seat
+Program "1..1" -- "1..*" Show
 Ticket "1..*" -- "1..1" Seat
 
 @enduml

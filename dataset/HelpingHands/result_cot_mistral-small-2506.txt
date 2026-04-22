@@ -1,52 +1,73 @@
-Here is the PlantUML model based on the provided class and cardinality lists:
-
 ```plantuml
 @startuml
 
-class Resident{}
-class Item{}
-class Pickup{}
-class Vehicle{}
-class Driver{}
-class Route{}
-class DistributionCenter{}
-class FoodBank{}
-class Article{}
-class Category{}
-class Client{}
+class Resident {
+    name: String
+    street address: String
+    phone number: String
+    email address: String
+    description of items: String
+}
 
-Resident "1..*" -- "1..1" Item
-Resident "1..1" -- "0..*" Pickup
-Resident "0..*" -- "0..1" Vehicle
-Resident "0..*" -- "0..1" Route
-Resident "0..*" -- "0..1" Driver
-Resident "0..*" -- "0..1" DistributionCenter
-Resident "0..*" -- "0..1" FoodBank
-Item "0..*" -- "1..1" Pickup
-Item "0..*" -- "0..1" Vehicle
-Item "0..*" -- "0..1" Route
-Item "0..*" -- "0..1" Driver
-Item "0..*" -- "0..1" DistributionCenter
-Item "0..*" -- "0..1" FoodBank
-Item "1..*" -- "1..1" Article
-Item "1..1" -- "0..*" Category
-Pickup "1..1" -- "0..1" Vehicle
-Pickup "1..1" -- "1..1" Route
-Pickup "1..1" -- "0..1" Driver
-Pickup "1..1" -- "0..1" DistributionCenter
-Pickup "0..1" -- "0..1" FoodBank
-Vehicle "1..*" -- "0..1" Driver
+class Pickup {
+    scheduled pickup time: Date
+    street address: String
+    description of items: String
+}
+
+class Vehicle {
+    available storage space: Float
+    dimensions: Float
+    weights of scheduled items: Float
+}
+
+class VolunteerDriver {
+    available days: String
+}
+
+class Article {
+    description: String
+    category: String
+}
+
+class RFIDDevice {
+}
+
+class Client {
+    home address: String
+    categories of articles needed: String
+}
+
+class Delivery {
+    client’s home address: String
+}
+
+class DistributionCenter {
+}
+
+class Employee {
+}
+
+class Route {
+}
+
+class Category {
+}
+
+Resident "1..1" -- "1..1" Pickup
+Vehicle "1..*" -- "1..*" Pickup
+VolunteerDriver "1..1" -- "1..1" Vehicle
+VolunteerDriver "1..*" -- "1..1" Route
 Vehicle "1..1" -- "1..1" Route
-Driver "1..*" -- "1..1" Route
-Driver "1..1" -- "0..1" DistributionCenter
-Driver "0..1" -- "0..1" FoodBank
-DistributionCenter "1..*" -- "1..1" Article
-DistributionCenter "1..1" -- "0..*" Category
-FoodBank "1..*" -- "1..1" Article
-FoodBank "1..1" -- "0..*" Category
-Article "1..1" -- "0..*" Category
-Client "1..*" -- "1..1" Article
-Client "1..1" -- "0..*" Category
+Employee "1..*" -- "1..1" Article
+Employee "1..*" -- "1..1" RFIDDevice
+Employee "1..*" -- "1..1" Category
+Employee "1..*" -- "1..1" Client
+Client "1..*" -- "1..1" Delivery
+VolunteerDriver "1..*" -- "1..1" Delivery
+
+VolunteerDriver --|> Employee
+Employee --|> Client
 
 @enduml
 ```

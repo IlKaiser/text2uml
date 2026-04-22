@@ -1,28 +1,29 @@
-```plantuml
 @startuml
 
-class WebPortal{}
-class Catalog{}
-class Building{}
-class User{}
-class Entry{}
-class Image{}
-class Visitor{}
-class Administrator{}
-class Comment{}
+class WebPortal{ String VersionNumber, String UrlAddress }
+class Building{ int UniqueID, String Name, char EnergyClass, String Address, int YearOfConstruction }
+class User{ String UserName, String Email, String Password }
+class Entry{ String Name, Boolean IsPublic }
+class TextEntry{ String Content }
+class FloatEntry{ Float Value, String Unit }
+class Image{ String FileName }
+class Administrator{ String IDCardNumber }
+class Comment{ String Content }
 
-WebPortal "1..1" -- "1..1" Catalog
-Catalog "1..1" -- "1..*" Building
-Building "1..1" -- "1..1" User
-Building "1..1" -- "1..*" Entry
-Building "1..1" -- "1..*" Image
-Entry "1..1" -- "1..1" Building
-Image "1..1" -- "1..1" Building
-Visitor "1..1" -- "1..1" WebPortal
+WebPortal "1..1" -- "1..*" Building
 User "1..1" -- "1..*" Building
+Building "1..1" -- "1..*" Entry
+Entry "1..1" -- "0..1" TextEntry
+Entry "1..1" -- "0..1" FloatEntry
+Building "1..1" -- "1..*" Image
+WebPortal "1..1" -- "1..*" User
+WebPortal "1..1" -- "1..*" Administrator
+Building "1..1" -- "1..*" Comment
 User "1..1" -- "1..*" Comment
-Administrator "1..1" -- "1..1" User
-Comment "1..1" -- "1..1" Building
+Administrator "1..1" -- "0..*" User
+Administrator "1..1" -- "0..*" Comment
+TextEntry --|> Entry
+FloatEntry --|> Entry
+Administrator --|> User
 
 @enduml
-```

@@ -1,16 +1,34 @@
 @startuml
-class University{}
-class ResearchGroup{}
-class Department{}
-class Researcher{}
-class Project{}
-class WorkPackage{}
-class Assignment{}
+class University {
+  name:String
+}
+
+class Department {
+  name:String
+}
+
+class ResearchGroup {
+  name:String
+}
+
+class Researcher {
+  name:String
+}
+
+class Project {
+  name:String
+}
+
+class WorkPackage {
+  name:String
+}
+
+class Assignment
 
 University "1..1" -- "0..*" Department
 Department "1..1" -- "0..*" ResearchGroup
 ResearchGroup "1..1" -- "1..*" Researcher
-Project "1..1" -- "0..*" WorkPackage
-ResearchGroup "1..1" -- "0..*" WorkPackage
+Project "0..*" -- "1..*" WorkPackage
+WorkPackage "1..1" -- "1..1" ResearchGroup
 Researcher "0..*" -- "0..*" WorkPackage
 @enduml

@@ -1,30 +1,36 @@
-```plantuml
 @startuml
 
-class BusCompany{}
-class Bus{}
-class BusLine{}
-class Trajectory{}
-class ApprovalRequest{}
-class TownAuthority{}
-class MENSO{}
-class Customer{}
-class Trip{}
-class Invoice{}
+class BusCompany { String Name }
+class Bus { String LineNumber }
+class Line { String Category }
+class Trajectory { Boolean Approved, Boolean Suspended, Boolean Cancelled }
+class ApprovalRequest { Date RequestDate, Date ApprovalDate, Boolean Approved }
+class TicketMachine { }
+class Trip { DateTime Time, Date Date, String Line }
+class Invoice { Date InvoiceDate, Double Amount, Double Discount }
+class Customer { String HomeAddress, String OfficeAddress, String WorkingHours }
+class MENSO { Date StartDate, Date EndDate }
 
 BusCompany "1..*" -- "1..*" Bus
-BusCompany "1..*" -- "1..*" BusLine
+BusCompany "1..*" -- "1..*" Line
 BusCompany "1..*" -- "1..*" Trajectory
+BusCompany "1..*" -- "1..*" ApprovalRequest
+BusCompany "1..*" -- "1..*" TicketMachine
+BusCompany "1..*" -- "1..*" Invoice
+BusCompany "1..*" -- "1..*" Customer
 BusCompany "1..*" -- "1..*" MENSO
-BusLine "1..*" -- "1..*" Trajectory
-BusLine "1..*" -- "1..*" Trip
-BusLine "1..*" -- "1..*" MENSO
+
+Line "1..*" -- "1..*" Trajectory
+Line "1..*" -- "1..*" Trip
+
 Trajectory "1..*" -- "1..*" ApprovalRequest
-TownAuthority "1..*" -- "1..*" ApprovalRequest
+
+TicketMachine "1..*" -- "1..*" Trip
+
 Customer "1..*" -- "1..*" MENSO
 Customer "1..*" -- "1..*" Trip
 Customer "1..*" -- "1..*" Invoice
-Trip "1..*" -- "1..*" Invoice
+
+MENSO "1..*" -- "1..*" Trip
 
 @enduml
-```

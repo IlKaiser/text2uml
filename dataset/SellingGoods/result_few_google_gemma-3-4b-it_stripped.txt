@@ -1,0 +1,43 @@
+```plantuml
+@startuml
+
+class Customer {
+    String Address
+    String VatNumber
+}
+
+class Product {
+    String Name
+    Double StockLevel
+}
+
+class Order {
+    String OrderDate
+    Double TotalAmount
+    Boolean Paid
+    Boolean Shipped
+}
+
+class OrderLine {
+    Int Quantity
+    Double Price
+}
+
+class Invoice {
+    String InvoiceNumber
+    Double TotalAmount
+    Boolean Paid
+}
+
+class Delivery {
+    String Status
+    String DeliveryAddress
+}
+
+Customer "1" -- "*" Order
+Order "1" -- "*" OrderLine
+Order "1" -- "1" Invoice
+Order "1" -- "1" Delivery
+
+@enduml
+```

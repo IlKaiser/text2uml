@@ -1,0 +1,97 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: HospitalHouseMD is a hospital that accepts patients with rare, and often unexplainable symptoms. Patients are assigned one or more doctors, which try to make a diagnosis for the sick patient. For each illness HospitalHouseMD has a database with all possible treatments. These treatments can be applied to any diagnosis and are accordingly executed. To keep everything under control, the head doctor has to approve the diagnosis made by another doctor before any treatment can happen.  A treatment can go through three stages.  The first stage is the weakest treatment. In this stage, no consent is necessary by the patient, and treatment can start immediately. When this doesn’t work, treatment needs to move to stage 2 or even directly to stage 3, according to the rules described below. To move the treatment from stage 1 to another stage, consent is needed by the patient. The patient needs to sign a form indicating his/her consent to move his/her treatments to a higher stage. Once this consent has been given, any applied treatment for that patient can be moved to a higher stage, without the need to ask consent again. So, once a consent is signed by the patient, all treatments can freely upgrade from stage 1 to 2 and 3, until the patient retracts his/her consent. Patients with a treatment in stage 3 require a higher follow-up rate and will be checked more often by nurses and doctors. Once the higher follow-up rate isn’t needed anymore for a specific treatment for a patient, the treatment can downgrade again to lower stages (downgrading is the responsibility of the doctor).
+Illnesses also get a priority score, this is necessary to prevent any outbreaks from e.g. unknown viruses. The priority score of an illness can change at any given time. For now HospitalHouseMD only has two priority scores: high and low. When an illness gets priority score high, all applied treatments for that illness are immediately placed into stage 3, by means of a priority stage upgrade. No consent of the patients are needed to move the treatment to stage 3 when the priority score of the illness is high.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given specification. Let me start by understanding the problem step by step.
+
+First, I'll extract all the classes from the text. The specification mentions HospitalHouseMD, Patients, Doctors, Illnesses, Treatments, and possibly a Stage class since treatments go through stages.
+
+Next, I'll identify the attributes for each class. For example, HospitalHouseMD is a hospital, so it might have a name and maybe a location. Patients would have attributes like name, age, and symptoms. Doctors would have name, specialty, and perhaps a patient list. Illnesses would have a name and priority score. Treatments would have a name, stage, and description. Stages would have a name and a description, and maybe a progression status.
+
+Now, I need to extract the relations. The text says that each illness has a database of treatments, so there's a relationship between Illness and Treatments. Treatments can be applied to any diagnosis, so Treatments can go to Illnesses. Doctors assign patients, so Doctors relate to Patients. The head doctor approves diagnoses, so there's a relation between Doctors and Illnesses through Approvals. The priority score of an illness affects the treatment stage, so Illnesses relate to Stages. Also, treatments can move between stages based on patient consent, so there's a relation between Treatments, Patients, and Stages.
+
+I need to assign cardinality to each relation. For example, a Doctor can have many Patients, so the relation is "many..many". Illnesses can have many Treatments, so that's "many..many". The relationship between Illness and Stage is "1..n" because an illness can be in one stage at a time but can move to higher stages. The Approval is a one-way relationship from Doctors to Illnesses, so it's "1..1" since a doctor can approve one illness. The Stage upgrade is conditional based on priority, so it's a one-way from Illness to Stage with "1..1" because each illness has a priority and thus a stage.
+
+I should also consider inheritance. Since the Stage class is a base for all treatment stages, it can be inherited by Treatment, but in the example, it wasn't explicitly used, so maybe it's optional here.
+
+Putting it all together, I'll structure the PlantUML code by first listing all the classes with their attributes, then the relations with their cardinality. I'll make sure to use bi-directional arcs where necessary and avoid class properties, using attributes for each class as specified.
+</think>
+
+```plantuml
+@startuml
+class HospitalHouseMD {
+    String Name
+    String Location
+}
+
+class Patients {
+    String Name
+    String Age
+    String Symptoms
+}
+
+class Doctors {
+    String Name
+    String Specialty
+    Collection[Patients] PatientsList
+}
+
+class Illnesses {
+    String Name
+    String PriorityScore
+}
+
+class Treatments {
+    String Name
+    String Stage
+    String Description
+}
+
+class Stage {
+    String Name
+    String Description
+    Boolean ProgressionStatus
+}
+
+Illnesses -- "1..n" Stage
+Treatments -- "1..n" Illnesses
+
+Doctors -- "1..n" Patients
+
+Illnesses - "1..1" - "Approval" Doctors
+
+Treatments - "1..1" - "StageUpgrade" Illnesses
+@enduml
+```

@@ -1,0 +1,28 @@
+@startuml
+
+class Hospital{ String Name }
+class Doctor{ String Name, String Specialization }
+class Patient{ String Name }
+class Problem{ String Description }
+class TreatmentPlan{ String ProblemType, "0..*" ExaminationType }
+class Examination{ String Type, "0..1" HospitalPermission }
+class CardiologicTest{ }
+class Echography{ }
+class Radiology{ }
+class Scanner{ }
+class NMRScan{ }
+class ExaminationResult{ String Result }
+class Treatment{ "0..*" Examination, "0..*" MedicalAction }
+
+Hospital "1" -- "0..*" Doctor
+Doctor "1" -- "0..*" Treatment
+Treatment "0..1" -- "1" Problem
+Problem "1" -- "0..1" TreatmentPlan
+TreatmentPlan "1" -- "1..*" ExaminationType
+ExaminationType "1" -- Examination
+Examination "0..*" Hospital
+Hospital "0..*" ExaminationPermission
+Examination "0..1" ExaminationResult
+Treatment "0..*" Patient
+
+@enduml

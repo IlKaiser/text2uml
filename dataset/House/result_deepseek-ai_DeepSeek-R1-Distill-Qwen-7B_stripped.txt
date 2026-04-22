@@ -1,0 +1,130 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: The address and building material (wood, brick, or concrete) of each house are stored. A house may have a basement, the size and name of which are stored. There are exactly two different types of basements: earth basements and concrete basements. The humidity level of earth basements is also stored. A special type of house is the semi-detached house. Additional information stored for this type of house includes whether it has its own garden and how many windows it has. Each semi-detached house has either two carports or a garage. For carports, information stored includes whether they are double carports and whether they have a flat roof; for garages, information stored includes whether they have an automatic garage door. Each house is serviced by several companies, whose names and addresses are stored. Whenever a company carries out a job in a house, the number of hours and the agreed price are recorded in a job log.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification. Let me break down the problem step by step.
+
+First, I'll extract the classes from the text. The specification mentions several entities: House, Address, Building Material, Basement, House Type (Semi-detached), Additional Info, Company, and Job Log. So, I'll start by listing these as separate classes.
+
+Next, I'll identify the attributes for each class. For the House class, the attributes are Address, Building Material, Basement, Size, Name, Type (Semi-detached), Additional Info, Companies, and Job Logs. Each of these will be added as attributes within the House class.
+
+Then, I'll move on to the relations. The specification talks about associations between these classes. For example, a House has multiple Basements, so that's a one-to-many relationship. Similarly, a House has multiple Companies, which is another one-to-many relationship. Each Company can have multiple Jobs, so that's a one-to-many relationship as well.
+
+I also notice that Basements can be either Earth or Concrete, which are subtypes. So, I'll create separate classes for Earth Basement and Concrete Basement, each inheriting from the general Basement class. The Earth Basement will have a Humidity Level attribute.
+
+Additionally, Semi-detached Houses have specific attributes like Garden and Windows, and they have either two Carports or a Garage. Carports and Garages have their own attributes related to their features. Each Carport can be Double or have a Flat Roof, and Garages have an Automatic Door. These will be separate classes inheriting from Carport and Garage respectively.
+
+I need to ensure that all attributes are included and that the relationships are correctly represented with the appropriate cardinality. For example, a House has one Type (Semi-detached), so that's a one-to-one relationship. Companies are many, so it's one-to-many.
+
+Finally, I'll structure the PlantUML code by first listing all the classes with their attributes, then defining the relationships between them with the correct cardinality symbols. I'll make sure to use bi-directional arcs where necessary and avoid any class properties that aren't specified.
+</think>
+
+```plantuml
+@startuml
+
+class House {
+    String Address
+    String Building Material
+    Basement Basement
+    Date Size
+    String Name
+    Boolean Type=semi-detached
+    Additional Info
+    Set of Companies
+    Set of Job Logs
+}
+
+class Address {
+    String Street
+    City
+    Postcode
+}
+
+class Building Material {
+    String Material
+}
+
+class Basement {
+    String Type
+    Date Humidity Level (only for Earth Basements)
+}
+
+class Earth Basement extends Basement {
+    Integer Humidity Level
+}
+
+class Concrete Basement extends Basement {
+    Boolean HasConcreteFoundation
+}
+
+class House Type {
+    String Type
+}
+
+class SemiDetached House extends House Type {
+    Boolean HasGarden
+    Integer Number of Windows
+}
+
+class Additional Info {
+    String Description
+    Integer Number of Carports
+}
+
+class Carport {
+    Boolean Double
+    Boolean Flat Roof
+}
+
+class garage {
+    Boolean Automatic Door
+}
+
+class Company {
+    String Name
+    String Address
+}
+
+class Job Log {
+    String Date
+    Integer Hours
+    String Price
+}
+
+House "1..1" -- "1..*" Basement
+House "1..1" -- "1..*" Company
+Company "1..*" Job Log
+
+@enduml
+```

@@ -1,0 +1,27 @@
+@startuml
+
+class GameArea {
+    String Name
+}
+class GameElement {
+    protected long x
+    private long y
+}
+class Shape {
+    inherit GameElement
+}
+class Object {
+    inherit GameElement
+}
+class Opponent {
+    inherit GameElement
+    protected int lives
+}
+class GamePiece {}
+
+GameArea "1" -- "1..*" GameElement
+GameArea "1" -- "1..2" GamePiece
+Shape "0..*" -- "0..*" Shape
+GameArea "1" -- "1" Opponent
+
+@enduml

@@ -1,22 +1,69 @@
 @startuml
-class Driver{}
-class Planner{}
-class AdministrativeStaff{}
-class Customer{}
-class Vehicle{}
-class RepairShop{}
-class Repair{}
-class Order{}
-class PartnerCompany{}
-class Employee{}
+
+enum VehicleType {
+  RefrigeratedTruck
+  SmallVan
+  LoadingPlatform
+  BoxTruck
+}
+
+abstract class Employee {
+  String Name
+  String SSN
+}
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
+
+class Driver {
+}
+class Planner {
+  String Username
+  String Password
+}
+class AdministrativeStaff {
+  String Username
+  String Password
+  String FieldOfActivity
+}
+class Customer {
+  String Name
+  String BillingAddress
+}
+class PartnerCompany {
+  String Name
+  String Address
+}
+class Vehicle {
+  VehicleType Type
+  String LicensePlate
+  int Mileage
+}
+class RepairShop {
+  String Name
+  String Address
+}
+class Repair {
+  String Duration
+  String Cost
+}
+class Order {
+  String Comment
+  String PickupAddress
+  String DeliveryAddress
+  Date StartTime
+  Date EndTime
+  VehicleType RequiredVehicleType
+}
 
 Customer "0..*" -- "1" Order
-Order "0..1" -- "1" Vehicle
-Planner "0..*" -- "0..1" Order
 AdministrativeStaff "0..*" -- "0..1" Order
 PartnerCompany "0..*" -- "0..1" Order
+Planner "0..*" -- "0..1" Order
+Order "0..1" -- "1" Vehicle
 Driver "0..*" -- "0..1" Order
 Vehicle "0..*" -- "1" Repair
-Repair "1" -- "1" RepairShop
-Repair "1" -- "1" Employee
+RepairShop "0..1" -- "1" Repair
+Employee "0..*" -- "0..1" Repair
+
 @enduml

@@ -1,0 +1,40 @@
+@startuml
+
+class Customer { String Address, String VATNumber }
+class Product { String Name, int Stock }
+class Order { Customer customer, Date OrderDate, boolean Paid, boolean Shipped }
+class OrderLine { Product product, int Quantity }
+
+Order "1..*" -- "0..*" OrderLine
+OrderLine "0..*" -- "1" Product
+Customer "1" -- "1" Order
+
+@startuml
+
+class Warehouse { String Address }
+class Supermarket { String HeadOfficeAddress, List<Warehouse> Warehouses }
+class Invoice { Customer customer, Date InvoiceDate, boolean Paid }
+
+Supermarket "1" -- "1" Customer
+Customer "1" -- "0..*" Invoice
+Invoice "1" -- "1" Order
+Order "1" -- "0..*" Invoice
+
+@startuml
+
+class DeliveryGroup { List<OrderLine> OrderLines }
+class Delivery { DeliveryGroup deliveryGroup, DeliveryStatus Status }
+
+OrderLine "0..*" -- "1" DeliveryGroup
+DeliveryGroup "1" -- "1" Delivery
+
+@enduml
+
+@startuml
+
+class DeliveryStatus { String Status }
+class Shipment { Delivery delivery, PackingStatus PackingStatus, ShippingStatus ShippingStatus, ReceivingStatus ReceivingStatus }
+
+Delivery "1" -- "1" Shipment
+
+@enduml

@@ -1,32 +1,75 @@
 @startuml
 
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class TestGroup{}
-class Lab{}
-class Appointment{}
-class Report{}
-class Result{}
-class BusinessHours{}
-class RepetitionPattern{}
+class Doctor {
+    String PractitionerNumber
+    String FullName
+    String Address
+    String PhoneNumber
+    Image Signature
+}
+class Patient {
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+class Requisition {
+    Date ValidFrom
+    Integer RepeatCount
+    String RepeatInterval
+}
+class Test {
+    String Name
+    Int DurationMinutes
+    Boolean TimeIndependentOfCount
+    String AccessType
+}
+class TestGroup {
+    String Name
+}
+class Lab {
+    String Name
+    String Address
+    String RegistrationNumber
+    Time DayStartTime
+    Time DayEndTime
+    Double ChangeCancellationFee
+}
+class Appointment {
+    String ConfirmationNumber
+    Date Date
+    Time StartTime
+    Time EndTime
+}
+class PerformedTest {
+    Date DatePerformed
+    Time StartTime
+    Time EndTime
+    Boolean Completed
+}
+class TestResult {
+    String Outcome
+    Date ResultDate
+}
+class Report {
+    String Content
+    Date CreatedDate
+}
 
-Requisition "0..*" -- "1" Doctor
-Requisition "0..*" -- "1" Patient
+Doctor "1" -- "0..*" Requisition
+Patient "1" -- "0..*" Requisition
 Requisition "1" -- "1..*" Test
-Test "1" -- "1" TestGroup
-Lab "0..*" -- "0..*" Test
-Requisition "1" -- "0..1" RepetitionPattern
+TestGroup "1" -- "0..*" Test
+Lab "1" -- "0..*" Appointment
+Patient "1" -- "0..*" Appointment
 Requisition "1" -- "0..*" Appointment
-Appointment "0..*" -- "1" Patient
-Appointment "0..*" -- "1" Lab
-Test "1" -- "0..1" Report
-Report "0..*" -- "1" Patient
-Test "1" -- "0..1" Result
-Result "0..*" -- "1" Patient
-Lab "1" -- "1" BusinessHours
-Doctor "0..*" -- "0..*" Report
-Patient "0..*" -- "0..*" Report
+Appointment "1" -- "0..*" PerformedTest
+Test "1" -- "0..*" PerformedTest
+Requisition "1" -- "0..*" PerformedTest
+PerformedTest "1" -- "0..1" TestResult
+TestResult "1" -- "0..1" Report
+Lab "1" -- "0..*" Test
 
 @enduml

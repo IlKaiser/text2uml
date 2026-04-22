@@ -1,40 +1,98 @@
 ```plantuml
 @startuml
-class HelpingHandsStore{}
-class Resident{}
-class PickupService{}
-class PickupRequest{}
-class Item{}
-class Vehicle{}
-class Route{}
-class Driver{}
-class DistributionCenter{}
-class Employee{}
-class FoodBank{}
-class Article{}
-class Category{}
-class Client{}
 
-HelpingHandsStore "1..*" -- "0..*" Resident
+class HelpingHandsStore {
+  location: String
+}
+
+class Resident {
+  name: String
+  streetAddress: String
+  phoneNumber: String
+  email: String
+}
+
+class PickupService {
+  pickupTime: Date
+  pickupDay: String
+}
+
+class PickupVehicle {
+  availableStorageSpace: Float
+  vehicleDimensions: Float
+  vehicleWeightCapacity: Float
+}
+
+class VolunteerDriver {
+  availableDays: String
+}
+
+class PickupRoute {
+  routeDetails: String
+}
+
+class Item {
+  description: String
+  dimensions: Float
+  weight: Float
+}
+
+class SecondHandArticle {
+  rfidTag: String
+  category: String
+}
+
+class NonPerishableFood
+
+class DistributionCenter {
+  categories: String
+}
+
+class Employee
+
+class FoodBank
+
+class Client {
+  neededCategories: String
+}
+
+class Category {
+  categoryName: String
+}
+
+HelpingHandsStore "1..*" -- "1..*" Resident
 HelpingHandsStore "1..*" -- "1..1" PickupService
-HelpingHandsStore "1..*" -- "0..*" Vehicle
+HelpingHandsStore "1..*" -- "1..*" PickupVehicle
+HelpingHandsStore "1..*" -- "1..*" VolunteerDriver
+HelpingHandsStore "1..*" -- "1..*" PickupRoute
+HelpingHandsStore "1..*" -- "1..*" Item
+HelpingHandsStore "1..*" -- "1..*" SecondHandArticle
+HelpingHandsStore "1..*" -- "1..*" NonPerishableFood
 HelpingHandsStore "1..*" -- "1..1" DistributionCenter
-HelpingHandsStore "1..*" -- "0..*" Employee
+HelpingHandsStore "1..*" -- "1..*" Employee
 HelpingHandsStore "1..*" -- "1..1" FoodBank
-HelpingHandsStore "1..*" -- "0..*" Client
-PickupService "1..1" -- "0..*" PickupRequest
-PickupService "1..1" -- "0..*" Driver
-PickupService "1..1" -- "0..*" Route
-PickupRequest "1..1" -- "1..1" Resident
-PickupRequest "1..1" -- "0..*" Item
-Vehicle "1..1" -- "0..1" Driver
-Vehicle "1..1" -- "0..*" Route
-Route "1..1" -- "0..1" DistributionCenter
-Route "1..1" -- "0..1" FoodBank
-DistributionCenter "1..1" -- "0..*" Employee
-DistributionCenter "1..1" -- "0..*" Article
-DistributionCenter "1..1" -- "0..*" Category
-Article "1..1" -- "1..1" Category
-Client "1..1" -- "0..*" Category
+HelpingHandsStore "1..*" -- "1..*" Client
+HelpingHandsStore "1..*" -- "1..*" Category
+PickupService "1..*" -- "1..*" Resident
+PickupService "1..*" -- "1..*" PickupVehicle
+PickupService "1..*" -- "1..*" VolunteerDriver
+PickupService "1..*" -- "1..*" PickupRoute
+PickupService "1..*" -- "1..*" Item
+PickupRoute "1..*" -- "1..1" PickupVehicle
+PickupRoute "1..*" -- "1..1" VolunteerDriver
+PickupRoute "1..*" -- "1..*" Item
+DistributionCenter "1..*" -- "1..*" SecondHandArticle
+DistributionCenter "1..*" -- "1..*" NonPerishableFood
+DistributionCenter "1..*" -- "1..*" Employee
+DistributionCenter "1..*" -- "1..*" Client
+Employee "1..*" -- "1..*" SecondHandArticle
+Employee "1..*" -- "1..*" Category
+Employee "1..*" -- "1..*" Client
+FoodBank "1..*" -- "1..*" NonPerishableFood
+Client "1..*" -- "1..*" Category
+
+SecondHandArticle --|> Item
+NonPerishableFood --|> Item
+
 @enduml
 ```

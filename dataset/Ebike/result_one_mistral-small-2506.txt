@@ -1,0 +1,51 @@
+Here is the PlantUML class diagram for the EBike based on the specifications:
+
+```plantuml
+@startuml
+
+class EBike {
+    String FrameMaterial
+    String Variant
+}
+
+class Frame {
+    String Material
+}
+
+class DriveSystem {
+    String Type
+}
+
+class Motor {
+    Double Power
+}
+
+class Battery {
+    Double StoredEnergyWh
+}
+
+class Controller {
+    String State
+}
+
+class BasicController {
+    String Type
+}
+
+class AdvancedController {
+    String Type
+    Date NextMaintenanceDate
+}
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+DriveSystem "1" -- "1" Motor
+EBike "1" -- "0..1" Battery
+EBike "1" -- "1" Controller
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+Controller "1" -- "0..1" Battery
+Controller "1" -- "1" DriveSystem
+
+@enduml
+```

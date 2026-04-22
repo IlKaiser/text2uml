@@ -1,0 +1,38 @@
+@startuml
+
+class WebPortal {
+    String VersionNumber
+    String URL
+}
+class Building {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    Integer YearOfConstruction
+}
+class User {
+    String UserName
+    String Email
+    String Password
+}
+class Entry {
+    String Name
+    String Type
+}
+class Image {
+    String FileName
+}
+class Visitor {}
+class Administrator {
+    String IDCardNumber
+}
+
+WebPortal "1..1" -- "0..*" Building
+Building "1..1" -- "0..*" Entry
+Building "1..*" -- "0..*" Image
+User "1..1" -- "0..1" Building
+Visitor "0..*" -- "0..*" User
+User <|-- Administrator
+
+@enduml

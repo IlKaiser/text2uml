@@ -1,29 +1,72 @@
+```plantuml
 @startuml
-class SmartHomeAutomationSystem{}
-class User{}
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class Owner{}
+class SmartHomeAutomationSystem {
+}
 
-SmartHomeAutomationSystem "1..*" -- "1..1" User
-SmartHomeAutomationSystem "1..*" -- "1..1" SmartHome
+class User {
+}
+
+class SmartHome {
+  address: String
+}
+
+class Room {
+}
+
+class SensorDevice {
+  deviceIdentifier: String
+}
+
+class ActuatorDevice {
+  deviceIdentifier: String
+}
+
+class DeviceIdentifier {
+}
+
+class SensorReading {
+  measuredValue: Float
+  timestamp: Date
+}
+
+class ControlCommand {
+  timestamp: Date
+  status: String
+}
+
+class ActivityLog {
+}
+
+class Owner {
+}
+
+class AutomationRule {
+  precondition: Boolean
+  action: String
+}
+
+class Precondition {
+}
+
+class Action {
+}
+
+class RuleHierarchy {
+}
+
+SmartHomeAutomationSystem "1..*" -- "0..*" User
+SmartHomeAutomationSystem "1..*" -- "1..*" SmartHome
 SmartHome "1..*" -- "1..*" Room
-Room "0..*" -- "1..1" SensorDevice
-Room "0..*" -- "1..1" ActuatorDevice
-SensorDevice "1..*" -- "1..1" SensorReading
-ActuatorDevice "1..*" -- "1..1" ControlCommand
-SmartHomeAutomationSystem "1..*" -- "1..1" ActivityLog
-SmartHome "1..*" -- "1..*" AutomationRule
-SmartHome "1..1" -- "1..*" Owner
-AutomationRule "0..*" -- "1..*" Owner
-AutomationRule "0..*" -- "1..1" SensorDevice
-AutomationRule "0..*" -- "1..1" ActuatorDevice
-AutomationRule "0..*" -- "1..1" SensorReading
-AutomationRule "0..*" -- "1..1" ControlCommand
+Room "1..*" -- "0..*" SensorDevice
+Room "1..*" -- "0..*" ActuatorDevice
+SensorDevice "1..1" -- "1..1" DeviceIdentifier
+ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
+SensorDevice "1..*" -- "0..*" SensorReading
+ActuatorDevice "1..*" -- "0..*" ControlCommand
+SmartHome "1..1" -- "1..1" ActivityLog
+SmartHome "1..1" -- "1..1" Owner
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+AutomationRule "0..*" -- "0..*" RuleHierarchy
 @enduml
+```

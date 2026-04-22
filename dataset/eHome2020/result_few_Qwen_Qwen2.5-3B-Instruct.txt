@@ -1,0 +1,59 @@
+@startuml
+
+class HomeTec {
+    String Name
+}
+class EMonitor {
+    String Name
+}
+class SensorController {
+    String Name
+}
+class Apartment {
+    String Address
+    String Description
+    List[Room] Rooms
+}
+class Room {
+    String Description
+}
+class Sensor {
+    String VendorId
+    String Description
+    String Unit
+    Room Room
+}
+class TemperatureSensor extends Sensor {
+    Float MinValue
+    Float MaxValue
+}
+class PowerSensor extends Sensor {
+    Int CounterReading
+}
+class User {
+    String Username
+    String Password
+}
+class AlertMessage {
+    String Message
+    String ToEmail
+}
+class Threshold {
+    String SensorVendorId
+    Float Value
+}
+
+User "1" -- "0..*" AlertMessage
+User "1" -- "0..*" Threshold
+Apartment "1" -- "0..*" User
+Apartment "1" -- "0..*" Room
+Room "1" -- "0..*" Sensor
+TemperatureSensor "1" -- "0..1" Room
+PowerSensor "1" -- "0..1" Room
+SensorController "1" -- "0..1" Apartment
+SensorController "1" -- "0..1" EMonitor
+SensorController "1" -- "0..1" User
+SensorController "1" -- "0..1" Threshold
+SensorController "1" -- "0..1" TemperatureSensor
+SensorController "1" -- "0..1" PowerSensor
+@enduml

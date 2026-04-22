@@ -1,20 +1,54 @@
+```plantuml
 @startuml
+class TaxiCompany {
+}
 
-class TaxiCompany{}
-class SelfDrivingCar{}
-class CarOwner{}
-class RideHailingService{}
-class RideSharingService{}
-class Customer{}
-class Location{}
-class Accident{}
+class SelfDrivingCar {
+}
 
-SelfDrivingCar "1..*" -- "0..1" CarOwner
+class CarOwner {
+}
+
+class TaxiService {
+}
+
+class RideHailing {
+}
+
+class RideSharing {
+}
+
+class Customer {
+}
+
+class CabRequest {
+  timeOfPickUp: Date
+  timeOfDropOff: Date
+  locationOfPickUp: String
+  locationOfDropOff: String
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  fee: Float
+  typeOfRequest: String
+  leadCustomerName: String
+}
+
+class Accident {
+  date: Date
+  location: String
+  damageAmount: Float
+}
+
 SelfDrivingCar "0..*" -- "1..1" TaxiCompany
-RideHailingService "1..*" -- "1..6" Customer
-RideSharingService "1..*" -- "1..10" Customer
-RideHailingService "0..*" -- "1..1" Location
-RideSharingService "0..*" -- "1..1" Location
-SelfDrivingCar "1..*" -- "0..*" Accident
+CarOwner "0..*" -- "1..1" TaxiCompany
+CabRequest "1..1" -- "0..1" RideHailing
+CabRequest "1..1" -- "0..1" RideSharing
+Customer "0..*" -- "1..1" CabRequest
+Accident "0..1" -- "1..1" SelfDrivingCar
+Customer "0..*" -- "1..1" RideSharing
 
+RideHailing --|> TaxiService
+RideSharing --|> TaxiService
 @enduml
+```

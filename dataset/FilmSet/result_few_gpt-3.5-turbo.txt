@@ -1,35 +1,52 @@
 
 @startuml
 
-class Employee {}
-class CreativeEmployee {}
+class Employee {
+    String Name
+    Int SocialSecurityNumber
+}
+class CreativeEmployee {
+    Boolean OscarWinner
+}
 class Director {}
-class Actor {}
-class Technician {}
-class Location {}
-class FilmSet {}
-class Film {}
+class Actor {
+    String EducationCompleted
+}
+class Technician {
+    String FieldOfActivity
+}
+class FilmSet {
+    String Location
+}
+class Film {
+    String Title
+    Int YearOfRelease
+}
 class Genre {}
-class Screenwriter {}
-class Screenplay {}
-class Novel {}
-class Concept {}
+class Screenwriter {
+    String MostSuccessfulFilm
+}
+class Screenplay {
+    String Title
+    Int Version
+    Date Date
+    Int NumberOfScenes
+    String Plot
+}
+class Novel {
+    String Title
+    String Author
+}
 
-Employee "1" -- "1" Location
-FilmSet "1" -- "0..*" Film
-Film "1" -- "0..*" FilmSet
-Film "0..1" -- "1" Screenplay
-Screenwriter "1" -- "0..*" Screenplay
-Screenwriter "1" -- "0..*" Novel
-Screenplay "1" -- "1" Film
-Novel "1" -- "1" Screenplay
-CreativeEmployee "1" -- "0..*" Actor
-CreativeEmployee "1" -- "0..1" Director
-CreativeEmployee "0..*" -- "1" Employee
+Employee "1..*" -- "0..1" CreativeEmployee
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
 Actor "1" -- "0..*" Screenplay
-Director "1" -- "0..1" Screenplay
-Technician "1" -- "0..*" Employee
-Technician "0..1" -- "1" FilmSet
-Genre "1" -- "0..*" Film
+Director "1" -- "0..*" Film
+Film "1" -- "0..*" Screenplay
+FilmSet "1" -- "0..*" Film
+Film "1" -- "0..*" Genre
+Screenwriter "1..*" -- "1" Screenplay
+Screenplay "1" -- "1" Novel
 
 @enduml

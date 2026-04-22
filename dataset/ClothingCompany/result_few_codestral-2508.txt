@@ -1,21 +1,42 @@
-```plantuml
 @startuml
 
-class Customer {}
-class Product {}
-class Order {}
-class Country {}
-class Manufacturer {}
-class Representative {}
-class ProductAvailability {}
+class Customer {
+    String Name
+    String Address
+    String TelephoneNumber
+    String EmailAddress
+}
+class Product {
+    String Name
+    String Description
+    Double NetPrice
+    String Manufacturer
+}
+class Country {
+    String Name
+    Double VatRate
+    String Currency
+    Double ConversionRateToEuro
+}
+class Representative {
+    String FirstName
+    String LastName
+    String SocialSecurityNumber
+    String TelephoneNumber
+    String EmailAddress
+}
+class Order {
+    String OrderId
+    Int OrderQuantity
+    Date OrderDate
+    Date DesiredDeliveryDate
+}
 
-Product "1" -- "1" Manufacturer
-Product "1" -- "0..*" ProductAvailability
-ProductAvailability "0..*" -- "1" Country
+Customer "1" -- "0..*" Order
+Representative "1" -- "0..*" Order
 Product "1" -- "0..*" Order
-Order "0..*" -- "1" Customer
-Order "1" -- "1" Representative
+Country "1" -- "0..*" Product
 Representative "1" -- "1" Country
+Customer "0..*" - "0..*" Country
 
 @enduml
-```

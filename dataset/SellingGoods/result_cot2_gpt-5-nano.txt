@@ -1,34 +1,39 @@
 @startuml
-class Customer{}
-class Supermarket{}
-class Address{}
-class Product{}
-class StockLevel{}
-class Warehouse{}
-class Order{}
-class OrderLine{}
-class Invoice{}
-class Payment{}
-class Delivery{}
-class Shipment{}
-class DeliveryService{}
-class Watchlist{}
-class Group{}
-
-Address "0..*" -- "1" Customer
-Order "1..*" -- "1" Customer
-OrderLine "1..*" -- "1" Order
-OrderLine "1" -- "1" Product
-StockLevel "0..*" -- "1" Product
-StockLevel "0..*" -- "1" Warehouse
-Warehouse "0..*" -- "1" Supermarket
-Order "1" -- "1" Invoice
-Invoice "1" -- "1" Payment
-Watchlist "1" -- "1" Customer
-OrderLine "0..*" -- "1" Group
-Group "1..*" -- "0..*" OrderLine
-Shipment "1..*" -- "1" Delivery
-OrderLine "1..*" -- "1" Shipment
-Delivery "1" -- "1" DeliveryService
-Delivery "1" -- "1" Address
+class Customer {
+  address: String
+  vatNumber: String
+}
+class Address
+class Product
+class StockLevel {
+  quantity: Int
+}
+class Order
+class OrderLine {
+  quantity: Int
+}
+class Invoice
+class Payment
+class Shipment
+class DeliveryService
+class OrderLineGroup
+class ToBeShippedList
+class PartialShipment
+class PartiallyShippedOrder
+class Warehouse
+class Location
+class OrderStatus
+class DeliveryStatus
+"1..1" Customer -- "1..1" Address
+"1..*" Customer -- "1..1" Order
+"1..1" Product -- "1..1" StockLevel
+"1..*" Order -- "1..1" OrderLine
+"1..*" OrderLine -- "1..1" Product
+"1..1" Order -- "1..1" Invoice
+"1..1" Invoice -- "0..1" Payment
+"1..*" Shipment -- "1..1" DeliveryService
+"1..*" Shipment -- "1..1" DeliveryStatus
+"1..*" Order -- "1..1" OrderStatus
+"1..*" Order -- "1..1" OrderLineGroup
+"1..*" OrderLineGroup -- "1..1" OrderLine
 @enduml

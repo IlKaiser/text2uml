@@ -1,0 +1,84 @@
+@startuml
+
+class WebPortal {
+  - version: String
+  - url: String
+}
+
+class Version {
+}
+
+class URL {
+}
+
+class Building {
+  - id: String
+  - name: String
+  - energyClass: String
+  - address: String
+  - yearOfConstruction: Int
+  - owner: User
+  - additionalEntries: Set[AdditionalEntry]
+  - profileImage: Image
+}
+
+class User {
+  - userName: String
+  - email: String
+  - password: String
+  - administrator: Boolean
+  - userAccount: UserAccount
+  - comments: Set[Comment]
+  - buildings: Set[Building]
+}
+
+class Owner {
+  - user: User
+}
+
+class Administrator {
+  - user: User
+  - idCardNumber: String
+}
+
+class AdditionalEntry {
+  - name: String
+  - textualInfo: String
+  - floatingPointNumber: Float
+  - unit: String
+}
+
+class Image {
+  - fileName: String
+}
+
+class Visitor {
+  - user: User
+}
+
+class Search {
+  - building: Building
+}
+
+Building "1" -- "1" WebPortal
+WebPortal "1" -- "1" Version
+WebPortal "1" -- "1" URL
+Building "1" -- "1" Owner
+Owner "1" -- "1" User
+User "1" -- "0..*" Building
+Building "0..*" -- "0..*" AdditionalEntry
+AdditionalEntry "0..1" -- "1" TextualInfo
+AdditionalEntry "0..1" -- "1" FloatingPointNumber
+AdditionalEntry "0..1" -- "1" Unit
+Building "1" -- "0..*" Image
+Image "1" -- "1" FileName
+User "1" -- "0..1" Administrator
+Administrator "1" -- "0..*" UserAccount
+Administrator "0..*" -- "0..*" Comment
+User "1" -- "0..*" Comment
+Visitor "0..1" -- "1" User
+Visitor "0..*" -- "0..*" Building
+User "1" -- "0..*" Search
+Search "1" -- "1" Building
+
+@enduml

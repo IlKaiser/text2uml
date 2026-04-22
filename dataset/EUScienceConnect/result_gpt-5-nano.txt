@@ -1,17 +1,26 @@
 @startuml
-class Person{}
-class Institution{}
-class ScientificArticle{}
-class PeerReviewedPaper{}
-class TechnicalReport{}
-class Publisher{}
-class Journal{}
+class Person{ String PersonID, String PhoneNumber, String Keywords }
+class Institution{ String InstitutionCode }
+class Article{ String DOI, String Title }
+class PeerReviewedPaper{ int CitationCount }
+class TechnicalReport{ }
+class Publisher{ String Name }
+class Journal{ String Name, Double ImpactFactor }
+class Authorship{ int Position }
 
-Person "1" -- "1..*" Institution
-ScientificArticle "1..*" -- "1" Person
-PeerReviewedPaper "1" -- "0..*" Person
-Journal "0..*" -- "1" PeerReviewedPaper
-Publisher "0..*" -- "1" Journal
-TechnicalReport "1" -- "0..*" Institution
+Article <|-- PeerReviewedPaper
+Article <|-- TechnicalReport
+
+Person "1" -- "1" Institution
+
+Article "1" -- "0..*" Authorship
+Authorship "1" -- "1" Person
+Authorship "1" -- "1" Article
+
+PeerReviewedPaper "0..*" -- "1" Journal
+Publisher "1" -- "0..*" Journal
 Journal "0..*" -- "0..*" Institution
+
+TechnicalRport <-- Institution
+
 @enduml

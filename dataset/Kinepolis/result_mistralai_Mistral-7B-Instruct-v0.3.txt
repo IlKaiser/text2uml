@@ -1,0 +1,97 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Kinepolis owns several cinemas in different towns.  Each cinema has several theatres in which several shows can be programmed per day.  Every cinema needs its own copy of the movie, and possibly more than one if a movie is to be played simultaneously in more than one theatre.  A copy will only be shown in the theatres of the premise where the copy is located. But copies of movies can be moved to another cinema if required by the programming.  
+Every Sunday, the program for the next week is published (from Wednesday to Tuesday). Once a show has been published on the website, people can start making on-line reservations for that show. 
+Reservation can be made up to 1 hour before the starting time of the show and must be paid with a credit card.  A seat reservation can be cancelled by the customer up to 24h before the starting time of the show.  For that reason, credit cards are debited only after the cancellation period is terminated.
+A published show can be cancelled by Kinepolis as long as there are no seat reservations for that show.  If there are any, the reservations must be cancelled first.  When possible, a new seat is offered for a show for the same movie in another theatre.  The customer can accept or decline the offer.  The offer expires 24 hours before the start of the show. If the offer is declined, expired or no new seat reservation can be offered, the customer receives a free ticket send at home. 
+People who did not make a seat reservation can buy a ticket at the entrance.  The tickets will also be assigned a seat number.  In contrast with on-line seat reservations, tickets issued at the entrance are anonymous and cannot be cancelled or refunded. At the ticketing desk a display shows how many seats are still available for that show (according to the number of seats in the theatre).
+[/INST] @startuml
+
+class Kinepolis {
+    String Name
+}
+
+class Cinema {
+    String Name
+    Kinepolis kinepolis
+    "0..*" Theatre
+}
+
+class Theatre {
+    String Name
+    Cinema cinema
+    "1..*" Show
+}
+
+class Movie {
+    String Title
+}
+
+class Copy {
+    Movie movie
+    Cinema cinema
+    "0..*" Show
+}
+
+class Show {
+    DateTime StartTime
+    DateTime PublicationDate
+    "0..*" Reservation
+    "0..*" Copy
+}
+
+class Reservation {
+    DateTime ReservationTime
+    DateTime CancellationTime
+    Boolean Paid
+    String CustomerName
+    Show show
+}
+
+class Ticket {
+    Boolean Anonymous
+    Show show
+    String SeatNumber
+}
+
+Cinema "1" -- "0..*" Theatre
+Theatre "1..*" Show
+Show "0..*" Reservation
+Show "0..*" Copy
+Copy "1" -- "1" Movie
+
+@enduml

@@ -1,21 +1,60 @@
 @startuml
-class OilCompany{}
-class GasStation{}
-class Pump{}
-class Gasoline{}
-class Customer{}
-class RefuelCard{}
-class RefuelTurn{}
-class Invoice{}
-class Payment{}
+class OilCompany {
+}
+
+class GasStation {
+  name:String
+}
+
+class Pump {
+  type:String
+  currentLevel:Float
+  reorderLevel:Float
+  criticalLevel:Float
+  blocked:Boolean
+}
+
+class Gasoline {
+  type:String
+}
+
+class Customer {
+  name:String
+  status:String
+  suspended:Boolean
+}
+
+class RefuelCard {
+  cardNumber:String
+  blocked:Boolean
+}
+
+class RefuelTurn {
+  date:Date
+  amount:Float
+  paid:Boolean
+}
+
+class Invoice {
+  invoiceNumber:String
+  month:Date
+  totalAmount:Float
+  discount:Float
+  sent:Boolean
+  paid:Boolean
+}
+
+class Payment {
+  date:Date
+  amount:Float
+}
 
 OilCompany "1..*" -- "1..1" GasStation
 GasStation "1..*" -- "1..1" Pump
-Pump "1..*" -- "1..1" Gasoline
+Pump "1..1" -- "1..1" Gasoline
 Customer "1..*" -- "0..1" RefuelCard
 Customer "1..*" -- "0..*" RefuelTurn
 RefuelCard "1..1" -- "0..*" RefuelTurn
 RefuelTurn "1..1" -- "0..1" Invoice
-Invoice "1..1" -- "0..1" Payment
-Customer "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" Payment
 @enduml

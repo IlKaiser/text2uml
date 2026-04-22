@@ -1,16 +1,36 @@
-Here is the PlantUML model based on the provided class and cardinality lists:
-
 ```plantuml
 @startuml
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
-class Enemy{}
 
-GameArea "1..*" -- "1..1" GameElement
+class GameArea {
+    name:String
+}
+
+class GameElement {
+    x:Int
+    y:Int
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+}
+
+class Enemy {
+    lives:Int
+}
+
+GameArea "1..*" -- "1..*" GameElement
+Shape "0..*" -- "0..*" Shape
 GameArea "1..1" -- "1..1" Opponent
-Shape "1..*" -- "1..*" Shape
+
+Shape --|> GameElement
+Object --|> GameElement
+Opponent --|> GameElement
+Enemy --|> Opponent
+
 @enduml
 ```

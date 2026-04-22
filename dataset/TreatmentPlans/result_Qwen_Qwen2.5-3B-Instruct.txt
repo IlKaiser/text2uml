@@ -1,0 +1,35 @@
+@startuml
+
+class Hospital{
+    +String name
+    +String address
+    +List<ExaminationType> permittedExaminations
+}
+
+class ExaminationType{
+    +String type
+}
+
+class Doctor{
+    +String name
+    +Hospital hospital
+}
+
+class Patient{
+    +String id
+    +Problem problem
+}
+
+class TreatmentPlan{
+    +List<ExaminationType> recommendedExaminations
+}
+
+Doctor "--" TreatmentPlan : prescribes
+Patient "--" Problem : has
+Patient "--" Doctor : visits
+Doctor "--" Hospital : affiliatedTo
+Doctor "--" Patient : treats
+Patient "--" ExaminationType : receives
+Doctor "--" ExaminationType : sendsTo
+TreatmentPlan "--" ExaminationType : includes
+@enduml

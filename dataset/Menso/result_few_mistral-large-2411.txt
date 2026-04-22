@@ -1,31 +1,43 @@
 ```plantuml
 @startuml
 
-class Bus {}
-class Line {}
-class Trajectory {}
-class TownAuthority {}
-class Approval {}
-class BusCompany {}
-class MENSO {}
-class Customer {}
-class Invoice {}
-class Ticket {}
-class Trip {}
+class Trajectory {
+    String Name
+    Boolean Approved
+    Boolean Suspended
+    Date CancelledDate
+}
+class Bus {
+    String LineNumber
+}
+class Line {
+    String Category
+}
+class MENSOCard {
+    String CardNumber
+}
+class Trip {
+    DateTime Time
+    Date Date
+    String LineNumber
+}
+class Invoice {
+    Double TotalAmount
+    Double Discount
+}
+class Customer {
+    String HomeAddress
+    String OfficeAddress
+    String WorkingHours
+}
 
-Bus "0..*" -- "1" Line
-Line "1" -- "0..*" Trajectory
-Trajectory "1" -- "0..*" Approval
-Approval "0..*" -- "1" TownAuthority
-BusCompany "1" -- "0..*" Bus
-BusCompany "1" -- "0..*" Line
-BusCompany "1" -- "0..*" MENSO
-Customer "1" -- "0..*" MENSO
-MENSO "1" -- "0..*" Trip
-Trip "1" -- "0..*" Invoice
-Invoice "1" -- "0..*" Customer
-Trip "1" -- "0..*" Bus
-Ticket "0..*" -- "1" Customer
+Trajectory "1" -- "0..*" Bus
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Trip
+Customer "1" -- "0..*" MENSOCard
+MENSOCard "1" -- "0..*" Trip
+Customer "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" Trip
 
 @enduml
 ```

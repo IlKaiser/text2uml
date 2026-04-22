@@ -1,26 +1,19 @@
-```plantuml
 @startuml
 
-class Person{}
-class Institution{}
-class Article{}
-class PeerReviewedPaper{}
+class Person{ String PersonID, String PhoneNumber, String[] Keywords }
+class Institution{ String InstitutionCode }
+class Article{ String DOI, String Title, String[] Authors, int[] AuthorPositions }
+class PeerReviewedPaper{ int CitationCount, String[] Reviewers }
 class TechnicalReport{}
-class Publisher{}
-class Journal{}
+class Publisher{ String Name }
+class Journal{ String Name, float ImpactFactor }
 
 Person "1..1" -- "1..*" Article
-Article "1..1" -- "1..1" Person
-Article "1..1" -- "1..1" Institution
-Institution "1..1" -- "1..*" Article
-PeerReviewedPaper "1..1" -- "1..1" Article
-TechnicalReport "1..1" -- "1..1" Article
+Person "1..1" -- "1..1" Institution
+Article "1..1" -- "0..1" PeerReviewedPaper
+Article "1..1" -- "0..1" TechnicalReport
 Publisher "1..1" -- "1..*" Journal
-Journal "1..1" -- "1..1" Publisher
-Journal "1..1" -- "1..*" Institution
-Institution "1..1" -- "1..*" Journal
-PeerReviewedPaper "1..1" -- "1..1" Journal
+Institution "1..1" -- "1..*" TechnicalReport
 Journal "1..1" -- "1..*" PeerReviewedPaper
 
 @enduml
-```

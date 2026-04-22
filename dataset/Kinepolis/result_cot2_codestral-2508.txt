@@ -1,48 +1,92 @@
 ```plantuml
 @startuml
-class Kinepolis{}
-class Cinema{}
-class Town{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Program{}
-class Reservation{}
-class CreditCard{}
-class Seat{}
-class Cancellation{}
-class Offer{}
-class Ticket{}
-class Customer{}
-class Entrance{}
-class AnonymousTicket{}
-class Refund{}
-class FreeTicket{}
 
-Kinepolis "1..*" -- "1..*" Cinema
-Cinema "1..*" -- "1..*" Town
+class Cinema {
+    name:String
+    location:String
+}
+
+class Theatre {
+    name:String
+    capacity:Int
+}
+
+class Show {
+    date:Date
+    startTime:Date
+    endTime:Date
+    isPublished:Boolean
+}
+
+class Movie {
+    title:String
+    duration:Int
+    description:String
+}
+
+class Copy {
+    location:String
+    isAvailable:Boolean
+}
+
+class Program {
+    startDate:Date
+    endDate:Date
+}
+
+class Week {
+    startDate:Date
+    endDate:Date
+}
+
+class Website {
+    url:String
+}
+
+class Reservation {
+    reservationTime:Date
+    paymentMethod:String
+    isPaid:Boolean
+}
+
+class Seat {
+    seatNumber:Int
+    isReserved:Boolean
+}
+
+class Cancellation {
+    cancellationTime:Date
+    reason:String
+}
+
+class Offer {
+    expirationTime:Date
+    isAccepted:Boolean
+}
+
+class Ticket {
+    seatNumber:Int
+    isAnonymous:Boolean
+}
+
+class Display {
+    availableSeats:Int
+}
+
 Cinema "1..*" -- "1..*" Theatre
 Theatre "1..*" -- "1..*" Show
-Show "1..*" -- "1..*" Movie
 Movie "1..*" -- "1..*" Copy
-Cinema "1..*" -- "1..*" Copy
-Program "1..*" -- "1..*" Show
-Show "1..*" -- "1..*" Reservation
-Reservation "1..*" -- "1..1" CreditCard
-Show "1..*" -- "1..*" Seat
+Cinema "1..*" -- "0..*" Copy
+Show "1..*" -- "1..1" Program
+Program "1..*" -- "1..1" Week
+Show "1..*" -- "0..*" Reservation
 Reservation "1..*" -- "1..1" Seat
-Show "1..*" -- "1..*" Cancellation
-Cancellation "1..*" -- "1..*" Offer
-Offer "1..*" -- "1..*" Seat
-Show "1..*" -- "1..*" Ticket
-Ticket "1..*" -- "1..1" Seat
-Customer "1..*" -- "1..*" Reservation
-Customer "1..*" -- "1..*" Cancellation
-Customer "1..*" -- "1..*" Ticket
-Entrance "1..*" -- "1..*" AnonymousTicket
-AnonymousTicket "1..*" -- "1..1" Seat
-Cancellation "1..*" -- "1..1" Refund
-Cancellation "1..*" -- "1..1" FreeTicket
+Show "1..*" -- "0..*" Cancellation
+Cancellation "1..*" -- "0..1" Offer
+Offer "1..*" -- "0..1" Reservation
+Show "1..*" -- "0..*" Ticket
+Theatre "1..*" -- "1..*" Seat
+Show "1..*" -- "1..1" Display
+
 @enduml
 ```

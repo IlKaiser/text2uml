@@ -1,31 +1,82 @@
 @startuml
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class TestGroup{}
-class Lab{}
-class Appointment{}
-class Result{}
-class Report{}
-class Address{}
-class BusinessHours{}
-class RepetitionPattern{}
-class Sample{}
+class Doctor {
+  practitionerNumber: Int
+  signature: String
+  fullName: String
+  address: String
+  phoneNumber: String
+}
 
-Doctor "1..1" -- "0..*" Address.
-Patient "1..1" -- "0..*" Address.
-Requisition "1..1" -- "0..*" Doctor.
-Requisition "1..1" -- "0..*" Patient.
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+
+class Requisition {
+  validFrom: Date
+  repetitionCount: Int
+  repetitionInterval: String
+}
+
+class Test {
+  duration: Int
+  appointmentRequired: Boolean
+  walkIn: Boolean
+  sampleDropOff: Boolean
+}
+
+class TestGroup {
+  name: String
+}
+
+class Appointment {
+  confirmationNumber: String
+  date: Date
+  startTime: String
+  endTime: String
+  labName: String
+  labRegistrationNumber: String
+}
+
+class Lab {
+  name: String
+  registrationNumber: String
+  address: String
+  fee: Float
+  businessStartTime: String
+  businessEndTime: String
+  openEveryDay: Boolean
+}
+
+class TestResult {
+  status: String
+}
+
+class Report {
+  content: String
+}
+
+class RepetitionPattern {
+  interval: String
+}
+
+Doctor "0..*" -- "1..1" Requisition.
+Patient "0..*" -- "1..1" Requisition.
 Requisition "1..*" -- "0..*" Test.
 Test "1..1" -- "1..*" TestGroup.
 Requisition "0..1" -- "0..*" RepetitionPattern.
-Appointment "1..1" -- "0..*" Requisition.
-Appointment "1..1" -- "0..*" Patient.
+Patient "0..*" -- "1..1" Appointment.
 Appointment "1..1" -- "0..*" Lab.
-Lab "1..1" -- "0..*" Address.
-Lab "1..1" -- "1..1" BusinessHours.
-Sample "1..1" -- "0..*" Test.
-Result "1..1" -- "0..*" Test.
-Report "1..1" -- "1..1" Result.
+Appointment "1..1" -- "0..*" Requisition.
+Lab "1..*" -- "1..*" Test.
+Test "0..*" -- "1..1" TestResult.
+TestResult "1..1" -- "1..1" Report.
+Doctor "0..*" -- "1..1" TestResult.
+Patient "0..*" -- "1..1" TestResult.
+Doctor "0..*" -- "1..1" Report.
+Patient "0..*" -- "1..1" Report.
 @enduml

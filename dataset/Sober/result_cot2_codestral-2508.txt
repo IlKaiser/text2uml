@@ -1,34 +1,114 @@
 ```plantuml
 @startuml
 
-class SoberTaxiCompany{}
-class SelfDrivingCar{}
-class Fleet{}
-class CarOwner{}
-class RideHailingService{}
-class RideSharingService{}
-class Customer{}
-class SoberApp{}
-class ImageRecognitionSystem{}
-class CabRequest{}
-class Ride{}
-class Location{}
-class Accident{}
+class TaxiCompany {
+    name:String
+}
 
-SoberTaxiCompany "0..*" -- "1..*" Fleet
-Fleet "1..*" -- "0..*" SelfDrivingCar
-Fleet "1..*" -- "0..*" CarOwner
-CarOwner "0..1" -- "1..*" SelfDrivingCar
-SoberTaxiCompany "1..*" -- "1..*" RideHailingService
-SoberTaxiCompany "1..*" -- "1..*" RideSharingService
-RideHailingService "1..*" -- "0..*" CabRequest
-RideSharingService "1..*" -- "0..*" Ride
-Ride "0..*" -- "1..*" Customer
-Ride "1..*" -- "1..*" Location
-Ride "0..*" -- "0..*" Accident
-SelfDrivingCar "0..*" -- "0..*" Accident
-RideHailingService "0..*" -- "1..*" SoberApp
-RideHailingService "0..*" -- "1..*" ImageRecognitionSystem
+class SelfDrivingCar {
+    licensePlate:String
+    model:String
+    status:String
+}
+
+class Fleet {
+    totalCars:Int
+}
+
+class Car {
+    licensePlate:String
+    model:String
+    status:String
+}
+
+class CarOwner {
+    name:String
+    contactInfo:String
+}
+
+class RideHailingService {
+    pickupTime:Date
+    dropoffTime:Date
+    pickupLocation:String
+    dropoffLocation:String
+    rideDuration:Float
+    distance:Float
+    numPassengers:Int
+    fee:Float
+    requestType:String
+    leadCustomerName:String
+}
+
+class RideSharingService {
+    pickupTime:Date
+    dropoffTime:Date
+    pickupLocation:String
+    dropoffLocation:String
+    rideDuration:Float
+    distance:Float
+    customerNames:String
+    fee:Float
+}
+
+class Customer {
+    name:String
+    contactInfo:String
+}
+
+class Destination {
+    location:String
+}
+
+class Fee {
+    amount:Float
+}
+
+class RideRequest {
+    requestType:String
+}
+
+class Notification {
+    message:String
+    sentTime:Date
+}
+
+class Gesture {
+    type:String
+}
+
+class Tree {
+    count:Int
+}
+
+class Accident {
+    date:Date
+    location:String
+    damageAmount:Float
+}
+
+TaxiCompany "1..1" -- "0..*" Fleet
+TaxiCompany "1..1" -- "0..*" CarOwner
+TaxiCompany "1..1" -- "0..*" RideHailingService
+TaxiCompany "1..1" -- "0..*" RideSharingService
+TaxiCompany "1..1" -- "0..*" Accident
+Fleet "0..*" -- "0..*" Car
+Fleet "0..*" -- "0..*" SelfDrivingCar
+CarOwner "1..1" -- "0..*" Car
+RideHailingService "1..1" -- "0..*" RideRequest
+RideHailingService "1..1" -- "0..*" Fee
+RideHailingService "1..1" -- "0..*" Notification
+RideHailingService "1..1" -- "0..*" Destination
+RideSharingService "1..1" -- "0..*" Fee
+RideSharingService "1..1" -- "0..*" Destination
+RideSharingService "1..1" -- "0..*" Tree
+RideRequest "1..1" -- "1..1" Customer
+RideRequest "1..1" -- "1..1" Gesture
+Customer "1..1" -- "0..*" Notification
+Customer "1..1" -- "0..*" RideRequest
+Car "1..1" -- "0..*" Accident
+
+SelfDrivingCar --|> Car
+RideHailingService --|> RideSharingService
 
 @enduml
 ```

@@ -1,17 +1,40 @@
 @startuml
-class Company{}
-class Customer{}
-class Product{}
-class Order{}
-class Country{}
-class Representative{}
-Company "0..*" -- "1..1" Product
-Country "0..*" -- "1..1" Product
-Country "0..*" -- "0..*" Product
-Country "0..*" -- "1..1" Representative
-Country "0..*" -- "0..*" Customer
-Customer "0..*" -- "1..1" Order
-Product "0..*" -- "1..1" Order
-Product "0..*" -- "0..*" Representative
-Representative "0..*" -- "1..1" Order
+class Company
+class Customer {
+  name:String
+  address:String
+  telephone number:String
+  email address:String
+}
+class Product {
+  name:String
+  description:String
+  net price:Float
+}
+class Order {
+  order quantity:Int
+  order date:Date
+  desired delivery date:Date
+}
+class Country {
+  VAT rate:Float
+  currency used:String
+  conversion rate to the euro:Float
+}
+class Representative {
+  first name:String
+  last name:String
+  social security number:String
+  telephone number:String
+  email address:String
+}
+
+Product "1..1" -- "0..*" Company
+Product "1..1" -- "0..*" Country
+Product "0..*" -- "0..*" Country
+Representative "1..1" -- "0..*" Country
+Customer "0..*" -- "0..*" Country
+Order "1..1" -- "0..*" Customer
+Order "1..1" -- "0..*" Representative
+Order "1..1" -- "0..*" Product
 @enduml

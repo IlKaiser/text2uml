@@ -1,21 +1,51 @@
 @startuml
-class Museum{}
-class Location{}
-class Exhibition{}
-class Employee{}
-class Coordinator{}
-class JuniorEmployee{}
-class SeniorEmployee{}
-class Coach{}
-class ExhibitionItem{}
-class Piece{}
-class Collector{}
+class Museum {
+  name: String
+}
+
+class Location {
+  name: String
+}
+
+class Exhibition {
+  openingDate: Date
+}
+
+class Coordinator {
+}
+
+class Employee {
+  seniority: String
+}
+
+class CoachingRelationship {
+}
+
+class ExhibitionItem {
+  description: String
+}
+
+class DesiredItem {
+  description: String
+}
+
+class Piece {
+  title: String
+}
+
+class Collector {
+  name: String
+}
 
 Museum "1..1" -- "0..*" Location
 Location "1..1" -- "0..*" Exhibition
 Exhibition "1..1" -- "1..1" Coordinator
-Exhibition "1..1" -- "0..*" ExhibitionItem
-ExhibitionItem "1..1" -- "1..*" Piece
-Piece "1..1" -- "1..1" Collector
-JuniorEmployee "1..1" -- "1..1" Coach
+Exhibition "1..1" -- "0..*" DesiredItem
+DesiredItem "1..1" -- "1..*" Piece
+DesiredItem "1..1" -- "0..*" Collector
+ExhibitionItem "1..1" -- "1..1" DesiredItem
+ExhibitionItem "1..1" -- "1..1" Piece
+ExhibitionItem "1..1" -- "1..1" Collector
+Employee "1..1" -- "0..1" CoachingRelationship
+Employee "1..1" -- "0..1" CoachingRelationship
 @enduml

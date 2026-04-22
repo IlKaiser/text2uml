@@ -1,0 +1,107 @@
+```plantuml
+@startuml
+
+class Facepage {
+}
+
+class User {
+  ID: String
+  name: String
+  email: String
+  date of birth: Date
+}
+
+class Account {
+  account number: String
+}
+
+class BusinessAccount {
+  company name: String
+  monthly fee: Float
+}
+
+class PersonalAccount {
+}
+
+class Company {
+  name: String
+}
+
+class Page {
+  page name: String
+  number of visits: Int
+}
+
+class AdvertisementPage {
+  bounce rate: Float
+  click-through rate: Float
+  conversion rate: Float
+}
+
+class Form {
+}
+
+class FriendRequest {
+}
+
+class TermsOfUse {
+}
+
+class Privilege {
+}
+
+class Visit {
+}
+
+class Feature {
+}
+
+class BounceRate {
+}
+
+class ClickThroughRate {
+}
+
+class ConversionRate {
+}
+
+class Visitor {
+}
+
+class Banner {
+}
+
+class Goal {
+}
+
+class Purchase {
+}
+
+class Transaction {
+}
+
+User "1" -- "1" Form
+User "1" -- "1" Account
+Account "0..1" -- "0..1" BusinessAccount
+Account "0..1" -- "0..1" PersonalAccount
+BusinessAccount "1" -- "1" Company
+PersonalAccount "0..*" -- "0..*" FriendRequest
+Account "0..*" -- "0..*" Page
+Page "1" -- "1" Account
+PersonalAccount "0..*" -- "0..*" Privilege
+Page "1" -- "1" Visit
+BusinessAccount "0..*" -- "0..*" AdvertisementPage
+AdvertisementPage "0..*" -- "0..*" Feature
+Feature "0..1" -- "0..1" BounceRate
+Feature "0..1" -- "0..1" ClickThroughRate
+Feature "0..1" -- "0..1" ConversionRate
+ConversionRate "0..*" -- "0..*" Goal
+Goal "0..*" -- "0..*" Purchase
+Goal "0..*" -- "0..*" Transaction
+
+BusinessAccount --|> Account
+PersonalAccount --|> Account
+AdvertisementPage --|> Page
+
+@enduml
+```

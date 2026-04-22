@@ -1,32 +1,49 @@
 ```plantuml
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Inhabitant{}
-class Category{}
-class Stay{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Invoice{}
-class Payment{}
-class CreditNote{}
+class Home
+
+class Department
+
+class Room
+
+class Bed
+
+class Inhabitant
+
+class Category {
+  price: Float
+}
+
+class Stay
+
+class Registration
+
+class Assessment
+
+class WaitingList
+
+class Proposal
+
+class Invoice
+
+class CreditNote
 
 Home "1..*" -- "1..1" Department
 Department "1..*" -- "1..1" Room
 Room "1..*" -- "1..1" Bed
-Bed "1..1" -- "1..1" Category
-Inhabitant "1..*" -- "1..1" Bed
-Inhabitant "1..*" -- "1..1" Stay
-Inhabitant "1..1" -- "1..1" Registration
-Inhabitant "1..1" -- "1..1" Assessment
+Inhabitant "1..1" -- "1..1" Bed
+Inhabitant "1..1" -- "1..*" Stay
+Stay "1..1" -- "1..1" Category
+Category "1..1" -- "1..1" Price
 Inhabitant "1..1" -- "1..1" WaitingList
-Stay "1..1" -- "1..*" Invoice
-Invoice "1..1" -- "0..*" Payment
-Invoice "1..1" -- "0..*" CreditNote
+WaitingList "1..1" -- "1..*" Proposal
+Stay "1..1" -- "1..1" Invoice
+Invoice "0..1" -- "0..1" CreditNote
+
+RestHome --|> Category
+RestAndNursingHome --|> Category
+ServiceFlat --|> Category
 
 @enduml
 ```

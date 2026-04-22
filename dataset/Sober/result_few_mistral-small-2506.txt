@@ -1,18 +1,56 @@
 @startuml
 
-class Customer {}
-class Car {}
-class CarOwner {}
-class RideHail {}
-class RideShare {}
-class RideRequest {}
-class Accident {}
+class Customer {
+    String Name
+    String LeadCustomerName
+    Int NumberOfPassengers
+}
 
-RideRequest "0..*" -- "1" Customer
-RideRequest "1" -- "1" Car
-RideRequest "1" -- "0..1" RideHail
-RideRequest "1" -- "0..1" RideShare
-Car "1" -- "0..1" CarOwner
+class Car {
+    String OwnerName
+    Boolean IsRegistered
+}
+
+class RideHail {
+    DateTime PickupTime
+    DateTime DropOffTime
+    String PickupLocation
+    String DropOffLocation
+    Double Duration
+    Double Distance
+    Double Fee
+    String RequestType
+    Int MaxPassengers
+}
+
+class RideShare {
+    DateTime PickupTime
+    DateTime DropOffTime
+    String PickupLocation
+    String DropOffLocation
+    Double Duration
+    Double Distance
+    String[] CustomerNames
+    Double Fee
+    Int MaxPassengers
+}
+
+class Accident {
+    DateTime AccidentDate
+    String AccidentLocation
+    Double DamageAmount
+}
+
+class Tree {
+    String PlantingLocation
+    DateTime PlantingDate
+}
+
+Customer "1" -- "0..*" RideHail
+Customer "1" -- "0..*" RideShare
+Car "1" -- "0..*" RideHail
+Car "1" -- "0..*" RideShare
 Car "1" -- "0..*" Accident
+RideShare "1" -- "0..*" Tree
 
 @enduml

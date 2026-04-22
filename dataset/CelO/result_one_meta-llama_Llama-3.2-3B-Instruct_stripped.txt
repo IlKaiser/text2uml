@@ -1,0 +1,98 @@
+```plantuml
+@startuml
+
+class Event {
+    String Name
+    String Occasion
+    String Location
+    Date StartTime
+    Date EndTime
+    String Type
+}
+
+class Organizer {
+    String FirstName
+    String LastName
+    String Email
+    String Username
+    String PostalAddress
+    String PhoneNumber
+    String Password
+}
+
+class Attendee {
+    String FirstName
+    String LastName
+    String Email
+}
+
+class Task {
+    String Name
+    String Description
+    Boolean Done
+}
+
+class Checklist {
+    String Name
+    String Description
+}
+
+class EventChecklist {
+    String Event
+    Checklist Task
+    Attendee Attends
+}
+
+class Invitation {
+    String Event
+    Attendee
+    Boolean Attended
+}
+
+class Account {
+    String Username
+    String Password
+}
+
+class Event {
+    "1..*" -- "0..*" Organizer
+    "1..*" -- "0..*" Checklist
+    "1..*" -- "0..*" Task
+    "1..*" -- "0..*" EventChecklist
+    "1..*" -- "0..*" Invitation
+    "0..*" -- "0..*" Account
+}
+
+class Organizer {
+    "1..*" -- "0..*" Event
+    "0..*" -- "0..*" Task
+    "0..*" -- "0..*" Checklist
+    "0..*" -- "0..*" EventChecklist
+    "0..*" -- "0..*" Invitation
+}
+
+class Attendee {
+    "0..*" -- "0..*" Event
+    "0..*" -- "0..*" Checklist
+    "0..*" -- "0..*" Task
+    "0..*" -- "0..*" EventChecklist
+    "0..*" -- "0..*" Invitation
+}
+
+class Checklist {
+    "0..*" -- "0..*" Task
+    "0..*" -- "0..*" EventChecklist
+}
+
+class Task {
+    "0..*" -- "0..*" Checklist
+    "0..*" -- "0..*" EventChecklist
+}
+
+class EventChecklist {
+    "0..*" -- "0..*" Checklist
+    "0..*" -- "0..*" Task
+}
+
+@enduml
+```

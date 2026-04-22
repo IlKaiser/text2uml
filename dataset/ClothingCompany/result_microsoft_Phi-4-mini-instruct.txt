@@ -1,0 +1,68 @@
+<|system|>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|end|><|user|>Transform into plant uml this specification text: Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date.<|end|><|assistant|>@startuml
+
+class Product{
+  String Name, Description, NetPrice, Manufacturer, Country
+}
+
+class Currency{
+  String Name, VATRate, ConversionRateToEuro
+}
+
+class Country{
+  String Name, Currency
+}
+
+class Representative{
+  String FirstName, LastName, SocialSecurityNumber, Telephone, Email
+  Country Country
+}
+
+class Customer{
+  String Name, Address, Telephone, Email, ResellCountries
+}
+
+class Order{
+  String UniqueIdentifier, Product, Quantity, OrderDate, DeliveryDate
+}
+
+Product "1..*" -- "0..*" Country
+Country "1..*" -- "0..*" Currency
+Representative "1..1" -- "1..*" Country
+Order "1..1" -- "1..*" Product
+
+@enduml

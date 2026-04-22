@@ -1,38 +1,97 @@
 @startuml
-class Bus Company{}
-class Bus{}
-class Line{}
-class Trajectory{}
-class Town Authority{}
-class Approval{}
-class MENSO Ticket{}
-class Customer{}
-class Trip{}
-class Invoice{}
-class MENSO Card{}
-class Ticket Machine{}
-class Subscription{}
 
-Approval "1..1" -- "1..*" Bus Company
-Approval "1..1" -- "0..*" Town Authority
+class BusCompany {
+  name:String
+}
+
+class Bus {
+  lineNumber:String
+}
+
+class Line {
+  name:String
+}
+
+class Trajectory {
+  operationalDate:Date
+  isSuspended:Boolean
+  isCancelled:Boolean
+  cancellationDate:Date
+}
+
+class TownAuthority
+
+class Approval {
+  status:String
+}
+
+class Customer {
+  homeAddress:String
+  officeAddress:String
+  workingHours:String
+}
+
+class MENSO {
+  validForYears:Int
+}
+
+class Subscription
+
+class Card
+
+class Trip {
+  time:String
+  date:Date
+  lineIdentifier:String
+}
+
+class Category
+
+class Invoice {
+  totalAmount:Float
+  discountPercentage:Float
+}
+
+class Payment
+
+class TicketMachine
+
+Approval "1..1" -- "0..*" BusCompany
 Approval "1..1" -- "0..*" Trajectory
-Bus "1..1" -- "1..*" Bus Company
-Bus "0..*" -- "0..*" Line
-Bus "1..1" -- "1..1" Ticket Machine
+Bus "1..1" -- "1..*" BusCompany
+Bus "0..*" -- "1..*" Line
 Bus "0..*" -- "0..*" Trajectory
-Bus Company "1..1" -- "0..*" MENSO Card
-Bus Company "1..1" -- "0..*" MENSO Ticket
-Bus Company "1..1" -- "1..*" Trajectory
-Customer "1..1" -- "0..*" Invoice
-Customer "0..1" -- "1..1" MENSO Card
-Customer "1..1" -- "0..*" MENSO Ticket
-Customer "0..1" -- "1..1" Subscription
-Customer "1..1" -- "0..*" Trip
-Invoice "1..*" -- "0..1" Trip
+Card "1..1" -- "1..1" Customer
+Card "1..1" -- "0..*" MENSO
+Card "0..*" -- "0..*" TicketMachine
+Card "0..*" -- "1..1" Trip
+Category "0..*" -- "1..1" Line
+Customer "0..*" -- "1..1" Invoice
+Customer "1..1" -- "0..*" MENSO
+Invoice "1..1" -- "0..*" Customer
+Invoice "0..1" -- "1..1" Payment
+Invoice "1..*" -- "1..1" Trip
+Line "1..*" -- "0..*" Bus
 Line "1..*" -- "1..1" Trajectory
 Line "0..*" -- "1..1" Trip
-MENSO Card "1..1" -- "1..1" Subscription
-MENSO Card "0..*" -- "0..*" Ticket Machine
-MENSO Ticket "1..1" -- "0..1" Trip
-Town Authority "1..1" -- "0..*" Trajectory
+MENSO "0..*" -- "1..1" Card
+MENSO "0..*" -- "1..1" Customer
+MENSO "0..*" -- "1..1" Trip
+Payment "1..1" -- "0..1" Invoice
+TicketMachine "0..*" -- "0..*" Card
+TicketMachine "0..*" -- "1..1" Trip
+TownAuthority "0..*" -- "1..1" Trajectory
+Trajectory "0..*" -- "1..1" Approval
+Trajectory "0..*" -- "0..*" Bus
+Trajectory "1..1" -- "0..*" BusCompany
+Trajectory "1..1" -- "1..*" Line
+Trajectory "1..1" -- "0..*" TownAuthority
+Trip "1..1" -- "0..*" Card
+Trip "1..1" -- "1..*" Invoice
+Trip "1..1" -- "0..*" Line
+Trip "1..1" -- "0..*" MENSO
+Trip "1..1" -- "0..*" TicketMachine
+
+MENSO --|> Subscription
+
 @enduml

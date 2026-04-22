@@ -1,53 +1,55 @@
 @startuml
-class User{}
-class HungryCustomer{}
-class BusinessOwner{}
-class Entertainer{}
-class LinkedInAccount{}
-class ProfessionNetwork{}
-class PizzaRestaurant{}
-class Pizza{}
-class Crust{}
-class CrustStructure{}
-class Price{}
-class Taste{}
-class EntertainmentType{}
-class Minute{}
-class EntertainmentOrder{}
-class Order{}
-class DeliveryPerson{}
-class Address{}
-class ZipCode{}
-class Website{}
-class OpeningHour{}
-class StageName{}
-class Bio{}
-class Availability{}
-
-HungryCustomer "0..*" -- "1" Order
-Order "1" -- "0..*" Pizza
-PizzaRestaurant "1" -- "0..*" Pizza
-Pizza "1" -- "1" Price
-Pizza "1" -- "1" Taste
-Pizza "1" -- "1" CrustStructure
-CrustStructure "1" -- "1" Crust
-PizzaRestaurant "1" -- "1" Address
-Address "1" -- "1" ZipCode
-PizzaRestaurant "1" -- "1" Website
-OpeningHour "0..*" -- "1" PizzaRestaurant
-PizzaRestaurant "0..*" -- "1" BusinessOwner
-BusinessOwner "1" -- "1" LinkedInAccount
-LinkedInAccount "1" -- "1" ProfessionNetwork
-Entertainer "0..*" -- "1" Availability
-Availability "0..*" -- "1" Entertainer
-Availability "1" -- "1" PizzaRestaurant
-EntertainmentOrder "1" -- "1" Order
-EntertainmentOrder "1" -- "1" EntertainmentType
-EntertainmentOrder "1" -- "1" Minute
-DeliveryPerson "0..*" -- "1" Order
-Order "1" -- "1" DeliveryPerson
-User "1" -- "1" Address
-Address "1" -- "1" ZipCode
-Entertainer "1" -- "1" StageName
-Entertainer "1" -- "1" Bio
+class User {
+  id: String
+  name: String
+  birthday: Date
+  address: Address
+}
+class Customer {
+  deliveryAddress: Address
+}
+class BusinessOwner {
+  linkedinAccount: LinkedInAccount
+  restaurantCount: Int
+}
+class Entertainer {
+  stageName: String
+  bio: String
+  pricePer30Minutes: Float
+  availability: Availability
+}
+class DeliveryPerson
+class PizzaRestaurant {
+  zipCode: ZipCode
+  address: Address
+  phoneNumber: String
+  website: String
+  openingHours: OpeningHours
+}
+class Address
+class ZipCode
+class OpeningHours
+class Pizza {
+  name: String
+  crustStructure: CrustStructure
+  price: Float
+}
+class CrustStructure
+class Order {
+  id: String
+  orderDate: Date
+  latestDeliveryTime: Date
+  numberOfPeople: Int
+  pizzaCount: Int
+}
+class EntertainmentOrder {
+  entertainmentType: EntertainmentType
+  duration: Int
+}
+class EntertainmentType
+class Availability
+class DayOfWeek
+class Delivery
+class LinkedInAccount
+class ProfessionNetwork
 @enduml

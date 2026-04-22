@@ -1,0 +1,67 @@
+Given the specification text and the identified classes, here is the PlantUML representation for the conceptual model diagram:
+
+```plantuml
+@startuml
+class University {
+    +name: String
+    +totalNumberOfEmployees: Integer
+}
+
+class Faculty {
+    +name: String
+    +dean: Dean
+}
+
+class Institute {
+    +name: String
+    +address: String
+}
+
+class Dean {
+    +name: String
+    +emailAddress: String
+}
+
+class Employee {
+    +socialSecurityNumber: String
+    +name: String
+    +emailAddress: String
+}
+
+class ResearchAssistant {
+    +name: String
+    +fieldOfResearch: String
+    +projects: [Project]
+}
+
+class Lecturer {
+    +courses: [Course]
+    +name: String
+}
+
+class Course {
+    +uniqueNumber: Integer
+    +name: String
+    +weeklyDuration: Integer
+}
+
+class Project {
+    +name: String
+    +startDate: Date
+    +endDate: Date
+}
+
+University -- Institute: 1..
+Faculty -- Institute: 1..
+Dean -- University: 1..
+Employee -- University: 1..
+ResearchAssistant -- Institute: 1..
+ResearchAssistant -- Course: 1..
+ResearchAssistant -- Project: 1..
+Lecturer -- Course: 1..
+Course -- Institute: 1..
+
+@enduml
+```
+
+This PlantUML code represents the conceptual model diagram with the identified classes and their relationships.

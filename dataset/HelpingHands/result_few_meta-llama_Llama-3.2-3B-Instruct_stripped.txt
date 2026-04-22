@@ -1,0 +1,91 @@
+@startuml
+
+class Customer {
+    String Name
+    String Address
+    String PhoneNumber
+    String Email
+    String Description
+}
+
+class PickupRequest {
+    String PickupDate
+    String PickupTime
+    String StreetAddress
+}
+
+class PickupVehicle {
+    String VehicleNumber
+    String Capacity
+    String Dimensions
+    String Weights
+}
+
+class VolunteerDriver {
+    String Name
+    String Availability
+}
+
+class Item {
+    String Category
+    String Description
+    String RFIDTag
+}
+
+class DistributionCenter {
+    String Location
+    String Employee
+}
+
+class FoodBank {
+    String Location
+}
+
+class DeliveryRequest {
+    String DeliveryDate
+    String DeliveryTime
+    String StreetAddress
+}
+
+class DeliveryVehicle {
+    String VehicleNumber
+    String Capacity
+    String Dimensions
+    String Weights
+}
+
+class H2S {
+    String Name
+}
+
+class PickupRoute {
+    String RouteNumber
+    String PickupDate
+    String PickupTime
+    String VehicleNumber
+}
+
+class ItemCategory {
+    String CategoryName
+}
+
+class Delivery {
+    String DeliveryDate
+    String DeliveryTime
+    String StreetAddress
+}
+
+Customer "1" -- "0..*" PickupRequest
+PickupRequest "1" -- "0..*" PickupVehicle
+PickupVehicle "1" -- "0..*" VolunteerDriver
+VolunteerDriver "1" -- "0..*" PickupRoute
+PickupRoute "1" -- "0..*" Item
+Item "1" -- "0..*" ItemCategory
+DistributionCenter "1" -- "0..*" Item
+DistributionCenter "1" -- "0..*" Delivery
+FoodBank "1" -- "0..*" Delivery
+Delivery "1" -- "0..*" DeliveryVehicle
+H2S "1" -- "0..*" PickupRoute
+PickupRequest "0..*" Delivery
+Delivery "0..*" DeliveryVehicle
+@enduml

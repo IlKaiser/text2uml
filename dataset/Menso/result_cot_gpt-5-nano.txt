@@ -1,37 +1,53 @@
 @startuml
-class Bus{}
-class Line{}
-class Trajectory{}
-class Approval{}
-class TownAuthority{}
-class BusCompany{}
-class Category{}
-class MensoTicket{}
-class Invoice{}
-class Payment{}
-class Trip{}
-class Card{}
-class TicketMachine{}
-class Customer{}
-class Address{}
-class Destination{}
+class Bus {
+  lineNumber: Int
+}
+class Line
+class Trajectory {
+  operationalDate: Date
+  suspended: Boolean
+  cancelled: Boolean
+}
+class Authority
+class Approval {
+  status: String
+}
+class Category {
+  name: String
+}
+class MensoTicket {
+  validForYears: Int
+}
+class Invoice {
+  date: Date
+  amount: Float
+  discount: Float
+}
+class Card
+class Trip {
+  dateTime: Date
+  line: Int
+}
+class TicketMachine
+class Customer {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
+class Address
 
 Bus "0..*" -- "0..*" Line
-Line "0..*" -- "0..*" Destination
 Bus "0..*" -- "0..*" Trajectory
+Line "1..*" -- "0..*" Trajectory
 Trajectory "0..*" -- "1..1" Approval
-Approval "1..1" -- "0..*" TownAuthority
-BusCompany "0..*" -- "1..1" Trajectory
-Line "0..*" -- "0..*" Trajectory
-Line "1..1" -- "0..*" Category
-Customer "0..*" -- "1..1" MensoTicket
-Card "0..*" -- "1..1" MensoTicket
-Customer "0..*" -- "0..*" Address
-Trip "1..1" -- "0..*" Line
-Trip "0..1" -- "1..*" Invoice
-Customer "0..*" -- "1..1" Invoice
-Invoice "0..*" -- "1..1" Payment
-TicketMachine "0..*" -- "1..1" Trip
-Card "0..*" -- "1..1" Trip
+Approval "1..1" -- "0..*" Authority
+Line "1..*" -- "0..*" Category
+Line "0..*" -- "1..*" Trip
+Trip "1..1" -- "0..*" Invoice
+Trip "1..1" -- "0..*" Card
 Card "0..*" -- "0..*" TicketMachine
+TicketMachine "1..*" -- "1..1" Trip
+Customer "0..*" -- "1..1" Invoice
+Customer "0..*" -- "1..1" Address
+MensoTicket "0..*" -- "0..*" Trip
 @enduml

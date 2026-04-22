@@ -1,55 +1,81 @@
 @startuml
+' Classes
+class WebPortal {
+  String Version
+  String URL
+}
+class Building {
+  String ID
+  String Name
+  String EnergyClass
+  String Address
+  Int YearOfConstruction
+}
+class AdditionalEntry {
+  String Name
+  String TextValue
+  Double NumericValue
+  String Unit
+  Boolean Public
+}
+class Image {
+  String FileName
+}
+class User {
+  String UserName
+  String Email
+  String Password
+}
+class Comment {
+  String Content
+  Date Timestamp
+}
+class Administrator {
+  String IdCardNumber
+}
 
-class WebPortal {}
-class Building {}
-class AdditionalEntry {}
-class TextEntry {}
-class NumericEntry {}
-class Image {}
-class User {}
-class Administrator {}
-class Comment {}
-
-WebPortal "1" -- "0..*" Building
-Building "1" -- "0..*" AdditionalEntry
-AdditionalEntry <|-- TextEntry
-AdditionalEntry <|-- NumericEntry
-Building "1" -- "0..*" Image
-Building "1" -- "0..1" Image
-User "1" -- "0..*" Building
-User "1" -- "0..*" Comment
-Building "1" -- "0..*" Comment
 Administrator --|> User
 
+' Relations between classes
+WebPortal "1" -- "0..*" Building
+Building "1" -- "1" User : owner
+User "1" -- "0..*" Building : created
+Building "1" -- "0..*" AdditionalEntry
+Building "1" -- "0..*" Image
+User "1" -- "0..*" Comment
 @enduml
 
 @startuml
-
+' Use Case Diagram
 actor Visitor
-actor User
+actor RegisteredUser
 actor Administrator
 
-usecase "Register" as Register
-usecase "Confirm Registration" as ConfirmReg
-usecase "Login" as Login
-usecase "Comment on Building" as CommentBuilding
-usecase "Search Buildings" as SearchBuildings
-usecase "Manage Building" as ManageBuilding
-usecase "Create Building" as CreateBuilding
-usecase "Manage Building Entries" as ManageBuildingEntries
-usecase "Setup User Account" as SetupUserAccount
-usecase "Delete Comments" as DeleteComments
+usecase "Search Building" as UC1
+usecase "Register" as UC2
+usecase "Confirm Registration" as UC3
+usecase "Login" as UC4
+usecase "Create Building" as UC5
+usecase "Manage Building" as UC6
+usecase "Comment on Building" as UC7
+usecase "Add Entry" as UC8
+usecase "Activate User" as UC9
+usecase "Delete Comment" as UC10
 
-Visitor -- Register
-Visitor -- SearchBuildings
-User -- Login
-User -- CommentBuilding
-User -- ManageBuilding
-Administrator -- SetupUserAccount
-Administrator -- DeleteComments
+Visitor -- UC1
+Visitor -- UC2
+Visitor -- UC3
 
-CreateBuilding --|> ManageBuilding
-ManageBuildingEntries --|> ManageBuilding
-ConfirmReg --|> Register
+RegisteredUser -- UC1
+RegisteredUser -- UC4
+RegisteredUser -- UC5
+RegisteredUser -- UC6
+RegisteredUser -- UC7
+RegisteredUser -- UC8
 
+Administrator -- UC9
+Administrator -- UC10
+
+' Generalization among use cases
+UC6 <|-- UC8
 @enduml

@@ -1,0 +1,37 @@
+@startuml
+
+class Person { String Name, String Email }
+class Student { }
+class Tutor { String BankAccount }
+class Subject { String Name }
+class TutoringOffer { String LevelOfExpertise, Double HourlyPrice }
+class WeeklyAvailability { String DayOfWeek, String StartTime, String EndTime }
+class TutoringRequest { String RequestedLevel, DateTime RequestedDateTime, String Status }
+class TutoringSession { DateTime StartDateTime, Double DurationHours, String Status, Double Price }
+class Cancellation { String CancelledBy, DateTime CancelTime, Double PenaltyPercent }
+class Payment { Double Amount, String Method, DateTime PaymentDate }
+class Award { Integer Month, Integer Year, String AwardName }
+
+Person <|-- Student
+Person <|-- Tutor
+
+Tutor "1..1" -- "0..*" TutoringOffer
+Tutor "1..1" -- "0..*" WeeklyAvailability
+Subject "1..1" -- "0..*" TutoringOffer
+Student "1..1" -- "0..*" TutoringRequest
+Tutor "1..1" -- "0..*" TutoringRequest
+TutoringOffer "1..1" -- "0..*" TutoringRequest
+TutoringRequest "0..1" -- "0..1" TutoringSession
+Student "1..1" -- "0..*" TutoringSession
+Tutor "1..1" -- "0..*" TutoringSession
+TutoringSession "0..*" -- "0..*" TutoringSession
+TutoringSession "1..1" -- "0..1" Cancellation
+Cancellation "0..*" -- "0..1" Student
+Cancellation "0..*" -- "0..1" Tutor
+TutoringSession "1..1" -- "0..1" Payment
+Student "1..1" -- "0..*" Payment
+Tutor "1..1" -- "0..*" Award
+Subject "1..1" -- "0..*" Award
+Student "0..*" -- "0..*" TutoringOffer
+
+@enduml

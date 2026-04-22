@@ -1,16 +1,31 @@
 
 @startuml
+class GameArea {
+    name: String
+}
 
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
+class GameElement {
+    x: Long
+    y: Long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+    lives: Int
+}
 
 GameArea "1..*" -- "1..*" GameElement
-GameElement "1..1" -- "0..*" Shape
-GameElement "1..1" -- "0..*" Object
-GameElement "1..1" -- "1..1" Opponent
-Opponent "1..1" -- "0..*" Shape
-
+GameArea "1..*" -- "0..*" Shape
+GameArea "1..*" -- "0..*" Object
+GameArea "1..*" -- "1..1" Opponent
+Shape "1..*" -- "0..*" Shape
+Opponent "1..1" -- "1..*" Object
+Shape --|> GameElement
+Object --|> GameElement
+Opponent --|> GameElement
 @enduml

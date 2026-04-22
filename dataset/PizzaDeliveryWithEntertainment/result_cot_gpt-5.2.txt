@@ -1,0 +1,58 @@
+@startuml
+class User {
+  userId: String
+  birthday: Date
+  name: String
+  address: String
+}
+class BusinessOwner {
+  linkedInAccount: String
+}
+class HungryCustomer {
+  deliveryAddress: String
+}
+class Entertainer {
+  stageName: String
+  bio: String
+  pricePer30Minutes: Float
+}
+class PizzaRestaurant {
+  zipCode: String
+  address: String
+  phoneNumber: String
+  website: String
+  openingHours: String
+}
+class Pizza {
+  name: String
+  crustStructure: String
+  price: Float
+}
+class Order {
+  orderId: String
+  orderPlacedDateTime: Date
+  latestDeliveryTime: Date
+  numberOfPeople: Int
+}
+class EntertainmentOrder {
+  entertainmentType: String
+  entertainmentDuration: Int
+}
+class Availability {
+  day: String
+}
+
+BusinessOwner "0..*" -- "0..*" PizzaRestaurant
+PizzaRestaurant "0..*" -- "0..*" Pizza
+HungryCustomer "0..*" -- "0..*" Order
+Order "1..*" -- "0..*" Pizza
+EntertainmentOrder "1..1" -- "0..*" Entertainer
+Entertainer "0..*" -- "0..*" PizzaRestaurant
+Availability "0..*" -- "0..*" Entertainer
+Availability "0..*" -- "0..*" PizzaRestaurant
+
+BusinessOwner --|> User
+HungryCustomer --|> User
+Entertainer --|> User
+EntertainmentOrder --|> Order
+@enduml

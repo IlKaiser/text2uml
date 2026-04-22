@@ -1,0 +1,16 @@
+@startuml
+
+class Game{ String Objective, Boolean IsPlaying }
+class BoardGame{ String Layout, List<Tile> Tiles, List<ConnectionPiece> Connections }
+class Tile{ String Color, Boolean IsHidden }
+class ConnectionPiece{}
+class ActionCard{ String Action }
+class Player{ String Color, Tile CurrentPosition }
+
+Game "1..1" -- "1..1" BoardGame
+BoardGame "1..1" -- "1..*" Tile
+Tile "0..*" -- "0..4" ConnectionPiece
+BoardGame "1..1" -- "1..1" ActionCard
+Player "1..4" -- "1..1" BoardGame
+
+@enduml

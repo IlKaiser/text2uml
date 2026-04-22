@@ -1,0 +1,48 @@
+```plantuml
+@startuml
+class Bus {
+    - line_number : String
+    - model : String
+}
+
+class Line {
+    - line_number : String
+    - category : String
+}
+
+class Trajectory {
+    - approval_status : Boolean
+}
+
+class MENSO {
+    - valid_until : Date
+}
+
+class Customer {
+    - home_address : String
+    - office_address : String
+    - working_hours : String
+}
+
+class Invoice {
+    - invoice_amount : Float
+    - discount_percentage : Float
+}
+
+class Ticket {
+    - time : String
+    - date : String
+    - line : String
+}
+
+Bus "1" -- "1..*" Line : uses
+Line "1" -- "1..*" Trajectory : groups
+Trajectory "1" -- "1" Invoice : generates
+Invoice "1" -- "1" Customer : issued_to
+MENSO "1" -- "1..*" Line : assigned_to
+MENSO "1" -- "1" Customer : issued_to
+Customer "1" -- "1..*" Invoice : receives
+Ticket "1" -- "1" Line : relates_to
+
+@enduml
+```

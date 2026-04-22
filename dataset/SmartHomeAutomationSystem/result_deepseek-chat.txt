@@ -1,43 +1,27 @@
 @startuml
 
-class SHAS{}
-class User{}
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class DeviceType{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class BooleanExpression{}
-class RelationalTerm{}
-class ControlAction{}
-class RuleHierarchy{}
+class SHAS
+class SmartHome{ String physicalAddress }
+class Room
+class SensorDevice{ String deviceIdentifier }
+class ActuatorDevice{ String deviceIdentifier }
+class SensorReading{ Float measuredValue, Timestamp timestamp }
+class ControlCommand{ String commandType, Timestamp timestamp, String status }
+class ActivityLog
+class AutomationRule{ String precondition, String action, Boolean isActive }
+class Alert
 
-SHAS "1..1" -- "1..*" User
 SHAS "1..1" -- "1..*" SmartHome
 SmartHome "1..1" -- "1..*" Room
 Room "1..1" -- "0..*" SensorDevice
 Room "1..1" -- "0..*" ActuatorDevice
-SensorDevice "1..1" -- "1..1" DeviceType
-ActuatorDevice "1..1" -- "1..1" DeviceType
 SensorDevice "1..1" -- "0..*" SensorReading
 ActuatorDevice "1..1" -- "0..*" ControlCommand
 SmartHome "1..1" -- "1..1" ActivityLog
 ActivityLog "1..1" -- "0..*" SensorReading
 ActivityLog "1..1" -- "0..*" ControlCommand
 SmartHome "1..1" -- "0..*" AutomationRule
-AutomationRule "1..1" -- "1..1" BooleanExpression
-AutomationRule "1..1" -- "1..1" ControlAction
-BooleanExpression "1..1" -- "1..*" RelationalTerm
-RelationalTerm "1..1" -- "0..1" Room
-RelationalTerm "1..1" -- "0..1" SensorDevice
-RelationalTerm "1..1" -- "0..1" ActuatorDevice
-RelationalTerm "1..1" -- "0..1" SensorReading
-RelationalTerm "1..1" -- "0..1" ControlCommand
-ControlAction "1..1" -- "1..*" ControlCommand
-AutomationRule "0..*" -- "0..*" RuleHierarchy
+AutomationRule "1..1" -- "0..*" Alert
+AutomationRule "0..*" -- "0..*" AutomationRule
 
 @enduml

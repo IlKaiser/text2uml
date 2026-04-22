@@ -1,26 +1,72 @@
 @startuml
 
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class TestGroup{}
-class TestResult{}
-class Report{}
-class Appointment{}
-class Lab{}
-class Confirmation{}
+class Doctor {
+    String PractitionerNumber
+    String FullName
+    String Address
+    String PhoneNumber
+    String DigitalSignature
+}
 
-Requisition "1" -- "1" Doctor
-Requisition "1" -- "1" Patient
-Requisition "1..*" -- "1..*" Test
-Test "1" -- "1" TestGroup
-Test "1" -- "0..1" TestResult
-Test "1" -- "0..1" Report
-Appointment "1" -- "1" Patient
-Appointment "1" -- "1" Lab
-Appointment "0..*" -- "1" Requisition
-Confirmation "1" -- "1" Appointment
-Lab "0..*" -- "1" Appointment
+class Patient {
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+
+class Requisition {
+    Date ValidFrom
+    String Status
+}
+
+class Test {
+    String Name
+    String Group
+    String Type
+    Int Duration
+    Boolean RequiresAppointment
+    Boolean IsWalkInOnly
+    Boolean RequiresSampleDropOff
+}
+
+class Appointment {
+    String ConfirmationNumber
+    Date Date
+    Time StartTime
+    Time EndTime
+    String Status
+}
+
+class Lab {
+    String RegistrationNumber
+    String Address
+    Time StartTime
+    Time EndTime
+    Double ChangeCancellationFee
+}
+
+class TestResult {
+    Boolean Result
+    String Report
+}
+
+class RepetitionPattern {
+    Int NumberOfTimes
+    String Interval
+}
+
+Doctor "1" -- "0..*" Requisition
+Patient "1" -- "0..*" Requisition
+Requisition "1" -- "1..*" Test
+Test "1" -- "0..1" RepetitionPattern
+Requisition "1" -- "0..*" Appointment
+Appointment "1" -- "0..*" Lab
+Lab "1" -- "0..*" Test
+Test "1" -- "0..*" TestResult
+Patient "1" -- "0..*" TestResult
+Doctor "1" -- "0..*" TestResult
 
 @enduml

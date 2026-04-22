@@ -1,22 +1,27 @@
-```plantuml
+```
 @startuml
-class Hospital{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Treatment{}
-class Illness{}
-class Consent{}
-class Stage{}
-class PriorityScore{}
-
-Hospital "1..*" -- "0..*" Patient
-Patient "1..*" -- "0..*" Doctor
-Patient "1..*" -- "0..*" Diagnosis
-Diagnosis "0..*" -- "0..*" Treatment
-Treatment "1..*" -- "1..*" Stage
-Treatment "0..*" -- "0..*" Consent
-Illness "0..*" -- "0..*" Treatment
-Illness "0..*" -- "0..*" PriorityScore
+class HospitalHouseMD {
+}
+class Patient {
+}
+class Doctor {
+}
+class Diagnosis {
+}
+class Treatment {
+}
+class Consent {
+}
+class Illness {
+    priorityScore: String
+}
+class PriorityScore {
+}
+HospitalHouseMD "1..*" -- "0..*" Patient.
+Patient "1..*" -- "1..*" Doctor.
+Patient "0..*" -- "1..*" Diagnosis.
+Diagnosis "1..*" -- "0..*" Treatment.
+Treatment "0..*" -- "0..*" Consent.
+Illness "1..*" -- "0..*" PriorityScore.
 @enduml
 ```

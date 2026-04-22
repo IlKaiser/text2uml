@@ -1,0 +1,97 @@
+@startuml
+
+class SHAS {
+    String Name
+    Boolean Operational
+}
+class User {
+    String UserId
+    String Name
+    String Email
+}
+class Owner {
+    String OwnerId
+}
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class Device {
+    String DeviceIdentifier
+    Boolean Active
+    String DeviceType
+}
+class Sensor {
+    String SensorType
+}
+class Actuator {
+    String ActuatorType
+}
+class SensorReading {
+    Double MeasuredValue
+    Date Timestamp
+}
+class ControlCommand {
+    String CommandType
+    Date Timestamp
+    String Status
+}
+class ActivityLog {
+    String LogId
+}
+class Alert {
+    String AlertId
+    String Name
+}
+class AutomationRule {
+    String RuleId
+    String Name
+    Boolean Active
+}
+class Precondition {
+    String Expression
+}
+class Action {
+    String Description
+    Int SequenceNumber
+}
+class RuleTriggerRecord {
+    Date Timestamp
+}
+
+Owner --|> User
+Sensor --|> Device
+Actuator --|> Device
+
+SHAS "0..*" -- "0..*" SmartHome
+SmartHome "1..1" -- "0..*" Room
+Room "1..1" -- "0..*" Device
+
+Sensor "1..1" -- "0..*" SensorReading
+Actuator "1..1" -- "0..*" ControlCommand
+
+SmartHome "1..1" -- "0..*" ActivityLog
+ActivityLog "1..1" -- "0..*" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+
+SmartHome "1..1" -- "0..*" Owner
+Owner "1..1" -- "0..*" AutomationRule
+Owner "1..1" -- "0..*" Alert
+Alert "0..*" -- "0..*" AutomationRule
+
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Action "1..1" -- "0..*" ControlCommand
+
+AutomationRule "0..*" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "0..*" RuleTriggerRecord
+
+Precondition "0..*" -- "0..*" Room
+Precondition "0..*" -- "0..*" Sensor
+Precondition "0..*" -- "0..*" Actuator
+Precondition "0..*" -- "0..*" SensorReading
+Precondition "0..*" -- "0..*" ControlCommand
+
+@enduml

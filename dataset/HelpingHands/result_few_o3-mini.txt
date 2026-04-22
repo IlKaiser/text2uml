@@ -1,40 +1,65 @@
 @startuml
 
-class Resident {}
-class PickupRequest {}
-class PickupVehicle {}
-class VolunteerDriver {}
-class PickupRoute {}
-class DistributionCenter {}
-class FoodBank {}
-class H2SEmployee {}
-class SecondHandArticle {}
-class NonPerishableFood {}
-class RFIDTag {}
-class Category {}
-class Client {}
-class Delivery {}
-class StoreLocation {}
+class Resident {
+    String Name
+    String StreetAddress
+    String Phone
+    String Email
+    String ItemDescription
+}
+
+class PickupRequest {
+    String RequestedWeekday
+}
+
+class PickupRoute {
+    Date RouteDate
+}
+
+class PickupVehicle {
+    Double StorageCapacity
+}
+
+class VolunteerDriver {
+    String AvailableDays
+}
+
+class DistributionCenter {
+}
+
+class FoodBank {
+}
+
+class H2SEmployee {
+    String Name
+}
+
+class SecondHandArticle {
+    String RFID
+    String CorrectedDescription
+    String Category
+}
+
+class FoodItem {
+}
+
+class Client {
+    String Name
+    String NeededCategories
+}
+
+class DeliveryRequest {
+    String DeliveryAddress
+}
 
 Resident "1" -- "0..*" PickupRequest
-PickupRequest "1" -- "0..*" SecondHandArticle
-PickupRequest "1" -- "0..*" NonPerishableFood
-PickupVehicle "1" -- "0..*" PickupRoute
-VolunteerDriver "0..*" -- "1" PickupRoute
-DistributionCenter "1" -- "0..*" SecondHandArticle
-FoodBank "1" -- "0..*" NonPerishableFood
+PickupRoute "1" -- "0..*" PickupRequest
+PickupRoute "1" -- "1" PickupVehicle
+VolunteerDriver "0..*" -- "0..*" PickupRoute
+SecondHandArticle "1" -- "1" DistributionCenter
 H2SEmployee "1" -- "0..*" SecondHandArticle
-SecondHandArticle "0..1" -- "0..1" RFIDTag
-Category "0..*" -- "1" SecondHandArticle
-DistributionCenter "1" -- "0..*" Client
-Client -- Category
-H2SEmployee "0..*" -- "1" Delivery
-VolunteerDriver "0..*" -- "1" Delivery
-Client "0..*" -- "1" Delivery
-Delivery "1" -- "1" SecondHandArticle
-DistributionCenter "1" -- "0..*" H2SEmployee
-StoreLocation "1" -- "0..*" DistributionCenter
-StoreLocation "1" -- "0..*" FoodBank
-StoreLocation "1" -- "0..*" PickupVehicle
+FoodItem "1" -- "1" FoodBank
+Client "1" -- "0..*" DeliveryRequest
+DeliveryRequest "1" -- "1" VolunteerDriver
 
 @enduml

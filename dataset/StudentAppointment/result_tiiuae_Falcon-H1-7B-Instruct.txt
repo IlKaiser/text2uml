@@ -1,0 +1,15 @@
+@startuml
+
+class Student{ String Name }
+class Course{ String Title }
+class TeachingAssistant{ String Name }
+class Appointment{ Date Date }
+
+Student "0..*" -- "1..*" Course : Registered
+TeachingAssistant "0..*" -- "1..*" Course : Teaches
+Course "1..1" -- "1..*" TeachingAssistant : HasTA
+Course "1..1" -- "1..*" Appointment : HasAppointment
+TeachingAssistant "1..1" -- "1..*" Appointment : HasAppointment
+Student "0..*" -- "1..*" Appointment : Requests
+
+@enduml

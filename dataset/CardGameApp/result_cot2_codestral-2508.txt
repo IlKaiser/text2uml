@@ -1,27 +1,63 @@
 ```plantuml
 @startuml
+class Game {
+    players:Int
+    deck:Deck
+    scoringTable:ScoringTable
+}
 
-class Game{}
-class Player{}
-class Deck{}
-class Card{}
-class ScoringTable{}
-class Round{}
-class SoloRound{}
-class MandatorySoloRound{}
-class SoloPlayer{}
-class Solo{}
+class Player {
+    id:String
+}
 
-Game "0..*" -- "1..1" Deck
+class Deck {
+    cards:List[Card]
+    id:String
+}
+
+class Card {
+    id:String
+}
+
+class ScoringTable {
+    rounds:List[Round]
+    id:String
+}
+
+class Round {
+    winningPlayers:List[Player]
+    pointValue:Int
+    id:String
+}
+
+class SoloRound {
+    soloType:SoloType
+    soloPlayer:Player
+    id:String
+}
+
+class JackRound {
+    id:String
+}
+
+class MandatorySoloRound {
+    id:String
+}
+
+class SoloType {
+    id:String
+}
+
+Game "1..1" -- "1..1" Deck
 Game "1..1" -- "1..1" ScoringTable
-Game "0..*" -- "1..4" Player
-Deck "0..*" -- "1..48" Card
-ScoringTable "0..*" -- "0..*" Round
-Round "0..*" -- "0..*" Player
-SoloRound "1..1" -- "1..1" SoloPlayer
-SoloRound "1..1" -- "1..1" Solo
-MandatorySoloRound "1..1" -- "1..1" SoloPlayer
-MandatorySoloRound "1..1" -- "1..1" Solo
+Player "1..4" -- "1..1" Game
+Card "0..48" -- "1..1" Deck
+Round "1..*" -- "1..1" ScoringTable
+Player "1..*" -- "1..*" Round
+SoloRound "1..1" -- "1..1" SoloType
 
+SoloRound --|> Round
+JackRound --|> Round
+MandatorySoloRound --|> SoloRound
 @enduml
 ```

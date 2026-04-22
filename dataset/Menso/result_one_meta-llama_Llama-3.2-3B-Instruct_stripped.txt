@@ -1,0 +1,103 @@
+```plantuml
+@startuml
+
+class Trajectory {
+    String Name
+    String Description
+    Date ApprovalDate
+    Date SuspensionDate
+    Date CancelDate
+}
+
+class Line {
+    String Name
+    String Description
+    Trajectory "1" -- "0..*" Trajectory
+}
+
+class Bus {
+    String LineNumber
+    String Type
+    Trajectory "1" -- "0..*" Trajectory
+}
+
+class SeasonTicket {
+    String Type
+    Double Price
+    Date ValidFrom
+    Date ValidTo
+}
+
+class Trip {
+    Date Date
+    String Line
+    String Time
+    String Location
+}
+
+class User {
+    String Name
+    String Email
+    String HomeAddress
+    String OfficeAddress
+    String WorkingHours
+}
+
+class Card {
+    String Type
+    String User "1" -- "0..*" Trip
+}
+
+class TicketMachine {
+    String Type
+    String Location
+    Card "1" -- "0..*" Trip
+}
+
+class Invoice {
+    String Type
+    Double Amount
+    Date Date
+    User "1" -- "0..*" Trip
+}
+
+class Discount {
+    Double Percentage
+    User "1" -- "0..*" Invoice
+}
+
+class Payment {
+    String Type
+    Double Amount
+    Date Date
+    User "1" -- "0..*" Invoice
+}
+
+class Route {
+    String Name
+    String Description
+}
+
+class RoutePattern {
+    String Name
+    String Description
+}
+
+class RoutePatternTrajectory {
+    RoutePattern "1" -- "0..*" Trajectory
+}
+
+class RouteTrajectory {
+    RoutePattern "1" -- "0..*" Trajectory
+}
+
+class RouteTrajectoryLine {
+    RouteTrajectory "1" -- "0..*" Line
+}
+
+class RouteTrajectoryBus {
+    RouteTrajectory "1" -- "0..*" Bus
+}
+
+@enduml
+```

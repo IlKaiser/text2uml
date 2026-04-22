@@ -1,45 +1,98 @@
 @startuml
-class Traveller{}
-class BillingInformation{}
-class CreditCard{}
-class TravelPreference{}
-class City{}
-class Address{}
-class Hotel{}
-class HotelChain{}
-class RoomType{}
-class Offer{}
-class Booking{}
-class PreliminaryBooking{}
-class FinalizedBooking{}
-class TravelPeriod{}
-class Confirmation{}
-class Cancellation{}
-class Reimbursement{}
-class FinancialCompensation{}
+class Traveller {
+  name: String
+  reliabilityRating: Float
+  travelPreferences: String
+}
+class BillingInformation {
+  companyName: String
+  address: String
+}
+class Company {
+  name: String
+}
+class Address
+class TravelPreference {
+  preference: String
+}
+class City {
+  name: String
+}
+class Hotel {
+  address: String
+  rating: Int
+}
+class HotelChain
+class RoomType {
+  type: String
+}
+class RoomAvailability {
+  startDate: Date
+  endDate: Date
+  fullyBooked: Boolean
+}
+class Offer {
+  price: Float
+  startDate: Date
+  endDate: Date
+}
+class SpecialOffer {
+  price: Float
+  validForHours: Int
+}
+class Booking {
+  bookingId: String
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  cancellationDeadline: Date
+  arrivalDate: Date
+  departureDate: Date
+  numberOfRooms: Int
+  roomType: String
+}
+class PreliminaryBooking {
+  competitionDeadline: Date
+}
+class FinalizedBooking {
+  isPrepaid: Boolean
+  confirmationDeadline: Date
+}
+class Payment
+class CreditCardInformation
+class Confirmation {
+  confirmedAt: Date
+}
 
-Traveller "1..1" -- "0..*" BillingInformation
-Traveller "1..1" -- "0..*" TravelPreference
-Traveller "1..1" -- "0..*" CreditCard
-Traveller "1..1" -- "0..*" Booking
-BillingInformation "1..1" -- "1..1" Address
-Hotel "1..1" -- "1..1" City
-Hotel "1..1" -- "1..1" Address
-Hotel "1..1" -- "0..1" HotelChain
-Hotel "1..1" -- "0..*" RoomType
-RoomType "0..*" -- "0..*" TravelPeriod
-Offer "0..*" -- "1..1" Hotel
-Offer "0..*" -- "1..1" RoomType
-Offer "0..*" -- "1..1" TravelPeriod
-Traveller "1..1" -- "0..*" Offer
-PreliminaryBooking "1..1" -- "0..*" Offer
-PreliminaryBooking "1..1" -- "1..1" Hotel
-Booking "1..1" -- "1..1" Hotel
-Booking "1..1" -- "1..1" RoomType
-Booking "1..1" -- "1..1" TravelPeriod
-Booking "1..1" -- "0..1" Cancellation
-Cancellation "1..1" -- "0..1" FinancialCompensation
-Booking "1..1" -- "0..1" Reimbursement
-FinalizedBooking "1..1" -- "0..1" Confirmation
-FinalizedBooking "1..1" -- "1..1" CreditCard
+Traveller "1..1" -- "1..1" BillingInformation.
+BillingInformation "0..*" -- "0..1" Company.
+BillingInformation "0..*" -- "1..1" Address.
+Traveller "0..*" -- "0..*" TravelPreference.
+City "1..1" -- "0..*" Hotel.
+Hotel "0..*" -- "1..1" Address.
+HotelChain "0..1" -- "0..*" Hotel.
+Hotel "1..1" -- "0..*" RoomAvailability.
+RoomType "1..1" -- "0..*" RoomAvailability.
+Hotel "1..1" -- "0..*" Offer.
+RoomType "1..1" -- "0..*" Offer.
+City "1..1" -- "0..*" Offer.
+PreliminaryBooking "1..1" -- "0..*" SpecialOffer.
+Hotel "1..1" -- "0..*" SpecialOffer.
+Traveller "1..1" -- "0..*" Booking.
+Offer "1..1" -- "0..*" Booking.
+Hotel "1..1" -- "0..*" Booking.
+RoomType "1..1" -- "0..*" Booking.
+FinalizedBooking "1..1" -- "0..1" Payment.
+FinalizedBooking "0..*" -- "1..1" CreditCardInformation.
+Traveller "1..1" -- "0..*" CreditCardInformation.
+Payment "0..*" -- "1..1" CreditCardInformation.
+FinalizedBooking "1..1" -- "0..1" Confirmation.
+Hotel "1..1" -- "0..*" Confirmation.
+Traveller "1..1" -- "0..*" Confirmation.
+Offer "0..*" -- "0..*" TravelPreference.
+
+PreliminaryBooking --|> Booking
+FinalizedBooking --|> Booking
+SpecialOffer --|> Offer
 @enduml

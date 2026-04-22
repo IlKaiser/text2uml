@@ -1,21 +1,26 @@
 ```plantuml
 @startuml
 
-class EBike{}
-class Frame{}
-class DriveSystem{}
-class Controller{}
-class Wheel{}
-class Battery{}
-class Motor{}
+class EBike{ }
+class Frame{ Material Material }
+class Wheel{ }
+class DriveSystem{ }
+class Motor{ }
+class Controller{ State State }
+class Battery{ double StoredEnergy }
+class BasicController{ }
+class AdvancedController{ Date NextInspectionDate }
 
-EBike "1" -- "1" Frame
-EBike "1" -- "0..1" Battery
-EBike "1" -- "1" DriveSystem
-EBike "1" -- "1" Controller
-Frame "1" -- "2" Wheel
-DriveSystem "1" -- "1" Motor
-Controller "1" -- "0..1" Battery
+EBike "1..1" -- "1..1" Frame
+Frame "1..1" -- "2..2" Wheel
+EBike "1..1" -- "0..1" Battery
+EBike "1..1" -- "1..1" DriveSystem
+DriveSystem "1..1" -- "1..1" Motor
+EBike "1..1" -- "1..1" Controller
+Controller "1..1" -- "0..1" Battery
+Controller "1..1" -- "1..1" DriveSystem
+Controller <|-- BasicController
+Controller <|-- AdvancedController
 
 @enduml
 ```

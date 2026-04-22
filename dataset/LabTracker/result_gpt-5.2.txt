@@ -1,0 +1,83 @@
+```plantuml
+@startuml
+
+class Doctor{ 
+  int PractitionerNumber
+  String FullName
+  String Address
+  String PhoneNumber
+  Image DigitalSignature
+}
+
+class Patient{
+  String HealthNumber
+  String FirstName
+  String LastName
+  Date DateOfBirth
+  String Address
+  String PhoneNumber
+}
+
+class Requisition{
+  Date ValidFromDate
+  int RepeatCount
+  String RepeatInterval
+}
+
+class Test{
+  String TestName
+  int DurationMinutes
+  String VisitRequirement
+}
+
+class TestGroup{
+  String GroupName
+}
+
+class TestResult{
+  String ResultValue
+  String Report
+}
+
+class Lab{
+  String RegistrationNumber
+  String LabName
+  String Address
+  Decimal ChangeCancellationFee
+}
+
+class BusinessHours{
+  Time DayStartTime
+  Time DayEndTime
+}
+
+class Appointment{
+  String ConfirmationNumber
+  Date AppointmentDate
+  Time StartTime
+  Time EndTime
+  DateTime CreatedAt
+}
+
+Doctor "1..1" -- "0..*" Requisition
+Patient "1..1" -- "0..*" Requisition
+Doctor "1..1" -- "0..*" Patient
+
+Requisition "1..1" -- "1..*" Test
+Requisition "1..1" -- "1..1" TestGroup
+TestGroup "1..1" -- "0..*" Test
+
+Test "1..1" -- "0..*" TestResult
+Patient "1..1" -- "0..*" TestResult
+Doctor "1..1" -- "0..*" TestResult
+
+Patient "1..1" -- "0..*" Appointment
+Requisition "1..1" -- "0..*" Appointment
+Lab "1..1" -- "0..*" Appointment
+
+Lab "1..1" -- "1..1" BusinessHours
+
+Lab "0..*" -- "0..*" Test
+
+@enduml
+```

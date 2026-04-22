@@ -1,24 +1,37 @@
 
 @startuml
+class Stock {
+    productName: String
+    currentStock: Int
+}
 
-class Customer{}
-class Product{}
-class Order{}
-class OrderLine{}
-class Stock{}
-class Invoice{}
-class Delivery{}
-class Warehouse{}
-class Payment{}
-class Shipment{}
+class Orders {
+    paidForDate: Date
+    shippedDate: Date
+}
 
-Customer "1..*" -- "0..*" Order
-Product "1..*" -- "0..*" Stock
-Order "1..*" -- "1..*" OrderLine
-Order "1..*" -- "0..1 Payment
-Order "1..*" -- "1..*" Shipment
-Customer "1..*" -- "0..*" Invoice
-Warehouse "1..*" -- "0..*" Delivery
-Warehouse "1..*" -- "0..*" Stock
+class Invoices {
+    paymentType: String
+}
 
+Customers "1..1" -- "1..1" Address
+Customers "1..1" -- "0..1" VATNumber
+Stock "0..*" -- "1..*" Products
+Customers "1..*" -- "1..*" Orders
+Orders "1..*" -- "1..*" OrderLines
+Orders "1..1" -- "0..1" Payments
+Orders "1..1" -- "0..1" Deliveries
+Products "1..*" -- "0..1" ExclusiveProducts
+Products "1..*" -- "1..*" AvailableProducts
+Products "1..*" -- "1..*" UnavailableProducts
+Orders "1..*" -- "1..*" Watchlist
+Products "1..*" -- "1..*" PopularProducts
+Warehouses "1..*" -- "1..*" Shipments
+Customers "1..1" -- "1..*" Invoices
+Orders "1..*" -- "1..*" GroupsOfOrderLines
+Deliveries "1..*" -- "1..*" DeliveryService
+Deliveries "1..*" -- "1..*" Status
+Shipments "1..*" -- "1..*" Shipment
+Shipment "1..1" -- "1..*" Packaged
+Shipment "1..1" -- "1..*" ReceivedByTheCustomer
 @enduml

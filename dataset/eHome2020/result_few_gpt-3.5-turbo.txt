@@ -1,33 +1,34 @@
 
 @startuml
 
-class HomeTec {}
-class Sensor {}
-class SensorController {}
-class Apartment {}
-class Inhabitant {}
-class User {}
-class Threshold {}
-class EMonitor {}
-class Room {}
-class Admin {}
-class TemperatureSensor {}
+class Sensor {
+    String VendorId
+    String Description
+    String Unit
+}
+class TemperatureSensor {
+    Double MinValue
+    Double MaxValue
+}
 class PowerSensor {}
-class Vendor {}
-class Value {}
+class Room {
+    String Description
+}
+class Apartment {
+    String Address
+}
+class SensorValue {
+    Date Timestamp
+    Double Value
+}
 
-HomeTec "1" -- "0..*" Sensor
-Sensor "1" -- "1" SensorController
-SensorController "1" -- "1" Apartment
-Apartment "1" -- "0..*" Inhabitant
-Inhabitant "1" -- "1" User
-Inhabitant "0..*" -- "0..*" Threshold
-SensorController "1" -- "1" EMonitor
-Inhabitant "1" -- "0..1" Admin
 Sensor "1" -- "1" Room
-TemperatureSensor --|> Sensor
-PowerSensor --|> Sensor
-Sensor "1" -- "1" Vendor
-Sensor "1" -- "0..*" Value
+Room "1" -- "1..*" Sensor
+Room "1" -- "0..*" Apartment
+Apartment "1" -- "0..*" Room
+Sensor "1" -- "0..*" SensorValue
+Sensor "1" -- "0..*" Threshold
+Sensor "1" -- "0..*" PowerSensor
+Sensor "1" -- "0..*" TemperatureSensor
 
 @enduml

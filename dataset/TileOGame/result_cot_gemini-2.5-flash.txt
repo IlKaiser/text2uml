@@ -1,40 +1,43 @@
 @startuml
-class GameDesigner{}
-class Player{}
-class Game{}
-class Board{}
-class Tile{}
-class HiddenTile{}
-class ActionTile{}
-class PlayingPiece{}
-class Die{}
-class ConnectionPiece{}
-class ActionCard{}
-class ActionCardDeck{}
-class SpareConnectionPiecePile{}
+class Game
+class Designer
+class Player {
+  player_number: Int
+  lost_next_turn: Boolean
+}
+class Board
+class Tile {
+  is_hidden: Boolean
+  is_action: Boolean
+  color: String
+  regular_turns_duration: Int
+}
+class ConnectionPiece
+class PlayingPiece {
+  color: String
+}
+class Die
+class Deck {
+  initial_size: Int
+}
+class ActionCard {
+  effect_description: String
+}
+class Pile {
+  initial_size: Int
+}
 
-GameDesigner "1..*" -- "1..1" Game
-Player "1..1" -- "2..4" Game
+Designer "1..*" -- "1..1" Game
+Player "1..*" -- "2..4" Game
 Game "1..1" -- "1..1" Board
-Game "1..1" -- "1..1" HiddenTile
+Game "1..*" -- "1..1" Tile
 Board "1..*" -- "1..1" Tile
+Board "1..*" -- "1..1" ConnectionPiece
 Tile "0..4" -- "2..2" ConnectionPiece
 Player "1..1" -- "1..1" PlayingPiece
-PlayingPiece "1..1" -- "0..1" Tile
-Player "1..1" -- "2..4" Die
-GameDesigner "1..*" -- "1..1" Board
-GameDesigner "1..*" -- "1..1" HiddenTile
-GameDesigner "0..*" -- "1..1" ActionTile
-GameDesigner "1..*" -- "1..1" ActionCardDeck
-ActionCardDeck "32..32" -- "1..1" ActionCard
-SpareConnectionPiecePile "0..32" -- "0..1" ConnectionPiece
-Player "0..*" -- "0..*" Tile
-Player "0..1" -- "0..1" HiddenTile
-Player "0..*" -- "0..*" ActionTile
-Player "0..*" -- "0..1" ActionCard
-ActionTile "1..1" -- "0..*" ActionCardDeck
-ActionCard "0..1" -- "0..*" Die
-ActionCard "0..1" -- "0..*" ConnectionPiece
-ActionCard "0..1" -- "0..*" PlayingPiece
-ActionCard "0..1" -- "0..*" Tile
+PlayingPiece "1..1" -- "0..*" Tile
+Game "1..1" -- "1..1" Die
+Designer "1..*" -- "1..1" Deck
+Deck "32..32" -- "1..1" ActionCard
+Pile "0..*" -- "1..1" ConnectionPiece
 @enduml

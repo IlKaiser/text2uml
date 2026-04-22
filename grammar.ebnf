@@ -4,10 +4,10 @@ start: "@startuml" (skinparam | class | entity | enum | relationship)* "@enduml"
 skinparam: "skinparam" sparam svalue
 
 // Classes
-class: "class" class_name stereotype? ("{" (class_group_title? (attribute | method) class_group_title?)* "}")?
+class: "abstract"? ("class" | "interface") class_name ("extends" class_name)? ("implements" class_name ("," class_name)*)? stereotype? ("{" (class_group_title? (attribute | method) class_group_title?)* "}")?
      | class_name ":" (attribute | method)?
 
-entity: "entity" class_name stereotype? ("{" (class_group_title? (attribute | method) class_group_title?)* "}")?
+entity: "entity" class_name ("extends" class_name)? stereotype? ("{" (class_group_title? (attribute | method) class_group_title?)* "}")?
      | class_name ":" (attribute | method)?
 
 // Stereotype
@@ -140,7 +140,8 @@ initial_state: final_state
 final_state: "[*]"
 arrow_end_1: CNAME
 arrow_end_2: CNAME
-type: CNAME
+type: CNAME ("<" type_args ">")?
+type_args: CNAME ("," CNAME)*
 var: CNAME
 sparam: CNAME
 svalue: CNAME|WORD|ESCAPED_STRING|DIGIT

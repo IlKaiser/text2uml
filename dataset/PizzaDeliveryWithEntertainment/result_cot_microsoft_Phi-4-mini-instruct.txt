@@ -1,0 +1,341 @@
+<|user|>Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+One of your (hipster) acquaintances thinks he has the next billion-dollar startup idea for an app: Pizza Delivery with Entertainment. He heard from other people that you are following the course on database management, and asks you to design the UML class diagram. Afterwards, he will use the UML class diagram to ask programmers to implement the app.
+He explains the basic functionality of the app as follows: customers can order pizzas from restaurants to be delivered to a specific address, and if they want to, they can choose a special “entertainment order”. When an order is an entertainment order, the delivery person stays with the customer after delivering the pizza and entertains the customers (e.g., by singing, making jokes, doing magic tricks, etc.) for a certain amount of time.
+New follows a detailed explanation of the range of capabilities of the app: when people create an account for the app and become app users, they have to indicate their birthday and fill in their name and address. Every user should also be uniquely identifiable.
+Once the account is created, the users should be presented with three options: the first option in the app is to select “business owner”. Of these business owners, we also ask them to provide their LinkedIn account so we can add them to our profession network. Every business owner can own a number of pizza restaurants. Of these pizza restaurants, we want to register the zip code, address, phone number, website, and the opening hours.
+Each pizza restaurant can offer a number of pizzas. Of those pizzas, we want to keep the name (margarita, quattro stagioni, etc.), the crust structure (for example, classic Italian crust, deep dish crust, cheese crust), and the price. While two pizzas from different pizza restaurants may have the same name, they will not be exactly the same as the taste will be different, and thus should be considered unique. Moreover, pizzas should be distinguishable even if they have the same price, e.g., a pizza margarita from Pizza Pronto in New York which costs $12 must be distinguishable from a pizza margarita from Pizza Rapido in Singapore, which also costs $12.
+The second option in the app is to select “hungry customer”. For these hungry customers, we need a delivery address. Hungry customers can make orders for pizzas. Each order gets assigned an ID, and we want our app to log the date and time when the order was placed. We also allow the hungry customer to indicate the latest time of delivery, and ask how many people the order is for. An order can be for one or more pizzas.
+Also, a special type of order can be made: the entertainment order. Not every order has to be an entertainment order. But when a hungry customer indicates that he or she wants to be entertained while eating the pizza, we not only want to register all the regular order information, but also the type of entertainment the user requests, and for how long (a duration).
+The third option in the app to select is that of “entertainer”. When users select entertainer, they need to provide a stage name, write a short bio about themselves, and indicate their price per 30 minutes. Every entertainment order is fulfilled by exactly one entertainer. Every entertainer can choose for which pizza restaurant(s) he/she wants to work. For each pizza restaurant an entertainer wants to work with, he/she should indicate his/her availability by day (Monday, Tuesday, Wednesday, etc.)..
+
+##############
+
+The class list is:
+<|end|><|assistant|>[User, BusinessOwner, PizzaRestaurant, Pizza, Order, EntertainmentOrder, Entainer]
+
+##############
+
+The cardinality list is:
+
+<|user|>Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+One of your (hipster) acquaintances thinks he has the next billion-dollar startup idea for an app: Pizza Delivery with Entertainment. He heard from other people that you are following the course on database management, and asks you to design the UML class diagram. Afterwards, he will use the UML class diagram to ask programmers to implement the app.
+He explains the basic functionality of the app as follows: customers can order pizzas from restaurants to be delivered to a specific address, and if they want to, they can choose a special “entertainment order”. When an order is an entertainment order, the delivery person stays with the customer after delivering the pizza and entertains the customers (e.g., by singing, making jokes, doing magic tricks, etc.) for a certain amount of time.
+New follows a detailed explanation of the range of capabilities of the app: when people create an account for the app and become app users, they have to indicate their birthday and fill in their name and address. Every user should also be uniquely identifiable.
+Once the account is created, the users should be presented with three options: the first option in the app is to select “business owner”. Of these business owners, we also ask them to provide their LinkedIn account so we can add them to our profession network. Every business owner can own a number of pizza restaurants. Of these pizza restaurants, we want to register the zip code, address, phone number, website, and the opening hours.
+Each pizza restaurant can offer a number of pizzas. Of those pizzas, we want to keep the name (margarita, quattro stagioni, etc.), the crust structure (for example, classic Italian crust, deep dish crust, cheese crust), and the price. While two pizzas from different pizza restaurants may have the same name, they will not be exactly the same as the taste will be different, and thus should be considered unique. Moreover, pizzas should be distinguishable even if they have the same price, e.g., a pizza margarita from Pizza Pronto in New York which costs $12 must be distinguishable from a pizza margarita from Pizza Rapido in Singapore, which also costs $12.
+The second option in the app is to select “hungry customer”. For these hungry customers, we need a delivery address. Hungry customers can make orders for pizzas. Each order gets assigned an ID, and we want our app to log the date and time when the order was placed. We also allow the hungry customer to indicate the latest time of delivery, and ask how many people the order is for. An order can be for one or more pizzas.
+Also, a special type of order can be made: the entertainment order. Not every order has to be an entertainment order. But when a hungry customer indicates that he or she wants to be entertained while eating the pizza, we not only want to register all the regular order information, but also the type of entertainment the user requests, and for how long (a duration).
+The third option in the app to select is that of “entertainer”. When users select entertainer, they need to provide a stage name, write a short bio about themselves, and indicate their price per 30 minutes. Every entertainment order is fulfilled by exactly one entertainer. Every entertainer can choose for which pizza restaurant(s) he/she wants to work. For each pizza restaurant an entertainer wants to work with, he/she should indicate his/her availability by day (Monday, Tuesday, Wednesday, etc.).
+
+##############
+
+The cardinality list is:
+<|end|><|assistant|>[(User, 1..1, Account, 1..1), (Account, 1..1, BusinessOwner, 1..1), (BusinessOwner, 1..*, PizzaRestaurant, 1..*), (PizzaRestaurant, 1..*, Pizza, 1..*), (Pizza, 1..1, Order, 1..*), (Order, 1..1, EntertainmentOrder, 0..*), (Order, 1..1, Pizza, 1..*), (Pizza, 1..1, PizzaRestaurant, 0..*), (PizzaRestaurant, 1..*, Entainer, 1..*), (Entainer, 1..1, EntertainmentOrder, 1..1), (Entainer, 1..1, PizzaRestaurant, 1..1)]
+
+##############
+
+The attributes dictionary is:
+
+<|user|>Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+One of your (hipster) acquaintances thinks he has the next billion-dollar startup idea for an app: Pizza Delivery with Entertainment. He heard from other people that you are following the course on database management, and asks you to design the UML class diagram. Afterwards, he will use the UML class diagram to ask programmers to implement the app.
+He explains the basic functionality of the app as follows: customers can order pizzas from restaurants to be delivered to a specific address, and if they want to, they can choose a special “entertainment order”. When an order is an entertainment order, the delivery person stays with the customer after delivering the pizza and entertains the customers (e.g., by singing, making jokes, doing magic tricks, etc.) for a certain amount of time.
+New follows a detailed explanation of the range of capabilities of the app: when people create an account for the app and become app users, they have to indicate their birthday and fill in their name and address. Every user should also be uniquely identifiable.
+Once the account is created, the users should be presented with three options: the first option in the app is to select “business owner”. Of these business owners, we also ask them to provide their LinkedIn account so we can add them to our profession network. Every business owner can own a number of pizza restaurants. Of these pizza restaurants, we want to register the zip code, address, phone number, website, and the opening hours.
+Each pizza restaurant can offer a number of pizzas. Of those pizzas, we want to keep the name (margarita, quattro stagioni, etc.), the crust structure (for example, classic Italian crust, deep dish crust, cheese crust), and the price. While two pizzas from different pizza restaurants may have the same name, they will not be exactly the same as the taste will be different, and thus should be considered unique. Moreover, pizzas should be distinguishable even if they have the same price, e.g., a pizza margarita from Pizza Pronto in New York which costs $12 must be distinguishable from a pizza margarita from Pizza Rapido in Singapore, which also costs $12.
+The second option in the app is to select “hungry customer”. For these hungry customers, we need a delivery address. Hungry customers can make orders for pizzas. Each order gets assigned an ID, and we want our app to log the date and time when the order was placed. We also allow the hungry customer to indicate the latest time of delivery, and ask how many people the order is for. An order can be for one or more pizzas.
+Also, a special type of order can be made: the entertainment order. Not every order has to be an entertainment order. But when a hungry customer indicates that he or she wants to be entertained while eating the pizza, we not only want to register all the regular order information, but also the type of entertainment the user requests, and for how long (a duration).
+The third option in the app to select is that of “entertainer”. When users select entertainer, they need to provide a stage name, write a short bio about themselves, and indicate their price per 30 minutes. Every entertainment order is fulfilled by exactly one entertainer. Every entertainer can choose for which pizza restaurant(s) he/she wants to work. For each pizza restaurant an entertainer wants to work with, he/she should indicate his/her availability by day (Monday, Tuesday, Wednesday, etc.)..
+
+##############
+
+The class list is:
+<|end|><|assistant|>[User, BusinessOwner, PizzaRestaurant, Pizza, Order, EntertainmentOrder, Entainer]
+
+#############
+
+The specification text is:
+
+One of your (hipster) acquaintances thinks he has the next billion-dollar startup idea for an app: Pizza Delivery with Entertainment. He heard from other people that you are following the course on database management, and asks you to design the UML class diagram. Afterwards, he will use the UML class diagram to ask programmers to implement the app.
+He explains the basic functionality of the app as follows: customers can order pizzas from restaurants to be delivered to a specific address, and if they want to, they can choose a special “entertainment order”. When an order is an entertainment order, the delivery person stays with the customer after delivering the pizza and entertains the customers (e.g., by singing, making jokes, doing magic tricks, etc.) for a certain amount of time.
+New follows a detailed explanation of the range of capabilities of the app: when people create an account for the app and become app users, they have to indicate their birthday and fill in their name and address. Every user should also be uniquely identifiable.
+Once the account is created, the users should be presented with three options: the first option in the app is to select “business owner”. Of these business owners, we also ask them to provide their LinkedIn account so we can add them to our profession network. Every business owner can own a number of pizza restaurants. Of these pizza restaurants, we want to register the zip code, address, phone number, website, and the opening hours.
+Each pizza restaurant can offer a number of pizzas. Of those pizzas, we want to keep the name (margarita, quattro stagioni, etc.), the crust structure (for example, classic Italian crust, deep dish crust, cheese crust), and the price. While two pizzas from different pizza restaurants may have the same name, they will not be exactly the same as the taste will be different, and thus should be considered unique. Moreover, pizzas should be distinguishable even if they have the same price, e.g., a pizza margarita from Pizza Pronto in New York which costs $12 must be distinguishable from a pizza margarita from Pizza Rapido in Singapore, which also costs $12.
+The second option in the app is to select “hungry customer”. For these hungry customers, we need a delivery address. Hungry customers can make orders for pizzas. Each order gets assigned an ID, and we want our app to log the date and time when the order was placed. We also allow the hungry customer to indicate the latest time of delivery, and ask how many people the order is for. An order can be for one or more pizzas.
+Also, a special type of order can be made: the entertainment order. Not every order has to be an entertainment order. But when a hungry customer indicates that he or she wants to be entertained while eating the pizza, we not only want to register all the regular order information, but also the type of entertainment the user requests, and for how long (a duration).
+The third option in the app to select is that of “entertainer”. When users select entertainer, they need to provide a stage name, write a short bio about themselves, and indicate their price per 30 minutes. Every entertainment order is fulfilled by exactly one entertainer. Every entertainer can choose for which pizza restaurant(s) he/she wants to work. For each pizza restaurant an entertainer wants to work with, he/she should indicate his/her availability by day (Monday, Tuesday, Wednesday, etc.).
+
+##############
+
+The attributes dictionary is:
+<|end|><|assistant|>{
+  User: [birthday:Date, name:String, address:String],
+  BusinessOwner: [LinkedInAccount:String, PizzaRestaurants:[PizzaRestaurant]],
+  PizzaRestaurant: [zipCode:String, address:String, phoneNumber:String, website:String, openingHours:String, Pizzas:[Pizza]],
+  Pizza: [name:String, crustStructure:String, price:Float],
+  Order: [orderID:Int, dateTime:Date, deliveryTime:Date, numberOfPeople:Int, pizzas:[Pizza]],
+  EntertainmentOrder: [entertainmentType:String, duration:Float],
+  Entainer: [stageName:String, bio:String, pricePer30Minutes:Float, PizzaRestaurants:[PizzaRestaurant]]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+One of your (hipster) acquaintances thinks he has the next billion-dollar startup idea for an app: Pizza Delivery with Entertainment. He heard from other people that you are following the course on database management, and asks you to design the UML class diagram. Afterwards, he will use the UML class diagram to ask programmers to implement the app.
+He explains the basic functionality of the app as follows: customers can order pizzas from restaurants to be delivered to a specific address, and if they want to, they can choose a special “entertainment order”. When an order is an entertainment order, the delivery person stays with the customer after delivering the pizza and entertains the customers (e.g., by singing, making jokes, doing magic tricks, etc.) for a certain amount of time.
+New follows a detailed explanation of the range of capabilities of the app: when people create an account for the app and become app users, they have to indicate their birthday and fill in their name and address. Every user should also be uniquely identifiable.
+Once the account is created, the users should be presented with three options: the first option in the app is to select “business owner”. Of these business owners, we also ask them to provide their LinkedIn account so we can add them to our profession network. Every business owner can own a number of pizza restaurants. Of these pizza restaurants, we want to register the zip code, address, phone number, website, and the opening hours.
+Each pizza restaurant can offer a number of pizzas. Of those pizzas, we want to keep the name (margarita, quattro stagioni, etc.), the crust structure (for example, classic Italian crust, deep dish crust, cheese crust), and the price. While two pizzas from different pizza restaurants may have the same name, they will not be exactly the same as the taste will be different, and thus should be considered unique. Moreover, pizzas should be distinguishable even if they have the same price, e.g., a pizza margarita from Pizza Pronto in New York which costs $12 must be distinguishable from a pizza margarita from Pizza Rapido in Singapore, which also costs $12.
+The second option in the app is to select “hungry customer”. For these hungry customers, we need a delivery address. Hungry customers can make orders for pizzas. Each order gets assigned an ID, and we want our app to log the date and time when the order was placed. We also allow the hungry customer to indicate the latest time of delivery, and ask how many people the order is for. An order can be for one or more pizzas.
+Also, a special type of order can be made: the entertainment order. Not every order has to be an entertainment order. But when a hungry customer indicates that he or she wants to be entertained while eating the pizza, we not only want to register all the regular order information, but also the type of entertainment the user requests, and for how long (a duration).
+The third option in the app to select is that of “entertainer”. When users select entertainer, they need to provide a stage name, write a short bio about themselves, and indicate their price per 30 minutes. Every entertainment order is fulfilled by exactly one entertainer. Every entertainer can choose for which pizza restaurant(s) he/she wants to work. For each pizza restaurant an entertainer wants to work with, he/she should indicate his/her availability by day (Monday, Tuesday, Wednesday, etc.)..
+
+##############
+
+The class list is:
+<|end|><|assistant|>[User, BusinessOwner, PizzaRestaurant, Pizza, Order, EntertainmentOrder, Entainer]
+
+#############
+
+The specification text is:
+
+One of your (hipster) acquaintances thinks he has the next billion-dollar startup idea for an app: Pizza Delivery with Entertainment. He heard from other people that you are following the course on database management, and asks you to design the UML class diagram. Afterwards, he will use the UML class diagram to ask programmers to implement the app.
+He explains the basic functionality of the app as follows: customers can order pizzas from restaurants to be delivered to a specific address, and if they want to, they can choose a special “entertainment order”. When an order is an entertainment order, the delivery person stays with the customer after delivering the pizza and entertains the customers (e.g., by singing, making jokes, doing magic tricks, etc.) for a certain amount of time.
+New follows a detailed explanation of the range of capabilities of the app: when people create an account for the app and become app users, they have to indicate their birthday and fill in their name and address. Every user should also be uniquely identifiable.
+Once the account is created, the users should be presented with three options: the first option in the app is to select “business owner”. Of these business owners, we also ask them to provide their LinkedIn account so we can add them to our profession network. Every business owner can own a number of pizza restaurants. Of these pizza restaurants, we want to register the zip code, address, phone number, website, and the opening hours.
+Each pizza restaurant can offer a number of pizzas. Of those pizzas, we want to keep the name (margarita, quattro stagioni, etc.), the crust structure (for example, classic Italian crust, deep dish crust, cheese crust), and the price. While two pizzas from different pizza restaurants may have the same name, they will not be exactly the same as the taste will be different, and thus should be considered unique. Moreover, pizzas should be distinguishable even if they have the same price, e.g., a pizza margarita from Pizza Pronto in New York which costs $12 must be distinguishable from a pizza margarita from Pizza Rapido in Singapore, which also costs $12.
+The second option in the app is to select “hungry customer”. For these hungry customers, we need a delivery address. Hungry customers can make orders for pizzas. Each order gets assigned an ID, and we want our app to log the date and time when the order was placed. We also allow the hungry customer to indicate the latest time of delivery, and ask how many people the order is for. An order can be for one or more pizzas.
+Also, a special type of order can be made: the entertainment order. Not every order has to be an entertainment order. But when a hungry customer indicates that he or she wants to be entertained while eating the pizza, we not only want to register all the regular order information, but also the type of entertainment the user requests, and for how long (a duration).
+The third option in the app to select is that of “entertainer”. When users select entertainer, they need to provide a stage name, write a short bio about themselves, and indicate their price per 30 minutes. Every entertainment order is fulfilled by exactly one entertainer. Every entertainer can choose for which pizza restaurant(s) he/she wants to work. For each pizza restaurant an entertainer wants to work with, he/she should indicate his/her availability by day (Monday, Tuesday, Wednesday, etc.).
+
+##############
+<|end|><|assistant|>ASSOCIATIONS:
+[(User, Order), (BusinessOwner, PizzaRestaurant), (PizzaRestaurant, Pizza), (Order, EntertainmentOrder), (Order, Entainer), (Entainer, PizzaRestaurant)]
+
+##############
+
+The plant uml is:
+<|end|><|assistant|>@startuml
+class User {
+    birthday : Date
+    name : String
+    address : String
+}
+
+class BusinessOwner {
+    LinkedInAccount : String
+    PizzaRestaurants : [PizzaRestaurant]
+}
+
+class PizzaRestaurant {
+    zipCode : String
+    address : String
+    phoneNumber : String
+    website : String
+    openingHours : String
+    Pizzas : [Pizza]
+}
+
+class Pizza {
+    name : String
+    crustStructure : String
+    price : Float
+}
+
+class Order {
+    orderID : Int
+    dateTime : Date
+    deliveryTime : Date
+    numberOfPeople : Int
+    pizzas : [Pizza]
+    EntertainmentOrder : EntertainmentOrder
+}
+
+class EntertainmentOrder {
+    entertainmentType : String
+    duration : Float
+}
+
+class Entainer {
+    stageName : String
+    bio : String
+    pricePer30Minutes : Float
+    PizzaRestaurants : [PizzaRestaurant]
+}
+
+User "1" -- "1" Order : 1..1
+BusinessOwner "1" -- "1" PizzaRestaurant : 1..*
+PizzaRestaurant "1" -- "1" Pizza : 1..*
+Order "1" -- "1" EntertainmentOrder : 0..*
+Order "1" -- "1" Pizza : 1..*
+Pizza "1" -- "0..*" PizzaRestaurant : 0..*
+Entainer "1" -- "1" EntertainmentOrder : 1..1
+Entainer "1" -- "1" PizzaRestaurant : 1..1
+@enduml

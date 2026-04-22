@@ -1,0 +1,58 @@
+@startuml
+class BusCompany {
+  name: String
+}
+class Bus {
+  lineNumber: Int
+}
+class Line {
+  number: Int
+}
+class Trajectory
+class Destination
+class TownAuthority
+class ApprovalRequest
+class LineCategory
+class MensoTicket {
+  validityPeriod: Int
+}
+class Customer {
+  workingHours: String
+}
+class Trip {
+  time: String
+  date: Date
+}
+class TicketMachine
+class Invoice {
+  totalAmount: Float
+}
+class Payment
+class Discount {
+  percentage: Float
+}
+class Address {
+  homeAddress: String
+  officeAddress: String
+}
+
+BusCompany "1..1" -- "0..*" Bus
+BusCompany "1..1" -- "0..*" Line
+BusCompany "1..1" -- "0..*" Trajectory
+Trajectory "0..*" -- "0..*" TownAuthority
+ApprovalRequest "1..1" -- "1..1" Trajectory
+ApprovalRequest "1..1" -- "1..1" TownAuthority
+Bus "0..*" -- "1..1" Line
+Line "1..1" -- "1..*" Trajectory
+Line "1..1" -- "1..1" Destination
+Line "1..1" -- "1..1" LineCategory
+MensoTicket "1..1" -- "1..1" Customer
+Trip "0..*" -- "0..1" MensoTicket
+Trip "1..*" -- "1..1" Line
+Trip "0..*" -- "0..1" TicketMachine
+Invoice "0..*" -- "1..1" Customer
+Invoice "1..1" -- "1..*" Trip
+Payment "0..*" -- "1..1" Invoice
+Invoice "0..*" -- "0..1" Discount
+Customer "1..1" -- "1..*" Address
+@enduml

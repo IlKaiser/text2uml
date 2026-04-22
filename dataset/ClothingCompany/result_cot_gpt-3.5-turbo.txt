@@ -1,25 +1,52 @@
 
+```plantuml
 @startuml
-class Product{}
-class Company{}
-class Country{}
-class VATRate{}
-class Currency{}
-class ConversionRate{}
-class Representative{}
-class Customer{}
-class Order{}
 
-Product "1..*" -- "0..*" Company
-Product "1..*" -- "0..*" Country
-Product "1..*" -- "0..*" VATRate
-Product "1..*" -- "1..1" Currency
-Product "1..*" -- "1..*" ConversionRate
-Company "1..*" -- "0..*" Country
-Country "1..*" -- "1..*" VATRate
-Country "1..*" -- "1..*" ConversionRate
-Representative "1..*" -- "1..1" Country
-Customer "1..*" -- "0..*" Country
-Customer "1..*" -- "1..*" Order
+class Product {
+    name: String
+    description: String
+    net_price: Float
+    manufacturer: String
+    country: String
+}
+
+class Country {
+    VAT_rate: Float
+    currency: String
+    conversion_rate: Float
+}
+
+class Representative {
+    first_name: String
+    last_name: String
+    ssn: String
+    phone_number: String
+    email: String
+    country: String
+}
+
+class Order {
+    order_id: Int
+    product_id: Int
+    quantity: Int
+    order_date: Date
+    delivery_date: Date
+}
+
+class Customer {
+    name: String
+    address: String
+    phone_number: String
+    email: String
+    countries_reselling: [String]
+}
+
+Product "1..*" -- "1..*" Country
+Product "1..*" -- "1..*" Representative
+Country "0..*" -- "1..1" Representative
+Customer "1..*" -- "1..*" Country
 Order "1..*" -- "1..1" Product
+Order "1..*" -- "1..*" Customer
+
 @enduml
+```

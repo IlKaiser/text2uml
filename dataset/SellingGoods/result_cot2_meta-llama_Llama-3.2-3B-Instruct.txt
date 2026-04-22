@@ -1,0 +1,892 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - an association list (with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+ClassName1, ClassName2, ...
+
+The association list format is:
+mul1 ClassName1 -- mul2 ClassName2
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every entry in the association list write:
+  ClassName1 "mul1" -- "mul2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############
+
+The class list is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here are the nouns that can potentially be the class name:
+
+1. Company
+2. Customer
+3. Address
+4. VAT
+5. Product
+6. Order
+7. OrderLine
+8. Payment
+9. Delivery
+10. Invoice
+11. Warehouse
+12. Supermarket
+13. Business
+14. Service
+15. DeliveryService
+16. OrderStatus
+17. Shipment
+18. Group
+19. Problem
+20. Information
+21. System
+22. Model
+23. Diagram
+24. Attributes
+25. Event
+26. FSM (Finite State Machine)
+27. Constraints
+28. Day
+29. WorkingDay
+30. Quantity
+31. Line
+32. List
+33. Account
+34. PaymentMethod
+35. Receipt
+36. OrderStatusUpdate
+37. DeliveryStatusUpdate
+
+Note that some of these nouns may be more suitable as class names than others, and some may be more suitable as attributes or methods of a class.
+
+##############
+
+The text specification is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############
+
+The class list is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+1. Company
+2. Customer
+3. Address
+4. Product
+5. Order
+6. OrderLine
+7. Payment
+8. Delivery
+9. Invoice
+10. Warehouse
+11. Supermarket
+12. OrderStatus
+13. Shipment
+14. Group
+15. ProductOffering
+16. PaymentMethod
+17. Account
+18. DeliveryService
+
+##############
+
+The association list is:
+
+mul1 Class1 -- mul2 Class2
+...
+
+##############
+
+The attributes dictionary is:
+
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############
+
+The class list is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here are the nouns that can potentially be the class name:
+
+1. Company
+2. Customer
+3. Address
+4. VAT
+5. Product
+6. Order
+7. OrderLine
+8. Payment
+9. Delivery
+10. Invoice
+11. Warehouse
+12. Supermarket
+13. Business
+14. Service
+15. DeliveryService
+16. OrderStatus
+17. Shipment
+18. Group
+19. Problem
+20. Information
+21. System
+22. Model
+23. Diagram
+24. Attributes
+25. Event
+26. FSM (Finite State Machine)
+27. Constraints
+28. Day
+29. WorkingDay
+30. Quantity
+31. Line
+32. List
+33. Account
+34. PaymentMethod
+35. Receipt
+36. OrderStatusUpdate
+37. DeliveryStatusUpdate
+
+Note that some of these nouns may be more suitable as class names than others, and some may be more suitable as attributes or methods of a class.
+
+##############
+
+The text specification is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############
+
+The class list is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+1. Company
+2. Customer
+3. Address
+4. Product
+5. Order
+6. OrderLine
+7. Payment
+8. Delivery
+9. Invoice
+10. Warehouse
+11. Supermarket
+12. OrderStatus
+13. Shipment
+14. Group
+15. ProductOffering
+16. PaymentMethod
+17. Account
+18. DeliveryService
+
+#############
+
+The specification text is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############
+
+The attributes dictionary is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+{
+    "Company": ["address", "vat_number"],
+    "Customer": ["address", "vat_number"],
+    "Product": ["name", "stock"],
+    "Order": ["customer", "products", "order_lines", "payment_status", "payment_method", "status"],
+    "OrderLine": ["product", "quantity"],
+    "Payment": ["amount"],
+    "Delivery": ["order", "status"],
+    "Invoice": ["customer", "order", "payment_method"],
+    "Warehouse": ["location"],
+    "Supermarket": ["location"],
+    "OrderStatus": ["status"],
+    "Shipment": ["order", "status"],
+    "Group": ["order_lines"],
+    "ProductOffering": ["name"],
+    "PaymentMethod": ["type"],
+    "Account": ["customer", "payment_method"],
+    "DeliveryService": ["name"]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+##############
+
+The class list is:
+
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 14 Apr 2026
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############
+
+The class list is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here are the nouns that can potentially be the class name:
+
+1. Company
+2. Customer
+3. Address
+4. VAT
+5. Product
+6. Order
+7. OrderLine
+8. Payment
+9. Delivery
+10. Invoice
+11. Warehouse
+12. Supermarket
+13. Business
+14. Service
+15. DeliveryService
+16. OrderStatus
+17. Shipment
+18. Group
+19. Problem
+20. Information
+21. System
+22. Model
+23. Diagram
+24. Attributes
+25. Event
+26. FSM (Finite State Machine)
+27. Constraints
+28. Day
+29. WorkingDay
+30. Quantity
+31. Line
+32. List
+33. Account
+34. PaymentMethod
+35. Receipt
+36. OrderStatusUpdate
+37. DeliveryStatusUpdate
+
+Note that some of these nouns may be more suitable as class names than others, and some may be more suitable as attributes or methods of a class.
+
+##############
+
+The text specification is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############
+
+The class list is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+1. Company
+2. Customer
+3. Address
+4. Product
+5. Order
+6. OrderLine
+7. Payment
+8. Delivery
+9. Invoice
+10. Warehouse
+11. Supermarket
+12. OrderStatus
+13. Shipment
+14. Group
+15. ProductOffering
+16. PaymentMethod
+17. Account
+18. DeliveryService
+
+#############
+
+The specification text is:
+
+This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+
+
+##############<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+ASSOCIATIONS:
+0..* Customer -- 0..* Order
+1..1 Customer -- 0..1 Address
+1..1 Customer -- 0..1 VAT
+1..1 Product -- 0..* OrderLine
+1..1 Order -- 0..* OrderLine
+1..1 Order -- 0..1 Payment
+1..1 Order -- 0..1 Delivery
+1..1 Order -- 0..1 Invoice
+1..1 Order -- 0..1 Warehouse
+1..1 Order -- 0..1 Supermarket
+1..1 Order -- 0..1 OrderStatus
+1..1 Order -- 0..1 Shipment
+1..1 Order -- 0..* Group
+1..1 Order -- 0..1 ProductOffering
+1..1 Order -- 0..1 PaymentMethod
+1..1 Order -- 0..1 Account
+1..1 Order -- 0..1 DeliveryService
+
+##############
+
+The plant uml is:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+@startuml
+class Company {
+    - address
+    - customers
+    - stock
+}
+class Customer {
+    - address
+    - vat_number
+}
+class Address {
+}
+class VAT {
+}
+class Product {
+    - name
+    - stock
+}
+class Order {
+    - customer
+    - products
+    - order_lines
+    - payment_status
+    - payment_method
+    - status
+}
+class OrderLine {
+    - product
+    - quantity
+}
+class Payment {
+    - amount
+}
+class Delivery {
+    - order
+    - status
+}
+class Invoice {
+    - customer
+    - order
+    - payment_method
+}
+class Warehouse {
+    - location
+}
+class Supermarket {
+    - location
+}
+class OrderStatus {
+    - status
+}
+class Shipment {
+    - order
+    - status
+}
+class Group {
+    - order_lines
+}
+class ProductOffering {
+    - name
+}
+class PaymentMethod {
+    - type
+}
+class Account {
+    - customer
+    - payment_method
+}
+class DeliveryService {
+    - name
+}
+
+@enduml

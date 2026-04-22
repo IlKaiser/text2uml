@@ -1,22 +1,50 @@
 ```plantuml
 @startuml
 
-class WebPortal{}
-class Building{}
-class User{}
-class AdditionalEntry{}
-class Image{}
-class Visitor{}
-class Administrator{}
-class Comment{}
+class WebPortal {
+  versionNumber: String
+  URL: String
+}
 
-WebPortal "1..*" -- "1..1" Building
-Building "1..1" -- "1..1" User
-Building "0..*" -- "1..1" AdditionalEntry
-Building "1..*" -- "1..1" Image
-User "0..*" -- "1..1" Comment
+class Building {
+  ID: String
+  name: String
+  energyClass: String
+  address: String
+  yearOfConstruction: Int
+}
+
+class User {
+  userName: String
+  email: String
+  password: String
+}
+
+class AdditionalEntry {
+  name: String
+  value: Float
+  unit: String
+  isPublic: Boolean
+}
+
+class Image {
+  fileName: String
+}
+
+class Administrator {
+  IDCardNumber: String
+}
+
+class Comment
+
+WebPortal "1..*" -- "1..1" Building.
+Building "1..1" -- "1..1" User.
+Building "1..*" -- "1..*" Image.
+Building "0..*" -- "0..*" Comment.
+User "0..*" -- "0..*" Comment.
 Administrator "1..1" -- "1..1" User
-WebPortal "1..*" -- "0..*" Visitor
+
+Administrator --|> User
 
 @enduml
 ```

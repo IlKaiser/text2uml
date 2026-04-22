@@ -1,0 +1,57 @@
+```plantuml
+@startuml
+class Person {
+    - id : String
+    - name : String
+    - registrationDate : Date
+    - abilities : String
+}
+
+class Stay {
+    - stayId : String
+    - startDate : Date
+    - endDate : Date
+    - type : String
+    - inhabitant : Person
+}
+
+class Category {
+    - categoryId : String
+    - name : String
+    - price : Float
+}
+
+class Bed {
+    - bedId : String
+    - roomNumber : String
+    - category : Category
+}
+
+class Department {
+    - departmentId : String
+    - rooms : Room
+}
+
+class Room {
+    - roomNumber : String
+}
+
+class Invoice {
+    - invoiceId : String
+    - date : Date
+    - amount : Float
+    - status : String
+    - inhabitant : Person
+}
+
+Person "1" -- "*" Stay : stays in
+Stay "1" -- "1" Category : is of type
+Bed "1" -- "1" Category : belongs to
+Bed "1" -- "1" Person : assigned to
+Department "1" -- "*" Room : contains
+Room "1" -- "*" Bed : has
+Invoice "1" -- "1" Person : issued to
+Invoice "1" -- "1" Stay : relates to
+
+@enduml
+```

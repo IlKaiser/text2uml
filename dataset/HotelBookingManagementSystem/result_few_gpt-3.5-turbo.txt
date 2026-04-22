@@ -1,25 +1,41 @@
 
 @startuml
 
-class BusinessTraveller {}
-class AccommodationDeal {}
-class Hotel {}
-class Booking {}
-class PreliminaryBooking {}
-class CreditCardInformation {}
-class PaymentMethod {}
-class BillingInformation {}
-class HotelChain {}
-class RoomType {}
+class Traveler {
+    String Name
+    String BillingInformation
+    String CompanyName
+    String Address
+    String TravelPreferences
+    Int ReliabilityRating
+}
+class Hotel {
+    String Name
+    String City
+    String Address
+}
+class Room {
+    String Type
+    Int Quantity
+    Boolean FullyBooked
+}
+class Booking {
+    String Status
+    Double Price
+    String PaymentType
+    Date CancellationDeadline
+}
+class Offer {
+    Double Price
+    Int HotelRating
+}
+class CreditCard {}
 
-BusinessTraveller "0..*" -- "1" CreditCardInformation
-BusinessTraveller "0..*" -- "1" BillingInformation
-BusinessTraveller "0..*" -- "1" RoomType
-Booking "1" -- "0..*" PreliminaryBooking
-Booking "1" -- "1" PaymentMethod
-Booking "0..1" -- "1..*" Hotel
-Booking "0..*" -- "1" BusinessTraveller
-Hotel "1" -- "0..*" RoomType
-Hotel "0..*" -- "1" HotelChain
+Traveler "1" -- "1..*" Booking
+Traveler "0..*" -- "1..1" CreditCard
+Booking "0..*" -- "1" Offer
+Offer "1" -- "1" Hotel
+Hotel "1" -- "0..*" Room
+Room "1" -- "0..1" Booking
 
 @enduml

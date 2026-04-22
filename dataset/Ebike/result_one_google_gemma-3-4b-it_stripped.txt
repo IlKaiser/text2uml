@@ -1,0 +1,33 @@
+```plantuml
+@startuml
+class Frame {
+    String Material
+}
+class DriveSystem {
+    String Type
+}
+class Motor {
+}
+class Controller {
+    String State
+}
+class Wheel {
+}
+class Battery {
+    Double EnergyWh
+}
+class EBike {
+    String Model
+}
+
+Frame "1" -- "2" Wheel
+DriveSystem "1" -- "1" Motor
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "1" Controller
+EBike "1" -- "1" Battery
+Controller "1" -- "0..1" Battery
+Controller "1" -- "0..1" EBike
+(Controller, EBike).. Report
+@enduml
+```

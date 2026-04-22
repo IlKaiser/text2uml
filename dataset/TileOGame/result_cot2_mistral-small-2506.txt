@@ -1,32 +1,75 @@
 ```plantuml
 @startuml
 
-class GameDesigner{}
-class BoardGame{}
-class Player{}
-class Game{}
-class Tile{}
-class PlayingPiece{}
-class Die{}
-class ActionCard{}
-class ActionTile{}
-class HiddenTile{}
-class ConnectionPiece{}
-class Board{}
+class BoardGame {
+  name: String
+}
 
-GameDesigner "1..1" -- "1..1" Game
-Game "1..1" -- "1..*" Player
-Game "1..1" -- "1..1" Board
-Board "1..1" -- "1..*" Tile
-Tile "1..1" -- "0..4" ConnectionPiece
-Tile "1..1" -- "0..1" HiddenTile
-Tile "1..1" -- "0..*" ActionTile
-Tile "1..1" -- "0..*" PlayingPiece
-Player "1..1" -- "1..1" PlayingPiece
-Game "1..1" -- "1..*" ActionCard
-Game "1..1" -- "1..1" Die
-Game "1..1" -- "0..1" ActionTile
-ActionTile "1..1" -- "0..1" ActionCard
+class Player {
+  color: String
+}
+
+class PlayingPiece {
+  color: String
+}
+
+class Tile {
+  color: String
+}
+
+class ActionCard {
+  description: String
+}
+
+class Die {
+  value: Int
+}
+
+class Board {
+  layout: String
+}
+
+class ActionTile {
+  turns: Int
+}
+
+class HiddenTile {
+
+}
+
+class StartingPosition {
+
+}
+
+class Deck {
+  size: Int
+}
+
+class ConnectionPiece {
+
+}
+
+class Pile {
+  size: Int
+}
+
+1..1 GameDesigner -- 1..1 BoardGame
+1..1 BoardGame -- 1..1 Board
+1..1 Board -- 0..* Tile
+1..1 Tile -- 0..4 ConnectionPiece
+1..1 BoardGame -- 1..1 Deck
+1..1 Deck -- 0..32 ActionCard
+1..1 BoardGame -- 0..1 HiddenTile
+1..1 BoardGame -- 0..4 StartingPosition
+1..1 BoardGame -- 0..* ActionTile
+1..1 BoardGame -- 1..1 Die
+1..1 BoardGame -- 0..4 Player
+1..1 Player -- 1..1 PlayingPiece
+1..1 PlayingPiece -- 0..1 Tile
+1..1 Deck -- 0..32 Pile
+
+ActionTile --|> Tile
+HiddenTile --|> Tile
 
 @enduml
 ```

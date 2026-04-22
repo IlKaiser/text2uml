@@ -1,0 +1,69 @@
+```plaintext
+@startuml
+
+class User {
+    name: String
+    address: String
+    birthday: Date
+    uniqueIdentifier: String
+}
+
+class BusinessOwner {
+    LinkedInAccount: String
+}
+BusinessOwner --|> User
+
+class PizzaRestaurant {
+    zipCode: String
+    address: String
+    phoneNumber: String
+    website: String
+    openingHours: String
+}
+
+class Pizza {
+    name: String
+    crustStructure: CrustStructure
+    price: Float
+}
+
+class CrustStructure {
+}
+
+class HungryCustomer {
+}
+HungryCustomer --|> User
+
+class Order {
+    orderId: Int
+    orderDate: Date
+    latestDeliveryTime: Date
+    numberOfPeople: Int
+}
+
+class EntertainmentOrder {
+    typeOfEntertainment: String
+    duration: Float
+}
+EntertainmentOrder --|> Order
+
+class Entertainer {
+    stageName: String
+    bio: String
+    pricePer30Minutes: Float
+    availabilityByDay: String
+}
+Entertainer --|> User
+
+User "1" -- "0..1" BusinessOwner
+User "1" -- "0..1" HungryCustomer
+User "1" -- "0..1" Entertainer
+BusinessOwner "1" -- "1..*" PizzaRestaurant
+PizzaRestaurant "1" -- "1..*" Pizza
+HungryCustomer "1" -- "0..*" Order
+Order "1" -- "1..*" Pizza
+Order "1" -- "0..1" EntertainmentOrder
+EntertainmentOrder "1" -- "1" Entertainer
+
+@enduml
+```

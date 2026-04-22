@@ -1,38 +1,64 @@
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class BedCategory{}
-class Stay{}
-class StayType{}
-class Person{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Invoice{}
-class Payment{}
-class CreditNote{}
-
-Home "1..*" -- "1" Department
-Department "1" -- "1..*" Room
-Room "1..*" -- "1" Bed
-Bed "1" -- "0..*" BedCategory
-BedCategory "1" -- "0..*" StayType
-Person "0..*" -- "1" Stay
-Stay "1" -- "0..*" StayType
-Assessment "1" -- "0..*" StayType
-Person "0..*" -- "1" Assessment
-Person "0..*" -- "0..*" WaitingList
-StayType "1" -- "1" WaitingList
-WaitingList "0..*" -- "0..*" Proposal
-Proposal "1" -- "0..*" Person
-Proposal "1" -- "1" StayType
-Proposal "0..1" -- "0..*" Assessment
-Stay "0..*" -- "1" Invoice
-Invoice "0..*" -- "0..*" Payment
-Invoice "0.." -- "0..*" CreditNote
-CreditNote "1" -- "0..*" Payment
-Home "1..*" -- "1" StayType
-Stay "1" -- "0..*" Bed
+class Home
+class Department {
+  roomCount: Int
+}
+class Room {
+  bedCount: Int
+}
+class Bed {
+  category: String
+}
+class BedCategory {
+  price: Float
+}
+class Inhabitant {
+  bedId: Int
+}
+class StayType {
+  code: String
+}
+class Stay {
+  startDate: Date
+  endDate: Date
+}
+class Applicant {
+  identificationData: String
+}
+class Assessment {
+  assessmentDate: Date
+  stayType: String
+}
+class WaitingList {
+  registrationDate: Date
+  position: Int
+}
+class Proposal {
+  proposalDate: Date
+  accepted: Boolean
+  invalidated: Boolean
+}
+class Invoice {
+  invoiceDate: Date
+  totalAmount: Float
+  paidAmount: Float
+  outstandingAmount: Float
+  paid: Boolean
+}
+class CreditNote
+Home "1..*" -- "1..1" Department
+Department "1..*" -- "1..1" Room
+Room "1..*" -- "1..1" Bed
+Bed "1..1" -- "0..*" BedCategory
+Inhabitant "0..*" -- "0..*" Bed
+Inhabitant "0..*" -- "1..1" Stay
+Stay "1..1" -- "0..*" StayType
+Applicant "0..*" -- "1..1" Assessment
+Assessment "1..1" -- "0..*" StayType
+Proposal "1..1" -- "0..*" Inhabitant
+Proposal "1..1" -- "0..*" StayType
+WaitingList "1..1" -- "0..*" StayType
+WaitingList "0..*" -- "1..1" Proposal
+Invoice "0..*" -- "1..1" CreditNote
+Stay "0..*" -- "1..1" Invoice
 @enduml

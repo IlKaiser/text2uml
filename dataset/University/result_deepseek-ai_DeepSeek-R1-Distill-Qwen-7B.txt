@@ -1,0 +1,160 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: A university consists of several faculties, which are made up of various institutes. Each faculty and institute has a name. The address of each institute is known. 
+Each faculty is headed by a dean, who is an employee of the university. 
+The total number of employees is known. Employees have a social security number, a name, and an email address. A distinction is made between research and administrative staff. 
+Research assistants (RA) are assigned to at least one institute. The field of research of each RA is known. In addition, RAs can be involved in projects for a certain number of hours, whereby the name, start and end dates of the projects are known. Some RAs teach courses. In this case, they are referred to as lecturers. 
+Courses have a unique number (ID), a name and a weekly duration in hours.
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification. Let me start by understanding the problem step by step.
+
+First, the specification talks about a university structure. It mentions that a university consists of several faculties, each made up of various institutes. Each faculty and institute has a name, and the address of each institute is known. 
+
+Next, each faculty is headed by a dean, who is an employee of the university. The total number of employees is known, and each employee has a social security number, a name, and an email address. There's a distinction between research and administrative staff. 
+
+Research assistants (RA) are assigned to at least one institute. Each RA has a field of research and can be involved in projects for a certain number of hours, with project details like name, start, and end dates. Some RAs teach courses, referred to as lecturers. 
+
+Courses have a unique ID, a name, and a weekly duration in hours.
+
+Alright, so I need to model this using classes and their relationships. Let me list out the classes first.
+
+1. University: The top-level class. It has faculties and employees.
+2. Faculty: Each faculty has a name and is led by a dean, who is an employee.
+3. Institute: Each institute has a name and an address, and is part of a faculty.
+4. Employee: Employees have an ID, name, email, and are part of a university.
+5. ResearchAssistant (RA): RAs have an ID, name, email, field of research, and are part of an institute. They can be involved in projects and teach courses.
+6. Project: Projects have an ID, name, start and end dates, and are handled by an RA.
+7. Course: Courses have an ID, name, duration, and are taught by a RA or lecturer.
+
+Now, let's think about the attributes for each class.
+
+- University: Name, number of employees.
+- Faculty: Name, number of institutes, number of employees.
+- Institute: Name, address, number of RAs.
+- Employee: SSN, name, email, role (research or admin).
+- RA: SSN, name, email, field of research, assigned institutes, projects, courses.
+- Project: ID, name, start/end dates, RA involved.
+- Course: ID, name, duration, taught by RA or lecturer.
+
+Next, the relationships.
+
+- University has many Faculties.
+- Each Faculty has many Institutes.
+- Each Institute has many RAs.
+- Each RA can be in one Institute and handle many Projects.
+- Each RA can teach many Courses.
+- Each Course is taught by one RA or lecturer.
+
+I need to represent these relationships with arcs. Since the problem specifies using bi-directional arcs but considering cardinality, I'll use the appropriate notation.
+
+For example, University has many Faculties, so University "many..many" -- "one..one" Faculty. Similarly, each RA is in one Institute but can handle many Projects, so RA "one..many" -- "many..one" Project.
+
+I should also note that some RAs teach courses, so RA "one..many" -- "one..many" Course.
+
+Now, putting it all together, I'll start by defining each class with their attributes and then add the relationships in the correct order.
+</think>
+
+```plantuml
+@startuml
+
+class University {
+    String Name
+    Integer NumberOfEmployees
+
+    class Faculty extends University {
+        String Name
+        Integer NumberOfInstitutes
+        Integer NumberOfEmployees
+
+        University "one..many" -- "many..one" Faculty
+    }
+
+    class Institute extends Faculty {
+        String Name
+        String Address
+
+        Faculty "one..many" -- "one..one" Institute
+    }
+
+    class Employee {
+        String SSN
+        String Name
+        String Email
+        String Role
+
+        Employee "many..one" -- "many..many" Employee
+    }
+
+    class ResearchAssistant {
+        String SSN
+        String Name
+        String Email
+        String FieldOfResearch
+        Set<Institute> AssignedInstitutes
+        Set<Project> Projects
+        Set<Course> Courses
+
+        Employee "one..many" -- "many..one" ResearchAssistant
+        Institute "one..many" -- "one..one" ResearchAssistant
+        Project "one..many" -- "many..one" ResearchAssistant
+        Course "one..many" -- "one..many" ResearchAssistant
+    }
+
+    class Project {
+        Integer ID
+        String Name
+        Date StartDate
+        Date EndDate
+
+        ResearchAssistant "many..one" -- "one..many" Project
+    }
+
+    class Course {
+        Integer ID
+        String Name
+        Integer Duration
+
+        ResearchAssistant "one..many" -- "one..many" Course
+    }
+
+    University "many..many" -- "one..one" Faculty
+    Employee "many..one" -- "many..many" Employee
+    ResearchAssistant "one..many" -- "many..one" Employee
+    Institute "many..many" -- "one..one" University
+    ResearchAssistant "one..many" -- "one..many" Institute
+    Project "one..many" -- "many..one" ResearchAssistant
+    Course "one..many" -- "one..many" ResearchAssistant
+@enduml
+```

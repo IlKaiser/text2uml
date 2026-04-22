@@ -1,20 +1,34 @@
 ```plantuml
 @startuml
+class GameArea {
+    name: String
+}
 
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
-class GamePiece{}
+class GameElement {
+    x: Int
+    y: Int
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+    numberOfLives: Int
+}
+
+class Enemy {
+}
 
 GameArea "1..*" -- "1..*" GameElement
-GameArea "1..2" -- "1..1" GamePiece
-GameElement "0..*" -- "0..*" Shape
-GameElement "0..*" -- "0..*" Object
-GameElement "0..*" -- "0..*" Opponent
-Shape "0..*" -- "0..*" Shape
 GameArea "1..1" -- "1..1" Opponent
+Shape "0..*" -- "0..*" Shape
 
+Shape --|> GameElement
+Object --|> GameElement
+Opponent --|> GameElement
+Enemy --|> Opponent
 @enduml
 ```

@@ -1,0 +1,97 @@
+@startuml
+class Traveller {
+  name: String
+}
+
+class Registration
+
+class BillingInformation {
+  companyName: String
+}
+
+class TravelPreference {
+  breakfastIncluded: Boolean
+  freeWifi: Boolean
+  frontDesk24_7: Boolean
+}
+
+class Hotel
+
+class HotelChain
+
+class City {
+  cityArea: String
+}
+
+class Address {
+  address: String
+}
+
+class RoomType {
+  type: String
+}
+
+class Offer
+
+class SpecialOffer
+
+class Booking {
+  arrivalDate: Date
+  departureDate: Date
+  numberOfRooms: Int
+}
+
+class PreliminaryBooking {
+  price: Float
+  bookingIdentifier: String
+}
+
+class FinalizedBooking {
+  prePaid: Boolean
+  paidAtHotel: Boolean
+  cancellationDeadline: Date
+}
+
+class CreditCardInformation {
+  creditCardInformation: String
+}
+
+class Payment
+
+class Cancellation
+
+class Confirmation {
+  confirmationDeadline: Date
+}
+
+class ReliabilityRating {
+  reliabilityRating: Float
+}
+
+class Compensation {
+  financialCompensation: Float
+}
+
+Traveller "1..1" -- "1..1" Registration
+Registration "1..1" -- "1..1" BillingInformation
+Registration "0..*" -- "0..*" TravelPreference
+Traveller "0..*" -- "1..1" Booking
+Booking "1..1" -- "0..1" Offer
+Offer "0..*" -- "1..1" Hotel
+SpecialOffer "0..*" -- "1..1" Hotel
+PreliminaryBooking "0..*" -- "0..*" SpecialOffer
+FinalizedBooking "1..1" -- "1..1" CreditCardInformation
+FinalizedBooking "1..1" -- "0..1" Payment
+FinalizedBooking "0..1" -- "1..1" Confirmation
+FinalizedBooking "0..1" -- "1..1" Cancellation
+Hotel "1..1" -- "0..*" City
+Hotel "1..1" -- "1..1" Address
+Hotel "0..*" -- "0..1" HotelChain
+Booking "1..1" -- "0..*" RoomType
+Traveller "0..1" -- "1..1" ReliabilityRating
+Cancellation "0..1" -- "1..1" Compensation
+
+SpecialOffer --|> Offer
+PreliminaryBooking --|> Booking
+FinalizedBooking --|> Booking
+@enduml

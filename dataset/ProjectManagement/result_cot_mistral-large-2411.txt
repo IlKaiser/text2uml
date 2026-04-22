@@ -1,17 +1,23 @@
 ```plantuml
 @startuml
 
-class ResearchGroup{}
-class Department{}
-class Researcher{}
-class Project{}
-class WorkPackage{}
+class ResearchProject
+class ResearchGroup
+class Department
+class Researcher
+class Project
+class WorkPackage
+class TeamMember
+class ServiceDelivery
 
 ResearchGroup "0..*" -- "1..*" Department
 Researcher "1..1" -- "0..*" ResearchGroup
 Project "1..*" -- "1..1" WorkPackage
 WorkPackage "1..1" -- "1..*" ResearchGroup
-WorkPackage "0..*" -- "0..*" Researcher
+Researcher "0..*" -- "0..*" WorkPackage
+WorkPackage "1..*" -- "1..1" TeamMember
+TeamMember "1..1" -- "0..*" ServiceDelivery
+ResearchProject --|> Project
 
 @enduml
 ```

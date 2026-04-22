@@ -1,0 +1,50 @@
+Here is the PlantUML class diagram based on the provided specification:
+
+```plantuml
+@startuml
+
+class Product {
+    String Name
+    String Description
+    Double NetPrice
+    String Manufacturer
+    String CountryOfManufacture
+}
+
+class Country {
+    String Name
+    Double VATRate
+    String Currency
+    Double ConversionRateToEuro
+}
+
+class Representative {
+    String FirstName
+    String LastName
+    String SocialSecurityNumber
+    String PhoneNumber
+    String Email
+}
+
+class Customer {
+    String Name
+    String Address
+    String PhoneNumber
+    String Email
+}
+
+class Order {
+    String OrderID
+    Date OrderDate
+    Date DesiredDeliveryDate
+    Integer OrderQuantity
+}
+
+Product "1" -- "0..*" Country
+Country "1" -- "0..1" Representative
+Representative "1" -- "0..*" Order
+Order "1" -- "1" Product
+Customer "1" -- "0..*" Order
+
+@enduml
+```

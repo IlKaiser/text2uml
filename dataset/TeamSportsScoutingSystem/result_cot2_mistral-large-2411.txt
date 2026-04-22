@@ -1,25 +1,56 @@
-```
+```plantuml
 @startuml
-class Club{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class HeadScout{}
-class PlayerProfile{}
-class Player{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class ShortList{}
+class Club {
+}
 
-HeadCoach "0..*" -- "0..*" PlayerProfile
-HeadCoach "1..1" -- "0..*" Player
-HeadScout "1..1" -- "0..*" ScoutingAssignment
-HeadScout "1..1" -- "0..*" ScoutingReport
-Scout "0..*" -- "0..*" ScoutingReport
-ScoutingAssignment "1..1" -- "0..*" ScoutingReport
-ScoutingAssignment "1..1" -- "1..1" Player
-ScoutingReport "1..1" -- "1..1" Player
-ScoutingReport "0..*" -- "0..*" ShortList
-Director "1..1" -- "0..*" Player
+class Coach {
+}
+
+class Director {
+}
+
+class Scout {
+}
+
+class PlayerProfile {
+  name: String
+  value: String
+  targetPosition: String
+}
+
+class TargetPosition {
+}
+
+class ScoutingAssignment {
+}
+
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: String
+}
+
+class Player {
+}
+
+class HeadScout {
+}
+
+class HeadCoach {
+}
+
+1..1 HeadScout "1" -- "0..*" ScoutingAssignment
+0..* ScoutingAssignment "0..*" -- "1..1" ScoutingReport
+1..1 ScoutingReport "1..1" -- "1..1" Player
+1..1 Scout "1..1" -- "0..*" ScoutingAssignment
+1..1 Scout "1..1" -- "0..*" ScoutingReport
+1..1 HeadScout "1..1" -- "0..*" ScoutingReport
+0..* PlayerProfile "0..*" -- "1..1" TargetPosition
+0..* PlayerProfile "0..*" -- "0..*" ScoutingAssignment
+1..1 HeadCoach "1..1" -- "0..*" PlayerProfile
+1..1 Director "1..1" -- "0..*" Player
+
+HeadCoach --|> Coach
+HeadScout --|> Scout
 @enduml
 ```

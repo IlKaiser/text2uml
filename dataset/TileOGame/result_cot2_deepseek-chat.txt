@@ -1,24 +1,57 @@
 @startuml
-class Game{}
-class Player{}
-class PlayingPiece{}
-class Tile{}
-class ConnectionPiece{}
-class Board{}
-class ActionCard{}
-class Deck{}
-class ActionTile{}
-class HiddenTile{}
+class GameDesigner {
+}
 
+class Player {
+}
+
+class Game {
+}
+
+class Board {
+}
+
+class Tile {
+  color: String
+}
+
+class ConnectionPiece {
+}
+
+class PlayingPiece {
+  color: String
+}
+
+class Die {
+}
+
+class ActionCard {
+}
+
+class Deck {
+}
+
+class Pile {
+}
+
+class ActionTile {
+}
+
+GameDesigner "1..1" -- "1..*" Game
 Game "1..1" -- "1..1" Board
-Game "1..1" -- "1..1" Deck
-Game "1..1" -- "1..1" HiddenTile
-Game "1..1" -- "2..4" Player
 Board "1..1" -- "1..*" Tile
 Board "1..1" -- "0..*" ConnectionPiece
-Player "1..1" -- "1..1" PlayingPiece
-Tile "1..1" -- "0..4" ConnectionPiece
-ActionTile "1..1" -- "1..*" ActionCard
+Board "1..1" -- "1..*" PlayingPiece
+Game "1..1" -- "1..1" Die
+Game "1..1" -- "1..1" Deck
 Deck "1..1" -- "1..*" ActionCard
-HiddenTile "1..1" -- "1..1" Tile
+Game "1..1" -- "1..1" Pile
+Pile "1..1" -- "0..*" ConnectionPiece
+Tile "1..1" -- "0..1" Tile
+Tile "1..1" -- "0..1" ActionTile
+Player "1..1" -- "1..1" PlayingPiece
+Player "1..1" -- "0..1" ActionCard
+Player "1..1" -- "1..1" Die
+
+ActionTile --|> Tile
 @enduml

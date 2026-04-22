@@ -1,0 +1,72 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 13 Apr 2026
+
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Transform into plant uml this specification text: A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+```plantuml
+@startuml
+class Provider{ String Name, String Location }
+class Cruise{ String Number, String Name, Date StartDate, Date EndDate }
+class Employee{ String Name, String SocialSecurityNumber }
+class Guest{ String Name, Boolean VIP }
+class Ship{ String Name, Integer Decks, Integer Length, Integer Passengers }
+class DestinationArea{ String Name, String Sea }
+class TravelAgency{ String Name, String Address }
+class Show{ String Title, Integer Duration }
+class Booking{ String Number, Date BookingDate }
+class Ticket{ String Number, String CruiseNumber }
+
+Cruise "1..1" -- "0..*" Provider
+Cruise "1..1" -- "1..*" Employee
+Cruise "1..*" -- "1..*" Guest
+Cruise "1..*" -- "1..*" Show
+Cruise "1..*" -- "1..*" Ticket
+Cruise "1..1" -- "1..*" DestinationArea
+Cruise "1..1" -- "1..*" Ship
+Cruise "1..1" -- "1..*" TravelAgency
+Guest "0..*" -- "1..*" Ticket
+@enduml
+```

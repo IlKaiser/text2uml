@@ -1,25 +1,51 @@
 @startuml
-class Museum{}
-class Location{}
-class ExhibitionSeries{}
-class Exhibition{}
-class ExhibitionItem{}
-class Piece{}
-class Collector{}
-class Employee{}
-class CoachingRelationship{}
-class PieceRequest{}
+class Museum {
+  name: String
+  city: String
+  numberOfRooms: Int
+}
+class Location {
+  scope: String
+}
+class ExhibitionSeries
+class Exhibition {
+  coordinator: String
+  planningStartDate: Date
+  openingDate: Date
+  stage: String
+}
+class ExhibitionItem {
+  description: String
+  desiredQuantity: Int
+}
+class Piece {
+  title: String
+  artist: String
+  isUnique: Boolean
+}
+class Collector
+class Employee {
+  seniority: String
+}
+class CoachingRelationship {
+  coach: String
+  trainee: String
+}
+class Request {
+  piece: String
+  collector: String
+}
 
-Museum "1..1" -- "0..*" Location.
-Location "1..1" -- "0..*" ExhibitionSeries.
-ExhibitionSeries "1..1" -- "0..*" Exhibition.
-Location "1..1" -- "0..*" Exhibition.
-Employee "0..*" -- "1..1" Exhibition.
-Exhibition "1..1" -- "0..*" ExhibitionItem.
-ExhibitionItem "0..*" -- "0..*" Piece.
-Collector "1..1" -- "0..*" Piece.
-Employee "0..*" -- "0..*" CoachingRelationship.
-ExhibitionItem "1..1" -- "0..*" PieceRequest.
-Piece "1..1" -- "0..*" PieceRequest.
-Collector "1..1" -- "0..*" PieceRequest.
+Museum "1..1" -- "0..*" Location
+Location "1..1" -- "0..*" ExhibitionSeries
+ExhibitionSeries "1..1" -- "0..*" Exhibition
+Employee "1..1" -- "0..*" Exhibition
+Exhibition "1..1" -- "0..*" ExhibitionItem
+Piece "0..*" -- "0..*" ExhibitionItem
+Collector "1..1" -- "0..*" Piece
+Piece "1..1" -- "0..*" Request
+ExhibitionItem "1..1" -- "0..*" Request
+Collector "1..1" -- "0..*" Request
+Museum "1..1" -- "0..*" Employee
+Employee "1..*" -- "0..*" CoachingRelationship
 @enduml

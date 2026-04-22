@@ -1,18 +1,53 @@
 @startuml
-class Doctor {}
-class Patient {}
-class Requisition {}
-class Test {}
-class Appointment {}
-class Lab {}
-class Report {}
+class Doctor {
+  practitionerNumber: Int
+  signature: String
+  fullName: String
+  address: String
+  phoneNumber: String
+}
+
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+
+class Requisition {
+  validFrom: Date
+  repetitionCount: Int
+  repetitionInterval: String
+}
+
+class Test {
+  duration: Float
+  result: Boolean
+  report: String
+}
+
+class Lab {
+  address: String
+  businessHours: String
+  registrationNumber: String
+  fee: Float
+}
+
+class Appointment {
+  confirmationNumber: String
+  date: Date
+  startTime: String
+  endTime: String
+  labName: String
+  labRegistrationNumber: String
+}
 
 Doctor "0..*" -- "1..1" Requisition
 Patient "0..*" -- "1..1" Requisition
 Requisition "1..*" -- "1..1" Test
 Patient "0..*" -- "1..1" Appointment
-Requisition "0..*" -- "1..1" Appointment
-Appointment "1..1" -- "0..*" Lab
+Lab "0..*" -- "1..1" Appointment
 Lab "1..*" -- "1..*" Test
-Test "1..1" -- "1..1" Report
 @enduml

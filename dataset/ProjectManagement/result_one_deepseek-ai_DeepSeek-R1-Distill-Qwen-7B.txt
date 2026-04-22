@@ -1,0 +1,190 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification text. Let me start by understanding the problem.
+
+The text describes a research project management scenario involving university research groups, departments, researchers, Work Packages, and service delivery. 
+
+First, I'll identify the main classes. From the text, the classes are:
+- ResearchGroup
+- Department
+- Researcher
+- WorkPackage
+- ServiceDelivery
+
+Next, I'll extract the attributes for each class. The text mentions:
+- ResearchGroup has a name and a budget.
+- Department has a name.
+- Researcher has a name, email, and a researchGroup attribute.
+- WorkPackage has a name, budget, and a researchGroup leader.
+- ServiceDelivery has a researcher and a workPackage.
+
+Now, I'll determine the relationships between these classes. The text states that researchers belong to exactly one research group, so there's a one-to-one relationship between Researcher and ResearchGroup. Departments are many-to-one managed by research groups, so a ResearchGroup can belong to one department, and a department can have many research groups.
+
+WorkPackages are assigned by research groups, so each WorkPackage has exactly one research group as its leader, indicating a one-to-one relationship. However, a researcher can be assigned to multiple WorkPackages, so the relationship between Researcher and WorkPackage is many-to-many. Similarly, ServiceDelivery links researchers to the WorkPackage they're attached to, also a many-to-many relationship.
+
+I'll assign cardinalities based on the text. Since there's no specific cardinality mentioned, I'll use defaults where applicable. For example, Researcher to ResearchGroup is one-to-one, ResearchGroup to Department is one-to-many, and WorkPackage to ResearchGroup is one-to-one. The other relationships are many-to-many.
+
+Finally, I'll structure the PlantUML code, starting with all classes and then the relationships, ensuring the correct syntax and cardinality indicators.
+</think>
+
+@startuml
+
+class ResearchGroup {
+    String Name
+    Double Budget
+}
+
+class Department {
+    String Name
+}
+
+class Researcher {
+    String Name
+    String Email
+    ResearchGroup researchGroup
+}
+
+class WorkPackage {
+    String Name
+    Double Budget
+    ResearchGroup workGroupLeader
+}
+
+class ServiceDelivery {
+    Researcher researcher
+    WorkPackage workPackage
+}
+
+Researcher "1..1" - ResearchGroup
+ResearchGroup "1..1" -- "1..*" Department
+WorkPackage "1..1" -- "1..*" ResearchGroup
+Researcher "1..*" -- "1..*" WorkPackage
+ServiceDelivery "0..*" -- "0..*" WorkPackage
+ServiceDelivery "0..*" -- "0..*" Researcher
+
+@enduml

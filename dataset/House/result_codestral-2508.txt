@@ -1,34 +1,54 @@
 ```plantuml
 @startuml
 
-class House{}
-class Address{}
-class BuildingMaterial{}
-class Basement{}
-class EarthBasement{}
-class ConcreteBasement{}
-class SemiDetachedHouse{}
-class Garden{}
-class Window{}
-class Carport{}
-class Garage{}
-class Company{}
-class JobLog{}
+class House {
+    String Address
+    String BuildingMaterial
+}
 
-House "1..1" -- "1..1" Address
-House "1..1" -- "1..1" BuildingMaterial
-House "0..1" -- "1..1" Basement
+class Basement {
+    String Size
+    String Name
+}
+
+class EarthBasement {
+    String HumidityLevel
+}
+
+class ConcreteBasement {
+
+}
+
+class SemiDetachedHouse {
+    Boolean HasOwnGarden
+    Integer NumberOfWindows
+}
+
+class Carport {
+    Boolean IsDoubleCarport
+    Boolean HasFlatRoof
+}
+
+class Garage {
+    Boolean HasAutomaticGarageDoor
+}
+
+class Company {
+    String Name
+    String Address
+}
+
+class JobLog {
+    Integer Hours
+    Double AgreedPrice
+}
+
+House "1..*" -- "0..1" Basement
 Basement <|-- EarthBasement
 Basement <|-- ConcreteBasement
-EarthBasement "1..1" -- "1..1" HumidityLevel
 House <|-- SemiDetachedHouse
-SemiDetachedHouse "1..1" -- "0..1" Garden
-SemiDetachedHouse "1..1" -- "1..*" Window
-SemiDetachedHouse "1..1" -- "1..1" Carport
-SemiDetachedHouse "1..1" -- "1..1" Garage
-Carport "1..1" -- "1..1" DoubleCarport
-Carport "1..1" -- "1..1" FlatRoof
-Garage "1..1" -- "1..1" AutomaticGarageDoor
+SemiDetachedHouse "1..1" -- "2..2" Carport
+SemiDetachedHouse "1..1" -- "0..1" Garage
 House "1..*" -- "1..*" Company
 Company "1..*" -- "1..*" JobLog
 House "1..*" -- "1..*" JobLog

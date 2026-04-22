@@ -1,19 +1,35 @@
 @startuml
-class City{}
-class Attraction{}
-class Address{}
-class GuidedTour{}
-class Person{}
-class Tourist{}
-class Guide{}
-class Visitor{}
-class Discount{}
-
-City "0..*" -- "1..*" Attraction
-Attraction "1..1" -- "1..1" Address
-Attraction "0..*" -- "0..*" GuidedTour
-GuidedTour "1..1" -- "1..*" Guide
-GuidedTour "0..*" -- "0..*" Visitor
+class City {
+  name: String
+  inhabitants: Int
+}
+class Attraction {
+  name: String
+  address: String
+}
+class GuidedTour {
+  duration: Int
+  number: Int
+  maxVisitors: Int
+}
+class Person {
+  name: String
+}
+class Guide {
+  name: String
+}
+class Visitor {
+  name: String
+}
+class Discount {
+  amount: Float
+}
+City "0..*" -- "1..1" Attraction
+Attraction "1..*" -- "0..*" GuidedTour
+GuidedTour "1..1" -- "0..*" Guide
+Visitor "0..*" -- "1..1" Discount
 Discount "1..1" -- "1..1" GuidedTour
-Discount "1..1" -- "1..1" Visitor
+GuidedTour "0..*" -- "0..*" Visitor
+Guide --|> Person
+Visitor --|> Person
 @enduml

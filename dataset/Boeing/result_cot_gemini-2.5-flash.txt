@@ -1,18 +1,23 @@
-```plantuml
 @startuml
-class Aircraft{}
-class "Airline Company"{}
-class Contract{}
-class Acquisition{}
-class "Aircraft Model"{}
-class Salesperson{}
 
-Acquisition "1..1" -- "1..1" Aircraft
-Acquisition "1..1" -- "0..*" "Aircraft Model"
-Aircraft "1..1" -- "0..*" "Aircraft Model"
-"Airline Company" "0..*" -- "0..1" "Airline Company"
+class "Airline Company"
+class Contract {
+  delivery conditions:String
+  legal aspects:String
+}
+class Acquisition {
+  chosen model of airplane:String
+  negotiated price:Float
+  chosen options & customizations:String
+  delivery date:Date
+}
+class "Aircraft Model"
+class Salesperson
+
 "Airline Company" "0..*" -- "1..1" Contract
-Contract "1..*" -- "1..1" Acquisition
+Contract "0..*" -- "1..1" Acquisition
+Acquisition "1..1" -- "0..*" "Aircraft Model"
 Contract "1..1" -- "0..*" Salesperson
+"Airline Company" "0..*" -- "0..1" "Airline Company"
+
 @enduml
-```

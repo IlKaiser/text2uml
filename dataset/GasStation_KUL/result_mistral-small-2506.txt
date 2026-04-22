@@ -1,33 +1,24 @@
-```plantuml
 @startuml
 
-class OilCompany{}
-class GasStation{}
-class Pump{}
-class GasolineType{}
-class Customer{}
-class RefuelTurn{}
-class CreditCard{}
-class RefuelCard{}
-class Invoice{}
-class Payment{}
-class DailyReport{}
+class OilCompany{ String Name, String Address }
+class GasStation{ String Location, String Manager }
+class Pump{ String Type, Float ReorderingLevel, Float CriticalLevel, Boolean IsBlocked }
+class Gasoline{ String Type, Float Quantity }
+class Customer{ String Name, String Address, String Phone, Date RegistrationDate }
+class RefuelCard{ String CardNumber, Date IssueDate, Date ExpiryDate, Boolean IsBlocked }
+class RefuelTurn{ Date Date, Float Amount, String PaymentMethod }
+class Invoice{ Date IssueDate, Float TotalAmount, String Status }
+class Payment{ Date PaymentDate, Float Amount, String PaymentMethod }
+class DailyReport{ Date ReportDate, String PumpsToRefill, Float CurrentLevel, Float QuantityToOrder }
 
 OilCompany "1..1" -- "1..*" GasStation
 GasStation "1..1" -- "1..*" Pump
-Pump "1..1" -- "1..1" GasolineType
-Customer "1..1" -- "0..*" CreditCard
+Pump "1..1" -- "1..1" Gasoline
 Customer "1..1" -- "0..1" RefuelCard
-Customer "1..1" -- "1..*" RefuelTurn
-RefuelTurn "1..1" -- "1..1" Pump
-RefuelTurn "0..1" -- "0..1" CreditCard
-RefuelTurn "0..1" -- "0..1" RefuelCard
-RefuelCard "1..1" -- "1..*" Invoice
+Customer "1..1" -- "0..*" RefuelTurn
+RefuelCard "1..1" -- "0..*" RefuelTurn
+RefuelTurn "1..1" -- "1..1" Invoice
 Invoice "1..1" -- "0..1" Payment
-Invoice "1..1" -- "1..1" Customer
-Customer "1..1" -- "0..*" Payment
-GasStation "1..1" -- "1..1" DailyReport
-Pump "1..1" -- "1..1" DailyReport
+Customer "1..1" -- "0..*" DailyReport
 
 @enduml
-```

@@ -1,0 +1,58 @@
+@startuml
+
+class ExhibitionItem {
+    String Name
+    String Description
+}
+class Exhibition {
+    String Title
+    String Location
+    Date OpeningDate
+    Date ClosingDate
+    String Coordinator
+}
+class ExhibitionItem {
+    String Name
+    String Description
+    Exhibition Exhibition
+    ExhibitionItem "1..*" ExhibitionItem
+    ExhibitionItem "1..*" CollectorItem
+    ExhibitionItem "1..*" ExhibitionItemRequest
+    ExhibitionItem "1..*" ExhibitionItemStatus
+}
+class CollectorItem {
+    String Name
+    String Description
+    ExhibitionItem ExhibitionItem
+    ExhibitionItem "1..*" ExhibitionItemRequest
+    ExhibitionItem "1..*" ExhibitionItemStatus
+}
+class ExhibitionItemRequest {
+    String ItemName
+    String ItemDescription
+    ExhibitionItem ExhibitionItem
+    CollectorItem CollectorItem
+    ExhibitionItemRequest "1..*" ExhibitionItemRequest
+}
+class ExhibitionItemStatus {
+    String Status
+    ExhibitionItem ExhibitionItem
+    ExhibitionItemRequest ExhibitionItemRequest
+    ExhibitionItemStatus "1..*" ExhibitionItemStatus
+}
+class Employee {
+    String Name
+    String Position
+    Exhibition Exhibition
+    Employee "1..*" Coach
+    Employee "1..*" ExhibitionItemRequest
+    Employee "1..*" ExhibitionItemStatus
+}
+class Coach {
+    String Name
+    Employee Employee
+    Employee "1..*" ExhibitionItemRequest
+    Employee "1..*" ExhibitionItemStatus
+}
+
+@enduml

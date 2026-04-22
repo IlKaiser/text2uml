@@ -3,22 +3,28 @@ Here is the PlantUML class diagram for STEP 1:
 ```plantuml
 @startuml
 
-class Customer {}
-class Address {}
-class VATNumber {}
-class Product {}
-class Order {}
-class OrderLine {}
-class Payment {}
-class Shipment {}
+class Customer {
+    String Address
+    String VATNumber
+}
 
-Customer "1" -- "1" Address
-Customer "1" -- "1" VATNumber
-Order "1" -- "1" Customer
+class Product {
+    String Name
+    Int Stock
+}
+
+class Order {
+    Date PaidDate
+    Date ShippedDate
+}
+
+class OrderLine {
+    Int Quantity
+}
+
+Customer "1" -- "0..*" Order
 Order "1" -- "0..*" OrderLine
-OrderLine "1" -- "1" Product
-Order "1" -- "1" Payment
-Order "1" -- "1" Shipment
+Product "1" -- "0..*" OrderLine
 
 @enduml
 ```

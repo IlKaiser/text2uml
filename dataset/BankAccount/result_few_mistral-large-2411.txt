@@ -1,19 +1,25 @@
-```plantuml
 @startuml
 
+class Customer {
+    String FirstName
+    String LastName
+}
 class Bank {}
-class Customer {}
 class Branch {}
-class Account {}
-class CurrentAccount {}
-class SavingsAccount {}
+class Account {
+    Int AccountNumber
+    Double CurrentBalance
+}
+class CurrentAccount{
+    Double OverdraftLimit
+}
+class SavingsAccount{}
 
-Bank "1" -- "0..*" Customer
+Customer "0..*" -- "1..*" Account
 Bank "1" -- "0..*" Branch
-Customer "1..5" -- "1" Account
-Account "1" -- "1..1" Customer
-Account "1" -- "0..1" CurrentAccount
-Account "1" -- "0..1" SavingsAccount
+Bank "1" -- "0..*" Customer
+Account "1..1" -- "0..1" CurrentAccount
+Account "1..1" -- "0..1" SavingsAccount
+Customer "1..1" -- "1..5" Account
 
 @enduml
-```

@@ -1,0 +1,112 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: The following case describes a universe of research project management. The university has many research groups that belong to different departments. Researchers belong to exactly one research group. Projects are decomposed into Work Packages (WP), and each WP has exactly one research group assigned to it as WP leader. To execute a research project, researchers need to be assigned to Work Packages. 
+A researcher can be assigned to any WP, independent of which RG is leading the WP. 
+However, “service delivery” from one group to another needs to be traceable. It should be possible to have an overview of researchers from other groups working on WPs led by a RG. This “service delivery” implies that whenever a researcher changes research group, the current assignments as team member of a WP are terminated and new ones are created to keep a correct record of the service delivery. Likewise, if WP leadership is re-assigned, team member assignments are re-recorded to ensure correct recording of the service delivery.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given specification. Let me break down the problem step by step.
+
+First, I'll identify all the classes mentioned in the text. The specification talks about a university with research groups, departments, researchers, Work Packages, and projects. So the classes I need are:
+
+1. University
+2. Department
+3. ResearchGroup
+4. Researcher
+5. WorkPackage
+6. Project
+
+Next, I'll extract the attributes for each class. The specification doesn't mention any attributes beyond the entities, so I'll assume each class has an id as an attribute. That means each class will have { id } in their definitions.
+
+Now, I'll move on to the relations. The specification mentions several relationships:
+
+- Research groups belong to departments.
+- Researchers belong to exactly one research group.
+- Projects are decomposed into Work Packages, with each WP having exactly one research group as the WP leader.
+- Researchers are assigned to WPs.
+- Changes in research group or WP leadership require updating assignments for service delivery.
+
+I'll represent these relationships using PlantUML syntax. Since the relationships are bidirectional where necessary, I'll use the appropriate cardinalities. For example, a research group can belong to many departments, so that's a many-to-many relationship. Similarly, a project can have many WPs, and each WP can have many researchers.
+
+I'll also need to show the one-to-one relationship between a researcher and their assigned research group, as well as the one-to-one relationship between a WP and its assigned research group for leadership.
+
+Finally, I'll structure the PlantUML code by first listing all the classes with their attributes and then defining the relationships between them, ensuring the cardinalities are correctly specified.
+</think>
+
+@startuml
+
+class University {
+    id
+    Department department
+    ResearchGroup researchGroup
+}
+
+class Department {
+    id
+    university
+    researchGroup researchGroup
+}
+
+class ResearchGroup {
+    id
+    university
+    department department
+    researcher researcher
+    WorkPackage workPackage
+}
+
+class Researcher {
+    id
+    researchGroup researchGroup
+}
+
+class WorkPackage {
+    id
+    project
+    researchGroup researchGroup
+    researcher researcher
+}
+
+class Project {
+    id
+    workPackage workPackage
+}
+
+ResearchGroup "1..1" -- "1..*" Researcher
+ResearchGroup "1..*" -- "1..1" WorkPackage
+WorkPackage "1..*" -- "1..1" Researcher
+WorkPackage "1..1" -- "1..*" ResearchGroup
+Project "1..*" -- "1..1" WorkPackage
+Researcher "1..1" -- "1..*" WorkPackage
+Researcher "1..*" -- "1..1" Project
+@enduml

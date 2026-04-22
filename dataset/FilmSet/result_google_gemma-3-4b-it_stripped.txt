@@ -1,0 +1,30 @@
+@startuml
+class Employee { String Name, String SocialSecurityNumber }
+class CreativeEmployee { String AssistantName }
+class Director { }
+class Actor { String Education }
+class Technician { String FieldOfActivity }
+class FilmSet { String Location }
+class Film { String Title, int ReleaseYear, String Genre }
+class Screenwriter { String Name, String MostSuccessfulFilm }
+class Screenplay { String Title, String Version, Date Date, int NumberOfScenes, String Plot }
+class Novel { String Title, String Author }
+class Concept { }
+class RolePreparation { String Screenplay }
+class Appearance { String Screenplay }
+
+Film "1..*" -- FilmSet
+FilmSet "1..*" -- Film "1..*"
+Screenplay "1..1" -- Screenwriter
+Screenplay "1..1" -- Film
+Novel "1..1" -- Screenplay
+Concept "1..1" -- Screenplay
+Director "1..*" -- Film
+Actor "1..*" -- Film
+Actor "1..*" -- Appearance
+Screenwriter "1..*" -- Screenplay
+CreativeEmployee "1..*" -- Director
+Technician "1..*" -- FilmSet
+RolePreparation "1..1" -- Appearance
+
+@enduml

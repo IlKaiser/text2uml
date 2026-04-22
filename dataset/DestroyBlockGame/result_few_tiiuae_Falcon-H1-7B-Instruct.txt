@@ -1,0 +1,32 @@
+@startuml
+
+class User {
+    String Username
+    String Password
+}
+class Admin {}
+class Player {}
+class Game {
+    String Name
+}
+class HallOfFame {
+    String GameName
+}
+class Block {
+    String Color
+    Int Points
+}
+class Level {
+    Int Number
+    Boolean IsRandom
+}
+
+User --|> Player
+User --|> Admin
+Admin --|> Game
+Game --|> HallOfFame
+Game "1" -- "0..*" Block
+Game "1" -- "1..*" Level
+Level "1" -- "0..*" Block
+
+@enduml

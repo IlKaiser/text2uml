@@ -1,0 +1,595 @@
+<bos><start_of_turn>user
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - an association list (with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+ClassName1, ClassName2, ...
+
+The association list format is:
+mul1 ClassName1 -- mul2 ClassName2
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every entry in the association list write:
+  ClassName1 "mul1" -- "mul2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, considering their relevance to the system's functionality:
+
+*   Technology
+*   Company
+*   Car
+*   Cab
+*   Service
+*   RideHailing
+*   RideSharing
+*   App
+*   Customer
+*   Gesture
+*   System
+*   Location
+*   Fee
+*   Request
+*   Passenger
+*   Tree
+*   Accident
+*   Damage
+
+I've included variations (e.g., RideHailing, RideSharing) to represent different service types.
+
+##############
+
+The text specification is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Company, Car, Cab, Service, RideHailing, RideSharing, App, Customer, Gesture, System, Location, Fee, Request, Passenger, Tree, Accident, Damage
+
+##############
+
+The association list is:
+
+mul1 Class1 -- mul2 Class2
+...
+
+##############
+
+The attributes dictionary is:
+
+<bos><start_of_turn>user
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, considering their relevance to the system's functionality:
+
+*   Technology
+*   Company
+*   Car
+*   Cab
+*   Service
+*   RideHailing
+*   RideSharing
+*   App
+*   Customer
+*   Gesture
+*   System
+*   Location
+*   Fee
+*   Request
+*   Passenger
+*   Tree
+*   Accident
+*   Damage
+
+I've included variations (e.g., RideHailing, RideSharing) to represent different service types.
+
+##############
+
+The text specification is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Company, Car, Cab, Service, RideHailing, RideSharing, App, Customer, Gesture, System, Location, Fee, Request, Passenger, Tree, Accident, Damage
+
+#############
+
+The specification text is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############
+
+The attributes dictionary is:<end_of_turn>
+<start_of_turn>model
+```json
+{
+    "Company": [
+        "name: String",
+        "services: List[Service]"
+    ],
+    "Car": [
+        "id: Int",
+        "owner: Company",
+        "model: String",
+        "selfDriving: Boolean"
+    ],
+    "Cab": [
+        "id: Int",
+        "car: Car",
+        "owner: Company"
+    ],
+    "Service": [
+        "type: String",
+        "fee: Float"
+    ],
+    "RideHailing": [
+        "parent: Service",
+        "requestMethod: String",
+        "pickupTime: Date",
+        "dropoffTime: Date",
+        "pickupLocation: Location",
+        "dropoffLocation: Location",
+        "duration: Float",
+        "distance: Float",
+        "numberOfPassengers: Int",
+        "fee: Float",
+        "leadCustomer: Customer"
+    ],
+    "RideSharing": [
+        "parent: Service",
+        "pickupTime: Date",
+        "dropoffTime: Date",
+        "pickupLocation: Location",
+        "dropoffLocation: Location",
+        "duration: Float",
+        "distance: Float",
+        "numberOfPassengers: Int",
+        "fee: Float",
+        "customers: List[Customer]"
+    ],
+    "App": [
+        "name: String"
+    ],
+    "Customer": [
+        "id: Int",
+        "name: String",
+        "paymentInfo: String"
+    ],
+    "Gesture": [
+        "type: String"
+    ],
+    "System": [
+        "name: String"
+    ],
+    "Location": [
+        "latitude: Float",
+        "longitude: Float"
+    ],
+    "Fee": [
+        "amount: Float",
+        "currency: String"
+    ],
+    "Request": [
+        "id: Int",
+        "type: String",
+        "time: Date",
+        "location: Location"
+    ],
+    "Passenger": [
+        "id: Int",
+        "numberOfPassengers: Int"
+    ],
+    "Tree": [
+        "planted: Boolean"
+    ],
+    "Accident": [
+        "date: Date",
+        "location: Location",
+        "damageAmount: Float"
+    ]
+}
+```
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, considering their relevance to the system's functionality:
+
+*   Technology
+*   Company
+*   Car
+*   Cab
+*   Service
+*   RideHailing
+*   RideSharing
+*   App
+*   Customer
+*   Gesture
+*   System
+*   Location
+*   Fee
+*   Request
+*   Passenger
+*   Tree
+*   Accident
+*   Damage
+
+I've included variations (e.g., RideHailing, RideSharing) to represent different service types.
+
+##############
+
+The text specification is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Company, Car, Cab, Service, RideHailing, RideSharing, App, Customer, Gesture, System, Location, Fee, Request, Passenger, Tree, Accident, Damage
+
+#############
+
+The specification text is:
+
+100% Driven by technology
+Sober is new taxi company deploying self-driving cars to provide cap services. Although it operates its own fleet of self-driving cabs, people can also register their cars as Sober cabs and have them provide taxi services whenever they are not using their cars. For the latter, Sober also wants to keep track of the car owners.
+Sober offers two types of taxi services: ride-hailing and ride-sharing. Ride-hailing is a service whereby customers can hail a taxi so they can be picked up and driven to their destination for a time-and distance-based fee. The hailing is an immediate, on-demand service and requests can be made with the Sober App. With just one tap on the screen, a customer can request a cab from anywhere, receive an estimated wait time, and a notification when the car has arrived. Besides the Sober App, users can also hail Sober cabs by hand-waving them as they see them pass, in which case Sober’s deep-learning based image recognition system identifies the wave gesture as a cab request. For each use of the ride-hail service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number of passengers, the fee, the type of request (via Sober App or hand-waving) and the number and name of the lead customer (the one who pays). The maximum number of passengers for a ride-hail service is six. 
+Ride-sharing is another service offered by Sober, which requires more careful planning. It can also be referred to as carpooling and aims at reducing costs, traffic congestion, and the carbon footprint.  Because of the planning, both Sober and its customers can negotiate the fee whereby more customers per cab means a lower fee per customer (flexible pricing). To provide an eco-friendly incentive, Sober pledges to plant a tree for each customer who books 20 uses of the Sober ride-sharing service. For each ride-share service, Sober wants to store the time of pick-up and drop-off, the location of pick-up and drop-off, the ride duration, the distance, the number and names of all customers, and the upfront negotiated fee. The maximum number of passengers for a ride-share service is ten.
+Due to the novelty of the self-driving car technology, accidents cannot be 100% ruled out. Sober also wants to store information about accident dates, location, and damage amounts per car.
+
+##############<end_of_turn>
+<start_of_turn>model
+ASSOCIATIONS:
+Company -- Service
+Company -- Car
+Company -- Cab
+Service -- RideHailing
+Service -- RideSharing
+Service -- Customer
+App -- Request
+Cab -- Customer
+Gesture -- Request
+System -- Gesture
+Location -- Request
+Fee -- Request
+Request -- Passenger
+Passenger -- Request
+Customer -- Request
+Customer -- Service
+Car -- Accident
+Car -- Damage
+
+##############
+
+The plant uml is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class Company {
+}
+
+class Car {
+}
+
+class Cab {
+}
+
+class Service {
+}
+
+class RideHailing {
+}
+
+class RideSharing {
+}
+
+class App {
+}
+
+class Customer {
+}
+
+class Gesture {
+}
+
+class System {
+}
+
+class Location {
+}
+
+class Fee {
+}
+
+class Request {
+}
+
+class Passenger {
+}
+
+class Tree {
+}
+
+class Accident {
+}
+
+Company "1" -- "*" Service : operates
+Company "1" -- "*" Car : owns
+Company "1" -- "*" Cab : owns
+Service "1" -- "*" RideHailing : offers
+Service "1" -- "*" RideSharing : offers
+Service "1" -- "*" Customer : uses
+App "1" -- "*" Request : handles
+Cab "1" -- "*" Customer : serves
+Gesture "1" -- "*" Request : triggers
+System "1" -- "*" Gesture : processes
+Location "1" -- "*" Request : associated_with
+Fee "1" -- "*" Request : applies
+Request "1" -- "*" Passenger : includes
+Passenger "1" -- "*" Request : part_of
+Customer "1" -- "*" Request : makes
+Car "1" -- "*" Accident : involved_in
+Car "1" -- "*" Damage : suffers
+
+@enduml
+```

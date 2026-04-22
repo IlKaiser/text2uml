@@ -1,22 +1,24 @@
-```plantuml
 @startuml
 
-class Customer{}
-class Broker{}
-class InsurancePolicy{}
-class Contract{}
-class Claim{}
-class ClaimCase{}
-class Estimator{}
-class CompensationDecision{}
+class InsuranceCompany{ String Name }
+class Customer{ String Name, String ContactInformation }
+class Broker{ String Name, String LicenseNumber }
+class InsurancePolicy{ String PolicyType, Date StartDate, Date EndDate, Float Price }
+class Contract{ Date SignedDate, String Terms }
+class Claim{ String Description, Date ClaimDate }
+class ClaimCase{ String CaseID }
+class Estimator{ String Name, String Expertise }
+class CompensationDecision{ Float Amount, String EligibleCosts }
+class Report{ String Content, Date DateIssued }
 
+InsuranceCompany "1..1" -- "0..*" Customer
 Customer "1..1" -- "1..1" Broker
-Customer "1..*" -- "1..*" InsurancePolicy
-Customer "1..1" -- "1..1" Contract
-Customer "1..*" -- "1..*" Claim
+Customer "1..*" -- "0..*" InsurancePolicy
+Broker "1..1" -- "0..*" Contract
+Customer "1..*" -- "0..*" Claim
 Claim "1..*" -- "1..*" ClaimCase
-ClaimCase "1..*" -- "1..*" Estimator
-ClaimCase "1..1" -- "1..1" CompensationDecision
+ClaimCase "1..*" -- "0..*" Estimator
+Estimator "1..*" -- "0..*" Report
+ClaimCase "1..1" -- "0..1" CompensationDecision
 
 @enduml
-```

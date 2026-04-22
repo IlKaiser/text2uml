@@ -1,0 +1,57 @@
+```plantuml
+@startuml
+
+class GameDesigner {
+    String Name
+}
+
+class BoardGame {
+    String Name
+}
+
+class GameBoard {
+    String Layout
+}
+
+class Tile {
+    String Color
+    Boolean IsHidden
+    Boolean IsActionTile
+}
+
+class ConnectionPiece {}
+
+class PlayingPiece {
+    String Color
+}
+
+class ActionCard {
+    String Action
+}
+
+class Player {
+    String Name
+    String Color
+}
+
+class Die {
+    Integer Sides
+}
+
+GameDesigner "1" -- "1" BoardGame
+BoardGame "1" -- "1" GameBoard
+GameBoard "1" -- "0..*" Tile
+Tile "0..1" -- "1" Tile : right
+Tile "0..1" -- "1" Tile : left
+Tile "0..1" -- "1" Tile : top
+Tile "0..1" -- "1" Tile : bottom
+GameBoard "1" -- "0..*" PlayingPiece
+GameBoard "1" -- "0..*" ActionCard
+Player "1" -- "1" PlayingPiece
+Player "1" -- "1" Die
+BoardGame "1" -- "2..4" Player
+Tile "1" -- "0..*" ConnectionPiece
+ActionCard "1" -- "0..*" ActionCard
+
+@enduml
+```

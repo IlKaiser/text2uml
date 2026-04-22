@@ -1,27 +1,57 @@
 
 @startuml
 
-class TaxiCompany {}
-class SelfDrivingCar {}
-class CarOwner {}
+class TaxiCompany {
+    String Name
+}
+class SelfDrivingCar {
+    String LicensePlate
+}
+class CarOwner {
+    String Name
+}
 class TaxiService {}
 class RideHailService {}
 class RideShareService {}
-class TaxiRequest {}
-class Ride {}
-class Customer {}
-class Accident {}
 
-TaxiCompany "1" -- "0..*" SelfDrivingCar
-TaxiCompany "1" -- "0..*" CarOwner
-TaxiCompany "1" -- "0..*" TaxiService
+SelfDrivingCar "1..*" -- "1" TaxiCompany
+CarOwner "0..*" -- "1..*" SelfDrivingCar
+TaxiCompany "1" -- "1..*" TaxiService
 TaxiService "1" -- "0..*" RideHailService
 TaxiService "1" -- "0..*" RideShareService
-RideHailService "0..*" -- "1" TaxiRequest
-RideHailService "0..*" -- "1" Ride
-Ride "1" -- "0..*" Customer
-RideShareService "0..*" -- "1" Ride
-RideShareService "0..*" -- "0..1" CarOwner
-Accident "0..*" -- "1" SelfDrivingCar
+
+class RideHailUsage {
+    Date PickUpTime
+    Date DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    Int NumPassengers
+    Double Fee
+    String RequestType
+}
+class RideShareUsage {
+    Date PickUpTime
+    Date DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    Int NumCustomers
+    List<String> CustomerNames
+    Double NegotiatedFee
+}
+class Accident {
+    Date Date
+    String Location
+    Double DamageAmount
+}
+class RideShareTree {}
+
+RideHailService "1" -- "0..*" RideHailUsage
+RideShareService "1" -- "0..*" RideShareUsage
+SelfDrivingCar "0..*" -- "0..*" Accident
+RideShareService "0..*" -- "1..1" RideShareTree
 
 @enduml

@@ -1,0 +1,66 @@
+Here is the PlantUML class diagram based on the provided specification text:
+
+```plantuml
+@startuml
+
+class Employee {
+    String Name
+    String Role
+}
+
+class HeadCoach extends Employee {}
+
+class Director extends Employee {}
+
+class Scout extends Employee {}
+
+class HeadScout extends Scout {}
+
+class PlayerProfile {
+    String TargetPosition
+    String[] PlayerAttributes
+}
+
+class Player {
+    String Name
+    String Position
+    String[] Attributes
+}
+
+class LongList {
+    String EvaluationStatus
+}
+
+class ScoutingAssignment {
+    String Status
+    String Recommendation
+}
+
+class ScoutingReport {
+    String Pros
+    String Cons
+    String Recommendation
+}
+
+class ShortList {
+    String Status
+}
+
+class Offer {
+    String Status
+}
+
+HeadCoach "1" -- "0..*" PlayerProfile
+Scout "1" -- "0..*" LongList
+HeadScout "1" -- "0..*" LongList
+Scout "1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1" -- "1" ScoutingReport
+HeadScout "1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1" -- "1" ScoutingReport
+HeadCoach "1" -- "0..*" ShortList
+HeadScout "1" -- "0..*" ShortList
+HeadScout "1" -- "0..*" Offer
+Director "1" -- "0..*" Offer
+
+@enduml
+```

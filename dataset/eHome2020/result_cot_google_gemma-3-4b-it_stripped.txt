@@ -1,0 +1,49 @@
+```plantuml
+@startuml
+class Sensor {
+    - vendor_id : String
+    - description : String
+    - unit : String
+    - min : Float
+    - max : Float
+}
+
+class SensorController {
+    - apartment_id : String
+}
+
+class Apartment {
+    - address : String
+}
+
+class Room {
+    - description : String
+}
+
+class SensorValue {
+    - timestamp : Date
+    - value : Float
+}
+
+class User {
+    - username : String
+    - password : String
+}
+
+class EMonitor {
+    - apartment_id : String
+    - email_address : String
+}
+
+Sensor "1" -- "1" SensorController : reports to
+SensorController "1" -- "1" Apartment : manages
+Apartment "1" -- "*" Room : contains
+Room "1" -- "*" Sensor : has
+Sensor "1" -- "*" SensorValue : has
+User "1" -- "1" SensorController : logs in to
+Sensor "1" -- "1" User : configured by
+EMonitor "1" -- "1" Sensor : monitors
+Sensor "1" -- "1" EMonitor : sends alerts to
+
+@enduml
+```

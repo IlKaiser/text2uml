@@ -1,32 +1,73 @@
 @startuml
 
-class Student{}
-class Tutor{}
-class Subject{}
-class TutorSubjectExpertise{}
-class Availability{}
-class TutoringOffer{}
-class TutoringRequest{}
-class TutoringSession{}
-class Payment{}
-class Award{}
+class Student {
+  String name
+  String emailAddress
+}
 
-Student "0..1" -- "1..1" Tutor
-Tutor "1..1" -- "0..*" Availability
-Tutor "1..1" -- "0..*" TutorSubjectExpertise
-Subject "1..1" -- "0..*" TutorSubjectExpertise
-TutorSubjectExpertise "1..1" -- "0..*" TutoringOffer
-Student "0..*" -- "0..*" TutoringOffer
-Student "1..1" -- "0..*" TutoringRequest
-Tutor "1..1" -- "0..*" TutoringRequest
-TutorSubjectExpertise "1..1" -- "0..*" TutoringRequest
-TutoringRequest "0..1" -- "0..1" TutoringSession
-Student "1..1" -- "0..*" TutoringSession
-Tutor "1..1" -- "0..*" TutoringSession
-TutoringSession "1..1" -- "0..*" TutoringSession
-TutoringSession "1..1" -- "0..1" Payment
-Student "1..1" -- "0..*" Payment
-Tutor "1..1" -- "0..*" Award
-Subject "1..1" -- "0..*" Award
+class Tutor {
+  String bankAccount
+}
+
+class Subject {
+  String name
+}
+
+class TutoringOffer {
+  String levelOfExpertise
+  Double hourlyPrice
+}
+
+class Availability {
+  String dayOfWeek
+  Time startTime
+  Time endTime
+}
+
+class TutoringRequest {
+  String levelOfTutoring
+  Date targetDate
+  Time targetTime
+}
+
+class TutoringSession {
+  DateTime scheduledDateTime
+  boolean isCancelled
+  Double agreedPrice
+}
+
+class Payment {
+  String paymentMethod
+  Double amount
+  Date paymentDate
+}
+
+class Award {
+  String title
+  Date awardDate
+}
+
+Student <|-- Tutor
+
+Student "1" -- "0..*" TutoringRequest
+Student "1" -- "0..*" TutoringSession
+Student "1" -- "0..*" Payment
+
+Tutor "1" -- "0..*" TutoringOffer
+Tutor "1" -- "0..*" Availability
+Tutor "1" -- "0..*" TutoringRequest
+Tutor "1" -- "0..*" TutoringSession
+Tutor "0..*" -- "1" Award
+
+Subject "1" -- "0..*" TutoringOffer
+Subject "1" -- "0..*" Award
+
+TutoringOffer "1" -- "0..*" TutoringRequest
+TutoringOffer "1" -- "0..*" TutoringSession
+
+TutoringRequest "1" -- "0..1" TutoringSession
+
+TutoringSession "1" -- "0..1" Payment
+TutoringSession "0..1" -- "0..1" TutoringSession
 
 @enduml

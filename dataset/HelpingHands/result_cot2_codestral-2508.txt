@@ -1,50 +1,52 @@
 ```plantuml
 @startuml
-class HelpingHandsStore{}
-class SecondHandArticle{}
-class NonPerishableFood{}
-class Resident{}
-class Customer{}
-class PickupService{}
-class PickupVehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class FoodBank{}
-class H2SEmployee{}
-class Category{}
-class Client{}
 
-HelpingHandsStore "1" -- "1..*" SecondHandArticle
-HelpingHandsStore "1" -- "1..*" NonPerishableFood
-HelpingHandsStore "1" -- "1..*" Resident
-HelpingHandsStore "1" -- "1..*" Customer
-HelpingHandsStore "1" -- "1..*" PickupService
-HelpingHandsStore "1" -- "1..*" PickupVehicle
-HelpingHandsStore "1" -- "1..*" VolunteerDriver
-HelpingHandsStore "1" -- "1..*" PickupRoute
-HelpingHandsStore "1" -- "1" DistributionCenter
-HelpingHandsStore "1" -- "1" FoodBank
-HelpingHandsStore "1" -- "1..*" H2SEmployee
-HelpingHandsStore "1" -- "1..*" Category
-HelpingHandsStore "1" -- "1..*" Client
-SecondHandArticle "1..*" -- "1" Resident
-SecondHandArticle "1..*" -- "1" Category
-NonPerishableFood "1..*" -- "1" Resident
-NonPerishableFood "1..*" -- "1" FoodBank
-PickupService "1..*" -- "1..*" Resident
-PickupService "1..*" -- "1..*" PickupRoute
-PickupVehicle "1..*" -- "1" VolunteerDriver
-PickupVehicle "1..*" -- "1..*" PickupRoute
-VolunteerDriver "1..*" -- "1..*" PickupRoute
-PickupRoute "1..*" -- "1..*" Resident
-DistributionCenter "1" -- "1..*" SecondHandArticle
-DistributionCenter "1" -- "1..*" H2SEmployee
-FoodBank "1" -- "1..*" NonPerishableFood
-FoodBank "1" -- "1..*" H2SEmployee
-H2SEmployee "1..*" -- "1..*" SecondHandArticle
-H2SEmployee "1..*" -- "1..*" NonPerishableFood
-Category "1..*" -- "1..*" SecondHandArticle
-Client "1..*" -- "1..*" Category
+class Resident {
+  name:String
+  streetAddress:String
+  phoneNumber:String
+  email:String
+  itemsDescription:String
+}
+class City
+class Location
+class PickupService
+class Vehicle {
+  availableStorageSpace:Float
+}
+class Fleet
+class VolunteerDriver {
+  availableDays:Date
+}
+class PickupRoute
+class DistributionCenter
+class FoodBank
+class Employee
+class Article {
+  description:String
+  category:String
+}
+class Category
+class Client {
+  homeAddress:String
+  neededCategories:String
+}
+
+Resident "0..*" -- "1..1" Location
+Resident "0..*" -- "0..*" PickupService
+PickupService "1..1" -- "0..1" Vehicle
+Vehicle "1..1" -- "0..1" VolunteerDriver
+Vehicle "1..1" -- "0..1" PickupRoute
+PickupRoute "0..*" -- "0..*" Location
+DistributionCenter "1..1" -- "0..*" Vehicle
+DistributionCenter "1..1" -- "0..*" Employee
+DistributionCenter "1..1" -- "0..*" Article
+FoodBank "1..1" -- "0..*" Vehicle
+Employee "1..1" -- "0..*" Article
+Article "1..1" -- "1..1" Category
+DistributionCenter "1..1" -- "0..*" Client
+Client "1..1" -- "0..*" Category
+Client "1..1" -- "0..1" VolunteerDriver
+
 @enduml
 ```

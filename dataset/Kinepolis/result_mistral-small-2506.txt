@@ -1,35 +1,27 @@
-```plantuml
 @startuml
 
 class Kinepolis{}
-class Cinema{}
-class Town{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Reservation{}
-class Customer{}
-class CreditCard{}
-class Ticket{}
-class Seat{}
-class TicketingDesk{}
+class Cinema{ String Name, String Town}
+class Theatre{ String Number}
+class Show{ Date ShowDate, Time StartTime, Time EndTime}
+class Movie{ String Title, Date ReleaseDate}
+class Copy{ Date CopyDate}
+class Reservation{ Date ReservationDate, Time ReservationTime, String Status}
+class CreditCard{ String Number, Date ExpirationDate, String CVV}
+class Customer{ String Name, String Email}
+class Ticket{ String SeatNumber, String Status}
+class TicketingDesk{ String Number, String AvailableSeats}
 
-Kinepolis "1..1" -- "1..*" Cinema
-Cinema "1..1" -- "1..1" Town
 Cinema "1..1" -- "1..*" Theatre
 Theatre "1..1" -- "1..*" Show
 Show "1..1" -- "1..1" Movie
 Movie "1..1" -- "1..*" Copy
 Cinema "1..1" -- "1..*" Copy
-Copy "1..1" -- "1..1" Theatre
-Reservation "1..1" -- "1..1" Show
+Show "1..1" -- "0..*" Reservation
+Reservation "1..1" -- "1..1" CreditCard
 Reservation "1..1" -- "1..1" Customer
-Customer "1..1" -- "1..1" CreditCard
-Reservation "1..1" -- "1..1" Seat
-Ticket "1..1" -- "1..1" Show
-Ticket "1..1" -- "1..1" Seat
-TicketingDesk "1..1" -- "1..1" Show
+Reservation "1..1" -- "1..1" Ticket
+Customer "1..1" -- "0..*" Ticket
+TicketingDesk "1..1" -- "1..*" Ticket
 
 @enduml
-```

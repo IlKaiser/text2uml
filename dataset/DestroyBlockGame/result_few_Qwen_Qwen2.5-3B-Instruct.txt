@@ -1,0 +1,95 @@
+@startuml
+
+class User {
+    String Username
+    String Password
+    Boolean Admin
+}
+class Game {
+    String Name
+    HallOfFame HallOfFame
+}
+class Block {
+    String Color
+    Int Points
+}
+class Level {
+    Int Number
+    String StartingArrangement
+    Boolean Random
+}
+class GameDesign {
+    String Name
+    List<Block> Blocks
+    List<Level> Levels
+    Int MinimumSpeed
+    Float SpeedIncreaseFactor
+    Int MaximumLength
+    Int MinimumLength
+}
+class PlayGame {
+    String Name
+    HallOfFame HallOfFame
+}
+class GameInstance {
+    String Name
+    HallOfFame HallOfFame
+}
+class Player {
+    String Username
+    HallOfFame HallOfFame
+}
+class HallOfFame {
+    Int Score
+    String Username
+}
+class BlockPlacement {
+    String Name
+    List<Block> Blocks
+}
+class Ball {
+    String Position
+    String Direction
+}
+class Paddle {
+    String Position
+}
+class GameEvent {
+    String Event
+    String Description
+}
+class GameStatus {
+    String Status
+}
+class GamePause {
+    String Reason
+}
+class GameResume {
+    String Reason
+}
+class GameEnd {
+    String Reason
+}
+
+User "1" -- "0..1" GameDesign
+User "1" -- "0..1" Game
+User "1" -- "0..1" GameInstance
+Player "1" -- "0..1" GameDesign
+Player "1" -- "0..1" Game
+Player "1" -- "0..1" GameInstance
+HallOfFame "1" -- "0..*" Player
+GameDesign "1" -- "0..*" HallOfFame
+Game "1" -- "0..1" HallOfFame
+GameInstance "1" -- "0..1" HallOfFame
+Game "1" -- "0..1" GameInstance
+Game "1" -- "0..1" GameDesign
+Game "1" -- "0..1" GamePause
+Game "1" -- "0..1" GameResume
+Game "1" -- "0..1" GameEnd
+Game "1" -- "0..1" GameEvent
+Game "1" -- "0..1" GameStatus
+Game "1" -- "0..1" BlockPlacement
+Game "1" -- "0..1" Ball
+Game "1" -- "0..1" Paddle
+
+@enduml

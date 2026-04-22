@@ -1,18 +1,44 @@
-```
+```plantuml
 @startuml
-class Exhibition{}
-class Location{}
-class Employee{}
-class ExhibitionItem{}
-class Piece{}
-class Collector{}
-class Coach{}
 
-Exhibition "1..1" -- "1..*" Location
-Exhibition "1..1" -- "1..*" Employee
-Exhibition "1..*" -- "1..1" ExhibitionItem
-ExhibitionItem "1..*" -- "1..*" Piece
-ExhibitionItem "1..*" -- "1..1" Collector
-Employee "0..*" -- "0..*" Coach
+class Museum {
+}
+
+class Room {
+}
+
+class Exhibition {
+    coordinator: Employee
+}
+
+class Location {
+}
+
+class Employee {
+    coach: Employee
+}
+
+class ExhibitionItem {
+    piece: Piece
+    collector: Collector
+}
+
+class Collector {
+}
+
+class Piece {
+}
+
+Museum "1..1" -- "1..*" Room
+Museum "1..1" -- "1..*" Exhibition
+Museum "1..1" -- "1..*" Location
+Museum "1..1" -- "1..*" Employee
+Location "1..*" -- "1..1" Exhibition
+Exhibition "1..1" -- "1..1" Employee
+Exhibition "1..1" -- "1..*" ExhibitionItem
+ExhibitionItem "1..1" -- "1..*" Piece
+ExhibitionItem "1..1" -- "1..*" Collector
+Employee "0..*" -- "0..*" Employee
+
 @enduml
 ```

@@ -1,25 +1,104 @@
 @startuml
 
-class Portal{}
-class Building{}
-enum EnergyClass {A B C D}
-class User{}
-class Admin{}
-class Entry{}
-class TextEntry{}
-class NumericEntry{}
-class Image{}
-class Comment{}
+enum EnergyClass { A, B, C, D }
+
+class Portal{
+  String Version
+  String Url
+}
+
+class Building{
+  String Id
+  String Name
+  EnergyClass EnergyRating
+  String Address
+  int YearOfConstruction
+}
+
+class User{
+  String Username
+  String Email
+  String Password
+}
+
+class Administrator{
+  String IDCardNumber
+}
+
+class Image{
+  String FileName
+}
+
+abstract class Entry{
+  String Name
+}
+
+class TextEntry{
+  String TextValue
+}
+class NumericEntry{
+  Double Value
+  String Unit
+}
+
+class Comment{
+  String Content
+  Date Timestamp
+}
+
+class TextEntry --|> Entry
+class NumericEntry --|> Entry
+Administrator --|> User
+
+class UseCase_SearchBuildings{
+  String Name
+}
+class UseCase_Register{
+  String Name
+}
+class UseCase_ActivateUser{
+  String Name
+}
+class UseCase_Login{
+  String Name
+}
+class UseCase_CreateBuilding{
+  String Name
+}
+class UseCase_AddEntry{
+  String Name
+}
+class UseCase_EditEntry{
+  String Name
+}
+class UseCase_ReleaseEntry{
+  String Name
+}
+class UseCase_CommentOnBuilding{
+  String Name
+}
+class UseCase_DeleteComment{
+  String Name
+}
+
+class Visitor
 
 Portal "1" -- "0..*" Building
-Building "0..*" -- "1" Entry
-Building "0..*" -- "1" EnergyClass
-Building "0..*" -- "1" Image
-User "0..*" -- "1" Building
-TextEntry --|> Entry
-NumericEntry --|> Entry
-Admin --|> User
-User "1" -- "0..*" Comment
-Building "1" -- "0..*" Comment
+Building "0..*" -- "1" Image : images
+Building "1" -- "1" Image : profilePhoto
+Building "1" -- "0..*" Entry
+User "0..*" -- "1" Building : own
+Building "0..*" -- "1" Comment
+User "0..*" -- "1" Comment
+Visitor "0..*" -- "1" UseCase_SearchBuildings
+Visitor "0..*" -- "1" UseCase_Register
+User "0..*" -- "1" UseCase_Login
+User "0..*" -- "1" UseCase_CreateBuilding
+User "0..*" -- "1" UseCase_AddEntry
+User "0..*" -- "1" UseCase_EditEntry
+User "0..*" -- "1" UseCase_ReleaseEntry
+User "0..*" -- "1" UseCase_CommentOnBuilding
+Administrator "0..*" -- "1" UseCase_ActivateUser
+Administrator "0..*" -- "1" UseCase_DeleteComment
 
 @enduml

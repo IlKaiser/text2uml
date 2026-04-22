@@ -1,0 +1,47 @@
+@startuml
+
+class Person {
+    String FirstName
+    String LastName
+    String email
+    String password
+}
+
+class Organizer extends Person {
+    String postalAddress
+    String phoneNumber
+}
+
+class Attendee extends Person {
+}
+
+class Event {
+    Date startDateTime
+    Date endDateTime
+    String occasion
+    String eventType
+}
+
+class Location {
+    String name
+    String address
+}
+
+class Task {
+    String description
+    String status
+    Boolean designatedForAttendee
+}
+
+class RSVP {
+    String attendanceStatus
+}
+
+Organizer "0..*" -- "1..*" Event
+Event "1" -- "0..1" Location
+Event "1" -- "0..*" RSVP
+Attendee "1" -- "0..*" RSVP
+Event "1" -- "0..*" Task
+Task "0..*" -- "0..*" Attendee
+
+@enduml

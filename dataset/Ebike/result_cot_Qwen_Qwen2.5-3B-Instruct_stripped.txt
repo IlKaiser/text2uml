@@ -1,0 +1,52 @@
+@startuml
+atlas
+class EBike {
+  +frame: Frame
+  +driveSystem: DriveSystem
+  +controller: Controller
+}
+
+class Frame {
+  +material: String
+}
+
+class DriveSystem {
+  +motor: Motor
+}
+
+class Motor {
+  +type: String
+}
+
+class Wheel {
+  +size: String
+}
+
+class Battery {
+  +storedEnergy: Float
+}
+
+class Controller {
+  +currentState: String
+  +basicController: BasicController
+  +advancedController: AdvancedController
+}
+
+BasicController {
+  +canEstimateMaintenanceDate: Boolean
+}
+
+AdvancedController {
+  +canEstimateMaintenanceDate: Boolean
+}
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+DriveSystem "1" -- "1" Motor
+EBike "2" -- "1" Wheel
+EBike "1" -- "1" Battery
+Controller "0..*" -- "1" Battery
+Controller "0..*" -- "1" DriveSystem
+Controller "0..1" -- "1" BasicController
+Controller "0..1" -- "1" AdvancedController
+@enduml

@@ -1,0 +1,84 @@
+```plantuml
+@startuml
+
+class Aircraft {
+  name: String
+  type: String
+  year of manufacture: Int
+  date of the next inspection: Date
+  flight number: String
+  date of flight: Date
+  number of seats: Int
+}
+
+class Flight {
+  flight number: String
+  date of flight: Date
+  departure airport: String
+  destination airport: String
+}
+
+class Passenger {
+  name: String
+  passport number: String
+}
+
+class Ticket {
+  ticket number: String
+  price: Float
+  upgrade desired: Boolean
+  seat category: String
+}
+
+class SeatCategory {
+  designation: String
+  offers entertainment program: Boolean
+  number of seats: Int
+}
+
+class Airline {
+  name: String
+}
+
+class FlightAttendant {
+  name: String
+  date of employment: Date
+  chief steward or stewardess: Boolean
+}
+
+class Pilot {
+  name: String
+  date of employment: Date
+  license: String
+}
+
+class Airport {
+  name: String
+  address: String
+  number of runways: Int
+}
+
+class Runway {
+}
+
+1..* Aircraft -- 0..* Flight
+1..* Flight -- 0..* Passenger
+1..* Passenger -- 0..* Flight
+1..* Flight -- 1..* Ticket
+1..1 Ticket -- 1..1 SeatCategory
+1..1 PassengerAircraft -- 0..* SeatCategory
+0..1 Aircraft -- 1..* Airline
+1..1 Airline -- 0..* FlightAttendant
+1..1 Airline -- 0..* Pilot
+0..* FlightAttendant -- 0..* Flight
+1..1 Pilot -- 0..1 Flight
+0..2 Pilot -- 0..1 Flight
+0..1 Aircraft -- 0..1 Airport
+1..1 Flight -- 1..1 Airport
+1..1 Flight -- 1..1 Airport
+1..1 Airport -- 0..* Runway
+
+PassengerAircraft --|> Aircraft
+
+@enduml
+```

@@ -1,0 +1,33 @@
+@startuml
+
+class HBMS { String Name }
+class Traveller { String Name, String BillingCompany, String BillingAddress, String TravelPreferences, Double ReliabilityRating }
+class Booking { String BookingID, Date ArrivalDate, Date DepartureDate, Integer NumRooms, Double PricePerNight, String Status, String PaymentType, Date CancellationDeadline, Boolean IsPrepaid, Boolean IsConfirmed }
+class PreliminaryBooking { Date ForwardDeadline }
+class SpecialOffer { String OfferID, Double PricePerNight, String CityArea, Integer HotelRating, String KeyPreferences, Date ExpiryDate }
+class Payment { Double Amount, Date PaymentDate, Boolean IsRefunded }
+class Hotel { String Name, Double Rating }
+class HotelChain { String Name }
+class City { String Name }
+class Address { String Street, String PostalCode }
+class RoomType { String TypeName, Integer Capacity }
+class RoomAvailability { Date StartDate, Date EndDate, Double PricePerNight, Integer AvailableRooms, Boolean FullyBooked }
+
+PreliminaryBooking --|> Booking
+
+HBMS "1" -- "0..*" Traveller
+HBMS "1" -- "0..*" Booking
+Traveller "1" -- "0..*" Booking
+Hotel "1" -- "0..*" Booking
+Booking "1" -- "0..1" Payment
+HotelChain "1" -- "0..*" Hotel
+City "1" -- "0..*" Hotel
+Hotel "1" -- "1" Address
+Hotel "1" -- "0..*" RoomType
+RoomType "1" -- "0..*" Booking
+Hotel "1" -- "0..*" RoomAvailability
+PreliminaryBooking "1" -- "0..5" SpecialOffer
+Hotel "1" -- "0..*" SpecialOffer
+Traveller "1" -- "0..*" SpecialOffer
+
+@enduml

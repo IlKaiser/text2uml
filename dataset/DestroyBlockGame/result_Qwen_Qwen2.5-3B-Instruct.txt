@@ -1,0 +1,65 @@
+@startuml
+
+class User {
+    +String username
+    +String password
+    +boolean isAdmin
+}
+
+class Game {
+    +String name
+    +HallOfFame hallOfFame
+}
+
+class HallOfFame {
+    +String gameId
+    +List<PlayerScore> scores
+}
+
+class Block {
+    +String color
+    +int points
+}
+
+class Level {
+    +int number
+    +GridPosition[] initialBlocks
+    +boolean isRandom
+    +int speedIncreaseFactor
+    +int minSpeed
+    +int maxLength
+    +int minLength
+}
+
+class PlayArea {
+    +Block[] blocks
+    +Ball ball
+    +Paddle paddle
+}
+
+class Ball {
+    +int x
+    +int y
+    +int speedX
+    +int speedY
+}
+
+class Paddle {
+    +int x
+    +int y
+    +int width
+    +int height
+}
+
+User "1" -- "0..*" Game
+Game "1" -- "1" HallOfFame
+Game "1" -- "1" Level
+Level "1" -- "1" Block
+PlayArea "1" -- "1" Ball
+PlayArea "1" -- "1" Paddle
+
+User "1" -- "1" Block
+User "1" -- "1" Level
+User "1" -- "1" HallOfFame
+
+@enduml

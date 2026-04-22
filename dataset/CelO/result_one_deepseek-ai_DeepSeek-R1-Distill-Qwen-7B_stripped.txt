@@ -1,0 +1,243 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Celebrations Organization System 
+The CelO application helps families and groups of friends to organize birthday celebrations and other events. Organizers can keep track of which tasks have been completed and who attends. Attendees can indicate what they are bringing to the event. 
+For a small event, there is typically one organizer, but larger events require several organizers. An organizer provides their first and last name, their email address (which is also used as their username), their postal address, their phone number, and their password. Furthermore, an organizer indicates the kind of event that needs to be planned by selecting from a list of events (e.g., birthday party, graduation party…) or creating a new kind of event. The start date/time and end date/time of the event must be specified as well as the occasion and location of the event. The location can again be selected from a list, or a new one can be created by specifying the name of the location and its address. An organizer then invites the attendees by entering their first and last names as well as their email addresses. Sometimes, an organizer is only managing the event but not attending the event. Sometimes, an organizer also attends the event. 
+When an attendee receives the email invitation, the attendee can create an account (if they do not yet have an account) with a new password and their email address from the invitation as their username. Afterwards, the attendee can indicate whether they will attend the event, maybe will attend the event, or cannot attend the event. An organizer can view the invitation status of an event, e.g., how many attendees have replied or have not yet replied and who is coming for sure or maybe will be coming. 
+When an organizer selects an event, an event-specific checklist is presented to the organizer. For example, a birthday party may have a task to bring a birthday cake. For each task on the checklist, an organizer can indicate that the task needs to be done, has been done, or is not applicable for the event. 
+An organizer can also add new tasks to the list, which will then also be available for the next event. For example, an organizer can add to bring birthday candles to the list for a birthday party and this task will then be available for the next birthday party, too. An organizer can also designate a task on the checklist for attendees to accomplish. For example, an organizer can indicate that the birthday cake should be brought to the event by an attendee. If this is the case, then the list of tasks to be accomplished by attendees is shown to attendees that have confirmed their attendance to the event. An attendee can then select their tasks, so that the organizer can see who is bringing what to the event.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the system's components and their relationships.
+
+First, the system is called Celebrations Organization System, and it helps families and groups organize events like birthdays and other celebrations. The main users are organizers and attendees. Organizers are responsible for setting up events, inviting attendees, and managing tasks. Attendees can bring items to the event and indicate their availability.
+
+I'll begin by identifying the key classes. From the text, the main classes seem to be:
+
+1. **Organizer**: This class handles creating events, setting up checklists, inviting attendees, and managing tasks.
+2. **Event**: Represents the celebration event, including details like start and end dates, location, and type.
+3. **Attendee**: The users who attend the events and can bring items.
+4. **Task**: These are the items organizers or attendees can add to the checklist.
+5. **Invitation**: The emails sent to attendees to invite them to the event.
+6. **Checklist**: The specific tasks for each event, which can be edited by organizers.
+7. **Item**: The things attendees bring to the event, like a cake or candles.
+
+Next, I'll extract the attributes for each class. Attributes are properties that describe each class.
+
+- **Organizer**: Name, email, password, first and last name, postal address, phone number, username (same as email), area of expertise (maybe?), and whether they are attending the event.
+- **Event**: Start date/time, end date/time, occasion (like birthday party), location, type of event, and maybe a description.
+- **Attendee**: Name, email, username (from invitation), attendance status (can attend, maybe attend, cannot attend), and items they bring.
+- **Task**: Description, whether it's completed, and maybe a priority level.
+- **Invitation**: To whom it's sent, date, and maybe a subject or reason.
+- **Checklist**: For each task, whether it's done, needs to be done, or not applicable.
+- **Item**: Name, description, and possibly a category or size.
+
+Now, I'll look for relationships between these classes.
+
+- **Organizer** creates **Events**. Since an organizer can handle multiple events, especially larger ones, this is a "1..*" relationship.
+- **Organizer** invites **Attendees**. Each organizer can invite multiple attendees, so another "1..*".
+- **Organizer** manages **Checklists**, which are specific to each event. So, an **Organizer** relates to an **Event** and then to a **Checklist** within that event. This might be a two-step relationship: Organizer -> Event -> Checklist.
+- **Attendee** can be part of a **Checklist** for an **Event**. So, **Attendee** relates to **Checklist** which is part of an **Event**.
+- **Attendee** brings **Items** to the **Event**. So, **Attendee** relates to **Item** which is part of the **Event**.
+- **Organizer** sends **Invitations** to **Attendees**. Each invitation is sent to an attendee, so "1..*" relationship.
+- **Item** has a **Description** and possibly a **Category** or **Size**, so these are attributes of the **Item** class.
+
+I need to represent these relationships in PlantUML syntax. I'll start by listing all the classes with their attributes. Then, I'll define the relationships with the appropriate cardinalities.
+
+I should also ensure that I use bi-directional arcs for relationships unless there's a clear direction. For example, an **Organizer** creates an **Event**, so the arrow should point from Organizer to Event. Similarly, an **Attendee** can be part of a **Checklist** for an **Event**, so the arrow points from Attendee to Checklist.
+
+I need to make sure that I don't include class properties beyond what's necessary and that the relationships accurately reflect the business logic described in the specification.
+
+Finally, I'll structure the PlantUML code, starting with all the class definitions and then the relationships, ensuring that the syntax is correct and that each relationship is properly annotated with the correct cardinality.
+</think>
+
+```plantuml
+class Organizer {
+    String Name
+    String Email
+    String Password
+    String FirstName
+    String LastName
+    String PostalAddress
+    String PhoneNumber
+    String Username
+    String AreaOfExpertise
+    Boolean AttendingEvent
+}
+
+class Event {
+    String StartDateTime
+    String EndDateTime
+    String Occasion
+    String Location
+    String EventTypeType
+    String Description
+}
+
+class Attendee {
+    String Name
+    String Email
+    String Username
+    Boolean CanAttend
+    Boolean MaybeAttend
+    Boolean CannotAttend
+    List<Item> ItemsBrought
+}
+
+class Task {
+    String Description
+    Boolean IsCompleted
+    Boolean IsPending
+    Integer PriorityLevel
+}
+
+class Invitation {
+    String To
+    String SentDate
+    String Subject
+    String Reason
+}
+
+class Checklist {
+    List<Task> Tasks
+    Boolean IsModified
+}
+
+class Item {
+    String Name
+    String Description
+    String Category
+    Integer Size
+}
+
+Organizer "1..*" - Event
+Organizer "1..*" -- "0..*" Event "1..*"
+Organizer "1..*" -- "0..*" Checklist
+Attendee "0..*" - "1..*" Checklist
+Attendee "0..*" - "1..*" Event
+Attendee "0..*" - "1..*" Item
+Organizer "1..*" -- "0..1" Invitation
+Item "0..*" - "0..*" Event
+Checklist "0..*" - "0..*" Event
+```

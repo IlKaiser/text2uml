@@ -1,15 +1,37 @@
 @startuml
-class Game{}
-class Player{}
-class Deck{}
-class Card{}
-class ScoringTable{}
-class Round{}
+class Game {
+  id: String
+}
+class Player {
+  id: String
+}
+class Deck {
+  id: String
+}
+class Card {
+  id: String
+}
+class ScoringTable {
+  id: String
+}
+class Round {
+  id: String
+  winningPlayers: String
+  pointValue: Int
+}
+class SoloRound {
+  id: String
+  soloType: String
+  soloPlayer: String
+}
 
 Game "1..1" -- "1..*" Player
 Game "1..1" -- "1..1" Deck
 Game "1..1" -- "1..1" ScoringTable
-Deck "1..1" -- "1..*" Card
+Deck "1..1" -- "0..*" Card
 ScoringTable "1..1" -- "0..*" Round
 Round "1..1" -- "0..*" Player
+SoloRound "1..1" -- "1..1" Player
+
+SoloRound --|> Round
 @enduml

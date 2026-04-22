@@ -1,0 +1,28 @@
+@startuml
+
+class GameArea {
+    String Name
+    GameElement[] Elements
+    GamePiece[] Pieces
+}
+class GameElement {
+    long x
+    long y
+}
+class Shape {
+}
+class Object {
+}
+class Opponent {
+    int Lives
+}
+
+GameArea "1" -- "1" GameElement
+GameElement "0..*" -- "0..*" GameElement
+Shape "0..*" -- "0..*" GameElement
+Object "0..*" -- "0..*" GameElement
+Opponent "0..1" -- "0..1" GameElement
+GameElement "1" -- "0..1" Opponent
+GameElement "1" -- "0..*" GamePiece
+GamePiece "1" -- "0..1" GameElement
+@enduml

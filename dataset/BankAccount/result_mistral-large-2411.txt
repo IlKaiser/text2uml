@@ -1,21 +1,19 @@
-```
 @startuml
 
-class Bank{}
-class Customer{}
-class Branch{}
-class Account{}
-class CurrentAccount{}
-class SavingsAccount{}
+class Bank{ }
+class Customer{ String FirstName, String LastName }
+class Branch{ }
+class Account{ int AccountNumber, double AccountBalance }
+class CurrentAccount{ double OverdraftLimit }
+class SavingsAccount{ }
 
 Bank "1..1" -- "1..*" Customer
 Bank "1..1" -- "1..*" Branch
 Customer "1..1" -- "1..5" Account
 Account "1..1" -- "1..1" Customer
-Account "1..1" -- "1..1" Bank
-Account "1..1" -- "1..1" Branch
-CurrentAccount "1..1" -- "1..1" Account
-SavingsAccount "1..1" -- "1..1" Account
+Account "1..1" -- "0..*" CurrentAccount
+Account "1..1" -- "0..*" SavingsAccount
+CurrentAccount"1..1" -- "0..1" Account
+SavingsAccount"1..1" -- "0..1" Account
 
 @enduml
-```

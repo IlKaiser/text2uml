@@ -1,31 +1,54 @@
 ```plantuml
 @startuml
 
-class User{}
-class Admin{}
-class Player{}
-class Game{}
-class Block{}
-class Level{}
-class HallOfFame{}
-class Paddle{}
-class Ball{}
-class GridPosition{}
+class User {
+    username:String
+}
 
-User "1..1" -- "1..1" Player
-User "1..1" -- "0..1" Admin
-Admin "1..1" -- "1..*" Game
-Game "1..1" -- "1..1" HallOfFame
-Game "1..*" -- "1..*" Block
-Game "1..*" -- "1..99" Level
-Game "1..1" -- "1..1" Paddle
-Game "1..1" -- "1..1" Ball
-Level "1..*" -- "1..*" Block
-Level "1..*" -- "1..*" GridPosition
-Player "1..*" -- "1..*" Game
-Player "1..*" -- "1..1" HallOfFame
-Player "1..*" -- "1..1" Paddle
-Player "1..*" -- "1..1" Ball
+class Player {
+    password:String
+}
+
+class Admin {
+    password:String
+}
+
+class Game {
+    name:String
+    hallOfFame:HallOfFame
+}
+
+class Block {
+    color:String
+    points:Int
+}
+
+class Level {
+    number:Int
+}
+
+class HallOfFame {
+}
+
+class Paddle {
+    length:Float
+}
+
+class Ball {
+    speed:Float
+    direction:String
+}
+
+User "1..1" -- "0..*" Game.
+Game "1..1" -- "1..*" Block.
+Game "1..1" -- "1..99" Level.
+Game "1..1" -- "1..1" HallOfFame.
+Level "1..*" -- "1..*" Block.
+Game "1..1" -- "1..1" Paddle.
+Game "1..1" -- "1..1" Ball.
+
+Player --|> User
+Admin --|> User
 
 @enduml
 ```

@@ -1,0 +1,107 @@
+@startuml
+
+class Movie {
+    String Title
+    String Genre
+}
+
+class Cinema {
+    String Name
+    String Location
+    Movie "1..*" -- "0..*" Copy
+    Copy "1..*" -- "0..*" Theatre
+    Theatre "1..*" -- "0..*" Show
+    Show "1..*" -- "0..*" Reservation
+    Show "1..*" -- "0..*" Ticket
+    Show "1..*" -- "0..*" Offer
+    Show "1..*" -- "0..*" CancelledShow
+}
+
+class Copy {
+    String Location
+}
+
+class Theatre {
+    String Name
+    String Capacity
+}
+
+class Show {
+    String StartTime
+    String EndTime
+    String Movie "1..*" -- "0..*" Copy
+    Reservation "1..*" -- "0..*" Ticket
+    Reservation "1..*" -- "0..*" Offer
+    CancelledShow "1..*" -- "0..*" Ticket
+}
+
+class Reservation {
+    String CustomerName
+    String SeatNumber
+    String StartTime
+    String EndTime
+    String Movie "1..*" -- "0..*" Show
+    String PaymentMethod
+    String PaymentDate
+    String Cancelled "1..*" -- "0..*" Ticket
+}
+
+class Ticket {
+    String SeatNumber
+    String CustomerName
+    String StartTime
+    String EndTime
+    String Movie "1..*" -- "0..*" Show
+    String PaymentMethod
+    String PaymentDate
+}
+
+class Offer {
+    String SeatNumber
+    String CustomerName
+    String StartTime
+    String EndTime
+    String Movie "1..*" -- "0..*" Show
+    String Accept "1..*" -- "0..*" Ticket
+    String Decline "1..*" -- "0..*" Ticket
+}
+
+class CancelledShow {
+    String StartTime
+    String EndTime
+    String Movie "1..*" -- "0..*" Show
+    String Ticket "1..*" -- "0..*" Ticket
+}
+
+class Customer {
+    String Name
+    String Email
+}
+
+class Payment {
+    String Amount
+    String PaymentMethod
+    String PaymentDate
+}
+
+class CreditCard {
+    String CardNumber
+    String ExpirationDate
+}
+
+class Showroom {
+    String Name
+    String Location
+}
+
+class TheatreManager {
+    String Name
+    String Email
+}
+
+class TicketDesk {
+    String Name
+    String Location
+}
+
+@enduml

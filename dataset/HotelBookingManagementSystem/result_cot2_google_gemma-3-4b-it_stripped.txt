@@ -1,0 +1,147 @@
+```plantuml
+@startuml
+class Traveler {
+    - name : String
+    - billingInformation : String
+    - travelPreferences : Preferences
+    - creditCardInformation : String
+    - reliabilityRating : Float
+}
+
+class Hotel {
+    - name : String
+    - address : Address
+    - hotelChain : HotelChain
+    - availableRooms : Room
+    - roomBookedStatus : Boolean
+}
+
+class Booking {
+    - bookingId : Identifier
+    - price : Price
+    - city : City
+    - arrivalDate : Date
+    - departureDate : Date
+    - numberOfRooms : Int
+    - roomType : String
+    - minimumRating : Rating
+    - tentativeBudget : Float
+    - preferences : Preferences
+    - paymentType : Payment
+    - confirmationStatus : Boolean
+    - cancellationDeadline : Date
+    - bookingParameters : String
+}
+
+class Offer {
+    - offerId : Identifier
+    - price : Price
+    - rating : Rating
+    - preferences : Preferences
+    - validUntil : Date
+}
+
+class Room {
+    - roomId : Identifier
+    - roomType : String
+    - capacity : Int
+    - pricePerNight : Float
+    - availability : Boolean
+}
+
+class City {
+    - cityId : Identifier
+    - name : String
+}
+
+class Date {
+    - date : Date
+}
+
+class Price {
+    - amount : Float
+    - currency : String
+}
+
+class Rating {
+    - stars : Int
+}
+
+class Preferences {
+    - breakfastIncluded : Boolean
+    - freeWifi : Boolean
+    - 247FrontDesk : Boolean
+    - otherPreferences : String
+}
+
+class HotelChain {
+    - chainName : String
+}
+
+class Address {
+    - street : String
+    - cityId : Identifier
+    - zipCode : String
+    - country : String
+}
+
+class Identifier {
+    - bookingId : String
+}
+
+class Payment {
+    - paymentId : Identifier
+    - amount : Float
+    - paymentDate : Date
+    - paymentMethod : String
+}
+
+class Cancellation {
+    - cancellationId : Identifier
+    - booking : Booking
+    - cancellationDate : Date
+}
+
+class Confirmation {
+    - confirmationId : Identifier
+    - booking : Booking
+    - confirmationDate : Date
+}
+
+class Period {
+    - startDate : Date
+    - endDate : Date
+}
+
+class Area {
+    - areaId : Identifier
+    - areaName : String
+}
+
+class ReliabilityRating {
+    - ratingValue : Float
+}
+
+Traveler -- Booking : makes
+Traveler -- Preferences : has
+Traveler -- Payment : uses
+Traveler -- ReliabilityRating : has
+Hotel -- Booking : handles
+Hotel -- Room : offers
+Hotel -- Address : located_in
+Hotel -- HotelChain : belongs_to
+Booking -- Offer : receives
+Booking -- Payment : pays
+Booking -- Cancellation : has
+Booking -- Confirmation : receives
+City -- Hotel : located_in
+Offer -- Price : includes
+Offer -- Rating : has
+Offer -- Preferences : includes
+HBMS -- Booking : processes
+HBMS -- Offer : sends
+HBMS -- Traveler : serves
+Competitor -- Offer : provides
+
+@enduml
+```

@@ -1,22 +1,40 @@
-```
+```plantuml
 @startuml
-class Team{}
-class Employee{}
-class Coach{}
-class Scout{}
-class Player{}
-class ScoutingReport{}
-class PlayerProfile{}
-class Assignment{}
+class Team {
+}
+class Employee {
+}
+class Coach {
+}
+class Scout {
+}
+class Player {
+}
+class PlayerProfile {
+    designatedTargetPositions: String
+    playerAttributes: String
+}
+class ScoutingReport {
+    prosAndCons: String
+    recommendation: String
+}
+class ScoutingAssignment {
+}
+class Director {
+}
 
-Team "1..*" -- "1..*" Employee
-Team "1..1" -- "1..1" Coach
+Team "1..*" -- "1..1" Coach
 Team "1..*" -- "1..*" Scout
-Scout "1..*" -- "1..*" Player
-Scout "0..*" -- "1..1" ScoutingReport
-Coach "1..*" -- "1..*" PlayerProfile
-Scout "0..*" -- "1..*" Assignment
-Assignment "1..1" -- "1..1" ScoutingReport
-Player "1..1" -- "1..1" PlayerProfile
+Team "1..*" -- "0..*" Player
+Scout "0..*" -- "0..*" Player
+Scout "0..*" -- "1..*" ScoutingAssignment
+ScoutingAssignment "1..*" -- "1..1" ScoutingReport
+Coach "1..*" -- "0..*" PlayerProfile
+ScoutingReport "1..1" -- "1..1" Player
+Director "0..*" -- "0..*" Player
+
+Scout --|> Employee
+Coach --|> Employee
+Director --|> Employee
 @enduml
 ```

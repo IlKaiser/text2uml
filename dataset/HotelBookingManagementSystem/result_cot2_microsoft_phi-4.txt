@@ -1,0 +1,151 @@
+```plantuml
+@startuml
+
+class BusinessTraveller {
+  name: String
+  billingInformation: BillingInformation
+  travelPreferences: TravelPreferences
+}
+
+class HBMS
+
+class Accommodation
+
+class Hotel {
+  address: Address
+  hotelChain: HotelChain
+}
+
+class Registration {
+  name: String
+  billingInformation: BillingInformation
+  travelPreferences: TravelPreferences
+}
+
+class BillingInformation {
+  companyName: String
+  address: Address
+}
+
+class Company
+
+class Address
+
+class TravelPreferences {
+  breakfastIncluded: Boolean
+  freeWifi: Boolean
+  frontDesk24x7: Boolean
+}
+
+class Room
+
+class RoomType
+
+class City
+
+class Booking {
+  price: Float
+  cityArea: String
+  hotelRating: HotelRating
+  keyPreferences: Parameter
+  uniqueBookingIdentifier: UniqueBookingIdentifier
+  reliabilityRating: ReliabilityRating
+}
+
+class Offer
+
+class SpecialOffer
+
+class CreditCardInformation
+
+class PrePaidBooking {
+}
+
+class Payment
+
+class Confirmation
+
+class Deadline
+
+class Cancellation
+
+class BookingInformation {
+  price: Float
+  cityArea: String
+  hotelRating: HotelRating
+  keyPreferences: Parameter
+  uniqueBookingIdentifier: UniqueBookingIdentifier
+}
+
+class HotelRating
+
+class Budget {
+  maxCostPerNight: Float
+}
+
+class Cost
+
+class UniqueBookingIdentifier
+
+class Parameter
+
+class Price
+
+class CityArea
+
+class PastBookingInformation
+
+class ReliabilityRating
+
+class HotelChain
+
+class Period
+
+class CompetitorHotel
+
+class FinancialCompensation
+
+class Reimbursement
+
+BusinessTraveller -- 1..1 Registration
+Registration -- 1..1 BillingInformation
+BillingInformation -- 1..1 Company
+BillingInformation -- 1..1 Address
+BusinessTraveller -- 0..1 TravelPreferences
+Accommodation -- 1..1 Hotel
+Booking -- 1..1 City
+Booking -- 1..1 Period
+Booking -- 1..* Room
+Room -- 1..1 RoomType
+Booking -- 1..1 HotelRating
+Booking -- 1..1 Budget
+Booking -- 0..1 TravelPreferences
+HBMS -- 0..* Offer
+Offer -- 1..1 Hotel
+Offer -- 1..1 Period
+Booking -- 0..1 PrePaidBooking
+PrePaidBooking -- 1..1 Payment
+Booking -- 1..1 Confirmation
+Booking -- 0..1 Deadline
+Booking -- 1..1 BookingInformation
+BookingInformation -- 1..1 Price
+BookingInformation -- 1..1 CityArea
+BookingInformation -- 1..1 HotelRating
+BookingInformation -- 1..* Parameter
+BookingInformation -- 1..1 UniqueBookingIdentifier
+Booking -- 1..1 CreditCardInformation
+Hotel -- 1..1 City
+Hotel -- 1..1 Address
+Hotel -- 0..1 HotelChain
+Hotel -- 0..* RoomType
+Booking -- 1..1 PastBookingInformation
+PastBookingInformation -- 1..1 ReliabilityRating
+Hotel -- 0..* CompetitorHotel
+Booking -- 0..1 FinancialCompensation
+Booking -- 0..1 Reimbursement
+
+PrePaidBooking --|> Booking
+SpecialOffer --|> Offer
+
+@enduml
+```

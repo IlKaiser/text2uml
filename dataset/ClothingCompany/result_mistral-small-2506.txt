@@ -1,24 +1,15 @@
-```plantuml
 @startuml
 
-class Product{}
-class Country{}
-class VATRate{}
-class Currency{}
-class ConversionRate{}
-class Representative{}
-class Customer{}
-class Order{}
+class Product{ String Name, String Description, float NetPrice, String Manufacturer, String Country }
+class Country{ float VATRate, String Currency, float ConversionRateToEuro }
+class Representative{ String FirstName, String LastName, String SocialSecurityNumber, String TelephoneNumber, String Email }
+class Customer{ String Name, String Address, String TelephoneNumber, String Email, String[] Countries }
+class Order{ String Id, int Quantity, Date OrderDate, Date DeliveryDate }
 
 Product "1..1" -- "1..*" Country
-Country "1..1" -- "1..1" VATRate
-Country "1..1" -- "1..1" Currency
-Currency "1..1" -- "1..1" ConversionRate
 Country "1..1" -- "1..*" Representative
 Representative "1..1" -- "1..*" Customer
-Customer "1..1" -- "1..*" Country
-Representative "1..1" -- "1..*" Order
+Customer "1..1" -- "1..*" Order
 Order "1..1" -- "1..1" Product
 
 @enduml
-```

@@ -1,0 +1,78 @@
+Given the refined specification text, the relevant classes for the conceptual model are:
+
+1. Hospital
+2. Doctor
+3. Patient
+4. Examination
+5. TreatmentPlan
+6. Problem
+7. Treatment
+8. MedicalAction
+
+Here is the PlantUML representation for these classes:
+
+```plantuml
+@startuml
+title Conceptual Model Diagram
+
+class Hospital {
+  +name: String
+  +address: String
+  +permissions: Set<Examination>
+}
+
+class Doctor {
+  +name: String
+  +hospital: Hospital
+  +patients: Set<Patient>
+}
+
+class Patient {
+  +name: String
+  +hospital: Hospital
+  +examinations: Set<Examination>
+  +treatments: Set<Treatment>
+}
+
+class Examination {
+  +type: String
+  +hospital: Hospital
+  +patient: Patient
+  +treatmentPlan: TreatmentPlan
+}
+
+class TreatmentPlan {
+  +problem: Problem
+  +advisedExaminations: Set<Examination>
+  +actualTreatments: Set<Treatment>
+}
+
+class Problem {
+  +description: String
+}
+
+class Treatment {
+  +description: String
+  +patient: Patient
+  +doctor: Doctor
+}
+
+class MedicalAction {
+  +description: String
+  +patient: Patient
+  +doctor: Doctor
+}
+
+Patient -- Doctor : prescribes
+Doctor -- Hospital : worksAt
+Patient -- Hospital : visits
+Examination -- Hospital : performedAt
+Examination -- TreatmentPlan : advisedBy
+Problem -- TreatmentPlan : associatedWith
+Treatment -- Patient : treatedBy
+MedicalAction -- Patient : performedBy
+
+@enduml
+```
+
+This PlantUML code defines the classes and their relationships as described in the specification.

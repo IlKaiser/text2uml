@@ -1,0 +1,83 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Your company has been commissioned to develop an application for managing customers, products, orders, and similar items for a company that sells clothing. You are responsible for designing the application. The customer provides you with the following information:
+"We offer all kinds of clothing—from shoes to headwear, we have everything in our range. Our products have a unique name, a description, and a net price. We also know which company manufactured each product and in which country. In order to calculate the gross price of an item, which depends on the local VAT rate in each country, we need information about the VAT rate, the currency used, and a conversion rate to the euro for each country. We also do not sell every product in every country – this should also be queryable in some way. Our products are distributed through representatives, whose first and last names, social security numbers, telephone numbers, and email addresses must be stored. Each representative is responsible for exactly one country. The customer data includes name, address, telephone number, email address, and the countries in which they resell our goods. Orders from customers are placed by the representatives. Each order is uniquely identifiable and refers to exactly one product. It must include the order quantity, the order date, and the desired delivery date.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification. Let me start by understanding the requirements and the information given.
+
+First, the customer has provided a lot of data about their application needs. They mentioned managing customers, products, orders, and similar items for a clothing company. So, I should identify the main classes involved here.
+
+Looking at the details, the primary classes seem to be Customer, Product, Representative, Order, and Country. There's also mention of a Product line, which might be a subclass of Product, but I'll handle that later.
+
+Next, I need to extract the attributes for each class. For the Customer class, the attributes include name, address, telephone number, email address, and the countries they operate in. So, I'll list those as attributes.
+
+For the Product class, the attributes are product name, description, net price, manufacturer, country of manufacture, VAT rate, currency, and conversion rate to euro. That's a lot, but I'll include them all.
+
+The Representative class has first name, last name, social security number, telephone number, and email address. Additionally, each representative is responsible for exactly one country, so there's a relationship there.
+
+The Order class has order ID, order quantity, order date, and delivery date. It refers to exactly one product, so that's another relationship.
+
+Now, moving on to the relations. The Customer is associated with multiple Products and multiple Representatives. So, I'll draw a bidirectional arc between Customer and Product, and another between Customer and Representative.
+
+Each Representative is responsible for exactly one country, so that's a one-to-one relationship. Similarly, each Product is manufactured in a specific country, which is a one-to-one relationship between Product and Country.
+
+Orders are placed by Representatives, so there's a one-to-many relationship between Representative and Order. Each Order refers to exactly one Product, so another one-to-many relationship between Order and Product.
+
+I also need to consider the Product line. Since it's a subclass of Product, I'll add it as a child class in the diagram.
+
+Now, assigning cardinality. For Customer to Product, it's many-to-many because a customer can have multiple products. Customer to Representative is also many-to-many. Representative to Country is one-to-one, and Product to Country is one-to-one. Representative to Order is one-to-many, and Order to Product is one-to-many.
+
+I think that covers all the necessary classes and their relationships. I should make sure to include all attributes and correctly assign the cardinality without using class properties as per the instructions.
+</think>
+
+```plantuml
+@startuml
+class Customer{ String Name, String Address, String Telephone, String Email, Set<Country> Countries }
+class Product{ String Name, String Description, String NetPrice, String Manufacturer, String CountryOfManufacture, Double VATRate, String Currency, Double ConversionRateToEuro }
+class Representative{ String FirstName, String LastName, String SocialNumber, String Telephone, String Email }
+class Order{ String OrderID, Integer OrderQuantity, Date OrderDate, Date DeliveryDate }
+class ProductLine extends Product {}
+
+Customer "1..*" -- "1..*" Product
+Customer "1..*" -- "1..*" Representative
+
+Representative "1..1" -- "1..*" Country
+
+Product "1..1" -- "1..*" Country
+
+Representative "1..*" -- "0..*" Order
+
+Order "1..*" -- "1..*" Product
+@enduml
+```

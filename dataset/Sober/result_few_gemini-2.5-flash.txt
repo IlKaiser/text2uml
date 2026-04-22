@@ -1,27 +1,50 @@
 @startuml
 
-class Company {}
-class Car {}
-class CarOwner {}
-class Customer {}
-class RideHailingTrip {}
-class RideSharingTrip {}
-class SoberApp {}
-class Accident {}
-class Request {}
-class TreePlantingProgram {}
+class Car {
+    String RegistrationNumber
+    String Make
+    String Model
+    Boolean IsSoberOwned
+}
+class CarOwner {
+    String Name
+    String Email
+    String PhoneNumber
+}
+class Customer {
+    String Name
+    String Email
+    String PhoneNumber
+    Int RideSharingUsesCount
+}
+abstract class Ride {
+    DateTime TimeOfPickup
+    DateTime TimeOfDropoff
+    String PickupLocation
+    String DropoffLocation
+    Int RideDurationMinutes
+    Double Distance
+}
+class RideHailingRide {
+    Int NumberOfPassengers
+    Double Fee
+    String RequestType
+}
+class RideSharingRide {
+    Double NegotiatedFee
+}
+class Accident {
+    Date AccidentDate
+    String Location
+    Double DamageAmount
+}
 
-Company "1" -- Car
-CarOwner "1" -- Car
-Company "1" -- CarOwner
-Car "1" -- Accident
-Customer "1" -- RideHailingTrip
-Customer "0..*" -- "1..*" RideSharingTrip
-Car "1" -- RideHailingTrip
-Car "1" -- RideSharingTrip
-RideHailingTrip "1" -- "1" Request
-SoberApp "1" -- Request
-Company "1" -- "1" TreePlantingProgram
-Customer -- TreePlantingProgram
+CarOwner "1" -- "0..*" Car
+Car "1" -- "0..*" Ride
+Customer "1" -- "0..*" RideHailingRide
+Customer "0..*" -- "0..*" RideSharingRide
+Car "1" -- "0..*" Accident
+Ride <|-- RideHailingRide
+Ride <|-- RideSharingRide
 
 @enduml

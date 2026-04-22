@@ -1,0 +1,288 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Kinepolis owns several cinemas in different towns.  Each cinema has several theatres in which several shows can be programmed per day.  Every cinema needs its own copy of the movie, and possibly more than one if a movie is to be played simultaneously in more than one theatre.  A copy will only be shown in the theatres of the premise where the copy is located. But copies of movies can be moved to another cinema if required by the programming.  
+Every Sunday, the program for the next week is published (from Wednesday to Tuesday). Once a show has been published on the website, people can start making on-line reservations for that show. 
+Reservation can be made up to 1 hour before the starting time of the show and must be paid with a credit card.  A seat reservation can be cancelled by the customer up to 24h before the starting time of the show.  For that reason, credit cards are debited only after the cancellation period is terminated.
+A published show can be cancelled by Kinepolis as long as there are no seat reservations for that show.  If there are any, the reservations must be cancelled first.  When possible, a new seat is offered for a show for the same movie in another theatre.  The customer can accept or decline the offer.  The offer expires 24 hours before the start of the show. If the offer is declined, expired or no new seat reservation can be offered, the customer receives a free ticket send at home. 
+People who did not make a seat reservation can buy a ticket at the entrance.  The tickets will also be assigned a seat number.  In contrast with on-line seat reservations, tickets issued at the entrance are anonymous and cannot be cancelled or refunded. At the ticketing desk a display shows how many seats are still available for that show (according to the number of seats in the theatre).
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the entities and their relationships.
+
+First, the text mentions that Kinepolis owns several cinemas in different towns. Each cinema has several theatres, and each theatre can program several shows per day. So, I can identify the following classes: Cinema, Theatre, Show, and perhaps Customer or another role since people attend the shows.
+
+Next, it says that each cinema needs its own copy of a movie, possibly more than one if shown in multiple theatres on the same day. This suggests that a movie can be associated with multiple cinemas and theatres. So, I might need an association between Movie and Cinema, and another between Movie and Theatre.
+
+Then, it mentions that copies of movies can be moved to another cinema if needed. This implies a relationship between Movie and Cinema, possibly allowing a movie to be present in multiple cinemas.
+
+Every Sunday, the program for the next week is published, from Wednesday to Tuesday. Shows are published on the website, and people can make online reservations up to 1 hour before the show starts. Reservations can be canceled up to 24 hours before the show. If a show is published but not reserved, Kinepolis can cancel it only if there are no reservations. If there are reservations, they must be canceled first, and a new seat might be offered in another theatre. The offer expires 24 hours before the show starts. If the offer is declined or no new seat is available, the customer gets a free ticket.
+
+People who didn't make a seat reservation can buy a ticket at the entrance, which is anonymous and cannot be canceled or refunded. At the ticketing desk, a display shows available seats.
+
+So, the entities I can identify are:
+- Cinema
+- Theatre
+- Show
+- Movie
+- Customer
+- Reservation
+- Offer
+- Ticket
+- Display
+
+Now, let's think about the relationships.
+
+1. Cinema has multiple Theatres. So, Cinema -> Theatres (Multiplicity: 1..n)
+2. Theatre has multiple Shows. So, Theatre -> Shows (Multiplicity: 1..n)
+3. Show can be part of a published program, which is published every Sunday. So, Show -> Program (Multiplicity: 1..1)
+4. Show can have multiple Reservations. So, Show -> Reservations (Multiplicity: 0..n)
+5. If a Show is published but not reserved, it can be canceled by Kinepolis. So, there's a relationship between Show and Cinema (since a movie can be in multiple cinemas). But I'm not sure if it's a direct relationship or through Movie. Maybe Show can be canceled if no Reservations, and this cancellation can be done by the Cinema. So, perhaps Show -> Cinema (Multiplicity: 1..1) with a condition.
+6. When a Show has Reservations, Kinepolis can offer a new seat in another theatre. So, Reservations -> Offer (Multiplicity: 1..n)
+7. Offers expire 24 hours before the show. So, Offer -> Show (Multiplicity: 1..1)
+8. If the offer is declined or no new seat is available, the customer gets a free ticket. So, perhaps a relationship between Offer and Ticket, but it's conditional. Maybe it's better to have a separate relationship where the offer leads to a ticket being issued.
+9. Customers can make Reservations, so Customer -> Reservations (Multiplicity: 0..n)
+10. Customers can buy Tickets at the entrance, which are anonymous. So, Customer -> Tickets (Multiplicity: 0..n)
+11. The Display at the ticketing desk shows available seats. So, Display -> Show (Multiplicity: 1..1)
+12. Shows can have Seats, which are part of the Theatre. So, Show -> Seats (Multiplicity: 1..n)
+13. Seats are part of Theatres. So, Seat -> Theatre (Multiplicity: 1..1)
+14. Movies are associated with Theatres and Cinemas. So, Movie -> Theatres (Multiplicity: 1..n) and Movie -> Cinema (Multiplicity: 1..n)
+15. A Movie can be shown in multiple Theatres and multiple Cinemas. So, perhaps through associations, but I think it's better to have separate relationships for each.
+
+Now, considering cardinality:
+
+- Cinema has many Theatres: 1..n
+- Theatre has many Shows: 1..n
+- Show can be part of a Program: 1..1
+- Show can have many Reservations: 0..n
+- Show can be canceled by Cinema: 1..1 (but only if no Reservations)
+- Reservations can lead to Offers: 1..n
+- Offers expire for a Show: 1..1
+- If Offer is declined or no new seat, Customer gets a free ticket: perhaps a separate relationship or conditional
+- Customer can have many Reservations and Tickets: 0..n
+- Display is associated with a Show: 1..1
+- Show has many Seats: 1..n
+- Seat is part of a Theatre: 1..1
+- Movie is associated with multiple Theatres and Cinemas: 1..n each
+
+I think I need to represent these relationships in the PlantUML diagram, starting with classes and their attributes, then the relationships with cardinality.
+
+I should also make sure to use bi-directional arcs for relationships unless there's a clear direction. For example, Show can be canceled by Cinema, but Cinema can't cancel a Show directly; it can only cancel if there are no Reservations. So, maybe it's better to represent it as a conditional relationship.
+
+Similarly, when a Show has Reservations, an Offer is made, but the Offer is dependent on the Reservations. So, perhaps a bi-directional arc between Reservations and Offer, with Offer depending on Reservations.
+
+I think I should proceed step by step, first listing all the classes with their attributes, then the relationships with their cardinalities.
+
+Let me list the classes:
+
+1. Cinema { Name }
+2. Theatre { Name }
+3. Show { Title, Date, Time }
+4. Movie { Title, Genres }
+5. Customer { Name, Email }
+6. Reservation { Customer, Show, SeatNumber }
+7. Offer { Customer, Show, NewSeat }
+8. Ticket { Type }
+9. Display { Message }
+
+Now, the relationships:
+
+- Cinema has Theatres: Cinema "1..n" -> Theatres
+- Theatre has Shows: Theatre "1..n" -> Shows
+- Show has Reservations: Show "0..n" -> Reservations
+- Show can be part of a Program: Show "1..1" -> Program
+- Show can be canceled by Cinema: Show "1..1" -- "1..0" Cinema (but only if no Reservations)
+- Reservations can lead to Offers: Reservations "1..n" -- "1..n" Offer
+- Offers expire for a Show: Offer "1..1" -- "1..1" Show
+- If Offer is declined or no new seat, Customer gets a free ticket: perhaps a separate relationship or conditional
+- Customer has Reservations and Tickets: Customer "0..n" -> Reservations; Customer "0..n" -> Tickets
+- Display is associated with a Show: Display "1..1" -> Show
+- Show has Seats: Show "1..n" -> Seats
+- Seat is part of a Theatre: Seat "1..1" -> Theatre
+- Movie is associated with Theatres and Cinemas: Movie "1..n" -> Theatres; Movie "1..n" -> Cinema
+
+I think I've covered all the entities and their relationships. Now, I'll structure the PlantUML code accordingly, starting with the classes and their attributes, then the relationships with their cardinalities.
+</think>
+
+@startuml
+
+class Cinema {
+    String Name
+}
+
+class Theatre {
+    String Name
+}
+
+class Show {
+    String Title
+    String Date
+    String Time
+}
+
+class Movie {
+    String Title
+    String Genres
+}
+
+class Customer {
+    String Name
+    String Email
+}
+
+class Reservation {
+    Customer Name
+    Show Show
+    String SeatNumber
+}
+
+class Offer {
+    Customer Name
+    Show Show
+    String NewSeat
+}
+
+class Ticket {
+    String Type
+}
+
+class Display {
+    String Message
+}
+
+Cinema "1..n" -> Theatres
+Theatre "1..n" -> Shows
+Show "0..n" -> Reservations
+Show "1..1" -> Program
+Show "1..1" -- "1..0" Cinema
+Reservations "1..n" -- "1..n" Offer
+Offer "1..1" -- "1..1" Show
+Customer "0..n" -> Reservations
+Customer "0..n" -> Tickets
+Display "1..1" -> Show
+Show "1..n" -> Seats
+Seat "1..1" -> Theatre
+Movie "1..n" -> Theatres
+Movie "1..n" -> Cinema
+
+@enduml

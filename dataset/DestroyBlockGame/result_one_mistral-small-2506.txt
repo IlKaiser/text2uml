@@ -1,0 +1,65 @@
+```plantuml
+@startuml
+
+class User {
+    String Username
+    String Password
+}
+class Player {
+    Integer Lives
+    Integer Score
+}
+class Admin {
+    Boolean IsAdmin
+}
+class Game {
+    String Name
+    Integer MinSpeed
+    Integer SpeedIncreaseFactor
+    Integer MaxPaddleLength
+    Integer MinPaddleLength
+    Integer BlocksPerLevel
+}
+class Block {
+    String Color
+    Integer Points
+}
+class Level {
+    Integer LevelNumber
+    Boolean IsRandom
+}
+class GridPosition {
+    Integer X
+    Integer Y
+}
+class Ball {
+    Integer Speed
+    Integer Direction
+}
+class Paddle {
+    Integer Length
+    Integer Position
+}
+class HallOfFame {
+    Integer HighScore
+}
+class GameSession {
+    Boolean IsPaused
+    Boolean IsActive
+}
+
+User "1" -- "1" Player
+User "1" -- "0..1" Admin
+Game "1" -- "1..*" Block
+Game "1" -- "1..*" Level
+Level "1" -- "1..*" GridPosition
+Game "1" -- "1" HallOfFame
+Game "1" -- "1" Ball
+Game "1" -- "1" Paddle
+Player "1" -- "0..*" GameSession
+GameSession "1" -- "1" Game
+GameSession "1" -- "1" Player
+Game "1" -- "0..*" Player
+
+@enduml
+```

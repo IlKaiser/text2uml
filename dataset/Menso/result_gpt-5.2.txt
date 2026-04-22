@@ -1,0 +1,34 @@
+@startuml
+
+class BusCompany{ String Name }
+class Bus{ String BusId, String LineNumber }
+class Line{ String LineNumber, String Destination, String Category }
+class Trajectory{ String TrajectoryId, Date OperationalStartDate, Date SuspensionStartDate, Date SuspensionEndDate, Date CancellationDate }
+class TownAuthority{ String Name }
+class TrajectoryApprovalRequest{ Date RequestDate, String Status, String DecisionReason }
+class MensoTicket{ String CardId, Date ValidFrom, Date ValidTo }
+class Customer{ String CustomerId, String HomeAddress, String OfficeAddress, String WorkingHours }
+class Trip{ Date Date, String Time }
+class Invoice{ String InvoiceId, Date InvoiceDate, Decimal TotalAmount, Decimal DiscountPercentage }
+class Payment{ String PaymentId, Date PaymentDate, Decimal Amount }
+
+BusCompany "0..*" -- "0..*" Bus
+BusCompany "0..*" -- "0..*" Line
+BusCompany "0..*" -- "0..*" Trajectory
+
+Line "0..*" -- "0..*" Trajectory
+Line "0..*" -- "0..*" Bus
+
+TownAuthority "0..*" -- "0..*" TrajectoryApprovalRequest
+Trajectory "0..*" -- "0..*" TrajectoryApprovalRequest
+
+Customer "0..*" -- "0..*" MensoTicket
+MensoTicket "0..*" -- "0..*" Trip
+Trip "0..*" -- "0..*" Line
+
+Customer "0..*" -- "0..*" Invoice
+Invoice "0..*" -- "0..*" Trip
+Invoice "0..*" -- "0..*" Payment
+Customer "0..*" -- "0..*" Payment
+
+@enduml

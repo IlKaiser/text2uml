@@ -1,27 +1,82 @@
 ```plantuml
 @startuml
 
-class Company{}
-class GasStation{}
-class Customer{}
-class RefuelCard{}
-class Invoice{}
-class RefuelTurn{}
-class Pump{}
-class GasolineType{}
-class Payment{}
-class Report{}
+class OilCompany {
+  name:String
+  location:String
+}
 
-Company "1..*" -- "1..*" GasStation
-Customer "1..*" -- "0..1" RefuelCard
-Customer "1..*" -- "1..*" Invoice
-Customer "1..*" -- "1..*" RefuelTurn
+class GasStation {
+  name:String
+  address:String
+  pumps:Int
+}
+
+class Customer {
+  name:String
+  address:String
+  phone:String
+  status:String
+}
+
+class RefuelCard {
+  cardNumber:String
+  issueDate:Date
+  status:String
+}
+
+class Invoice {
+  invoiceNumber:String
+  issueDate:Date
+  totalAmount:Float
+  status:String
+}
+
+class RefuelTurn {
+  turnId:String
+  date:Date
+  amount:Float
+  gasolineType:String
+}
+
+class Pump {
+  pumpId:String
+  gasolineType:String
+  currentLevel:Float
+  reorderLevel:Float
+  criticalLevel:Float
+  status:String
+}
+
+class GasolineType {
+  typeName:String
+  price:Float
+}
+
+class Payment {
+  paymentId:String
+  amount:Float
+  date:Date
+}
+
+class Suspension {
+  suspensionId:String
+  startDate:Date
+  endDate:Date
+  reason:String
+}
+
+OilCompany "1..*" -- "1..*" GasStation
+Customer "1..1" -- "0..1" RefuelCard
+Customer "0..*" -- "1..*" Invoice
+Customer "0..*" -- "0..*" Payment
+Customer "0..*" -- "0..1" Suspension
 GasStation "1..*" -- "1..*" Pump
-Pump "1..*" -- "1..1" GasolineType
-RefuelTurn "1..1" -- "1..*" Pump
-RefuelTurn "1..1" -- "1..*" Invoice
-Invoice "1..1" -- "0..*" Payment
-GasStation "1..*" -- "1..*" Report
+Pump "1..1" -- "1..1" GasolineType
+RefuelTurn "1..1" -- "1..1" Invoice
+RefuelTurn "1..1" -- "1..1" Pump
+RefuelCard "0..*" -- "0..*" Invoice
+Invoice "0..*" -- "0..*" Payment
 
 @enduml
 ```

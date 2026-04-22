@@ -1,0 +1,58 @@
+@startuml
+
+class HospitalHouseMD {
+    +String name
+    +void acceptPatient(Patient)
+    +void assignDoctorToPatient(Patient, Doctor)
+    +void executeTreatment(Treatment)
+    +void approveDiagnosis(Doctor, Diagnosis)
+}
+
+class Patient {
+    +String name
+    +List<Diagnosis> diagnoses
+    +List<Treatment> treatments
+}
+
+class Doctor {
+    +String name
+    +void makeDiagnosis(Diagnosis)
+    +void requestConsent(Patient, Treatment)
+}
+
+class Diagnosis {
+    +String description
+    +List<Treatment> treatments
+}
+
+class Treatment {
+    +String name
+    +int stage
+    +boolean consentGiven
+    +void upgradeStage()
+    +void downgradeStage()
+}
+
+HospitalHouseMD "1" -- "0..*" Patient
+HospitalHouseMD "1" -- "1" Doctor
+Patient "1" -- "1" Diagnosis
+Diagnosis "1" -- "*" Treatment
+Doctor "1" -- "*" Treatment
+Treatment "1" -- "0..1" Consent
+
+Doctor "1" -- "1" Treatment
+Treatment "1" -- "0..1" Stage
+Treatment "1" -- "0..1" Consent
+
+Treatment "1" -- "0..1" Downgrade
+Treatment "1" -- "0..1" Upgrade
+
+Patient "1" -- "0..1" PriorityScore
+
+Patient "1" -- "0..1" FollowUpRate
+
+Patient "1" -- "0..1" Consent
+
+Doctor "1" -- "0..1" PriorityScore
+
+@enduml

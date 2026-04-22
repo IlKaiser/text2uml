@@ -1,0 +1,36 @@
+@startuml
+
+class Location {
+  String Address
+}
+class Driver {
+  String FirstName
+  String LastName
+}
+class Vehicle {
+  String VehicleNumber
+}
+class Truck {
+  Double Weight
+}
+class Car {
+  Integer NumberOfSeats
+}
+class Van {
+}
+class Order {
+  Date ExecutionDate
+}
+
+Vehicle <|-- Truck
+Vehicle <|-- Car
+Vehicle <|-- Van
+
+Location "1..1" -- "0..*" Driver
+Location "1..1" -- "0..*" Vehicle
+Order "0..1" -- "1..*" Driver
+Order "1..1" -- "1..1" Location
+Order "1..1" -- "1..1" Location
+Vehicle "0..1" -- "0..*" Driver
+
+@enduml

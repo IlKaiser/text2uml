@@ -1,0 +1,22 @@
+@startuml
+
+class User { String Name, String Address, Date Birthday, String UniqueID }
+
+class BusinessOwner { String Name, String LinkedInAccount, List<PizzaRestaurant> OwnedRestaurants }
+class PizzaRestaurant { String ZipCode, String Address, String PhoneNumber, String Website, String OpeningHours, List<Pizza> OfferedPizzas }
+
+class Pizza { String Name, String Crust, Float Price }
+
+class HungryCustomer { List<Pizza> OrderedPizzas, String DeliveryAddress, Date OrderDate, Time LatestDeliveryTime, Integer NumberOfPeople }
+
+class EntertainmentOrder { HungryCustomer Customer, String EntertainmentType, Time Duration, Entertainer Entertainer }
+
+class Entertainer { String StageName, String Bio, Float PricePer30Minutes, List<PizzaRestaurant> WorkWith }
+
+HungryCustomer "0..*" -- "1..*" EntertainmentOrder
+EntertainmentOrder "1" -- "1" Entertainer
+BusinessOwner "1..*" -- "1..*" PizzaRestaurant
+PizzaRestaurant "1..*" -- "0..*" Pizza
+HungryCustomer "1" -- "1" Pizza
+
+@enduml

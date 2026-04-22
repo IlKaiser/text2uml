@@ -1,33 +1,54 @@
-Here is the PlantUML model based on the provided class and cardinality lists:
-
 ```plantuml
 @startuml
 
-class Customer{}
-class Address{}
-class VATNumber{}
-class Product{}
-class Stock{}
-class Order{}
-class OrderLine{}
-class Payment{}
-class Shipment{}
-class Delivery{}
-class Invoice{}
-class Warehouse{}
+class Customer {
+  address: String
+  VATNumber: String
+}
 
-Customer "1..1" -- "1..1" Address
-Customer "1..1" -- "1..1" VATNumber
-Customer "1..*" -- "1..*" Order
-Order "1..*" -- "1..*" OrderLine
-OrderLine "1..1" -- "1..*" Product
-Order "1..1" -- "1..1" Payment
-Order "1..1" -- "1..1" Shipment
-Order "1..1" -- "1..1" Invoice
-Customer "1..*" -- "1..*" Warehouse
-Order "1..*" -- "1..*" Delivery
-Shipment "1..*" -- "1..1" OrderLine
-Delivery "1..*" -- "1..1" OrderLine
+class Product {
+  stock: Int
+}
+
+class Order {
+  paid: Boolean
+  shipped: Boolean
+}
+
+class OrderLine {
+  quantity: Int
+}
+
+class Address {
+  headOfficeAddress: String
+  deliveryAddress: String
+}
+
+class Shipment {
+  packed: Boolean
+  shipped: Boolean
+  received: Boolean
+}
+
+class Delivery {
+  status: String
+}
+
+Customer "1..1" -- "1..1" Address.
+Customer "1..1" -- "1..1" VATNumber.
+Customer "1..*" -- "1..*" Order.
+Order "1..*" -- "1..1" OrderLine.
+OrderLine "1..1" -- "1..1" Product.
+OrderLine "1..1" -- "1..1" Shipment.
+Order "1..1" -- "1..1" Payment.
+Order "1..1" -- "1..1" Invoice.
+Invoice "1..1" -- "1..1" Payment.
+Customer "1..*" -- "1..1" Invoice.
+Warehouse "1..1" -- "1..1" Address.
+Order "1..1" -- "1..1" Warehouse.
+Order "1..1" -- "1..1" DeliveryService.
+Shipment "1..1" -- "1..1" Delivery.
+Delivery "1..1" -- "1..1" DeliveryService.
 
 @enduml
 ```

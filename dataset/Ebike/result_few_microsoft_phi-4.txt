@@ -1,0 +1,41 @@
+```plantuml
+@startuml
+
+class EBike {
+    String Model
+}
+
+class Frame {
+    String Material
+}
+
+class DriveSystem {
+    String Type
+}
+
+class Motor {}
+
+class Controller {
+    String State
+}
+
+class Battery {
+    Double StoredEnergy
+}
+
+class BasicController extends Controller {}
+
+class AdvancedController extends Controller {
+    Date NextMaintenanceDate
+}
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "1" Controller
+EBike "0..1" -- "1" Battery
+DriveSystem "1" -- "1" Motor
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+
+@enduml
+```

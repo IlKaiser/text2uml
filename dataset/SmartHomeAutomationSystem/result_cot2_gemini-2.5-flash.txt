@@ -1,44 +1,71 @@
 @startuml
-class SmartHome{}
-class Room{}
-class Device{}
-class Sensor{}
-class Actuator{}
-class User{}
-class AutomationRule{}
-class BooleanExpression{}
-class RelationalTerm{}
-class Action{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class Alert{}
+class User
+class Owner
+class SmartHome {
+  address: String
+}
+class Room
+class Device {
+  id: String
+}
+class Sensor {
+  id: String
+  type: String
+}
+class Actuator {
+  id: String
+  type: String
+}
+class SensorReading {
+  value: Float
+  timestamp: Date
+}
+class ControlCommand {
+  name: String
+  timestamp: Date
+  status: String
+}
+class Alert
+class AutomationRule {
+  isActive: Boolean
+}
+class Precondition
+class Action
+class BooleanExpression
+class RelationalTerm
+class BooleanOperator {
+  type: String
+}
+class Window {
+  isClosed: Boolean
+}
 
-User "0..*" -- "0..*" SmartHome
-SmartHome "1..1" -- "1..*" Room
-Room "1..1" -- "0..*" Device
-Device "1..1" -- "0..*" Sensor
-Sensor "1..1" -- "1..1" Device
-Device "1..1" -- "0..*" Actuator
-Actuator "1..1" -- "1..1" Device
-Sensor "1..1" -- "0..*" SensorReading
-Actuator "1..1" -- "0..*" ControlCommand
-SmartHome "1..1" -- "1..1" ActivityLog
-ActivityLog "1..1" -- "0..*" SensorReading
-ActivityLog "1..1" -- "0..*" ControlCommand
-User "1..1" -- "0..*" Alert
-SmartHome "1..1" -- "0..*" Alert
-User "1..1" -- "0..*" AutomationRule
-AutomationRule "1..1" -- "1..1" BooleanExpression
-AutomationRule "1..1" -- "1..1" Action
-BooleanExpression "1..1" -- "1..*" RelationalTerm
+SmartHome "0..*" -- "0..*" User
+SmartHome "1" -- "1..*" Room
+Room "1" -- "0..*" Device
+Sensor "1" -- "0..*" SensorReading
+Actuator "1" -- "0..*" ControlCommand
+SmartHome "1" -- "0..*" SensorReading
+SmartHome "1" -- "0..*" ControlCommand
+Owner "1" -- "0..*" AutomationRule
+Owner "1" -- "0..*" Alert
+SmartHome "1" -- "0..*" Alert
+AutomationRule "1" -- "1" Precondition
+AutomationRule "1" -- "1" Action
+BooleanExpression "1" -- "1..*" RelationalTerm
+BooleanExpression "1" -- "0..*" BooleanOperator
 RelationalTerm "0..*" -- "0..1" Room
-RelationalTerm "0..*" -- "0..1" Device
 RelationalTerm "0..*" -- "0..1" Sensor
 RelationalTerm "0..*" -- "0..1" Actuator
 RelationalTerm "0..*" -- "0..1" SensorReading
 RelationalTerm "0..*" -- "0..1" ControlCommand
-Action "0..*" -- "1..*" ControlCommand
+Room "1" -- "0..*" Window
+RelationalTerm "0..*" -- "0..1" Window
+Action "1" -- "1..*" ControlCommand
 AutomationRule "0..*" -- "0..*" AutomationRule
-ActivityLog "1..1" -- "0..*" AutomationRule
+
+Sensor --|> Device
+Actuator --|> Device
+Precondition --|> BooleanExpression
+Owner --|> User
 @enduml

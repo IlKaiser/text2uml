@@ -1,0 +1,202 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification text. Let me start by carefully reading the text to understand the entities and their relationships.
+
+The text says that "Locations consist of drivers with first and last names and vehicles." So, I can identify three main classes here: Location, Driver, and Vehicle. Each Location has an address, and each Driver has a first and last name. Additionally, each Location has its own address, so I think that's a separate attribute.
+
+Next, it mentions that there are three types of vehicles: trucks, cars, and vans. Each vehicle has a vehicle number. Trucks have a certain weight, and passenger cars have a certain number of seats. So, I need to include these attributes in the Vehicle class.
+
+Then, the text talks about Orders. Orders are managed by drivers, and each driver can carry out a maximum of one order at a time. Orders have an origin and destination location, an assigned driver, and a date of execution. Also, the system records which vehicles are driven by which driver, meaning vehicles are assigned to one driver.
+
+So, I need to model the relationships between these classes. Let's see:
+
+1. Location has an address and contains Drivers and Vehicles. So, Location should have attributes for address and a collection of Drivers and Vehicles.
+
+2. Drivers are assigned to Orders. Since each driver can handle one order at a time, the relationship between Driver and Order is one-to-one. So, Driver "1..1" -- "1..1" Order.
+
+3. Orders have an origin and destination Location, so Order has attributes for Origin and Destination, each pointing to a Location.
+
+4. Orders also have an Assigned Driver, which is a one-to-one relationship with the Order.
+
+5. Vehicles are assigned to Drivers. Since each vehicle can be assigned to one driver, and each driver can have multiple vehicles, this is a one-to-many relationship. So, Vehicle "1..*" -- "1..1" Driver.
+
+6. Each Location has multiple Vehicles, so Location "0..*" -- "1..*" Vehicle.
+
+7. Each Location has multiple Drivers, so Location "0..*" -- "1..*" Driver.
+
+8. Each Vehicle has a Vehicle Number, which is a one-to-one attribute.
+
+9. Trucks have a weight, and cars have seats. These are attributes specific to their respective vehicle types, so I'll add them to the Vehicle class with appropriate types.
+
+Putting it all together, I'll start by defining each class with their attributes, then establish the relationships with the correct cardinalities.
+
+I think that's all the classes and relationships. Now, I'll structure the PlantUML code accordingly, making sure to follow the specified format without any extra text or explanations.
+</think>
+
+@startuml
+
+class Location {
+    String Address
+    Collection[Driver] Drivers
+    Collection[Vehicle] Vehicles
+}
+
+class Driver {
+    String Name
+    String Email
+}
+
+class Vehicle {
+    String VehicleNumber
+    Double Weight
+    Integer NumberOfSeats
+    String Type
+}
+
+Driver "1..1" -- "1..1" Order
+
+Order {
+    String Origin
+    String Destination
+    Driver AssignedDriver
+}
+
+Order "1..1" -- "0..1" Location
+
+Vehicle "1..*" -- "1..1" Driver
+
+Location "0..*" -- "1..*" Vehicle
+
+Location "0..*" -- "1..*" Driver
+
+Type: Truck
+    Weight
+Type: Car
+    NumberOfSeats
+Type: Van
+
+@enduml

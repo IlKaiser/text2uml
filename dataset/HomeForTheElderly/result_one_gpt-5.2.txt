@@ -1,0 +1,123 @@
+@startuml
+
+class Home {
+    String Name
+}
+class Department {
+    String Name
+}
+class Room {
+    String Number
+}
+class Bed {
+    String Identifier
+}
+class Category {
+    String Type
+    Double Price
+}
+class Person {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class Inhabitant {
+    Date InhabitantSince
+}
+class Registration {
+    Date RegistrationDate
+}
+class RegistrationQuestion {
+    String Text
+}
+class RegistrationAnswer {
+    String Value
+}
+class Assessment {
+    Date AssessmentDate
+}
+class AssessmentQuestion {
+    String Text
+    String ActivityType
+}
+class AssessmentAnswer {
+    String Value
+}
+class WaitingListEntry {
+    Date RegistrationDate
+    Integer Position
+}
+class Proposal {
+    Date ProposalDate
+    Date ResponseDeadline
+    String Status
+}
+class Stay {
+    Date StartDate
+    Date EndDate
+    String Status
+}
+class Invoice {
+    Date InvoiceDate
+    Double TotalAmount
+    Double OutstandingAmount
+    String Status
+}
+class InvoiceItem {
+    String Description
+    Double Amount
+}
+class PaymentEvent {
+    Date PaymentDate
+    Double Amount
+}
+class CreditNote {
+    Date CreditNoteDate
+    Double Amount
+}
+class Refund {
+    Date RefundDate
+    Double Amount
+}
+class Complaint {
+    Date ComplaintDate
+    String Reason
+}
+
+Person <|-- Inhabitant
+
+Home "1..1" -- "0..*" Department
+Department "1..1" -- "0..*" Room
+Room "1..1" -- "0..*" Bed
+Bed "0..*" -- "1..1" Category
+
+Inhabitant "1..1" -- "1..1" Bed
+Inhabitant "1..1" -- "0..*" Stay
+Stay "0..*" -- "1..1" Category
+
+Person "1..1" -- "0..*" Registration
+Registration "1..1" -- "0..*" RegistrationAnswer
+RegistrationQuestion "1..1" -- "0..*" RegistrationAnswer
+
+Person "1..1" -- "0..*" Assessment
+Assessment "1..1" -- "0..*" AssessmentAnswer
+AssessmentQuestion "1..1" -- "0..*" AssessmentAnswer
+Assessment "0..*" -- "0..*" Category
+
+Person "1..1" -- "0..*" WaitingListEntry
+WaitingListEntry "0..*" -- "1..1" Category
+
+WaitingListEntry "1..1" -- "0..*" Proposal
+Proposal "0..*" -- "1..1" Category
+Proposal "0..*" -- "1..1" Person
+
+Inhabitant "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" InvoiceItem
+Invoice "1..1" -- "0..*" PaymentEvent
+Invoice "1..1" -- "0..*" CreditNote
+CreditNote "1..1" -- "0..*" Refund
+Invoice "1..1" -- "0..*" Complaint
+
+Stay "0..*" -- "0..*" InvoiceItem
+
+@enduml

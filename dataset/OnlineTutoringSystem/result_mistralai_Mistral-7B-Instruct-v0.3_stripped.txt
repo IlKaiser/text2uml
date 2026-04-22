@@ -1,0 +1,34 @@
+@startuml
+
+class Student{ String Name, String Email }
+class Tutor extends User{ String Name, String Email, BankAccount }
+class BankAccount
+class OnlineTutoringSession{
+    - Tutor tutor
+    - Student student
+    - Subject subject
+    - Level level
+    - HourlyPrice hourlyPrice
+    - WeeklyAvailability weeklyAvailability
+    - Date date
+    - Time time
+    - Boolean isConfirmed
+}
+
+class Subject{ String name }
+class TutoringRequest{
+    - Student student
+    - Tutor tutor
+    - Subject subject
+    - Level level
+    - Date targetDate
+    - Time targetTime
+}
+
+Tutor "1..*" -- "0..*" OnlineTutoringSession
+Student "0..*" -- "0..*" OnlineTutoringSession
+Tutor "1..1" -- "0..*" TutoringRequest
+OnlineTutoringSession "1..1" -- "1..1" Subject
+OnlineTutoringSession "1..1" -- "1..1" TutoringRequest
+
+@enduml

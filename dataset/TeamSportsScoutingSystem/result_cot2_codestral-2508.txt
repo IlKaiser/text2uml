@@ -1,39 +1,72 @@
 ```plantuml
 @startuml
 
-class TeamSportsScoutingSystem{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class PlayerProfile{}
-class TargetPosition{}
-class PlayerAttribute{}
-class LongList{}
-class HeadScout{}
-class ScoutingAssignment{}
-class Player{}
-class ScoutingReport{}
-class Recommendation{}
-class ShortList{}
-class OfficialOffer{}
+class ClubEmployee {
+}
 
-TeamSportsScoutingSystem "0..*" -- "1..1" Employee
-TeamSportsScoutingSystem "1..1" -- "1..1" HeadCoach
-TeamSportsScoutingSystem "1..1" -- "1..1" Director
-TeamSportsScoutingSystem "1..1" -- "1..*" Scout
+class HeadCoach {
+}
+
+class Director {
+}
+
+class Scout {
+}
+
+class PlayerProfile {
+  targetPositions: TargetPosition
+  playerAttributes: PlayerAttribute
+}
+
+class TargetPosition {
+  positionCode: String
+}
+
+class PlayerAttribute {
+  name: String
+  value: Float
+}
+
+class Player {
+}
+
+class LongList {
+}
+
+class ScoutingAssignment {
+}
+
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: Recommendation
+}
+
+class Recommendation {
+  type: String
+}
+
+class ShortList {
+}
+
+class OfficialOffer {
+}
+
 HeadCoach "1..1" -- "1..*" PlayerProfile
-PlayerProfile "1..*" -- "1..*" TargetPosition
-PlayerProfile "1..*" -- "1..*" PlayerAttribute
-Scout "1..*" -- "0..*" LongList
-HeadScout "1..1" -- "1..*" ScoutingAssignment
-ScoutingAssignment "1..*" -- "1..1" Player
-ScoutingAssignment "1..*" -- "1..1" ScoutingReport
+HeadCoach "1..1" -- "1..*" TargetPosition
+HeadCoach "1..1" -- "1..*" PlayerAttribute
+Scout "0..*" -- "1..*" LongList
+Scout "1..1" -- "1..*" ScoutingAssignment
+Scout "1..1" -- "1..*" ScoutingReport
 ScoutingReport "1..1" -- "1..1" Recommendation
 HeadCoach "1..1" -- "1..*" ShortList
-ShortList "1..*" -- "1..1" Player
-HeadScout "1..1" -- "1..1" OfficialOffer
-OfficialOffer "1..1" -- "1..1" Player
+HeadScout "1..1" -- "1..*" ScoutingAssignment
+HeadScout "1..1" -- "1..*" ShortList
+Director "1..1" -- "1..1" OfficialOffer
+
+HeadCoach --|> ClubEmployee
+Director --|> ClubEmployee
+Scout --|> ClubEmployee
 
 @enduml
 ```

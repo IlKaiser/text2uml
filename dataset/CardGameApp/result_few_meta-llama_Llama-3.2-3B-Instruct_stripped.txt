@@ -1,0 +1,64 @@
+@startuml
+
+class Card {
+    String Height
+    String Suit
+    String Id
+}
+
+class ScoringTable {
+    String Name
+    String Id
+}
+
+class Player {
+    String Name
+    String Id
+}
+
+class Deck {
+    String Id
+    Integer CardCount
+}
+
+class Round {
+    String Type
+    String Id
+}
+
+class JackRound {}
+class SoloRound {}
+class MandatorySoloRound {}
+
+class JackSolo {}
+class QueenSolo {}
+
+class TrumpSolo {}
+
+class CardGame {
+    String Id
+}
+
+CardGame "1" -- "0..*" Deck
+Deck "1" -- "0..*" Card
+Card "1" -- "0..*" ScoringTable
+ScoringTable "1" -- "0..*" Round
+Round "1" -- "0..*" Player
+Player "1" -- "0..*" Round
+Player "1" -- "0..*" ScoringTable
+ScoringTable "1" -- "0..*" JackRound
+ScoringTable "1" -- "0..*" SoloRound
+ScoringTable "1" -- "0..*" MandatorySoloRound
+ScoringTable "1" -- "0..*" JackSolo
+ScoringTable "1" -- "0..*" QueenSolo
+ScoringTable "1" -- "0..*" TrumpSolo
+Deck "1" -- "0..*" Card
+Card "1" -- "0..*" ScoringTable
+ScoringTable "1" -- "0..*" JackRound
+ScoringTable "1" -- "0..*" SoloRound
+ScoringTable "1" -- "0..*" MandatorySoloRound
+ScoringTable "1" -- "0..*" JackSolo
+ScoringTable "1" -- "0..*" QueenSolo
+ScoringTable "1" -- "0..*" TrumpSolo
+
+@enduml

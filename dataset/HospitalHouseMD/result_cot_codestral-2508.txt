@@ -1,25 +1,50 @@
 ```plantuml
 @startuml
+class HospitalHouseMD {
+  name:String
+}
 
-class Hospital{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Treatment{}
-class Illness{}
-class PriorityScore{}
+class Patient {
+  name:String
+  consent:Boolean
+}
 
-Hospital "1..*" -- "1..*" Patient
-Hospital "1..*" -- "1..*" Doctor
-Hospital "1..*" -- "1..*" Illness
-Patient "1..*" -- "1..*" Doctor
-Patient "1..*" -- "1..*" Diagnosis
+class Doctor {
+  name:String
+}
+
+class HeadDoctor {
+  name:String
+}
+
+class Illness {
+  name:String
+  priorityScore:PriorityScore
+}
+
+class Treatment {
+  stage:Int
+  consentRequired:Boolean
+}
+
+class Diagnosis {
+}
+
+class PriorityScore {
+  score:String
+}
+
+class Consent {
+  signed:Boolean
+}
+
+Doctor "1..*" -- "1..*" Patient
+Doctor "1..1" -- "1..*" Diagnosis
+HeadDoctor "1..1" -- "1..*" Diagnosis
 Patient "1..*" -- "1..*" Treatment
-Doctor "1..*" -- "1..*" Diagnosis
-Doctor "1..*" -- "1..*" Treatment
-Diagnosis "1..*" -- "1..*" Treatment
 Illness "1..*" -- "1..*" Treatment
 Illness "1..1" -- "1..1" PriorityScore
-
+Treatment "1..*" -- "0..1" Consent
+HeadDoctor --|> Doctor
 @enduml
 ```

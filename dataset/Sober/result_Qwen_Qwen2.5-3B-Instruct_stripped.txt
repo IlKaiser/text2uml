@@ -1,0 +1,63 @@
+@startuml
+
+class Sober{
+    +String name
+    +Date registrationDate
+    +Set<Car> ownedCars
+    +Set<Car> registeredCabs
+    +Set<Customer> customers
+}
+
+class Car{
+    +String licensePlate
+    +Boolean isOwnedBySober
+    +Boolean isRegisteredAsCab
+    +Customer owner
+}
+
+class Customer{
+    +String name
+    +Set<RideHailingService> rideHailingServices
+    +Set<RideSharingService> rideSharingServices
+}
+
+class RideHailingService{
+    +Date pickupTime
+    +Location pickupLocation
+    +Date dropOffTime
+    +Location dropOffLocation
+    +Duration rideDuration
+    +Distance rideDistance
+    +Number passengers
+    +Fee fee
+    +String requestType
+    +Customer leadCustomer
+}
+
+class RideSharingService{
+    +Date pickupTime
+    +Location pickupLocation
+    +Date dropOffTime
+    +Location dropOffLocation
+    +Duration rideDuration
+    +Distance rideDistance
+    +Number passengers
+    +List<String> customerNames
+    +Fee fee
+}
+
+class Accident{
+    +Date date
+    +Location location
+    +Amount damage
+    +Car affectedCar
+}
+
+Sober "1" -- "0..*" RideHailingService
+Sober "1" -- "0..*" RideSharingService
+Sober "1" -- "0..*" Accident
+Sober "1" -- "1..*" Car
+Sober "1" -- "1..*" Customer
+Sober "1" -- "1..*" OwnedCars
+Sober "1" -- "1..*" RegisteredCabs
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+class Organizer {
+  String firstName
+  String lastName
+  String email
+  String username
+  String password
+  String postalAddress
+  String phoneNumber
+  String eventType
+  Date startDate
+  Date endDate
+  String occasion
+  String locationName
+  String locationAddress
+}
+
+class Event {
+  String eventType
+  Date startDate
+  Date endDate
+  String occasion
+  String locationName
+  String locationAddress
+}
+
+class Attendee {
+  String firstName
+  String lastName
+  String email
+  String username
+  String password
+  boolean willAttend
+  boolean maybeAttend
+  boolean cannotAttend
+}
+
+class Invitation {
+  String organizerEmail
+  String attendeeEmail
+  boolean confirmed
+  boolean maybe
+  boolean declined
+}
+
+class Task {
+  String description
+  boolean completed
+  String assignedTo
+}
+
+Event "1" -- "*" Task : has
+Organizer "1" -- "*" Event : organizes
+Organizer "1" -- "*" Invitation : sends
+Attendee "1" -- "*" Invitation : receives
+Attendee "1" -- "*" Task : assignedTo
+@enduml

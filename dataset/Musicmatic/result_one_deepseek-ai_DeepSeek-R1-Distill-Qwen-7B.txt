@@ -1,0 +1,257 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Attracted by the success of Spotify, a group of students wants to build its own music streaming website called Musicmatic. Being economists, they are unaware of the specificities of databases and have therefore asked you to create a UML class diagram.
+A large number of songs will be made available through their website, and the following information on each song needs to be stored: title, year, length, and genre. Also, artist information will be added, including date of birth, name and a URL to a website (e.g., Wikipedia page) with additional information on the artist. You can assume an artist is uniquely identified by his/her name, and that a song always belongs to exactly one artist. The Musicmatic students also point out that songs having the same title are possible, and only the combination of song and artist can be assumed to be unique.
+The database will also have to store information on the people using Musicmatic. It was decided to only discriminate between two types of users: the regular users who will be able to buy music, and the business users who will deliver the content (upload the music). The following information is recorded on each user: (unique) ID, name, and address. Business users will also have a VAT number. The students want to offer a flexible service, and decided business users can only upload individual songs. These songs are classified either as singles or hits, and regular users can directly buy the singles. Otherwise, people can compose an album consisting of multiple hits (no singles). The position of each hit in the album is stored as a track number in the database. Note that the album of regular users can be turned into a suggestion to other regular users with similar purchasing behavior. 
+Finally, a users can be regular user on some occasions (e.g., when downloading a single or album), and a business user at other times (e.g., when uploading self-made songs to Musicmatic).
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a UML class diagram based on the provided specification text. Let me start by carefully reading the text to understand the requirements and the relationships between the different entities.
+
+First, the students want to build a music streaming website called Musicmatic. They need to store information about songs and artists, users (both regular and business), and possibly other related entities like albums and tracks.
+
+Let me break down the information given:
+
+1. **Songs and Artists:**
+   - Each song has a title, year, length, and genre.
+   - Artist information includes name, date of birth, and a Wikipedia URL.
+   - Artists are uniquely identified by their name, and each song belongs to exactly one artist.
+   - Songs with the same title can exist but must be combined with the artist to be unique.
+
+2. **Users:**
+   - Two types: Regular and Business.
+   - Regular users can buy music and compose albums.
+   - Business users can upload individual songs and have a VAT number.
+   - Users can switch between regular and business roles depending on their activity (e.g., uploading vs. downloading).
+
+3. **Albums and Singles:**
+   - Albums can consist of multiple hits (songs) and are composed of tracks with track numbers.
+   - Singles are individual songs that regular users can buy.
+
+4. **Other Considerations:**
+   - Business users can only upload individual songs.
+   - Regular users can switch roles when interacting with the site (e.g., when downloading an album or single).
+
+Now, I'll identify the classes and their attributes based on this information.
+
+**Classes:**
+- **Song:** Title, Year, Length, Genre.
+- **Artist:** Name, Date of Birth, Website URL.
+- **User:** ID, Name, Address. Business users have a VAT number.
+- **Album:** Title, Hits (songs), Track Numbers.
+- **Single:** Title, Artist, Length.
+- **Hit:** Title, Artist, Length.
+- **Track:** Song, Track Number.
+
+**Relations:**
+- **Song and Artist:** Each song belongs to exactly one artist. So, one-to-one relationship.
+- **User and Role:** Users can be Regular or Business. This seems like a role assignment rather than a direct relationship, so maybe a separate class for roles or use inheritance.
+- **User and Business User:** Business users are a subset of users with additional attributes.
+- **User and Song/Album/Single:** Users can interact with songs, albums, singles. This might be a participation relationship.
+- **Album and Hits:** Albums are composed of hits, which are individual songs. So, one-to-many relationship.
+- **Hits and Singles:** Singles are a type of hit. So, a subtype relationship.
+- **Track and Song:** Each song can have multiple tracks (for albums). One-to-many relationship.
+- **Business User and Song:** Business users can only upload individual songs, so they can own singles but not albums.
+
+I need to decide on the cardinality for each relationship. For example, a user can have multiple songs, albums, and singles. An album can have multiple hits, which can be singles or other hits.
+
+I should also consider inheritance. Since Business User is a type of User, I can use inheritance to define it as a subclass of User with an additional attribute (VAT number).
+
+Attributes:
+- **Song:** Title (String), Year (Integer), Length (String or Integer?), Genre (String).
+- **Artist:** Name (String), DateOfBirth (String), Website (String).
+- **User:** ID (String), Name (String), Address (String). BusinessUser has VAT (String).
+- **Album:** Title (String), Hits (List of Hits), TrackNumbers (List of Integers).
+- **Single:** Title (String), Artist (Reference to Artist), Length (String or Integer?).
+- **Hit:** Title (String), Artist (Reference to Artist), Length (String or Integer?).
+- **Track:** Song (Reference to Song), TrackNumber (Integer).
+
+I need to represent these in UML. Since the user mentioned using only bi-directional arcs and no description, I'll focus on the class diagram without any additional text.
+
+I should also note that the Track is part of the Song, so it's a one-to-many relationship. Similarly, Hits are part of Albums, so another one-to-many relationship.
+
+Finally, I'll structure the UML diagram starting with the most general classes and then the specific ones, adding attributes and relationships as I go.
+</think>
+
+Here is the UML class diagram based on the provided specification:
+
+```uml
+@startuml
+
+class User {
+    String ID
+    String Name
+    String Address
+    Boolean IsBusinessUser
+}
+
+class Song {
+    String Title
+    String Year
+    String Length
+    String Genre
+}
+
+class Artist {
+    String Name
+    String DateOfBirth
+    String Website
+}
+
+class Album {
+    String Title
+    List<Hit> Hits
+    List<Integer> TrackNumbers
+}
+
+class Single extends Song {
+    String Title
+    Artist Artist
+    String Length
+}
+
+class Hit extends Song {
+    String Title
+    Artist Artist
+    String Length
+}
+
+class Track {
+    Song Song
+    Integer TrackNumber
+}
+
+class User "0..*" - "1" BusinessUser
+
+User "1" -- "0..*" Song
+User "1" -- "0..*" Album
+User "1" -- "0..*" Single
+User "1" -- "0..*" Hit
+
+Album "1..*" -- "0..*" Hits
+Hit "1..*" -- "1..*" Singles
+Track "1..*" -- "1" Song
+Artist "1" -- "1" Song
+
+@enduml
+```

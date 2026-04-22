@@ -1,0 +1,42 @@
+@startuml
+
+class School {
+    +String name
+    +Teacher principal
+}
+
+class Teacher {
+    +String firstName
+    +String lastName
+    +String email
+}
+
+class Student {
+    +String firstName
+    +String lastName
+    +School school
+}
+
+class Room {
+    +String name
+    +int size
+}
+
+class Classroom extends Room {
+    +int capacity
+    +ClassGroup classGroup
+}
+
+class ClassGroup {
+    +String name
+    +int numberOfStudents
+    +Classroom classroom
+}
+
+Student "1" -- "1" ClassGroup
+ClassGroup "1" -- "1" Classroom
+
+Teacher "1" -- "0..3" School
+School "1" -- "1" Teacher.principal
+
+@enduml

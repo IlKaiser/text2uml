@@ -1,46 +1,154 @@
 ```plantuml
 @startuml
+class BusCompany {
+  name: String
+}
 
-class BusCompany{}
-class Bus{}
-class BusLine{}
-class Destination{}
-class Trajectory{}
-class TownAuthority{}
-class Approval{}
-class SeasonTicket{}
-class Category{}
-class Ticket{}
-class Invoice{}
-class User{}
-class MensoCard{}
-class TicketMachine{}
-class Trip{}
-class Customer{}
-class Payment{}
-class Route{}
-class Frequency{}
+class Bus {
+  lineNumber: Int
+  isOperational: Boolean
+}
 
-BusCompany "1..1" -- "1..*" Bus
-BusCompany "1..1" -- "1..*" BusLine
-BusCompany "1..1" -- "1..*" Trajectory
-BusCompany "1..1" -- "1..*" SeasonTicket
-BusCompany "1..1" -- "1..*" TicketMachine
-BusLine "1..1" -- "1..1" Category
-BusLine "1..1" -- "1..*" Trajectory
-Trajectory "1..1" -- "1..1" Approval
-Trajectory "1..1" -- "1..1" TownAuthority
-SeasonTicket "1..1" -- "1..1" MensoCard
-SeasonTicket "1..1" -- "1..*" Invoice
-MensoCard "1..1" -- "1..*" Trip
-TicketMachine "1..1" -- "1..*" Trip
-Trip "1..1" -- "1..1" BusLine
-Invoice "1..1" -- "1..1" Payment
-Customer "1..1" -- "1..*" SeasonTicket
-Customer "1..1" -- "1..*" Invoice
-Customer "1..1" -- "1..1" MensoCard
-Route "1..1" -- "1..*" BusLine
-Route "1..1" -- "1..*" Frequency
+class BusLine {
+  category: String
+}
 
+class Destination {
+  name: String
+}
+
+class Trajectory {
+  isApproved: Boolean
+  isSuspended: Boolean
+  isCancelled: Boolean
+}
+
+class TownAuthority {
+  name: String
+}
+
+class Approval {
+  isRefused: Boolean
+  isPending: Boolean
+}
+
+class Line {
+  number: Int
+}
+
+class Section {
+  isSkipped: Boolean
+}
+
+class Bifurcation {
+  endPoint1: String
+  endPoint2: String
+}
+
+class EndPoint {
+  name: String
+}
+
+class SeasonTicket {
+  isValid: Boolean
+  startDate: Date
+  endDate: Date
+}
+
+class Category {
+  name: String
+}
+
+class Trip {
+  time: Date
+  date: Date
+  lineNumber: Int
+}
+
+class User {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
+
+class MENSOCard {
+  isActive: Boolean
+}
+
+class TicketMachine {
+  location: String
+}
+
+class Invoice {
+  amount: Float
+  dueDate: Date
+}
+
+class Customer {
+  name: String
+}
+
+class Payment {
+  amount: Float
+  date: Date
+}
+
+class Discount {
+  percentage: Int
+}
+
+class Route {
+  description: String
+}
+
+class Frequency {
+  schedule: String
+}
+
+BusCompany "0..*" -- "1..*" Bus
+BusCompany "0..*" -- "1..*" BusLine
+BusCompany "0..*" -- "0..*" Approval
+BusCompany "0..*" -- "0..*" Trajectory
+BusCompany "0..*" -- "0..*" Line
+BusCompany "0..*" -- "0..*" SeasonTicket
+BusCompany "0..*" -- "0..*" Category
+BusCompany "0..*" -- "1..*" TownAuthority
+BusLine "0..*" -- "1..1" Destination
+BusLine "0..*" -- "1..1" Category
+BusLine "0..*" -- "0..*" Trip
+BusLine "0..*" -- "0..*" Bifurcation
+BusLine "0..*" -- "0..*" EndPoint
+BusLine "0..*" -- "0..*" Route
+BusLine "0..*" -- "0..*" Frequency
+Bus "0..*" -- "1..1" BusLine
+Bus "0..*" -- "0..*" Trip
+Trajectory "0..*" -- "1..1" Approval
+Trajectory "0..*" -- "0..*" Section
+Trajectory "0..*" -- "0..*" Bifurcation
+Trajectory "0..*" -- "0..*" EndPoint
+Line "0..*" -- "0..*" Trajectory
+Line "0..*" -- "0..*" Bifurcation
+Line "0..*" -- "0..*" EndPoint
+Line "0..*" -- "0..*" Route
+Line "0..*" -- "0..*" Frequency
+SeasonTicket "0..*" -- "1..1" Category
+SeasonTicket "0..*" -- "0..*" Trip
+SeasonTicket "0..*" -- "1..1" Customer
+SeasonTicket "0..*" -- "1..1" Invoice
+SeasonTicket "0..*" -- "0..*" Discount
+Customer "0..*" -- "1..1" MENSOCard
+Customer "0..*" -- "0..*" Invoice
+Customer "0..*" -- "0..*" Payment
+Customer "0..*" -- "0..*" Discount
+Trip "0..*" -- "1..1" Line
+Trip "0..*" -- "1..1" User
+Trip "0..*" -- "1..1" MENSOCard
+Trip "0..*" -- "1..1" TicketMachine
+Invoice "0..*" -- "1..1" Customer
+Invoice "0..*" -- "0..*" Payment
+Invoice "0..*" -- "0..*" Discount
+Payment "0..*" -- "1..1" Customer
+Discount "0..*" -- "1..1" Customer
+Discount "0..*" -- "1..1" Invoice
 @enduml
 ```

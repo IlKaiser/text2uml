@@ -1,33 +1,27 @@
 @startuml
 
-class Driver{}
-class Planner{}
-class AdministrativeStaff{}
-class Employee{}
-class LoginAccount{}
-class FieldOfActivity{}
-class Customer{}
-class Vehicle{}
-class RefrigeratedTruck{}
-class SmallVan{}
-class LoadingPlatform{}
-class BoxTruck{}
-class RepairShop{}
-class Repair{}
-class Order{}
-class PartnerCompany{}
-class Address{}
+class Employee { String Name, String SocialSecurityNumber }
+class Driver { }
+class Planner { String Username, String Password }
+class AdministrativeStaff { String Username, String Password, String FieldOfActivity }
+class Customer { String Name, String BillingAddress }
+class PartnerCompany { String Name, String Address }
+class Vehicle { String LicensePlateNumber, Integer Mileage }
+class RefrigeratedTruck { }
+class SmallVan { }
+class LoadingPlatform { }
+class BoxTruck { }
+class RepairShop { String Name, String Address }
+class Repair { String Duration, Float Cost }
+class Order { String PackageSize, String PickupAddress, String DeliveryAddress, String Comment, DateTime StartTime, DateTime EndTime }
 
-Employee "0..*" -- "0..1" Driver
-Employee "0..*" -- "0..1" Planner
-Employee "0..*" -- "0..1" AdministrativeStaff
-
-Planner "0..*" -- "1..1" LoginAccount
-AdministrativeStaff "0..*" -- "1..1" LoginAccount
-
-AdministrativeStaff "1..1" -- "0..*" FieldOfActivity
-
-Customer "0..*" -- "1..1" Address
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
+RefrigeratedTruck --|> Vehicle
+SmallVan --|> Vehicle
+LoadingPlatform --|> Vehicle
+BoxTruck --|> Vehicle
 
 Order "1..1" -- "0..*" Customer
 Order "1..1" -- "0..*" Driver
@@ -36,16 +30,8 @@ Order "1..1" -- "0..*" Planner
 Order "0..1" -- "0..*" AdministrativeStaff
 Order "0..1" -- "0..*" PartnerCompany
 
-Order "1..1" -- "1..1" Address
-Order "1..1" -- "1..1" Address
-
-Repair "1..1" -- "0..*" RepairShop
 Repair "1..1" -- "0..*" Vehicle
+Repair "1..1" -- "0..*" RepairShop
 Repair "1..1" -- "0..*" Employee
-
-Vehicle "1..1" -- "0..1" RefrigeratedTruck
-Vehicle "1..1" -- "0..1" SmallVan
-Vehicle "1..1" -- "0..1" LoadingPlatform
-Vehicle "1..1" -- "0..1" BoxTruck
 
 @enduml

@@ -1,0 +1,105 @@
+Given the detailed system description, the associations among the identified classes are as follows:
+
+### PlantUML Associations:
+
+```plantuml
+@startuml
+class Sensor {
+  +value: Float
+  +timestamp: Date
+  +description: String
+  +unit: String
+  +vendorId: String
+}
+class SensorController {
+  +apartments: Set[Apartment]
+  +inhabitants: Set[Inhabitant]
+  +thresholds: Set[Threshold]
+  +emails: Set[Email]
+  +users: Set[User]
+  +rooms: Set[Room]
+  +values: Map<Sensor, Value>
+  +timestamps: Map<Sensor, Timestamp>
+  +addresses: Map<Sensor, Address>
+  +descriptions: Map<Sensor, Description>
+  +units: Map<Sensor, Unit>
+  +vendorIds: Map<Sensor, VendorId>
+}
+class Apartment {
+  +address: String
+  +rooms: Set[Room]
+  +inhabitants: Set[Inhabitant]
+  +thresholds: Set[Threshold]
+  +emails: Set[Email]
+  +users: Set[User]
+  +sensorControllers: Set<SensorController>
+}
+class Inhabitant {
+  +username: String
+  +password: String
+  +apartments: Set[Apartment]
+  +thresholds: Set[Threshold]
+  +emails: Set[Email]
+  +users: Set[User]
+}
+class Threshold {
+  +sensor: Sensor
+  +value: Float
+}
+class Email {
+  +emailAddress: String
+  +apartments: Set[Apartment]
+  +users: Set[User]
+}
+class User {
+  +name: String
+  +apartments: Set[Apartment]
+  +inhabitants: Set[Inhabitant]
+  +thresholds: Set[Threshold]
+  +emails: Set[Email]
+}
+class Room {
+  +description: String
+  +apartments: Set[Apartment]
+}
+class Value {
+  +sensor: Sensor
+  +value: Float
+}
+class Timestamp {
+  +sensor: Sensor
+  +timestamp: Date
+}
+class Address {
+  +sensor: Sensor
+  +address: String
+}
+class Description {
+  +sensor: Sensor
+  +description: String
+}
+class Unit {
+  +sensor: Sensor
+  +unit: String
+}
+class VendorId {
+  +sensor: Sensor
+  +vendorId: String
+}
+Sensor -- 1 SensorController : reports values to
+SensorController -- 1 Apartment : stores information about
+Apartment -- 1 Inhabitant : contains inhabitants
+Inhabitant -- 1 Threshold : specifies thresholds
+Inhabitant -- 1 Email : specifies email addresses
+Apartment -- 1 User : associated user
+User -- 1 Room : associated room
+Sensor -- 1 Value : stores measured values
+Sensor -- 1 Timestamp : stores timestamps
+Sensor -- 1 Address : stores addresses
+Sensor -- 1 Description : stores descriptions
+Sensor -- 1 Unit : stores units
+Apartment -- 1 VendorId : stores vendor ID
+@enduml
+```
+
+This PlantUML code defines the relationships between the identified classes based on the detailed system description.

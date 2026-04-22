@@ -1,20 +1,34 @@
 @startuml
-class Sensor{}
-class SensorController{}
-class Inhabitant{}
-class Apartment{}
-class Room{}
-class Value{}
-class EMonitor{}
-class TemperatureSensor{}
-class PowerSensor{}
 
-TemperatureSensor --|> Sensor
-PowerSensor --|> Sensor
-Sensor "1" -- "*" SensorController
-Sensor "1" -- "*" Room
+enum Unit{ CELSIUS, WATT }
+
+class Apartment{ String Address }
+
+class Room{ String Description }
+
+class SensorController{ String Identifier }
+
+class Inhabitant{ String Username, String Password, Boolean Admin }
+
+class EMonitor{ String Identifier }
+
+class EHome2020{ String Identifier }
+
+class Sensor{ String VendorId, String Description, Unit Unit, Double Threshold }
+
+class TemperatureSensor<<|-- Sensor
+
+class PowerSensor<<|-- Sensor
+
+class SensorValue{ Date Timestamp, Double Value }
+
 Apartment "1" -- "2..*" Room
-Inhabitant "0..*" -- "*" Sensor
-EMonitor "1" -- "*" Sensor
-Value "1" -- "*" Sensor
+Room "0..*" -- "1" Sensor
+Sensor "1" -- "0..*" SensorValue
+Sensor "1" -- "0..1" SensorValue : LastValue
+SensorController "1" -- "0..*" Inhabitant
+Sensor "1" -- "1" SensorController
+EMonitor "1" -- "0..*" Sensor
+EMonitor "1" -- "0..1" EHome2020
+
 @enduml

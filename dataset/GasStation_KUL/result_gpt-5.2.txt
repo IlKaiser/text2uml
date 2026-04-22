@@ -1,0 +1,49 @@
+```plantuml
+@startuml
+
+class OilCompany{ String Name }
+class GasStation{ String StationId, String Address }
+class Customer{ String CustomerId, String Name, String Status, String CustomerType }
+class Payment{ String PaymentId, Date PaymentDate, Decimal Amount, String Method }
+class CashPayment{ String ReceiptNumber }
+class CreditCardPayment{ String CardNumber, String CardHolderName, Date ExpiryDate }
+class FuelCard{ String CardId, Date IssueDate, String Status }
+class RefuelTurn{ String RefuelTurnId, DateTime StartTime, DateTime EndTime, Decimal Liters, Decimal Amount }
+class MonthlyInvoice{ String InvoiceId, Date InvoiceDate, String Month, Decimal TotalAmount, Decimal Discount }
+class Pump{ String PumpId, String GasolineType, String Status }
+class Reservoir{ String ReservoirId, Decimal CurrentLevel, Decimal ReorderLevel, Decimal CriticalLevel, Decimal Capacity }
+class DailyReport{ String ReportId, Date ReportDate }
+class ReportItem{ String ItemId, Decimal CurrentLevel, Decimal QuantityToOrder, Boolean NeedsRefill, Boolean PumpBlocked }
+class RefillOrder{ String OrderId, DateTime OrderTime, Decimal Quantity }
+class RefillEvent{ String RefillEventId, DateTime StartTime, DateTime EndTime, Decimal QuantityAdded }
+
+class PaymentMethod{ String MethodType }
+PaymentMethod <|-- CashPayment
+PaymentMethod <|-- CreditCardPayment
+
+OilCompany "1..1" -- "0..*" GasStation
+GasStation "1..1" -- "0..*" Pump
+Pump "1..1" -- "1..1" Reservoir
+
+Customer "1..1" -- "0..*" RefuelTurn
+Pump "1..1" -- "0..*" RefuelTurn
+
+Customer "1..1" -- "0..*" FuelCard
+
+FuelCard "1..1" -- "0..*" MonthlyInvoice
+Customer "1..1" -- "0..*" MonthlyInvoice
+MonthlyInvoice "1..1" -- "0..*" RefuelTurn
+
+MonthlyInvoice "1..1" -- "0..*" Payment
+Payment "1..1" -- "1..1" PaymentMethod
+
+GasStation "1..1" -- "0..*" DailyReport
+DailyReport "1..1" -- "0..*" ReportItem
+ReportItem "1..1" -- "1..1" Pump
+
+Pump "1..1" -- "0..*" RefillOrder
+RefillOrder "1..1" -- "0..*" RefillEvent
+Reservoir "1..1" -- "0..*" RefillEvent
+
+@enduml
+```

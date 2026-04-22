@@ -1,0 +1,23 @@
+@startuml
+
+class GameElement {
+    protected long X
+    private long Y
+}
+class Shape {
+    GameElement "0..*" -- "0..*" GameElement
+}
+class Object {
+    GameElement "0..*" -- "0..*" GameElement
+}
+class Opponent {
+    protected int Lives
+}
+class GameArea {
+    String Name
+    GameElement "1" -- "0..*" GameElement
+    GameElement "0..2" -- "0..*" GameElement
+    Opponent "0..1" -- "0..1" Opponent
+}
+
+@enduml

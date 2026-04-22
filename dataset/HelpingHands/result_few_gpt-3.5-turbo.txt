@@ -1,22 +1,44 @@
 
 @startuml
 
-class Resident {}
-class Item {}
-class PickupDeliveryService {}
-class PickupRequest {}
-class PickUpVehicle {}
-class VolunteerDriver {}
-class DistributionCenter {}
-class Employee {}
+class Resident {
+    String Name
+    String StreetAddress
+    String Phone
+    String Email
+}
+class PickupRequest {
+    String Description
+}
+class Vehicle {
+    String AvailableDays
+    Int StorageSpace
+}
+class PickupRoute {}
+class VolunteerDriver {
+    String AvailableDays
+}
+class Item {
+    String RFID
+    String Category
+}
+class FoodBank {}
+class H2SEmployee {}
+class Client {}
 
 Resident "1" -- "0..*" PickupRequest
-PickupRequest "1" -- "1" Item
-PickupDeliveryService "1" -- "0..*" Resident
-PickupDeliveryService "0..*" -- "1" DistributionCenter
-PickUpVehicle "1" -- "1..*" PickupRequest
-VolunteerDriver "0..*" -- "0..*" PickUpVehicle
-PickUpVehicle "1" -- "0..*" Employee
-DistributionCenter "1" -- "0..*" Employee
+Resident "1" -- "0..1" Client
+Resident "1" -- "0..*" Item
+PickupRequest "1" -- "1..*" Item
+Vehicle "1" -- "1..*" PickupRoute
+PickupRoute "0..*" -- "1" Vehicle
+PickupRoute "1" -- "1..*" Resident
+Vehicle "1" -- "0..*" VolunteerDriver
+Item "0..*" -- "1" Resident
+Item "1" -- "0..1" H2SEmployee
+Client "0..1" -- "0..*" Item
+Item "1" .. FoodBank
+H2SEmployee "1" -- "0..*" Item
 
 @enduml
+

@@ -1,21 +1,26 @@
 @startuml
 
-class Organizer{}
-class Attendee{}
-class Event{}
-class EventType{}
-class Location{}
-class Task{}
-class Invitation{}
+class User{ String FirstName, String LastName, String Email, String Password }
+class Organizer{ String PostalAddress, String PhoneNumber }
+class Attendee{ Boolean HasAccount }
+class Event{ DateTime StartDateTime, DateTime EndDateTime, String Occasion }
+class EventType{ String Name, String Description }
+class Location{ String Name, String Address }
+class Invitation{ String InvitedFirstName, String InvitedLastName, String InvitedEmail, String Status }
+class TaskTemplate{ String Title, String Description }
+class TaskInstance{ String Status, Boolean ForAttendee }
 
-Organizer "0..*" -- "1..*" Event
-Organizer "0..*" -- "0..*" Attendee
-Event "1..1" -- "0..*" EventType
-Event "1..1" -- "0..*" Location
-Event "1..*" -- "0..*" Invitation
-Attendee "0..*" -- "0..*" Invitation
-Event "0..*" -- "0..*" Task
-EventType "0..*" -- "0..*" Task
-Attendee "0..*" -- "0..*" Task
+Organizer --|> User
+Attendee --|> User
+
+Event "0..*" -- "1..*" Organizer
+Event "0..*" -- "1..1" EventType
+Event "0..*" -- "1..1" Location
+Event "1..1" -- "0..*" Invitation
+Invitation "0..*" -- "0..1" Attendee
+EventType "1..1" -- "0..*" TaskTemplate
+Event "1..1" -- "0..*" TaskInstance
+TaskInstance "0..*" -- "0..1" TaskTemplate
+TaskInstance "0..*" -- "0..1" Attendee
 
 @enduml

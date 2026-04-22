@@ -1,0 +1,72 @@
+```plantuml
+@startuml
+
+class Resident {
+  name: String
+  street address: String
+  phone number: String
+  email address: String
+  description of items: String
+}
+
+class PickupVehicle {
+  available storage space: Int
+  dimensions of scheduled items: String
+  weights of scheduled items: Float
+}
+
+class VolunteerDriver {
+  available days: Date
+}
+
+class PickupRoute {
+  scheduled pickups: Date
+  pickup time: Date
+}
+
+class DistributionCenter {
+}
+
+class H2SWebsite {
+  volunteer driver availability: Date
+}
+
+class RFIDDevice {
+}
+
+class Article {
+  description: String
+  category: String
+}
+
+class Category {
+}
+
+class Client {
+  home address: String
+  needed categories: String
+}
+
+class DeliveryService {
+}
+
+class FoodBank {
+}
+
+Resident "0..*" -- "0..*" PickupVehicle
+Resident "0..*" -- "0..1" PickupRoute
+Resident "1..1" -- "0..*" H2SWebsite
+PickupVehicle "1..1" -- "1..*" PickupRoute
+PickupRoute "1..1" -- "1..1" VolunteerDriver
+PickupRoute "1..1" -- "1..1" DistributionCenter
+VolunteerDriver "1..1" -- "1..1" H2SWebsite
+DistributionCenter "1..1" -- "0..*" RFIDDevice
+DistributionCenter "1..1" -- "0..*" Article
+DistributionCenter "1..1" -- "1..134" Category
+DistributionCenter "1..1" -- "0..*" Client
+Article "1..1" -- "1..1" Category
+Client "1..1" -- "0..1" DeliveryService
+Client "1..1" -- "0..1" FoodBank
+
+@enduml
+```

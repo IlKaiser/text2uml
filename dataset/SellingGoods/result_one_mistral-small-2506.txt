@@ -1,0 +1,57 @@
+Here's the PlantUML class diagram based on the specification text:
+
+```plantuml
+@startuml
+
+class Customer {
+    String Name
+    String Address
+    String VATNumber
+    String HeadOfficeAddress
+}
+
+class Product {
+    String Name
+    int StockLevel
+}
+
+class Order {
+    Date PaidDate
+    Date ShippedDate
+    boolean FullyShipped
+}
+
+class OrderLine {
+    int Quantity
+    boolean Shipped
+    Date ShippedDate
+}
+
+class Delivery {
+    String Status
+    Date PackedDate
+    Date ShippedDate
+    Date ReceivedDate
+}
+
+class Invoice {
+    Date DueDate
+    Date PaidDate
+    boolean Paid
+}
+
+class ShipmentGroup {
+    Date ShippedDate
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "1..*" OrderLine
+OrderLine "1" -- "1" Product
+Order "1" -- "0..1" Invoice
+Invoice "1" -- "1" Customer
+Order "1" -- "0..*" ShipmentGroup
+ShipmentGroup "1" -- "1..*" OrderLine
+OrderLine "1" -- "0..1" Delivery
+
+@enduml
+```

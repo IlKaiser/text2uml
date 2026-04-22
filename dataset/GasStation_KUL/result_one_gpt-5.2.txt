@@ -1,0 +1,75 @@
+@startuml
+
+class OilCompany {
+    String Name
+}
+class GasStation {
+    String Location
+}
+class Customer {
+    String Name
+    String Status
+}
+class RefuelCard {
+    String CardNumber
+    String Status
+}
+class CreditCard {
+    String CardNumber
+    String HolderName
+    Date ExpirationDate
+}
+class MonthlyInvoice {
+    Date InvoiceMonth
+    Double TotalAmount
+    Double DiscountAmount
+    String Status
+    Date SentDate
+}
+class Payment {
+    Date PaymentDate
+    Double Amount
+    String Method
+}
+class RefuelTurn {
+    DateTime StartTime
+    DateTime EndTime
+    Double Liters
+    Double Amount
+    String PaymentType
+}
+class Pump {
+    String PumpId
+    String GasolineType
+    String Status
+}
+class Reservoir {
+    Double CurrentLevel
+    Double ReorderLevel
+    Double CriticalLevel
+    Double Capacity
+}
+class RefillOrder {
+    Date OrderDate
+    Double QuantityToOrder
+}
+class DailyReport {
+    Date ReportDate
+}
+
+OilCompany "1..1" -- "0..*" GasStation
+GasStation "1..1" -- "1..*" Pump
+Pump "1..1" -- "1..1" Reservoir
+Customer "1..1" -- "0..*" RefuelTurn
+Pump "1..1" -- "0..*" RefuelTurn
+Customer "1..1" -- "0..*" MonthlyInvoice
+MonthlyInvoice "1..1" -- "0..*" RefuelTurn
+MonthlyInvoice "1..1" -- "0..*" Payment
+Customer "1..1" -- "0..1" RefuelCard
+Customer "1..1" -- "0..*" CreditCard
+GasStation "1..1" -- "0..*" DailyReport
+DailyReport "1..1" -- "0..*" Pump
+Reservoir "1..1" -- "0..*" RefillOrder
+GasStation "1..1" -- "0..*" RefillOrder
+
+@enduml

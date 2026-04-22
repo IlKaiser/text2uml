@@ -1,0 +1,93 @@
+```plantuml
+@startuml
+
+class Sober {
+}
+
+class SelfDrivingCar {
+}
+
+class CarOwner {
+  name: String
+}
+
+class RideHailingService {
+  timeOfPickUp: Date
+  timeOfDropOff: Date
+  locationOfPickUp: String
+  locationOfDropOff: String
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  fee: Float
+  typeOfRequest: String
+  leadCustomerName: String
+}
+
+class RideSharingService {
+  timeOfPickUp: Date
+  timeOfDropOff: Date
+  locationOfPickUp: String
+  locationOfDropOff: String
+  rideDuration: Float
+  distance: Float
+  customerNames: String
+  negotiatedFee: Float
+}
+
+class Customer {
+}
+
+class SoberApp {
+}
+
+class ImageRecognitionSystem {
+}
+
+class RideRequest {
+}
+
+class Passenger {
+}
+
+class Fee {
+}
+
+class LeadCustomer {
+  name: String
+}
+
+class TreePlantingIncentive {
+}
+
+class Accident {
+  date: Date
+  location: String
+  damageAmount: Float
+}
+
+class Damage {
+}
+
+Sober "1..*" -- "1..*" SelfDrivingCar
+Sober "1..*" -- "1..*" CarOwner
+Sober "1..*" -- "1..*" RideHailingService
+Sober "1..*" -- "1..*" RideSharingService
+RideHailingService "1..*" -- "1..*" Customer
+RideHailingService "1..*" -- "0..1" SoberApp
+RideHailingService "1..*" -- "0..1" ImageRecognitionSystem
+RideHailingService "1..*" -- "1..*" RideRequest
+RideHailingService "1..*" -- "1..6" Passenger
+RideHailingService "1..*" -- "1..1" Fee
+RideHailingService "1..*" -- "1..1" LeadCustomer
+RideSharingService "1..*" -- "1..10" Customer
+RideSharingService "1..*" -- "0..1" TreePlantingIncentive
+RideSharingService "1..*" -- "1..1" Fee
+RideSharingService "1..*" -- "1..10" Passenger
+RideSharingService "1..*" -- "1..*" LeadCustomer
+RideHailingService "1..*" -- "0..*" Accident
+RideSharingService "1..*" -- "0..*" Accident
+Accident "1..*" -- "1..*" Damage
+
+@enduml
+```

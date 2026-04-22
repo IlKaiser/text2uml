@@ -1,30 +1,63 @@
 @startuml
-class Driver{}
-class Employee{}
-class Planner{}
-class AdministrativeStaff{}
-class Customer{}
-class Vehicle{}
-class VehicleType{}
-class RepairShop{}
-class Repair{}
-class Order{}
-class PartnerCompany{}
-class Address{}
+class Employee {
+  name: String
+  socialSecurityNumber: String
+  username: String
+  password: String
+  fieldOfActivity: String
+}
+class Customer {
+  name: String
+  billingAddress: String
+}
+class Vehicle {
+  vehicleType: String
+  licensePlate: String
+  mileage: Int
+}
+class RepairShop {
+  name: String
+  address: String
+}
+class Order {
+  customerName: String
+  pickupAddress: String
+  deliveryAddress: String
+  packageSize: String
+  requestedDate: Date
+  vehicleTypeNeeded: String
+  plannerName: String
+  assignedDriverName: String
+  vehicleLicensePlate: String
+  startTime: Date
+  endTime: Date
+  comment: String
+  adminEmployeeName: String
+  partnerCompanyName: String
+  partnerCompanyAddress: String
+}
+class PartnerCompany {
+  name: String
+  address: String
+}
+class Repair {
+  repairShopName: String
+  repairShopAddress: String
+  employeeWhoTookVehicle: String
+  duration: Int
+  cost: Float
+}
+class Address
 
-Customer "1..1" -- "0..*" Address
-Order "1..1" -- "0..*" Customer
-Order "2..2" -- "0..*" Address
-Order "1..1" -- "0..*" VehicleType
-Order "1..1" -- "0..*" Driver
-Order "1..1" -- "0..*" Planner
-Order "0..1" -- "0..*" AdministrativeStaff
-Order "0..1" -- "0..*" PartnerCompany
-Order "1..1" -- "0..*" Vehicle
-Vehicle "1..1" -- "0..*" VehicleType
-Repair "1..1" -- "0..*" Vehicle
-Repair "1..1" -- "0..*" RepairShop
-Repair "1..1" -- "0..*" Employee
-RepairShop "1..1" -- "0..*" Address
-PartnerCompany "1..1" -- "0..*" Address
+Order "0..*" -- "1..1" Customer
+Order "0..*" -- "1..1" Vehicle
+Order "0..*" -- "2..2" Address
+Order "0..*" -- "1..1" Employee
+Order "0..*" -- "0..1" PartnerCompany
+Customer "0..*" -- "1..1" Address
+PartnerCompany "0..*" -- "1..1" Address
+Repair "0..*" -- "1..1" Vehicle
+Repair "0..*" -- "1..1" RepairShop
+Repair "0..*" -- "1..1" Employee
+RepairShop "0..*" -- "1..1" Address
 @enduml

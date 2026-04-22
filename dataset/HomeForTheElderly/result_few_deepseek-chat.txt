@@ -1,30 +1,63 @@
 @startuml
 
-class Home {}
-class Department {}
-class Room {}
-class Bed {}
-class BedCategory {}
-class Stay {}
-class Inhabitant {}
-class Registration {}
-class Assessment {}
-class WaitingList {}
-class Proposal {}
-class Invoice {}
-class CreditNote {}
+class Department {
+    String Name
+}
+class Room {
+    Int RoomNumber
+}
+class Bed {
+    Int BedNumber
+    String Category
+}
+class StayCategory {
+    String Type
+    Double Price
+}
+class Inhabitant {
+    String Name
+    Date RegistrationDate
+}
+class Stay {
+    Date StartDate
+    Date EndDate
+    String Status
+}
+class Registration {
+    Date RegistrationDate
+}
+class Assessment {
+    Date AssessmentDate
+    String RecommendedStayType
+}
+class WaitingListEntry {
+    Int Position
+}
+class Proposal {
+    Date ProposalDate
+    String Status
+}
+class Invoice {
+    Double Amount
+    Double OutstandingAmount
+    String Status
+}
+class CreditNote {
+    Double Amount
+}
 
-Home "1" -- "1..*" Department
-Department "1" -- "1..*" Room
-Room "1" -- "1..*" Bed
-Bed "1" -- "1" BedCategory
-BedCategory "1" -- "0..*" Stay
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+Bed "1" -- "0..*" Stay
+StayCategory "1" -- "0..*" Bed
+StayCategory "1" -- "0..*" Stay
 Inhabitant "1" -- "0..*" Stay
-Inhabitant "1" -- "1" Registration
-Registration "1" -- "1" Assessment
-Assessment "1" -- "1" WaitingList
-WaitingList "1" -- "0..*" Proposal
-Proposal "1" -- "1" Inhabitant
+Inhabitant "1" -- "0..*" Registration
+Inhabitant "1" -- "0..*" Assessment
+Inhabitant "1" -- "0..*" WaitingListEntry
+StayCategory "1" -- "0..*" WaitingListEntry
+WaitingListEntry "1" -- "0..*" Proposal
+Proposal "1" -- "0..1" Stay
 Stay "1" -- "0..*" Invoice
 Invoice "0..1" -- "0..1" CreditNote
 

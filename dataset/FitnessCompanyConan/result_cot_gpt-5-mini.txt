@@ -1,16 +1,32 @@
 @startuml
-class Person{}
-class Trainer{}
-class FitnessCenter{}
-class Room{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
-class Participation{}
+class Person {
+  firstName: String
+  familyName: String
+  birthDate: Date
+  diploma: String
+}
+class Center {
+  name: String
+  address: String
+}
+class Room {
+  number: Int
+  maxCapacity: Int
+}
+class Session {
+  date: Date
+  startHour: Int
+}
+class GroupSession {
+  type: String
+}
+class IndividualSession
 
-FitnessCenter "1..*" -- "1..1" Room
+Center "1..*" -- "1..1" Room
 Room "0..*" -- "1..1" Session
-GroupSession "1..1" -- "0..*" Trainer
-Person "0..*" -- "1..1" Participation
-Participation "1..1" -- "0..*" Session
+Person "0..*" -- "0..*" Session
+Person "0..*" -- "1..1" GroupSession
+
+GroupSession --|> Session
+IndividualSession --|> Session
 @enduml

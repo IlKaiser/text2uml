@@ -1,27 +1,35 @@
 @startuml
-class Game{}
-class Player{}
-class Deck{}
-class Card{}
-class ScoringTable{}
-class Round{}
-class JackRound{}
-class SoloRound{}
-class SoloType{}
 
-Game "4" -- "1" Player
+class Game{ String ID }
+class Player{ String ID }
+class Deck{ String ID }
+class Card{ String ID, Suit Suit, Integer Height }
+class ScoringTable{ String ID }
+class Round{ String ID, Integer PointValue }
+class JackRound{ }
+class SoloRound{ SoloType SoloKind }
+class MandatorySoloRound{ }
+
+enum Suit{
+  Diamonds
+  Hearts
+  Spades
+  Clubs
+}
+enum SoloType{
+  Trump
+  Jack
+  Queen
+}
+
+Game "1" -- "4" Player
 Game "1" -- "1" Deck
 Game "1" -- "1" ScoringTable
-
-Deck "1" -- "0..48" Card
-
-ScoringTable "1" -- "0..*" Round
-
-Round "0..*" -- "1" JackRound
-Round "0..*" -- "1" SoloRound
-
-JackRound "1" -- "1..*" Player
+Deck "0..48" -- "1" Card
+ScoringTable "0..*" -- "1" Round
 SoloRound "1" -- "1" Player
+Round <|-- JackRound
+Round <|-- SoloRound
+SoloRound <|-- MandatorySoloRound
 
-SoloRound "1" -- "1" SoloType
 @enduml

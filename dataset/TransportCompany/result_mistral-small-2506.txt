@@ -1,26 +1,34 @@
-```plantuml
 @startuml
 
-class Employee{}
-class Driver{}
+class Person{ String Name, String SocialSecurityNumber }
+class Employee{ String Username, String Password }
 class Planner{}
-class AdministrativeStaff{}
-class Customer{}
-class Vehicle{}
-class VehicleType{}
-class RepairShop{}
-class Order{}
-class PartnerCompany{}
+class AdministrativeStaff{ String FieldOfActivity }
+class Customer{ String Name, String BillingAddress }
+class Vehicle{ String LicensePlateNumber, int Mileage }
+class RefrigeratedTruck{}
+class SmallVan{}
+class LoadingPlatform{}
+class BoxTruck{}
+class RepairShop{ String Name, String Address }
+class Order{ Date StartTime, Date FinishTime, String Comment, int PackageSize }
+class PartnerCompany{ String Name, String Address }
 
-Employee "1..1" -- "1..*" Order
-Driver "1..1" -- "1..*" Order
-Planner "1..1" -- "1..*" Order
-AdministrativeStaff "1..1" -- "1..*" Order
-Customer "1..1" -- "1..*" Order
-Vehicle "1..1" -- "1..*" Order
-VehicleType "1..1" -- "1..*" Vehicle
-RepairShop "1..1" -- "1..*" Vehicle
-PartnerCompany "1..1" -- "1..*" Order
+Person <|-- Employee
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+Vehicle <|-- RefrigeratedTruck
+Vehicle <|-- SmallVan
+Vehicle <|-- LoadingPlatform
+Vehicle <|-- BoxTruck
+
+Person "1..1" -- "0..*" Order
+Employee "1..1" -- "0..*" Order
+Vehicle "1..1" -- "0..*" Order
+Planner "1..1" -- "0..*" Order
+Customer "1..1" -- "0..*" Order
+RepairShop "1..1" -- "0..*" Vehicle
+AdministrativeStaff "1..1" -- "0..*" Order
+PartnerCompany "1..1" -- "0..*" Order
 
 @enduml
-```

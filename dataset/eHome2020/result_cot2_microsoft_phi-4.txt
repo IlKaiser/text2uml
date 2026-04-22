@@ -1,0 +1,110 @@
+```plantuml
+@startuml
+
+class ProjectManager {}
+
+class SoftwareCompany {}
+
+class SensorController {
+  apartment information
+  username
+  password
+}
+
+class Home {
+  address
+  rooms
+}
+
+class Inhabitant {
+  username
+  password
+  administrative rights
+}
+
+class Sensor {
+  vendor-id
+  description
+  unit
+  room
+}
+
+class Threshold {}
+
+class System (E-Monitor) {}
+
+class AlertMessage {}
+
+class EmailAddress {}
+
+class AdministrativeRights {}
+
+class TemperatureSensor {
+  value range (min, max)
+}
+
+class PowerSensor {
+  total power consumption
+}
+
+class PowerSocket {}
+
+class Appliance {}
+
+class ValueRange {
+  min
+  max
+}
+
+class VendorId {}
+
+class Room {
+  description
+}
+
+class Address {}
+
+class MeasuredValue {
+  timestamp
+  value
+}
+
+class Timestamp {}
+
+class FloatingPointNumber {}
+
+class LastValue {}
+
+class Goal {}
+
+class Prototype {}
+
+class TargetPlatform {}
+
+class Environment {}
+
+class Functionality {}
+
+SensorController "1..*" -- "0..*" Sensor
+Inhabitant "1..*" -- "1..1" SensorController
+Sensor "1..*" -- "0..1" Threshold
+Sensor "1..*" -- "0..1" EmailAddress
+Sensor "1..*" -- "0..*" AlertMessage
+Sensor "1..*" -- "0..*" AdministrativeRights
+Sensor "1..1" -- "1..1" Room
+Room "1..1" -- "1..1" Home
+Home "1..1" -- "1..1" Address
+Sensor "1..*" -- "0..*" MeasuredValue
+MeasuredValue "1..1" -- "1..1" Timestamp
+MeasuredValue "1..1" -- "1..1" FloatingPointNumber
+MeasuredValue "1..1" -- "0..1" LastValue
+Sensor "1..1" -- "1..1" VendorId
+PowerSensor "1..1" -- "1..1" PowerSocket
+PowerSensor "1..1" -- "1..1" Appliance
+TemperatureSensor "1..1" -- "1..1" ValueRange
+
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
+
+@enduml
+```

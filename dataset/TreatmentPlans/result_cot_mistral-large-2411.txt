@@ -1,32 +1,44 @@
-```
+```plantuml
 @startuml
+class Hospital {
+    permission: Boolean
+}
+class Doctor {
+    affiliated: Boolean
+}
+class Patient {
+    problem: String
+}
+class Examination {
+    type: String
+}
+class TreatmentPlan {
+    type: String
+}
+class Problem {
+}
+class Diagnosis {
+    problem: String
+}
+class Treatment {
+}
+class MedicalAction {
+}
+class Permission {
+}
 
-class Doctor{}
-class Patient{}
-class Hospital{}
-class Examination{}
-class TypeOfExamination{}
-class Permission{}
-class TreatmentPlan{}
-class Problem{}
-class Diagnosis{}
-class Treatment{}
-class MedicalAction{}
-
-Doctor "0..*" -- "1..*" Patient
-Doctor "1..*" -- "0..*" Examination
-Doctor "1..*" -- "1..*" Hospital
-Examination "1..1" -- "0..*" TypeOfExamination
-Hospital "1..*" -- "0..*" Permission
-Hospital "0..*" -- "0..*" Patient
-TypeOfExamination "0..*" -- "0..*" Permission
-Problem "1..*" -- "0..*" TreatmentPlan
-TreatmentPlan "1..*" -- "0..*" TypeOfExamination
-Diagnosis "1..*" -- "0..*" Doctor
-Diagnosis "1..*" -- "0..*" Patient
-Treatment "1..*" -- "0..*" TreatmentPlan
-Treatment "1..*" -- "0..*" MedicalAction
-Treatment "1..*" -- "0..*" Examination
-
+Hospital "1..*" -- "1..1" Doctor
+Doctor "0..*" -- "0..1" Patient
+Doctor "1..*" -- "0..1" Examination
+Hospital "0..*" -- "0..1" Permission
+Examination "1..1" -- "0..*" Patient
+TreatmentPlan "1..*" -- "1..1" Problem
+Diagnosis "1..1" -- "1..1" Patient
+Diagnosis "1..1" -- "1..1" Doctor
+TreatmentPlan "1..*" -- "0..*" Examination
+Treatment "1..1" -- "1..1" TreatmentPlan
+Treatment "0..*" -- "0..*" MedicalAction
+Treatment "1..1" -- "1..1" Patient
+Hospital "0..*" -- "0..1" Examination
 @enduml
 ```

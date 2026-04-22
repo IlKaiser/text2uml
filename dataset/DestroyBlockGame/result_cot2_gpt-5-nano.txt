@@ -1,45 +1,82 @@
 @startuml
-class User{}
-class Admin{}
-class Game{}
-class HallOfFame{}
-class HallOfFameEntry{}
-class Block{}
-class BlockSet{}
-class Level{}
-class Grid{}
-class Position{}
-class Ball{}
-class Paddle{}
-class Wall{}
-class PlayArea{}
-class Score{}
-class Life{}
-class Publication{}
-
-Admin "0..*" -- "1" Game
-Game "1" -- "1" Admin
-Game "0..*" -- "1" Level
-Level "1" -- "1" Game
-Game "0..*" -- "1" Publication
-Publication "1" -- "1" Game
-Publication "1" -- "1" Admin
-Game "1" -- "1" PlayArea
-PlayArea "1" -- "1" Ball
-PlayArea "1" -- "1" Paddle
-PlayArea "0..*" -- "1" Wall
-Game "1" -- "1" HallOfFame
-HallOfFame "0..*" -- "1" HallOfFameEntry
-HallOfFameEntry "1" -- "1" User
-HallOfFameEntry "1" -- "1" Game
-HallOfFameEntry "1" -- "1" Score
-Level "1" -- "1" Grid
-Grid "0..*" -- "1" Position
-Position "0..1" -- "1" Block
-BlockSet "1" -- "1" Game
-BlockSet "0..*" -- "1" Block
-Block "1" -- "1" BlockSet
-Life "1" -- "1" User
-Life "1" -- "1" Game
-User "0..*" -- "1" Game
+class User {
+  username: String
+  password: String
+  loginMode: String
+}
+class Player {
+  lives: Int
+}
+class Admin {
+}
+class Game {
+  name: String
+  maxLevels: Int
+}
+class Block {
+  color: String
+  points: Int
+}
+class Color {
+}
+class BlockSet {
+}
+class Level {
+  levelNumber: Int
+  minSpeed: Float
+  speedIncreaseFactor: Float
+  maxLength: Int
+  minLength: Int
+  isRandom: Boolean
+  startingBlockCount: Int
+}
+class BlockArrangement {
+}
+class Grid {
+}
+class Cell {
+}
+class GridPosition {
+}
+class PlayArea {
+}
+class Paddle {
+  length: Int
+}
+class Ball {
+  speed: Float
+  direction: String
+}
+class Wall {
+}
+class Life {
+}
+class HallOfFame {
+}
+class Entry {
+}
+class Score {
+  points: Int
+}
+Player --|> User
+Admin --|> User
+"0..*" Admin -- "1..1" Game
+"1..1" Game -- "1..1" BlockSet
+"1..1" BlockSet -- "0..*" Block
+"1..1" Block -- "1..1" Color
+"1..1" Level -- "1..1" BlockArrangement
+"1..1" BlockArrangement -- "0..*" Block
+"1..1" Block -- "1..1" GridPosition
+"1..1" Grid -- "0..*" Cell
+"1..1" PlayArea -- "1..1" Ball
+"1..1" PlayArea -- "1..1" Paddle
+"1..1" PlayArea -- "0..*" Wall
+"1..*" Player -- "0..*" Life
+"0..*" Entry -- "1..1" Player
+"0..*" Entry -- "1..1" Game
+"1..1" HallOfFame -- "0..*" Entry
+"1..1" Game -- "1..1" HallOfFame
+"1..1" Block -- "1..1" Score
+"1..1" Entry -- "1..1" Score
+"1..1" Block -- "1..1" Color
 @enduml

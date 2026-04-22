@@ -1,0 +1,51 @@
+@startuml
+
+class Sensor {
+    String vendorId
+    String description
+    String unit
+}
+class TemperatureSensor {
+    Double minValue
+    Double maxValue
+}
+class PowerSensor {
+    Double totalPowerConsumption
+}
+class Room {
+    String description
+}
+class Apartment {
+    String address
+}
+class Inhabitant {
+    String username
+    String password
+    Boolean hasAdminRights
+}
+class SensorController {}
+class SensorValue {
+    Date timestamp
+    Double value
+}
+class Threshold {
+    Double value
+}
+class AlertMessage {}
+class EMonitor {}
+
+Sensor "1" -- "1..*" SensorValue
+Sensor "1" -- "1" Room
+Apartment "1" -- "2..*" Room
+Room "1" -- "0..*" Sensor
+Apartment "1" -- "0..*" Inhabitant
+Inhabitant "0..*" -- "1" SensorController
+SensorController "1" -- "0..*" Sensor
+SensorController "1" -- "0..*" Threshold
+Threshold "1" -- "1" Sensor
+SensorController "1" -- "0..*" AlertMessage
+EMonitor "1" -- "1" SensorController
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
+
+@enduml

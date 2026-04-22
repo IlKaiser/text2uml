@@ -1,0 +1,103 @@
+@startuml
+
+class Traveller {
+  String Name
+  String CompanyName
+  String BillingAddress
+  Double ReliabilityRating
+}
+class TravelPreference {
+  String Name
+}
+class Search {
+  String City
+  Date ArrivalDate
+  Date DepartureDate
+  Integer NumberOfRooms
+  String RoomType
+  Integer MinimumHotelRating
+  Double MaxCostPerNight
+}
+class Hotel {
+  String Name
+  Integer RatingStars
+  String Address
+  String City
+}
+class HotelChain {
+  String Name
+}
+class RoomTypeAvailability {
+  String RoomType
+  Date PeriodStart
+  Date PeriodEnd
+  Integer AvailableRooms
+  Boolean FullyBooked
+}
+class Offer {
+  Double PricePerNight
+  String CityArea
+  Integer HotelRating
+  Date ValidFrom
+  Date ValidTo
+}
+class Booking {
+  String BookingIdentifier
+  String Status
+  Date CreatedAt
+}
+class PreliminaryBooking {
+  Date SpecialOfferDeadline
+}
+class FinalizedBooking {
+  String PaymentType
+  Date ConfirmationDeadline
+  Date CancellationDeadline
+  Boolean Confirmed
+}
+class CreditCard {
+  String CardNumber
+  String CardHolderName
+  Date ExpirationDate
+}
+class HotelConfirmation {
+  Date SentAt
+}
+class Cancellation {
+  Date CancelledAt
+  String Reason
+}
+class Payment {
+  Double Amount
+  Date PaidAt
+  String Type
+}
+class Reimbursement {
+  Double Amount
+  Date ReimbursedAt
+}
+class FinancialCompensation {
+  Double Amount
+  Date OfferedAt
+}
+
+Booking <|-- PreliminaryBooking
+Booking <|-- FinalizedBooking
+
+Traveller "1" -- "0..*" TravelPreference
+Traveller "1" -- "0..*" Search
+Search "0..*" -- "0..*" TravelPreference
+Search "1" -- "0..*" Offer
+Hotel "1" -- "0..*" Offer
+HotelChain "0..1" -- "0..*" Hotel
+Hotel "1" -- "0..*" RoomTypeAvailability
+Traveller "1" -- "0..*" Booking
+Booking "1" -- "0..1" Offer
+FinalizedBooking "1" -- "1..1" CreditCard
+FinalizedBooking "1" -- "0..1" HotelConfirmation
+FinalizedBooking "1" -- "0..*" Cancellation
+FinalizedBooking "1" -- "0..*" Payment
+FinalizedBooking "1" -- "0..*" Reimbursement
+FinalizedBooking "1" -- "0..*" FinancialCompensation
+
+@enduml

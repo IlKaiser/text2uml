@@ -1,0 +1,47 @@
+```plantuml
+@startuml
+
+class Bus {
+    String LineNumber
+}
+
+class Trajectory {
+    String Status
+}
+
+class Line {
+    String Category
+}
+
+class MENSO {
+    String CardNumber
+    String HomeAddress
+    String OfficeAddress
+    String WorkingHours
+}
+
+class Invoice {
+    Double Amount
+    Double Discount
+}
+
+class Approval {
+    String Status
+}
+
+class TownAuthority {}
+
+class BusCompany {
+    String Name
+}
+
+BusCompany "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..*" Approval
+Approval "1" -- "0..1" TownAuthority
+Trajectory "1" -- "0..*" Line
+Line "1" -- "0..*" Bus
+Line "1" -- "0..*" MENSO
+MENSO "1" -- "0..*" Invoice
+
+@enduml
+```

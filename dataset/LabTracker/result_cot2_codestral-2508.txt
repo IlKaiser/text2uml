@@ -1,29 +1,95 @@
 ```plantuml
 @startuml
-class LabTracker{}
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class Examination{}
-class Lab{}
-class Appointment{}
-class Sample{}
-class Report{}
-class GroupOfTests{}
-class RepetitionPattern{}
-class LabNetwork{}
+class Doctor {
+    practitionerNumber:Int
+    signature:String
+    fullName:String
+    address:String
+    phoneNumber:String
+}
+
+class Patient {
+    healthNumber:String
+    firstName:String
+    lastName:String
+    dateOfBirth:Date
+    address:String
+    phoneNumber:String
+}
+
+class Requisition {
+    validFrom:Date
+    repetitionCount:Int
+    repetitionInterval:String
+}
+
+class Test {
+    duration:Float
+}
+
+class Examination {
+    duration:Float
+}
+
+class GroupOfTests {
+    testType:String
+}
+
+class Appointment {
+    confirmationNumber:String
+    date:Date
+    startTime:Date
+    endTime:Date
+    changeFee:Float
+}
+
+class Lab {
+    address:String
+    businessHours:String
+    registrationNumber:String
+}
+
+class Result {
+    result:String
+}
+
+class Report {
+    content:String
+}
+
+class Sample {
+    sampleType:String
+}
+
+class Confirmation {
+    confirmationNumber:String
+    date:Date
+    startTime:Date
+    endTime:Date
+    labName:String
+    labRegistrationNumber:String
+}
+
+class LabTracker
 
 Doctor "1..1" -- "0..*" Requisition
 Patient "1..1" -- "0..*" Requisition
-Requisition "0..*" -- "1..*" Test
-Requisition "1..1" -- "0..1" RepetitionPattern
-LabNetwork "1..1" -- "0..*" Test
+Test "0..*" -- "1..1" Requisition
+Examination "0..*" -- "1..1" Requisition
+GroupOfTests "1..1" -- "0..*" Test
+GroupOfTests "1..1" -- "0..*" Examination
 Lab "1..1" -- "0..*" Appointment
 Patient "1..1" -- "0..*" Appointment
-Appointment "0..*" -- "1..1" Requisition
-Test "1..1" -- "0..1" Sample
-Test "1..1" -- "0..1" Report
-GroupOfTests "1..1" -- "1..*" Test
+Requisition "1..1" -- "0..1" Appointment
+Appointment "1..1" -- "1..1" Confirmation
+Lab "1..1" -- "0..*" Confirmation
+Test "1..1" -- "0..*" Result
+Examination "1..1" -- "0..*" Result
+Result "1..1" -- "1..1" Report
+Patient "1..1" -- "0..*" Report
+Doctor "1..1" -- "0..*" Report
+Requisition "1..1" -- "0..*" Sample
+
+Test --|> Examination
 @enduml
 ```

@@ -1,0 +1,90 @@
+@startuml
+
+class Traveller{
+    +String Name
+    +String BillingInfo
+    +String CompanyName
+    +String CompanyAddress
+    +String TravelPreferences
+}
+
+class HBMS{
+    +void register(Traveller)
+    +void search(AccommodationSearchParameters)
+    +void listOffers(AccommodationSearchResults)
+    +void createBooking(AccommodationBookingParameters)
+    +void confirmBooking(AccommodationBooking)
+    +void cancelBooking(AccommodationBooking)
+    +void storeBookingInformation(AccommodationBooking)
+    +void sendSpecialOffers(AccommodationBooking)
+}
+
+class AccommodationSearchParameters{
+    +String City
+    +Date ArrivalDate
+    +Date DepartureDate
+    +Integer NumberOfRooms
+    +String RoomType
+    +Integer MinimumRating
+    +Double BudgetPerNight
+    +String OptionalPreferences
+}
+
+class AccommodationBookingParameters{
+    +String Price
+    +String CityArea
+    +Integer HotelRating
+    +String Preferences
+    +String BookingIdentifier
+}
+
+class AccommodationBooking{
+    +AccommodationBookingParameters KeyParameters
+    +Boolean IsPreliminary
+    +String ConfirmationStatus
+    +Date CancellationDeadline
+    +Boolean IsPrePaid
+    +String PaymentMethod
+}
+
+class Accommodation{
+    +String City
+    +String Address
+    +HotelChain Chain
+    +Map<String, Integer> AvailableRoomTypes
+    +Map<String, Boolean> RoomTypeAvailability
+}
+
+class HotelChain{
+    +String Name
+    +List<Hotel> Hotels
+}
+
+class Hotel{
+    +String Name
+    +String Address
+    +List<RoomType> AvailableRoomTypes
+    +List<RoomType> FullyBookedRoomTypes
+}
+
+AccommodationSearchParameters "1" -- "0..*" AccommodationBooking
+AccommodationBooking "1" -- "1" Accommodation
+Accommodation "1" -- "0..*" Hotel
+Hotel "1" -- "0..*" HotelChain
+Accommodation "1" -- "0..*" RoomType
+RoomType "1" -- "0..*" Hotel
+Accommodation "1" -- "0..*" AccommodationBooking
+AccommodationBooking "1" -- "0..1" Accommodation
+AccommodationBooking "1" -- "0..1" ConfirmationStatus
+AccommodationBooking "1" -- "0..1" PaymentMethod
+AccommodationBooking "1" -- "0..1" IsPreliminary
+AccommodationBooking "1" -- "0..1" IsPrePaid
+AccommodationBooking "1" -- "0..1" CancellationDeadline
+AccommodationBooking "1" -- "0..1" AccommodationBookingParameters
+AccommodationBooking "1" -- "0..1" AccommodationSearchParameters
+AccommodationBooking "1" -- "0..1" AccommodationSearchResults
+AccommodationBooking "1" -- "0..1" AccommodationConfirmation
+AccommodationBooking "1" -- "0..1" AccommodationBookingKeyParameters
+AccommodationBooking "1" -- "0..1" AccommodationBookingStore
+AccommodationBooking "1" -- "0..1" AccommodationBookingSendSpecialOffers
+@enduml

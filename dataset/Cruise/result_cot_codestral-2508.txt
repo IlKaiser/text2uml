@@ -1,24 +1,68 @@
 ```plantuml
 @startuml
-class Cruise{}
-class Provider{}
-class Employee{}
-class Guest{}
-class Ship{}
-class TravelAgency{}
-class Booking{}
-class DestinationArea{}
-class Show{}
-class Ticket{}
+
+class Cruise {
+  number: String
+  name: String
+  start_date: Date
+  end_date: Date
+}
+
+class Provider {
+  name: String
+  location: String
+}
+
+class Employee {
+  name: String
+  social_security_number: String
+}
+
+class Guest {
+  name: String
+  is_vip: Boolean
+}
+
+class Ship {
+  name: String
+  number_of_decks: Int
+  length: Float
+  number_of_passengers: Int
+}
+
+class TravelAgency {
+  name: String
+  address: String
+}
+
+class Booking {
+  booking_number: String
+  booking_date: Date
+}
+
+class DestinationArea {
+  name: String
+  sea_name: String
+}
+
+class Show {
+  title: String
+  duration: Float
+}
+
+class Ticket
 
 Cruise "1..1" -- "1..*" Provider
 Cruise "1..*" -- "1..*" Employee
 Cruise "1..*" -- "1..*" Guest
-Cruise "1..*" -- "1..*" Ship
+Cruise "1..1" -- "1..*" Ship
 Cruise "1..*" -- "1..*" TravelAgency
 Cruise "1..1" -- "1..*" DestinationArea
 Cruise "1..*" -- "1..*" Show
-Cruise "1..*" -- "1..1" Ticket
-Guest "1..*" -- "0..*" Ticket
+Cruise "1..*" -- "1..*" Ticket
+Guest "1..*" -- "1..*" Ticket
+TravelAgency "1..*" -- "1..*" Booking
+DestinationArea "1..1" -- "1..*" Sea
+
 @enduml
 ```

@@ -1,0 +1,92 @@
+```plantuml
+@startuml
+
+class Game {
+    players: Player
+    deck: Deck
+    scoringTable: ScoringTable
+}
+
+class Player {
+    id: IDAttribute
+}
+
+class Deck {
+    cards: Card
+    cardCount: Int
+}
+
+class Card {
+    comparisonMethod: String
+}
+
+class ScoringTable {
+    rounds: Round
+}
+
+class Round {
+    winningPlayers: WinningPlayer
+    pointValue: PointValue
+    isJackRound: Boolean
+    isSoloRound: Boolean
+}
+
+class WinningPlayer {
+    player: Player
+}
+
+class PointValue {
+    value: Int
+}
+
+class JackRound
+
+class SoloRound {
+    solo: Trump
+    solo: Jack
+    solo: Queen
+    soloPlayer: SoloPlayer
+}
+
+class MandatorySoloRound
+
+class Solo
+
+class Trump
+
+class Jack
+
+class Queen
+
+class SoloPlayer {
+    player: Player
+}
+
+class IDAttribute {
+    id: String
+}
+
+Game "1..1" -- "4" Player
+Game "1..1" -- "1..1" Deck
+Game "1..1" -- "1..1" ScoringTable
+Deck "1..1" -- "0..48" Card
+Round "1..1" -- "0..*" WinningPlayer
+Round "1..1" -- "1..1" PointValue
+Round "1..1" -- "0..1" JackRound
+Round "1..1" -- "0..1" SoloRound
+SoloRound "1..1" -- "0..*" MandatorySoloRound
+SoloRound "1..1" -- "1..1" Solo
+Solo "0..1" -- "1..1" Trump
+Solo "0..1" -- "1..1" Jack
+Solo "0..1" -- "1..1" Queen
+SoloRound "1..1" -- "1..1" SoloPlayer
+
+MandatorySoloRound --|> SoloRound
+JackRound --|> Round
+SoloRound --|> Round
+Trump --|> Solo
+Jack --|> Solo
+Queen --|> Solo
+
+@enduml
+```

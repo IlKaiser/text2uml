@@ -1,21 +1,40 @@
 @startuml
-class Club {}
-class Employee {}
-class Team {}
-class Player {}
-class PlayerProfile {}
-class TargetPosition {}
-class ScoutingAssignment {}
-class ScoutingReport {}
-class OfficialOffer {}
+class Club
 
-Club "1..1" -- "0..*" Employee
-Employee "1..1" -- "0..*" PlayerProfile
-PlayerProfile "1..1" -- "1..*" TargetPosition
-Team "1..1" -- "0..*" ScoutingAssignment
-Player "1..1" -- "0..*" ScoutingAssignment
-ScoutingAssignment "1..1" -- "0..1" ScoutingReport
-Player "1..1" -- "0..1" OfficialOffer
-Employee "1..1" -- "0..*" OfficialOffer
-Employee "1..1" -- "0..*" ScoutingAssignment
+class HeadCoach
+
+class Director
+
+class Scout
+
+class HeadScout
+
+class DesignatedPlayerProfile {
+  targetPositions: String
+}
+
+class Player
+
+class PlayerAttribute {
+  name: String
+  value: String
+}
+
+class ScoutingAssignment
+
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: String
+}
+
+class Offer
+
+HeadCoach "1..1" -- "0..*" DesignatedPlayerProfile
+DesignatedPlayerProfile "1..1" -- "0..*" PlayerAttribute
+Scout "0..*" -- "0..*" Player
+HeadScout "1..1" -- "0..*" ScoutingAssignment
+Scout "1..1" -- "0..*" ScoutingReport
+Director "1..1" -- "0..*" Offer
+Offer "1..1" -- "1..1" Player
 @enduml

@@ -1,0 +1,62 @@
+@startuml
+
+class WebPortal {
+    String VersionNumber
+    String URL
+}
+class Building {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    int YearOfConstruction
+    User Owner
+    +List<Entry> Entries
+    +String ProfilePhotoFileName
+}
+class Entry {
+    String Name
+    String Value
+    String Unit
+}
+class User {
+    String UserName
+    String Email
+    String Password
+}
+class Registration {
+    String ConfirmationLink
+}
+class BuildingCreation {
+}
+class EntryCreation {
+    String TextualInfo
+    Double FloatValue
+    String Unit
+}
+class PublicRelease {
+    boolean IsPublic
+}
+class Comment {
+    String Content
+}
+class FullTextSearch {
+}
+class AdminUser {
+    String IDCardNumber
+}
+class AccountSetup {
+}
+class CommentDeletion {
+}
+
+WebPortal "1" -- "0..1" Registration
+WebPortal "1" -- "0..1" BuildingCreation
+Building "1" -- "0..*" Entry
+Entry "1" -- "0..1" PublicRelease
+User "1" -- "0..1" Comment
+User "1" -- "0..1" FullTextSearch
+AdminUser "1" -- "0..1" AccountSetup
+AdminUser "1" -- "0..1" CommentDeletion
+
+@enduml

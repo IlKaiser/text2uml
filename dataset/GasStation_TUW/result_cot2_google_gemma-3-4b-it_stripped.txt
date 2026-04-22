@@ -1,0 +1,48 @@
+```plantuml
+@startuml
+class GasStation {
+    - ID : Int
+    - Address : String
+}
+
+class FuelPump {
+    - Number : Int
+}
+
+class Fuel {
+    - Name : String
+    - OctaneRating : Float
+}
+
+class FuelPrice {
+    - Date : Date
+    - Fuel : String
+    - GasStation : String
+    - PricePerLiter : Float
+}
+
+class DailyPrice {
+    - Date : Date
+    - Fuel : String
+    - GasStation : String
+    - PricePerLiter : Float
+}
+
+class FuelPurchase {
+    - ID : Int
+    - FuelPump : String
+    - Fuel : String
+    - DailyPrice : String
+    - LitersOfFuel : Float
+}
+
+GasStation "1" -- "*" FuelPump : has
+GasStation "1" -- "*" FuelPrice : archives
+FuelPump "1" -- "*" Fuel : offers
+DailyPrice "1" -- "*" Fuel : applies to
+DailyPrice "1" -- "1" GasStation : for
+FuelPurchase "1" -- "1" FuelPump : purchased_at
+FuelPurchase "1" -- "1" Fuel : purchased
+FuelPurchase "1" -- "1" DailyPrice : at
+@enduml
+```

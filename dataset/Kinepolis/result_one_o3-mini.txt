@@ -1,0 +1,58 @@
+@startuml
+
+class Cinema {
+    String Name
+    String Town
+}
+
+class Theatre {
+    String Identifier
+    int SeatCount
+}
+
+class Show {
+    Date StartTime
+    Date EndTime
+}
+
+class Movie {
+    String Title
+}
+
+class Copy {
+    String CopyId
+}
+
+class Program {
+    Date PublicationDate
+}
+
+class Reservation {
+    Date ReservationTime
+}
+
+class CreditCard {
+    String Number
+}
+
+class Offer {
+    Date ExpiryDate
+}
+
+class Ticket {
+    String SeatNumber
+}
+
+Cinema "1" -- "1..*" Theatre
+Cinema "1" -- "0..*" Copy
+Movie "1" -- "0..*" Copy
+Theatre "1" -- "0..*" Show
+Movie "1" -- "1..*" Show
+Program "1" -- "0..*" Show
+Show "1" -- "0..*" Reservation
+Reservation "1" -- "1" CreditCard
+Reservation "0..1" -- "0..1" Offer
+Offer "1" -- "1" Show
+Show "1" -- "0..*" Ticket
+
+@enduml

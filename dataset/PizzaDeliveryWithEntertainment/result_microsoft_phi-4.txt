@@ -1,0 +1,68 @@
+```plantuml
+@startuml
+
+class User {
+    String Name
+    Date Birthday
+    String Address
+    String UniqueIdentifier
+}
+
+class BusinessOwner {
+    String LinkedInAccount
+}
+
+class PizzaRestaurant {
+    String ZipCode
+    String Address
+    String PhoneNumber
+    String Website
+    String OpeningHours
+}
+
+class Pizza {
+    String Name
+    String CrustStructure
+    Double Price
+}
+
+class Order {
+    String ID
+    Date OrderDateTime
+    Date LatestDeliveryTime
+    Integer NumberOfPeople
+}
+
+class EntertainmentOrder extends Order {
+    String EntertainmentType
+    Integer DurationMinutes
+}
+
+class HungryCustomer {
+    String DeliveryAddress
+}
+
+class Entertainer {
+    String StageName
+    String Bio
+    Double PricePer30Minutes
+    List<String> Availability
+}
+
+class DeliveryPerson {
+}
+
+User "1" -- "1" BusinessOwner
+User "1" -- "1" HungryCustomer
+User "1" -- "1" Entertainer
+
+BusinessOwner "1" -- "1..*" PizzaRestaurant
+PizzaRestaurant "1" -- "1..*" Pizza
+HungryCustomer "1" -- "1..*" Order
+Order "1" -- "1" Pizza
+Order "0..1" -- "1" EntertainmentOrder
+EntertainmentOrder "1" -- "1" Entertainer
+EntertainmentOrder "1" -- "1" DeliveryPerson
+
+@enduml
+```

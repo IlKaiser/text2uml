@@ -1,33 +1,66 @@
 @startuml
 
-class H2S {}
-class Resident {}
-class PickupVehicle {}
-class VolunteerDriver {}
-class PickupRoute {}
-class SecondHandArticle {}
-class NonPerishableFood {}
-class DistributionCenter {}
-class FoodBank {}
-class RFIDTag {}
-class Category {}
-class Employee {}
-class Delivery {}
+class Resident {
+    String Name
+    String Address
+    String Phone
+    String Email
+    String ItemDescription
+}
 
-H2S "1" -- "0..*" DistributionCenter
-Resident "1" -- "0..*" SecondHandArticle
-Resident "1" -- "0..*" NonPerishableFood
-SecondHandArticle "0..1" -- "1" RFIDTag
-SecondHandArticle "1" -- "1" Category
-DistributionCenter "1" -- "0..*" SecondHandArticle
-FoodBank "1" -- "0..*" NonPerishableFood
-PickupVehicle "1" -- "0..*" SecondHandArticle
-PickupVehicle "1" -- "0..*" NonPerishableFood
+class Pickup {
+    String TimeWindowStart
+    String TimeWindowEnd
+}
+
+class Item {
+    String Description
+    Double Weight
+    String Dimensions
+    String Condition
+}
+
+class DeliveryLocation {
+    String Name
+    String Type
+}
+
+class RFIDTag {
+    String TagId
+}
+
+class Category {
+    String Name
+}
+
+class PickupVehicle {
+    String VehicleId
+    String Type
+    Double StorageCapacity
+}
+
+class VolunteerDriver {
+    String Name
+    String AvailableDays
+}
+
+class PickupRoute {
+    Date RouteDate
+}
+
+class Employee {
+    String Name
+    String Role
+}
+
+Resident "1" -- "0..*" Pickup
+Pickup "1" -- "0..*" Item
+Item "0..*" -- "1" Category
+Item "0..*" -- "1" DeliveryLocation
+RFIDTag "0..1" -- "1" Item
+PickupRoute "1" -- "0..*" Pickup
 PickupRoute "1" -- "1" PickupVehicle
-VolunteerDriver "0..1" -- "1" PickupRoute
-Employee "0..*" -- "1" DistributionCenter
-Delivery "1" -- "1" Resident
-Delivery "1" -- "1" SecondHandArticle
-Delivery "1" -- "1" VolunteerDriver
+PickupRoute "1" -- "1" VolunteerDriver
+DeliveryLocation "1" -- "0..*" Employee
 
 @enduml

@@ -1,0 +1,40 @@
+@startuml
+
+class Location {
+    - address
+}
+
+class Driver {
+    - firstName
+    - lastName
+}
+
+class Vehicle {
+    - vehicleNumber
+    - weight
+}
+class Truck extends Vehicle {
+}
+class Car extends Vehicle {
+    - seats
+}
+class Van extends Vehicle {
+}
+
+class Order {
+    - origin
+    - destinationLocation
+    - assignedDriver
+    - dateOfExecution
+}
+
+Location "1" -- "0..*" Driver
+Location "1" -- "0..*" Truck
+Location "1" -- "0..*" Car
+Location "1" -- "0..*" Van
+Driver "1" -- "0..1" Vehicle
+Vehicle "1" -- "0..1" Order
+Order "1" -- "1" Location
+Order "1" -- "1" Driver
+
+@enduml

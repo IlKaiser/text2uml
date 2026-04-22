@@ -1,22 +1,40 @@
 @startuml
-class Tutor {}
-class Student {}
-class TutoringOffer {}
-class TutoringRequest {}
-class TutoringSession {}
-class Subject {}
-class TimeSlot {}
-class Payment {}
-class TutorOfTheMonthAward {}
+class OTS
+class Student {
+  name: String
+  email: String
+}
+class Tutor {
+  name: String
+  email: String
+  bankAccount: String
+}
+class Subject
+class TutoringOffer {
+  subject: String
+  levelOfExpertise: String
+  hourlyPrice: Float
+  weeklyAvailability: String
+}
+class TutoringRequest {
+  tutoringLevel: String
+  targetSessionDate: Date
+}
+class TutoringSession {
+  sessionDate: Date
+}
+class TutorOfTheMonthAward
 
+OTS "1..1" -- "0..*" Student
+OTS "1..1" -- "0..*" Tutor
 Tutor "1..1" -- "0..*" TutoringOffer
-TutoringOffer "1..1" -- "0..*" Subject
-Tutor "1..1" -- "0..*" TimeSlot
+Subject "1..1" -- "0..*" TutoringOffer
 Student "1..1" -- "0..*" TutoringRequest
 Tutor "1..1" -- "0..*" TutoringRequest
-TutoringSession "1..1" -- "1..1" TutoringRequest
-TutoringSession "1..1" -- "0..1" Payment
-TutoringSession "1..1" -- "0..1" TimeSlot
+Tutor "1..1" -- "0..*" TutoringSession
+Student "1..1" -- "0..*" TutoringSession
 Tutor "1..1" -- "0..*" TutorOfTheMonthAward
-TutorOfTheMonthAward "1..1" -- "0..*" Subject
+Subject "1..1" -- "0..*" TutorOfTheMonthAward
+
+Tutor --|> Student
 @enduml

@@ -1,17 +1,44 @@
 
-```plantuml
 @startuml
-class Location{}
-class Driver{}
-class Vehicle{}
-class Order{}
 
-Location "0..*" -- "0..*" Driver
-Location "0..*" -- "0..*" Vehicle
-Vehicle "0..*" -- "0..*" Location
-Vehicle "0..1" -- "0..1" Driver
-Driver "0..1" -- "0..1" Vehicle
-Order "1..1" -- "1..1" Location
-Order "0..*" -- "0..*" Driver
+class Location {
+    address: String
+}
+
+class Driver {
+    firstName: String
+    lastName: String
+}
+
+class Vehicle {
+    vehicleNumber: String
+}
+
+class Truck {
+    weight: Float
+}
+
+class Car {
+    seats: Int
+}
+
+class Van {
+}
+
+class Order {
+    originLocation: String
+    destinationLocation: String
+    assignedDriver: String
+    dateOfExecution: Date
+}
+
+Location "1..*" -- "0..*" Driver
+Location "1..1" -- "1..*" Vehicle
+Vehicle "1..*" -- "1..1" Truck
+Vehicle "1..*" -- "1..1" Car
+Vehicle "1..*" -- "1..1" Van
+Driver "1..*" -- "0..1" Order
+Order "1..*" -- "1..*" Driver
+Order "1..*" -- "1..1" Location
+
 @enduml
-```

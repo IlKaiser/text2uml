@@ -1,32 +1,68 @@
 @startuml
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Program{}
-class Reservation{}
-class Ticket{}
-class Customer{}
-class CreditCard{}
-class Seat{}
-class Offer{}
+class Cinema {
+  town: String
+}
+class Theatre {
+  numberOfSeats: Int
+}
+class Movie
+class MovieCopy {
+  cinema: String
+}
+class Show {
+  startTime: Date
+  published: Boolean
+  cancelled: Boolean
+  availableSeats: Int
+}
+class Program {
+  publicationDate: Date
+  startDate: Date
+}
+class Reservation {
+  reservationTime: Date
+  creditCard: String
+  cancelled: Boolean
+  charged: Boolean
+}
+class Ticket {
+  seatNumber: Int
+  anonymous: Boolean
+  refundable: Boolean
+  soldAtEntrance: Boolean
+}
+class Customer {
+  address: String
+}
+class Seat {
+  number: Int
+  available: Boolean
+}
+class CreditCard {
+  number: String
+  debited: Boolean
+}
+class Offer {
+  expiresAt: Date
+  accepted: Boolean
+}
 
-Cinema "1..*" -- "1..1" Theatre
-Cinema "1..*" -- "0..*" Copy
-Theatre "1..*" -- "1..1" Show
-Program "1..*" -- "1..1" Show
-Program "1..1" -- "1..*" Cinema
-Copy "0..*" -- "1..1" Show
-Show "0..*" -- "1..1" Reservation
-Reservation "1..1" -- "0..*" Customer
-Reservation "1..1" -- "0..*" CreditCard
-Reservation "1..1" -- "0..*" Seat
-Ticket "1..1" -- "0..*" Show
-Ticket "1..1" -- "0..*" Seat
-Ticket "0..1" -- "0..*" Customer
-Offer "1..1" -- "0..*" Customer
-Offer "1..1" -- "0..*" Show
-Seat "1..1" -- "1..*" Theatre
-Customer "0..*" -- "1..1" CreditCard
+Cinema "1..*" -- "1..1" Theatre.
+Cinema "1..*" -- "1..1" Program.
+Cinema "0..*" -- "1..1" MovieCopy.
+Theatre "0..*" -- "1..1" Show.
+Theatre "1..*" -- "1..1" Seat.
+Program "1..*" -- "1..1" Show.
+Show "1..1" -- "0..*" MovieCopy.
+Show "0..*" -- "1..1" Reservation.
+Reservation "1..1" -- "0..*" Customer.
+Reservation "1..1" -- "0..*" CreditCard.
+Reservation "1..*" -- "0..*" Seat.
+Ticket "1..1" -- "0..*" Show.
+Ticket "1..1" -- "0..*" Seat.
+Ticket "0..1" -- "0..*" Customer.
+MovieCopy "1..1" -- "0..*" Movie.
+Customer "0..*" -- "1..1" CreditCard.
+Customer "0..*" -- "1..1" Offer.
+Offer "1..1" -- "0..*" Show.
 @enduml

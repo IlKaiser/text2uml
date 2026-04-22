@@ -1,0 +1,137 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+<｜Assistant｜><think>
+Okay, so I need to create a Plant UML model based on the given specification. Let me break down the problem step by step.
+
+First, I'll identify all the classes mentioned in the text. The specification talks about locations, drivers, vehicles, orders, addresses, and drivers again. So, the classes are: Location, Driver, Vehicle, Order, Address, and Vehicle.
+
+Next, I'll extract the attributes for each class. 
+
+- **Location** has an address and consists of drivers and vehicles. So, its attributes are Address, Drivers (as a collection), and Vehicles (as a collection).
+- **Driver** has first and last names, a vehicle assigned, and can have multiple orders.
+- **Vehicle** has a vehicle number, type (trucks, cars, vans), and is assigned to a driver.
+- **Order** has an origin location, destination location, assigned driver, and execution date. It also has a status.
+- **Address** has street, city, and ZIP code.
+- **Vehicle** is also assigned to a driver, so that's another attribute.
+
+Now, I'll look for the relationships between these classes. 
+
+- **Driver** is associated with **Orders**. Each driver can have multiple orders, and each order is assigned to one driver. So, the relationship is one-to-many.
+- **Vehicle** is associated with **Driver**. Each vehicle is assigned to one driver, but a driver can have multiple vehicles. So, it's one-to-many.
+- **Order** is associated with **Location**. Each order has an origin and destination location, so it's a one-to-many relationship.
+- **Address** is part of **Location**, so it's a nested relationship.
+- **Order** also has a status, which is another attribute.
+
+I need to make sure to use bi-directional arcs for relationships and assign the correct cardinality. If no specific cardinality is mentioned, I'll default to 0..*. Since the relationships are one-to-many, I'll use "1..*" accordingly.
+
+Putting it all together, I'll structure the Plant UML diagram with all the classes and their attributes, followed by the relationships with the correct cardinality.
+</think>
+
+```plantuml
+@startuml
+
+class Location {
+    Address address
+    collection<Driver> Drivers
+    collection<Vehicle> Vehicles
+}
+
+class Driver {
+    String firstName
+    String lastName
+    Vehicle vehicle
+    collection<Order> orders
+}
+
+class Vehicle {
+    String vehicleNumber
+    String type
+    Driver driver
+}
+
+class Order {
+    String originAddress
+    String destinationAddress
+    Driver assignedDriver
+    Date executionDate
+    String status
+}
+
+class Address {
+    String street
+    String city
+    String ZIPCode
+}
+
+@ stereotype
+    class Vehicle {
+        - Address address
+    }
+
+@ stereotype
+    class Driver {
+        - Vehicle vehicle
+    }
+
+@ stereotype
+    class Order {
+        - Location origin
+        - Location destination
+        - Driver assignedDriver
+        - Date executionDate
+        - String status
+    }
+
+Location "1..*" Driver
+
+Driver "1..*" Order
+
+Order "1..*" Location
+
+@ relationship
+    Vehicle "1..*" Driver
+
+@ relationship
+    Driver "0..1" Vehicle
+
+@ relationship
+    Driver "1..*" Order
+
+@ relationship
+    Order "1..*" Driver
+
+@enduml
+```

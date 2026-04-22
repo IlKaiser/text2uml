@@ -1,0 +1,46 @@
+@startuml
+
+class Center {
+    String name
+    String Address
+}
+
+class Room {
+    Int RoomNr
+    Int MaxCapacity
+}
+
+class Session {
+    DateTime StartDateTime
+    
+}
+
+class IndividualSession {}
+
+class GroupSession {
+    String Type
+}
+
+class Person {
+    String FirstName
+    String Lastname
+    Date BirthDate
+}
+
+class Member {}
+
+class Trainer {
+    String Diploma
+}
+
+Center "1"--"1..*" Room
+Room "1"-"0..*" Session
+Session "0..*" -- "0..*" GroupSession : {total; disjoint}
+Session "0..*" -- "0..*" IndividualSession
+IndividualSession "0..*"-"1" Member
+Member "0..*"--"0..*" GroupSession
+Person "0..*" -- "0..*" Member : {partial; overlap}
+Person "0..*" -- "0..*" Trainer
+Trainer "1"--"0..*" GroupSession
+
+@enduml

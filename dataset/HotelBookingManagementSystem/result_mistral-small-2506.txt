@@ -1,33 +1,75 @@
-```plantuml
 @startuml
 
-class BusinessTraveller{}
-class HBMS{}
-class AccommodationDeal{}
-class Hotel{}
-class City{}
-class Address{}
-class HotelChain{}
-class RoomType{}
-class Booking{}
-class SpecialOffer{}
-class CreditCardInformation{}
-class ReliabilityRating{}
+class BusinessTraveller{
+  String Name
+  String BillingInformation
+  String CompanyName
+  String CompanyAddress
+  String TravelPreferences
+  String CreditCardInformation
+  String ReliabilityRating
+}
 
-HBMS "1..1" -- "1..*" BusinessTraveller
-HBMS "1..1" -- "1..*" AccommodationDeal
-HBMS "1..1" -- "1..*" Hotel
-HBMS "1..1" -- "1..*" Booking
-HBMS "1..1" -- "1..*" SpecialOffer
-Hotel "1..1" -- "1..1" Address
-Hotel "0..1" -- "1..1" HotelChain
-Hotel "1..1" -- "1..*" RoomType
-Hotel "1..1" -- "1..*" Booking
-BusinessTraveller "1..1" -- "1..*" Booking
-BusinessTraveller "1..1" -- "0..1" CreditCardInformation
-Booking "1..1" -- "1..1" ReliabilityRating
-Booking "1..1" -- "0..1" SpecialOffer
-Hotel "1..1" -- "1..1" City
+class Hotel{
+  String Name
+  String Address
+  String City
+  HotelChain HotelChain
+}
+
+class HotelChain{
+  String Name
+}
+
+class Room{
+  String Type
+  Date AvailableFrom
+  Date AvailableTo
+  Boolean IsBooked
+}
+
+class Booking{
+  Date ArrivalDate
+  Date DepartureDate
+  Integer NumberOfRooms
+  String RoomType
+  Integer HotelRating
+  Double Budget
+  String TravelPreferences
+  String BookingIdentifier
+  Date CancellationDeadline
+  String PaymentMethod
+  Boolean IsConfirmed
+  Date ConfirmationDate
+  Boolean IsCancelled
+}
+
+class PreliminaryBooking{
+  Double Price
+  String CityArea
+  Integer HotelRating
+  String KeyPreferences
+  String BookingIdentifier
+}
+
+class SpecialOffer{
+  Double Price
+  String CityArea
+  Integer HotelRating
+  String KeyPreferences
+  String BookingIdentifier
+}
+
+BusinessTraveller "1..1" -- "0..*" Booking
+BusinessTraveller "1..1" -- "0..*" PreliminaryBooking
+BusinessTraveller "1..1" -- "0..*" SpecialOffer
+Hotel "1..1" -- "0..*" Room
+Hotel "1..1" -- "0..*" Booking
+Hotel "1..1" -- "0..*" PreliminaryBooking
+Hotel "1..1" -- "0..*" SpecialOffer
+HotelChain "1..1" -- "0..*" Hotel
+Booking "1..1" -- "0..*" PreliminaryBooking
+Booking "1..1" -- "0..*" SpecialOffer
+PreliminaryBooking "1..1" -- "0..*" SpecialOffer
 
 @enduml
-```

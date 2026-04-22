@@ -1,19 +1,58 @@
 @startuml
 
-class Car{}
-class Owner{}
-class Customer{}
-class RideHailingServiceUse{}
-class RideSharingServiceUse{}
-class SoberApp{}
-class Accident{}
+class Car {
+}
 
-Owner "0..*" -- "0..1" Car
-Customer "0..*" -- "1" RideHailingServiceUse
-SoberApp "0..*" -- "0..1" RideHailingServiceUse
-Car "0..*" -- "1" RideHailingServiceUse
-Customer "0..*" -- "2..10" RideSharingServiceUse
-Car "0..*" -- "1" RideSharingServiceUse
-Car "0..*" -- "1" Accident
+class SelfDrivingCar {
+}
+
+class RegisteredCar {
+}
+
+class CarOwner {
+    String Name
+    String ContactInfo
+}
+
+class Customer {
+    String Name
+    String ContactInfo
+}
+
+abstract class TaxiService {
+    DateTime PickUpTime
+    DateTime DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Float RideDuration
+    Float Distance
+    Integer NumberOfPassengers
+}
+
+class RideHailingService {
+    Float Fee
+    String RequestType
+}
+
+class RideSharingService {
+    Float NegotiatedFee
+}
+
+class Accident {
+    Date AccidentDate
+    String Location
+    Float DamageAmount
+}
+
+Car <|-- SelfDrivingCar
+Car <|-- RegisteredCar
+TaxiService <|-- RideHailingService
+TaxiService <|-- RideSharingService
+
+CarOwner "1" -- "0..*" RegisteredCar
+Car "1" -- "0..*" TaxiService
+Customer "0..*" -- "1" RideHailingService
+Customer "0..*" -- "1..*" RideSharingService
+Car "1" -- "0..*" Accident
 
 @enduml

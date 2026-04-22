@@ -1,33 +1,48 @@
 @startuml
-class User{}
-class Player{}
-class Admin{}
-class Game{}
-class Level{}
-class Block{}
-class GameSession{}
-class Ball{}
-class Paddle{}
-class HallOfFame{}
-class HallOfFameEntry{}
-
-Admin "0..*" -- "1..1" Game
-Ball "1..1" -- "1..1" GameSession
-Block "1..1" -- "1..*" Game
-Block "1..1" -- "1..*" GameSession
-Block "1..1" -- "1..*" Level
+class User {
+  username: String
+  password: String
+}
+class Game {
+  name: String
+  minimumSpeed: Float
+  speedIncreaseFactor: Float
+  maximumLength: Float
+  minimumLength: Float
+}
+class Level {
+  levelNumber: Int
+  isRandom: Boolean
+  numberOfStartingBlocks: Int
+}
+class Block {
+  color: String
+  points: Int
+}
+class HallOfFame
+class GameSession {
+  lives: Int
+  totalScore: Int
+  isPaused: Boolean
+}
+class Ball {
+  speed: Float
+  direction: String
+}
+class Paddle {
+  length: Float
+}
+User "0..*" -- "1..*" Game
 Game "1..1" -- "1..1" HallOfFame
+Game "1..*" -- "1..1" Block
 Game "1..99" -- "1..1" Level
-Game "1..1" -- "1..1" Ball
-Game "1..1" -- "1..1" Paddle
+Level "1..*" -- "0..*" Block
+GameSession "1..1" -- "0..*" User
 GameSession "1..1" -- "0..*" Game
-GameSession "0..1" -- "1..1" HallOfFameEntry
-GameSession "1..*" -- "0..*" Level
-HallOfFame "0..*" -- "1..1" HallOfFameEntry
-Paddle "1..1" -- "1..1" GameSession
-Player "0..*" -- "0..*" Game
-Player "0..*" -- "1..1" GameSession
-Player "0..*" -- "1..1" HallOfFameEntry
-User "0..1" -- "1..1" Admin
-User "1..1" -- "1..1" Player
+GameSession "1..1" -- "1..1" Ball
+GameSession "1..1" -- "1..1" Paddle
+GameSession "1..99" -- "0..*" Level
+GameSession "1..*" -- "1..1" Block
+Ball "0..*" -- "0..1" Block
+Paddle "0..*" -- "0..*" Ball
 @enduml

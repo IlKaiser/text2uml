@@ -1,0 +1,75 @@
+Here is the PlantUML class diagram based on the given specification:
+
+```plantuml
+@startuml
+
+class Customer {
+    String Name
+    String Email
+    Boolean IsSuspended
+    Date SuspensionDate
+}
+
+class RefuelCard {
+    Date IssueDate
+    Date ExpiryDate
+    Double CurrentBalance
+}
+
+class RefuelTurn {
+    Date RefuelDate
+    Double Amount
+    String GasolineType
+}
+
+class Invoice {
+    Date InvoiceDate
+    Double TotalAmount
+    Double Discount
+    Double FinalAmount
+    Boolean IsPaid
+    Date PaymentDate
+}
+
+class Payment {
+    Date PaymentDate
+    Double Amount
+}
+
+class GasStation {
+    String Location
+    String ManagerName
+}
+
+class Pump {
+    String GasolineType
+    Double CurrentLevel
+    Double ReorderLevel
+    Double CriticalLevel
+    Boolean IsBlocked
+    Boolean IsTemporarilyBlocked
+}
+
+class GasStationResponsible {
+    String Name
+    String ContactInfo
+}
+
+class DailyReport {
+    Date ReportDate
+    String Content
+}
+
+Customer "1" -- "0..*" RefuelCard
+Customer "1" -- "0..*" Invoice
+Customer "1" -- "0..*" Payment
+RefuelCard "1" -- "0..*" RefuelTurn
+RefuelTurn "1" -- "0..1" Invoice
+Invoice "1" -- "0..1" Payment
+GasStation "1" -- "0..*" Pump
+Pump "1" -- "0..1" DailyReport
+Pump "1" -- "0..1" GasStationResponsible
+GasStation "1" -- "0..1" GasStationResponsible
+
+@enduml
+```

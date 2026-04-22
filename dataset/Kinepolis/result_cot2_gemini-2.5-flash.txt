@@ -1,28 +1,61 @@
 @startuml
-class Cinema{}
-class Customer{}
-class Movie{}
-class MovieCopy{}
-class Seat{}
-class SeatOffer{}
-class SeatReservation{}
-class Show{}
-class Theatre{}
-class Ticket{}
+class Kinepolis {
+}
+class Cinema {
+  town:String
+}
+class Theatre {
+  numberOfSeats:Int
+}
+class Movie {
+}
+class Copy {
+}
+class Show {
+  startingTime:Date
+  isPublished:Boolean
+  isCancelled:Boolean
+}
+class Program {
+  periodStart:Date
+  periodEnd:Date
+  publicationDate:Date
+}
+class Customer {
+}
+class Reservation {
+  madeAt:Date
+  isPaid:Boolean
+  isCancelled:Boolean
+  isDebited:Boolean
+}
+class Seat {
+  seatNumber:String
+}
+class Offer {
+  expirationTime:Date
+  isAccepted:Boolean
+  isDeclined:Boolean
+}
+class Ticket {
+  seatNumber:String
+  isAnonymous:Boolean
+  isFree:Boolean
+}
 
-Cinema "1..1" -- "0..*" Theatre
-Theatre "1..1" -- "0..*" Show
-Cinema "1..1" -- "0..*" MovieCopy
-Movie "1..1" -- "0..*" MovieCopy
-MovieCopy "1..1" -- "0..*" Show
-Customer "1..1" -- "0..*" SeatReservation
-Show "1..1" -- "0..*" SeatReservation
-Theatre "1..1" -- "0..*" Seat
-Seat "1..1" -- "0..*" SeatReservation
-Customer "1..1" -- "0..*" SeatOffer
-Show "1..1" -- "0..*" SeatOffer
-Seat "1..1" -- "0..*" SeatOffer
-Customer "0..1" -- "0..*" Ticket
-Seat "1..1" -- "0..*" Ticket
-Show "1..1" -- "0..*" Ticket
+Cinema "1..*" -- "1..1" Copy
+Cinema "1..*" -- "1..1" Theatre
+Customer "0..*" -- "1..1" Offer
+Customer "0..*" -- "1..1" Reservation
+Customer "0..*" -- "0..1" Ticket
+Kinepolis "1..*" -- "1..1" Cinema
+Movie "1..*" -- "1..1" Copy
+Offer "1..1" -- "0..1" Seat
+Program "1..*" -- "1..1" Show
+Reservation "1..1" -- "0..1" Seat
+Show "0..*" -- "1..1" Offer
+Show "0..*" -- "1..1" Reservation
+Theatre "1..*" -- "1..1" Seat
+Theatre "0..*" -- "1..1" Show
+Ticket "1..1" -- "0..1" Seat
 @enduml

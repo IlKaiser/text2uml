@@ -1,18 +1,20 @@
 @startuml
 
-class Organizer{}
-class Event{}
-class Attendee{}
-class Task{}
-class Location{}
-class EventType{}
+class Organizer{ String FirstName, String LastName, String Email, String PostalAddress, String PhoneNumber, String Password }
+class Event{ DateTime StartDateTime, DateTime EndDateTime, String Occasion, Location Location }
+class Location{ String Name, String Address }
+class Attendee{ String FirstName, String LastName, String Email, String Password }
+class EventType{ String Name }
+class Task{ String Description, String Status, Boolean IsForAttendee }
+class Invitation{ String Status }
 
 Organizer "1..1" -- "1..*" Event
 Organizer "1..1" -- "1..*" Attendee
-Event "1..1" -- "1..1" EventType
 Event "1..1" -- "1..1" Location
+Event "1..1" -- "1..1" EventType
 Event "1..1" -- "1..*" Task
-Task "1..1" -- "0..*" Attendee
-Attendee "1..1" -- "1..1" Event
+Event "1..1" -- "1..*" Attendee
+Attendee "1..1" -- "0..*" Task
+Event "1..1" -- "1..*" Invitation
 
 @enduml

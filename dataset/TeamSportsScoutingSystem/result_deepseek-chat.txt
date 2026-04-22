@@ -1,42 +1,45 @@
 @startuml
 
-class Club{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class HeadScout{}
-class PlayerProfile{}
-class PlayerAttribute{}
-class Player{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Recommendation{}
-class ShortList{}
-class OfficialOffer{}
+class Employee
+class HeadCoach
+class Director
+class Scout
+class HeadScout
+class PlayerProfile {
+  String targetPosition
+}
+class PlayerAttribute {
+  String name
+  String value
+}
+class Player
+class LongList
+class ScoutingAssignment
+class ScoutingReport {
+  String pros
+  String cons
+  String recommendation
+}
+class ShortList
+class OfficialOffer
 
-HeadCoach "1..1" -- "1..*" PlayerProfile
+HeadCoach --|> Employee
+Director --|> Employee
+Scout --|> Employee
+HeadScout --|> Scout
 PlayerProfile "1..1" -- "1..*" PlayerAttribute
-Scout "1..*" -- "1..1" LongList
-LongList "1..1" -- "1..*" Player
-HeadScout "1..1" -- "1..*" ScoutingAssignment
-ScoutingAssignment "1..1" -- "1..1" Player
-ScoutingAssignment "1..1" -- "1..1" Scout
-ScoutingAssignment "1..1" -- "1..1" ScoutingReport
-ScoutingReport "1..1" -- "1..1" Recommendation
-HeadCoach "1..1" -- "1..1" HeadScout
-HeadCoach "1..1" -- "1..1" ShortList
-HeadScout "1..1" -- "1..1" ShortList
-ShortList "1..1" -- "1..*" Player
-ScoutingAssignment "1..1" -- "0..*" ShortList
+HeadCoach "1..1" -- "0..*" PlayerProfile
+Player "0..*" -- "0..*" LongList
+PlayerProfile "1..1" -- "0..*" LongList
 HeadScout "1..1" -- "0..*" ScoutingAssignment
-Director "1..1" -- "1..*" OfficialOffer
-OfficialOffer "1..1" -- "1..1" Player
-Club "1..1" -- "1..*" Employee
-Employee "1..1" -- "1..1" HeadCoach
-Employee "1..1" -- "1..1" Director
-Employee "1..1" -- "1..*" Scout
-Employee "1..1" -- "1..1" HeadScout
+Scout "0..*" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1..1" -- "1..1" Player
+ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+Player "0..*" -- "0..*" ShortList
+PlayerProfile "1..1" -- "0..*" ShortList
+HeadCoach "1..1" -- "0..*" ShortList
+HeadScout "1..1" -- "0..*" ShortList
+Director "1..1" -- "0..*" OfficialOffer
+Player "1..1" -- "0..*" OfficialOffer
 
 @enduml

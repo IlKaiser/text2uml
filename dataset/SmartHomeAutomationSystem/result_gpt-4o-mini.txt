@@ -1,28 +1,20 @@
 @startuml
 
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class Device{}
-class ActivityLog{}
-class AutomationRule{}
-class SensorReading{}
-class ControlCommand{}
-class Precondition{}
-class Action{}
+class SmartHome{ String Address }
+class Room{ String Name }
+class Device{ String DeviceID }
+class Sensor{ String Value, Date Timestamp }
+class Actuator{ String Status, Date Timestamp }
+class ActivityLog{ String LogEntry, Date Timestamp }
+class AutomationRule{ String Precondition, String Action }
+class Owner{ String Name }
 
 SmartHome "1..1" -- "1..*" Room
-Room "1..*" -- "1..*" SensorDevice
-Room "1..*" -- "1..*" ActuatorDevice
-SensorDevice "1..1" -- "1..1" Device
-ActuatorDevice "1..1" -- "1..1" Device
-SmartHome "1..1" -- "1..1" ActivityLog
-AutomationRule "1..*" -- "0..*" Precondition
-AutomationRule "1..*" -- "0..*" Action
-SensorDevice "1..*" -- "0..*" SensorReading
-ActuatorDevice "1..*" -- "0..*" ControlCommand
-AutomationRule "1..*" -- "0..*" AutomationRule : depends on
-AutomationRule "1..*" -- "0..*" AutomationRule : conflicts with
+Room "1..*" -- "0..*" Device
+Device <|-- Sensor
+Device <|-- Actuator
+SmartHome "1..1" -- "0..*" ActivityLog
+SmartHome "1..*" -- "0..*" AutomationRule
+Owner "1..1" -- "0..*" AutomationRule
 
 @enduml

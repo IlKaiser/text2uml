@@ -1,20 +1,37 @@
-```plantuml
 @startuml
 
-class User {}
-class Account {}
+class User {
+    String ID
+    String Name
+    String Email
+    Date DateOfBirth
+}
+class Account {
+    String AccountNumber
+    String Type
+    Double MonthlyFee
+}
 class BusinessAccount {}
 class PersonalAccount {}
-class Page {}
-class AdvertisementPage {}
+class Page {
+    String PageName
+    Int Visits
+}
+class AdvertisementPage {
+    Double BounceRate
+    Double ClickThroughRate
+    Double ConversionRate
+}
 class FriendRequest {}
-class Privilege {}
 
-User "1" -- "0..*" Account
+User "1" -- "1" Account
 Account "1" -- "0..*" Page
 PersonalAccount "1" -- "0..*" FriendRequest
-PersonalAccount "1" -- "0..*" Privilege
-BusinessAccount "1" -- "0..*" AdvertisementPage
+PersonalAccount "1" -- "0..*" PersonalAccount
+Page "1" -- "0..1" Account
+
+BusinessAccount --|> Account
+PersonalAccount --|> Account
+AdvertisementPage --|> Page
 
 @enduml
-```

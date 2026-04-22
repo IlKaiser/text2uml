@@ -1,0 +1,63 @@
+@startuml
+
+class Employee {
+    String Name
+    String SocialSecurityNumber
+    Boolean OscarWinner
+}
+class CreativeEmployee {
+    String Education
+    Employee "1" -- "0..*" OscarWinner
+}
+class Director {
+    Employee "1" -- "0..*" CreativeEmployee
+    Employee "1" -- "0..*" Employee
+}
+class Actor {
+    Employee "1" -- "0..*" CreativeEmployee
+    Employee "1" -- "0..*" OscarWinner
+    String Education
+}
+class Technician {
+    Employee "1" -- "0..*" Employee
+    String FieldOfActivity
+}
+class FilmSet {
+    String Location
+    Film "1" -- "0..*" Location
+}
+class Film {
+    String Title
+    Integer Year
+    String Genre
+    Screenwriter "1" -- "0..*" Screenplay
+    Screenplay "1" -- "0..*" Film
+    String MostSuccessfulFilm
+}
+class Screenwriter {
+    Employee "1" -- "0..*" Employee
+    String Name
+    Screenplay "1" -- "0..*" Screenplay
+    String MostSuccessfulFilm
+}
+class Screenplay {
+    String Title
+    String Version
+    Integer NumberOfScenes
+    String Plot
+    Novel "0..*" -- "0..*" BasedOn
+    Concept "0..*" -- "0..*" BasedOn
+    Film "1" -- "0..*" Film
+}
+class Novel {
+    String Title
+    Employee "1" -- "0..*" Employee
+    Employee "1" -- "0..*" OscarWinner
+}
+class Concept {
+    String Title
+    Employee "1" -- "0..*" Employee
+    Employee "1" -- "0..*" OscarWinner
+}
+
+@enduml

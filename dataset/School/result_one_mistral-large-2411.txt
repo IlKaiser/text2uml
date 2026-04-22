@@ -1,0 +1,38 @@
+```plantuml
+@startuml
+
+class School {
+    String Name
+}
+class Teacher {
+    String FirstName
+    String LastName
+    String Email
+}
+class Student {
+    String FirstName
+    String LastName
+}
+class Room {
+    String Name
+}
+class Classroom extends Room {
+    Integer Capacity
+}
+class OtherRoom extends Room {
+    Double Size
+}
+class ClassGroup {
+    String Name
+}
+
+School "1" -- "0..*" Teacher
+School "1" -- "10..31" ClassGroup
+Teacher "0..3" -- "1" School
+Teacher "1" -- "0..1" School
+Student "0..*" -- "1" School
+Student "0..*" -- "1" ClassGroup
+ClassGroup "1" -- "1" Classroom
+
+@enduml
+```

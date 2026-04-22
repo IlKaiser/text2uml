@@ -1,39 +1,49 @@
-Here is the PlantUML class diagram based on the given specification:
-
-```plantuml
 @startuml
 
-class Home {}
-class Department {}
-class Room {}
-class Bed {}
-class Category {}
-class Inhabitant {}
-class Stay {}
-class Registration {}
-class Assessment {}
-class WaitingList {}
-class Proposal {}
-class Invoice {}
-class Payment {}
-class CreditNote {}
+class Person {
+    String Name
+    String IdentificationData
+}
+class Department {
+    String Name
+}
+class Room {
+    String Number
+}
+class Bed {
+    String Category
+    Double Price
+}
+class Stay {
+    String Type
+    Date StartDate
+    Date EndDate
+    Boolean Suspended
+}
+class Invoice {
+    Date IssueDate
+    Double Amount
+    String Status
+    Date DueDate
+}
+class Proposal {
+    Date ProposalDate
+    Boolean Accepted
+    Boolean Invalidated
+}
+class Assessment {
+    String Needs
+    String TypeOfStay
+}
 
-Home "1" -- "0..*" Department
+Person "1" -- "0..*" Stay
+Stay "1" -- "0..*" Invoice
 Department "1" -- "0..*" Room
 Room "1" -- "0..*" Bed
-Bed "1" -- "1" Category
-Category "1" -- "0..1" Price
-Inhabitant "1" -- "0..*" Stay
-Stay "1" -- "1" Category
-Inhabitant "1" -- "1" Registration
-Registration "1" -- "0..1" Assessment
-Assessment "1" -- "1" WaitingList
-WaitingList "1" -- "0..*" Proposal
-Proposal "1" -- "1" Inhabitant
+Bed "1" -- "0..1" Person
+Person "1" -- "0..1" Assessment
+Assessment "1" -- "0..1" Proposal
 Proposal "1" -- "0..1" Stay
-Stay "1" -- "0..*" Invoice
-Invoice "1" -- "0..*" Payment
-Payment "1" -- "0..1" CreditNote
+Stay "1" -- "0..1" Proposal
 
 @enduml
-```

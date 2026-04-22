@@ -1,10 +1,28 @@
 @startuml
-class Person {}
-class FitnessCenter {}
-class Room {}
-class Session {}
+class Center {
+  name: String
+  address: String
+}
 
+class Room {
+  number: Int
+  maximumCapacity: Int
+}
+
+class Person {
+  firstName: String
+  familyName: String
+  birthDate: Date
+  diploma: String
+}
+
+class Session {
+  date: Date
+  startingHour: Int
+  type: String
+}
+
+Center "1..*" -- "1..1" Room
+Room "0..*" -- "1..1" Session
 Person "0..*" -- "0..*" Session
-FitnessCenter "1..*" -- "1..1" Room
-Session "1..1" -- "0..*" Room
 @enduml

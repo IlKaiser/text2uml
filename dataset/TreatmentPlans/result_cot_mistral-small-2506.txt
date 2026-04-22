@@ -1,28 +1,41 @@
-Here is the PlantUML model based on your class and cardinality lists:
-
 ```plantuml
 @startuml
 
-class Hospital{}
-class Doctor{}
-class Patient{}
-class Examination{}
-class ExaminationType{}
-class TreatmentPlan{}
-class Problem{}
-class ActualTreatment{}
-class Permission{}
+class Hospital {
+    permission: Boolean
+}
 
-Hospital "1..*" -- "1" Doctor
-Hospital "0..*" -- "1" ExaminationType
-Hospital "1..*" -- "1" Permission
-Doctor "1..*" -- "1" Patient
-Doctor "1..*" -- "1" Examination
-Examination "1..1" -- "1" ExaminationType
-Problem "1..1" -- "1" TreatmentPlan
-TreatmentPlan "1..*" -- "1" ExaminationType
-Doctor "1..*" -- "1" ActualTreatment
-ActualTreatment "1..*" -- "1" Examination
+class Examination {
+    type: String
+}
+
+class ExaminationType {
+    name: String
+}
+
+class TreatmentPlan {
+    examinations: String
+}
+
+class ActualTreatment {
+    examinations: String
+    medical_actions: String
+}
+
+class Permission {
+    examination_type: String
+}
+
+Hospital "1..*" -- "0..*" Doctor
+Doctor "0..*" -- "1..*" Patient
+Doctor "1..*" -- "1..*" Examination
+Hospital "0..*" -- "0..*" Permission
+Hospital "0..*" -- "0..*" ExaminationType
+TreatmentPlan "1..*" -- "0..*" ExaminationType
+Doctor "1..*" -- "1..*" TreatmentPlan
+Doctor "1..*" -- "1..*" ActualTreatment
+ActualTreatment "1..*" -- "1..*" Examination
+Problem "1..1" -- "1..1" TreatmentPlan
 
 @enduml
 ```

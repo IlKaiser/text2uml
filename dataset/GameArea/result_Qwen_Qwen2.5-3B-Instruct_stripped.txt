@@ -1,0 +1,30 @@
+@startuml
+
+class GameArea {
+    String name
+    GameElement[] gameElements
+    GamePiece[] gamePieces
+}
+
+class GameElement {
+    long x
+    long y
+    String type
+}
+
+class Shape {
+    +GameElement[] connections
+}
+
+class Object {
+}
+
+class Opponent {
+    +int lives
+}
+
+Shape "0..*" -- "1.." GameElement: connections
+GameElement "1" -- "1" Shape: connections
+GameElement "1" -- "0..2" GamePiece: contains
+GameElement "1" -- "1" Opponent: boss
+@enduml

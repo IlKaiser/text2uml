@@ -1,31 +1,74 @@
 
+```plantuml
 @startuml
 
-class Customer{}
-class Product{}
-class Order{}
-class Item{}
-class Clothing{}
-class Shoe{}
-class Headwear{}
-class Company{}
-class Manufacturer{}
-class Country{}
-class VATRate{}
-class Currency{}
-class ConversionRate{}
-class Representative{}
+class Product {
+    name: String
+    description: String
+    netPrice: Float
+    manufacturer: Company
+    country: Country
+}
 
-Product "1..*" -- "1..1" Manufacturer
+class Country {
+    vatRate: Float
+    currency: String
+    conversionRateToEuro: Float
+}
+
+class Representative {
+    firstName: String
+    lastName: String
+    socialSecurityNumber: String
+    phoneNumber: String
+    email: String
+    country: Country
+}
+
+class Order {
+    orderId: Int
+    product: Product
+    quantity: Int
+    orderDate: Date
+    deliveryDate: Date
+}
+
+class Customer {
+}
+
+class Clothing {
+}
+
+class Shoe {
+}
+
+class Headwear {
+}
+
+class Company {
+}
+
+class Distributor {
+}
+
+class Query {
+}
+
+class Address {
+}
+
+Product "1..1" -- "1..1" Company
 Product "1..1" -- "1..1" Country
-Product "1..1" -- "1..1" VATRate
-Order "1..1" -- "1..*" Product
-Customer "1..*" -- "1..*" Country
-VATRate "1..*" -- "1..1" Country
-Country "1..*" -- "0..*" Currency
-Country "1..*" -- "1..1" ConversionRate
-Representative "1..*" -- "1..1" Country
-Representative "1..*" -- "1..*" Customer
+Product "0..*" -- "0..*" Query
+Product "1..*" -- "0..*" Distributor
+Distributor "1..*" -- "1..1" Representative
+Representative "1..1" -- "1..1" Country
+Order "1..*" -- "1..1" Product
 Order "1..*" -- "1..1" Customer
 
+Clothing --|> Product
+Shoe --|> Product
+Headwear --|> Product
+
 @enduml
+```

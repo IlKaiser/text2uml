@@ -1,21 +1,52 @@
 ```plantuml
 @startuml
-class Company{}
-class Product{}
-class Country{}
-class Representative{}
-class Customer{}
-class Order{}
-class VAT{}
-class Currency{}
 
-Company "1..1" -- "1..*" Product
-Country "1..*" -- "0..*" Product
-Country "1..1" -- "1..1" VAT
-Country "1..1" -- "1..1" Currency
-Country "1..1" -- "1..1" Representative
-Representative "1..*" -- "1..*" Order
-Customer "1..*" -- "1..*" Order
-Product "1..*" -- "1..*" Order
+class Product {
+  name:String
+  description:String
+  net_price:Float
+  manufacturer:String
+  country_of_origin:Country
+}
+
+class Country {
+  vat_rate:Float
+  currency:String
+  conversion_rate_euro:Float
+}
+
+class Representative {
+  first_name:String
+  last_name:String
+  social_security_number:String
+  telephone_number:String
+  email_address:String
+  country:Country
+}
+
+class Customer {
+  name:String
+  address:String
+  telephone_number:String
+  email_address:String
+  countries:Country[]
+}
+
+class Order {
+  id:String
+  order_quantity:Int
+  order_date:Date
+  delivery_date:Date
+  product:Product
+}
+
+Product "1..*" -- "1..1" Country
+Product "1..*" -- "1..*" Representative
+Country "1..1" -- "1..*" Representative
+Customer "0..*" -- "1..*" Country
+Order "1..1" -- "1..*" Product
+Order "1..1" -- "1..*" Representative
+Customer "1..*" -- "0..*" Order
+
 @enduml
 ```

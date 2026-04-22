@@ -1,39 +1,32 @@
 @startuml
 
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class HeadScout{}
-class PlayerProfile{}
-class TargetPosition{}
-class PlayerAttribute{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class ShortList{}
-class Offer{}
+class Employee{ String Name, String Role }
+class HeadCoach extends Employee{}
+class Director extends Employee{}
+class Scout extends Employee{}
+class HeadScout extends Scout{}
+class PlayerProfile{ String Name, String TargetPosition, String[] Attributes}
+class Player{ String Name, String Position, String[] Attributes}
+class LongList{ Player[] Players }
+class ScoutingAssignment{ Player Player, Scout Scout }
+class ScoutingReport{ String Pros, String Cons, String Recommendation }
+class ShortList{ Player[] Players }
+class Offer{ String Status }
 
-Employee <|-- HeadCoach
-Employee <|-- Director
-Employee <|-- Scout
-Employee <|-- HeadScout
-
-HeadCoach "1..1" -- "1..*" PlayerProfile
-PlayerProfile "1..*" -- "1..1" TargetPosition
-PlayerProfile "1..*" -- "1..*" PlayerAttribute
-
-Scout "1..*" -- "1..*" LongList
-HeadScout "1..1" -- "1..*" ScoutingAssignment
-ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+HeadCoach "1..1" -- "0..*" PlayerProfile
+PlayerProfile "1..1" -- "0..*" String
+Scout "1..1" -- "0..*" LongList
+LongList "1..1" -- "0..*" Player
+HeadScout "1..1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1..1" -- "1..1" Scout
+ScoutingAssignment "1..1" -- "1..1" Player
+Scout "1..1" -- "0..*" ScoutingReport
 ScoutingReport "1..1" -- "1..1" Player
-ScoutingReport "1..*" -- "1..1" Recommendation
-
-HeadCoach "1..1" -- "1..*" ShortList
-HeadScout "1..1" -- "1..*" ShortList
-ShortList "1..*" -- "1..*" ScoutingAssignment
-
-HeadScout "1..1" -- "1..1" Offer
-Director "1..1" -- "1..*" Offer
+HeadCoach "1..1" -- "1..1" HeadScout
+HeadCoach "1..1" -- "0..*" ShortList
+ShortList "1..1" -- "0..*" Player
+HeadScout "1..1" -- "0..*" ScoutingAssignment
+HeadScout "1..1" -- "0..*" Offer
+Director "1..1" -- "0..*" Offer
 
 @enduml

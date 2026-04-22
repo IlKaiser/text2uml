@@ -1,24 +1,75 @@
 @startuml
-class BusinessTraveller{}
-class Hotel{}
-class Booking{}
-class PreliminaryBooking{}
-class SpecialOffer{}
-class Room{}
-class Payment{}
-class Preference{}
-class Address{}
-class HotelChain{}
-class Confirmation{}
+class Traveller {
+  name: String
+  billingInformation: String
+  travelPreferences: String
+}
 
-BusinessTraveller "1..1" -- "0..*" Booking
-BusinessTraveller "1..1" -- "0..1" Preference
-Booking "1..1" -- "1..1" Hotel
-Booking "0..*" -- "0..*" Room
-Booking "1..1" -- "0..1" PreliminaryBooking
-PreliminaryBooking "1..1" -- "0..5" SpecialOffer
-Booking "1..1" -- "1..1" Payment
-Booking "1..1" -- "0..1" Confirmation
+class Hotel {
+  stars: Int
+}
+
+class Booking {
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  uniqueBookingIdentifier: String
+  cancellationDeadline: Date
+  arrivalDate: Date
+  departureDate: Date
+}
+
+class Offer {
+  maxCostPerNight: Float
+}
+
+class RoomType {
+}
+
+class HotelChain {
+}
+
+class City {
+}
+
+class Address {
+  address: String
+}
+
+class Payment {
+  creditCardInformation: String
+}
+
+class Confirmation {
+  confirmationDeadline: Date
+}
+
+class CancellationPolicy {
+  cancellationDeadline: Date
+}
+
+class Compensation {
+  financialCompensation: Float
+}
+
+class ReliabilityRating {
+  rating: Float
+}
+
+Traveller "1..*" -- "0..*" Booking
+Booking "1..1" -- "1..1" Traveller
+Booking "0..*" -- "1..1" Hotel
+Hotel "1..1" -- "0..*" Booking
+Hotel "0..*" -- "1..1" City
 Hotel "1..1" -- "0..1" HotelChain
 Hotel "1..1" -- "1..1" Address
+Offer "0..*" -- "1..1" Hotel
+RoomType "0..*" -- "1..1" Hotel
+Booking "1..1" -- "0..1" Payment
+Booking "1..1" -- "0..1" Confirmation
+Booking "1..1" -- "0..1" CancellationPolicy
+Booking "0..*" -- "0..1" Compensation
+Traveller "1..1" -- "1..1" ReliabilityRating
+Offer "0..*" -- "1..1" Traveller
 @enduml

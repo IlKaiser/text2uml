@@ -1,0 +1,78 @@
+@startuml
+
+class Visitor
+
+class User {
+    String UserName
+    String Email
+    String Password
+}
+class Administrator {
+    String IDCardNumber
+}
+Visitor --|> User
+Administrator --|> User
+
+class Portal {
+    String URL
+    String Version
+}
+class Building {
+    String ID
+    String Name
+    String EnergyClass
+    String Address
+    Integer YearOfConstruction
+}
+class Image {
+    String FileName
+}
+class Entry {
+    String Name
+    Boolean Public
+}
+class TextEntry {
+    String Text
+}
+class NumericEntry {
+    Double Value
+    String Unit
+}
+class Comment {
+    String Content
+    Date Timestamp
+}
+
+class Register
+class ConfirmEmail
+class ActivateAccount
+class Login
+class CreateBuilding
+class ManageEntries
+class ReleaseEntriesPublicly
+class CommentOnBuilding
+class SearchBuildings
+class DeleteComments
+
+Portal "1" -- "0..*" Building
+User "0..*" -- "1" Building
+Building "0..*" -- "1" Entry
+TextEntry --|> Entry
+NumericEntry --|> Entry
+Building "1" -- "0..*" Image
+Building "1" -- "1" Image : ProfilePhoto
+Comment "1" -- "1" User
+Comment "1" -- "1" Building
+
+Visitor -- Register
+Visitor -- ConfirmEmail
+Visitor -- SearchBuildings
+User -- Login
+User -- CreateBuilding
+User -- ManageEntries
+User -- ReleaseEntriesPublicly
+User -- CommentOnBuilding
+Administrator -- ActivateAccount
+Administrator -- DeleteComments
+
+@enduml

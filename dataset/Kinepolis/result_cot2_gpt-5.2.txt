@@ -1,0 +1,56 @@
+@startuml
+class Kinepolis
+class Cinema
+class Town
+class Theatre
+class Show {
+  startingTime: Date
+}
+class Movie
+class MovieCopy
+class Program {
+  publishDate: Date
+}
+class Website
+class Customer
+class Reservation {
+  paymentDeadline: Date
+}
+class Seat {
+  seatNumber: Int
+}
+class CreditCard {
+  number: String
+}
+class Offer {
+  expiresAt: Date
+}
+class Ticket {
+  seatNumber: Int
+}
+class TicketingDesk
+class Display {
+  availableSeats: Int
+}
+
+Kinepolis "1..1" -- "0..*" Cinema
+Cinema "1..1" -- "1..1" Town
+Cinema "1..1" -- "0..*" Theatre
+Theatre "1..1" -- "0..*" Show
+Movie "1..1" -- "0..*" MovieCopy
+Cinema "1..1" -- "0..*" MovieCopy
+Show "1..1" -- "1..1" Movie
+Program "1..1" -- "0..*" Show
+Website "1..1" -- "0..*" Show
+Customer "1..1" -- "0..*" Reservation
+Show "1..1" -- "0..*" Reservation
+Reservation "1..1" -- "1..1" CreditCard
+Reservation "0..*" -- "0..1" Offer
+Offer "1..1" -- "1..1" Show
+Offer "1..1" -- "0..1" Reservation
+Customer "0..1" -- "0..*" Ticket
+Show "1..1" -- "0..*" Ticket
+TicketingDesk "1..1" -- "0..*" Ticket
+TicketingDesk "1..1" -- "1..1" Display
+Display "1..1" -- "1..1" Show
+@enduml

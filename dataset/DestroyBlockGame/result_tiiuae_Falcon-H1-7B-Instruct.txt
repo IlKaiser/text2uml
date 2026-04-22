@@ -1,0 +1,27 @@
+```plaintext
+@startuml
+
+class User{ String username, String password }
+class Player{ User }
+class Admin{ User }
+class Game{ String name, Admin admin, HallOfFame hallOfFame }
+class Block{ String color, int points }
+class Level{ int number, Game game, StartingArrangement startingArrangement }
+class StartingArrangement{ Block blocks[] }
+class Ball{ int speed, Direction direction }
+class Paddle{ int length }
+class HallOfFame{ Player players[] }
+
+User "1" -- "0..1" Admin : can be
+User "1" -- "0..*" Player : is always
+Admin "1" -- "1" Game : creates
+Game "1" -- "1..*" Block : defines
+Game "1" -- "1..99" Level : has
+Level "1" -- "1..*" StartingArrangement : specifies
+StartingArrangement "1" -- "1..*" Block : contains
+Player "1" -- "1..*" Game : plays
+Game -- "1..*" HallOfFame : displays in
+HallOfFame "1" -- "0..*" Player : has
+
+@enduml
+```

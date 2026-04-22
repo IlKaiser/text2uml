@@ -1,0 +1,48 @@
+@startuml
+class City
+
+class BusTransportationManagementSystem
+
+class Driver {
+  name: String
+  id: Int
+}
+
+class BusRoute {
+  number: Int
+}
+
+class Bus {
+  licencePlate: String
+}
+
+class Shift
+
+class Schedule
+
+class BusAssignment
+
+class DriverAssignment
+
+class SickLeave {
+  isOnSickLeave: Boolean
+}
+
+class RepairShop {
+  isInRepairShop: Boolean
+}
+
+City "1..1" -- "1..1" BusTransportationManagementSystem
+BusTransportationManagementSystem "0..*" -- "0..*" Driver
+BusTransportationManagementSystem "0..*" -- "0..*" BusRoute
+BusTransportationManagementSystem "0..*" -- "0..*" Bus
+BusAssignment "1..1" -- "1..1" BusRoute
+BusAssignment "1..1" -- "1..1" Bus
+Schedule "1..1" -- "1..1" BusRoute
+Schedule "1..1" -- "1..1" Shift
+DriverAssignment "1..1" -- "1..1" Driver
+DriverAssignment "1..1" -- "1..1" Shift
+DriverAssignment "1..1" -- "1..1" Bus
+SickLeave "1..1" -- "1..1" Driver
+RepairShop "1..1" -- "1..1" Bus
+@enduml

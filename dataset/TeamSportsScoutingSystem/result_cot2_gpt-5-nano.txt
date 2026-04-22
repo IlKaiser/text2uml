@@ -1,30 +1,50 @@
 @startuml
-class TeamSportsScoutingSystem{}
-class Club{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class Player{}
-class DesignatedPlayerProfile{}
-class TargetProfile{}
-class DesignatedTargetProfile{}
-class TargetPosition{}
-class Position{}
-class Attribute{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Recommendation{}
-class Pro{}
-class Con{}
-class KeyPlayer{}
-class FirstTeamPlayer{}
-class ReserveTeamPlayer{}
-class ProspectivePlayer{}
-class Signing{}
-class Offer{}
-class OfficialOffer{}
-class Round{}
-class ShortListedPlayer{}
-class LongListedPlayer{}
+class Club
+class Team
+class Employee
+class HeadCoach
+class Director
+class Scout
+class HeadScout
+class Player
+class Profile {
+  name: String
+  value: String
+}
+class TargetPosition
+class Position
+class ScoutingAssignment
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: String
+}
+class Report
+class LongList
+class ShortList
+class Recommendation
+class Signing
+class Offer
+class OfficialOffer
+class Completion
+class Round
+class Time
+class Result
+HeadCoach "1..*" -- "0..*" Profile
+Scout "0..*" -- "0..*" LongList
+HeadScout "1..*" -- "0..*" LongList
+LongList "1..*" -- "0..*" Profile
+Profile "0..1" -- "1..1" TargetPosition
+ScoutingAssignment "1..1" -- "0..*" ScoutingReport
+ScoutingReport "1..1" -- "1..1" Report
+ScoutingReport "1..1" -- "0..1" Recommendation
+ScoutingAssignment "1..*" -- "0..*" Round
+Round "1..*" -- "0..*" Time
+OfficialOffer "1..1" -- "1..1" Director
+OfficialOffer "0..*" -- "1..*" Player
+Signing "0..*" -- "1..1" Player
+Player "1..*" -- "0..*" Profile
+Team "1..*" -- "0..*" Employee
+Club "1..*" -- "0..*" Team
+TargetPosition "1..1" -- "1..1" Position
 @enduml

@@ -1,0 +1,18 @@
+@startuml
+
+class GameArea{ String Name }
+class GameElement{ protected long X, private long Y }
+class Shape{ }
+class Object{ }
+class Opponent{ protected int Lives }
+
+class GameElement <|-- Shape
+class GameElement <|-- Object
+class GameElement <|-- Opponent
+
+GameArea "1..1" -- "1..*" GameElement
+GameArea "1..1" -- "1..2" Opponent
+Shape "0..*" -- "0..*" Shape : ConnectedTo
+GameArea "1..1" -- "1..1" Opponent : Boss
+
+@enduml

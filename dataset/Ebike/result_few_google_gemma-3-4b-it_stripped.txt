@@ -1,0 +1,31 @@
+```plantuml
+@startuml
+
+class Frame {
+    String Material
+}
+class DriveSystem {
+    String MotorType
+}
+class Controller {
+    String Type
+    String InspectionDate
+    Boolean On
+    Boolean Off
+    Boolean Charging
+}
+class Wheel {
+    String Size
+}
+class Battery {
+    Double EnergyWh
+}
+
+Frame "2" -- "1..*" Wheel
+DriveSystem "1" -- "1" Frame
+Controller "1" -- "1" DriveSystem
+Controller "1" -- "0..1" Battery
+Frame "1" -- "1" Controller
+
+@enduml
+```

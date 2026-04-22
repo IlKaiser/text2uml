@@ -1,0 +1,141 @@
+@startuml
+
+class Customer {
+    String Address
+    String VATNumber
+}
+class Product {
+    String Name
+    int Stock
+}
+class Order {
+    Date OrderDate
+    Date PaymentDate
+    Date ShippingDate
+    boolean Paid
+    boolean Shipped
+}
+class OrderLine {
+    int Quantity
+    Product product
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "0..*" OrderLine
+
+@enduml
+
+STEP 2
+
+@startuml
+
+class Customer {
+    String Address
+    String VATNumber
+}
+class Product {
+    String Name
+    int Stock
+}
+class Order {
+    Date OrderDate
+    Date PaymentDate
+    Date ShippingDate
+    boolean Paid
+    boolean Shipped
+    List<OrderLine> OrderLines
+}
+class OrderLine {
+    int Quantity
+    Product product
+    boolean Shipped
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "0..*" OrderLine
+
+@enduml
+
+STEP 3
+
+@startuml
+
+class Customer {
+    String HeadOfficeAddress
+    String DeliveryAddress
+    String Address
+    String VATNumber
+}
+class Product {
+    String Name
+    int Stock
+}
+class Invoice {
+    Date InvoiceDate
+    boolean Paid
+}
+class Order {
+    Date OrderDate
+    Date PaymentDate
+    Date ShippingDate
+    boolean Paid
+    boolean Shipped
+    List<OrderLine> OrderLines
+}
+class OrderLine {
+    int Quantity
+    Product product
+    boolean Shipped
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "0..*" OrderLine
+Customer "1" -- "0..*" Invoice
+
+@enduml
+
+STEP 4
+
+@startuml
+
+class Customer {
+    String HeadOfficeAddress
+    String DeliveryAddress
+    String Address
+    String VATNumber
+}
+class Product {
+    String Name
+    int Stock
+}
+class Invoice {
+    Date InvoiceDate
+    boolean Paid
+}
+class Order {
+    Date OrderDate
+    Date PaymentDate
+    Date ShippingDate
+    boolean Paid
+    boolean Shipped
+    List<OrderLine> OrderLines
+    List<Delivery> Deliveries
+}
+class OrderLine {
+    int Quantity
+    Product product
+    boolean Shipped
+}
+class Delivery {
+    Date PackingDate
+    Date ShippingDate
+    Date ReceivingDate
+    boolean Received
+    List<OrderLine> OrderLines
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "0..*" OrderLine
+Order "1" -- "0..*" Delivery
+
+@enduml

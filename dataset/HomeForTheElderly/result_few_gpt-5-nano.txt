@@ -1,33 +1,22 @@
 @startuml
 
-class Department{}
-class Room{}
-class Bed{}
-class BedCategory{}
-class Price{}
-class Inhabitant{}
-class Stay{}
-class StayType{}
-class Registration{}
-class WaitingListEntry{}
-class Proposal{}
-class Invoice{}
-class CreditNote{}
+class Department{ String Name }
+class Room{ String Number }
+class Bed{ String Identifier }
+class BedCategory{ String Name, Double Price }
+class Inhabitant{ String Name, String Identifier }
+class Stay{ String Type, Date StartDate, Date EndDate, String Status, Boolean Suspended }
+class StayType{ String Code, String Description }
+class Invoice{ String Status, Double Amount, Date IssueDate, Double OutstandingAmount }
+class PaymentEvent{ Date PaymentDate, Double Amount }
 
 Department "1" -- "0..*" Room
 Room "1" -- "0..*" Bed
+Bed "1" -- "0..*" Stay
+Inhabitant "0..*" -- "0..*" Stay
+Stay "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" PaymentEvent
+StayType "1" -- "0..*" Stay
 Bed "1" -- "1" BedCategory
-Stay "1" -- "1" Bed
-Inhabitant "1" -- "0..*" Stay
-Stay "1" -- "1" StayType
-Inhabitant "1" -- "0..1" Registration
-Registration "1" -- "0..*" WaitingListEntry
-WaitingListEntry "1" -- "1" StayType
-WaitingListEntry "1" -- "0..1" Proposal
-Proposal "1" -- "1" StayType
-Stay "0..*" -- "1" Invoice
-Invoice "0..*" -- "1" CreditNote
-BedCategory "1" -- "1" Price
-StayType "1" -- "1" Price
 
 @enduml

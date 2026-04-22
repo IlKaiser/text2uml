@@ -1,0 +1,42 @@
+@startuml
+
+class Driver {
+    String FirstName
+    String LastName
+    String Address
+    String VehicleNumber
+    String VehicleType
+    String Weight
+    String NumberOfSeats
+}
+
+class Vehicle {
+    String VehicleNumber
+    String Type
+}
+
+class Order {
+    String Origin
+    String Destination
+    Date DateOfExecution
+    Driver "1..1" -- "0..1" Driver
+    Vehicle "0..1" -- "0..1" Vehicle
+}
+
+class Location {
+    String Address
+    Driver "0..*" -- "0..*" Driver
+    Vehicle "0..*" -- "0..*" Vehicle
+}
+
+class OrderManagement {
+    Driver "0..*" -- "0..1" Driver
+    Vehicle "0..*" -- "0..1" Vehicle
+}
+
+class VehicleManagement {
+    Driver "0..*" -- "0..1" Driver
+    Vehicle "0..*" -- "0..1" Vehicle
+}
+
+@enduml

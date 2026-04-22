@@ -1,0 +1,89 @@
+<s>[INST] You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Fitness company “Conan” wants to set up a database for its members and trainers. One of the aims is to record information about which members participated in which sessions and which trainers supervised which sessions.
+Conan operates various fitness centers in various cities. Every center is characterized by a unique name (e.g., Fitplaza, my6pack). Every center has an address and one or more rooms (you can consider address as atomic). Every room has a maximum capacity. Within a center, each room has a unique number such as 1, 2, 3, etc.
+People can register for individual or group sessions in different centers. Each group session requires exactly one trainer. Individual sessions are done without a trainer. For each person, we want to store the first name, family name, and birth date. You can assume that the combination of first name, family name, and birth date is unique. For each trainer, the diploma is also recorded. A person can be a trainer in one session and participant in another session (either individual or group session). The model should also include information about people (e.g., prospects) that have not participated in any sessions yet, or trainers (e.g., interns) that have not supervised any group sessions yet.
+For each session, the date and starting hour should be recorded. For group sessions, also the type should be stored (e.g., aerobics, bodystyling, etc.). Sessions can start at the same time on the same day but in different rooms of a center or in different centers. At a given start hour of a given day, at most one individual or group session can start in a given room of a given center.[/INST] @startuml
+
+class Person {
+    String FirstName, FamilyName, BirthDate
+}
+
+class Trainer extends Person {
+    String Diploma
+}
+
+class Session {
+    Date Date, Time Hour
+    String Type
+}
+
+class GroupSession extends Session {
+    Trainer Trainer
+}
+
+class IndividualSession extends Session {}
+
+class Center {
+    String Name
+    String Address
+    String City
+    Integer Number
+    Integer MaxCapacity
+    "0..*" Room
+    "0..*" IndividualSession
+    "0..*" GroupSession
+}
+
+class Room {
+    Center Center
+    Integer Number
+    Integer MaxCapacity
+    "0..1" IndividualSession
+    "0..*" GroupSession
+}
+
+Center "1" -- "0..*" Center
+Center "1" -- "0..*" Room
+Room "1" -- "1" Center
+Room "1" -- "0..1" IndividualSession
+Room "1" -- "0..*" GroupSession
+IndividualSession "0..*" Person
+GroupSession "0..*" Person
+GroupSession "1" Trainer
+
+@enduml

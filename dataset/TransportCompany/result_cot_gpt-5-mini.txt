@@ -1,33 +1,84 @@
 @startuml
-class Employee{}
-class Driver{}
-class Planner{}
-class AdministrativeStaff{}
-class UserAccount{}
-class Customer{}
-class PartnerCompany{}
-class Vehicle{}
-class VehicleType{}
-class RepairShop{}
-class Repair{}
-class Order{}
-class Address{}
+class Employee {
+  name:String
+  socialSecurityNumber:String
+}
+class Driver {
+  name:String
+  socialSecurityNumber:String
+}
+class Planner {
+  name:String
+  socialSecurityNumber:String
+  username:String
+  password:String
+}
+class AdministrativeStaff {
+  name:String
+  socialSecurityNumber:String
+  username:String
+  password:String
+  fieldOfActivity:String
+}
+class Account
+class Customer {
+  name:String
+  billingAddress:String
+}
+class PartnerCompany {
+  name:String
+  address:String
+}
+class Vehicle {
+  licensePlateNumber:String
+  mileage:Int
+}
+class VehicleType {
+  name:String
+}
+class RepairShop {
+  name:String
+  address:String
+}
+class Repair {
+  duration:Float
+  cost:Float
+  employeeWhoTookVehicle:String
+  repairShopName:String
+}
+class Order {
+  comment:String
+  startTime:Date
+  endTime:Date
+  packageSize:Float
+  requiredVehicleType:String
+  assignedByPlanner:String
+  completedByDriver:String
+  vehicleUsed:String
+  pickupAddress:String
+  deliveryAddress:String
+  placedByAdministrativeStaff:String
+  placedByPartnerCompany:String
+}
+class Address
 
-Planner "1..1" -- "1..1" UserAccount
-AdministrativeStaff "1..1" -- "1..1" UserAccount
-Customer "1..1" -- "0..*" Address
-Vehicle "1..1" -- "1..*" VehicleType
-Repair "1..1" -- "0..*" RepairShop
-Repair "1..1" -- "0..*" Vehicle
-Repair "1..1" -- "0..*" Employee
-Order "1..1" -- "0..*" Driver
-Order "1..1" -- "0..*" VehicleType
-Planner "0..*" -- "1..1" Order
-Order "1..1" -- "0..*" Vehicle
-Order "1..1" -- "0..*" Customer
-Order "2..2" -- "0..*" Address
-Order "0..1" -- "0..*" AdministrativeStaff
-Order "0..1" -- "0..*" PartnerCompany
-RepairShop "1..1" -- "0..*" Address
-PartnerCompany "1..1" -- "0..*" Address
+Planner "1..1" -- "1..1" Account.
+AdministrativeStaff "1..1" -- "1..1" Account.
+Customer "1..1" -- "0..*" Address.
+PartnerCompany "1..1" -- "0..*" Address.
+RepairShop "1..1" -- "0..*" Address.
+Vehicle "1..1" -- "0..*" VehicleType.
+Repair "1..1" -- "0..*" RepairShop.
+Repair "1..1" -- "0..*" Employee.
+Repair "1..1" -- "0..*" Vehicle.
+Order "1..1" -- "0..*" Driver.
+Order "1..1" -- "0..*" Planner.
+Order "1..1" -- "0..*" Vehicle.
+Order "1..1" -- "0..*" Customer.
+Order "2..2" -- "0..*" Address.
+Order "0..1" -- "0..*" PartnerCompany.
+
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
 @enduml

@@ -1,41 +1,45 @@
 @startuml
-class Award{}
-class Availability{}
-class BankAccount{}
-class Cancellation{}
-class Discount{}
-class Payment{}
-class Student{}
-class Subject{}
-class Tutor{}
-class TutoringOffer{}
-class TutoringRequest{}
-class TutoringSession{}
+class Student {
+  name:String
+  emailAddress:String
+}
+class Tutor {
+  name:String
+  emailAddress:String
+  bankAccount:String
+}
+class Subject {
+  name:String
+}
+class TutoringOffer {
+  levelOfExpertise:String
+  hourlyPrice:Float
+}
+class TutoringRequest {
+  levelOfTutoring:String
+  requestedDateTime:Date
+}
+class TutoringSession {
+  dateTime:Date
+  price:Float
+  isCancelled:Boolean
+}
+class Payment {
+  amount:Float
+  method:String
+  date:Date
+}
 
-Award "1..1" -- "0..*" Subject
-Award "1..1" -- "0..*" Tutor
-Availability "0..*" -- "0..1" TutoringSession
-Cancellation "0..1" -- "0..1" Discount
-Cancellation "0..1" -- "0..1" Payment
-Cancellation "0..1" -- "0..*" Student
-Cancellation "0..1" -- "0..*" Tutor
-Discount "1..1" -- "0..*" Student
-Discount "0..1" -- "0..1" TutoringSession
-Payment "1..1" -- "0..1" TutoringSession
-Student "0..*" -- "1..1" Payment
-Student "0..*" -- "0..*" Tutor
+Tutor "0..*" -- "1..1" TutoringOffer
+TutoringOffer "1..1" -- "0..*" Subject
 Student "0..*" -- "0..*" TutoringOffer
 Student "0..*" -- "1..1" TutoringRequest
-Student "0..*" -- "1..1" TutoringSession
-Tutor "0..*" -- "1..1" Availability
-Tutor "1..1" -- "1..1" BankAccount
-Tutor "0..*" -- "1..1" Discount
-Tutor "0..*" -- "1..1" TutoringOffer
-Tutor "0..*" -- "1..1" TutoringSession
-TutoringOffer "1..1" -- "0..*" Subject
-TutoringOffer "0..*" -- "0..1" TutoringSession
 TutoringRequest "1..1" -- "0..*" Tutor
-TutoringRequest "1..1" -- "0..*" TutoringOffer
-TutoringRequest "0..1" -- "0..1" TutoringSession
-TutoringSession "0..1" -- "1..1" Cancellation
+TutoringRequest "0..1" -- "1..1" TutoringSession
+TutoringSession "1..1" -- "0..*" Student
+TutoringSession "1..1" -- "0..*" Tutor
+Student "0..*" -- "1..1" Payment
+Payment "1..1" -- "0..1" TutoringSession
+
+Tutor --|> Student
 @enduml

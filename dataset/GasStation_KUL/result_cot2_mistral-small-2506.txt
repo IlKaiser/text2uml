@@ -1,31 +1,57 @@
 ```plantuml
 @startuml
 
-class OilCompany{}
-class GasStation{}
-class Customer{}
-class RefuelTurn{}
-class RefuelCard{}
-class MonthlyInvoice{}
-class Discount{}
-class Pump{}
-class Gasoline{}
-class Nozzle{}
-class Car{}
-class Reservoir{}
-class DailyReport{}
+class OilCompany {
+}
 
-OilCompany "1..*" -- "0..*" GasStation
-Customer "1..1" -- "0..1" RefuelCard
-Customer "1..*" -- "0..*" RefuelTurn
-RefuelTurn "1..*" -- "1..1" MonthlyInvoice
-MonthlyInvoice "1..*" -- "0..*" Discount
-GasStation "1..*" -- "0..*" Pump
-Pump "1..1" -- "1..1" Gasoline
-Pump "1..1" -- "0..*" Nozzle
-Pump "1..1" -- "1..1" Reservoir
-RefuelTurn "1..1" -- "1..1" Car
-Reservoir "1..*" -- "0..*" DailyReport
+class GasStation {
+}
+
+class Customer {
+}
+
+class RefuelTurn {
+  amount: Float
+}
+
+class RefuelCard {
+}
+
+class MonthlyInvoice {
+  discount: Float
+}
+
+class Pump {
+  current_level: Float
+  reordering_level: Float
+}
+
+class GasolineType {
+}
+
+class Nozzle {
+}
+
+class Reservoir {
+  quantity: Float
+  critical_level: Float
+}
+
+class DailyReport {
+}
+
+1..1 OilCompany -- 0..* GasStation
+1..1 GasStation -- 0..* Pump
+1..1 Pump -- 1..1 Reservoir
+1..1 Pump -- 1..1 GasolineType
+1..1 Pump -- 1..1 Nozzle
+1..1 Customer -- 0..1 RefuelCard
+1..1 RefuelCard -- 0..* RefuelTurn
+1..1 RefuelCard -- 0..* MonthlyInvoice
+1..1 MonthlyInvoice -- 0..1 Customer
+1..1 Customer -- 0..* RefuelTurn
+1..1 Pump -- 0..* DailyReport
+1..1 GasStation -- 0..* DailyReport
 
 @enduml
 ```

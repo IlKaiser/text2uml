@@ -1,0 +1,121 @@
+```plantuml
+@startuml
+
+class OilCompany {
+}
+
+class GasStation {
+  responsible: GasStationResponsible
+}
+
+class Country {
+}
+
+class Customer {
+  turnover: Float
+  state: String
+}
+
+class RefuelTurn {
+  paymentMethod: String
+  amount: Float
+}
+
+class CreditCard {
+}
+
+class RefuelCard {
+  blocked: Boolean
+}
+
+class Invoice {
+  amount: Float
+  month: Month
+  discount: Float
+  sent: Boolean
+  paid: Boolean
+}
+
+class Discount {
+  turnoverThreshold: Float
+  discountAmount: Float
+}
+
+class Payment {
+  amount: Float
+  method: String
+}
+
+class Month {
+  name: String
+}
+
+class Nozzle {
+  inUse: Boolean
+}
+
+class Pump {
+  type: Gasoline
+  available: Boolean
+  blocked: Boolean
+}
+
+class Gasoline {
+  type: String
+}
+
+class Reservoir {
+  quantity: Quantity
+  reorderingLevel: ReorderingLevel
+  criticalLevel: Level
+}
+
+class Quantity {
+  amount: Float
+}
+
+class ReorderingLevel {
+  level: Float
+}
+
+class System {
+}
+
+class Report {
+  date: Date
+  pumpNeedsRefill: List<Pump>
+  currentLevel: List<Level>
+  quantityToOrder: List<Quantity>
+}
+
+class Level {
+  amount: Float
+}
+
+class Tank {
+  dirtLevel: Float
+}
+
+class GasStationResponsible {
+}
+
+1..* OilCompany -- 0..* GasStation
+1..* Customer -- 0..* RefuelTurn
+1..* Customer -- 0..1 CreditCard
+1..* Customer -- 0..1 RefuelCard
+1..* RefuelCard -- 0..* Invoice
+1..* Invoice -- 0..* Discount
+1..* Invoice -- 0..* Payment
+1..* RefuelTurn -- 0..1 Invoice
+1..* GasStation -- 0..* Pump
+1..* Pump -- 1..1 Gasoline
+1..* Pump -- 1..1 Nozzle
+1..* Pump -- 1..1 Reservoir
+1..* Reservoir -- 1..1 Quantity
+1..* Reservoir -- 1..1 ReorderingLevel
+1..1 System -- 0..* Report
+1..* Pump -- 1..1 Level
+1..* GasStationResponsible -- 0..* Pump
+
+@enduml
+```

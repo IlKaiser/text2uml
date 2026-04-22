@@ -1,21 +1,45 @@
-```
+```plantuml
 @startuml
 
-class Car {}
-class CarOwner {}
-class Customer {}
-class RideHailing {}
-class RideSharing {}
-class RideRequest {}
-class Tree {}
-class Accident {}
+class CarOwner {
+    String Name
+}
+class Car {
+    String Model
+}
+class RideHailing {
+    DateTime PickUpTime
+    DateTime DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Duration RideDuration
+    Double Distance
+    Int NumberOfPassengers
+    Double Fee
+    String RequestType
+    String LeadCustomerName
+}
+class RideSharing {
+    DateTime PickUpTime
+    DateTime DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Duration RideDuration
+    Double Distance
+    Int NumberOfPassengers
+    String[] CustomerNames
+    Double Fee
+}
+class Accident {
+    DateTime AccidentDate
+    String Location
+    Double DamageAmount
+}
 
-Car "0..*" -- "1" CarOwner
-RideHailing "1" -- "0..*" Customer
-RideHailing "1" -- "1..*" RideRequest
-RideSharing "1" -- "0..*" Customer
-RideSharing "1..*" -- "1" Tree
-Accident "0..*" -- "1" Car
+CarOwner "1" -- "0..*" Car
+Car "1" -- "0..*" RideHailing
+Car "1" -- "0..*" RideSharing
+Car "1" -- "0..*" Accident
 
 @enduml
 ```

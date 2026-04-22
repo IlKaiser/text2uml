@@ -1,0 +1,69 @@
+Given the specification text, the necessary classes for a UML conceptual model diagram are:
+
+1. **Bank**
+2. **Customer**
+3. **Branch**
+4. **Account**
+5. **CurrentAccount**
+6. **SavingsAccount**
+
+Here is the extracted information in the required format:
+
+### Attributes Dictionary:
+```python
+{
+    "Bank": ["customers:List[Customer]", "branches:List[Branch]"],
+    "Customer": ["firstName:String", "lastName:String"],
+    "Branch": [],
+    "Account": ["accountNumber:Int", "balance:Float"],
+    "CurrentAccount": ["overdraftLimit:Float"],
+    "SavingsAccount": []
+}
+```
+
+### Inheritance List:
+```python
+[(ChildClass, ParentClass),...]
+```
+
+### Class List:
+```python
+["Bank", "Customer", "Branch", "Account", "CurrentAccount", "SavingsAccount"]
+```
+
+### PlantUML Diagram:
+```plantuml
+@startuml
+class Bank {
+  +customers: List[Customer]
+  +branches: List[Branch]
+}
+
+class Customer {
+  +firstName: String
+  +lastName: String
+}
+
+class Branch {
+}
+
+class Account {
+  +accountNumber: Int
+  +balance: Float
+}
+
+class CurrentAccount {
+  +overdraftLimit: Float
+}
+
+class SavingsAccount {
+}
+
+Customer -- 0..5 Account
+Account -- 1 Owner (Customer)
+Account -- 1 CurrentAccount (CurrentAccount)
+Account -- 1 SavingsAccount (SavingsAccount)
+@enduml
+```
+
+This plantUML code represents the UML conceptual model diagram for the described bank system.

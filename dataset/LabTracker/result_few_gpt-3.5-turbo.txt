@@ -1,20 +1,49 @@
 
+```plantuml
 @startuml
 
-class Doctor {}
-class Patient {}
-class Lab {}
-class Test {}
-class Requisition {}
-class Appointment {}
-class Report {}
+class Doctor{
+    Int PractitionerNumber
+    String Signature
+    String FullName
+    String Address
+    String PhoneNumber
+}
+class Patient{
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+class TestRequisition{}
+class Test{
+    String Type
+    Int Duration
+    Boolean Repeatable
+    String RepeatInterval
+    String Result
+    String Report
+}
+class Lab{
+    String Address
+    String BusinessHours
+    Int RegistrationNumber
+}
+class Appointment{
+    Int ConfirmationNumber
+    Date Date
+    String StartTime
+    String EndTime
+}
 
-Doctor "1" -- "0..*" Requisition
-Patient "1" -- "0..*" Requisition
-Lab "1" -- "0..*" Test
-Requisition "1" -- "0..*" Test
-Requisition "0..*" -- "1" Appointment
-Test "1" -- "0..*" Report
-Appointment "1" -- "0..*" Lab
+Doctor "1..1" -- "1..*" TestRequisition
+Patient "1..1" -- "1..*" TestRequisition
+Test "0..*" -- "1..*" TestRequisition
+Test "1" -- "0..*" Appointment
+Lab "1..*" -- "0..*" Test
+Lab "1..*" -- "0..*" Appointment
 
 @enduml
+```

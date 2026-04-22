@@ -1,0 +1,601 @@
+<bos><start_of_turn>user
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - an association list (with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+ClassName1, ClassName2, ...
+
+The association list format is:
+mul1 ClassName1 -- mul2 ClassName2
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every entry in the association list write:
+  ClassName1 "mul1" -- "mul2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the specification text that could potentially be used as class names, prioritizing those that represent key concepts:
+
+*   ProjectManager
+*   System
+*   Sensor
+*   SensorController
+*   EHome2020
+*   EMonitor
+*   Apartment
+*   Room
+*   Inhabitant
+*   Value
+*   SensorData
+*   VendorId
+*   Unit
+*   Threshold
+*   Address
+
+I've excluded more generic terms like "data" and "message" as they are too broad for class names.
+
+##############
+
+The text specification is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+ProjectManager, System, Sensor, SensorController, EHome2020, EMonitor, Apartment, Room, Inhabitant, SensorData, Value, Unit, Threshold
+
+##############
+
+The association list is:
+
+mul1 Class1 -- mul2 Class2
+...
+
+##############
+
+The attributes dictionary is:
+
+<bos><start_of_turn>user
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the specification text that could potentially be used as class names, prioritizing those that represent key concepts:
+
+*   ProjectManager
+*   System
+*   Sensor
+*   SensorController
+*   EHome2020
+*   EMonitor
+*   Apartment
+*   Room
+*   Inhabitant
+*   Value
+*   SensorData
+*   VendorId
+*   Unit
+*   Threshold
+*   Address
+
+I've excluded more generic terms like "data" and "message" as they are too broad for class names.
+
+##############
+
+The text specification is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+ProjectManager, System, Sensor, SensorController, EHome2020, EMonitor, Apartment, Room, Inhabitant, SensorData, Value, Unit, Threshold
+
+#############
+
+The specification text is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############
+
+The attributes dictionary is:<end_of_turn>
+<start_of_turn>model
+```json
+{
+    "ProjectManager": [],
+    "System": [],
+    "Sensor": [
+        {"name": "vendorId", "type": "String"},
+        {"name": "description", "type": "String"},
+        {"name": "unit", "type": "String"}
+    ],
+    "SensorController": [
+        {"name": "apartment", "type": "Apartment"},
+        {"name": "inhabitants", "type": "Inhabitant"}
+    ],
+    "EHome2020": [
+        {"name": "sensorController", "type": "SensorController"},
+        {"name": "eMonitor", "type": "EMonitor"}
+    ],
+    "EMonitor": [
+        {"name": "apartment", "type": "Apartment"},
+        {"name": "emailAddress", "type": "String"}
+    ],
+    "Apartment": [
+        {"name": "address", "type": "String"},
+        {"name": "rooms", "type": "Room"}
+    ],
+    "Room": [
+        {"name": "description", "type": "String"}
+    ],
+    "Inhabitant": [
+        {"name": "username", "type": "String"},
+        {"name": "password", "type": "String"},
+        {"name": "administrativeRights", "type": "Boolean"}
+    ],
+    "SensorData": [
+        {"name": "timestamp", "type": "Date"},
+        {"name": "value", "type": "Float"}
+    ],
+    "Unit": [
+        {"name": "name", "type": "String"},
+        {"name": "value", "type": "String"}
+    ],
+    "Threshold": [
+        {"name": "sensor", "type": "Sensor"},
+        {"name": "value", "type": "Float"}
+    ]
+}
+```
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the specification text that could potentially be used as class names, prioritizing those that represent key concepts:
+
+*   ProjectManager
+*   System
+*   Sensor
+*   SensorController
+*   EHome2020
+*   EMonitor
+*   Apartment
+*   Room
+*   Inhabitant
+*   Value
+*   SensorData
+*   VendorId
+*   Unit
+*   Threshold
+*   Address
+
+I've excluded more generic terms like "data" and "message" as they are too broad for class names.
+
+##############
+
+The text specification is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+ProjectManager, System, Sensor, SensorController, EHome2020, EMonitor, Apartment, Room, Inhabitant, SensorData, Value, Unit, Threshold
+
+#############
+
+The specification text is:
+
+As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.
+
+
+##############<end_of_turn>
+<start_of_turn>model
+ASSOCIATIONS:
+Sensor -- SensorController 1..*
+SensorController -- Apartment 1..*
+Apartment -- Inhabitant 1..*
+Sensor -- Room 1..*
+Sensor -- Value 1..*
+Value -- Sensor 1..*
+Sensor -- Unit 1..*
+Sensor -- Threshold 1..*
+EMonitor -- EHome2020 1..*
+EHome2020 -- EMonitor 1..*
+Sensor -- SensorData 1..*
+
+##############
+
+The plant uml is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class ProjectManager {
+}
+
+class System {
+}
+
+class Sensor {
+  +vendorId : String
+  +description : String
+  +unit : String
+}
+
+class SensorController {
+  +apartment : Apartment
+  +inhabitants : Inhabitant
+}
+
+class EHome2020 {
+  +sensorController : SensorController
+  +eMonitor : EMonitor
+}
+
+class EMonitor {
+  +apartment : Apartment
+  +emailAddress : String
+}
+
+class Apartment {
+  +address : String
+  +rooms : Room
+}
+
+class Room {
+  +description : String
+}
+
+class Inhabitant {
+  +username : String
+  +password : String
+  +administrativeRights : Boolean
+}
+
+class SensorData {
+  +timestamp : Date
+  +value : Float
+}
+
+class Value {
+  +sensor : Sensor
+}
+
+class Unit {
+  +name : String
+  +value : String
+}
+
+class Threshold {
+  +sensor : Sensor
+  +value : Float
+}
+
+ProjectManager -- System : manages
+System "1..*" -- Sensor : contains
+SensorController "1..*" -- Apartment : manages
+Apartment "1..*" -- Inhabitant : contains
+Sensor "1..*" -- Room : assignedTo
+Sensor "1..*" -- Value : has
+Value "1..*" -- Sensor : belongsTo
+Sensor "1..*" -- Unit : uses
+Sensor "1..*" -- Threshold : has
+EMonitor -- EHome2020 : uses
+EHome2020 -- EMonitor : uses
+
+@enduml
+```

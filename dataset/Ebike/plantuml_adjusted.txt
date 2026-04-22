@@ -1,0 +1,57 @@
+@startuml
+
+    class EBike {
+        frame : Frame
+        driveSystem : DriveSystem
+        controller : Controller
+        battery : Battery
+    }
+
+    class Frame {
+        steel
+    }
+
+    class Wheel
+
+    class DriveSystem {
+        motor : Motor
+    }
+
+    class Motor
+
+    class Controller {
+        currentState : State
+        battery : Battery
+        commandDriveSystem()
+    }
+
+    class BasicController
+
+    class AdvancedController {
+        nextInspection() : Date
+    }
+
+    class Battery {
+        storedEnergy : float
+    }
+
+    enum State <<enum>> {
+        On
+        Off
+        Charging
+    }
+
+    EBike "0..*" -- "0..*" Wheel : wheel
+    EBike "0..*" -- "0..*" Battery : battery
+    EBike "0..*" -- "0..*" Frame : frame
+    EBike "0..*" -- "0..*" DriveSystem : driveSystem
+    EBike "0..*" -- "0..*" Controller : controller
+
+    DriveSystem "0..*" -- "0..*" Motor : motor
+
+    Controller "0..*" -- "0..*" Battery : battery
+    Controller "0..*" -- "0..*" State : currentState
+    Controller "0..*" -- "0..*" BasicController
+    Controller "0..*" -- "0..*" AdvancedController
+
+@enduml

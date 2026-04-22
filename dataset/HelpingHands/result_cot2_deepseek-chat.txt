@@ -1,29 +1,81 @@
 @startuml
-class Resident{}
-class Item{}
-class PickupRequest{}
-class Vehicle{}
-class VolunteerDriver{}
-class Route{}
-class DistributionCenter{}
-class FoodBank{}
-class Employee{}
-class Article{}
-class Category{}
-class Client{}
-class Delivery{}
+class Customer {
+}
 
-PickupRequest "1..1" -- "1..1" Resident
-PickupRequest "1..1" -- "1..1" Vehicle
-Vehicle "1..1" -- "1..1" VolunteerDriver
-Vehicle "1..1" -- "1..1" Route
-Route "1..1" -- "0..*" PickupRequest
-DistributionCenter "1..1" -- "0..*" Article
+class Resident {
+  name: String
+  streetAddress: String
+  phoneNumber: String
+  emailAddress: String
+}
+
+class Item {
+  description: String
+  dimensions: String
+  weight: Float
+}
+
+class PickupRequest {
+  pickupDate: Date
+  pickupTimeWindow: String
+}
+
+class PickupVehicle {
+  storageSpace: Float
+}
+
+class VolunteerDriver {
+  availableDays: String
+}
+
+class PickupRoute {
+  routeDate: Date
+}
+
+class DistributionCenter {
+}
+
+class H2SEmployee {
+}
+
+class SecondHandArticle {
+  quality: String
+  rfidTag: String
+  category: String
+}
+
+class FoodBank {
+}
+
+class Category {
+  name: String
+}
+
+class Client {
+  needsCategories: String
+  homeAddress: String
+}
+
+class Delivery {
+}
+
+Resident "1..1" -- "0..*" PickupRequest
+PickupRequest "0..*" -- "1..1" PickupVehicle
+PickupVehicle "1..1" -- "0..1" VolunteerDriver
+PickupVehicle "1..1" -- "1..1" PickupRoute
+PickupRequest "0..*" -- "1..1" PickupRoute
+PickupRequest "1..1" -- "1..*" Item
+Item "1..1" -- "0..1" SecondHandArticle
+Item "1..1" -- "0..1" FoodBank
+SecondHandArticle "1..1" -- "1..1" DistributionCenter
+SecondHandArticle "1..1" -- "1..1" Category
+SecondHandArticle "1..1" -- "0..1" H2SEmployee
 FoodBank "1..1" -- "0..*" Item
-Employee "1..1" -- "0..*" Article
-Article "1..1" -- "1..1" Category
 Client "1..1" -- "0..*" Category
-Delivery "1..1" -- "1..1" Client
-Delivery "1..1" -- "1..1" Article
-Delivery "1..1" -- "1..1" VolunteerDriver
+Client "0..*" -- "0..*" Delivery
+Delivery "0..*" -- "1..1" SecondHandArticle
+Delivery "0..*" -- "0..1" VolunteerDriver
+DistributionCenter "1..1" -- "0..*" H2SEmployee
+Resident --|> Customer
+Client --|> Customer
 @enduml

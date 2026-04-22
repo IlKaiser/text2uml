@@ -1,0 +1,36 @@
+@startuml
+
+class GameDesigner {}
+class Game {
+    String Layout
+    Tile HiddenTile
+    List[StartingPosition] StartingPositions
+    List[ActionTile] ActionTiles
+}
+class Tile {
+    Boolean ConnectedRight
+    Boolean ConnectedLeft
+    Boolean ConnectedTop
+    Boolean ConnectedBottom
+    Boolean IsHidden
+    Boolean IsAction
+    String Color
+}
+class ConnectionPiece {}
+class ActionCard {
+    String ActionType
+}
+class Player {
+    String Color
+}
+class Dice {}
+
+GameDesigner "1" -- "1" Game
+Game "1" -- "0..*" Tile
+Game "1" -- "1" ActionCard
+Game "1" -- "1..4" StartingPosition
+Game "1" -- "0..*" ActionTile
+Player "1" -- "1" Game
+Tile "1" -- "0..1" ConnectionPiece
+
+@enduml

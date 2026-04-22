@@ -1,24 +1,69 @@
 ```plantuml
 @startuml
-class FitnessCompany{}
-class Member{}
-class Trainer{}
-class Session{}
-class IndividualSession{}
-class GroupSession{}
-class Center{}
-class Room{}
-class City{}
-class Prospect{}
-class Intern{}
 
-FitnessCompany "1..*" -- "1..*" Center
-Center "1..*" -- "1..*" City
-Center "1..*" -- "1..*" Room
-Room "1..*" -- "1..*" Session
-Session "1..*" -- "0..1" Trainer
-Session "1..*" -- "1..*" Member
-Member "1..*" -- "0..1" Prospect
-Trainer "1..*" -- "0..1" Intern
+class FitnessCompany {
+    name: String
+}
+
+class Member {
+    firstName: String
+    familyName: String
+    birthDate: Date
+}
+
+class Trainer {
+    firstName: String
+    familyName: String
+    birthDate: Date
+    diploma: String
+}
+
+class Session {
+    date: Date
+    startingHour: Int
+}
+
+class IndividualSession
+
+class GroupSession {
+    type: String
+}
+
+class Center {
+    name: String
+    address: String
+}
+
+class City
+
+class Room {
+    number: Int
+    maxCapacity: Int
+}
+
+class Person {
+    firstName: String
+    familyName: String
+    birthDate: Date
+}
+
+class Prospect
+
+class Intern
+
+Member "0..*" -- "0..*" IndividualSession
+Member "0..*" -- "0..*" GroupSession
+Trainer "1..1" -- "0..*" GroupSession
+Center "1..*" -- "0..*" Room
+City "1..*" -- "0..*" Center
+Room "1..*" -- "0..*" Session
+Person "1..1" -- "1..1" Prospect
+Person "1..1" -- "1..1" Intern
+
+IndividualSession --|> Session
+GroupSession --|> Session
+Prospect --|> Person
+Intern --|> Person
+
 @enduml
 ```

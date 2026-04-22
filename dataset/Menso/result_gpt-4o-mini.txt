@@ -1,22 +1,18 @@
-```plantuml
 @startuml
 
-class Bus{}
-class Line{}
-class Trajectory{}
-class Customer{}
-class MENSO{}
-class Invoice{}
-class TicketMachine{}
-class Discount{}
+class Bus{ String LineNumber }
+class Trajectory{ String ApprovalStatus, Date ApprovalDate, Boolean IsOperational, Boolean IsSuspended, Date CancellationDate }
+class Line{ String Category }
+class MENSOCard{ String CardHolderName, String CardNumber }
+class Invoice{ Date InvoiceDate, Double TotalAmount, Double Discount }
+class Customer{ String HomeAddress, String OfficeAddress, String WorkingHours }
 
-Bus "1..*" -- "1..*" Line
-Line "1..*" -- "1..*" Trajectory
-Trajectory "0..*" -- "1..*" Approval
-MENSO "1..1" -- "1..*" Customer
-Customer "1..1" -- "0..*" Invoice
-Invoice "0..*" -- "0..1" Discount
-TicketMachine "1..1" -- "0..*" Trip
+Bus "0..*" -- "1..*" Line
+Line "1..*" -- "0..*" Trajectory
+Trajectory "1..*" -- "0..*" Bus
+Trajectory "0..*" -- "0..*" TownAuthority
+MENSOCard "1..*" -- "0..*" Customer
+MENSOCard "0..*" -- "0..*" Invoice
+Invoice "0..*" -- "0..*" Customer
 
 @enduml
-```

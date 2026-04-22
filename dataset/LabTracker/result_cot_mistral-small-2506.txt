@@ -1,45 +1,117 @@
 ```plantuml
 @startuml
 
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class Appointment{}
-class Lab{}
-class Result{}
-class Report{}
-class Signature{}
-class Address{}
-class PhoneNumber{}
-class HealthNumber{}
-class Duration{}
-class Interval{}
-class Confirmation{}
-class Fee{}
-class BusinessHours{}
+class Doctor {
+    practitioner_number: Int
+    signature: Image
+    full_name: String
+    address: Address
+    phone_number: PhoneNumber
+}
 
-Doctor "1..1" -- "0..*" Requisition
+class Patient {
+    health_number: String
+    first_name: String
+    last_name: String
+    date_of_birth: Date
+    address: Address
+    phone_number: PhoneNumber
+}
+
+class Requisition {
+    valid_from: Date
+}
+
+class Test {
+    duration: Duration
+}
+
+class Appointment {
+    confirmation_number: String
+    date: Date
+    start_time: Time
+    end_time: Time
+    lab_name: String
+    registration_number: RegistrationNumber
+}
+
+class Lab {
+    address: Address
+    business_hours: BusinessHours
+    fee: Fee
+}
+
+class Confirmation {
+    date: Date
+    start_time: Time
+    end_time: Time
+    lab_name: String
+    registration_number: RegistrationNumber
+}
+
+class Result {
+}
+
+class Report {
+}
+
+class Signature {
+}
+
+class Address {
+}
+
+class PhoneNumber {
+}
+
+class HealthNumber {
+}
+
+class DateOfBirth {
+}
+
+class GroupOfTests {
+}
+
+class Duration {
+}
+
+class Interval {
+}
+
+class Fee {
+}
+
+class BusinessHours {
+}
+
+class RegistrationNumber {
+}
+
+Doctor "1..1" -- "1..1" Requisition
 Doctor "1..1" -- "1..1" Signature
 Doctor "1..1" -- "1..1" Address
 Doctor "1..*" -- "1..1" PhoneNumber
-Requisition "1..1" -- "1..1" Patient
-Patient "1..1" -- "1..1" HealthNumber
-Patient "1..1" -- "1..1" Address
-Patient "1..*" -- "1..1" PhoneNumber
-Requisition "1..*" -- "1..*" Test
-Test "1..1" -- "1..1" Duration
-Requisition "0..1" -- "1..1" Interval
-Doctor "1..*" -- "0..*" Appointment
-Patient "1..*" -- "0..*" Appointment
+Doctor "1..*" -- "1..1" Test
+Patient "1..*" -- "1..1" Requisition
+Patient "1..*" -- "1..1" Appointment
+Patient "1..*" -- "1..1" Test
+Patient "1..*" -- "1..1" Result
+Patient "1..*" -- "1..1" Report
 Appointment "1..1" -- "1..1" Lab
-Lab "1..1" -- "1..1" Address
-Lab "1..1" -- "1..1" BusinessHours
 Appointment "1..1" -- "1..1" Confirmation
 Appointment "1..1" -- "1..1" Fee
-Doctor "1..*" -- "0..*" Result
-Patient "1..*" -- "0..*" Result
-Test "1..1" -- "1..1" Report
+Requisition "1..1" -- "1..*" Test
+Requisition "1..1" -- "1..1" GroupOfTests
+Requisition "1..1" -- "1..1" Duration
+Requisition "0..1" -- "1..1" Interval
+Test "1..1" -- "1..1" Duration
+Test "0..1" -- "1..1" GroupOfTests
+Lab "1..1" -- "1..1" Address
+Lab "1..1" -- "1..1" BusinessHours
+Lab "1..1" -- "1..1" RegistrationNumber
+Lab "1..1" -- "1..1" Fee
+Confirmation "1..1" -- "1..1" Fee
 
 @enduml
 ```

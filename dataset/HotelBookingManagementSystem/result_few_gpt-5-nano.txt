@@ -1,25 +1,64 @@
 @startuml
 
-class Traveller{}
-class HBMS{}
-class Hotel{}
-class City{}
-class Address{}
-class RoomType{}
-class Room{}
-class Booking{}
-class CreditCard{}
-class ReliabilityRating{}
-class HotelChain{}
+class Traveller {
+    String Name
+    String BillingCompany
+    String BillingAddress
+    String Preferences
+    Double ReliabilityRating
+}
 
-HBMS "1" -- "0..*" Traveller
+class Hotel {
+    String Name
+    String City
+    String Address
+    String Chain
+}
+
+class RoomType {
+    String Type
+    String Description
+    Integer Capacity
+    Double PricePerNight
+}
+
+class Booking {
+    String BookingIdentifier
+    Date ArrivalDate
+    Date DepartureDate
+    Integer NumRooms
+    String RoomType
+    Integer MinHotelStars
+    Double BudgetPerNight
+    String City
+    String Status
+    String CancellationDeadline
+    Boolean IsPrePaid
+    Boolean PaidAtHotel
+    Date ConfirmationDeadline
+}
+
+class Offer {
+    Double OfferPrice
+    Date ValidUntil
+    String Status
+    String Notes
+}
+
+class CreditCard {
+    String CardNumber
+    String CardHolderName
+    Date ExpiryDate
+    String CardType
+}
+
 Traveller "1" -- "0..*" Booking
-City "1" -- "0..*" Hotel
-Hotel "1" -- "1" Address
+Booking "1" -- "0..*" Offer
+Hotel "1" -- "0..*" Offer
 Hotel "1" -- "0..*" RoomType
-RoomType "1" -- "0..*" Room
-HotelChain "1" -- "0..*" Hotel
-Booking "1" -- "0..1" CreditCard
-Traveller "1" -- "0..*" ReliabilityRating
+Booking "1" -- "0..1" RoomType
+Booking "1" -- "1" CreditCard
+CreditCard "0..*" -- "1" Booking
+Traveller "1" -- "0..*" CreditCard
 
 @enduml

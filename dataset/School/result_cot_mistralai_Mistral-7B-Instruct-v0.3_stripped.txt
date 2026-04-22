@@ -1,0 +1,48 @@
+@startuml
+
+class School {
+    - name
+}
+
+class Teacher {
+    - firstName
+    - lastName
+    - email
+}
+
+class Principal {
+    - firstName
+    - lastName
+    - email
+}
+
+class Student {
+    - firstName
+    - lastName
+    - email
+}
+
+class ClassGroup {
+    - name
+}
+
+class Classroom {
+    - name
+    - capacity
+}
+
+class Room {
+    - name
+    - size
+}
+
+Teacher "0..3" -- "1" School
+Teacher "0..1" -- "1" Principal
+School "0..*" -- "0..*" Teacher
+Student "0..*" -- "1" School
+Teacher "0..*" -- "0..*" ClassGroup
+Teacher "0..*" -- "0..*" Classroom
+Student "0..1" -- "1" ClassGroup
+ClassGroup "1" -- "1" Classroom
+
+@enduml

@@ -1,19 +1,54 @@
 ```plantuml
 @startuml
-class Customer{}
-class Product{}
-class Order{}
-class Representative{}
-class Country{}
-class VAT{}
-class Currency{}
+class Customer {
+    name: String
+    address: String
+    telephone_number: String
+    email_address: String
+    countries: String
+}
 
-Customer "0..*" -- "1..*" Order
-Order "1..1" -- "1..1" Product
-Representative "1..1" -- "1..1" Country
-Product "0..*" -- "0..*" Country
-Country "1..1" -- "1..1" VAT
-Country "1..1" -- "1..1" Currency
-Representative "0..*" -- "0..*" Customer
+class Product {
+    unique_name: String
+    description: String
+    net_price: Float
+    manufacturer: String
+    country: String
+}
+
+class Order {
+    order_quantity: Int
+    order_date: Date
+    desired_delivery_date: Date
+}
+
+class Representative {
+    first_name: String
+    last_name: String
+    social_security_number: String
+    telephone_number: String
+    email_address: String
+}
+
+class Country {
+    vat_rate: Float
+    currency: String
+    conversion_rate_to_euro: Float
+}
+
+class VAT {
+}
+
+class Currency {
+}
+
+Customer "0..*" -- "0..*" Country.
+Product "0..*" -- "0..*" Country.
+Product "1..1" -- "1..1" VAT.
+Product "1..1" -- "1..1" Currency.
+Order "1..*" -- "1..1" Product.
+Order "1..*" -- "1..1" Customer.
+Order "1..*" -- "1..1" Representative.
+Representative "1..1" -- "1..1" Country.
 @enduml
 ```

@@ -1,27 +1,57 @@
 @startuml
-class Traveller{}
-class Hotel{}
-class Booking{}
-class AccommodationOffer{}
-class RoomType{}
-class BillingInformation{}
-class TravelPreference{}
-class Company{}
-class Address{}
-class HotelChain{}
-
-AccommodationOffer "1..1" -- "0..*" RoomType
-BillingInformation "1..1" -- "0..*" Address
-BillingInformation "0..1" -- "0..*" Company
-Booking "1..1" -- "0..*" AccommodationOffer
-Booking "1..1" -- "0..*" Hotel
-Booking "1..1" -- "0..*" RoomType
-Booking "0..*" -- "0..*" TravelPreference
-Hotel "0..*" -- "1..1" AccommodationOffer
-Hotel "1..1" -- "1..1" Address
-Hotel "0..1" -- "0..*" HotelChain
-Hotel "0..*" -- "0..*" RoomType
-Traveller "1..1" -- "1..1" BillingInformation
+class Traveller {
+  name:String
+  companyName:String
+  address:String
+  travelPreferences:String
+  reliabilityRating:Float
+}
+class Hotel {
+  address:String
+  hotelChain:String
+  rating:Int
+}
+class Booking {
+  city:String
+  arrivalDate:Date
+  departureDate:Date
+  numberOfRooms:Int
+  roomType:String
+  budget:Float
+  bookingPreferences:String
+  price:Float
+  cityArea:String
+  hotelRating:Int
+  bookingIdentifier:String
+  isPrePaid:Boolean
+  isConfirmed:Boolean
+  cancellationDeadline:Date
+}
+class Offer {
+  price:Float
+  cityArea:String
+  hotelRating:Int
+  offerPreferences:String
+  expiryDate:Date
+}
+class RoomType {
+  name:String
+}
+class City {
+  name:String
+}
+class Payment {
+  creditCardInformation:String
+}
 Traveller "0..*" -- "1..1" Booking
-Traveller "0..*" -- "0..*" TravelPreference
+Booking "1..1" -- "0..*" Hotel
+Traveller "0..*" -- "0..*" City
+Traveller "0..*" -- "0..*" RoomType
+Traveller "0..*" -- "1..1" Offer
+Offer "1..1" -- "0..*" Hotel
+Traveller "0..*" -- "1..1" Payment
+Booking "0..1" -- "1..1" Payment
+Hotel "1..1" -- "0..*" City
+Hotel "1..*" -- "0..*" RoomType
+Traveller "0..*" -- "0..*" Hotel
 @enduml

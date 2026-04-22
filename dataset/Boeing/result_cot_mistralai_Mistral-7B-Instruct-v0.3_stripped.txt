@@ -1,0 +1,63 @@
+@startuml
+
+class Boeing {
+}
+
+class Aircraft {
+}
+
+class AirlineCompany {
+  - name: String
+  - motherAirlineCompany?: AirlineCompany
+  - daughterAirlineCompany?: AirlineCompany
+}
+
+class Contract {
+  - salesperson: Salesperson
+  - deliveryConditions: String
+  - legalAspects: String
+  - airplaneModel: AirplaneModel
+  - price: Price
+  - options: Option*
+  - customizations: Customization*
+  - deliveryDate: DeliveryDate
+}
+
+class Salesperson {
+  - employeeID: Int
+  - assignedContracts: Contract*
+}
+
+class AirplaneModel {
+  - modelName: String
+}
+
+class Price {
+  - negotiatedPrice: Float
+}
+
+class Option {
+  - optionName: String
+}
+
+class Customization {
+  - customizationName: String
+}
+
+class DeliveryDate {
+  - date: Date
+}
+
+Boeing "0..*" -- "1" Aircraft
+Aircraft "1" -- "1..*" AirlineCompany
+AirlineCompany "0..*" -- "0..*" AirlineCompany
+AirlineCompany "1" -- "1..*" Contract
+Contract "1" -- "1" AirplaneModel
+Contract "1" -- "1" Price
+Contract "1" -- "0..*" Option
+Contract "1" -- "0..*" Customization
+Contract "1" -- "1" DeliveryDate
+Contract "1" -- "1" Salesperson
+Salesperson "1" -- "0..*" Contract
+
+@enduml

@@ -1,0 +1,187 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+Project description:
+Each web portal has a version number and a URL address such as “http://www.ebuntu-nrw.org” and provides a catalog of buildings with their energy information. A building has a unique ID, a name, an energy class (A, B, C, D), an address, a year of construction and is assigned to a user as the owner, who can add additional entries to the buildings. Each additional entry has a name. An entry can be either textual information or a floating point number with an additional unit (the latter as freely definable text). The owner can optionally release each of these additional entries publicly, i.e. also for all non-registered visitors to the respective web portal. In addition, each building has a number of images, one of which is used as a profile photo. Images are saved with a file name.
+Visitors can register with a web portal as a user with a unique user name, their email address and a password. During registration, the system checks the user name for uniqueness and the correct email address by sending a confirmation link. In the meantime, the user is set up for the web portal by an administrator. Once these processes have been completed, users are automatically informed by email that they have been activated and can log in accordingly. After logging in, users can create buildings, manage entries for their buildings and comment on other users' buildings. All visitors to the site can search for corresponding buildings in the system using a full-text search. Administrators are special users. Their ID card number is stored in addition to their user information. The administrative functions include setting up user accounts and deleting comments. 
+
+Create a UML class diagram based on the project description. Assign the use cases to the corresponding actors. For the evaluation of the task, 10 meaningful use cases are sufficient. Use the concepts of generalization and, if possible, model meaningful relationships between the individual use cases.
+
+
+##############
+
+Based on the example, the uml output is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+
+class WebPortal {
+    String VersionNumber
+    String URLAddress
+}
+
+class Building {
+    String BuildingID
+    String Name
+    String EnergyClass
+    String Address
+    int YearOfConstruction
+    User Owner
+    int NumberOfImages
+    String ProfilePhotoFileName
+}
+
+class User {
+    String UserName
+    String Email
+    String Password
+}
+
+class Entry {
+    String Name
+    String Content
+    double Value
+    String Unit
+}
+
+class Image {
+    String FileName
+}
+
+class Comment {
+    String Text
+    User Author
+    Building Building
+}
+
+class Administrator {
+    String IDCardNumber
+}
+
+WebPortal "1" -- "1" Building
+Building "1" -- "0..*" Entry
+Building "1" -- "1" Image
+User "1" -- "0..*" Building
+User "1" -- "1" Comment
+Administrator "1" -- "0..*" User
+Building "1" -- "0..*" Comment
+
+@enduml
+```

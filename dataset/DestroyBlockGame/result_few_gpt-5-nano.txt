@@ -1,30 +1,59 @@
 @startuml
 
-class User{}
-class Game{}
-class Block{}
-class Level{}
-class BlockPlacement{}
-class GridPosition{}
-class BlockPool{}
-class HallOfFame{}
-class HallOfFameEntry{}
-class Play{}
-class AdminAssignment{}
+class User {
+    String Username
+    String Password
+    String Mode
+}
+class Player extends User
+class Admin extends User
 
-Game "1" -- "0..*" Level
-Level "1" -- "0..*" BlockPlacement
-Block "0..*" -- "1" BlockPlacement
-BlockPlacement "1" -- "1" GridPosition
-Level "0..1" -- "1" BlockPool
-BlockPool "0..*" -- "1" Block
+class Game {
+    String Name
+    Boolean Published
+    Double MinSpeed
+    Double SpeedIncreaseFactor
+    Int MaxPaddleLength
+    Int MinPaddleLength
+}
+class Block {
+    String Color
+    Int Points
+}
+class Level {
+    Int LevelNumber
+    Int BlocksVisible
+    String LayoutType
+}
+class BlockPlacement {
+    String GridPosition
+}
+class HallOfFame {
+}
+class ScoreEntry {
+    Int Score
+    Date AchievedDate
+}
+class GameSession {
+    Date SaveTime
+    String Status
+    Int CurrentScore
+    Int LivesLeft
+    Int CurrentLevel
+}
+
+Game "1" -- "0..1" Admin
 Game "1" -- "0..*" Block
+Game "1" -- "0..*" Level
+Level "0..*" -- "1" BlockPlacement
+Block "0..*" -- "1" BlockPlacement
+BlockPlacement "1" -- "1" Block
+BlockPlacement "1" -- "1" Level
 Game "1" -- "1" HallOfFame
-HallOfFame "0..*" -- "1" HallOfFameEntry
-HallOfFameEntry "1" -- "1" User
-Play "0..*" -- "1" User
-Play "0..*" -- "1" Game
-AdminAssignment "1" -- "1" User
-Game "1" -- "1" AdminAssignment
+HallOfFame "0..*" -- "1" ScoreEntry
+ScoreEntry "1" -- "1" HallOfFame
+ScoreEntry "1" -- "1" Player
+Player "0..*" -- "0..*" GameSession
+Game "0..*" -- "0..*" GameSession
 
 @enduml

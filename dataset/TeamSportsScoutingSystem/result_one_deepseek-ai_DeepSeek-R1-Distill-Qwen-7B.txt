@@ -1,0 +1,238 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+The Team Sports Scouting System is used by various employees of the club, including the head coach, the director of the club and the scouts. It is the role of the head coach to identify designated player profiles for future signings, which includes designated target positions for a player (e.g. GK for goalkeeper, LB for left back, etc.), and other player attributes (identified by a name and a value). 
+Scouts may note players on a long list who seem to match a designated target profile at any time. This long list is periodically evaluated by the head scout when setting up scouting assignments for his team to investigate a specific player more thoroughly. As the completion of a scouting assignment, the scout submits a scouting report about the player, which includes the pros and cons of the player as well as a recommendation (e.g. key player, first team player, reserve team player, prospective player, not a good signing). 
+After comparing first scouting results for a designated player profile, the head coach and the head scout decide upon which players to move to the short list. Several other rounds of scouting can be carried out for each short-listed player as part of scouting assignments – some of which is carried out by the head scout himself. If a player is finally recommended for signing by the head scout, the director makes an official offer for the player.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the provided specification text. Let me start by understanding what the text is about. It describes a Team Sports Scouting System used by various club employees, including the head coach, director, and scouts. The system involves identifying player profiles, scouts evaluating players, and making scouting assignments.
+
+First, I'll extract the classes. From the text, the main entities are:
+
+1. **Head Coach**
+2. **Director of the Club**
+3. **Scouts**
+4. **Players**
+5. **Player Profile**
+6. **Scouting Assignment**
+7. **Scouting Report**
+8. **Short List**
+9. **Long List**
+
+Next, I'll identify the attributes for each class. Attributes are properties that describe each class. For example, the Head Coach might have a name and years of experience.
+
+- **Head Coach**: Name, YearsOfExperience
+- **Director of the Club**: Name, YearsOfExperience
+- **Scouts**: Name, Email, Role (Head Scout, Scout General)
+- **Players**: Name, Position, Attributes (Height, Weight, Age)
+- **Player Profile**: Position, Attributes
+- **Scouting Assignment**: Date, Players, Role (Head Scout, Scout General)
+- **Scouting Report**: Player, Pros, Cons, Recommendation
+- **Short List**: Player, Status (Candidate, Official)
+- **Long List**: Player, Status (NotSelected, Selected)
+
+Now, I'll extract the relationships. Relationships show how these classes interact. The text mentions that scouts evaluate players, head coach and scouts decide on the short list, and players are recommended for signing.
+
+- **Scouts** can evaluate **Players** (many-to-many).
+- **Head Coach** and **Scouts** can decide on **Short List** (many-to-many).
+- **Scouts** can create **Scouting Assignments** (many-to-many).
+- **Scouts** can create **Scouting Reports** (many-to-many).
+- **Scouting Reports** are linked to **Player Profiles** (many-to-many).
+- **Scouting Reports** are linked to **Short Lists** (many-to-many).
+- **Scouting Reports** are linked to **Long Lists** (many-to-many).
+- **Player Profiles** can be recommended for **Scouting Reports** (many-to-many).
+- **Scouts** can evaluate **Players** (many-to-many).
+
+I need to assign cardinality to each relationship. If not specified, it's 0..*. Since all relationships are many-to-many, I'll use "0..*" for all.
+
+Putting it all together, I'll structure the PlantUML code with classes first, then the relationships. I'll ensure there are no class properties and use bi-directional arcs for relationships.
+</think>
+
+```
+@startuml
+
+class HeadCoach {
+    String Name
+    Integer YearsOfExperience
+}
+
+class Director {
+    String Name
+    Integer YearsOfExperience
+}
+
+class Scouts {
+    String Name
+    String Email
+    String Role
+}
+
+class Players {
+    String Name
+    String Position
+    Map PhysicalAttributes
+}
+
+class PlayerProfile {
+    String Position
+    Map PhysicalAttributes
+}
+
+class scoutingAssignment {
+    String Date
+    Set Players
+    String Role
+}
+
+class scoutingReport {
+    String Player
+    Map ProsCons
+    String Recommendation
+}
+
+class ShortList {
+    Set Players
+    String Status
+}
+
+class LongList {
+    Set Players
+    String Status
+}
+
+HeadCoach 0..* - 0..* Director
+Scouts 0..* - 0..* Players
+Scouts 0..* - 0..* scoutingAssignment
+Scouts 0..* - 0..* scoutingReport
+Scout 0..* - 0..* PlayerProfile
+Scout 0..* - 0..* ShortList
+Scout 0..* - 0..* LongList
+PlayerProfile 0..* - 0..* scoutingReport
+ScoutingReport 0..* - 0..* ShortList
+ScoutingReport 0..* - 0..* LongList
+ScoutingReport 0..* - 0..* scoutingAssignment
+ScoutingReport 0..* - 0..* Player
+
+@enduml
+```

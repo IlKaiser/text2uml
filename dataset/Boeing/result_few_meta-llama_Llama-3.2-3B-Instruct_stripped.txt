@@ -1,0 +1,54 @@
+@startuml
+
+class SalesPerson {
+    String Name
+    String Email
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Acquisition {
+    String Model
+    Double Price
+    String Options
+    Date DeliveryDate
+}
+class Airplane {
+    String Model
+    Double Price
+    String Options
+    Date DeliveryDate
+}
+class Airline {
+    String Name
+    String MotherAirline
+}
+class AirlineCompany {
+    String Name
+    String MotherAirline
+}
+class SalesAgreement {
+    String Status
+    String DeliveryDate
+}
+class DemoAirplane {
+    String Model
+    Double Price
+    String Options
+    Date DeliveryDate
+}
+
+SalesPerson "1" -- "0..*" Contract
+Contract "1" -- "0..*" Acquisition
+Contract "1" -- "0..*" Airplane
+Airline "1" -- "0..*" AirlineCompany
+AirlineCompany "1" -- "0..*" Airline
+SalesPerson "1" -- "0..*" SalesAgreement
+SalesAgreement "1" -- "0..*" Airplane
+SalesPerson "0..*" -- "0..*" AirlineCompany
+AirlineCompany "0..*" -- "0..*" Airline
+SalesPerson "0..*" -- "0..*" DemoAirplane
+
+@enduml

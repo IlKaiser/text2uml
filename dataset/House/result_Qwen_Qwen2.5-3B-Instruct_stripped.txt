@@ -1,0 +1,67 @@
+@startuml
+
+class House{
+    +String address
+    +String buildingMaterial
+    +HouseBasement basement
+    +int numberOfWindows
+    +boolean hasGarden
+}
+
+class HouseBasement{
+    +String name
+    +String type
+    +int size
+    +HouseBasementHumidity humidityLevel
+}
+
+class HouseBasementHumidity{
+    +String type
+}
+
+class EarthBasementHumidity extends HouseBasementHumidity{
+    +String humidityLevel
+}
+
+class SemiDetachedHouse extends House{
+    +boolean hasOwnGarden
+    +int numberOfCarports
+    +boolean hasGarage
+    +Garage garage
+    +Carport carport
+}
+
+class Garage{
+    +boolean hasAutomaticDoor
+}
+
+class Carport{
+    +boolean isDoubleCarport
+    +boolean hasFlatRoof
+}
+
+class Company{
+    +String companyName
+    +String companyAddress
+}
+
+class JobLog{
+    +House house
+    +Company company
+    +int hours
+    +double agreedPrice
+}
+
+House "1" -- "0..*" HouseBasement
+House "1" -- "0..1" Garage
+House "1" -- "0..1" Carport
+House "1" -- "0..*" Company
+House "1" -- "1" JobLog
+HouseBasement "1" -- "1" House
+HouseBasementHumidity "1" -- "1" HouseBasement
+EarthBasementHumidity "1" -- "1" HouseBasementHumidity
+SemiDetachedHouse "1" -- "1" House
+SemiDetachedHouse "1" -- "0..1" Garage
+SemiDetachedHouse "1" -- "0..1" Carport
+Company "0..*" -- "1" JobLog
+@enduml

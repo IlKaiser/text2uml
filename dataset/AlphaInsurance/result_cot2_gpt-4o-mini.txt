@@ -1,46 +1,87 @@
 ```plantuml
 @startuml
-class AlphaInsurance{}
-class InsuranceCompany{}
-class Client{}
-class Customer{}
-class Broker{}
-class File{}
-class Contract{}
-class HelpDesk{}
-class AccountManager{}
-class Profile{}
-class InsurancePolicy{}
-class Offer{}
-class Product{}
-class Coverage{}
-class Invoice{}
-class Claim{}
-class ClaimCase{}
-class MaterialDamage{}
-class PhysicalDamage{}
-class Estimator{}
-class Report{}
-class Decision{}
-class Document{}
-class Compensation{}
+class InsuranceCompany {
+}
 
-AlphaInsurance "1..1" -- "0..*" Client  
-Client "1..1" -- "0..*" Broker  
-Broker "1..1" -- "0..1" HelpDesk  
-Client "1..1" -- "0..*" InsurancePolicy  
-InsurancePolicy "1..1" -- "0..*" Coverage  
-Client "1..1" -- "0..*" Contract  
-Contract "0..*" -- "0..1" Offer  
-Client "1..1" -- "0..*" Invoice  
-Claim "0..*" -- "1..1" Client  
-Claim "1..*" -- "1..*" ClaimCase  
-ClaimCase "1..*" -- "0..*" MaterialDamage  
-ClaimCase "1..*" -- "0..*" PhysicalDamage  
-ClaimCase "1..*" -- "0..*" Estimator  
-Estimator "1..1" -- "0..*" Report  
-Report "1..1" -- "0..1" Decision  
-Document "0..*" -- "0..*" Claim  
-Compensation "0..1" -- "1..1" Claim  
+class Broker {
+}
+
+class Client {
+    trustworthy: Boolean
+}
+
+class Profile {
+}
+
+class Contract {
+    type: String
+    price: Float
+    invoicingPeriod: String
+}
+
+class HelpDesk {
+}
+
+class AccountManager {
+}
+
+class InsuranceProduct {
+}
+
+class Claim {
+}
+
+class Compensation {
+}
+
+class ClaimCase {
+}
+
+class Accident {
+}
+
+class MaterialDamage {
+}
+
+class PhysicalDamage {
+}
+
+class Assessment {
+}
+
+class Estimator {
+}
+
+class Report {
+    storageDuration: Int
+}
+
+class Approval {
+}
+
+class CompensationDecision {
+}
+
+class Cost {
+}
+
+class Document {
+}
+
+Client "1..*" -- "0..*" File
+Client "1..1" -- "1..1" Broker
+Broker "1..1" -- "1..1" HelpDesk
+Broker "1..1" -- "0..*" Contract
+Client "1..1" -- "0..*" InsuranceProduct
+Claim "0..*" -- "0..*" ClaimCase
+ClaimCase "1..*" -- "0..*" Assessment
+Assessment "1..*" -- "0..*" Report
+Report "1..*" -- "0..1" Approval
+Approval "1..1" -- "0..*" CompensationDecision
+CompensationDecision "0..*" -- "0..*" Cost
+Compensation "1..*" -- "0..*" Document
+ClaimCase "0..*" -- "0..*" Accident
+ClaimCase "0..*" -- "0..*" MaterialDamage
+ClaimCase "0..*" -- "0..*" PhysicalDamage
 @enduml
 ```

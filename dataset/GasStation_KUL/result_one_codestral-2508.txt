@@ -1,0 +1,57 @@
+```plantuml
+@startuml
+
+class Customer {
+    String Name
+    String Status
+}
+class RefuelCard {
+    String CardNumber
+    Boolean IsBlocked
+}
+class Invoice {
+    Date InvoiceDate
+    Double TotalAmount
+    Double Discount
+}
+class Payment {
+    Date PaymentDate
+    Double Amount
+}
+class RefuelTurn {
+    Date RefuelDate
+    Double Amount
+    Double Quantity
+}
+class GasStation {
+    String Location
+}
+class Pump {
+    String PumpID
+    String GasolineType
+    Double CurrentLevel
+    Double ReorderLevel
+    Double CriticalLevel
+    Boolean IsBlocked
+}
+class DailyReport {
+    Date ReportDate
+    String PumpStatus
+    Double CurrentLevel
+    Double QuantityToOrder
+}
+
+Customer "1" -- "0..*" RefuelCard
+Customer "1" -- "0..*" Invoice
+Customer "1" -- "0..*" Payment
+Customer "1" -- "0..*" RefuelTurn
+RefuelCard "1" -- "0..*" Invoice
+RefuelCard "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" Payment
+Invoice "1" -- "0..*" RefuelTurn
+GasStation "1" -- "0..*" Pump
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" DailyReport
+
+@enduml
+```

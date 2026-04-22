@@ -1,0 +1,134 @@
+Given the specification text, the relevant classes for the conceptual model diagram are:
+
+1. GasStation
+2. Customer
+3. RefuelCard
+4. Invoice
+5. Payment
+6. Pump
+7. GasolineType
+8. Reservoir
+9. Report
+10. GasStationManager
+11. Nozzle
+12. FuelLevelSensor
+13. RefuelingOrder
+14. RefuelingBlocker
+15. ReorderingLevel
+16. CriticalLevel
+
+Here is the UML class diagram represented in PlantUML format:
+
+```plantuml
+@startuml
+class GasStation {
+  +name: String
+  +manager: GasStationManager
+  +pumps: Set<Pump>
+}
+
+class Customer {
+  +id: String
+  +name: String
+  +refuelCard: RefuelCard?
+  +invoices: Set<Invoice>
+  +payments: Set<Payment>
+}
+
+class RefuelCard {
+  +customer: Customer
+  +invoice: Invoice
+}
+
+class Invoice {
+  +customer: Customer
+  +amounts: Map<String, Float>
+  +discount: Float
+  +status: String
+}
+
+class Payment {
+  +invoice: Invoice
+  +amount: Float
+  +date: Date
+}
+
+class Pump {
+  +gasStation: GasStation
+  +type: GasolineType
+  +reservoir: Reservoir
+  +nozzle: Nozzle
+}
+
+class GasolineType {
+  +name: String
+}
+
+class Reservoir {
+  +gasStation: GasStation
+  +level: Float
+  +reorderingLevel: Float
+  +criticalLevel: Float
+  +orders: Set<RefuelingOrder>
+}
+
+class Report {
+  +date: Date
+  +pumps: Set<Pump>
+  +levels: Map<String, Float>
+  +quantitiesToOrder: Map<String, Float>
+}
+
+class GasStationManager {
+  +gasStation: GasStation
+}
+
+class Nozzle {
+  +pump: Pump
+}
+
+class RefuelingOrder {
+  +pump: Pump
+  +quantity: Float
+}
+
+class RefuelingBlocker {
+  +pump: Pump
+  +reason: String
+  +duration: Duration
+}
+
+class ReorderingLevel {
+  +level: Float
+}
+
+class CriticalLevel {
+  +level: Float
+}
+
+GasStation -- 0..* Customer
+Customer -- 0..* RefuelCard
+Customer -- 0..* Invoice
+Customer -- 0..* Payment
+Pump -- 0..* GasolineType
+Pump -- 0..* Reservoir
+GasStation -- 0..* GasStationManager
+Invoice -- 0..* Payment
+Pump -- 0..* Nozzle
+Reservoir -- 0..* RefuelingOrder
+Pump -- 0..* RefuelingBlocker
+Reservoir -- 0..* CriticalLevel
+
+GasStationManager -- 0..1 GasStation
+Nozzle -- 0..1 Pump
+Reservoir -- 0..1 Pump
+Invoice -- 0..1 Payment
+Pump -- 0..1 Nozzle
+Reservoir -- 0..1 RefuelingOrder
+Pump -- 0..1 RefuelingBlocker
+Reservoir -- 0..1 CriticalLevel
+
+@enduml
+```
+
+This PlantUML code represents the relationships between the classes as described in the specification text.

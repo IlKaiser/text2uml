@@ -1,0 +1,43 @@
+```plantuml
+@startuml
+class House {
+    - address : String
+    - buildingMaterial : String
+    - basement : Basement
+    - size : Int
+    - name : String
+    - hasGarden : Boolean
+    - numberOfWindows : Int
+}
+
+class Basement {
+    - name : String
+    - size : Int
+    - humidityLevel : Float
+}
+
+class Carport {
+    - isDoubleCarport : Boolean
+    - hasFlatRoof : Boolean
+}
+
+class Garage {
+    - hasAutomaticGarageDoor : Boolean
+}
+
+class Company {
+    - name : String
+    - address : String
+}
+
+class Job {
+    - numberOfHours : Int
+    - agreedPrice : Float
+}
+
+House "1" -- "1" Basement : has
+House "0..*" -- "1..*" Company : serviced by
+House "0..*" -- "1..*" Job : has
+Basement "1" -- "1" Company : serviced by
+@enduml
+```

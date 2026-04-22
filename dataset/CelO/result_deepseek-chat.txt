@@ -1,23 +1,49 @@
 @startuml
 
-class CelebrationsOrganizationSystem{}
-class Organizer{}
-class EventType{}
-class Event{}
-class Location{}
-class Attendee{}
-class Invitation{}
-class Checklist{}
-class Task{}
+class Organizer {
+  String firstName
+  String lastName
+  String email
+  String postalAddress
+  String phoneNumber
+  String password
+}
+
+class Event {
+  String occasion
+  DateTime startDateTime
+  DateTime endDateTime
+}
+
+class EventType {
+  String name
+}
+
+class Location {
+  String name
+  String address
+}
+
+class Attendee {
+  String firstName
+  String lastName
+  String email
+  String password
+  String invitationStatus
+}
+
+class Task {
+  String description
+  String status
+  Boolean isForAttendee
+}
 
 Organizer "1..*" -- "1..*" Event
-Organizer "0..*" -- "1..1" Attendee
 Event "1..1" -- "1..1" EventType
 Event "1..1" -- "1..1" Location
-Event "1..1" -- "1..*" Attendee
-Event "1..1" -- "1..1" Checklist
-Attendee "1..1" -- "1..*" Invitation
-Checklist "1..1" -- "1..*" Task
-Task "1..*" -- "0..*" Attendee
+Organizer "0..*" -- "0..*" Attendee
+Event "1..1" -- "0..*" Task
+Event "1..1" -- "0..*" Attendee
+Attendee "0..*" -- "0..*" Task
 
 @enduml

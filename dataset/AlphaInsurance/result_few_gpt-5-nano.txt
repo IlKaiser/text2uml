@@ -1,24 +1,47 @@
 @startuml
 
-class Customer{}
-class Broker{}
-class BrokerCustomerAssignment{}
-class Contract{}
-class Invoice{}
-class InsurancePolicy{}
-class ClaimCase{}
-class Report{}
-class Estimator{}
-class CompensationPayment{}
+class Customer {
+    String Name
+    String Email
+}
+class Broker {
+    String Name
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Claim {
+    Double CompensationTotal
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Estimator {
+    String AreaOfExpertise
+}
+class Report {
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+@enduml
 
-Contract "0..*" -- "1" Customer
-Contract "1" -- "0..*" Invoice
+Customer "0..1" -- "0..*" Broker
+Customer "1" -- "0..*" Contract
 Contract "1" -- "0..*" InsurancePolicy
-Customer "1" -- "0..*" ClaimCase
-ClaimCase "1" -- "0..*" Report
-Report "0..*" -- "1" Estimator
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
 ClaimCase "1" -- "0..*" CompensationPayment
-Broker "1" -- "0..*" BrokerCustomerAssignment
-BrokerCustomerAssignment "0..1" -- "1" Customer
+Estimator "0..*" -- "0..*" Report
+ClaimCase "1" -- "0..*" Report
+Estimator "1" -- "0..*" Report
+Customer "1" -- "0..*" CompensationPayment
 
 @enduml

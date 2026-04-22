@@ -1,0 +1,29 @@
+@startuml
+
+class Game { boolean isActive }
+class Board { }
+class Tile { String color, boolean isHidden, boolean isAction, int actionTileCooldown }
+class ConnectionPiece { }
+class PlayingPiece { String color }
+class Player { int playerNumber }
+class Die { int value }
+class ActionCard { String instruction }
+class Deck { int size }
+class Designer { String name }
+class SpareConnectionPile { int count }
+
+Game "1..1" -- "1..1" Board
+Game "1..1" -- "2..4" Player
+Game "1..1" -- "1..1" Die
+Game "1..1" -- "1..1" Deck
+Game "1..1" -- "1..1" Designer
+Game "1..1" -- "1..1" SpareConnectionPile
+Board "1..1" -- "0..*" Tile
+Board "1..1" -- "0..*" ConnectionPiece
+Tile "1..1" -- "0..1" ConnectionPiece
+Player "1..1" -- "1..1" PlayingPiece
+Player "1..1" -- "1..1" Tile
+Deck "1..1" -- "1..32" ActionCard
+SpareConnectionPile "1..1" -- "0..32" ConnectionPiece
+
+@enduml

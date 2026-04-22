@@ -1,33 +1,63 @@
 ```plantuml
 @startuml
 
-class SmartHome{}
-class Room{}
-class Device{}
-class Sensor{}
-class Actuator{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class BooleanExpression{}
-class RelationalTerm{}
-class RuleHierarchy{}
+class SmartHome {
+  address:String
+}
+
+class Room {
+}
+
+class Sensor {
+  deviceID:String
+}
+
+class Actuator {
+  deviceID:String
+}
+
+class Device {
+  deviceID:String
+}
+
+class SensorReading {
+  measuredValue:Float
+  timestamp:Date
+}
+
+class ControlCommand {
+  timestamp:Date
+  status:String
+  command:String
+}
+
+class AutomationRule {
+  precondition:String
+  action:String
+  isActive:Boolean
+}
+
+class ActivityLog {
+}
+
+class Alert {
+}
 
 SmartHome "1..*" -- "1..*" Room
-SmartHome "1..1" -- "1..1" ActivityLog
-Room "1..*" -- "1..*" Device
-Device "1..*" -- "1..1" Sensor
-Device "1..*" -- "1..1" Actuator
-Device "1..*" -- "0..*" SensorReading
-Device "1..*" -- "0..*" ControlCommand
-SensorReading "1..1" -- "0..*" ActivityLog
-ControlCommand "1..1" -- "0..*" ActivityLog
-AutomationRule "1..*" -- "1..1" BooleanExpression
-BooleanExpression "1..*" -- "1..*" RelationalTerm
-AutomationRule "1..*" -- "1..*" ControlCommand
-AutomationRule "1..1" -- "0..*" ActivityLog
-RuleHierarchy "1..*" -- "1..*" AutomationRule
+Room "1..*" -- "1..*" Sensor
+Room "1..*" -- "1..*" Actuator
+Sensor "1..*" -- "1..*" SensorReading
+Actuator "1..*" -- "1..*" ControlCommand
+SmartHome "1..*" -- "1..1" ActivityLog
+SmartHome "1..*" -- "1..*" Alert
+AutomationRule "1..*" -- "0..*" ControlCommand
+AutomationRule "1..*" -- "0..*" Sensor
+AutomationRule "1..*" -- "0..*" Actuator
+AutomationRule "1..*" -- "0..*" SensorReading
+AutomationRule "1..*" -- "0..*" ControlCommand
+
+Sensor --|> Device
+Actuator --|> Device
 
 @enduml
 ```

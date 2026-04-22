@@ -1,24 +1,53 @@
 @startuml
 
-class DeLijn{}
-class Bus{}
-class Line{}
-class Trajectory{}
-class Category{}
-class Customer{}
-class Invoice{}
-class Card{}
-class MensoTicket{}
+class Bus {
+  String BusNumber
+}
+class Line {
+  String LineNumber
+}
+class Trajectory {
+  String TrajectoryCode
+  String Description
+}
+class Authority {
+  String Name
+}
+class Approval {
+  String Status
+  Date DecisionDate
+}
+class Category {
+  String Name
+}
+class Customer {
+  String Name
+  String HomeAddress
+  String OfficeAddress
+  String WorkingHours
+}
+class MensoTicket {
+  String TicketName
+  Date ValidUntil
+}
+class Trip {
+  Date TripDate
+}
+class Invoice {
+  Date IssueDate
+  Double TotalAmount
+  Boolean Paid
+}
 
-DeLijn "1" -- "0..*" Bus
-Bus "0..*" -- "0..*" Line
-Line "1" -- "0..*" Trajectory
-Trajectory "0..*" -- "1" Line
-Line "1" -- "1" Category
-Customer "0..*" -- "0..*" Invoice
+Bus "0..*" -- "0..*" Trajectory
+Line "0..*" -- "1" Trajectory
+Trajectory "1" -- "0..*" Approval
+Approval "1" -- "1" Authority
+Category "0..*" -- "1" Line
+Customer "1" -- "0..*" Trip
+Line "0..*" -- "1" Trip
+Trip "1" -- "0..1" Invoice
 Invoice "0..*" -- "1" Customer
-Customer "0..*" -- "0..*" Card
-MensoTicket "0..*" -- "1" Customer
-Line "1" -- "0..*" MensoTicket
+Customer "0..1" -- "1" MensoTicket
 
 @enduml

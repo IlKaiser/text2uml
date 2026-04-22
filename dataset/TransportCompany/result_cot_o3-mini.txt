@@ -1,18 +1,56 @@
 @startuml
-class Employee {}
-class Customer {}
-class Vehicle {}
-class RepairShop {}
-class Order {}
-class PartnerCompany {}
-class Address {}
+class Driver {
+  name: String
+  socialSecurityNumber: String
+}
 
-Customer "1..1" -- "0..*" Address
-RepairShop "1..1" -- "0..*" Address
-Order "1..1" -- "0..*" Customer
-Order "2..2" -- "0..*" Address
-Order "0..1" -- "0..*" Employee
+class Planner {
+  name: String
+  socialSecurityNumber: String
+  username: String
+  password: String
+}
+
+class AdministrativeStaff {
+  name: String
+  socialSecurityNumber: String
+  username: String
+  password: String
+  fieldOfActivity: String
+}
+
+class Customer {
+  name: String
+  billingAddress: String
+}
+
+class Vehicle {
+  licensePlateNumber: String
+  mileage: Int
+}
+
+class RepairShop {
+  name: String
+  address: String
+}
+
+class Order {
+  comment: String
+  startTime: Date
+  finishTime: Date
+  packageSize: Float
+}
+
+class PartnerCompany {
+  name: String
+  address: String
+}
+
+Driver "0..*" -- "1..1" Order
+Planner "0..*" -- "1..1" Order
+AdministrativeStaff "0..*" -- "0..1" Order
 Order "1..1" -- "0..*" Vehicle
-Order "0..1" -- "0..*" PartnerCompany
-Vehicle "0..*" -- "0..*" RepairShop
+Order "1..1" -- "0..*" Customer
+PartnerCompany "0..*" -- "0..1" Order
+Vehicle "0..*" -- "1..1" RepairShop
 @enduml

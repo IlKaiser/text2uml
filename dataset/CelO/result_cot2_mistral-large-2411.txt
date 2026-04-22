@@ -1,23 +1,66 @@
-```
+```plantuml
 @startuml
-class Event{}
-class Organizer{}
-class Attendee{}
-class Task{}
-class Checklist{}
-class Invitation{}
-class Location{}
-class Account{}
+class Celebration {
+}
 
-Organizer "0..*" -- "0..1" Event
-Organizer "0..*" -- "0..*" Attendee
-Organizer "1..1" -- "1..1" Account
-Attendee "1..1" -- "1..1" Account
-Event "1..1" -- "1..1" Checklist
-Event "0..*" -- "0..*" Attendee
+class Organization {
+}
+
+class Organizer {
+    firstName: String
+    lastName: String
+    email: String
+    postalAddress: String
+    phoneNumber: String
+    password: String
+}
+
+class Attendee {
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+}
+
+class Event {
+    startDateTime: Date
+    endDateTime: Date
+    occasion: String
+    location: String
+}
+
+class Task {
+    taskStatus: String
+}
+
+class Checklist {
+}
+
+class Location {
+    name: String
+    address: String
+}
+
+class Account {
+    username: String
+    password: String
+}
+
+class Invitation {
+}
+
+Organizer "1..1" -- "1..*" Event
 Event "1..1" -- "1..1" Location
-Event "0..*" -- "0..*" Task
-Organizer "0..*" -- "0..*" Invitation
-Attendee "0..*" -- "0..*" Invitation
+Event "1..1" -- "1..1" Checklist
+Organizer "0..1" -- "0..1" Attendee
+Attendee "1..1" -- "0..1" Account
+Event "1..*" -- "0..*" Attendee
+Invitation "1..1" -- "1..1" Attendee
+Invitation "1..1" -- "1..1" Event
+Checklist "1..1" -- "1..*" Task
+Task "1..1" -- "0..*" Attendee
+
+Celebration --|> Event
+
 @enduml
 ```

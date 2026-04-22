@@ -1,0 +1,44 @@
+@startuml
+
+class WebPortal { String URL }
+class Version { Integer VersionNumber }
+
+WebPortal "1" -- "1..*" Version
+
+class Building { String ID, String Name, String EnergyClass, Address, Date YearOfConstruction, User Owner }
+class User { String Username, String Email, String Password, Boolean IsAdmin, String IDCardNumber }
+
+Building "1..*" -- "0..*" User
+
+class Entry { String Name, String Content, Boolean IsPublic, User Owner }
+class TextualEntry { String Content }
+class NumericEntry { Float Value, String Unit }
+
+Entry "0..*" -- "0..*" Building
+TextualEntry "1" -- "0..*" Entry
+NumericEntry "1" -- "0..*" Entry
+
+class Image { String FileName }
+
+Building "1..*" -- "0..*" Image
+Image "1" -- "0..*" Building { profile_photo }
+
+class Comment { String Content, User Owner }
+
+Building "0..*" -- "0..*" Comment
+
+class FullTextSearch { String Query }
+
+@enduml
+
+Use cases:
+1. Register as a user
+2. Activate user account
+3. Log in as a user
+4. Create a building
+5. Manage entries for a building
+6. Comment on a building
+7. Search for buildings using full-text search
+8. Set up user accounts
+9. Delete comments
+10. Check user name and email during registration.

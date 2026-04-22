@@ -1,0 +1,12 @@
+@startuml
+class Student { String Name, String ID, List<Course> Courses }
+class Course { String Title, String ID, List<TeachingAssistant> TAs }
+class TeachingAssistant { String Name, String ID, List<Course> Courses }
+class Appointment { String ID, Date Date, String StudentName, String TAName, String CourseTitle }
+
+Student "1..*" -- "1..*" Course
+Course "1..*" -- "1..*" TeachingAssistant
+Appointment "1..1" -- "1..1" Student
+Appointment "1..1" -- "1..1" TeachingAssistant
+Appointment "1..1" -- "1..1" Course
+@enduml

@@ -1,0 +1,93 @@
+@startuml
+
+class Game {
+    String Name
+    String Layout
+    String HiddenTile
+    String StartingPositions
+    String ActionTiles
+    String ConnectionPieces
+    String DeckOfActionCards
+}
+
+class Player {
+    String Color
+    String Name
+}
+
+class Tile {
+    String Type
+    String Color
+    String Connection
+}
+
+class ConnectionPiece {
+    String Type
+}
+
+class ActionCard {
+    String Type
+    String Effect
+}
+
+class Board {
+    String Layout
+    String HiddenTile
+    String StartingPositions
+    String ActionTiles
+    String ConnectionPieces
+    String DeckOfActionCards
+}
+
+class GameDesigner {
+    String Name
+    String Layout
+    String HiddenTile
+    String StartingPositions
+    String ActionTiles
+    String ConnectionPieces
+    String DeckOfActionCards
+}
+
+class Game {
+    "1" -- "0..*" GameDesigner
+    "1" -- "0..*" Player
+    "1" -- "0..*" Tile
+    "1" -- "0..*" ConnectionPiece
+    "1" -- "0..*" ActionCard
+    "1" -- "0..*" Board
+}
+
+class Player {
+    "1" -- "0..*" Game
+    "1" -- "0..*" Tile
+    "1" -- "0..*" ActionCard
+}
+
+class Tile {
+    "1" -- "0..*" Game
+    "1" -- "0..*" ConnectionPiece
+}
+
+class ConnectionPiece {
+    "1" -- "0..*" Game
+    "1" -- "0..*" Tile
+}
+
+class ActionCard {
+    "1" -- "0..*" Game
+    "1" -- "0..*" Tile
+}
+
+class Board {
+    "1" -- "0..*" Game
+    "1" -- "0..*" Tile
+    "1" -- "0..*" ConnectionPiece
+}
+
+class GameDesigner {
+    "1" -- "0..*" Game
+    "1" -- "0..*" Board
+}
+
+@enduml

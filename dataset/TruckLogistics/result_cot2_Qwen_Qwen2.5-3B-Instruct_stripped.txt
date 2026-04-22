@@ -1,0 +1,77 @@
+Given the refined specification text, the identified classes and their relationships are as follows:
+
+### Classes:
+1. **Locations**
+2. **Drivers**
+3. **Vehicles**
+4. **Addresses**
+5. **Orders**
+6. **Origins**
+7. **Destinations**
+8. **Assignments**
+9. **Dates**
+
+### Associations:
+- **Locations** -- 0..1 **Addresses**
+- **Locations** -- 0..1 **Drivers**
+- **Locations** -- 0..1 **Vehicles**
+- **Vehicles** -- 0..1 **Orders**
+- **Drivers** -- 0..1 **Orders**
+- **Orders** -- 0..1 **Origins**
+- **Orders** -- 0..1 **Destinations**
+- **Vehicles** -- 0..1 **Assignments**
+- **Vehicles** -- 0..1 **Drivers**
+
+### PlantUML Diagram:
+
+```plantuml
+@startuml
+class Locations {
+  +address: Address
+}
+
+class Addresses {
+  +id: Integer
+  +locationId: Integer
+  +addressString: String
+}
+
+class Drivers {
+  +firstName: String
+  +lastName: String
+}
+
+class Vehicles {
+  +vehicleNumber: String
+}
+
+class Orders {
+  +originLocation: Locations
+  +destinationLocation: Locations
+  +assignedDriver: Drivers
+  +dateOfExecution: Date
+}
+
+class Assignments {
+  +vehicleId: Integer
+  +driverId: Integer
+}
+
+class Assignments {
+  +vehicleId: Integer
+  +driverId: Integer
+}
+
+Locations -- 0..1 Addresses : has
+Locations -- 0..1 Drivers : has
+Locations -- 0..1 Vehicles : has
+Vehicles -- 0..1 Orders : has
+Drivers -- 0..1 Orders : has
+Orders -- 0..1 Origins : has
+Orders -- 0..1 Destinations : has
+Vehicles -- 0..1 Assignments : has
+Vehicles -- 0..1 Drivers : has
+@enduml
+```
+
+This PlantUML code represents the conceptual model diagram based on the specified classes and their relationships.

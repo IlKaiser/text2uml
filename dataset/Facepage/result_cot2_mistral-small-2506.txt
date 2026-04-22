@@ -1,29 +1,54 @@
 ```plantuml
 @startuml
 
-class Facepage{}
-class User{}
-class Account{}
-class BusinessAccount{}
-class PersonalAccount{}
-class Company{}
-class Page{}
-class AdvertisementPage{}
-class FriendRequest{}
-class TermsOfUse{}
-class Banner{}
-class Purchase{}
-class Transaction{}
+class Account {
+  accountNumber: String
+}
+
+class User {
+  ID: String
+  name: String
+  email: String
+  dateOfBirth: Date
+}
+
+class Page {
+  pageName: String
+  numberOfVisits: Int
+}
+
+class BusinessAccount {
+  monthlyFee: Float
+}
+
+class PersonalAccount
+
+class Company
+
+class FriendRequest
+
+class AdvertisementPage {
+  bounceRate: Float
+  clickThroughRate: Float
+  conversionRate: Float
+}
+
+class Visit
+
+class Banner
+
+class Transaction
 
 User "1..1" -- "1..1" Account
-Account "0..*" -- "0..*" Page
+Account "1..1" -- "0..*" Page
+Page "1..1" -- "0..*" Visit
 BusinessAccount "1..1" -- "1..1" Company
-PersonalAccount "0..1" -- "0..*" FriendRequest
-Page "1..1" -- "0..1" AdvertisementPage
-Page "0..*" -- "0..*" Banner
-AdvertisementPage "0..*" -- "0..*" Purchase
-AdvertisementPage "0..*" -- "0..*" Transaction
-Facepage "1..1" -- "1..1" TermsOfUse
+BusinessAccount "1..1" -- "0..1" AdvertisementPage
+AdvertisementPage "1..1" -- "0..1" Banner
+User "1..1" -- "0..*" FriendRequest
+
+BusinessAccount --|> Account
+PersonalAccount --|> Account
 
 @enduml
 ```

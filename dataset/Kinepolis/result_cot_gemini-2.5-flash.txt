@@ -1,34 +1,71 @@
 @startuml
-class Cinema{}
-class Theatre{}
-class Movie{}
-class Copy{}
-class Show{}
-class Customer{}
-class Reservation{}
-class Seat{}
-class Payment{}
-class Offer{}
-class FreeTicket{}
-class Ticket{}
+class Kinepolis
+class Cinema {
+  town: String
+}
+class Theatre {
+  numberOfSeats: Int
+}
+class Show {
+  isPublished: Boolean
+  startingTime: Date
+  isCancelled: Boolean
+  availableSeats: Int
+}
+class Movie
+class MovieCopy {
+  location: String
+}
+class Program {
+  publicationDate: Date
+  startDate: Date
+  endDate: Date
+}
+class Customer
+class SeatReservation {
+  isOnline: Boolean
+  reservationTime: Date
+  paymentMethod: String
+  isCancelled: Boolean
+  paymentStatus: String
+}
+class Payment {
+  paymentMethod: String
+  isDebited: Boolean
+  amount: Float
+}
+class Offer {
+  status: String
+  expirationTime: Date
+}
+class Seat {
+  seatNumber: String
+}
+class Ticket {
+  purchaseLocation: String
+  seatNumber: String
+  isAnonymous: Boolean
+  isCancellable: Boolean
+  isRefundable: Boolean
+}
 
+Cinema "1..*" -- "1..1" MovieCopy
 Cinema "1..*" -- "1..1" Theatre
-Theatre "0..*" -- "1..1" Show
-Cinema "1..*" -- "1..1" Copy
-Copy "1..1" -- "0..*" Movie
-Show "1..1" -- "0..*" Copy
-Show "1..1" -- "0..*" Movie
-Reservation "1..1" -- "0..*" Show
-Reservation "1..1" -- "1..1" Payment
-Reservation "1..1" -- "0..*" Customer
-Reservation "1..1" -- "0..*" Seat
+Customer "0..*" -- "1..1" Offer
+Customer "0..*" -- "1..1" SeatReservation
+Customer "0..*" -- "0..1" Ticket
+Kinepolis "1..*" -- "1..1" Cinema
+MovieCopy "1..1" -- "1..*" Movie
+Offer "1..1" -- "0..*" Customer
 Offer "1..1" -- "0..1" Seat
 Offer "1..1" -- "0..*" Show
-Customer "0..*" -- "1..1" Offer
-Customer "0..*" -- "1..1" FreeTicket
-Customer "0..*" -- "0..1" Ticket
-Ticket "1..1" -- "0..*" Show
-Ticket "1..1" -- "0..*" Seat
-Seat "1..1" -- "1..*" Theatre
-Show "1..*" -- "0..*" Seat
+Program "1..*" -- "1..1" Show
+SeatReservation "1..1" -- "1..1" Payment
+SeatReservation "1..1" -- "0..1" Seat
+SeatReservation "1..1" -- "0..*" Show
+Show "1..1" -- "1..*" Movie
+Show "1..1" -- "0..*" MovieCopy
+Theatre "1..*" -- "1..1" Seat
+Theatre "0..*" -- "1..1" Show
+Ticket "1..1" -- "0..1" Seat
 @enduml

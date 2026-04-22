@@ -1,0 +1,27 @@
+@startuml
+class City {
+  name: String
+  inhabitants: Int
+}
+class Attraction {
+  name: String
+  address: String
+}
+class GuidedTour {
+  duration: Int
+  number: Int
+  maxVisitors: Int
+}
+class Person {
+  name: String
+}
+class Discount {
+  amount: Float
+}
+
+City "1..1" -- "1..*" Attraction
+Attraction "1..1" -- "0..*" GuidedTour
+GuidedTour "0..*" -- "0..*" Person
+GuidedTour "0..*" -- "0..*" Discount
+Person "0..*" -- "0..*" Discount
+@enduml

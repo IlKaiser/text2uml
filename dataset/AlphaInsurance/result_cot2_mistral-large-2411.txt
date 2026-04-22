@@ -1,25 +1,60 @@
-```
+```plantuml
 @startuml
 
-class InsuranceCompany{}
-class Client{}
-class InsurancePolicy{}
-class Broker{}
-class AccountManager{}
-class Contract{}
-class Claim{}
-class Estimator{}
+class InsuranceCompany {
+}
 
-Broker "1..*" -- "0..*" Client
-Client "1..*" -- "1..*" Contract
-Client "1..*" -- "0..*" Claim
-Broker "1..1" -- "0..*" Contract
-Contract "1..*" -- "1..*" InsurancePolicy
-Contract "1..*" -- "1..1" AccountManager
+class Customer {
+    account manager: String
+    file: String
+    profile: String
+}
+
+class Broker {
+    registered: Boolean
+}
+
+class AccountManager {
+}
+
+class Policy {
+}
+
+class Contract {
+    price: Float
+    offer: String
+    coverage: String
+}
+
+class Claim {
+    compensation: Float
+    case file: String
+    approved: Boolean
+}
+
+class Estimator {
+    area of expertise: String
+    reports: String
+}
+
+class Report {
+    issued: Date
+    stored in database: Date
+}
+
+class Compensation {
+}
+
+Customer "0..*" -- "0..1" Broker
+Customer "0..*" -- "0..*" Contract
+Customer "0..*" -- "0..*" Policy
+Customer "0..*" -- "0..*" Claim
+Contract "1..1" -- "1..1" Customer
+Contract "1..1" -- "0..*" Policy
 Claim "1..*" -- "0..*" Estimator
-Client "1..*" -- "1..*" InsurancePolicy
-Claim "1..1" -- "0..1" Estimator
-Client "1..*" -- "1..*" AccountManager
+Claim "0..*" -- "0..*" Report
+Claim "0..*" -- "1..1" Compensation
+Compensation "1..1" -- "1..1" Claim
 
 @enduml
 ```

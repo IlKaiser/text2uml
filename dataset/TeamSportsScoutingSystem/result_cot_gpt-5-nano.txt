@@ -1,34 +1,42 @@
 @startuml
-class TeamSportsScoutingSystem{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class Player{}
-class PlayerProfile{}
-class TargetPosition{}
-class PlayerAttribute{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Recommendation{}
-class ShortList{}
-class Offer{}
+class HeadCoach
+class Director
+class Scout
+class HeadScout
+class Player
+class TargetProfile
+class TargetPosition
+class PlayerAttribute {
+  name: String
+  value: String
+}
+class LongList
+class ShortList
+class ScoutingAssignment
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: String
+}
+class Offer
 
-TeamSportsScoutingSystem "0..*" -- "0..*" HeadCoach
-TeamSportsScoutingSystem "0..*" -- "0..*" Director
-TeamSportsScoutingSystem "0..*" -- "0..*" Scout
-HeadCoach "0..*" -- "0..*" PlayerProfile
-PlayerProfile "0..*" -- "0..*" TargetPosition
-PlayerProfile "0..*" -- "0..*" PlayerAttribute
-Scout "1..1" -- "1..1" LongList
+HeadCoach "0..*" -- "1..1" TargetProfile
+HeadCoach "0..*" -- "1..1" TargetPosition
+HeadCoach "0..*" -- "1..1" PlayerAttribute
+HeadScout "0..*" -- "1..1" LongList
+HeadScout "0..*" -- "1..1" ScoutingAssignment
+Scout "0..*" -- "0..*" LongList
+LongList "0..*" -- "0..*" TargetProfile
 LongList "0..*" -- "0..*" Player
-ScoutingAssignment "1..1" -- "0..*" Player
-ScoutingAssignment "1..1" -- "1..1" ScoutingReport
-ScoutingReport "1..1" -- "1..1" Recommendation
-Director "0..*" -- "1..*" Offer
-Offer "1..*" -- "0..*" Player
-Recommendation "1..1" -- "0..*" Player
+ScoutingAssignment "0..*" -- "1..1" Player
+ScoutingAssignment "1..1" -- "0..*" ScoutingReport
+ScoutingReport "0..*" -- "1..1" Player
+HeadCoach "0..*" -- "1..1" ShortList
+HeadScout "0..*" -- "1..1" ShortList
 ShortList "0..*" -- "0..*" Player
-Scout "0..*" -- "1..*" ScoutingAssignment
-ScoutingReport "1..1" -- "0..*" Player
+ShortList "0..*" -- "1..1" ScoutingAssignment
+Director "0..*" -- "1..1" Offer
+Offer "0..*" -- "1..1" Player
+TargetProfile "0..*" -- "1..1" TargetPosition
+TargetProfile "0..*" -- "1..1" PlayerAttribute
 @enduml

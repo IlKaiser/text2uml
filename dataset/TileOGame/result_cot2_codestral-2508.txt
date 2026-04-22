@@ -1,46 +1,75 @@
 ```plantuml
 @startuml
+class Game {
+  hiddenTile:Tile
+  startingPositions:Int
+  numPlayers:Int
+}
 
-class Game{}
-class GameDesigner{}
-class Board{}
-class Tile{}
-class ConnectionPiece{}
-class ActionTile{}
-class RegularTile{}
-class HiddenTile{}
-class PlayingPiece{}
-class Player{}
-class Die{}
-class ActionCard{}
-class Deck{}
-class StartingPosition{}
-class Objective{}
-class Layout{}
-class Side{}
-class Color{}
+class Board {
+  layout:String
+  tiles:List<Tile>
+  connectionPieces:List<ConnectionPiece>
+}
 
-Game "1..1" -- "1..1" GameDesigner
+class Tile {
+  color:String
+  position:String
+  connectedTiles:List<ConnectionPiece>
+}
+
+class HiddenTile {
+  isFound:Boolean
+}
+
+class RegularTile {
+  turnsAsRegular:Int
+}
+
+class ActionTile {
+  actionCard:ActionCard
+  turnsAsAction:Int
+}
+
+class ConnectionPiece {
+  connectedTile1:Tile
+  connectedTile2:Tile
+}
+
+class PlayingPiece {
+  color:String
+  currentTile:Tile
+}
+
+class Player {
+  playerNumber:Int
+  currentPlayingPiece:PlayingPiece
+}
+
+class ActionCard {
+  instruction:String
+  effect:String
+}
+
+class Deck {
+  actionCards:List<ActionCard>
+  remainingCards:Int
+}
+
+class Instruction
+
 Game "1..1" -- "1..1" Board
-Game "1..1" -- "1..1" Objective
+Board "1..1" -- "0..*" Tile
+Tile "1..1" -- "0..4" ConnectionPiece
+HiddenTile "1..1" --|> Tile
+RegularTile "1..1" --|> Tile
+ActionTile "1..1" --|> Tile
+Player "1..1" -- "1..1" PlayingPiece
+Player "1..1" -- "1..*" Instruction
+Game "1..1" -- "2..4" Player
 Game "1..1" -- "1..1" Deck
-Game "1..*" -- "2..4" Player
-Game "1..*" -- "1..1" Die
-Board "1..*" -- "1..*" Tile
-Board "1..*" -- "1..*" ConnectionPiece
-Board "1..*" -- "1..1" StartingPosition
-Board "1..*" -- "1..1" Layout
-Tile "1..*" -- "0..1" HiddenTile
-Tile "1..*" -- "0..1" ActionTile
-Tile "1..*" -- "0..1" RegularTile
-Tile "1..*" -- "0..4" Side
-Tile "1..*" -- "1..1" Color
-ConnectionPiece "1..*" -- "0..4" Side
-PlayingPiece "1..*" -- "1..1" Player
-PlayingPiece "1..*" -- "1..1" Color
-Player "1..*" -- "1..1" StartingPosition
-ActionTile "1..*" -- "1..*" ActionCard
-Deck "1..*" -- "1..*" ActionCard
-
+Deck "1..1" -- "0..*" ActionCard
+ActionCard "1..1" -- "1..1" Instruction
+Tile "0..*" -- "0..*" ConnectionPiece
 @enduml
 ```

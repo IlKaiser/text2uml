@@ -1,0 +1,49 @@
+```plantuml
+@startuml
+
+class Doctor {
+    String PractitionerNumber
+    String Name
+    String Address
+    String PhoneNumber
+    String Signature
+    Date RequisitionValidFrom
+}
+class Patient {
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+class Requisition {
+    String Status
+}
+class Test {
+    String Type
+    Double Duration
+    String RepetitionPattern
+}
+class Appointment {
+    String ConfirmationNumber
+    Date Date
+    Time StartTime
+    Time EndTime
+    String LabName
+    String LabRegistrationNumber
+}
+class Lab {
+    String Address
+    Hours BusinessHours
+    Double CancellationFee
+}
+
+Doctor "1" -- "0..*" Requisition
+Patient "1" -- "0..*" Requisition
+Requisition "1" -- "1..*" Test
+Patient "1" -- "0..*" Appointment
+Appointment "1" -- "1" Lab
+
+@enduml
+```

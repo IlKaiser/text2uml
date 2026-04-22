@@ -1,0 +1,46 @@
+@startuml
+
+class LouvreMuseum{
+    +String name
+    +String address
+    +Set<Location> locations
+}
+
+class Location{
+    +String name
+    +Set<Exhibition> exhibitions
+}
+
+class Exhibition{
+    +String title
+    +Employee coordinator
+    +Set<Item> items
+}
+
+class Item{
+    +String name
+    +Set<CandidatePiece> candidatePieces
+}
+
+class CandidatePiece{
+    +String name
+    +Collector collector
+}
+
+class Collector{
+    +String name
+}
+
+class Employee{
+    +String name
+    +Set<Employee> coaches
+}
+
+Employee "1" -- "0..*" CoachingEmployee : Employee -> Employee
+Employee "1" -- "1" Coach : Employee -> Employee
+Employee "1" -- "1..*" Exhibition : Employee -> Exhibition
+Location "1" -- "1" Exhibition : Location -> Exhibition
+Exhibition "1" -- "1..*" Item : Exhibition -> Item
+Item "1" -- "1..*" CandidatePiece : Item -> CandidatePiece
+CandidatePiece "1" -- "1" Collector : CandidatePiece -> Collector
+@enduml

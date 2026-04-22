@@ -1,22 +1,35 @@
 ```plantuml
 @startuml
-class Traveller{}
-class Hotel{}
-class Booking{}
-class Room{}
-class HotelChain{}
-class Preference{}
-class Offer{}
+class Traveller {
+    name: String
+    billingInformation: String
+    companyName: String
+    address: String
+    travelPreferences: String
+}
+
+class Booking {
+    price: Float
+    cityArea: String
+    hotelRating: Int
+    keyPreferences: String
+    bookingIdentifier: String
+    creditCardInformation: String
+    isPrePaid: Boolean
+    cancellationDeadline: Date
+}
+
+class Hotel {
+    city: String
+    address: String
+}
 
 Traveller "1..*" -- "0..*" Booking
 Traveller "0..*" -- "0..*" Preference
-Hotel "1..*" -- "0..*" Room
-Hotel "0..*" -- "0..1" HotelChain
-Hotel "0..*" -- "0..*" Offer
+Traveller "1..*" -- "0..*" Hotel
 Booking "1..1" -- "1..1" Hotel
-Booking "0..*" -- "0..*" Room
-Booking "1..1" -- "1..1" Traveller
-Offer "1..1" -- "1..1" Hotel
-Booking "0..*" -- "0..*" Preference
+Hotel "1..*" -- "0..*" Room
+Hotel "0..*" -- "0..*" HotelChain
+Booking "0..*" -- "0..*" AccommodationDeal
 @enduml
 ```

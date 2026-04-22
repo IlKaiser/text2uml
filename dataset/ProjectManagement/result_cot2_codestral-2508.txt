@@ -1,22 +1,60 @@
 ```plantuml
 @startuml
-class University{}
-class Department{}
-class ResearchGroup{}
-class Researcher{}
-class Project{}
-class WorkPackage{}
-class Assignment{}
-class ServiceDelivery{}
+class University {
+    name: String
+    location: String
+}
 
-University "0..*" -- "1..*" Department
-Department "1..*" -- "0..*" ResearchGroup
-ResearchGroup "1..1" -- "0..*" Researcher
-ResearchGroup "1..*" -- "0..*" Project
-Project "1..*" -- "0..*" WorkPackage
+class ResearchGroup {
+    name: String
+    description: String
+}
+
+class Department {
+    name: String
+    faculty: String
+}
+
+class Researcher {
+    name: String
+    email: String
+    researchArea: String
+}
+
+class Project {
+    title: String
+    startDate: Date
+    endDate: Date
+    description: String
+}
+
+class WorkPackage {
+    title: String
+    startDate: Date
+    endDate: Date
+    description: String
+}
+
+class Assignment {
+    role: String
+    startDate: Date
+    endDate: Date
+}
+
+class ServiceDelivery {
+    description: String
+    date: Date
+}
+
+University "1..1" -- "0..*" ResearchGroup
+Department "0..*" -- "0..*" ResearchGroup
+Researcher "1..1" -- "1..1" ResearchGroup
+ResearchGroup "0..*" -- "0..*" Project
+Project "0..*" -- "0..*" WorkPackage
 WorkPackage "1..1" -- "1..1" ResearchGroup
 Researcher "0..*" -- "0..*" WorkPackage
 ResearchGroup "0..*" -- "0..*" ServiceDelivery
-WorkPackage "0..*" -- "0..*" ServiceDelivery
+Researcher "0..*" -- "0..*" Assignment
+WorkPackage "0..*" -- "0..*" Assignment
 @enduml
 ```

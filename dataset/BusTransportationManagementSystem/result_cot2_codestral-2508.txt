@@ -1,22 +1,50 @@
 ```plantuml
 @startuml
-class City{}
-class Driver{}
-class Bus{}
-class Route{}
-class Shift{}
-class Schedule{}
-class RepairShop{}
-class SickLeave{}
 
-City "1..1" -- "1..*" Route
-City "1..1" -- "1..*" Driver
-City "1..1" -- "1..*" Bus
-Driver "1..1" -- "0..1" SickLeave
-Bus "1..1" -- "0..1" RepairShop
-Driver "1..*" -- "1..*" Shift
-Bus "1..*" -- "1..*" Route
-Route "1..*" -- "1..*" Shift
-Shift "1..*" -- "1..*" Schedule
+class City {
+}
+
+class BusTransportationManagementSystem {
+}
+
+class Driver {
+  name:String
+  id:Int
+  onSickLeave:Boolean
+}
+
+class BusRoute {
+  routeNumber:Int
+}
+
+class Bus {
+  licencePlate:String
+  inRepair:Boolean
+}
+
+class Schedule {
+}
+
+class Shift {
+}
+
+class Assignment {
+}
+
+class Overview {
+}
+
+City "1..1" -- "1..1" BusTransportationManagementSystem
+Driver "0..*" -- "0..*" Shift
+BusRoute "1..1" -- "0..*" Bus
+Bus "0..*" -- "0..*" Route
+Driver "1..1" -- "1..1" Assignment
+Bus "1..*" -- "0..*" Assignment
+Shift "1..*" -- "0..*" Assignment
+BusRoute "1..*" -- "1..*" Schedule
+Shift "1..*" -- "1..*" Overview
+Bus "1..*" -- "1..*" Overview
+Driver "1..*" -- "1..*" Overview
+
 @enduml
 ```

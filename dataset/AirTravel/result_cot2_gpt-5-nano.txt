@@ -1,24 +1,68 @@
 @startuml
-class Aircraft{}
-class PassengerAircraft{}
-class Flight{}
-class Ticket{}
-class SeatCategory{}
-class Airline{}
-class FlightAttendant{}
-class Pilot{}
-class Airport{}
-class Passenger{}
-
+class Aircraft {
+  name: String
+  type: String
+  yearOfManufacture: Int
+  nextInspectionDate: Date
+}
+class PassengerAircraft {
+  numberOfSeats: Int
+}
+class Flight {
+  flightNumber: String
+  date: Date
+}
+class Passenger {
+  name: String
+  passportNumber: String
+}
+class Ticket {
+  ticketNumber: String
+  price: Float
+  upgradeDesired: Boolean
+}
+class SeatCategory {
+  designation: String
+  hasEntertainmentProgram: Boolean
+  numberOfSeats: Int
+}
+class Airline {
+  name: String
+}
+class FlightAttendant {
+  name: String
+  employmentDate: Date
+  isChiefSteward: Boolean
+}
+class Pilot {
+  name: String
+  employmentDate: Date
+  license: String
+}
+class Airport {
+  name: String
+  address: String
+  numberOfRunways: Int
+}
+class Captain
+class Copilot
+class ChiefSteward
+class Stewardess
+PassengerAircraft --|> Aircraft
+ChiefSteward --|> FlightAttendant
+Stewardess --|> FlightAttendant
+Captain --|> Pilot
+Copilot --|> Pilot
 Aircraft "0..*" -- "1" Flight
-Flight "0..*" -- "1" Ticket
-Passenger "0..*" -- "1" Ticket
-Ticket "0..*" -- "1" SeatCategory
+Passenger "0..*" -- "0..*" Flight
 PassengerAircraft "0..*" -- "1" SeatCategory
-Airline "0..*" -- "1" FlightAttendant
-Airline "0..*" -- "1" Pilot
-Airline "0..*" -- "1" Aircraft
-Flight "0..*" -- "1" Airport
-Flight "0..*" -- "1" Airport
-Aircraft "0..*" -- "1" Airport
+SeatCategory "0..*" -- "1" Ticket
+Flight "0..*" -- "1" Ticket
+Airline "0..*" -- "0..*" FlightAttendant
+Airline "0..*" -- "0..*" Pilot
+Flight "1..1" -- "1..1" Captain
+Flight "0..*" -- "0..*" Copilot
+Aircraft "0..1" -- "0..*" Airport
+Flight "1..1" -- "0..*" Airport
+Flight "1..1" -- "0..*" Airport
 @enduml

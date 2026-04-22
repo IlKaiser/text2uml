@@ -1,0 +1,111 @@
+```plantuml
+@startuml
+
+class Doctor {
+  practitioner number: Int
+  signature: String
+  full name: String
+  address: String
+  phone number: String
+}
+
+class Patient {
+  health number: String
+  first name: String
+  last name: String
+  date of birth: Date
+  address: String
+  phone number: String
+}
+
+class Requisition {
+  valid date: Date
+  repetition number: Int
+  repetition interval: String
+}
+
+class Test {
+  duration: Int
+}
+
+class Examination {
+  duration: Int
+}
+
+class GroupOfTests {
+}
+
+class Signature {
+  image: String
+}
+
+class HealthNumber {
+  number: String
+}
+
+class Appointment {
+  confirmation number: String
+  date: Date
+  start time: Date
+  end time: Date
+  lab name: String
+  lab registration number: String
+}
+
+class Lab {
+  address: String
+  business hours: String
+  registration number: String
+  fee: Float
+}
+
+class LabNetwork {
+}
+
+class TestDuration {
+}
+
+class TestRepetition {
+}
+
+class TestResult {
+  result: String
+}
+
+class Report {
+}
+
+class BusinessHours {
+  start time: Date
+  end time: Date
+}
+
+class Confirmation {
+  number: String
+  date: Date
+  start time: Date
+  end time: Date
+  lab name: String
+  lab registration number: String
+}
+
+class Fee {
+  amount: Float
+}
+
+Doctor "0..*" -- "1..*" Requisition
+Requisition "1..1" -- "1..1" Patient
+Requisition "1..1" -- "1..1" GroupOfTests
+Requisition "1..*" -- "1..1" Test
+Doctor "1..1" -- "1..1" Signature
+Requisition "1..1" -- "1..1" TestDuration
+Requisition "1..1" -- "0..1" TestRepetition
+Doctor "0..*" -- "1..1" TestResult
+Patient "0..*" -- "1..1" TestResult
+Patient "0..*" -- "1..*" Appointment
+Appointment "1..1" -- "1..1" Lab
+Appointment "1..1" -- "1..1" Confirmation
+Appointment "1..1" -- "0..1" Fee
+
+@enduml
+```

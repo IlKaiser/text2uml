@@ -1,0 +1,330 @@
+<|user|>Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans..
+
+##############
+
+The class list is:
+<|end|><|assistant|>[Hospital, Doctor, Patient, Examination, TreatmentPlan, Problem, MedicalAction, Permission, Diagnosis, ActualTreatment]
+
+##############
+
+The cardinality list is:
+
+<|user|>Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans.
+
+##############
+
+The cardinality list is:
+<|end|><|assistant|>[(Hospital, 0..*, Doctor, 0..1), (Hospital, 0..*, Examination, 0..*), (Hospital, 0..*, TreatmentPlan, 0..*), (Doctor, 0..1, Patient, 0..*), (Hospital, 0..*, Permission, 0..*), (TreatmentPlan, 0..*, Examination, 1..*), (Doctor, 0..1, Hospital, 0..1), (Patient, 0..*, Hospital, 0..1), (Hospital, 0..*, Examination, 0..1), (Hospital, 0..*, Permission, 0..1), (Patient, 0..*, Treatment, 0..1), (Treatment, 0..*, Examination, 0..1), (Treatment, 0..*, Action, 0..1)]
+
+##############
+
+The attributes dictionary is:
+
+<|user|>Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans..
+
+##############
+
+The class list is:
+<|end|><|assistant|>[Hospital, Doctor, Patient, Examination, TreatmentPlan, Problem, MedicalAction, Permission, Diagnosis, ActualTreatment]
+
+#############
+
+The specification text is:
+
+In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans.
+
+##############
+
+The attributes dictionary is:
+<|end|><|assistant|>{
+  Hospital: [permittedExaminations: List[String]],
+  Doctor: [],
+  Patient: [],
+  Examination: [type: String],
+  TreatmentPlan: [advisedExaminations: List[String]],
+  Problem: [],
+  MedicalAction: [],
+  Permission: [examinationType: String, hospital: String],
+  Diagnosis: [],
+  ActualTreatment: [advisedExaminations: List[String], medicalActions: List[MedicalAction]]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans..
+
+##############
+
+The class list is:
+<|end|><|assistant|>[Hospital, Doctor, Patient, Examination, TreatmentPlan, Problem, MedicalAction, Permission, Diagnosis, ActualTreatment]
+
+#############
+
+The specification text is:
+
+In hospitals, doctors prescribe examinations for patients. Different types of examinations exist, such as "cardiologic test", "echography", "radiology", "scanner", … Every single examination is of only one type.  Not all possible types of examinations are allowed for all hospitals. For example, some hospitals have no permission for executing NMR scans. A hospital can apply for permission for types of examination.
+Suppose the hospital wants to improve & monitor the quality of treatments. In order to do so, per type of problem, a treatment plan is defined. A treatment plan lists the advised types of examinations. When a patient comes with a particular problem, the diagnosis is posed by a doctor affiliated to the hospital visited by the patient. The doctor will define an actual treatment based on an existing treatment plan for the identified problem. The actual treatment of the patient can deviate from the standard treatment plan: it can consist of both advised examinations and freely chosen medical actions. Also, examinations are not necessarily at the same hospital: a doctor can send a patient to another hospital if his/her own hospital doesn't have a permission for the desired examination. By registering all this information, the hospital wants to ensure that examinations are only performed according to permissions, and monitor how much actual treatments diverge from advised treatment plans.
+
+##############
+<|end|><|assistant|>ASSOCIATIONS:
+[(Hospital, Examination), (Hospital, Permission), (Hospital, TreatmentPlan), (Hospital, Problem), (Hospital, Doctor), (Hospital, Patient), (Hospital, MedicalAction), (Hospital, ActualTreatment), (Doctor, Patient), (Doctor, Diagnosis), (Doctor, TreatmentPlan), (Patient, Problem), (Patient, Diagnosis), (Patient, ActualTreatment), (Examination, TreatmentPlan), (MedicalAction, TreatmentPlan), (Hospital, AnotherHospital), (AnotherHospital, Examination)]
+
+##############
+
+The plant uml is:
+<|end|><|assistant|>@startuml
+class Hospital {
+  permittedExaminations: List<String>
+  treatmentPlans: List<TreatmentPlan>
+  problems: List<Problem>
+  doctors: List<Doctor>
+  patients: List<Patient>
+  medicalActions: List<MedicalAction>
+  actualTreatments: List<ActualTreatment>
+  permissions: List<Permission>
+  examinations: List<Examination>
+  anotherHospitals: List<AnotherHospital>
+}
+
+class Doctor {
+  affiliatedHospital: Hospital
+  diagnoses: List<Diagnosis>
+  treatmentPlans: List<TreatmentPlan>
+  patients: List<Patient>
+}
+
+class Patient {
+  problems: List<Problem>
+  diagnoses: List<Diagnosis>
+  actualTreatments: List<ActualTreatment>
+  problems: List<Problem>
+  diagnoses: List<Diagnosis>
+  actualTreatments: List<ActualTreatment>
+}
+
+class Examination {
+  type: String
+  treatmentPlans: List<TreatmentPlan>
+}
+
+class TreatmentPlan {
+  advisedExaminations: List<String>
+}
+
+class Problem {
+  examinations: List<Examination>
+}
+
+class MedicalAction {
+  examinations: List<Examination>
+}
+
+class ActualTreatment {
+  advisedExaminations: List<String>
+  medicalActions: List<MedicalAction>
+}
+
+class Permission {
+  examinationType: String
+  hospital: Hospital
+}
+
+class AnotherHospital {
+  examinations: List<Examination>
+}
+
+Hospital "1..*" -- "Examination": "prescribes"
+Hospital "1..*" -- "Permission": "applies for"
+Hospital "1..*" -- "TreatmentPlan": "defines"
+Hospital "1..*" -- "Problem": "visits"
+Hospital "1..*" -- "Doctor": "affiliated to"
+Hospital "1..*" -- "Patient": "visits"
+Hospital "1..*" -- "MedicalAction": "performs"
+Hospital "1..*" -- "ActualTreatment": "monitors"
+Doctor "0..1" -- "Patient": "diagnoses"
+Doctor "0..1" -- "TreatmentPlan": "defines"
+Patient "0..*" -- "Problem": "comes with"
+Patient "0..*" -- "Diagnosis": "poses"
+Patient "0..*" -- "ActualTreatment": "receives"
+Examination "0..*" -- "TreatmentPlan": "lists"
+MedicalAction "0..*" -- "TreatmentPlan": "performs"
+Hospital "0..*" -- "AnotherHospital": "sends patient to"
+AnotherHospital "0..*" -- "Examination": "performs"
+@enduml

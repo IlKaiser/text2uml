@@ -1,0 +1,45 @@
+```plantuml
+@startuml
+
+class Exhibition {
+    String Title
+    Date OpeningDate
+}
+
+class Location {
+    String Name
+    String Description
+}
+
+class ExhibitionItem {
+    String Description
+}
+
+class Collector {
+    String Name
+}
+
+class Piece {
+    String Title
+    String Description
+}
+
+class Employee {
+    String Name
+}
+
+class Coaching {
+    String CoachEmployee
+    String CoacheeEmployee
+}
+
+Exhibition "1" -- "*" ExhibitionItem
+ExhibitionItem "1" -- "1..*" Piece
+Piece "*" -- "1" Collector
+Exhibition "1" -- "1" Location
+Employee "0..*" -- "0..*" Exhibition
+Employee "0..*" -- "0..*" Coaching
+Coaching "--" Employee
+
+@enduml
+```

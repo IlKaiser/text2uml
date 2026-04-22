@@ -1,35 +1,62 @@
 @startuml
-class OilCompany{}
-class GasStation{}
-class Pump{}
-class Reservoir{}
-class FuelType{}
-class Customer{}
-class CreditCard{}
-class FuelCard{}
-class RefuelTurn{}
-class Invoice{}
-class Payment{}
-class RefillOrder{}
-class DailyReport{}
-class CustomerStatus{}
+class OilCompany
+class GasStation
+class Pump {
+  fuelType:String
+  currentLevel:Float
+  reorderLevel:Float
+  criticalLevel:Float
+  inUse:Boolean
+  blocked:Boolean
+  quantityToOrder:Float
+}
+class Tank {
+  currentLevel:Float
+  criticalLevel:Float
+  reorderLevel:Float
+}
+class FuelType
+class Customer {
+  suspended:Boolean
+}
+class FuelCard {
+  blocked:Boolean
+}
+class RefuelTurn {
+  date:Date
+  amount:Float
+}
+class Invoice {
+  invoiceMonth:Date
+  totalAmount:Float
+  discount:Float
+  sentDate:Date
+  paid:Boolean
+  turnover:Float
+}
+class Payment {
+  paymentDate:Date
+  amount:Float
+}
+class Refill {
+  date:Date
+  quantity:Float
+}
+class DailyReport {
+  reportDate:Date
+}
 
 OilCompany "1..*" -- "1..1" GasStation
 GasStation "1..*" -- "1..1" Pump
-Pump "1..1" -- "1..1" Reservoir
+Pump "1..1" -- "1..1" Tank
 Pump "1..1" -- "1..*" FuelType
-Pump "0..*" -- "1..1" RefuelTurn
+Tank "1..1" -- "0..*" Refill
+DailyReport "1..*" -- "0..*" Pump
+Customer "0..*" -- "1..1" FuelCard
+FuelCard "0..*" -- "1..1" Invoice
+Invoice "1..*" -- "0..1" RefuelTurn
+RefuelTurn "1..1" -- "0..*" Pump
 RefuelTurn "1..1" -- "0..*" Customer
-RefuelTurn "0..1" -- "0..*" CreditCard
-RefuelTurn "0..1" -- "0..*" FuelCard
-FuelCard "1..1" -- "0..*" Customer
-Invoice "1..1" -- "0..*" FuelCard
-Invoice "0..*" -- "0..1" RefuelTurn
-Invoice "1..1" -- "0..*" Customer
-Invoice "0..*" -- "1..1" Payment
-Payment "0..1" -- "0..*" CreditCard
-DailyReport "0..*" -- "0..*" Pump
-RefillOrder "1..1" -- "0..*" Reservoir
-GasStation "0..*" -- "1..1" RefillOrder
-Customer "1..1" -- "0..*" CustomerStatus
+Payment "0..1" -- "0..1" RefuelTurn
+Payment "0..1" -- "0..*" Invoice
 @enduml

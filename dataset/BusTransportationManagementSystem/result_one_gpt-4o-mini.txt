@@ -1,0 +1,27 @@
+```plantuml
+@startuml
+
+class Driver {
+    String Name
+    String DriverID
+    Boolean IsSickLeave
+}
+class Bus {
+    String LicencePlate
+    Boolean IsInRepair
+}
+class BusRoute {
+    String RouteNumber
+}
+class Shift {
+    String ShiftType
+    Date DateAssigned
+}
+
+Driver "0..*" -- "0..*" Shift
+Bus "0..*" -- "0..*" BusRoute
+BusRoute "1" -- "0..*" Shift
+Shift "1" -- "1" Bus
+
+@enduml
+```

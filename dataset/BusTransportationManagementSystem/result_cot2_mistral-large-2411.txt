@@ -1,23 +1,27 @@
-```
 @startuml
 
-class Bus{}
-class Route{}
-class Driver{}
-class Shift{}
-class Licence{}
-class CityStaff{}
-class Leave{}
-class Repair{}
+class City {
+}
 
-Driver "1..*" -- "0..*" Shift
-Bus "1..*" -- "0..*" Route
-Licence "1..*" -- "1..1" Bus
-Shift "1..*" -- "1..1" Route
-Driver "1..*" -- "0..1" Leave
-Bus "1..*" -- "0..1" Repair
-CityStaff "1..*" -- "0..*" Driver
-CityStaff "1..*" -- "0..*" Bus
+class Bus {
+  licencePlate: String
+}
+
+class Route {
+  number: Int
+}
+
+class Driver {
+  name: String
+  ID: Int
+}
+
+class Shift {
+}
+
+Bus "0..*" -- "0..1" Route
+Driver "0..*" -- "0..*" Shift
+Bus "0..*" -- "1..*" Shift
+Route "1..1" -- "1..*" Shift
 
 @enduml
-```

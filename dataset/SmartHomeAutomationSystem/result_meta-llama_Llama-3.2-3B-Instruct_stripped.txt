@@ -1,0 +1,72 @@
+```plantuml
+@startuml
+class Room {
+    String Address
+    String Description
+}
+
+class Sensor {
+    String DeviceId
+    String Type
+    String MeasurementUnit
+    String MeasurementValue
+    String Timestamp
+}
+
+class Actuator {
+    String DeviceId
+    String Type
+    String Status
+    String Timestamp
+}
+
+class ControlCommand {
+    String DeviceId
+    String Command
+    String Status
+    String Timestamp
+}
+
+class ActivityLog {
+    String DeviceId
+    String Type
+    String Timestamp
+    String Status
+}
+
+class AutomationRule {
+    String Precondition
+    String Action
+    String Timestamp
+}
+
+class Owner {
+    String Name
+    String Email
+}
+
+class AutomationRuleOwner {
+    AutomationRule
+    Owner
+}
+
+class AutomationRulePrecondition {
+    String Expression
+    String Timestamp
+}
+
+class AutomationRuleAction {
+    String Command
+    String Timestamp
+}
+
+Room "0..*" -- "1..*" Sensor
+Room "0..*" -- "1..*" Actuator
+Room "0..*" -- "1..*" ControlCommand
+Room "0..*" -- "1..*" ActivityLog
+AutomationRule "1..*" -- "1..*" AutomationRuleOwner
+AutomationRule "1..*" -- "1..*" AutomationRulePrecondition
+AutomationRule "1..*" -- "1..*" AutomationRuleAction
+AutomationRule "1..*" -- "1..*" ActivityLog
+@enduml
+```

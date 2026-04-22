@@ -1,33 +1,32 @@
-
+```plantuml
 @startuml
 
-class HelpingHandsStore{}
-class Resident{}
-class PickupDeliveryService{}
-class Pickup{}
-class Delivery{}
-class VolunteerDriver{}
-class Item{}
-class Vehicle{}
-class DistributionCenter{}
-class RFIDDevice{}
-class ArticleCategory{}
-class FoodBank{}
+class HelpingHandsStore
+class Resident{ String Name, String StreetAddress, String PhoneNumber, String EmailAddress, String Description }
+class PickupAndDeliveryService
+class PickupVehicle
+class VolunteerDriver
+class PickupRoute
+class Item{ String Description }
+class DistributionCenter
+class Employee
+class RFIDDevice
+class Category
 
-HelpingHandsStore "1..*" -- "1..*" Resident
-HelpingHandsStore "1" -- "0..*" PickupDeliveryService
-Resident "1" -- "1" Pickup
-Pickup "1" -- "1" Vehicle
-Pickup "1" -- "1" Resident
-Vehicle "1" -- "1..*" VolunteerDriver
-PickupDeliveryService "1" -- "0..*" Delivery
-Delivery "1" -- "1" VolunteerDriver
-ArticleCategory "1..*" -- "1..*" Item
+HelpingHandsStore "0..*" -- "1..*" Resident
+HelpingHandsStore "1" -- "0..*" PickupAndDeliveryService
+HelpingHandsStore "1..*" -- "0..*" PickupVehicle
+PickupAndDeliveryService "1" -- "0..*" Resident
+PickupVehicle "1" -- "1" VolunteerDriver
+PickupVehicle "1" -- "1" PickupRoute
+PickupRoute "0..*" -- "0..*" Item
+PickupVehicle "1" -- "1" DistributionCenter
 Item "1" -- "1" RFIDDevice
-HelpingHandsStore "1" -- "1" DistributionCenter
-Delivery "1" -- "1" Resident
-Delivery "1" -- "1" ArticleCategory
-ArticleCategory "1..*" -- "0..*" Resident
-Delivery "1" -- "1" Resident
+Item "1" -- "1" Category
+DistributionCenter "0..*" -- "0..*" Resident
+Employee "1" -- "0..*" PickupVehicle
+Employee "1" -- "0..*" Item
+Employee "1" -- "0..*" Category
 
 @enduml
+```  

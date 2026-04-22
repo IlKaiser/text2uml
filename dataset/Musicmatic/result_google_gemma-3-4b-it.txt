@@ -1,0 +1,91 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Attracted by the success of Spotify, a group of students wants to build its own music streaming website called Musicmatic. Being economists, they are unaware of the specificities of databases and have therefore asked you to create a UML class diagram.
+A large number of songs will be made available through their website, and the following information on each song needs to be stored: title, year, length, and genre. Also, artist information will be added, including date of birth, name and a URL to a website (e.g., Wikipedia page) with additional information on the artist. You can assume an artist is uniquely identified by his/her name, and that a song always belongs to exactly one artist. The Musicmatic students also point out that songs having the same title are possible, and only the combination of song and artist can be assumed to be unique.
+The database will also have to store information on the people using Musicmatic. It was decided to only discriminate between two types of users: the regular users who will be able to buy music, and the business users who will deliver the content (upload the music). The following information is recorded on each user: (unique) ID, name, and address. Business users will also have a VAT number. The students want to offer a flexible service, and decided business users can only upload individual songs. These songs are classified either as singles or hits, and regular users can directly buy the singles. Otherwise, people can compose an album consisting of multiple hits (no singles). The position of each hit in the album is stored as a track number in the database. Note that the album of regular users can be turned into a suggestion to other regular users with similar purchasing behavior. 
+Finally, a users can be regular user on some occasions (e.g., when downloading a single or album), and a business user at other times (e.g., when uploading self-made songs to Musicmatic).<end_of_turn>
+<start_of_turn>model
+@startuml
+
+class Song {
+    String Title
+    int Year
+    int Length
+    String Genre
+}
+
+class Artist {
+    String Name
+    Date DateOfBirth
+    String WebsiteURL
+}
+
+class User {
+    int ID
+    String Name
+    String Address
+}
+
+class BusinessUser extends User {
+    String VATNumber
+}
+
+class Single {
+    Song song
+}
+
+class Hit {
+    Song song
+    int TrackNumber
+}
+
+class Album {
+    User user
+    Set<Hit> hits
+}
+
+Song "1" -- "1" Artist
+Single "1" -- "1" Song
+Hit "1" -- "1" Song
+Album "1" -- "*" Hit
+User "0..*" -- "0..*" Single
+User "0..*" -- "0..*" Album
+BusinessUser "1..1" -- "0..*" Single
+BusinessUser "1..1" -- "0..*" Album
+
+@enduml

@@ -1,45 +1,57 @@
 
 @startuml
+class Traveller {
+    name: String
+    billingInfo: String
+    optionalPreferences: String
+}
 
-class BusinessTraveller{}
-class HMBS{}
-class Hotel{}
-class Traveller{}
-class Registration{}
-class City{}
-class Date{}
-class Room{}
-class BookingInformation{}
-class Price{}
-class Preferences{}
-class SearchResults{}
-class Offers{}
-class BookingIdentifier{}
-class CreditCardInformation{}
-class PrePaidBooking{}
-class Address{}
-class HotelChain{}
-class RoomType{}
-class CompetitorHotels{}
-class ReliabilityRating{}
-class Confirmation{}
+class Room {
+    type: String
+    fullyBooked: Boolean
+}
 
-BusinessTraveller "1..*" -- "1..1" HMBS
-Traveller "1..1" -- "1..1" Registration
-Traveller "1..*" -- "1..*" Preferences
-Traveller "1..1" -- "1..*" SearchResults
-Traveller "1..*" -- "1..1" BookingIdentifier
-Traveller "1..1" -- "1..1" CreditCardInformation
-Traveller "1..1" -- "1..*" PrePaidBooking
-Hotel "1..1" -- "1..*" Room
-Hotel "1..*" -- "1..1" BookingInformation
-Hotel "1..1" -- "0..1" HotelChain
-City "1..*" -- "1..*" Hotel
-Room "1..1" -- "1..*" RoomType
-Hotel "1..*" -- "1..*" CompetitorHotels
-Hotel "1..1" -- "1..*" ReliabilityRating
-BookingInformation "1..*" -- "1..*" BookingIdentifier
-BookingInformation "1..1" -- "1..1" Price
-BookingInformation "1..*" -- "0..1" Confirmation
+class Booking {
+    price: Float
+    cityArea: String
+    hotelRating: Int
+    keyPreferences: String
+    uniqueIdentifier: String
+    prePaid: Boolean
+    cancellationDeadline: Date
+}
+
+class CreditCard {
+    information: String
+}
+
+class Address {
+    city: String
+    street: String
+    zipCode: String
+}
+
+class Chain {
+    name: String
+}
+
+class Competitor {
+    specialOffer: String
+}
+
+class Type {
+    name: String
+}
+
+BusinessTraveller "1..*" -- "1..*" Booking
+BusinessTraveller "0..1" -- "0..1" CreditCard
+Booking "1..5" -- "1..*" Offer
+Traveller "0..1" -- "0..*" Preference
+Traveller "1..1" -- "1..1" Address
+Room "1..*" -- "0..*" Booking
+Room "1..1" -- "0..*" Offer
+Hotel "0..*" -- "0..1" Chain
+Hotel "0..*" -- "0..*" Type
+Competition "0..*" -- "0..*" Offer
 
 @enduml

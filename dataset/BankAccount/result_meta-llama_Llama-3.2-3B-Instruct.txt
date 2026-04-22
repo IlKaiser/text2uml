@@ -1,0 +1,60 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 13 Apr 2026
+
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Transform into plant uml this specification text: The following description of a bank is given. Create a suitable class diagram from the given informal description.
+A bank manages any number of customers. The first name and last name of type String are stored for each customer. A bank consists of any number of branches. A customer has at least one and at most five accounts. Each account has an owner who is a customer of the bank. There are two basic types of accounts: Current accounts and savings accounts. Each account has an account number of type int and a current account balance of type double. Current accounts also have an overdraft limit of type double.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+```plantuml
+@startuml
+class Customer{ String FirstName, String LastName }
+class Branch{ }
+
+class Account{ int AccountNumber, double Balance, double OverdraftLimit }
+class CurrentAccount extends Account{ double CurrentBalance }
+class SavingsAccount extends Account{ }
+
+Customer "0..*" -- "1..*" Branch
+Branch "0..*" -- "1..*" Account
+Account "1..1" -- "1..*" Customer
+CurrentAccount "1..1" -- "1..*" Account
+SavingsAccount "1..1" -- "1..*" Account
+@enduml
+```

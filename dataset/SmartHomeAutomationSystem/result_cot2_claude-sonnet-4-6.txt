@@ -1,0 +1,66 @@
+@startuml
+class SmartHome {
+  address: String
+}
+class Room {
+  name: String
+}
+class Device {
+  deviceId: String
+  isActive: Boolean
+}
+class SensorDevice
+class ActuatorDevice
+class SensorReading {
+  measuredValue: Float
+  timestamp: Date
+}
+class ControlCommand {
+  name: String
+  timestamp: Date
+  status: String
+}
+class ActivityLog
+class Alert
+class Owner
+class AutomationRule {
+  isActive: Boolean
+  triggeredTimestamp: Date
+}
+class Precondition
+class BooleanExpression {
+  operator: String
+}
+class RelationalTerm {
+  expression: String
+}
+class Action
+class User
+
+SmartHome "1..1" -- "1..*" Room
+SmartHome "1..1" -- "1..1" ActivityLog
+SmartHome "1..1" -- "0..*" AutomationRule
+SmartHome "1..1" -- "1..1" Owner
+Room "0..*" -- "0..*" Device
+SensorDevice "1..1" -- "0..*" SensorReading
+ActuatorDevice "1..1" -- "0..*" ControlCommand
+ActivityLog "1..1" -- "0..*" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+Owner "1..1" -- "0..*" Alert
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+AutomationRule "1..1" -- "0..*" AutomationRule
+Precondition "1..1" -- "1..1" BooleanExpression
+BooleanExpression "1..1" -- "1..*" RelationalTerm
+Action "1..1" -- "1..*" ControlCommand
+RelationalTerm "0..*" -- "0..*" Room
+RelationalTerm "0..*" -- "0..*" Device
+RelationalTerm "0..*" -- "0..*" SensorReading
+RelationalTerm "0..*" -- "0..*" ControlCommand
+AutomationRule "1..1" -- "0..*" ActivityLog
+User "0..*" -- "1..1" SmartHome
+
+SensorDevice --|> Device
+ActuatorDevice --|> Device
+Owner --|> User
+@enduml

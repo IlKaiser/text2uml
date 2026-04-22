@@ -1,0 +1,142 @@
+@startuml
+
+class Traveller {
+  String Name
+  String BillingCompanyName
+  String BillingAddress
+  String TravelPreferences
+  Double ReliabilityRating
+}
+
+class CreditCard {
+  String CardNumber
+  String CardHolderName
+  Date ExpirationDate
+  String CVV
+}
+
+class SearchRequest {
+  String City
+  Date ArrivalDate
+  Date DepartureDate
+  Int NumberOfRooms
+  String RoomType
+  Int MinimumHotelRating
+  Double MaxCostPerNight
+  String PreferencesFilter
+}
+
+class Hotel {
+  String Name
+  Int RatingStars
+  String Address
+  String City
+}
+
+class HotelChain {
+  String Name
+}
+
+class RoomTypeAvailability {
+  String RoomType
+  Date PeriodStart
+  Date PeriodEnd
+  Int AvailableRooms
+  Boolean FullyBooked
+}
+
+class Offer {
+  String OfferIdentifier
+  Double PricePerNight
+  String CityArea
+  Int HotelRating
+  String KeyPreferences
+  Date ValidFrom
+  Date ValidTo
+}
+
+class Booking {
+  String BookingIdentifier
+  String Status
+  Date ArrivalDate
+  Date DepartureDate
+  Int NumberOfRooms
+  String RoomType
+  Date CancellationDeadline
+  Date FinalizationDate
+}
+
+class PreliminaryBooking {
+  Date CreatedAt
+  Date CompetitionDeadline
+}
+
+class FinalizedBooking {
+  String PaymentType
+  Boolean Confirmed
+  Date ConfirmationDeadline
+}
+
+class SpecialOffer {
+  Date ProvidedAt
+  Date Deadline
+}
+
+class Confirmation {
+  Date SentAt
+  String Status
+}
+
+class Cancellation {
+  Date CancelledAt
+  String CancelledBy
+  String Reason
+}
+
+class Payment {
+  Double Amount
+  Date PaymentDate
+  String Status
+}
+
+class Reimbursement {
+  Double Amount
+  Date ReimbursementDate
+  String Status
+}
+
+class Compensation {
+  Double Amount
+  Date OfferedAt
+  String Status
+}
+
+Booking <|-- PreliminaryBooking
+Booking <|-- FinalizedBooking
+Offer <|-- SpecialOffer
+
+Traveller "1..1" -- "0..*" SearchRequest
+SearchRequest "1..1" -- "0..*" Offer
+Hotel "1..1" -- "0..*" Offer
+HotelChain "0..1" -- "0..*" Hotel
+Hotel "1..1" -- "0..*" RoomTypeAvailability
+
+Traveller "1..1" -- "0..*" Booking
+Hotel "1..1" -- "0..*" Booking
+
+Traveller "1..1" -- "0..*" CreditCard
+FinalizedBooking "1..1" -- "1..1" CreditCard
+
+PreliminaryBooking "1..1" -- "0..1" Offer
+FinalizedBooking "1..1" -- "1..1" Offer
+
+PreliminaryBooking "1..1" -- "0..*" SpecialOffer
+
+FinalizedBooking "1..1" -- "0..1" Confirmation
+
+Booking "1..1" -- "0..*" Cancellation
+FinalizedBooking "1..1" -- "0..*" Payment
+FinalizedBooking "1..1" -- "0..*" Reimbursement
+FinalizedBooking "1..1" -- "0..*" Compensation
+
+@enduml

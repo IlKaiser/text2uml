@@ -1,30 +1,72 @@
 @startuml
-class Traveller{}
-class Booking{}
-class SpecialOffer{}
-class Hotel{}
-class HotelChain{}
-class RoomType{}
-class Availability{}
-class Payment{}
-class TravelPreference{}
-class Address{}
-class City{}
-class ReliabilityRating{}
+class Traveller {
+  name: String
+  reliabilityRating: Float
+}
+class BillingInformation {
+  companyName: String
+  address: String
+}
+class TravelPreference {
+  breakfastIncluded: Boolean
+  freeWifi: Boolean
+  frontDesk247: Boolean
+}
+class CreditCard
+class Booking {
+  bookingId: String
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  isPrePaid: Boolean
+  cancellationDeadline: Date
+  arrivalDate: Date
+  departureDate: Date
+  numberOfRooms: Int
+  roomType: String
+  isPreliminary: Boolean
+  isConfirmed: Boolean
+}
+class SpecialOffer
+class Hotel {
+  city: String
+  address: String
+  rating: Int
+}
+class HotelChain
+class RoomType {
+  name: String
+}
+class RoomAvailability {
+  startDate: Date
+  endDate: Date
+  isFullyBooked: Boolean
+}
+class City {
+  name: String
+}
+class Address
+class CancellationPolicy {
+  cancellationDeadline: Date
+  penaltyNights: Int
+}
 
-Traveller "0..*" -- "1..1" Booking
+Traveller "1..1" -- "1..1" BillingInformation
 Traveller "0..*" -- "0..*" TravelPreference
-Traveller "1..1" -- "1..1" ReliabilityRating
-Traveller "0..*" -- "0..*" SpecialOffer
-Booking "0..1" -- "1..1" Payment
+Traveller "0..*" -- "1..1" CreditCard
+Traveller "0..*" -- "1..1" Booking
+Traveller "0..*" -- "1..1" SpecialOffer
+Booking "0..1" -- "0..*" CreditCard
 Booking "1..1" -- "0..*" Hotel
-Booking "1..*" -- "1..*" RoomType
+Booking "0..1" -- "0..*" CancellationPolicy
 Booking "1..1" -- "0..*" City
-Booking "0..*" -- "0..*" TravelPreference
-Hotel "0..1" -- "0..*" HotelChain
-Hotel "1..1" -- "1..1" Address
+SpecialOffer "1..1" -- "0..*" Hotel
+SpecialOffer "1..1" -- "0..*" Booking
 Hotel "1..1" -- "0..*" City
-Hotel "0..*" -- "1..1" Availability
-Hotel "0..*" -- "1..1" SpecialOffer
-Availability "1..*" -- "0..*" RoomType
+Hotel "1..1" -- "1..1" Address
+Hotel "0..1" -- "0..*" HotelChain
+Hotel "0..*" -- "0..*" RoomType
+Hotel "0..*" -- "1..1" RoomAvailability
+RoomAvailability "1..1" -- "0..*" RoomType
+BillingInformation "1..1" -- "1..1" Address
 @enduml

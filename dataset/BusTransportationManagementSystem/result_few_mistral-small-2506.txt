@@ -1,25 +1,30 @@
-Here is the PlantUML class diagram based on the given specification:
-
-```plantuml
 @startuml
 
-class CityStaff {}
-class Driver {}
-class Bus {}
-class BusRoute {}
-class BusAssignment {}
-class DriverAssignment {}
-class Shift {}
+class Driver {
+    String Name
+    String ID
+    Boolean OnSickLeave
+}
+class BusRoute {
+    Int RouteNumber
+}
+class Bus {
+    String LicencePlate
+    Boolean InRepairShop
+}
+class Shift {
+    String ShiftType
+    Date Date
+}
+class Assignment {
+    Date Date
+    String ShiftType
+}
 
-BusRoute "1" -- "0..*" BusAssignment
-Bus "1" -- "0..*" BusAssignment
-BusAssignment "1" -- "1" BusRoute
-BusAssignment "1" -- "1" Bus
-BusAssignment "0..*" -- "1" Shift
-Shift "1" -- "0..*" DriverAssignment
-Driver "1" -- "0..*" DriverAssignment
-DriverAssignment "1" -- "1" Shift
-DriverAssignment "1" -- "1" Driver
+Driver "1" -- "0..*" Assignment
+Bus "1" -- "0..*" Assignment
+BusRoute "1" -- "0..*" Assignment
+BusRoute "1" -- "0..*" Bus
+Assignment "1" -- "0..*" Shift
 
 @enduml
-```

@@ -1,0 +1,315 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+################
+
+Here is another example:
+
+Specification text:
+
+An oil company possesses a number of gas stations spread across the country. Customers can pay their refuel turn in
+cash at the counter or with a personal credit card, but they can also ask for a refuel card.
+When using their refuel card, customers do not pay the refuel turn immediately.
+Rather, at the end of each month, the holder of the fuel card receives a monthly invoice with the amounts of
+all the refuel turns paid with the fuel card. On the monthly invoice discounts are given depending on the turnover
+of the customer during the invoiced month. Invoicing and paying occurs in any order:
+one can already receive a second invoice before having paid the first one.
+But obviously, each invoice must first have been sent before a payment can be received.
+Each refuel turn only appears on the invoice of the month of the refuel turn. If a customer doesn't pay the invoice,
+the unpaid refuel turns are not added to the next month's invoice. Instead, the invoice is simply sent again to the customer to
+remind him/her of the payment due. If a customer repeatedly does not pay the invoices (e.g. two months in a row),
+then the customer is suspended and his/her card is blocked until the bills have been paid.
+The exact threshold to block a customer is not 100% fixed: very good customers are given a bit more slack than new customers.
+If the bills are settled, a customer may return to the normal state.
+Each gas station has a number of pumps that each contain a particular type of gasoline.
+Obviously only one customer can refuel his/her car at a time at a given pump. When the nozzle is taken,
+the refueling can start. When the nozzle is put back the refueling is stopped. Between those two moments,
+no other customer can use this pump. As soon as the nozzle is put back, the pump becomes available for the next customer.
+Each pump has a separate reservoir that must be refilled when the quantity of gasoline drops below a certain preset reordering level.
+Refilling can occur at any time.
+The system should produce a daily report indicating which pump needs to be refilled and for each pump the current level of
+gasoline and the quantity to order. As the bottom of a tank can contain dirt, when the fuel drops below a critical level,
+the pump is automatically blocked so that no refueling can occur with this pump. For the same reason,
+when refilling a tank that was still above the critical level, the pump is temporarily blocked by the gas station responsible for
+approximatively an hour, so that dirt can sink to the bottom. The pump is released when the gas station responsible deems that
+refueling with this pump is safe again.
+
+The plant uml is:
+
+@startuml
+
+class CardHolder {
+    String Name
+    Boolean Suspended
+}
+class Invoice {
+    Int Number
+    Double Discount
+    String status
+}
+class InvoiceLine {
+    Int Number
+}
+class GasStation {
+    String Name
+}
+class Pump {
+    String Type
+    Boolean InUse
+    Double RefillThreshold
+    Boolean Blocked
+}
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+class CashTurn {}
+
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+GasStation "1" -- "0..*" Pump
+CardHolder "1" -- "0..*" Invoice
+CardHolder "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+
+@enduml
+
+##############
+
+The specification text is:
+
+Several employees work on a film set. The name and social security number of each employee is known. There are so-called creative employees, including directors and actors. The education completed by each actor is known, and the name of the director's assistant is stored. Both directors and actors can be Oscar winners, and it is stored whether the person in question has an Oscar. In addition, there are technicians, and the field of activity of each technician is known.
+The film set is located at a specific location. A film set can be used for several films, and a film can be shot at several different film sets. Each film has a title and a year of release. Furthermore, each film is assigned to a specific genre, with a distinction being made between thriller, action, horror, or comedy.
+The name and most successful film of a screenwriter are stored. A screenwriter creates several screenplays, and a screenplay comes from exactly one screenwriter. The title, version, date, number of scenes, and plot of each screenplay are known. A screenplay is based either on a novel or on a concept. Each novel has a title and an author. A film shot on a film set is based on a specific screenplay; a screenplay is written for exactly one film. The actors who appear in the film must prepare for their respective roles by reading the screenplay. The director of the film then implements the screenplay according to the specifications.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification text. Let me start by carefully reading the text to understand the entities and their relationships.
+
+First, the specification talks about employees on a film set. Each employee has a name and social security number. There are creative employees like directors and actors. So, I'll need classes for Employee, Director, Actor, and maybe also Screenwriter and Technician since they're mentioned.
+
+Next, the film set is located at a specific place and can be used for multiple films. Films can be shot at several film sets, so there's a relationship between Film and FilmSet. Each film has a title, release year, and genre. Genres are thriller, action, horror, or comedy. So, I'll create a Genre class.
+
+Each film is assigned to a specific genre, so the Genre class should have a cardinality of 1..1 with the Film. That means one film per genre, but a genre can be assigned to multiple films? Wait, no, the wording says "each film has a genre," so it's 1..1 from Film to Genre, and Genre can have 0..* from Film, meaning a genre can be assigned to multiple films.
+
+Then, there are screenwriters. Each screenwriter has a name and the most successful film. Screenwriters create multiple screenplays, and each screenplay is written by exactly one screenwriter. So, the Screenwriter class has a one-to-many relationship with Screenplay. Each Screenplay has details like title, version, date, number of scenes, plot, and it's based on a Novel or Concept. Novels have a title and author, so the Novel class is needed. The relationship between Novel and Screenplay is one-to-one since a novel can produce one screenplay, and a screenplay can come from one novel.
+
+A Screenplay is based on a Film, meaning it's written for exactly one film. So, the Screenplay class has a one-to-one relationship with Film. Also, the Screenwriter creates the screenplay, so Screenwriter has a one-to-many relationship with Screenplay.
+
+Actors appear in films, and each actor must prepare by reading the screenplay. So, the relationship between Actor and Screenplay is one-to-many. Each Actor can participate in many Screenplays.
+
+Directors are a type of creative employee and can be Oscar winners. Directors are assigned to films, so Director has a one-to-many relationship with Film. Similarly, Actors can also be Oscar winners, so the same applies to them.
+
+Technicians have a field of activity, so the Technician class has a one-to-many relationship with Activity.
+
+The film set can be used by multiple films, so FilmSet has a one-to-many relationship with Film. Each FilmSet has a location, so I'll include that as an attribute in the FilmSet class.
+
+Putting it all together, I'll start by defining all the necessary classes: Employee, Director, Actor, Screenwriter, Technician, Film, FilmSet, Genre, Screenplay, Novel, and Activity.
+
+Now, I'll define the attributes for each class. Employees have Name and SSN. Directors have Name and possibly an Oscar attribute. Actors have Name and possibly an Oscar attribute. Screenwriters have Name and MostSuccessfulFilm. Technicians have Name and Activity. Films have Title, ReleaseYear, Genre, and maybe a Location attribute inherited from FilmSet. Screenplays have Title, Version, Date, Scenes, Plot, and are based on a Novel or Film. Novels have Title and Author.
+
+Next, I'll establish the relationships. FilmSet is used by multiple Films, so it's one-to-many with Films. Each Film is located at a FilmSet, so Film has an attribute Location. Genre is assigned to a Film, so Genre is one-to-one with Film, and Genre can have many Films. Screenwriter creates Screenplay, so Screenwriter is one-to-many with Screenplay. Screenplay is based on a Film, so it's one-to-one with Film. Screenplay is written by a Novels, so Screenplay is one-to-one with Novel. Each Actor must read the Screenplay, so Actor is one-to-many with Screenplay. Directors and Actors are part of the creative employees and can be Oscar winners, so I'll add an attribute for Oscar in both Director and Actor classes. Technicians are associated with their Activity, so Technician is one-to-many with Activity.
+
+I need to ensure that all relationships are correctly represented with the appropriate cardinality. For example, a Screenwriter can have many Screenplays, so the Screenwriter class has a one-to-many relationship with Screenplay. Each Screenplay is based on exactly one Film, so it's one-to-one. Similarly, each Novels can produce one Screenplay, so Novels are one-to-one with Screenplay.
+
+I think I've covered all the entities and their relationships. Now, I'll structure the PlantUML code accordingly, starting with all the classes and then the relationships.
+</think>
+
+```
+@startuml
+
+class Employee {
+    String Name
+    String SSN
+}
+
+class Director extends Employee {
+    Boolean Oscar
+}
+
+class Actor extends Employee {
+    Boolean Oscar
+}
+
+class Screenwriter {
+    String Name
+    String MostSuccessfulFilm
+}
+
+class Technician {
+    String Name
+    String Activity
+}
+
+class Film {
+    String Title
+    Date ReleaseYear
+    Genre Genre
+    Location Location
+}
+
+class FilmSet {
+    String Name
+    Location Location
+}
+
+class Genre {
+    String Name
+}
+
+class Screenplay {
+    String Title
+    String Version
+    Date Date
+    Integer Scenes
+    String Plot
+    String Source
+}
+
+class Novel {
+    String Title
+    String Author
+}
+
+class Claim {
+    String Number
+    Double Discount
+    String status
+}
+
+class Invoice {
+    Int Number
+    Double Discount
+    String status
+}
+
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+
+class CashTurn {}
+
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+GasStation "1" -- "0..*" Pump
+CardHolder "1" -- "0..*" Invoice
+CardHolder "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+
+@enduml
+```

@@ -1,23 +1,63 @@
 @startuml
-class Cruise{}
-class Provider{}
-class Employee{}
-class Guest{}
-class Ship{}
-class TravelAgency{}
-class Booking{}
-class DestinationArea{}
-class Show{}
-class Ticket{}
-
-Cruise "1..1" -- "0..*" Provider
+class Provider {
+  name: String
+  location: String
+}
+class Cruise {
+  number: Int
+  name: String
+  startDate: Date
+  endDate: Date
+  provider: Provider
+  destinationArea: DestinationArea
+}
+class Employee {
+  name: String
+  ssn: String
+}
+class Guest {
+  name: String
+  VIP: Boolean
+}
+class Ship {
+  name: String
+  decks: Int
+  length: Float
+  passengers: Int
+}
+class Show {
+  title: String
+  duration: Int
+}
+class Ticket {
+  cruise: Cruise
+  guest: Guest
+}
+class Booking {
+  bookingNumber: Int
+  bookingDate: Date
+  travelAgency: TravelAgency
+  cruise: Cruise
+}
+class TravelAgency {
+  name: String
+  address: String
+}
+class DestinationArea {
+  name: String
+  seaName: String
+}
+class Address
+Provider "1..1" -- "1..1" Address
+Cruise "1..1" -- "1..*" Provider
 Cruise "1..*" -- "0..*" Employee
-Cruise "0..*" -- "0..*" Guest
-Cruise "1..1" -- "0..*" Ship
-Booking "1..1" -- "0..*" Cruise
-Booking "1..1" -- "0..*" TravelAgency
-Cruise "1..1" -- "0..*" DestinationArea
-Show "1..1" -- "0..*" Cruise
-Ticket "1..1" -- "0..*" Cruise
-Ticket "1..1" -- "0..*" Guest
+Cruise "1..*" -- "0..*" Guest
+Cruise "0..*" -- "1..1" Show
+Cruise "0..*" -- "1..1" DestinationArea
+Cruise "0..*" -- "1..1" Ship
+Booking "0..*" -- "1..1" Cruise
+Booking "0..*" -- "1..1" TravelAgency
+TravelAgency "0..*" -- "1..1" Address
+Ticket "0..*" -- "1..1" Cruise
+Ticket "0..*" -- "1..1" Guest
 @enduml

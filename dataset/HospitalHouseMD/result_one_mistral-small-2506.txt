@@ -1,0 +1,55 @@
+Here is the PlantUML class diagram based on the specification text:
+
+```plantuml
+@startuml
+
+class Patient {
+    String Name
+    String Symptoms
+    Boolean ConsentGiven
+}
+
+class Doctor {
+    String Name
+    String Specialization
+}
+
+class Diagnosis {
+    String Description
+}
+
+class Treatment {
+    String Stage
+    String Description
+}
+
+class Illness {
+    String Name
+    String PriorityScore
+}
+
+class ConsentForm {
+    Date SignDate
+}
+
+class Nurse {
+    String Name
+}
+
+class HeadDoctor {
+    String Name
+}
+
+@enduml
+
+Patient "1" -- "0..*" Doctor
+Doctor "1" -- "0..*" Diagnosis
+Diagnosis "1" -- "0..*" Treatment
+Treatment "1" -- "1" Illness
+Illness "1" -- "0..*" Treatment
+Patient "1" -- "0..*" ConsentForm
+ConsentForm "1" -- "0..*" Treatment
+Treatment "1" -- "0..*" Nurse
+Treatment "1" -- "1" HeadDoctor
+Illness "1" -- "1" HeadDoctor
+```

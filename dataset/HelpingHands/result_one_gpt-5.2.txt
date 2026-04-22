@@ -1,0 +1,126 @@
+@startuml
+
+class H2SLocation {
+  String Name
+  String City
+}
+class DistributionCenter {
+  String Address
+}
+class FoodBank {
+  String Name
+  String Address
+}
+class Resident {
+  String Name
+  String StreetAddress
+  String PhoneNumber
+  String Email
+}
+class PickupRequest {
+  Date RequestedWeekday
+  String StreetAddress
+  String ItemsDescription
+  String PickupTimeWindow
+}
+class PickupVehicle {
+  String VehicleId
+  Double AvailableStorageSpace
+}
+class VolunteerDriver {
+  String Name
+  String PhoneNumber
+}
+class DriverAvailability {
+  Date Weekday
+}
+class PickupRoute {
+  Date RouteDate
+}
+class RouteStop {
+  String StopAddress
+  String StopType
+}
+class Item {
+  String Description
+  Double Weight
+  Double Dimensions
+}
+class SecondHandArticle {
+  String QualityStatus
+}
+class NonPerishableFood {
+  Date ExpirationDate
+}
+class Employee {
+  String Name
+}
+class RFIDTag {
+  String RFIDCode
+}
+class Category {
+  String Name
+  String Code
+}
+class Client {
+  String Name
+  String PhoneNumber
+  String HomeAddress
+}
+class ClientCategoryNeed {
+  Date CreatedOn
+}
+class ClientCall {
+  Date CallDate
+}
+class Delivery {
+  Date DeliveryDate
+  String DeliveryAddress
+}
+
+class Person {
+  String Name
+  String PhoneNumber
+}
+
+Person <|-- Resident
+Person <|-- VolunteerDriver
+Person <|-- Employee
+Person <|-- Client
+
+H2SLocation "1" -- "0..*" PickupVehicle
+H2SLocation "1" -- "0..1" DistributionCenter
+H2SLocation "0..*" -- "0..*" FoodBank
+
+Resident "1" -- "0..*" PickupRequest
+PickupRequest "1" -- "0..*" Item
+Item <|-- SecondHandArticle
+Item <|-- NonPerishableFood
+
+VolunteerDriver "1" -- "0..*" DriverAvailability
+PickupVehicle "1" -- "0..*" PickupRoute
+VolunteerDriver "0..1" -- "0..*" PickupRoute
+PickupRoute "1" -- "0..*" RouteStop
+RouteStop "0..1" -- "0..1" PickupRequest
+
+PickupRoute "0..*" -- "0..*" PickupVehicle
+
+DistributionCenter "0..1" -- "0..*" SecondHandArticle
+FoodBank "0..1" -- "0..*" NonPerishableFood
+
+Employee "0..*" -- "0..*" SecondHandArticle
+SecondHandArticle "0..1" -- "0..1" RFIDTag
+SecondHandArticle "0..*" -- "0..1" Category
+
+Client "1" -- "0..*" ClientCategoryNeed
+ClientCategoryNeed "0..*" -- "0..1" Category
+Employee "0..*" -- "0..*" ClientCall
+Client "1" -- "0..*" ClientCall
+ClientCall "0..*" -- "0..*" SecondHandArticle
+Employee "0..*" -- "0..*" Delivery
+Client "1" -- "0..*" Delivery
+Delivery "1" -- "0..1" SecondHandArticle
+VolunteerDriver "0..*" -- "0..*" Delivery
+PickupRoute "0..1" -- "0..*" Delivery
+
+@enduml

@@ -1,34 +1,43 @@
 @startuml
-class Museum{}
-class Location{}
-class Exhibition{}
-class DesiredItem{}
-class ExhibitionItem{}
-class Piece{}
-class Collector{}
-class Artist{}
-class VincentVanGogh{}
-class Painting{}
-class PencilDrawing{}
-class Drawing{}
-class SunflowerPainting{}
-class Employee{}
-class JuniorEmployee{}
-class SeniorEmployee{}
-class Coaching{}
-class ManagementSystem{}
-
-Museum "1..*" -- "0..*" Location
-Location "1..*" -- "0..*" Exhibition
-Exhibition "1..*" -- "0..*" DesiredItem
-DesiredItem "1..*" -- "0..*" ExhibitionItem
-ExhibitionItem "1..*" -- "0..*" Piece
-Piece "1..*" -- "1" Collector
-Artist "1..*" -- "0..*" Painting
-VincentVanGogh "1..*" -- "0..*" Painting
-Painting "1..*" -- "0..*" SunflowerPainting
-PencilDrawing "1..*" -- "0..*" Drawing
-Drawing "1..*" -- "0..*" Painting
-Employee "1..*" -- "0..*" Coaching
-JuniorEmployee "0..*" -- "0..*" SeniorEmployee
+class LouvreMuseum
+class Location
+class Room
+class Exhibition {
+  openingDate: Date
+  coordinator: String
+}
+class PlanningPhase {
+  startDate: Date
+}
+class Item
+class ExhibitionItem
+class DesiredItem
+class Piece
+class CandidatePiece
+class Collector
+class VincentVanGogh
+class JuniorEmployee
+class SeniorEmployee
+class Coach
+class Coaching
+class KnowledgeTransfer
+class Employee
+LouvreMuseum "1..*" -- "1" Location
+Location "1" -- "0..*" Room
+Location "1" -- "0..*" Exhibition
+PlanningPhase "1" -- "1" Exhibition
+Exhibition "1" -- "0..*" ExhibitionItem
+ExhibitionItem "1" -- "1" Item
+Item "1" -- "0..*" DesiredItem
+DesiredItem "1" -- "0..*" CandidatePiece
+CandidatePiece "1" -- "1" Piece
+CandidatePiece "1" -- "1" Collector
+Piece "1" -- "1" VincentVanGogh
+Coaching "0..*" -- "1" JuniorEmployee
+Coaching "0..*" -- "1" SeniorEmployee
+Coaching "1" -- "1" KnowledgeTransfer
+Coach "0..*" -- "1" SeniorEmployee
+Coach "0..*" -- "1" JuniorEmployee
+JuniorEmployee --|> Employee
+SeniorEmployee --|> Employee
 @enduml

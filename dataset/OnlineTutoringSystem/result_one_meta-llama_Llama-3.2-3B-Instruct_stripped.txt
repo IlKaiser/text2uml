@@ -1,0 +1,87 @@
+@startuml
+
+class Student {
+    String Name
+    String Email
+    String BankAccount
+}
+class Tutor {
+    String Name
+    String Email
+    String BankAccount
+    String LevelOfExpertise
+    Double HourlyPrice
+    String WeeklyAvailability
+}
+class TutoringSession {
+    String Subject
+    String Tutor
+    String Student
+    String SessionDate
+    String SessionTime
+    Double SessionPrice
+    Double Discount
+}
+class TutoringOffer {
+    String Subject
+    String Tutor
+    String LevelOfExpertise
+    Double HourlyPrice
+    String WeeklyAvailability
+}
+class TutoringRequest {
+    String Tutor
+    String Student
+    String LevelOfExpertise
+    String SessionDate
+    String SessionTime
+}
+class TutoringSessionAgreement {
+    String Tutor
+    String Student
+    String SessionDate
+    String SessionTime
+}
+class Payment {
+    String Tutor
+    String Student
+    Double Amount
+    String PaymentMethod
+}
+class TutoringSessionCancellation {
+    String Tutor
+    String Student
+    String SessionDate
+    String SessionTime
+    Double Amount
+}
+class TutorOfTheMonth {
+    String Tutor
+    String Subject
+    String AwardDate
+}
+
+Student "0..*" -- "0..*" TutoringSession
+TutoringSession "0..*" -- "0..*" TutoringOffer
+TutoringOffer "0..*" -- "0..*" TutoringRequest
+TutoringRequest "0..*" -- "0..*" TutoringSessionAgreement
+TutoringSessionAgreement "0..*" -- "0..*" Payment
+TutoringSessionAgreement "0..*" -- "0..*" TutoringSessionCancellation
+Tutor "0..*" -- "0..*" TutoringOffer
+Tutor "0..*" -- "0..*" TutoringRequest
+Tutor "0..*" -- "0..*" TutoringSessionAgreement
+Tutor "0..*" -- "0..*" Payment
+Tutor "0..*" -- "0..*" TutoringSessionCancellation
+TutoringSession "0..*" -- "0..*" TutoringSessionAgreement
+TutoringSession "0..*" -- "0..*" Payment
+TutoringSession "0..*" -- "0..*" TutoringSessionCancellation
+TutoringOffer "0..*" -- "0..*" TutoringRequest
+TutoringOffer "0..*" -- "0..*" TutoringSessionAgreement
+TutoringOffer "0..*" -- "0..*" Payment
+TutoringRequest "0..*" -- "0..*" TutoringSessionAgreement
+TutoringRequest "0..*" -- "0..*" Payment
+TutoringSessionAgreement "0..*" -- "0..*" Payment
+TutoringSessionAgreement "0..*" -- "0..*" TutoringSessionCancellation
+TutorOfTheMonth "0..*" -- "0..*" Tutor
+
+@enduml

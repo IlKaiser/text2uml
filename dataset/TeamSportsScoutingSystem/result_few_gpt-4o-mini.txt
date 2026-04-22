@@ -1,29 +1,31 @@
 @startuml
 
-class TeamSportsScoutingSystem{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class PlayerProfile{}
-class PlayerAttribute{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class ShortList{}
+class Employee {
+    String Name
+}
+class PlayerProfile {
+    String Position
+    String AttributeName
+    String AttributeValue
+}
+class Scout {
+    String Name
+}
+class ScoutingReport {
+    String Pros
+    String Cons
+    String Recommendation
+}
+class ScoutingAssignment {
+    String Status
+}
+class ShortlistedPlayer {}
 
-Employee "1..*" -- "1..*" HeadCoach
-Employee "1..*" -- "1..*" Director
-Employee "1..*" -- "1..*" Scout
-HeadCoach "1" -- "1..*" PlayerProfile
-PlayerProfile "1" -- "0..*" PlayerAttribute
-Scout "1" -- "1..*" LongList
-LongList "0..*" -- "1..*" ScoutingReport
-ScoutingAssignment "1" -- "0..*" ScoutingReport
+Employee "1" -- "0..*" PlayerProfile
+Scout "0..*" -- "0..*" PlayerProfile
 Scout "1" -- "0..*" ScoutingAssignment
-ShortList "1" -- "0..*" PlayerProfile
-HeadCoach "1" -- "0..*" ShortList
-HeadScout "1" -- "0..*" ShortList
-Director "1" -- "0..*" PlayerProfile
+ScoutingAssignment "1" -- "0..*" ScoutingReport
+ScoutingReport "1" -- "0..1" ShortlistedPlayer
+Employee "1" -- "0..*" ShortlistedPlayer
 
 @enduml

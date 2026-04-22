@@ -1,22 +1,50 @@
 
-```
 @startuml
+class WebPortal {
+    version: String
+    url: String
+}
 
-class WebPortal{}
-class Building{}
-class User{}
-class Entry{}
-class Image{}
-class Administrator{}
-class Comment{}
+class Building {
+    id: Int
+    name: String
+    energyClass: String
+    address: String
+    yearOfConstruction: Int
+}
+
+class User {
+    userName: String
+    email: String
+    password: String
+}
+
+class AdditionalEntry {
+    name: String
+    information: String
+    value: Float
+    unit: String
+    isPublic: Boolean
+}
+
+class Image {
+    fileName: String
+}
+
+class Visitor {
+    userName: String
+    email: String
+    password: String
+}
+
+class Administrator {
+    idCardNumber: Int
+}
 
 WebPortal "1..*" -- "1..*" Building
-Building "1..1" -- "1..1" User
-Building "0..*" -- "1..*" Image
-User "1..1" -- "0..*" Entry
-User "1..1" -- "1..1" Administrator
-Visitor "0..*" -- "1..1" User
-User "0..*" -- "0..*" Comment
-
+Building "1..1" -- "1..*" User
+User "1..*" -- "0..*" AdditionalEntry
+AdditionalEntry "1..1" -- "1..*" Image
+User "1..*" -- "0..*" Visitor
+Administrator "1..1" -- "1..*" User
 @enduml
-```

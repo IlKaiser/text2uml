@@ -1,0 +1,55 @@
+@startuml
+class Family
+
+class Group
+
+class Account {
+  firstName: String
+  lastName: String
+  email: String
+  postalAddress: String
+  phoneNumber: String
+  password: String
+}
+
+class Event {
+  startDateTime: Date
+  endDateTime: Date
+  occasion: String
+}
+
+class EventType {
+  name: String
+}
+
+class Location {
+  name: String
+  address: String
+}
+
+class Invitation {
+  inviteeFirstName: String
+  inviteeLastName: String
+  inviteeEmail: String
+  attendanceStatus: String
+}
+
+class Task {
+  description: String
+}
+
+class ChecklistItem {
+  status: String
+}
+
+Family "1..*" -- "0..*" Group
+Group "1..1" -- "0..*" Event
+EventType "1..1" -- "0..*" Event
+Location "1..1" -- "0..*" Event
+Event "1..1" -- "0..*" Invitation
+Account "1..1" -- "0..*" Invitation
+EventType "1..1" -- "0..*" Task
+Event "1..1" -- "0..*" ChecklistItem
+Task "1..1" -- "0..*" ChecklistItem
+Invitation "1..1" -- "0..*" ChecklistItem
+@enduml

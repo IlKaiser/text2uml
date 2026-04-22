@@ -1,22 +1,43 @@
 
-```
 @startuml
+class House {
+  address: String
+  buildingMaterial: String
+}
 
-class House{}
-class Basement{}
-class SemiDetachedHouse{}
-class Garden{}
-class Company{}
-class JobLog{}
+class Basement {
+  size: Int
+  name: String
+  type: String
+  humidityLevel: Int
+}
 
-House "0..1" -- "0..*" Basement
-House "0..*" -- "0..*" Company
-House "0..*" -- "0..*" JobLog
-House "0..*" -- "0..*" SemiDetachedHouse
+class SemiDetachedHouse {
+  address: String
+  buildingMaterial: String
+  hasOwnGarden: Boolean
+  numWindows: Int
+  carportType: String
+  garageInfo: String
+}
 
-Basement "0..1" -- "0..1" House
+class Company {
+  name: String
+  address: String
+}
 
-SemiDetachedHouse "0..1" -- "0..1" Garden
+class Job {
+  numHours: Int
+  agreedPrice: Float
+}
 
+House "1..1" -- "0..1" Basement
+Basement --|> EarthBasement
+Basement --|> ConcreteBasement
+House "1..1" -- "0..*" Company
+Company "1..*" -- "1..*" Job
+House "1..1" -- "0..1" SemiDetachedHouse
+SemiDetachedHouse --|> House
+SemiDetachedHouse "1..1" -- "1..1" Carport
+SemiDetachedHouse "1..1" -- "1..1" Garage
 @enduml
-```

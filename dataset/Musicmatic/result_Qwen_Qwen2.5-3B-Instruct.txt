@@ -1,0 +1,40 @@
+@startuml
+
+class Song{
+  +String title
+  +int year
+  +float length
+  +String genre
+}
+
+class Artist{
+  +String name
+  +Date dob
+  +String url
+}
+
+class User{
+  +String id
+  +String name
+  +String address
+}
+
+class BusinessUser extends User{
+  +String vatNumber
+}
+
+class RegularUser extends User{}
+
+Song "1" -- "1" Artist
+Artist "1" -- "1" Song
+
+User "0..*" -- "0..*" Song
+User "0..*" -- "0..*" Artist
+
+BusinessUser "1" -- "1" Song
+RegularUser "1" -- "1" Song
+
+Song "1" -- "1..*" BusinessUser
+Song "1" -- "0..*" RegularUser
+
+@enduml

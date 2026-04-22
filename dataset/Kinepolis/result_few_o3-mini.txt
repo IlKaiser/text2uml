@@ -1,29 +1,58 @@
 @startuml
 
-class Cinema {}
-class Theatre {}
-class Show {}
-class Movie {}
-class Copy {}
-class Program {}
-class Reservation {}
-class CreditCard {}
-class Customer {}
-class Offer {}
-class Ticket {}
-class Display {}
+class Cinema {
+    String Town
+}
 
-Cinema "1" -- "1..*" Theatre
-Theatre "1" -- "1..*" Show
-Program "1" -- "1..*" Show
-Cinema "1" -- "1..*" Copy
-Movie "1" -- "1..*" Copy
+class Theatre {
+    String Name
+    int SeatCapacity
+}
+
+class MovieCopy {
+    String MovieTitle
+}
+
+class Program {
+    Date StartDate
+    Date EndDate
+}
+
+class Show {
+    Date StartTime
+    String Status
+}
+
+class Reservation {
+    int SeatNumber
+    Date ReservationTime
+}
+
+class CreditCard {
+    String Number
+}
+
+class Ticket {
+    int SeatNumber
+}
+
+class Offer {
+    Date Expiration
+}
+
+class Customer {
+    String Name
+}
+
+Cinema "1" -- "0..*" Theatre
+Cinema "1" -- "0..*" MovieCopy
+Theatre "1" -- "0..*" Show
+Program "1" -- "0..*" Show
+MovieCopy "1" -- "0..*" Show
 Show "1" -- "0..*" Reservation
-Customer "1" -- "0..*" Reservation
-CreditCard "0..*" -- "1" Reservation
-Reservation "1" -- "0..1" Offer
-Offer "1" -- "1" Show
 Show "1" -- "0..*" Ticket
-Display "1" -- "1" Show
+Reservation "1" -- "1" CreditCard
+Customer "1" -- "0..*" Reservation
+Reservation "0..1" -- "0..1" Offer
 
 @enduml

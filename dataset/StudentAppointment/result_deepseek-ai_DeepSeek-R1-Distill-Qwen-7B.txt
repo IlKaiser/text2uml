@@ -1,0 +1,74 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Students can ask questions about the courses they are following by making an appointment with the teaching assistants of these respective courses. To be able to manage the high demand for appointments with the teaching assistants, a system is made to keep track of every appointment of a teaching assistant and a student(s). A student can only request an appointment for a particular course when (s)he is also registered for the respective course. A teaching assistant can also only provide help for the courses (s)he is teaching. An appointment is always for only one specific course, and with one particular assistant who is TA (teaching assistant) for that course.
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML model based on the given specification. Let me break down the problem step by step.
+
+First, I'll identify the main entities in the problem. The specification talks about students, courses, teaching assistants, and appointments. So, I'll start by listing these as classes.
+
+Next, I'll extract the attributes for each class. The specification mentions that students have a name and an email, courses have a name and code, teaching assistants have a name, email, and courses they teach, and appointments have a student, teaching assistant, date, and time.
+
+Now, I'll move on to the relationships. The key here is understanding how these entities interact. Students can request appointments by making an appointment with teaching assistants for courses they're enrolled in. Teaching assistants can only help with courses they're teaching. An appointment is specific to a course and a teaching assistant.
+
+I need to represent these relationships in PlantUML. Since the problem mentions that a student can only request an appointment for a course they're registered in, and a teaching assistant can only help for courses they're teaching, I'll use inheritance to show these constraints. This means that the Appointment class will inherit from both Student and TeachingAssistant, with the understanding that the actual assignment is done via the course.
+
+For the cardinality, I'll note that a student can have many appointments, each with a specific teaching assistant and time. Similarly, a teaching assistant can have many appointments, each with a specific student and time. The course is a one-to-one relationship with the appointment.
+
+Putting it all together, I'll structure the PlantUML code with the classes and their attributes, followed by the relationships with the correct cardinality. I'll make sure to use bi-directional arcs for the relationships and avoid class properties as per the instructions.
+</think>
+
+```plantuml
+@startuml
+class Student{ String Name, String Email }
+class Course{ String Name, String Code }
+class TeachingAssistant{ String Name, String Email, Set TeachingCourses }
+
+class Appointment{ String Student, String TeachingAssistant, Date Date, Time Time }
+
+Appointment <- Student
+Appointment <- TeachingAssistant
+
+class Student(inherited from Student) {
+    List Appointment
+}
+
+class TeachingAssistant(inherited from TeachingAssistant) {
+    List Appointment
+}
+
+Course Book "1..1" -- "1..*" TeachingAssistant
+Course Book "1..*" -- "1..1" Student
+@enduml
+```

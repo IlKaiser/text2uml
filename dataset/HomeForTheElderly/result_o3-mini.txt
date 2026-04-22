@@ -1,32 +1,29 @@
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Person{}
-class Stay{}
-class Registration{}
-class Assessment{}
-class Proposal{}
-class WaitingList{}
-class Invoice{}
-class CreditNote{}
+class Home { }
+class Department { }
+class Room { }
+class Bed { }
+class Category { double Price }
+class Inhabitant { String Name }
+class Stay { Date IntakeDate, String Status }
+class Registration { Date RegistrationDate }
+class Assessment { String ResultType }
+class Proposal { Date ProposalDate, String Status }
+class Invoice { double OutstandingAmount, String Status }
+class CreditNote { double Amount }
 
 Home "1..1" -- "1..*" Department
-Department "1..1" -- "1..*" Room
-Room "1..1" -- "1..*" Bed
-Category "1..1" -- "1..*" Bed
-Person "1..1" -- "0..*" Stay
-Bed "1..1" -- "0..*" Stay
-Person "1..1" -- "1..1" Registration
-Person "1..1" -- "1..1" Assessment
-Person "1..1" -- "0..*" WaitingList
-WaitingList "1..1" -- "1..1" Category
-Proposal "1..1" -- "1..1" Stay
-Proposal "1..1" -- "1..1" Person
+Department "1..1" -- "0..*" Room
+Room "1..1" -- "0..*" Bed
+Bed "1..1" -- "1..1" Category
+Inhabitant "1..1" -- "0..*" Stay
+Stay "1..1" -- "1..1" Bed
+Stay "1..1" -- "1..1" Category
+Registration "1..1" -- "1..1" Inhabitant
+Assessment "1..1" -- "1..1" Inhabitant
+Proposal "1..1" -- "1..1" Inhabitant
 Stay "1..1" -- "0..*" Invoice
-Invoice "1..1" -- "0..1" CreditNote
+Invoice "1..1" -- "0..*" CreditNote
 
 @enduml

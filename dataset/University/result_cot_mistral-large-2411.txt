@@ -1,23 +1,55 @@
-```
+```plantuml
 @startuml
+class University {
+}
 
-class University{}
-class Faculty{}
-class Institute{}
-class Dean{}
-class Employee{}
-class ResearchAssistant{}
-class Project{}
-class Course{}
-class Lecturer{}
+class Faculty {
+    name: String
+}
+
+class Institute {
+    name: String
+    address: String
+}
+
+class Dean {
+}
+
+class Employee {
+    socialSecurityNumber: String
+    name: String
+    email: String
+}
+
+class ResearchAssistant {
+    fieldOfResearch: String
+}
+
+class Project {
+    name: String
+    startDate: Date
+    endDate: Date
+}
+
+class Lecturer {
+}
+
+class Course {
+    ID: Int
+    name: String
+    weeklyDuration: Float
+}
 
 University "1..*" -- "1..1" Faculty
 Faculty "1..*" -- "1..1" Institute
+Institute "1..*" -- "1..1" ResearchAssistant
+ResearchAssistant "0..*" -- "1..1" Project
+ResearchAssistant "0..*" -- "1..1" Course
 Faculty "1..1" -- "1..1" Dean
 Dean "1..1" -- "1..1" Employee
-Institute "1..1" -- "1..*" ResearchAssistant
-ResearchAssistant "0..*" -- "0..*" Project
-ResearchAssistant "0..*" -- "0..*" Course
+University "1..*" -- "1..1" Employee
 
+ResearchAssistant --|> Employee
+Lecturer --|> ResearchAssistant
 @enduml
 ```

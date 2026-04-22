@@ -1,33 +1,104 @@
 @startuml
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class TestGroup{}
-class Lab{}
-class Appointment{}
-class Confirmation{}
-class DigitalSignature{}
-class LabNetwork{}
-class BusinessHours{}
-class Fee{}
-class RepetitionPattern{}
-class Interval{}
-
-Doctor "0..*" -- "1" Requisition
-Patient "0..*" -- "1" Requisition
-Requisition "1..*" -- "0..*" Test
-Test "0..*" -- "1" TestGroup
-Requisition "0..1" -- "1" RepetitionPattern
-RepetitionPattern "1" -- "1" Interval
-Test "0..*" -- "1" LabNetwork
-Lab "0..*" -- "1" LabNetwork
-Doctor "1" -- "1" DigitalSignature
+class Doctor {
+  practitionerNumber: Int
+  signature: String
+  fullName: String
+  address: String
+  phoneNumber: String
+}
+class Requisition {
+  doctorPractitionerNumber: Int
+  doctorSignature: String
+  doctorFullName: String
+  doctorAddress: String
+  doctorPhoneNumber: String
+  validFrom: Date
+  patientHealthNumber: String
+  patientFirstName: String
+  patientLastName: String
+  patientDateOfBirth: Date
+  patientAddress: String
+  patientPhoneNumber: String
+  repetitionCount: Int
+  repetitionInterval: String
+}
+class Test {
+  duration: Int
+  result: String
+  report: String
+}
+class BloodTest
+class UltrasoundExamination
+class XRayExamination
+class TestGroup
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+class Appointment {
+  confirmationNumber: String
+  date: Date
+  startTime: String
+  endTime: String
+  labName: String
+  labRegistrationNumber: Int
+}
+class Lab {
+  name: String
+  address: String
+  registrationNumber: Int
+  fee: Float
+  businessHours: String
+}
+class BloodSample
+class UrineSample
+class StoolSample
+class Address
+class PhoneNumber
+class HealthNumber
+class PractitionerNumber
+class Duration
+class RepetitionPattern
+class Interval
+class Result
+class Report
+class WalkInPolicy
+class BusinessHours
+class Sample
+class LabNetwork
+class DigitalSignature
+@enduml
+BloodTest "1" --|> Test
+UltrasoundExamination "1" --|> Test
+XRayExamination "1" --|> Test
+BloodSample "1" --|> Sample
+UrineSample "1" --|> Sample
+StoolSample "1" --|> Sample
+Doctor "1..*" -- "1" Requisition
+Requisition "1..*" -- "1" Patient
 Requisition "1" -- "1" DigitalSignature
-Lab "1" -- "1" Fee
+Requisition "1" -- "1" PractitionerNumber
+Doctor "1" -- "1" Address
+Doctor "1" -- "1" PhoneNumber
+Patient "1" -- "1" HealthNumber
+Patient "1" -- "1" Address
+Patient "1" -- "1" PhoneNumber
+Lab "1" -- "1" LabNetwork
+Lab "1" -- "1" Address
 Lab "1" -- "1" BusinessHours
 Appointment "1" -- "1" Lab
-Patient "0..*" -- "1" Appointment
-Appointment "0..1" -- "1" Confirmation
-Requisition "0..*" -- "1" Appointment
+Appointment "1" -- "1" Patient
+Requisition "1" -- "0..*" Test
+Test "1" -- "1" TestGroup
+Requisition "1" -- "1" RepetitionPattern
+Requisition "1" -- "1" Interval
+Test "1" -- "1" Duration
+Test "1" -- "1" Result
+Test "1" -- "1" Report
+Test "1" -- "1" WalkInPolicy
+BloodTest "1" -- "1" BloodSample
 @enduml

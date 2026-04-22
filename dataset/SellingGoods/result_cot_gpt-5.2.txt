@@ -1,0 +1,32 @@
+@startuml
+class Customer {
+  vatNumber: String
+}
+class Address
+class Product
+class StockLevel {
+  currentStock: Int
+}
+class "Order" {
+  paidDate: Date
+  shippedDate: Date
+}
+class OrderLine {
+  quantityOrdered: Int
+}
+class Invoice
+class Delivery
+class ShipmentStatus {
+  status: String
+}
+
+Customer "1..*" -- "1..*" Address
+Customer "1..1" -- "0..*" "Order"
+"Order" "1..1" -- "1..*" OrderLine
+OrderLine "0..*" -- "1..1" Product
+Product "1..1" -- "1..1" StockLevel
+"Order" "1..1" -- "1..1" Invoice
+"Order" "1..1" -- "0..*" Delivery
+Delivery "0..*" -- "1..1" ShipmentStatus
+Delivery "1..1" -- "1..*" OrderLine
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+
+class BusCompany { String name }
+class Bus { String lineNumber }
+class BusLine { String category }
+class Trajectory { String start, String end, Date approvalDate, Date operationStartDate, Date suspensionDate, Date cancellationDate }
+class BusLineGroup { List<Trajectory> trajectories }
+class MensoTicket { Date startDate, Date endDate }
+class Customer { String homeAddress, String officeAddress, String workingHours }
+class Trip { Bus bus, Trajectory trajectory, Date time, Date date }
+class Invoice { Customer customer, List<Trip> trips, Date date }
+
+BusCompany "1" -- "0..*" Bus
+Bus -- "0..*" BusLine
+BusLine -- "0..*" Trajectory
+BusLine -- "0..*" BusLineGroup
+BusCompany -- "0..*" BusLineGroup
+BusLineGroup -- "0..*" Trajectory
+Trajectory -- "0..*" Trip
+Trip -- "1" Bus
+Trip -- "1" Customer
+Invoice -- "1" Customer
+Invoice -- "0..*" Trip
+
+@enduml

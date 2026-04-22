@@ -1,28 +1,76 @@
 ```plantuml
 @startuml
-class Aircraft{}
-class PassengerAircraft{}
-class Flight{}
-class Passenger{}
-class Ticket{}
-class SeatCategory{}
-class Airline{}
-class FlightAttendant{}
-class Pilot{}
-class Airport{}
 
-Aircraft "1..*" -- "0..1" Airline
-Flight "1..*" -- "1..1" Aircraft
-Passenger "1..*" -- "1..*" Flight
-Ticket "1..*" -- "1..1" Passenger
-Ticket "1..*" -- "1..1" SeatCategory
-SeatCategory "1..*" -- "1..1" PassengerAircraft
-FlightAttendant "0..*" -- "0..1" Airline
-Pilot "0..*" -- "0..1" Airline
-FlightAttendant "0..*" -- "1..*" Flight
-Pilot "1..1" -- "1..*" Flight
-Airport "1..*" -- "0..*" Aircraft
-Flight "1..*" -- "1..1" Airport : departure
-Flight "1..*" -- "1..1" Airport : destination
+class Aircraft {
+  name: String
+  type: String
+  year_of_manufacture: Int
+  date_of_next_inspection: Date
+}
+
+class PassengerAircraft {
+  number_of_seats: Int
+}
+
+class Flight {
+  flight_number: String
+  date: Date
+}
+
+class Passenger {
+  name: String
+  passport_number: String
+}
+
+class Ticket {
+  ticket_number: String
+  price: Float
+  upgrade_desired: Boolean
+}
+
+class SeatCategory {
+  designation: String
+  entertainment_program: Boolean
+  number_of_seats: Int
+}
+
+class Airline {
+  name: String
+}
+
+class FlightAttendant {
+  name: String
+  date_of_employment: Date
+  is_chief: Boolean
+}
+
+class Pilot {
+  name: String
+  date_of_employment: Date
+  license: String
+}
+
+class Airport {
+  name: String
+  address: String
+  number_of_runways: Int
+}
+
+Aircraft "0..*" -- "1..*" Flight
+Flight "0..*" -- "0..*" Passenger
+Passenger "0..*" -- "0..*" Flight
+Flight "1..1" -- "0..*" Ticket
+PassengerAircraft "0..*" -- "0..*" SeatCategory
+Ticket "1..1" -- "1..1" SeatCategory
+Aircraft "0..1" -- "0..1" Airline
+Airline "0..*" -- "0..*" FlightAttendant
+Airline "0..*" -- "0..*" Pilot
+Flight "0..*" -- "0..*" FlightAttendant
+Flight "1..1" -- "1..1" Pilot
+Flight "1..1" -- "1..1" Airport
+Flight "1..1" -- "1..1" Airport
+Aircraft "1..1" -- "0..1" Airport
+PassengerAircraft --|> Aircraft
+
 @enduml
 ```

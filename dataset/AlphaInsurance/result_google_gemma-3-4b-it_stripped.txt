@@ -1,0 +1,22 @@
+@startuml
+class Customer { String Name }
+class Broker { String EmployeeID }
+class InsurancePolicy { String PolicyType }
+class Contract { String ContractID }
+class Claim { String ClaimID }
+class ClaimCase { String CaseID }
+class Estimator { String EmployeeID }
+class Report { String ReportID }
+class Compensation { String CompensationID }
+
+Customer "1..*" -- "1..*" Contract
+Broker "1..1" -- "1..*" Customer
+InsurancePolicy "1..1" -- "1..*" Contract
+Contract "1..1" -- "1..*" Claim
+ClaimCase "1..1" -- "1..*" Report
+Report "1..1" -- "1..*" Estimator
+ClaimCase "1..1" -- "1..*" Compensation
+Estimator "1..*" -- "1..*" Report
+Compensation "1..1" -- "1..*" Claim
+
+@enduml

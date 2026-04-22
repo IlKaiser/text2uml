@@ -1,83 +1,67 @@
 @startuml
-class Bus{}
-class Line{}
-class Trajectory{}
-class Destination{}
-class EndPoint{}
-class Section{}
-class Bifurcation{}
-class Branch{}
-class Approval{}
-class Refusal{}
-class Appeal{}
-class Change{}
-class Ticket{}
-class MensoTicket{}
-class TicketMachine{}
-class Card{}
-class MensoCard{}
-class Cardholder{}
-class Customer{}
-class Address{}
-class City{}
-class Authority{}
-class Invoice{}
-class Payment{}
-class Trip{}
-class Category{}
-class Price{}
-class Discount{}
-class Year{}
-class Month{}
-class Date{}
-class Time{}
-class DateTime{}
-class TimeStamp{}
-class Menso{}
-class Pattern{}
-class TravelHabit{}
-class Habit{}
-class Behaviour{}
-class RouteFrequency{}
-class Frequency{}
-class PersonalData{}
-class Information{}
-class Data{}
+class Bus {
+  lineNumber: Int
+}
+class Line {
+  category: Category
+}
+class Trajectory
+class Destination
+class EndPoint
+class Authority
+class Approval
+class Year
+class Ticket
+class TicketMachine {
+  scanTimestamp: Date
+  scanLine: Line
+}
+class Card
+class MensoCard
+class SeasonTicket
+class MensoSeasonTicket
+class Category
+class Invoice {
+  discount: Float
+  billingDate: Date
+  amount: Float
+}
+class Payment
+class Customer {
+  homeAddress: HomeAddress
+  officeAddress: OfficeAddress
+  workingHours: WorkingHours
+}
+class Address
+class HomeAddress
+class OfficeAddress
+class WorkingHours
+class TravelHabit
+class Pattern
+class Frequency
 
 Bus "0..*" -- "0..*" Line
-Line "0..*" -- "0..*" Trajectory
-Trajectory "1..1" -- "1..1" Destination
-Trajectory "0..*" -- "0..*" EndPoint
-Trajectory "1..1" -- "0..*" Section
-Section "0..*" -- "1..*" EndPoint
-Trajectory "0..*" -- "0..*" Bifurcation
-Bifurcation "0..*" -- "0..*" Branch
-Branch "0..*" -- "1..*" EndPoint
+Line "1..*" -- "0..*" Trajectory
 Trajectory "0..*" -- "0..*" Approval
-Approval "0..*" -- "1..1" Authority
-Approval "0..*" -- "0..*" Refusal
-Refusal "0..*" -- "0..*" Appeal
-Appeal "0..*" -- "0..*" Change
-Change "0..*" -- "0..*" Approval
-Line "0..*" -- "1..1" Category
-Category "1..1" -- "1..1" Price
-Ticket "1..1" -- "1..1" Trip
-TicketMachine "0..*" -- "0..*" Trip
-Trip "1..1" -- "1..1" Line
-Trip "1..1" -- "1..1" DateTime
-Card "0..*" -- "1..1" Cardholder
-Cardholder "1..1" -- "0..*" Information
-Customer "1..1" -- "1..1" PersonalData
-PersonalData "1..1" -- "0..*" Address
-Address "1..1" -- "1..*" City
+Authority "1..*" -- "0..*" Approval
+Bus "0..*" -- "0..*" Trajectory
+TicketMachine "0..*" -- "0..*" Line
+Card "0..*" -- "0..*" Ticket
+MensoCard "0..*" -- "0..*" Ticket
+Customer "1..1" -- "1..1" HomeAddress
+Customer "1..1" -- "1..1" OfficeAddress
+Customer "0..*" -- "0..*" TravelHabit
+TravelHabit "0..*" -- "0..*" Pattern
+Pattern "0..*" -- "0..*" Frequency
 Customer "0..*" -- "0..*" Invoice
+Invoice "0..*" -- "0..*" Line
 Invoice "0..*" -- "0..*" Payment
-Invoice "1..1" -- "1..1" Month
-Invoice "1..1" -- "1..1" Year
-Payment "0..*" -- "1..1" Invoice
-Information "0..*" -- "0..*" Pattern
-Pattern "0..*" -- "0..*" TravelHabit
-TravelHabit "0..*" -- "0..*" Habit
-Habit "0..*" -- "0..*" Behaviour
-Information "0..*" -- "0..*" Data
+Line "1..1" -- "1..1" Category
+Line "0..*" -- "0..*" Destination
+Trajectory "0..*" -- "0..*" EndPoint
+Trajectory "0..*" -- "0..*" Year
+MensoSeasonTicket "0..*" -- "0..*" Year
+SeasonTicket "0..*" -- "0..*" Year
+Frequency "0..*" -- "0..*" Invoice
+Destination "0..*" -- "0..*" Line
 @enduml

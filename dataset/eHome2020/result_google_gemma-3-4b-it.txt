@@ -1,0 +1,102 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: As a project manager of a medium-sized software company you are responsible for the successful implementation of the system described below. In the first 5 tasks of this exam you will produce a specification step-by-step.
+Short description:
+Infrastructure and software platform for capturing energy consumption data in private homes.
+The customer:
+HomeTec is a small company in the domain of building engineering which manufactures sensors which can be installed in private homes. The company is, same as your company, located in Aachen. 
+Detailed system description:
+The system “E-Home-2020” consists of a set of multiple sensors, which report their values to a connected SensorController. Furthermore, the SensorController stores information about the apartment with its inhabitants. The apartment’s inhabitants can log on to the SensorController by using their username and password and query values for each installed sensor. Moreover, they can specify a threshold for each sensor. An external System called „E-Monitor“  is attached to the system and checks all thresholds for each sensor automatically. If the sensor’s threshold is exceeded and if an email address has been specified for the apartment, “E-Monitor” will send alert messages via the “E-Home-2020” system. 
+Some inhabitants have administrative rights which enable them to configure sensors. This includes assigning sensors to a new room or changing the sensor’s description.
+At the moment, the company HomeTec manufactures two types of sensors: temperature sensors and power sensors (the latter are installed in a plug-and-play fashion between the power-socket and the respective appliance). Temperature sensors have a valid value range (min , max). Power sensors store the total power consumption as counter reading. All sensors have a unique vendor-id, a description (e.g. “temperature radiator living room” or “power consumption microwave oven”) and a unit. Possible units are CELSIUS and WATT. Each sensor is assigned to exactly one room. An apartment has an address and consists of at least two rooms. Rooms have a description (e.g. „living room“). For each sensor one can query the respective measured values, which are stored in the system. Each value has a timestamp and the corresponding value as a floating point number. For quick access one can access the last value of a sensor directly.
+Goal of project:
+The goal of the project is the development of a prototype, which works on a specific target platform in a specific environment and provides essential functionality.<end_of_turn>
+<start_of_turn>model
+@startuml
+class Sensor {
+    String vendorId
+    String description
+    String unit
+}
+
+class TemperatureSensor extends Sensor {
+    float min
+    float max
+}
+
+class PowerSensor extends Sensor {
+    int totalConsumption
+}
+
+class Room {
+    String description
+}
+
+class Apartment {
+    String address
+    Room room1
+    Room room2
+}
+
+class SensorController {
+    String username
+    String password
+}
+
+class Value {
+    float value
+    Date timestamp
+}
+
+class EMonitor {
+    String emailAddress
+}
+
+class User {
+    String username
+    String password
+}
+
+Sensor "1..*" -- "1..*" Value
+TemperatureSensor "1..1" -- "1..*" Value
+PowerSensor "1..1" -- "1..*" Value
+Sensor "1..1" -- "1..*" Room
+Apartment "1..1" -- "0..*" Room
+SensorController "1..1" -- "0..*" User
+EMonitor "1..1" -- "1..*" Sensor
+@enduml

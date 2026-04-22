@@ -1,19 +1,44 @@
 @startuml
-class Person{}
-class School{}
-class Teacher{}
-class Student{}
-class TeachingAssignment{}
-class ClassGroup{}
-class Classroom{}
-class Gym{}
-
+class School {
+  name: String
+}
+class Person
+class Teacher {
+  firstName: String
+  lastName: String
+  email: String
+}
+class Student {
+  firstName: String
+  lastName: String
+  school: String
+}
+class ClassGroup {
+  name: String
+}
+class Room
+class Classroom {
+  name: String
+  capacity: Int
+}
+class Gym {
+  name: String
+  size: Float
+}
+class TeachingAssignment {
+  teacher: String
+  school: String
+  hours: Int
+}
 Student "1..1" -- "10..31" ClassGroup
 Student "1..1" -- "0..*" School
-TeachingAssignment "1..1" -- "0..*" Teacher
-TeachingAssignment "1..1" -- "0..*" School
-School "0..*" -- "0..*" Teacher
-School "0..*" -- "1..1" Classroom
-School "0..*" -- "1..1" Gym
 ClassGroup "1..1" -- "1..1" Classroom
+School "1..*" -- "1..1" Room
+School "1..*" -- "0..*" Teacher
+Teacher "0..*" -- "1..1" TeachingAssignment
+School "0..*" -- "1..1" TeachingAssignment
+Teacher --|> Person
+Student --|> Person
+Classroom --|> Room
+Gym --|> Room
 @enduml

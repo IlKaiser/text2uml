@@ -1,51 +1,52 @@
-```plaintext
+```plantuml
 @startuml
-class Bus{}
-class BusLine{}
-class Destination{}
-class Trajectory{}
-class TownAuthority{}
-class Approval{}
-class CalendarYear{}
-class Line{}
-class MENSO{}
-class SeasonTicket{}
-class Category{}
-class Trip{}
-class TicketMachine{}
-class MENSOCard{}
-class Invoice{}
-class Discount{}
-class Customer{}
-class PersonalData{}
-class Subscription{}
-class Pattern{}
-class TravelingHabit{}
-class Route{}
-class Frequency{}
 
-Bus "0..*" -- "1..*" BusLine
-BusLine "1..*" -- "0..*" Destination
-BusLine "1..*" -- "1..*" Trajectory
-Trajectory "1..1" -- "0..*" TownAuthority
-Trajectory "1..*" -- "1..*" Approval
-Trajectory "1..1" -- "0..1" CalendarYear
-Trajectory "1..*" -- "0..*" Bus
-Line "1..1" -- "1..*" Trajectory
-Line "1..*" -- "1..1" Category
-MENSO "1..*" -- "1..*" BusLine
-MENSO "1..*" -- "1..*" Category
-MENSO "1..*" -- "1..*" Trip
-Trip "1..1" -- "1..1" MENSOCard
-Trip "1..1" -- "1..1" TicketMachine
-Trip "1..*" -- "1..1" Invoice
-Invoice "1..*" -- "1..1" Customer
-Invoice "0..1" -- "0..1" Discount
-Customer "1..1" -- "1..1" PersonalData
-Customer "1..*" -- "0..*" Subscription
-Customer "1..*" -- "0..*" Pattern
-Pattern "1..*" -- "1..*" TravelingHabit
-TravelingHabit "1..*" -- "1..*" Route
-TravelingHabit "1..*" -- "1..*" Frequency
+class Bus {
+    line: Int
+}
+
+class Trip {
+    time: Date
+    date: Date
+    line: Int
+}
+
+class Invoice {
+    amount: Float
+    discount: Float
+}
+
+class Customer {
+    homeAddress: String
+    officeAddress: String
+    workingHours: String
+}
+
+class BusLine
+class Trajectory
+class TownAuthorities
+class Approval
+class Line
+class MENSO
+class SeasonTicket
+class User
+class TicketMachine
+class PersonalData
+
+Bus "0..*" -- "0..*" BusLine
+BusLine "1..*" -- "0..*" Trajectory
+Trajectory "1..*" -- "0..*" TownAuthorities
+Trajectory "0..*" -- "0..*" Approval
+Trajectory "0..*" -- "0..*" Bus
+BusLine "1..*" -- "0..*" MENSO
+User "1..*" -- "0..*" TicketMachine
+Trip "1..*" -- "0..*" Line
+User "1..*" -- "0..*" MENSO
+MENSO "1..*" -- "0..*" Invoice
+Customer "1..*" -- "0..*" PersonalData
+Customer "1..*" -- "0..*" Invoice
+
+MENSO --|> SeasonTicket
+
 @enduml
 ```

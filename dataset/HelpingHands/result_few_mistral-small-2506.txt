@@ -3,33 +3,68 @@ Here is the PlantUML class diagram based on the specification text:
 ```plantuml
 @startuml
 
-class Resident {}
-class PickupRequest {}
-class PickupVehicle {}
-class VolunteerDriver {}
-class PickupRoute {}
-class DistributionCenter {}
-class SecondHandArticle {}
-class FoodItem {}
-class FoodBank {}
-class Category {}
-class DeliveryRequest {}
-class DeliveryRoute {}
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemDescription
+}
 
-PickupRequest "1" -- "1" Resident
-PickupRequest "0..*" -- "1" PickupVehicle
-PickupVehicle "1" -- "0..*" PickupRoute
-PickupRoute "1" -- "0..*" VolunteerDriver
-PickupRoute "1" -- "0..*" PickupRequest
-PickupVehicle "1" -- "0..*" SecondHandArticle
-PickupVehicle "1" -- "0..*" FoodItem
-FoodItem "1" -- "0..*" FoodBank
-SecondHandArticle "1" -- "0..*" DistributionCenter
-DistributionCenter "1" -- "0..*" SecondHandArticle
-SecondHandArticle "1" -- "1" Category
-DeliveryRequest "1" -- "1" Resident
-DeliveryRequest "0..*" -- "1" DeliveryRoute
-DeliveryRoute "1" -- "0..*" VolunteerDriver
+class PickupRequest {
+    Date PickupDate
+    Time PickupTime
+    String Status
+}
+
+class Vehicle {
+    String LicensePlate
+    Double StorageCapacity
+    Boolean Available
+}
+
+class VolunteerDriver {
+    String Name
+    String AvailableDays
+}
+
+class DistributionCenter {
+    String Location
+}
+
+class Article {
+    String Description
+    String Category
+    Boolean HasRFID
+}
+
+class FoodBank {
+    String Location
+}
+
+class Client {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String PreferredCategories
+}
+
+class DeliveryRequest {
+    Date DeliveryDate
+    Time DeliveryTime
+    String Status
+}
+
+Resident "1" -- "0..*" PickupRequest
+PickupRequest "1" -- "1" Vehicle
+Vehicle "1" -- "0..*" VolunteerDriver
+PickupRequest "1" -- "0..*" Article
+PickupRequest "1" -- "0..*" FoodBank
+DistributionCenter "1" -- "0..*" Article
+Article "1" -- "0..1" Client
+Client "1" -- "0..*" DeliveryRequest
+DeliveryRequest "1" -- "1" VolunteerDriver
 
 @enduml
 ```

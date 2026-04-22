@@ -1,54 +1,103 @@
 @startuml
-
 ' Classes
-class WebPortal {}
-class Building {}
-class AdditionalEntry {}
-class TextEntry {}
-class NumericEntry {}
-class Image {}
-class User {}
-class Administrator {}
-class Comment {}
+class WebPortal { 
+  String Version
+  String URL 
+}
 
-' Class relations
+class Building { 
+  String UniqueID
+  String Name
+  String EnergyClass
+  String Address
+  int YearOfConstruction 
+}
+
+class AdditionalEntry { 
+  String Name
+  boolean IsPublic
+}
+
+class TextEntry {
+  String Text
+}
+
+class NumericEntry {
+  float Value
+  String Unit
+}
+
+class Image {
+  String FileName
+  boolean IsProfilePhoto
+}
+
+class User { 
+  String UserName
+  String Email
+  String Password
+}
+
+class AdministrativeUser { 
+  String IDCardNumber
+}
+
+class Comment { 
+  String CommentText
+}
+
+' Inheritance for additional entry types
+AdditionalEntry <|-- TextEntry
+AdditionalEntry <|-- NumericEntry
+
+' Inheritance for user types
+User <|-- AdministrativeUser
+
+' Relations
 WebPortal "1..1" -- "0..*" Building
-Building "1..1" -- "1..1" User
-User "1..1" -- "0..*" Building
+Building "1..1" -- "1..1" User : owner
 Building "1..1" -- "0..*" AdditionalEntry
-AdditionalEntry "1..1" <|-- TextEntry
-AdditionalEntry "1..1" <|-- NumericEntry
-Building "1..1" -- "1..*" Image
+Building "1..1" -- "0..*" Image
 User "1..1" -- "0..*" Comment
 Building "1..1" -- "0..*" Comment
-Administrator "1..1" --|> User
+@enduml
 
-' Use case diagram
+@startuml
+' Actors
 actor Visitor
-actor UserActor
-actor AdminActor
+actor RegisteredUser
+actor Administrator
 
-usecase "Register" as UC1
-usecase "Confirm Email" as UC2
+' Use Cases
+usecase "Full-text Search" as UC1
+usecase "Register" as UC2
 usecase "Login" as UC3
-usecase "Manage Building" as UC4
+usecase "Activate Account" as UC4
 usecase "Create Building" as UC5
-usecase "Manage Entries" as UC6
-usecase "Comment on Building" as UC7
-usecase "Search Buildings" as UC8
-usecase "Setup Account" as UC9
+usecase "Manage Building Entries" as UC6
+usecase "Upload Image" as UC7
+usecase "Comment on Building" as UC8
+usecase "Setup User Account" as UC9
 usecase "Delete Comment" as UC10
 
-Visitor -- UC1
-Visitor -- UC2
-Visitor -- UC8
-UserActor -- UC3
-UserActor -- UC4
-UserActor -- UC7
-AdminActor -- UC9
-AdminActor -- UC10
+' Actor Relations
+Visitor --> UC1
+Visitor --> UC2
 
-UC5 --|> UC4
-UC6 --|> UC4
+RegisteredUser -up-> Visitor
+RegisteredUser --> UC3
+RegisteredUser --> UC5
+RegisteredUser --> UC6
+RegisteredUser --> UC7
+RegisteredUser --> UC8
+RegisteredUser --> UC4
 
+Administrator -up-> RegisteredUser
+Administrator --> UC9
+Administrator --> UC10
+
+' Use Case Relationships
+UC5 --> UC6
+UC5 --> UC7
+UC8 --> UC1
 @enduml

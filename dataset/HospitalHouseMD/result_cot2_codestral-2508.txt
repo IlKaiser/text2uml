@@ -1,39 +1,60 @@
 ```plantuml
 @startuml
 
-class HospitalHouseMd{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Treatment{}
-class Consent{}
-class Stage{}
-class Nurse{}
-class Illness{}
-class PriorityScore{}
-class Outbreak{}
-class Virus{}
+class HospitalHouseMD {
+  name:String
+}
 
-Patient "1..*" -- "1..*" Doctor
-Patient "1..*" -- "0..*" Treatment
-Patient "1..*" -- "0..1" Consent
-Patient "1..*" -- "0..*" Diagnosis
-Patient "1..*" -- "0..*" Illness
-Doctor "1..*" -- "1..1" HospitalHouseMd
-Treatment "1..*" -- "1..1" Stage
-Treatment "0..*" -- "0..1" Consent
-Treatment "0..*" -- "0..*" Diagnosis
-Diagnosis "1..*" -- "1..*" Treatment
-Diagnosis "0..*" -- "0..*" Doctor
-Illness "1..*" -- "1..1" PriorityScore
-Illness "0..*" -- "0..*" Treatment
-Illness "0..*" -- "0..*" Outbreak
-Illness "0..*" -- "0..*" Virus
-Outbreak "1..*" -- "1..*" Virus
-PriorityScore "0..*" -- "0..*" Treatment
-Stage "0..*" -- "0..*" Treatment
-Consent "0..*" -- "0..*" Treatment
-Consent "0..*" -- "0..*" Patient
+class Patient {
+  name:String
+  consent:Boolean
+}
+
+class Doctor {
+  name:String
+  is_head:Boolean
+}
+
+class Diagnosis {
+  description:String
+  approved:Boolean
+}
+
+class Treatment {
+  stage:Int
+  description:String
+}
+
+class Stage {
+  stage_number:Int
+  description:String
+}
+
+class Consent {
+  signed:Boolean
+  date:Date
+}
+
+class Illness {
+  name:String
+  priority_score:String
+}
+
+class PriorityScore {
+  score:String
+}
+
+class Virus
+
+HospitalHouseMD "1" -- "0..*" Patient
+Doctor "1..*" -- "1..*" Patient
+Doctor "1..*" -- "0..*" Diagnosis
+Diagnosis "1..1" -- "0..*" Treatment
+Treatment "0..*" -- "1..1" Stage
+Patient "1..1" -- "0..1" Consent
+Illness "1..*" -- "0..*" Treatment
+Illness "1..1" -- "1..1" PriorityScore
+Patient "0..*" -- "1..1" Virus
 
 @enduml
 ```

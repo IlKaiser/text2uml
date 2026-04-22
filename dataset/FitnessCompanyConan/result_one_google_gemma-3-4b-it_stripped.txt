@@ -1,0 +1,52 @@
+```plantuml
+@startuml
+
+class Center {
+    String Name
+    String Address
+    int MaxCapacity
+}
+
+class Room {
+    int RoomNumber
+    int MaxCapacity
+}
+
+class Session {
+    Date Date
+    int StartHour
+    String Type
+}
+
+class Person {
+    String FirstName
+    String FamilyName
+    Date BirthDate
+}
+
+class Trainer {
+    String Diploma
+}
+
+class GroupSession {
+    Person Trainer
+}
+
+class IndividualSession {}
+
+class MemberSession {
+    Person Member
+    Session Session
+    boolean IsIndividual
+}
+
+Center "1" -- "*" Room
+Session "1" -- "1" Center
+Session "1" -- "1" Room
+Person "0..*" -- "0..*" MemberSession
+Trainer "0..*" -- "0..*" GroupSession
+Trainer "0..*" -- "0..*" MemberSession
+Session "0..*" -- "0..*" MemberSession
+
+@enduml
+```

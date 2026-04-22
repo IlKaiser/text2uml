@@ -1,0 +1,15 @@
+@startuml
+class Doctor{ String PractitionerNumber, String Signature, String FullName, String Address, String PhoneNumber }
+class Patient{ String HealthNumber, String FirstName, String LastName, Date DateOfBirth, String Address, String PhoneNumber }
+class Requisition{ String RequisitionID, Date ValidFrom, String RepetitionInterval, Integer RepetitionCount }
+class Test{ String TestID, String TestName, String Duration, String TestGroup }
+class Lab{ String LabID, String Address, String RegistrationNumber, String BusinessHours, Float ChangeFee, Float CancellationFee }
+class Appointment{ String AppointmentID, Date Date, Time StartTime, Time EndTime, String ConfirmationNumber }
+
+Doctor "1..1" -- "1..*" Requisition
+Patient "1..1" -- "1..*" Requisition
+Requisition "1..*" -- "1..*" Test
+Lab "1..*" -- "1..*" Appointment
+Requisition "0..1" -- "0..*" Appointment
+Doctor "0..*" -- "0..*" Doctor
+@enduml

@@ -1,34 +1,32 @@
 @startuml
 
-class Traveller{}
-class HBMS{}
-class Hotel{}
-class Booking{}
-class PreliminaryBooking{}
-class SpecialOffer{}
-class City{}
-class RoomType{}
-class TravelPreference{}
-class CreditCard{}
-class BillingInformation{}
-class Company{}
+class Traveller{ String name, BillingInformation billingInfo, TravelPreferences travelPreferences, ReliabilityRating reliabilityRating }
+class BillingInformation{ String companyName, String address }
+class TravelPreferences{ Boolean breakfastIncluded, Boolean freeWifi, Boolean frontDesk24_7 }
+class ReliabilityRating{ Integer rating }
+class Booking{ String uniqueBookingIdentifier, Date arrivalDate, Date departureDate, Integer numberOfRooms, RoomType roomType, Integer minHotelRating, Float maxCostPerNight, BookingStatus status, PaymentType paymentType, Date cancellationDeadline }
+class PreliminaryBooking
+class FinalizedBooking{ CreditCardInfo creditCardInfo, Boolean isPrePaid, Boolean isPaidAtHotel, Date confirmationDeadline }
+class SpecialOffer{ Float price, String cityArea, Integer hotelRating, TravelPreferences keyPreferences }
+class Hotel{ String name, String address, String city, HotelChain hotelChain }
+class HotelChain{ String name }
+class RoomType{ String typeName }
+class CreditCardInfo{ String cardNumber, Date expiryDate, String cardHolderName }
+class BookingStatus
+class PaymentType
 
-Traveller "1..1" -- "1..*" Booking
+Traveller "1..1" -- "0..*" Booking
 Traveller "1..1" -- "1..1" BillingInformation
-Traveller "1..1" -- "0..*" TravelPreference
-BillingInformation "1..1" -- "1..1" Company
-Booking "1..1" -- "1..1" PreliminaryBooking
-Booking "1..1" -- "0..5" SpecialOffer
-Booking "1..1" -- "1..1" CreditCard
-Booking "1..1" -- "1..1" Hotel
-Hotel "1..1" -- "1..1" City
+Traveller "1..1" -- "0..1" TravelPreferences
+Traveller "1..1" -- "1..1" ReliabilityRating
+Booking "0..*" -- "1..1" Traveller
+Booking "0..*" -- "1..1" Hotel
+Booking "0..*" -- "1..1" RoomType
+Booking "0..*" -- "0..*" SpecialOffer
+PreliminaryBooking --|> Booking
+FinalizedBooking --|> Booking
+Hotel "0..*" -- "0..1" HotelChain
 Hotel "1..1" -- "0..*" RoomType
-Hotel "1..1" -- "0..*" SpecialOffer
-PreliminaryBooking "1..1" -- "0..*" Hotel
-HBMS "1..1" -- "1..*" Traveller
-HBMS "1..1" -- "1..*" Hotel
-HBMS "1..1" -- "1..*" Booking
-HBMS "1..1" -- "1..*" PreliminaryBooking
-HBMS "1..1" -- "1..*" SpecialOffer
+SpecialOffer "0..*" -- "1..1" Hotel
 
 @enduml

@@ -1,28 +1,56 @@
-```plantuml
 @startuml
 
-class SensorController{}
-class Sensor{}
-class Apartment{}
-class Inhabitant{}
-class E-Monitor{}
-class Room{}
-class TemperatureSensor{}
-class PowerSensor{}
-class Value{}
+class Sensor {
+  String VendorID
+  String Description
+  String Unit
+}
 
-SensorController "1..1" -- "1..*" Sensor
-SensorController "1..1" -- "1..*" Apartment
-SensorController "1..1" -- "1..*" Inhabitant
-SensorController "1..1" -- "1..1" E-Monitor
-SensorController "1..1" -- "1..*" Room
+class TemperatureSensor {
+  float Min
+  float Max
+}
+
+class PowerSensor {
+  float TotalPowerConsumption
+}
+
+class Room {
+  String Description
+}
+
+class Apartment {
+  String Address
+}
+
+class Inhabitant {
+  String Username
+  String Password
+  boolean IsAdmin
+  String Email
+}
+
+class SensorController {
+
+}
+
+class EMonitor {
+
+}
+
+class MeasuredValue {
+  Date Timestamp
+  float Value
+}
+
+Sensor "0..*" -- "1..1" Room
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
 Apartment "1..1" -- "2..*" Room
-Room "1..1" -- "1..*" Sensor
-Sensor "1..*" -- "1..*" Value
-TemperatureSensor "1..*" -- "1..1" Room
-PowerSensor "1..*" -- "1..1" Room
-Sensor "1..1" -- "1..1" TemperatureSensor
-Sensor "1..1" -- "1..1" PowerSensor
+Inhabitant "0..*" -- "1..1" Apartment
+SensorController "1..1" -- "1..*" Sensor
+SensorController "1..1" -- "1..*" Inhabitant
+EMonitor "1..1" -- "1..1" SensorController
+Sensor "1..1" -- "0..*" MeasuredValue
 
 @enduml
-```

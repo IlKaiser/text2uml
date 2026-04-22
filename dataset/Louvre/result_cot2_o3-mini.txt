@@ -1,20 +1,18 @@
 @startuml
-class Museum {}
-class Room {}
-class Exhibition {}
-class Location {}
-class Employee {}
-class ExhibitionItem {}
-class Piece {}
-class Collector {}
-class CoachingRelationship {}
+class Museum
+class Exhibition
+class Location
+class ExhibitionItem
+class Piece
+class Collector
+class Employee
 
-Museum "1..1" -- "0..*" Room
 Museum "1..1" -- "0..*" Location
+Museum "1..1" -- "0..*" Exhibition
 Location "1..1" -- "0..*" Exhibition
-Room "1..1" -- "0..*" Exhibition
 Exhibition "0..*" -- "1..1" Employee
+Exhibition "1..1" -- "0..*" ExhibitionItem
 ExhibitionItem "1..1" -- "0..*" Piece
-Collector "1..1" -- "0..*" Piece
-CoachingRelationship "1..1" -- "2..2" Employee
+Piece "0..*" -- "1..1" Collector
+Employee "0..*" -- "1..1" Employee
 @enduml

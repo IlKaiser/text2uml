@@ -1,38 +1,121 @@
 
+```plantuml
 @startuml
-class InsuranceCompany{}
-class Client{}
-class Broker{}
-class System{}
-class HelpDesk{}
-class AccountManager{}
-class Profile{}
-class Contract{}
-class Offer{}
-class Customer{}
-class Event{}
-class Claim{}
-class Case{}
-class Estimator{}
-class Report{}
-class Decision{}
-class Refund{}
-class Document{}
-class Database{}
 
-InsuranceCompany "1..1" -- "0..*" Client
-Client "1..1" -- "1..1" Broker
-System "1..1" -- "0..*" Broker
-Client "1..*" -- "1..1" Profile
-Broker "1..1" -- "0..*" Contract
-Client "1..*" -- "0..*" Contract
-Contract "1..1" -- "0..*" Offer
-Offer "1..1" -- "1..1" Customer
-Customer "1..1" -- "1..*" Event
-Event "1..*" -- "1..*" Claim
-Claim "1..*" -- "1..*" Case
-Case "1..*" -- "1..*" Estimator
-Report "1..*" -- "1..1" Decision
-Decision "1..*" -- "1..1" Refund
-Document "1..*" -- "1..1" Database
+class AlphaInsurance {
+}
+
+class Client {
+    name: String
+    address: String
+    email: String
+    phone: String
+}
+
+class Broker {
+    name: String
+    systemId: Int
+}
+
+class System {
+    registeredBrokers: List[Broker]
+    helpDesk: AccountManager
+}
+
+class AccountManager {
+    name: String
+}
+
+class InsurancePolicy {
+    type: String
+}
+
+class Profile {
+    trustworthy: Boolean
+}
+
+class HeadOffice {
+}
+
+class Contract {
+    offerDate: Date
+    signingDate: Date
+    price: Float
+    paymentInterval: String
+}
+
+class Offer {
+}
+
+class Customer {
+    name: String
+    address: String
+    email: String
+    phone: String
+}
+
+class Coverage {
+}
+
+class Invoice {
+    amount: Float
+    paymentFrequency: String
+}
+
+class Claim {
+}
+
+class Case {
+    eventType: String
+    status: String
+}
+
+class Event {
+    date: Date
+}
+
+class Estimator {
+    areaOfExpertise: String
+}
+
+class Report {
+}
+
+class Decision {
+    approved: Boolean
+}
+
+class Refund {
+    eligibleCosts: Float
+}
+
+class Document {
+    name: String
+    storedForYears: Int
+}
+
+class Database {
+}
+
+AlphaInsurance "1..1" -- "0..*" Client
+Client "1..*" -- "0..*" Broker
+Client "0..*" -- "0..*" InsurancePolicy
+Broker "1..1" -- "1..1" System
+Broker "0..1" -- "1..1" AccountManager
+Broker "0..*" -- "1..*" Customer
+Customer "0..*" -- "0..*" Contract
+Customer "0..*" -- "0..*" Offer
+Contract "1..1" -- "1..1" Offer
+Contract "1..1" -- "1..1" Coverage
+Customer "0..*" -- "0..*" Invoice
+Customer "0..*" -- "0..*" Claim
+Claim "0..*" -- "0..*" Case
+Case "0..*" -- "0..*" Estimator
+Estimator "1..*" -- "1..*" Report
+Claim "1..1" -- "1..1" Decision
+Decision "0..*" -- "0..*" Refund
+Customer "0..*" -- "0..*" Document
+Document "0..*" -- "1..1" Database
+
 @enduml
+```

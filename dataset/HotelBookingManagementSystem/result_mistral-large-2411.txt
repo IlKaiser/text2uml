@@ -1,25 +1,56 @@
-```plantuml
 @startuml
 
-class Traveller{}
-class HBMS{}
-class Hotel{}
-class Booking{}
-class Room{}
-class City{}
-class HotelChain{}
-class Address{}
-class CreditCard{}
+class Traveller{
+  String Name
+  String BillingInfo
+  String CompanyName
+  String Address
+  String TravelPreferences
+}
 
-Traveller "1..*" -- "1..1" HBMS
-HBMS "1..1" -- "1..*" Hotel
-Traveller "1..*" -- "1..*" Booking
-Booking "1..1" -- "1..1" CreditCard
-Booking "1..*" -- "1..1" Hotel
-Hotel "1..*" -- "1..1" Room
-Hotel "1..1" -- "1..1" City
-Hotel "1..1" -- "1..1" Address
-Hotel "1..*" -- "1..1" HotelChain
+class HBMS{
+  String City
+  Date ArrivalDate
+  Date DepartureDate
+  int NumberOfRooms
+  String RoomType
+  int HotelRating
+  double Budget
+  String TravelPreferences
+  String BookingInfo
+  String BookingIdentifier
+  String CreditCardInfo
+  Date CancellationDeadline
+  String ReliabilityRating
+}
+
+class Hotel{
+  String City
+  String Address
+  String HotelChain
+  String RoomType
+  Date Period
+  String SpecialOffer
+  String Confirmation
+  String FinancialCompensation
+}
+
+class Booking{
+  String Price
+  String CityArea
+  String HotelRating
+  String KeyPreferences
+  String BookingIdentifier
+  String CreditCardInfo
+  boolean PrePaid
+  Date CancellationDeadline
+  boolean Confirmed
+}
+
+Traveller "1..1" -- "0..*" HBMS
+HBMS "1..1" -- "0..*" Hotel
+HBMS "1..1" -- "0..*" Booking
+Hotel "1..1" -- "0..*" Booking
+Traveller "1..1" -- "0..*" Booking
 
 @enduml
-```

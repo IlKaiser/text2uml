@@ -1,37 +1,56 @@
 @startuml
-class SmartHome{}
-class Room{}
-class Sensor{}
-class Actuator{}
-class Owner{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class Precondition{}
-class Action{}
-class Alert{}
-class RuleTriggerEvent{}
 
-Action "1..*" -- "0..1" ControlCommand
-ActivityLog "0..*" -- "1..1" ControlCommand
-ActivityLog "0..*" -- "1..1" SensorReading
-Actuator "0..*" -- "1..1" ControlCommand
-AutomationRule "1..1" -- "1..1" Action
-AutomationRule "0..*" -- "1..1" Alert
-AutomationRule "0..*" -- "0..*" AutomationRule
+class SmartHomeAutomationSystem
+class User
+class Owner
+class SmartHome {
+  physicalAddress:String
+}
+class Room
+class Device
+class SensorDevice {
+  deviceId:String
+}
+class ActuatorDevice {
+  deviceId:String
+}
+class SensorReading {
+  value:Float
+  timestamp:Date
+}
+class ControlCommand {
+  commandName:String
+  timestamp:Date
+  status:String
+}
+class ActivityLog
+class Alert
+class AutomationRule {
+  isActive:Boolean
+}
+class Precondition
+class Action
+class RelationalTerm
+
+SmartHomeAutomationSystem "1..1" -- "0..*" User
+SmartHome "1..1" -- "1..*" Room
+Room "1..1" -- "0..*" Device
+SensorDevice "1..1" -- "1..*" SensorReading
+ActuatorDevice "1..1" -- "0..*" ControlCommand
+ActivityLog "1..1" -- "0..*" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+Owner "1..1" -- "0..*" Alert
+Alert "1..1" -- "0..*" SmartHome
+Owner "1..1" -- "0..*" AutomationRule
 AutomationRule "1..1" -- "1..1" Precondition
-AutomationRule "0..*" -- "1..1" RuleTriggerEvent
-Owner "0..*" -- "1..1" Alert
-Owner "0..*" -- "1..1" AutomationRule
-Owner "0..*" -- "1..1" SmartHome
-Precondition "0..*" -- "0..*" Actuator
-Precondition "0..*" -- "0..*" ControlCommand
-Precondition "0..*" -- "0..*" Room
-Precondition "0..*" -- "0..*" Sensor
-Precondition "0..*" -- "0..*" SensorReading
-Room "0..*" -- "1..1" Actuator
-Room "0..*" -- "1..1" Sensor
-Sensor "0..*" -- "1..1" SensorReading
-SmartHome "1..*" -- "1..1" Room
+AutomationRule "1..1" -- "1..1" Action
+Precondition "1..1" -- "1..*" RelationalTerm
+Action "1..1" -- "1..*" ControlCommand
+AutomationRule "0..*" -- "0..*" AutomationRule
+ActivityLog "1..1" -- "0..*" AutomationRule
+
+Owner --|> User
+SensorDevice --|> Device
+ActuatorDevice --|> Device
+
 @enduml

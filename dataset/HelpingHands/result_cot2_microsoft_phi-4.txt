@@ -1,0 +1,124 @@
+```plantuml
+@startuml
+
+class HelpingHandsStore
+
+class Article {
+  description: String
+  category: String
+  quality: String
+}
+
+class Food
+
+class Resident {
+  name: String
+  streetAddress: StreetAddress
+  phoneNumber: PhoneNumber
+  emailAddress: EmailAddress
+  description: String
+}
+
+class City
+
+class Location
+
+class Service
+
+class Customer
+
+class Pickup {
+  scheduledTime: Date
+}
+
+class Delivery
+
+class StreetAddress {
+  street: String
+  building: Building
+}
+
+class PhoneNumber {
+  number: String
+}
+
+class EmailAddress {
+  email: String
+}
+
+class Description {
+  text: String
+}
+
+class Item {
+  dimensions: Dimension
+  weight: Weight
+}
+
+class Building
+
+class Vehicle {
+  storageSpace: StorageSpace
+}
+
+class Route
+
+class VolunteerDriver {
+  availableDays: Day
+}
+
+class Day
+
+class StorageSpace
+
+class Dimension
+
+class Weight
+
+class DistributionCenter
+
+class FoodBank
+
+class Employee
+
+class Quality
+
+class RFIDDevice
+
+class Category
+
+class Client
+
+class ServiceOffering
+
+class Call
+
+class HomeAddress {
+  street: String
+  building: Building
+}
+
+0..* Resident -- 0..* Pickup
+1..1 Pickup -- 1..1 StreetAddress
+0..1 Pickup -- 0..1 PhoneNumber
+0..1 Pickup -- 0..1 EmailAddress
+1..1 Pickup -- 1..1 Description
+0..* Pickup -- 0..* Item
+1..* Vehicle -- 1..* Route
+1..1 Route -- 1..1 Day
+0..* Route -- 0..* Pickup
+1..1 Vehicle -- 1..1 VolunteerDriver
+0..* VolunteerDriver -- 0..* Day
+1..1 Item -- 1..1 Dimension
+1..1 Item -- 1..1 Weight
+1..* DistributionCenter -- 1..* Article
+1..* Employee -- 1..* Article
+1..1 Article -- 1..1 RFIDDevice
+1..1 Article -- 1..1 Category
+0..* Client -- 0..* Call
+1..1 Call -- 1..1 Client
+0..* Client -- 1..1 HomeAddress
+0..* ServiceOffering -- 0..* Client
+
+@enduml
+```

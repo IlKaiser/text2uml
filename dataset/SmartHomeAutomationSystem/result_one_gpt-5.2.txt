@@ -1,0 +1,99 @@
+@startuml
+
+class SmartHomeAutomationSystem {
+    String Name
+    Boolean Operational
+}
+class User {
+    String Name
+    String Email
+}
+class Owner {
+    String Name
+    String Email
+}
+class SmartHome {
+    String PhysicalAddress
+}
+class Room {
+    String Name
+}
+class Device {
+    String DeviceIdentifier
+    String DeviceType
+    Boolean Active
+}
+class SensorDevice {
+    String DeviceIdentifier
+    String DeviceType
+    Boolean Active
+}
+class ActuatorDevice {
+    String DeviceIdentifier
+    String DeviceType
+    Boolean Active
+}
+class SensorReading {
+    Double MeasuredValue
+    Date Timestamp
+}
+class ControlCommand {
+    String CommandName
+    Date Timestamp
+    String Status
+}
+class ActivityLog {
+    Date Timestamp
+}
+class AutomationRule {
+    String Name
+    String Status
+    Boolean Active
+}
+class Precondition {
+    String BooleanExpression
+}
+class RelationalTerm {
+    String Operator
+    String LeftOperand
+    String RightOperand
+}
+class BooleanOperator {
+    String Type
+}
+class Action {
+    String Description
+}
+class RuleTrigger {
+    Date Timestamp
+}
+
+Device <|-- SensorDevice
+Device <|-- ActuatorDevice
+User <|-- Owner
+
+SmartHomeAutomationSystem "0..*" -- "0..*" User
+Owner "0..*" -- "0..*" SmartHome
+SmartHome "1..1" -- "0..*" Room
+Room "1..1" -- "0..*" SensorDevice
+Room "1..1" -- "0..*" ActuatorDevice
+SensorDevice "1..1" -- "0..*" SensorReading
+ActuatorDevice "1..1" -- "0..*" ControlCommand
+SmartHome "1..1" -- "0..*" ActivityLog
+ActivityLog "0..*" -- "0..*" SensorReading
+ActivityLog "0..*" -- "0..*" ControlCommand
+Owner "0..*" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Precondition "1..1" -- "0..*" RelationalTerm
+Precondition "1..1" -- "0..*" BooleanOperator
+RelationalTerm "0..*" -- "0..*" Room
+RelationalTerm "0..*" -- "0..*" SensorDevice
+RelationalTerm "0..*" -- "0..*" ActuatorDevice
+RelationalTerm "0..*" -- "0..*" SensorReading
+RelationalTerm "0..*" -- "0..*" ControlCommand
+Action "1..1" -- "0..*" ControlCommand
+AutomationRule "0..*" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "0..*" RuleTrigger
+
+@enduml

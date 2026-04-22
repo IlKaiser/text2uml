@@ -1,36 +1,67 @@
 @startuml
 
-class OTS{}
-class Student{}
-class Tutor{}
-class Subject{}
-class ExpertiseLevel{}
-class TutoringOffer{}
-class Availability{}
-class TutoringRequest{}
-class TutoringSession{}
-class Payment{}
-class Award{}
+class OTS
+class User
+class Student {
+  String name
+  String email
+}
+class Tutor {
+  String name
+  String email
+  String bankAccount
+}
+class Subject {
+  String name
+}
+class TutoringOffer {
+  String levelOfExpertise
+  Float hourlyPrice
+}
+class WeeklyAvailability {
+  String day
+  Time startTime
+  Time endTime
+}
+class TutoringRequest {
+  String requestedLevel
+  Date targetDate
+  Time targetTime
+}
+class TutoringSession {
+  Date sessionDate
+  Time sessionTime
+  String status
+  Float price
+}
+class Payment {
+  String method
+  Float amount
+  Date paymentDate
+}
+class Cancellation {
+  String cancelledBy
+  Date cancellationTime
+}
+class TutorOfTheMonthAward {
+  String month
+  String subject
+}
 
-OTS "1..1" -- "1..*" Student
-OTS "1..1" -- "1..*" Tutor
-Student "1..1" -- "0..*" Tutor
-Tutor "1..1" -- "1..*" Subject
-Tutor "1..1" -- "1..*" ExpertiseLevel
-Tutor "1..1" -- "1..*" TutoringOffer
-Tutor "1..1" -- "1..*" Availability
+User <|-- Student
+User <|-- Tutor
+Tutor "0..*" -- "0..*" Subject
+Tutor "1..1" -- "0..*" TutoringOffer
+Tutor "1..1" -- "0..*" WeeklyAvailability
 TutoringOffer "1..1" -- "1..1" Subject
-TutoringOffer "1..1" -- "1..1" ExpertiseLevel
 Student "1..1" -- "0..*" TutoringRequest
-TutoringRequest "1..1" -- "1..1" Tutor
-TutoringRequest "1..1" -- "1..1" Subject
-TutoringRequest "1..1" -- "1..1" ExpertiseLevel
+TutoringRequest "1..1" -- "1..1" TutoringOffer
 TutoringRequest "1..1" -- "0..1" TutoringSession
-Tutor "1..1" -- "0..*" TutoringSession
-Student "1..1" -- "0..*" TutoringSession
-TutoringSession "1..1" -- "0..1" Payment
-TutoringSession "1..1" -- "0..1" TutoringSession
-Tutor "1..1" -- "0..*" Award
-Subject "1..1" -- "1..*" Award
+TutoringSession "1..1" -- "1..1" Student
+TutoringSession "1..1" -- "1..1" Tutor
+TutoringSession "1..1" -- "0..*" Payment
+TutoringSession "1..1" -- "0..1" Cancellation
+Tutor "0..*" -- "0..*" TutorOfTheMonthAward
+TutorOfTheMonthAward "1..1" -- "1..1" Subject
 
 @enduml

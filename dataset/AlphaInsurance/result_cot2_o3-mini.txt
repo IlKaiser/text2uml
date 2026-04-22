@@ -1,31 +1,42 @@
 @startuml
-class InsuranceCompany {}
-class Client {}
-class Broker {}
-class AccountManager {}
-class InsurancePolicy {}
-class Offer {}
-class Contract {}
-class ClaimCase {}
-class Estimator {}
-class Report {}
-class CompensationDecision {}
-class Invoice {}
+class InsuranceCompany
+class Customer
+class Broker
+class AccountManager
+class InsurancePolicy
+class InsuranceProduct {
+  price: Float
+}
+class Contract {
+  paymentFrequency: String
+}
+class Offer
+class CustomerProfile {
+  isTrustworthy: Boolean
+}
+class ClaimCase
+class Claim
+class Estimator {
+  areaOfExpertise: String
+}
+class Report
+class Payment {
+  compensationSum: Float
+}
+class CustomerAccount
 
-InsuranceCompany "1..1" -- "0..*" Client.
-InsuranceCompany "1..1" -- "0..*" Broker.
-InsuranceCompany "1..1" -- "0..*" InsurancePolicy.
-InsuranceCompany "1..1" -- "0..*" AccountManager.
-InsuranceCompany "1..1" -- "0..*" Estimator.
-InsuranceCompany "1..1" -- "0..*" Invoice.
-Client "1..1" -- "0..*" Broker.
-Client "1..1" -- "0..*" Offer.
-Client "1..1" -- "0..*" Contract.
-Client "1..1" -- "0..*" ClaimCase.
-InsurancePolicy "1..1" -- "0..*" Contract.
-AccountManager "1..1" -- "0..*" Contract.
-Offer "0..1" -- "1..1" Contract.
-ClaimCase "0..*" -- "0..*" Estimator.
-ClaimCase "1..1" -- "0..*" Report.
-ClaimCase "0..1" -- "1..1" CompensationDecision.
+InsuranceCompany "1..1" -- "0..*" InsurancePolicy
+Customer "1..1" -- "1..*" Broker
+Customer "1..1" -- "0..1" CustomerProfile
+Customer "1..1" -- "0..1" AccountManager
+Broker "1..1" -- "0..*" Offer
+Offer "0..*" -- "1..1" InsuranceProduct
+Customer "1..1" -- "0..1" Contract
+Contract "1..1" -- "1..1" InsuranceProduct
+Contract "1..1" -- "0..1" Payment
+Payment "0..1" -- "1..1" CustomerAccount
+Customer "1..1" -- "0..*" Claim
+Claim "1..1" -- "1..*" ClaimCase
+ClaimCase "1..*" -- "1..*" Estimator
+Estimator "1..1" -- "0..*" Report
 @enduml

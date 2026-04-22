@@ -1,0 +1,68 @@
+@startuml
+
+class Faculty {
+    String Name
+    String Address
+    Employee "1" -- "0..*" Employee
+    Employee "0..*" Institute
+    Employee "0..*" Dean
+}
+
+class Institute {
+    String Name
+    String Address
+    Employee "0..*" Institute
+    Employee "1" -- "0..*" Dean
+}
+
+class Employee {
+    String SocialSecurityNumber
+    String Name
+    String Email
+    String Role
+    Employee "0..*" Project
+    Employee "0..*" Course
+    Employee "0..*" ResearchAssistant
+    Employee "0..*" ResearchAssistant "0..*" Project
+    Employee "0..*" ResearchAssistant "0..*" Course
+}
+
+class ResearchAssistant {
+    String Name
+    String FieldOfResearch
+    Employee "0..*" Project
+    Employee "0..*" Course
+    Employee "0..*" ResearchAssistant "0..*" Project
+    Employee "0..*" ResearchAssistant "0..*" Course
+}
+
+class Project {
+    String Name
+    String StartDate
+    String EndDate
+    Employee "0..*" ResearchAssistant
+    Employee "0..*" ResearchAssistant "0..*" Project
+    Employee "0..*" ResearchAssistant "0..*" Course
+}
+
+class Course {
+    String ID
+    String Name
+    String Duration
+    Employee "0..*" ResearchAssistant
+    Employee "0..*" ResearchAssistant "0..*" Project
+    Employee "0..*" ResearchAssistant "0..*" Course
+}
+
+class Dean {
+    Employee "0..*" Faculty
+    Employee "0..*" Institute
+}
+
+class Institute {
+    String Name
+    String Address
+    Employee "0..*" Dean
+}
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+class GameDesigner{ String Name }
+class Player{ String Name, Color }
+class GameBoard{ String Layout }
+class Tile{ String Content, Boolean IsHidden, Boolean IsAction, Boolean IsVisited, Integer SideConnections }
+class ConnectionPiece{ String Type }
+class ActionCard{ String Instruction }
+class GameSession{ String Status }
+
+GameDesigner "1" -- "1" GameBoard
+GameDesigner "1" -- "1" ActionCard
+GameDesigner "1" -- "1" GameSession
+
+Player "1..4" -- "1" GameSession
+Player "1" -- "1" Tile
+ActionCard "1" -- "1" GameSession
+
+Tile "0..*" -- "0..*" ConnectionPiece
+Tile "0..1" -- "0..1" Tile
+Tile "0..1" -- "0..1" ActionCard
+Tile "0..1" -- "0..1" GameSession
+
+@enduml

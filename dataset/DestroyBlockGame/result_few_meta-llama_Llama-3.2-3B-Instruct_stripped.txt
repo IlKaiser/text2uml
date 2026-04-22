@@ -1,0 +1,68 @@
+Here is the UML output based on the provided specification text:
+
+```plantuml
+@startuml
+
+class User {
+    String Username
+    String Password
+    Boolean Admin
+}
+
+class Game {
+    String Name
+    String HallOfFame
+    String[] Blocks
+    Integer Level
+    Integer MaxLevel
+    Integer Speed
+    Integer MinSpeed
+    Integer SpeedIncreaseFactor
+    Integer MinLength
+    Integer MaxLength
+    Integer BallX
+    Integer BallY
+    Integer BallSpeedX
+    Integer BallSpeedY
+    Integer Lives
+    Integer Score
+    Boolean Paused
+}
+
+class Block {
+    String Color
+    Integer Points
+}
+
+class Level {
+    Integer Number
+    String[] Blocks
+    Integer Width
+    Integer Height
+}
+
+class Admin {
+    String Username
+}
+
+class Player {
+    String Username
+    String Password
+    String Game
+}
+
+Game "1..1" -- "0..*" User
+User "1" -- "0..*" Game
+User "1" -- "0..1" Admin
+Admin "1" -- "0..1" Game
+Game "1" -- "0..*" Level
+Level "1" -- "0..*" Block
+Block "1" -- "0..*" Level
+Level "1" -- "0..*" Block
+Block "1" -- "0..*" Game
+User "0..*" -- "0..*" Player
+Player "1" -- "0..*" Game
+Player "1" -- "0..*" Block
+Block "1" -- "0..*" Player
+@enduml
+```

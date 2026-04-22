@@ -1,0 +1,126 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: The LabTracker software helps (i) doctors manage the requisition of tests and examinations for patients and (ii) patients book appointments for tests and examinations at a lab. For the remainder of this description, tests and examinations are used interchangeably. 
+For a requisition, a doctor must provide their numeric practitioner number and signature for verification as well as their full name, their address, and their phone number. The signature is a digital signature, i.e., an image of the actual signature of the doctor. Furthermore, the doctor indicates the date from which the requisition is valid. The requisition must also show the patient’s information including their alpha-numeric health number, first name and last name, date of birth, address, and phone number. A doctor cannot prescribe a test for themselves but can prescribe tests to someone else who is a doctor. 
+Several tests can be combined on one requisition but only if they belong to the same group of tests. For example, only blood tests can be combined on one requisition or only ultrasound examinations can be combined. It is not possible to have a blood test and an ultrasound examination on the same requisition. For each test, its duration is defined by the lab network, so that it is possible to schedule appointments accordingly. The duration of a test is the same at each lab. For some kinds of tests, it does not matter how many tests are performed. They take as long as a single test. For example, several blood tests can be performed on a blood sample, i.e., it takes as long to draw the blood sample for a single blood test as it does for several blood tests. 
+A doctor may also indicate that the tests on a requisition are to be repeated for a specified number of times and interval. The interval is either weekly, monthly, every half year, or yearly. All tests on a requisition are following the same repetition pattern. 
+The doctor and the patient can view the results of each test (either negative or positive) as well as the accompanying report. 
+A patient is required to make an appointment for some tests while others are walk-in only. For example, x-ray examinations require an appointment, but blood tests are walk-in only (i.e., it is not possible to make an appointment for a blood test). On the other hand, some tests only require a sample to be dropped off (e.g., a urine or stool sample). 
+To make an appointment for a requisition, a patient selects the desired lab based on the lab’s address and business hours. For requisitions with repeated tests, a patient is only allowed to make one appointment at a time. The confirmation for an appointment also shows a confirmation number, the date as well as start/end times, and the name of the lab as well as its registration number. It is possible to change or cancel an appointment at any time but doing so within 24 hours of the appointment incurs a change/cancellation fee. Each lab determines its own fee and business hours. All labs are open every day of the year and offer all tests. The business hours of a lab do not change from one week to the next. Each day a lab is open from the day’s start time to its end time, i.e., there are no breaks.
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification. Let me start by understanding the requirements and extracting the necessary classes, attributes, and relationships.
+
+First, the specification talks about two main entities: doctors and patients. So, I'll create two classes: Doctor and Patient. Each of these classes will have attributes like name, address, phone number, and date of birth for patients, and a numeric practitioner number for doctors.
+
+Next, the specification mentions Requisition and Appointment. Requisitions are created by doctors and contain information like their signature, full details, and date validity. They can include multiple Tests, which are grouped by type (blood, ultrasound, etc.). Each Test has a duration defined by the lab. 
+
+Appointments are made by patients and are tied to a Requisition. They have a confirmation number, date, start/end times, and the lab's details. Requisitions with repeated tests require a single appointment, while others might allow multiple.
+
+I also notice that some tests are walk-in only, like blood tests, while others require appointments, like x-rays. This might imply a relationship between Tests and Appointments, but since Appointments are made by patients, maybe it's better to link through Requisitions.
+
+Now, I'll structure the classes and their attributes. For each class, I'll list the relevant attributes. Then, I'll define the relationships between them. Requisitions are created by Doctors and contain Patients and Tests. Appointments are made by Patients and are linked to Requisitions. 
+
+I need to ensure that the cardinality is correct. Doctors can create multiple Requisitions, each with multiple Tests and a Patient. Patients can have multiple Appointments, each linked to a Requisition. Tests are grouped within Requisitions, so each Requisition can have multiple Tests, but each Test is part of only one Requisition.
+
+I should also consider inheritance. Maybe some Tests inherit from a common base class, but since each Test type is specific, perhaps it's better to have separate classes for each Test type. However, if they share common attributes, I can use inheritance to reduce redundancy.
+
+Wait, the specification mentions that several tests can be combined on one requisition if they belong to the same group. So, maybe I should have a TestGroup class that can include multiple Tests. But the initial response didn't include that. Hmm, perhaps that's beyond the initial scope, but I should consider it for completeness.
+
+Also, the repetition pattern for tests is another point. Maybe that's handled through the Requisition class, indicating how many times and the interval. But for simplicity, I'll focus on the primary relationships first.
+
+Putting it all together, I'll start by defining the Doctor and Patient classes with their attributes. Then, the Requisition class will include Doctor, Patient, and Tests. The Appointment class will be linked to Requisition. I'll make sure to use bi-directional arcs for relationships and assign the correct cardinality.
+
+I think that's a solid plan. Now, I'll translate this into PlantUML code, ensuring that all classes and their attributes are correctly represented, and the relationships are accurately depicted with the appropriate cardinality.
+</think>
+
+@startuml
+
+class Doctor{
+    String Name
+    String Address
+    String PhoneNumber
+    Date OfBirth
+    Date Signature
+
+    relationship Requisition
+}
+
+class Patient{
+    String Name
+    String AlphaNumericHealthNumber
+    String FirstName
+    String LastName
+    Date OfBirth
+    String PhoneNumber
+
+    relationship Appointment
+}
+
+class Requisition{
+    String DoctorPractitionerNumber
+    String DateOfRequisition
+    String DigitalSignature
+
+    relationship Doctor
+    relationship Patient
+    relationship TestGroup
+
+    relationship Appointment
+}
+
+class TestGroup{
+    String TestTypes
+}
+
+class Test{
+    String Name
+    String Description
+    String Duration
+
+    relationship Requisition
+}
+
+class Appointment{
+    String ConfirmationNumber
+    Date ConfirmationDate
+    Time StartTime
+    Time EndTime
+    String LabName
+    String LabRegistrationNumber
+
+    relationship Requisition
+}
+
+@enduml

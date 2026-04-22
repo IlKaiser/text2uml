@@ -1,0 +1,41 @@
+```plantuml
+@startuml
+
+class Customer {
+    String Address
+    String VATNumber
+    String HeadOfficeAddress
+    String DeliveryAddress
+}
+class Product {
+    String Name
+    Int StockLevel
+}
+class Order {
+    String Status
+    Date PaymentDate
+    Date ShipmentDate
+}
+class OrderLine {
+    Int Quantity
+    Boolean Shipped
+}
+class Invoice {
+    Date IssueDate
+    Date PaymentDate
+}
+
+Customer "1" -- "0..*" Order
+Order "1" -- "0..*" OrderLine
+OrderLine "1" -- "1" Product
+Order "1" -- "0..1" Invoice
+OrderLine "0..*" -- "0..*" Shipment
+
+class Shipment {
+    String Status
+}
+
+@enduml
+```
+
+This UML diagram reflects the iterative development of the system as described in the specification text, incorporating changes from each step.

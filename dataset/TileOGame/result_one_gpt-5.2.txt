@@ -1,0 +1,76 @@
+@startuml
+
+class TileOApplication {
+    String Name
+}
+class Game {
+    String Status
+    Boolean Pausable
+    Boolean Savable
+    Integer MinPlayers
+    Integer MaxPlayers
+}
+class Designer {
+    String Name
+}
+class Player {
+    Integer PlayerNumber
+    String Name
+}
+class Board {
+    String Layout
+}
+class Tile {
+    String Color
+    Boolean Visited
+    Boolean IsHidden
+    Boolean IsActionTile
+    Integer ActionTileCooldownTurns
+}
+class ConnectionPiece {
+    String Id
+}
+class PlayingPiece {
+    String Color
+}
+class Die {
+    Integer Sides
+}
+class Deck {
+    Integer Size
+}
+class ActionCard {
+    String Type
+    String Instruction
+}
+class Turn {
+    Integer Order
+}
+class ActionTileSpecification {
+    Integer RegularTileTurnsAfterLanding
+}
+class ConnectionPiecePile {
+    Integer SpareCount
+}
+
+TileOApplication "1..1" -- "0..*" Game
+Designer "1..1" -- "0..*" Game
+Game "1..1" -- "1..1" Board
+Board "1..1" -- "0..*" Tile
+Board "1..1" -- "0..*" ConnectionPiece
+Game "1..1" -- "2..4" Player
+Player "1..1" -- "1..1" PlayingPiece
+Game "1..1" -- "1..1" Die
+Game "1..1" -- "1..1" Deck
+Deck "1..1" -- "32..32" ActionCard
+Game "1..1" -- "0..*" Turn
+Turn "1..1" -- "1..1" Player
+Turn "1..1" -- "0..1" ActionCard
+Game "1..1" -- "1..1" ConnectionPiecePile
+ConnectionPiecePile "1..1" -- "0..*" ConnectionPiece
+Tile "0..*" -- "0..*" Tile
+ConnectionPiece "0..*" -- "0..*" Tile
+Designer "1..1" -- "0..*" ActionTileSpecification
+ActionTileSpecification "1..1" -- "0..*" Tile
+
+@enduml

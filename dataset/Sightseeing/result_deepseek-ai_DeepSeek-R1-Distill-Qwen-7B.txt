@@ -1,0 +1,74 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Every city has several attractions. A city has a name and a specific number of inhabitants, while an attraction has a name and an address. Various guided tours are offered for a tourist attraction, and the duration and number of a guided tour are known. A maximum of 20 visitors can take part in a guided tour, and certain visitors may be granted a discount for certain guided tours; the amount of this discount must be known. Of course, a guided tour also requires a guide. The visitors and the guide are people who have names.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given specification. Let me break down the problem step by step.
+
+First, I'll identify all the classes mentioned in the text. The specification talks about cities, attractions, guided tours, visitors, guides, and discounts. So, the classes I need are: City, Attraction, GuidedTour, Visitor, Guide, and Discount.
+
+Next, I'll extract the attributes for each class. 
+
+- **City** has a name and a number of inhabitants.
+- **Attraction** has a name and an address.
+- **GuidedTour** has a name, duration, number, discount, and requires a guide. The guide is another class, so I'll handle that in the relationships.
+- **Visitor** and **Guide** both have names.
+- **Discount** has an amount.
+
+Now, I'll move on to the relationships. The text says every city has several attractions, so City should have a collection of Attractions. Attractions can have multiple GuidedTours, so Attraction will have a collection of GuidedTour. GuidedTours are offered for Attractions, so each GuidedTour is associated with an Attraction. Each GuidedTour can have multiple Visitors and one Guide. Visitors and Guides are both people, so they should be separate classes with names as their only attribute.
+
+I need to represent these relationships in PlantUML. Since the relationships don't specify cardinality, I'll use the default "0..*" where appropriate. For example, a City can have zero or more Attractions, and an Attraction can have zero or more GuidedTours.
+
+I should also note that a GuidedTour requires a Guide, so there's a mandatory relationship there. The number of Visitors per GuidedTour is not specified, so I'll default to "0..*".
+
+Putting it all together, I'll start by defining each class with their attributes, then draw the relationships between them with the appropriate cardinality.
+</think>
+
+```plantuml
+@startuml
+
+class City{ String Name, Integer Inhabitants }
+class Attraction{ String Name, String Address }
+class GuidedTour{ String Name, Integer Duration, Integer NumberOfVisitors, Discount Discount, Class Guide }
+class Visitor{ String Name }
+class Guide{ String Name }
+class Discount{ Integer Amount }
+
+City -- "0..*" Attraction
+Attraction -- "0..*" GuidedTour
+GuidedTour -- "1..*" Guide
+GuidedTour -- "0..*" Visitor
+City -- "0..*" GuidedTour
+
+@enduml
+```

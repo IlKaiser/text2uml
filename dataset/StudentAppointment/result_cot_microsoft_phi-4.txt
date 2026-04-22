@@ -1,0 +1,39 @@
+```plantuml
+@startuml
+
+class Student {
+    name: String
+    registrationDate: Date
+}
+
+class Course {
+    courseName: String
+    courseCode: String
+}
+
+class TeachingAssistant {
+    name: String
+    taId: Int
+}
+
+class Appointment {
+    appointmentDate: Date
+    courseCode: String
+    taId: Int
+    studentId: Int
+}
+
+class Registration {
+    registrationDate: Date
+    courseCode: String
+    studentId: Int
+}
+
+Student "1..*" -- "1..1" Appointment
+TeachingAssistant "1..*" -- "1..1" Appointment
+Course "1..1" -- "1..*" Appointment
+Student "1..1" -- "1..*" Course
+TeachingAssistant "1..*" -- "1..*" Course
+
+@enduml
+```

@@ -1,28 +1,53 @@
-Here is the PlantUML class diagram based on the provided specification:
-
-```plantuml
 @startuml
 
-class Bus{}
-class Trajectory{}
-class ApprovalRequest{}
-class Line{}
-class SeasonTicket{}
-class MENSO{}
-class Invoice{}
-class Customer{}
-class Trip{}
-class Discount{}
+class Bus {
+    String LineNumber
+    Boolean Operational
+}
 
-Trajectory "1" -- "0..*" ApprovalRequest
-Trajectory "1" -- "0..*" Bus
-Trajectory "1" -- "0..*" Line
-Line "1" -- "0..*" SeasonTicket
-SeasonTicket "1" -- "1" MENSO
-MENSO "1" -- "0..*" Invoice
-Invoice "1" -- "0..*" Discount
-Customer "1" -- "1" MENSO
-MENSO "1" -- "0..*" Trip
+class Trajectory {
+    String Description
+    Boolean Approved
+    Boolean Suspended
+    Date ApprovalDate
+    Date CancellationDate
+}
+
+class Line {
+    String Category
+}
+
+class MENSOCard {
+    String CardNumber
+    Date ExpiryDate
+}
+
+class Trip {
+    Date Time
+    Date Date
+    Line Line
+}
+
+class Invoice {
+    Date IssueDate
+    Double TotalAmount
+    Double Discount
+    String Status
+}
+
+class Customer {
+    String Name
+    String HomeAddress
+    String OfficeAddress
+    String WorkingHours
+}
+
+Bus "1" -- "0..*" Trajectory
+Trajectory "1" -- "0..1" Line
+Line "1" -- "0..*" MENSOCard
+MENSOCard "1" -- "0..*" Trip
+Trip "1" -- "0..1" Invoice
+Customer "1" -- "0..1" MENSOCard
+Customer "1" -- "0..*" Invoice
 
 @enduml
-```

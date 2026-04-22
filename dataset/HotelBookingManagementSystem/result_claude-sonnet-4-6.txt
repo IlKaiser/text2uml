@@ -1,0 +1,31 @@
+@startuml
+
+class Traveller { String Name, String BillingInfo, String CompanyName, String CompanyAddress }
+class TravelPreference { String Description }
+class SearchRequest { String City, Date ArrivalDate, Date DepartureDate, int NumberOfRooms, String RoomType, int MinHotelRating, float MaxCostPerNight }
+class Booking { String UniqueBookingID, String Status, String PaymentType, Date CancellationDeadline, float ReliabilityRating }
+class PreliminaryBooking { float Price, String CityArea, int HotelRating }
+class FinalizedBooking { String CreditCardInfo, boolean IsPrePaid }
+class SpecialOffer { float Price, Date ExpirationDate }
+class Hotel { String Name, String Address, String City, int StarRating }
+class HotelChain { String Name }
+class RoomAvailability { String RoomType, Date PeriodStart, Date PeriodEnd, boolean IsFullyBooked }
+class Confirmation { Date ConfirmationDate, boolean IsConfirmed }
+class Compensation { float Amount, String Description }
+
+Traveller "0..*" -- "0..*" TravelPreference
+Traveller "1..1" -- "0..*" SearchRequest
+Traveller "1..1" -- "0..*" Booking
+SearchRequest "0..*" -- "0..*" TravelPreference
+Booking "1..1" -- "0..1" PreliminaryBooking
+Booking "1..1" -- "0..1" FinalizedBooking
+Booking "1..1" -- "0..1" Confirmation
+Booking "1..1" -- "0..1" Compensation
+PreliminaryBooking "0..*" -- "0..*" SpecialOffer
+FinalizedBooking "0..1" -- "0..*" SpecialOffer
+Hotel "1..1" -- "0..*" RoomAvailability
+Hotel "0..*" -- "0..1" HotelChain
+Hotel "1..1" -- "0..*" Booking
+Hotel "1..1" -- "0..*" SpecialOffer
+
+@enduml

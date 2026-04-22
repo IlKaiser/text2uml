@@ -1,32 +1,70 @@
-```
+```plantuml
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Inhabitant{}
-class Category{}
-class Stay{}
-class Registration{}
-class Person{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Invoice{}
-class Event{}
-class CreditNote{}
 
-Room "0..*" -- "1..1" Department
-Bed "1..*" -- "1..1" Room
-Bed "1..1" -- "1..*" Inhabitant
-Category "1..1" -- "1..*" Bed
-Stay "1..1" -- "1..*" Category
-Stay "0..*" -- "1..*" Inhabitant
-Person "1..*" -- "1..1" Registration
-Person "1..1" -- "1..1" Assessment
-Person "0..*" -- "0..1" WaitingList
-Proposal "1..1" -- "1..*" Person
-Invoice "1..*" -- "1..*" Stay
-Invoice "1..1" -- "0..*" CreditNote
+class Home {
+}
+
+class Department {
+  numberOfRooms: Int
+}
+
+class Room {
+  numberOfBeds: Int
+}
+
+class Bed {
+  category: String
+}
+
+class Inhabitant {
+}
+
+class Stay {
+  type: String
+  dateOfIntake: Date
+  discount: Float
+}
+
+class Category {
+  price: Float
+}
+
+class WaitingList {
+  registrationDate: Date
+  position: Int
+}
+
+class Registration {
+  date: Date
+}
+
+class Proposal {
+  validated: Boolean
+}
+
+class Invoice {
+  outstandingAmount: Float
+  datePaid: Date
+}
+
+class Payment {
+}
+
+class CreditNote {
+}
+
+0..* Department -- "1..1" Home
+0..* Room -- "1..1" Department
+0..* Bed -- "1..1" Room
+0..* Inhabitant -- "0..*" Bed
+1..1 Bed -- "1..1" Category
+0..* Stay -- "1..1" Inhabitant
+0..* Stay -- "1..1" Category
+0..* Registration -- "1..1" Inhabitant
+0..* WaitingList -- "1..1" Category
+0..* Proposal -- "1..1" WaitingList
+0..* Invoice -- "1..1" Stay
+0..* CreditNote -- "1..1" Invoice
+
 @enduml
 ```

@@ -1,33 +1,70 @@
 @startuml
-class User{}
-class BusinessOwner{}
-class HungryCustomer{}
-class Entertainer{}
-class PizzaRestaurant{}
-class Pizza{}
-class Order{}
-class EntertainmentOrder{}
-class Address{}
-class DeliveryPerson{}
-class OrderedPizza{}
-class OpeningHours{}
-class AvailabilityByDay{}
+class User {
+  id: Int
+  name: String
+  birthday: Date
+  address: String
+}
+class BusinessOwner {
+  linkedin: String
+}
+class Customer {
+  deliveryAddress: String
+}
+class Entertainer {
+  stageName: String
+  bio: String
+  pricePer30Minutes: Float
+}
+class PizzaRestaurant {
+  zipCode: String
+  address: String
+  phoneNumber: String
+  website: String
+  openingHours: String
+}
+class Pizza {
+  name: String
+  crustStructure: String
+  price: Float
+}
+class Order {
+  id: Int
+  placedAt: Date
+  latestDeliveryTime: Date
+  numberOfPeople: Int
+}
+class EntertainmentOrder {
+  entertainmentType: String
+  duration: Int
+}
+class OrderItem
+class Address
+class OpeningHours
+class Availability {
+  day: String
+}
+class EntertainmentType
 
-User "1..1" -- "0..1" BusinessOwner
-User "1..1" -- "0..1" HungryCustomer
-User "1..1" -- "0..1" Entertainer
 BusinessOwner "1..1" -- "0..*" PizzaRestaurant
+User "0..*" -- "1..1" Address
+PizzaRestaurant "0..*" -- "1..1" Address
 PizzaRestaurant "1..1" -- "0..*" Pizza
 PizzaRestaurant "1..1" -- "0..*" OpeningHours
-PizzaRestaurant "1..1" -- "1..1" Address
-HungryCustomer "1..1" -- "1..1" Address
-HungryCustomer "1..1" -- "0..*" Order
-Order "1..1" -- "1..*" OrderedPizza
-OrderedPizza "1..1" -- "1..1" Pizza
+Pizza "1..1" -- "0..*" OrderItem
+Order "1..1" -- "1..*" OrderItem
+Customer "1..1" -- "0..*" Order
+Address "1..1" -- "0..*" Order
+PizzaRestaurant "1..1" -- "0..*" Order
+Entertainer "1..1" -- "0..*" EntertainmentOrder
 Entertainer "0..*" -- "0..*" PizzaRestaurant
-Entertainer "0..*" -- "0..*" AvailabilityByDay
-PizzaRestaurant "0..*" -- "0..*" AvailabilityByDay
-EntertainmentOrder "1..1" -- "1..1" Order
-Entertainer "0..*" -- "1..1" EntertainmentOrder
-DeliveryPerson "0..*" -- "1..1" Order
+Entertainer "1..1" -- "0..*" Availability
+PizzaRestaurant "1..1" -- "0..*" Availability
+Entertainer "0..*" -- "0..*" EntertainmentType
+EntertainmentType "1..1" -- "0..*" EntertainmentOrder
+
+BusinessOwner --|> User
+Customer --|> User
+Entertainer --|> User
+EntertainmentOrder --|> Order
 @enduml

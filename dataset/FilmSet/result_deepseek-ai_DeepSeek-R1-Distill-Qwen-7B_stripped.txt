@@ -1,0 +1,126 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Several employees work on a film set. The name and social security number of each employee is known. There are so-called creative employees, including directors and actors. The education completed by each actor is known, and the name of the director's assistant is stored. Both directors and actors can be Oscar winners, and it is stored whether the person in question has an Oscar. In addition, there are technicians, and the field of activity of each technician is known.
+The film set is located at a specific location. A film set can be used for several films, and a film can be shot at several different film sets. Each film has a title and a year of release. Furthermore, each film is assigned to a specific genre, with a distinction being made between thriller, action, horror, or comedy.
+The name and most successful film of a screenwriter are stored. A screenwriter creates several screenplays, and a screenplay comes from exactly one screenwriter. The title, version, date, number of scenes, and plot of each screenplay are known. A screenplay is based either on a novel or on a concept. Each novel has a title and an author. A film shot on a film set is based on a specific screenplay; a screenplay is written for exactly one film. The actors who appear in the film must prepare for their respective roles by reading the screenplay. The director of the film then implements the screenplay according to the specifications.<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given specification. Let me start by carefully reading through the text to understand all the classes and their relationships.
+
+First, I'll identify the main classes. The text mentions employees, creative employees (which include directors and actors), technicians, film sets, films, screenwriters, screenplays, genres, novelists, and Oscar winners. That's quite a few, so I'll list them out:
+
+- Employee
+- CreativeEmployee (includes Director and Actor)
+- Technician
+- FilmSet
+- Film
+- Screenwriter
+- Screenplay
+- Genre
+- Novel
+- Author
+- Oscar
+
+Next, I'll extract the attributes for each class. The text provides details about what each class holds:
+
+- Employee: Name, SSN
+- CreativeEmployee: Name, role (Director or Actor), Education (for Actor), Oscar status
+- Technician: Name, field of activity
+- FilmSet: Location, can be used for multiple films, can be shot in multiple sets
+- Film: Title, release year, genre, assigned to a specific genre, has a successful film
+- Screenwriter: Name, most successful film, creates screenplays
+- Screenplay: Title, version, date, number of scenes, plot, based on novel or concept
+- Genre: Thriller, Action, Horror, Comedy
+- Novel: Title, author
+- Author: Name
+
+Now, I'll move on to the relationships. The text describes how these classes interact:
+
+- Employees work on a film set. So, Employee is connected to FilmSet. Since an employee can work on multiple film sets, and a film set can have multiple employees, the cardinality is 1..* for both directions. So, Employee "1..*" -- "1..*" FilmSet.
+
+- CreativeEmployees (Directors and Actors) are part of Employees, so they inherit from Employee. But since the text specifies they are a separate class, I'll create CreativeEmployee as a separate class inheriting from Employee. So, Employee -> CreativeEmployee.
+
+- Each film has a title and release year, and is assigned to a genre. So, Film has attributes Title, ReleaseYear, Genre. The relationship between Film and Genre is that a genre can be assigned to multiple films, and a film has exactly one genre. So, Film -- "1..*" Genre.
+
+- Each film is based on a screenplay, and each screenplay is written by exactly one screenwriter. So, Screenwriter has a Screenplay attribute, and Screenplay is linked to exactly one Screenwriter. So, Screenwriter -- "1" Screenplay.
+
+- Each screenwriter creates multiple screenplays, so the relationship is Screenwriter -- "1.." Screenplay.
+
+- Each screenplay is based on either a novel or a concept. So, Screenplay has a relationship with both Novel and Concept. Since a Screenplay can be based on one novel or one concept, the cardinality is 1..* for both. So, Screenplay -- "1..*" Novel and Screenplay -- "1..*" Concept.
+
+- Each actor is a CreativeEmployee, so Actor inherits from CreativeEmployee. Also, each film's actors prepare the screenplay, and the director implements it. So, the relationship between Film and Actor is "1..*", meaning a film can have multiple actors. Similarly, Film and Director have a "1..*" relationship.
+
+- Each technician's field of activity is known, and they are separate from employees. So, Technician has a field of activity, which is a string.
+
+- Employees can be Oscar winners, so there's an attribute in Employee for Oscar status. So, Employee has an attribute Oscar.
+
+Putting it all together, I'll structure the PlantUML code by first listing all the classes with their attributes, then the relationships with their cardinalities.
+
+I need to make sure I don't include class properties beyond what's necessary and that I use bi-directional arcs where appropriate. For example, the relationship between Employee and FilmSet is bidirectional because an employee can be on a film set, and a film set can have multiple employees.
+
+I think I've covered all the classes and their attributes. Now, I'll write out the PlantUML code accordingly, ensuring that each class is properly defined and all relationships are correctly represented with the right cardinality.
+</think>
+
+```plantuml
+@startuml
+
+class Employee{ String Name, String SSN }
+class CreativeEmployee{ String Name, String role=Director, String Education, Boolean Oscar }
+class Technician{ String Name, String fieldOfActivity }
+class FilmSet{ String Location, Cardinality=1..*, Cardinality=1..* usedFor(Film) }
+class Film{ String Title, Date ReleaseYear, Cardinality=1..* genre }
+class Screenwriter{ String Name, String MostSuccessfulFilm }
+class Screenplay{ String Title, Version, Date, Integer NumberOfScenes, Plot, Cardinality=1 screenwriter, Cardinality=1..* basedOn(Novel|Concept) }
+class Genre{ String Name }
+class Novel{ String Title, String Author }
+class Oscar{ Boolean }
+
+Employee->CreativeEmployee
+Employee "1..*" -- "1..*" FilmSet
+Employee->Technician
+Employee->Director
+Employee->Actor
+
+FilmSet->usedFor(Film)
+Film->genre
+Film->basedOn(Novel|Concept)
+Screenwriter->Screenplay
+Screenplay->basedOn(Novel|Concept)
+Director->Screenplay
+Actor->Screenplay
+Actor->Film
+Novel<->Screenplay
+Concept<->Screenplay
+
+@enduml
+```

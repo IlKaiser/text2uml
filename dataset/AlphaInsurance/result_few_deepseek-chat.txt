@@ -1,24 +1,54 @@
 @startuml
 
-class Customer {}
-class InsurancePolicy {}
-class Contract {}
-class Invoice {}
-class Broker {}
-class ClaimCase {}
-class Report {}
-class Estimator {}
-class CompensationPayment {}
-class BrokerCustomerAssignment {}
+class Customer {
+    String Name
+    String Email
+}
+class Broker {
+    String Name
+}
+class InsurancePolicy {
+    String Type
+    Double Price
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {
+    Date IssueDate
+    Double Amount
+}
+class Claim {
+    Date SubmissionDate
+    String Description
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Estimator {
+    String AreaOfExpertise
+}
+class Report {
+    Date ReportDate
+    String Conclusion
+}
+class CompensationPayment {
+    Date PaymentDate
+    Double Amount
+}
 
-Contract "0..*" -- "1" Customer
+Customer "1" -- "0..*" Broker
+Customer "1" -- "0..*" Contract
+Customer "1" -- "0..*" Claim
+Broker "1" -- "0..*" Contract
+InsurancePolicy "1" -- "0..*" Contract
 Contract "1" -- "0..*" Invoice
-Contract "1" -- "0..*" InsurancePolicy
 Contract "1" -- "0..*" ClaimCase
+Claim "1" -- "0..*" ClaimCase
 ClaimCase "1" -- "0..*" CompensationPayment
-ClaimCase "1" -- "0..*" Report
-Report "0..*" -- "1" Estimator
-BrokerCustomerAssignment "0..1" -- "1" Customer
-Broker "1" -- "0..*" BrokerCustomerAssignment
+Estimator "0..*" -- "0..*" ClaimCase
+(ClaimCase, Estimator) .. Report
 
 @enduml

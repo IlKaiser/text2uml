@@ -1,29 +1,51 @@
-```plantuml
 @startuml
 
-class SmartHome {}
-class Room {}
-class Sensor {}
-class Actuator {}
-class Device {}
-class ActivityLog {}
-class AutomationRule {}
-class Alert {}
-class RuleDependency {}
-class RuleConflict {}
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class Device {
+    String DeviceID
+    Boolean Active
+}
+class Sensor <<Device>> {
+    String Type
+}
+class Actuator <<Device>> {
+    String Type
+}
+class SensorReading {
+    Double MeasuredValue
+    Date Timestamp
+}
+class ControlCommand {
+    String Command
+    Date Timestamp
+    String Status
+}
+class ActivityLog {
+    Date Timestamp
+}
+class AutomationRule {
+    String Precondition
+    String Action
+    Boolean Active
+}
+class RuleTriggerLog {
+    Date Timestamp
+}
 
-SmartHome "1" -- "1..*" Room
-Room "1" -- "0..*" Sensor
-Room "1" -- "0..*" Actuator
-Device "1" -- "1" Sensor
-Device "1" -- "1" Actuator
-SmartHome "1" -- "1" ActivityLog
-ActivityLog "1" -- "0..*" Sensor
-ActivityLog "1" -- "0..*" Actuator
+SmartHome "1" -- "0..*" Room
+Room "1" -- "0..*" Device
+Device "1" -- "0..*" SensorReading
+Device "1" -- "0..*" ControlCommand
+SmartHome "1" -- "0..*" ActivityLog
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" ControlCommand
 SmartHome "1" -- "0..*" AutomationRule
-AutomationRule "1" -- "0..*" Alert
-AutomationRule "0..*" -- "0..*" RuleDependency
-AutomationRule "0..*" -- "0..*" RuleConflict
+AutomationRule "1" -- "0..*" RuleTriggerLog
+AutomationRule "0..*" -- "0..*" AutomationRule
 
 @enduml
-```

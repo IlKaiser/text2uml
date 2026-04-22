@@ -1,0 +1,61 @@
+@startuml
+class InsuranceCompany
+class Client
+class InsurancePolicy {
+  type: String
+}
+class Broker {
+  name: String
+}
+class Contract {
+  signingDate: Date
+  invoicingFrequency: String
+}
+class AccountManager
+class Profile
+class Offer
+class Coverage
+class Invoice {
+  frequency: String
+  price: Float
+}
+class Claim
+class ClaimCase {
+  status: String
+}
+class Estimator
+class Report {
+  date: Date
+}
+class CompensationDecision {
+  eligibleCosts: String
+}
+class Payment {
+  amount: Float
+  accountDetails: String
+}
+class Document
+
+InsuranceCompany "1..1" -- "0..*" Client
+InsuranceCompany "1..1" -- "0..*" Broker
+InsuranceCompany "1..1" -- "0..*" AccountManager
+Broker "1..1" -- "0..*" Client
+Broker "1..1" -- "0..1" AccountManager
+Client "0..*" -- "0..*" InsurancePolicy
+Client "1..1" -- "0..1" Profile
+Broker "1..1" -- "0..*" Offer
+Offer "1..1" -- "1..1" InsurancePolicy
+Offer "1..1" -- "0..1" Contract
+Contract "1..1" -- "1..1" Client
+Contract "1..1" -- "1..*" Coverage
+Contract "1..1" -- "1..*" Invoice
+Client "1..1" -- "0..*" Claim
+Claim "1..1" -- "1..*" ClaimCase
+ClaimCase "1..1" -- "0..*" Estimator
+Estimator "1..1" -- "0..*" Report
+ClaimCase "1..1" -- "0..*" Report
+ClaimCase "1..1" -- "0..1" CompensationDecision
+CompensationDecision "1..1" -- "0..*" Document
+CompensationDecision "1..1" -- "1..1" Payment
+Report "1..1" -- "0..*" Payment
+@enduml

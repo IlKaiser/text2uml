@@ -1,0 +1,90 @@
+@startuml
+class Home
+
+class Department
+
+class Room
+
+class Bed
+
+class Category {
+  price: Float
+}
+
+class Price
+
+class Person
+
+class Inhabitant
+
+class Registration
+
+class Question
+
+class Assessment
+
+class WaitingList {
+  position: Int
+}
+
+class Proposal {
+  accepted: Boolean
+}
+
+class Stay {
+  startDate: Date
+  endDate: Date
+}
+
+class Invoice {
+  outstandingAmount: Float
+  paid: Boolean
+}
+
+class Payment {
+  amount: Float
+}
+
+class CreditNote {
+  amount: Float
+}
+
+class Refund {
+  amount: Float
+}
+
+class Representative
+
+class InvoiceItem
+
+class Discount {
+  amount: Float
+}
+
+Home "1..*" -- "1..1" Department
+Department "1..*" -- "1..1" Room
+Room "1..*" -- "1..1" Bed
+Inhabitant "1..*" -- "1..1" Bed
+Bed "1..1" -- "0..*" Category
+Category "1..1" -- "1..1" Price
+Person "1..1" -- "1..1" Registration
+Registration "1..*" -- "0..*" Question
+Person "1..*" -- "1..1" Assessment
+Assessment "1..*" -- "0..*" Question
+Person "1..1" -- "0..*" WaitingList
+WaitingList "0..*" -- "0..*" Category
+Proposal "1..1" -- "0..*" Person
+Proposal "1..1" -- "0..*" Category
+Stay "1..1" -- "0..*" Inhabitant
+Stay "1..1" -- "0..*" Category
+Invoice "1..1" -- "0..*" Stay
+Invoice "1..*" -- "1..1" InvoiceItem
+Invoice "0..*" -- "1..1" Payment
+Invoice "0..1" -- "1..1" CreditNote
+CreditNote "1..1" -- "1..1" Refund
+Inhabitant "0..*" -- "0..*" Representative
+Invoice "0..*" -- "0..*" Discount
+Discount "1..1" -- "0..*" Stay
+
+Inhabitant --|> Person
+@enduml

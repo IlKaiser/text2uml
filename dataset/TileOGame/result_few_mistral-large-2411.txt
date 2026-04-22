@@ -1,22 +1,28 @@
 @startuml
 
-class Designer {}
-class Board {}
-class Tile {}
-class ConnectionPiece {}
-class ActionCard {}
-class Player {}
-class PlayingPiece {}
-class Deck {}
+class GameDesigner {}
 class Game {}
+class Player {
+    String Color
+}
+class Tile {
+    String Color
+}
+class ConnectionPiece {}
+class ActionCard {
+    String Action
+}
+class PlayingPiece {}
+class DeckOfActionCards {}
+class Die {}
 
-Designer "1..1" -- "1..*" Board
-Board "1..1" -- "0..*" Tile
-Tile "1..1" -- "0..4" ConnectionPiece
-Designer "1..1" -- "1..1" Deck
-Deck "1..1" -- "1..*" ActionCard
-Player "2..4" -- "1..1" Game
-Player "1..1" -- "1..1" PlayingPiece
-Game "1..1" -- "1..1" Board
+GameDesigner "1" -- "0..*" Game
+Game "1" -- "2..4" Player
+Game "1" -- "1..*" Tile
+Tile "1" -- "0..4" ConnectionPiece
+Game "1" -- "1" DeckOfActionCards
+DeckOfActionCards "1" -- "0..32" ActionCard
+Player "1" -- "1" PlayingPiece
+Player "1" -- "1" Die
 
 @enduml

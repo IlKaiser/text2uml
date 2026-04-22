@@ -1,21 +1,20 @@
-```plantuml
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Inhabitant{}
-class Stay{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Invoice{}
-class CreditNote{}
+class HomeForTheElderly{ String Name, String Address }
+class Department{ String Name, String Description }
+class Room{ String Number, String Type }
+class Bed{ String Number, String Category }
+class Category{ String Name, String Price }
+class Inhabitant{ String Name, String Address, Date BirthDate, String IdentificationNumber }
+class Stay{ Date StartDate, Date EndDate, String Status }
+class Registration{ Date RegistrationDate, String BasicIdentificationData }
+class Assessment{ String NeedsForHelp, String TypeOfStay }
+class WaitingList{ Date RegistrationDate, String TypeOfStay }
+class Proposal{ Date ProposalDate, String Status, Date AcceptanceDate }
+class Invoice{ Date InvoiceDate, float Amount, String Status, Date PaymentDate, float PaidAmount }
+class CreditNote{ Date CreditNoteDate, float Amount }
 
-Home "1..1" -- "1..*" Department
+HomeForTheElderly "1..1" -- "1..*" Department
 Department "1..1" -- "1..*" Room
 Room "1..1" -- "1..*" Bed
 Bed "1..1" -- "1..1" Category
@@ -25,8 +24,8 @@ Inhabitant "1..1" -- "1..1" Registration
 Registration "1..1" -- "1..1" Assessment
 Assessment "1..1" -- "1..1" WaitingList
 WaitingList "1..1" -- "1..*" Proposal
-Proposal "1..1" -- "1..1" Invoice
-Invoice "1..1" -- "0..1" CreditNote
+Proposal "1..1" -- "1..1" Stay
+Stay "1..1" -- "1..*" Invoice
+Invoice "0..1" -- "0..1" CreditNote
 
 @enduml
-```

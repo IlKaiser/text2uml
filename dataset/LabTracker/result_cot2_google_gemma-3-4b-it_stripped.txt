@@ -1,0 +1,79 @@
+```plantuml
+@startuml
+class Doctor {
+    - practitionerNumber : String
+    - signature : String
+    - fullName : String
+    - address : String
+    - phoneNumber : String
+    - healthNumber : String
+}
+
+class Patient {
+    - alphaNumericHealthNumber : String
+    - firstName : String
+    - lastName : String
+    - dateOfBirth : Date
+    - address : String
+    - phoneNumber : String
+}
+
+class Test {
+    - name : String
+    - duration : Float
+}
+
+class Examination {
+    - name : String
+}
+
+class Requisition {
+    - dateValidFrom : Date
+}
+
+class Lab {
+    - address : String
+    - registrationNumber : String
+    - businessHours : String
+}
+
+class Appointment {
+    - confirmationNumber : String
+    - date : Date
+    - startTime : Time
+    - endTime : Time
+    - labRegistrationNumber : String
+}
+
+class Signature {
+    - image : String
+}
+
+class Interval {
+    - type : String
+}
+
+class Sample {
+    - type : String
+}
+
+class Report {
+    - result : String
+}
+
+Doctor "1" -- "*" Requisition : manages
+Doctor "1" -- "*" Test : prescribes
+Doctor "1" -- "*" Appointment : schedules
+Patient "1" -- "*" Requisition : has
+Patient "1" -- "*" Appointment : books
+Requisition "1" -- "*" Test : contains
+Lab "1" -- "*" Appointment : schedules
+Lab "1" -- "*" Test : offers
+Test "1" -- "1" Sample : requires
+Test "1" -- "1" Report : has
+Appointment "1" -- "1" Lab : for
+Signature "1" -- "1" Requisition : for
+Interval "1" -- "*" Test : applies to
+
+@enduml
+```

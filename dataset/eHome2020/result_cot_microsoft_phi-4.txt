@@ -1,0 +1,71 @@
+```plantuml
+@startuml
+
+class E-Home-2020
+
+class Sensor {
+    vendor-id: String
+    description: String
+    unit: String
+    room: Room
+}
+
+class SensorController {
+    username: String
+    password: String
+}
+
+class Inhabitant {
+    username: String
+    password: String
+    email: String
+}
+
+class E-Monitor
+
+class TemperatureSensor {
+    min: Float
+    max: Float
+    vendor-id: String
+    description: String
+    unit: String
+    room: Room
+}
+
+class PowerSensor {
+    counter_reading: Float
+    vendor-id: String
+    description: String
+    unit: String
+    room: Room
+}
+
+class Room {
+    description: String
+}
+
+class Apartment {
+    address: String
+    rooms: [Room]
+}
+
+class Value {
+    timestamp: Date
+    value: Float
+}
+
+E-Home-2020 "1" -- "1" SensorController
+SensorController "1" -- "*" Sensor
+SensorController "1" -- "*" Inhabitant
+Inhabitant "0..*" -- "0..*" Sensor
+E-Monitor "1" -- "*" Sensor
+Inhabitant "0..*" -- "0..*" Room
+Sensor "1" -- "0..*" Room
+Apartment "2..*" -- "1" Inhabitant
+Apartment "2..*" -- "1" Room
+
+TemperatureSensor --|> Sensor
+PowerSensor --|> Sensor
+
+@enduml
+```

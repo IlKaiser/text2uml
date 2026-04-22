@@ -1,0 +1,62 @@
+@startuml
+class Store
+class Article {
+  description: String
+  rfid: String
+}
+class Food
+class Resident {
+  name: String
+  streetAddress: String
+  phoneNumber: String
+  email: String
+  itemDescription: String
+}
+class Location
+class PickupService
+class Vehicle {
+  storageSpace: Float
+}
+class Route
+class Driver {
+  availableDays: String
+}
+class DistributionCenter
+class FoodBank
+class Employee
+class Category {
+  name: String
+}
+class Client {
+  homeAddress: String
+}
+class Delivery
+class Schedule {
+  pickupTime: Date
+  weekday: String
+}
+
+Store "1..*" -- "1..1" Location
+Store "1..1" -- "1..1" DistributionCenter
+Resident "0..*" -- "0..*" PickupService
+PickupService "1..1" -- "1..*" Article
+PickupService "1..1" -- "1..1" Schedule
+Vehicle "0..*" -- "0..1" Route
+Route "1..1" -- "1..*" PickupService
+Driver "1..1" -- "0..1" Route
+Driver "1..1" -- "0..*" Delivery
+Article "0..*" -- "1..1" Category
+DistributionCenter "1..1" -- "0..*" Article
+Article "0..*" -- "0..*" Client
+Employee "1..1" -- "0..*" Article
+Employee "1..1" -- "0..*" Delivery
+Delivery "1..1" -- "1..1" Client
+Delivery "1..1" -- "1..*" Article
+Client "0..*" -- "0..*" Category
+Food "0..*" -- "1..1" FoodBank
+
+Food --|> Article
+FoodBank --|> Store
+DistributionCenter --|> Store
+Driver --|> Employee
+@enduml

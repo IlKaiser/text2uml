@@ -1,40 +1,62 @@
 @startuml
-class Company{}
-class Customer{}
-class Address{}
-class Warehouse{}
-class Product{}
-class ExclusiveProduct{}
-class StockLevel{}
-class Order{}
-class OrderLine{}
-class Invoice{}
-class Payment{}
-class Shipment{}
-class ShipmentGroup{}
-class DeliveryService{}
-class DeliveryStatus{}
-class DamageReport{}
+class Company
+class Customer {
+  address: String
+  vatNumber: String
+  headOfficeAddress: String
+}
+class Address
+class Warehouse
+class Product {
+  currentStock: Int
+}
+class ExclusiveProduct {
+  available: Boolean
+}
+class Stock
+class Order {
+  paidDate: Date
+  shippedDate: Date
+  fullyShipped: Boolean
+  deliveryAddress: String
+}
+class OrderLine {
+  quantity: Int
+  shipped: Boolean
+}
+class Shipment {
+  status: String
+}
+class Delivery {
+  status: String
+}
+class DeliveryService
+class Invoice
+class Payment
+class DeliveryProblem {
+  problemType: String
+}
 
-Company "1..1" -- "0..*" Product
 Company "1..1" -- "0..*" Customer
-Company "1..1" -- "0..*" DeliveryService
+Company "1..1" -- "0..*" Product
+Product "1..1" -- "0..*" Stock
+Warehouse "1..1" -- "0..*" Stock
+Customer "1..1" -- "0..*" Order
+Order "1..1" -- "1..*" OrderLine
+Product "1..1" -- "0..*" OrderLine
+Order "1..1" -- "0..*" Shipment
+OrderLine "1..*" -- "0..1" Shipment
+Shipment "1..1" -- "0..1" Delivery
+DeliveryService "1..1" -- "0..*" Delivery
+Delivery "1..1" -- "0..*" DeliveryProblem
+Order "1..1" -- "1..1" Invoice
+Invoice "1..1" -- "0..1" Payment
+Customer "1..1" -- "0..*" Invoice
+Customer "1..1" -- "0..*" Payment
 Customer "1..1" -- "1..1" Address
 Customer "1..1" -- "0..*" Warehouse
 Warehouse "1..1" -- "1..1" Address
-Customer "1..1" -- "0..*" Order
-Order "1..1" -- "1..*" OrderLine
-OrderLine "1..1" -- "1..1" Product
-Product "1..1" -- "0..*" StockLevel
-Warehouse "1..1" -- "0..*" StockLevel
-Order "1..1" -- "1..1" Invoice
-Invoice "1..1" -- "0..*" Payment
-Customer "1..1" -- "0..*" Invoice
-Customer "1..1" -- "0..*" Payment
-Order "1..1" -- "0..*" Shipment
-Shipment "1..1" -- "0..*" ShipmentGroup
-ShipmentGroup "0..*" -- "0..*" OrderLine
-Shipment "1..1" -- "0..1" DeliveryService
-Shipment "1..1" -- "1..1" DeliveryStatus
-Shipment "1..1" -- "0..*" DamageReport
+Warehouse "1..1" -- "0..*" Order
+
+ExclusiveProduct --|> Product
 @enduml

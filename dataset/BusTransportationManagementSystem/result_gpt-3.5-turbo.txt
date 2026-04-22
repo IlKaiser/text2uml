@@ -1,18 +1,36 @@
-
+```plantuml
 @startuml
 
-class City{}
-class Bus{}
-class Driver{}
-class BusRoute{}
-class Schedule{}
+class City
+class BusTransportationManagementSystem
+class Driver{
+    String Name
+    String UniqueID
+}
+class BusRoute{
+    int RouteNumber
+}
+class Bus{
+    String LicencePlate
+}
+class Schedule
+class Shift
+class Overview
 
-City "1..1" -- "1..*" Bus
-City "1..1" -- "1..*" Driver
-City "1..1" -- "1..*" BusRoute
-City "1..1" -- "1..*" Schedule
-Bus "1..1" -- "1..1" BusRoute
-Bus "1..1" -- "1..1" Driver
-Driver "1..*" -- "1..*" Schedule
+City "1" -- "1" BusTransportationManagementSystem
+BusTransportationManagementSystem "1" -- "0..*" Driver
+BusTransportationManagementSystem "1" -- "1..*" BusRoute
+BusRoute "1" -- "0..*" Bus
+BusRoute "1" -- "1..*" Schedule
+Schedule "1..*" -- "3" Shift
+Schedule "1..*" -- "0..*" Driver
+Bus "1" -- "1..*" Schedule
+Shift "1..*" -- "0..*" Driver
+Overview "1" -- "0..*" RouteNumber
+Overview "1" -- "0..*" LicencePlate
+Overview "1" -- "0..*" Shift
+Overview "1" -- "0..*" UniqueID
+Overview "1" -- "0..*" Name
 
 @enduml
+```  

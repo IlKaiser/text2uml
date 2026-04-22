@@ -1,0 +1,45 @@
+```plantuml
+@startuml
+
+class GasStation {
+  ID: String
+  address: String
+  fuelPumps: Int
+}
+
+class FuelPump {
+  number: Int
+  isSelfService: Boolean
+  fuelsOffered: [Fuel]
+}
+
+class Fuel {
+  name: String
+  octaneRating: Float
+}
+
+class DailyPrice {
+  date: Date
+  fuel: Fuel
+  gasStation: GasStation
+  pricePerLiter: Float
+}
+
+class FuelPurchase {
+  ID: String
+  fuelPump: FuelPump
+  fuel: Fuel
+  dailyPrice: DailyPrice
+  litersDispensed: Float
+}
+
+GasStation "1..1" -- "0..12" FuelPump
+FuelPump "1..1" -- "1..*" Fuel
+GasStation "1..1" -- "0..*" DailyPrice
+DailyPrice "1..1" -- "1..1" Fuel
+FuelPurchase "1..1" -- "1..1" FuelPump
+FuelPurchase "1..1" -- "1..1" Fuel
+FuelPurchase "1..1" -- "1..1" DailyPrice
+
+@enduml
+```

@@ -1,40 +1,67 @@
 ```plantuml
 @startuml
-class Sober{}
-class Cab{}
-class Customer{}
-class RideHail{}
-class RideShare{}
-class Request{}
-class Fee{}
-class Location{}
-class Accident{}
 
-Sober "1..*" -- "1..*" Cab
+class Car {
+    ownerName:String
+    ownerContact:String
+}
+
+class Customer {
+    name:String
+    contact:String
+}
+
+class RideHailService {
+    pickupTime:Date
+    dropoffTime:Date
+    pickupLocation:String
+    dropoffLocation:String
+    rideDuration:Float
+    distance:Float
+    numPassengers:Int
+    fee:Float
+    requestType:String
+    leadCustomerName:String
+    leadCustomerContact:String
+}
+
+class RideShareService {
+    pickupTime:Date
+    dropoffTime:Date
+    pickupLocation:String
+    dropoffLocation:String
+    rideDuration:Float
+    distance:Float
+    customerNames:String[]
+    customerContacts:String[]
+    negotiatedFee:Float
+}
+
+class Accident {
+    date:Date
+    location:String
+    damageAmount:Float
+}
+
+class Sober
+class Request
+class TreePlanting
+
+Sober "1..*" -- "1..*" Car
 Sober "1..*" -- "1..*" Customer
-Sober "1..*" -- "1..*" RideHail
-Sober "1..*" -- "1..*" RideShare
-Sober "1..*" -- "1..*" Request
-Sober "1..*" -- "1..*" Fee
-Sober "1..*" -- "1..*" Location
-Sober "1..*" -- "1..*" Accident
-Cab "1..1" -- "0..*" Customer
-Cab "1..1" -- "0..*" RideHail
-Cab "1..1" -- "0..*" RideShare
-Cab "1..*" -- "1..*" Location
-Cab "1..*" -- "0..*" Accident
-Customer "1..*" -- "1..*" RideHail
-Customer "1..*" -- "1..*" RideShare
-Customer "1..*" -- "1..*" Request
-Customer "1..*" -- "1..*" Fee
-Customer "1..*" -- "1..*" Location
-RideHail "1..*" -- "1..1" Fee
-RideHail "1..*" -- "1..1" Request
-RideHail "1..*" -- "1..2" Location
-RideShare "1..*" -- "1..1" Fee
-RideShare "1..*" -- "1..2" Location
-Request "1..*" -- "1..1" Location
-Fee "1..*" -- "1..1" Location
-Accident "1..*" -- "1..1" Location
+Sober "1..*" -- "1..*" RideHailService
+Sober "1..*" -- "1..*" RideShareService
+Sober "1..*" -- "0..*" Request
+Sober "1..*" -- "0..*" Accident
+Sober "1..*" -- "0..*" TreePlanting
+Car "1..*" -- "0..1" Customer
+Customer "1..*" -- "0..*" RideHailService
+Customer "1..*" -- "0..*" RideShareService
+RideHailService "1..1" -- "1..*" Request
+RideShareService "1..1" -- "1..*" Request
+Car "1..*" -- "0..*" Accident
+
+RideHailService --|> RideShareService
+
 @enduml
 ```

@@ -1,29 +1,77 @@
 ```plantuml
 @startuml
-class Employee{}
-class CreativeEmployee{}
-class Director{}
-class Actor{}
-class Technician{}
-class FilmSet{}
-class Film{}
-class Genre{}
-class Screenwriter{}
-class Screenplay{}
-class Novel{}
 
-Employee "0..*" -- "0..*" FilmSet
-CreativeEmployee "1..1" -- "1..1" Employee
-Director "0..*" -- "1..1" CreativeEmployee
-Actor "0..*" -- "1..1" CreativeEmployee
-Technician "0..*" -- "1..1" Employee
-FilmSet "0..*" -- "0..*" Film
+class Employee {
+    name:String
+    social security number:String
+}
+
+class CreativeEmployee {
+}
+
+class Director {
+    name of the director's assistant:String
+    Oscar:Boolean
+}
+
+class Actor {
+    education:String
+    Oscar:Boolean
+}
+
+class Technician {
+    field of activity:String
+}
+
+class FilmSet {
+    location:String
+}
+
+class Film {
+    title:String
+    year of release:Int
+    genre:String
+}
+
+class Genre {
+}
+
+class Screenwriter {
+    name:String
+    most successful film:String
+}
+
+class Screenplay {
+    title:String
+    version:String
+    date:Date
+    number of scenes:Int
+    plot:String
+}
+
+class Novel {
+    title:String
+    author:String
+}
+
+class Role {
+}
+
+Employee "0..*" -- "1..*" FilmSet
+Director "0..*" -- "0..*" Actor
+Technician "0..*" -- "1..*" FilmSet
+Film "0..*" -- "1..*" FilmSet
 Film "1..1" -- "1..1" Genre
 Screenwriter "1..1" -- "0..*" Screenplay
-Screenplay "1..1" -- "0..1" Novel
-Screenplay "1..1" -- "1..1" Film
-Film "0..*" -- "1..1" Screenplay
-Film "0..*" -- "0..*" Actor
-Film "1..1" -- "1..1" Director
+Screenplay "0..1" -- "1..1" Novel
+Film "1..1" -- "1..1" Screenplay
+Actor "0..*" -- "1..1" Role
+Director "1..1" -- "1..1" Film
+
+CreativeEmployee --|> Employee
+Director --|> CreativeEmployee
+Actor --|> CreativeEmployee
+Technician --|> Employee
+
 @enduml
 ```

@@ -1,29 +1,40 @@
 ```plantuml
 @startuml
-class Facepage{}
-class User{}
-class Account{}
-class BusinessAccount{}
-class PersonalAccount{}
-class Company{}
-class Page{}
-class AdvertisementPage{}
-class Privilege{}
-class Feature{}
-class Visitor{}
-class Transaction{}
-class Purchase{}
+class User {
+    ID: Int
+    name: String
+    email: String
+    date of birth: Date
+}
+class Account {
+    account number: Int
+    type: String
+}
+class BusinessAccount {
+    company name: String
+}
+class Page {
+    page name: String
+    number of visits: Int
+}
+class AdvertisementPage {
+    bounce rate: Float
+    click-through rate: Float
+    conversion rate: Float
+}
 
-User "1..1" -- "1..1" Account  
-Account "1..1" -- "0..*" Page  
-Account "1..1" -- "0..*" BusinessAccount  
-Account "1..1" -- "0..*" PersonalAccount  
-BusinessAccount "1..1" -- "1..1" Company  
-PersonalAccount "0..*" -- "0..1" Privilege  
-Page "1..1" -- "1..1" Account  
-Page "0..*" -- "0..*" AdvertisementPage  
-AdvertisementPage "1..1" -- "0..*" Feature  
-Visitor "0..*" -- "0..*" Page  
-Transaction "0..*" -- "0..*" Purchase  
+Account --|> BusinessAccount
+Account --|> PersonalAccount
+
+User "1..*" -- "1..*" Account
+Account "1..1" -- "0..*" Page
+Account "1..*" -- "0..*" Privilege
+Page "0..*" -- "0..*" Visitor
+BusinessAccount "0..*" -- "0..*" Company
+PersonalAccount "1..1" -- "0..*" Request
+AdvertisementPage "0..*" -- "0..*" Feature
+AdvertisementPage "0..*" -- "0..*" Goal
+AdvertisementPage "0..*" -- "0..*" Purchase
+AdvertisementPage "0..*" -- "0..*" Transaction
 @enduml
 ```

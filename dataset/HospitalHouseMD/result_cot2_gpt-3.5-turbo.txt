@@ -1,24 +1,40 @@
 
 @startuml
-
-class Hospital{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Treatment{}
-class HeadDoctor{}
-class Nurse{}
-class Illness{}
-class Virus{}
-
-Hospital "0..*" -- "0..*" Patient
-Patient "0..*" -- "1..*" Doctor
-Doctor "1..*" -- "1..1" Diagnosis
-Diagnosis "1..*" -- "0..*" Treatment
-HeadDoctor "1..1" -- "0..*" Doctor
-Nurse "0..*" -- "0..*" Patient
-Treatment "1..*" -- "0..*" Nurse
-Treatment "1..*" -- "1..1" Illness
-Illness "1..*" -- "0..*" Virus
-
+class HospitalHouseMD {
+}
+class Patient {
+  symptoms: String
+}
+class Doctor {
+}
+class Diagnosis {
+}
+class Illness {
+  priorityScore: String
+}
+class Treatment {
+  stage: Int
+}
+class Database {
+}
+class HeadDoctor {
+}
+class ConsentForm {
+}
+class FollowUpRate {
+}
+class Nurse {
+}
+class PriorityScore {
+}
+HospitalHouseMD "1..*" -- "0..*" Patient
+HospitalHouseMD "1..*" -- "0..*" Doctor
+HospitalHouseMD "1..*" -- "0..*" Diagnosis
+HospitalHouseMD "1..*" -- "0..*" Treatment
+HospitalHouseMD "1..*" -- "0..*" Database
+HospitalHouseMD "1..1" -- "0..*" HeadDoctor
+Treatment "0..1" -- "0..1" ConsentForm
+Patient "1..*" -- "0..5" FollowUpRate
+Patient "1..*" -- "0..*" Nurse
+Illness "1..*" -- "0..*" PriorityScore
 @enduml

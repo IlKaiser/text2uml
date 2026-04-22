@@ -1,55 +1,74 @@
 ```plantuml
 @startuml
-class Acquaintance{}
-class BillionDollarStartupIdea{}
-class App{}
-class Customer{}
-class Order{}
-class DeliveryPerson{}
-class Account{}
-class BusinessOwner{}
-class LinkedInAccount{}
-class ProfessionNetwork{}
-class PizzaRestaurant{}
-class Pizza{}
-class CrustStructure{}
-class Price{}
-class Taste{}
-class HungryCustomer{}
-class DeliveryAddress{}
-class Entertainer{}
-class StageName{}
-class Bio{}
-class Availability{}
-class EntertainmentOrder{}
-class TypeOfEntertainment{}
-class Duration{}
-class Date{}
-class Time{}
-class LatestTimeOfDelivery{}
-class NumberOfPeople{}
+class Account {
+  birthday: Date
+  name: String
+  address: String
+}
 
-Acquaintance "1..*" -- "0..*" BillionDollarStartupIdea  
-BusinessOwner "1..1" -- "0..*" PizzaRestaurant  
-PizzaRestaurant "0..*" -- "0..*" Pizza  
-Pizza "0..*" -- "1..1" CrustStructure  
-Pizza "1..1" -- "1..1" Price  
-Pizza "1..1" -- "1..1" Taste  
-HungryCustomer "1..1" -- "0..1" DeliveryAddress  
-HungryCustomer "1..1" -- "0..*" Order  
-Order "1..*" -- "0..*" Pizza  
-Order "1..1" -- "0..1" EntertainmentOrder  
-EntertainmentOrder "1..1" -- "1..1" Entertainer  
-Entertainer "1..1" -- "0..*" PizzaRestaurant  
-Entertainer "1..1" -- "1..1" StageName  
-Entertainer "1..1" -- "1..1" Bio  
-Availability "0..*" -- "1..1" Entertainer  
-Availability "0..*" -- "1..1" PizzaRestaurant  
-EntertainmentOrder "0..*" -- "0..1" TypeOfEntertainment  
-EntertainmentOrder "1..1" -- "1..1" Duration  
-EntertainmentOrder "1..1" -- "0..1" Date  
-EntertainmentOrder "1..1" -- "0..1" Time  
-Order "1..1" -- "0..1" LatestTimeOfDelivery  
-Order "1..1" -- "1..1" NumberOfPeople  
+class BusinessOwner {
+  LinkedIn: String
+}
+
+class PizzaRestaurant {
+  zip_code: String
+  address: String
+  phone_number: String
+  website: String
+  opening_hours: String
+}
+
+class Pizza {
+  name: String
+  crust_structure: String
+  price: Float
+}
+
+class HungryCustomer {
+  delivery_address: String
+}
+
+class Order {
+  ID: Int
+  date: Date
+  time: Time
+  latest_time_of_delivery: Time
+  number_of_people: Int
+}
+
+class EntertainmentOrder {
+  type_of_entertainment: String
+  duration: Duration
+}
+
+class Entertainer {
+  stage_name: String
+  bio: String
+  price_per_30_minutes: Float
+}
+
+class Availability {
+  day: String
+}
+
+HungryCustomer --|> Customer
+EntertainmentOrder --|> Order
+
+1..* Customer -- 1..* Order
+1..1 Order -- 0..1 EntertainmentOrder
+1..1 EntertainmentOrder -- 1..1 Entertainer
+0..* BusinessOwner -- 1..* PizzaRestaurant
+1..* PizzaRestaurant -- 0..* Pizza
+1..1 Customer -- 0..1 DeliveryAddress
+0..* PizzaRestaurant -- 0..* ZipCode
+0..* PizzaRestaurant -- 0..1 Address
+0..* PizzaRestaurant -- 0..1 PhoneNumber
+0..* PizzaRestaurant -- 0..1 Website
+0..* PizzaRestaurant -- 0..1 OpeningHours
+1..1 Order -- 1..* Pizza
+1..* Entertainer -- 0..* PizzaRestaurant
+1..1 Order -- 1..1 ID
+1..1 Order -- 1..1 Date
+1..1 Order -- 1..1 Time
 @enduml
 ```

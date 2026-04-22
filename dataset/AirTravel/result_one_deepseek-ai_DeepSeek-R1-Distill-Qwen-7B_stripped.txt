@@ -1,0 +1,268 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+The name, type, year of manufacture, and date of the next inspection are stored for aircraft. An aircraft performs several flights, the flight number and date of which are stored. 
+Several passengers take part in a flight, and their names and passport numbers are stored. A passenger can take part in several flights. The (personalized) ticket for each flight is stored in the form of the ticket number and price. In addition, it is stored whether an upgrade is desired. 
+Passenger aircraft are special aircraft used exclusively for the transport of passengers. The number of seats on these aircraft is also stored. 
+A passenger aircraft can have several seat categories. The designation of each category is stored, whether or not it offers an entertainment program, and how many seats there are in this category. Each ticket is for a specific seat category.
+Each aircraft can be part of an airline, whose name is stored. 
+An airline employs several flight attendants and pilots. The name, date of employment, and whether the flight attendant is a chief steward or stewardess are stored for flight attendants. The name, date of employment, and license are stored for pilots.
+Several flight attendants work on a flight. One pilot flies the aircraft as the captain and one or two other pilots act as co-pilots.
+The name, address, and number of runways are stored for airports. Each aircraft can have a home airport. Each flight has a departure airport and a destination airport.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given specification text. Let me start by carefully reading the text to understand the entities and their relationships.
+
+First, the specification mentions several entities: aircraft, passengers, flights, tickets, passengers, entertainment programs, seat categories, airlines, flight attendants, pilots, and airports. I'll list them out:
+
+1. Aircraft
+2. Passengers
+3. Flights
+4. Tickets
+5. Entertainment Programs
+6. Seat Categories
+7. Airlines
+8. Flight Attendants
+9. Pilots
+10. Airports
+
+Next, I'll extract the attributes for each class. The text provides specific details for each:
+
+- **Aircraft**: Name, Type, Year of Manufacture, Date of Inspection
+- **Passengers**: Name, Passport Number
+- **Flights**: Flight Number, Date
+- **Tickets**: Ticket Number, Price, Upgrade Desired
+- **Entertainment Programs**: Designation, Entertainment Offered, Seats
+- **Seat Categories**: Designation, Entertainment Offered, Number of Seats
+- **Airlines**: Name
+- **Flight Attendants**: Name, Date of Employment, Steward Role
+- **Pilots**: Name, Date of Employment, License
+- **Airports**: Name, Address, Runway Number
+
+Now, I'll identify the relationships between these entities. The text describes how they interact:
+
+- An **Aircraft** can have a **Home Airport**.
+- An **Airline** employs **Flight Attendants** and **Pilots**.
+- A **Flight** is associated with an **Aircraft**, **Passengers**, and **Flight Attendants** (one pilot and one or two co-pilots).
+- A **Passenger** can participate in multiple **Flights**.
+- A **Flight** has a **Departure Airport** and a **Destination Airport**.
+- A **Seat Category** on a **Flight** has a specific number of seats and may offer entertainment.
+- An **Aircraft** can have multiple **Seat Categories**.
+- An **Entertainment Program** is associated with a **Seat Category**.
+- A **Ticket** is issued for each **Flight** and includes the ticket number, price, and upgrade option.
+
+I need to represent these relationships in PlantUML. I'll start by defining each class with its attributes. Then, I'll map the relationships using the appropriate cardinality symbols. Since the text doesn't specify certain cardinalities, I'll use defaults where possible.
+
+For example, an **Aircraft** can have one **Home Airport**, so I'll use "1..1". An **Airline** can employ multiple **Flight Attendants** and **Pilots**, so that relationship will be "0..*" with a bidirectional arc.
+
+I'll ensure that all classes are listed first, followed by all relationships. I'll also make sure to use bi-directional arcs where necessary and assign the correct cardinality to each relationship.
+
+Let me double-check to ensure I haven't missed any entities or relationships. I'll go through each part of the text again to confirm that all classes and their attributes are correctly captured, and that the relationships are accurately represented with the right cardinality.
+
+Once I'm confident that all elements are correctly modeled, I'll format the PlantUML code accordingly, making sure there are no extra explanations or text, just the diagram.
+</think>
+
+@startuml
+
+class Aircraft {
+    String Name
+    String Type
+    Date YearOfManufacture
+    Date DateOfInspection
+}
+
+class Passengers {
+    String Name
+    String PassportNumber
+}
+
+class Flights {
+    String FlightNumber
+    Date Date
+}
+
+class Tickets {
+    String TicketNumber
+    Double Price
+    Boolean UpgradeDesired
+}
+
+class EntertainmentPrograms {
+    String Designation
+    Boolean EntertainmentOffered
+    Integer Seats
+}
+
+class SeatCategories {
+    String Designation
+    Boolean EntertainmentOffered
+    Integer NumberOfSeats
+}
+
+class Airlines {
+    String Name
+}
+
+class FlightAttendants {
+    String Name
+    Date DateOfEmployment
+    Boolean StewardRole
+}
+
+class Pilots {
+    String Name
+    Date DateOfEmployment
+    String License
+}
+
+class Airports {
+    String Name
+    String Address
+    Integer RunwayNumber
+}
+
+Aircraft "1..1" -- "0..*" Airports
+
+Airlines "0..*" -- "0..*" FlightAttendants
+
+Airlines "0..*" -- "0..*" Pilots
+
+Flight "1..*" -- "0..*" Aircraft
+
+Flight "1..*" -- "1..*" Passengers
+
+Flight "1..*" -- "1..*" FlightAttendants
+
+Flight "1..*" -- "1..*" Pilots
+
+Flight "1..*" -- "1..*" Airports
+
+Flight "1..*" -- "1..*" DepartureAirport
+
+Flight "1..*" -- "1..*" DestinationAirport
+
+SeatCategory "1..*" -- "1..*" EntertainmentPrograms
+
+SeatCategory "1..*" -- "1..*" Seats
+
+Ticket "1..*" -- "1..*" Flights

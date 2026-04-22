@@ -1,32 +1,61 @@
 ```plantuml
 @startuml
 
-class Resident {}
-class PickupService {}
-class Item {}
-class VolunteerDriver {}
-class PickupVehicle {}
-class PickupRoute {}
-class DistributionCenter {}
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemsDescription
+}
+class H2S {
+    String Name
+}
+class Vehicle {
+    String LicensePlate
+    Double StorageCapacity
+}
+class Driver {
+    String Name
+    String AvailableDays
+}
+class PickupRoute {
+    Date PickupDate
+    String Items
+}
+class DistributionCenter {
+    String Address
+}
 class FoodBank {}
-class H2SEmployee {}
-class RFIDDevice {}
-class Category {}
-class Client {}
+class Employee {
+    String Name
+}
+class Article {
+    String Description
+    String Category
+    Boolean Tagged
+}
+class Client {
+    String Name
+    String Address
+    String NeededCategories
+}
+class PickupTurn {
+    Date PickupDate
+}
 
-Resident "1" -- "0..*" Item
-PickupService "1" -- "0..*" Resident
-PickupService "1" -- "0..*" Item
-PickupService "1" -- "0..*" VolunteerDriver
-VolunteerDriver "1" -- "0..*" PickupVehicle
-PickupVehicle "1" -- "1" PickupRoute
-PickupRoute "1" -- "0..*" Item
-DistributionCenter "1" -- "0..*" Item
-DistributionCenter "1" -- "0..*" RFIDDevice
-DistributionCenter "1" -- "0..*" Category
-FoodBank "1" -- "0..*" Item
-H2SEmployee "1" -- "0..*" Item
-Client "1" -- "0..*" Category
+H2S "1" -- "0..*" DistributionCenter
+H2S "1" -- "0..*" FoodBank
+H2S "1" -- "0..*" Vehicle
+Vehicle "1" -- "0..*" PickupRoute
+Driver "1" -- "0..*" PickupRoute
+PickupRoute "1" -- "0..*" PickupTurn
+PickupTurn "1" -- "0..*" Resident
+Resident "1" -- "0..*" Article
+DistributionCenter "1" -- "0..*" Employee
+Employee "0..*" -- "0..*" Article
+Employee "0..*" -- "0..*" Client
+Client "0..*" -- "0..*" Article
 
 @enduml
 ```

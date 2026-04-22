@@ -1,19 +1,39 @@
 @startuml
-class Song{}
-class Artist{}
-class User{}
-class RegularUser{}
-class BusinessUser{}
-class Single{}
-class Hit{}
-class Album{}
-class Suggestion{}
+class Song {
+  title: String
+  year: Int
+  length: Int
+  genre: String
+}
+class Artist {
+  date_of_birth: Date
+  name: String
+  URL: String
+}
+class User {
+  ID: Int
+  name: String
+  address: String
+}
+class RegularUser
+class BusinessUser {
+  VAT_number: String
+}
+class Single
+class Hit
+class Album
+class Suggestion
 
 Artist "0..*" -- "1..1" Song
-BusinessUser "0..*" -- "0..1" Song
+BusinessUser "0..*" -- "1..1" Song
 RegularUser "0..*" -- "0..*" Single
 Hit "0..*" -- "1..*" Album
 RegularUser "0..*" -- "1..1" Album
-Album "1..1" -- "0..*" Suggestion
+Album "0..1" -- "1..1" Suggestion
 RegularUser "0..*" -- "0..*" Suggestion
+
+RegularUser --|> User
+BusinessUser --|> User
+Single --|> Song
+Hit --|> Song
 @enduml

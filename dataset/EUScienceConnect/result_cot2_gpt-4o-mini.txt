@@ -1,44 +1,88 @@
 ```plantuml
 @startuml
-class EuropeanUnion{}
-class Fund{}
-class ResearchDatabase{}
-class ScientificArticle{}
-class Researcher{}
-class Institution{}
-class ScienceConnect{}
-class ScientificStaff{}
-class Person{}
-class InstitutionCode{}
-class PhoneNumber{}
-class Keyword{}
-class ResearchTopic{}
-class Author{}
-class Article{}
-class DOI{}
-class Title{}
-class PeerReviewedPaper{}
-class TechnicalReport{}
-class CitationCount{}
-class Publisher{}
-class Journal{}
-class ImpactFactor{}
-class ResearchInstitution{}
+class EuropeanUnion {
+}
 
-EuropeanUnion "1..*" -- "0..*" Fund  
-ResearchDatabase "0..*" -- "1..1" ScienceConnect  
-ScientificStaff "0..*" -- "1..1" Person  
-ResearchInstitution "0..*" -- "1..1" Institution  
-PhoneNumber "0..*" -- "0..1" Person  
-Keyword "0..*" -- "0..*" ResearchTopic  
-Person "1..1" -- "0..1" Author  
-Article "1..1" -- "0..*" Author  
-ScientificArticle "1..1" -- "0..1" PeerReviewedPaper  
-ScientificArticle "1..1" -- "0..1" TechnicalReport  
-TechnicalReport "1..*" -- "1..1" ResearchInstitution  
-Publisher "0..*" -- "0..*" Journal  
-Journal "1..1" -- "0..*" Publisher  
-Journal "1..1" -- "0..*" PeerReviewedPaper  
-PeerReviewedPaper "1..1" -- "0..*" CitationCount  
+class ResearchDatabase {
+}
+
+class ScientificArticle {
+    DOI:String
+    Title:String
+    Authors:String
+}
+
+class Researcher {
+    PersonID:String
+    PhoneNumber:String
+    Keywords:String
+    InstitutionCode:String
+}
+
+class Institution {
+    InstitutionCode:String
+}
+
+class ScienceConnect {
+}
+
+class Person {
+    PersonID:String
+    PhoneNumber:String
+    Keywords:String
+}
+
+class PhoneNumber {
+}
+
+class Keyword {
+}
+
+class Article {
+}
+
+class DOI {
+}
+
+class Title {
+}
+
+class Author {
+    Position:String
+}
+
+class PeerReviewedPaper {
+    CitationCount:Int
+    Reviewer:String
+}
+
+class TechnicalReport {
+}
+
+class Publisher {
+    Name:String
+}
+
+class Journal {
+    Name:String
+    ImpactFactor:Float
+}
+
+Person "1..1" -- "0..*" PhoneNumber
+Person "0..*" -- "0..*" Keyword
+Person "1..1" -- "1..1" Institution
+Institution "1..*" -- "0..*" TechnicalReport
+Institution "1..*" -- "0..*" PeerReviewedPaper
+Publisher "1..1" -- "0..*" Journal
+Journal "0..*" -- "0..*" Institution
+Journal "0..*" -- "1..*" PeerReviewedPaper
+PeerReviewedPaper "1..1" -- "0..*" Author
+TechnicalReport "1..1" -- "1..1" Institution
+ScientificArticle "1..1" -- "0..*" Author
+ScientificArticle "1..1" -- "0..1" PeerReviewedPaper
+ScientificArticle "1..1" -- "0..1" TechnicalReport
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
 @enduml
 ```

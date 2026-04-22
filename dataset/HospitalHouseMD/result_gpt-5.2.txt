@@ -1,0 +1,41 @@
+@startuml
+
+class Hospital{ String Name }
+class Patient{ String PatientId, String Name }
+class Doctor{ String DoctorId, String Name }
+class HeadDoctor{ String DoctorId, String Name }
+class Nurse{ String NurseId, String Name }
+class Illness{ String IllnessId, String Name, String PriorityScore }
+class Diagnosis{ String DiagnosisId, Date DiagnosisDate, String Status }
+class Treatment{ String TreatmentId, String Name }
+class AppliedTreatment{ String AppliedTreatmentId, String Stage }
+class ConsentForm{ String ConsentFormId, Date SignedDate, Date RetractedDate }
+
+Doctor <|-- HeadDoctor
+
+Hospital "0..*" -- "0..*" Patient
+Hospital "0..*" -- "0..*" Doctor
+Hospital "0..*" -- "0..*" Nurse
+Hospital "0..*" -- "0..*" Illness
+
+Patient "0..*" -- "0..*" Doctor
+
+Patient "0..*" -- "0..*" Diagnosis
+Doctor "0..*" -- "0..*" Diagnosis
+HeadDoctor "0..*" -- "0..*" Diagnosis
+Illness "0..*" -- "0..*" Diagnosis
+
+Illness "0..*" -- "0..*" Treatment
+Diagnosis "0..*" -- "0..*" Treatment
+
+Patient "0..*" -- "0..*" AppliedTreatment
+Treatment "0..*" -- "0..*" AppliedTreatment
+Diagnosis "0..*" -- "0..*" AppliedTreatment
+Illness "0..*" -- "0..*" AppliedTreatment
+
+Patient "0..*" -- "0..*" ConsentForm
+
+Patient "0..*" -- "0..*" Nurse
+Doctor "0..*" -- "0..*" Nurse
+
+@enduml

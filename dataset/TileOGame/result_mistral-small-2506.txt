@@ -1,25 +1,24 @@
-```plantuml
 @startuml
 
-class Game{}
-class Player{}
-class PlayingPiece{}
-class Tile{}
-class Board{}
-class ConnectionPiece{}
-class ActionCard{}
-class ActionTile{}
-class Die{}
-class Deck{}
+class Game{ String GameName, Date DesignDate }
+class Board{ int Width, int Height }
+class Tile{ String Color, boolean IsHidden, boolean IsActionTile, int ActionTileDuration }
+class ConnectionPiece{ String Type }
+class Player{ String Name, String Color }
+class PlayingPiece{ String Color }
+class Die{ int Faces }
+class ActionCard{ String Instruction }
+class ActionTile{ String Instruction }
+class SpareConnectionPiece{ String Type }
 
-Game "1..1" -- "2..4" Player
 Game "1..1" -- "1..1" Board
-Board "1..*" -- "1..1" Tile
-Tile "1..1" -- "0..4" ConnectionPiece
+Board "1..*" -- "1..*" Tile
+Tile "1..4" -- "0..1" ConnectionPiece
+Game "2..4" -- "1..1" Player
 Player "1..1" -- "1..1" PlayingPiece
-Tile "1..*" -- "0..1" ActionTile
-Deck "1..1" -- "32..32" ActionCard
 Game "1..1" -- "1..1" Die
+Game "1..1" -- "1..1" ActionCard
+Board "1..*" -- "0..1" ActionTile
+Game "1..1" -- "1..1" SpareConnectionPiece
 
 @enduml
-```

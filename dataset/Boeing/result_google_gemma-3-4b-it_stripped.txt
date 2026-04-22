@@ -1,0 +1,17 @@
+@startuml
+
+class AirlineCompany { String Name }
+class Contract { String ContractID, Date ContractDate, Date ExpiryDate }
+class Salesperson { String EmployeeID, String Name }
+class Aircraft { String Model, Date ManufacturingDate, Date DeliveryDate }
+class Acquisition { String AcquisitionID, Date AcquisitionDate, Float Price }
+class Option { String OptionID, String Description, Float Cost }
+
+AirlineCompany "1..*" -- "1..*" Contract : manages
+Salesperson "1..*" -- "1..*" Contract : manages
+Contract "1..*" -- "1..*" Acquisition : contains
+Aircraft "1..*" -- "1..*" Acquisition : is part of
+Acquisition "1..*" -- "0..*" Option : includes
+AirlineCompany "0..*" -- "0..*" AirlineCompany : has_daughter
+
+@enduml

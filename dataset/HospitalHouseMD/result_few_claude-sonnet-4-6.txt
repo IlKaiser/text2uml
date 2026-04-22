@@ -1,0 +1,44 @@
+@startuml
+
+class Patient {
+    String Name
+    Boolean ConsentSigned
+}
+class Doctor {
+    String Name
+    Boolean IsHeadDoctor
+}
+class Diagnosis {
+    String Description
+    Boolean Approved
+}
+class Illness {
+    String Name
+    String PriorityScore
+}
+class Treatment {
+    String Description
+}
+class AppliedTreatment {
+    Int Stage
+    String UpgradeReason
+}
+class Consent {
+    Date SignedDate
+    Boolean Retracted
+}
+class Nurse {
+    String Name
+}
+
+Patient "0..*" -- "1..*" Doctor
+Patient "1" -- "0..*" Diagnosis
+Diagnosis "1..*" -- "1" Illness
+Illness "1" -- "0..*" Treatment
+Diagnosis "0..*" -- "0..*" Treatment
+(Diagnosis,Treatment) .. AppliedTreatment
+Patient "1" -- "0..1" Consent
+AppliedTreatment "0..*" -- "0..*" Nurse
+Doctor "0..*" -- "0..*" AppliedTreatment
+
+@enduml

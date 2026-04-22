@@ -1,33 +1,49 @@
 ```plantuml
 @startuml
-class Address{}
-class BuildingMaterial{}
-class House{}
-class Basement{}
-class HumidityLevel{}
-class SemiDetachedHouse{}
-class Garden{}
-class Window{}
-class Carport{}
-class Garage{}
-class Company{}
-class Job{}
-class JobLog{}
-class Price{}
-class Hours{}
+class House {
+    address:String
+    buildingMaterial:String
+    hasBasement:Boolean
+}
+class Basement {
+    size:String
+    humidityLevel:Float
+}
+class SemiDetachedHouse {
+    hasGarden:Boolean
+    numberOfWindows:Int
+}
+class Carport {
+    isDouble:Boolean
+    hasFlatRoof:Boolean
+}
+class Garage {
+    hasAutomaticDoor:Boolean
+}
+class Company {
+    name:String
+    address:String
+}
+class Job {
+    numberOfHours:Int
+    agreedPrice:Float
+}
+class JobLog {
+}
 
-House "1..1" -- "1..1" Address
+House "1..1" -- "0..1" Address
 House "1..1" -- "1..1" BuildingMaterial
 House "0..1" -- "0..1" Basement
-Basement "0..*" -- "0..1" HumidityLevel
+Basement "0..*" -- "0..1" Size
 SemiDetachedHouse "1..1" -- "0..1" Garden
-SemiDetachedHouse "1..1" -- "1..*" Window
-SemiDetachedHouse "1..1" -- "0..2" Carport
+SemiDetachedHouse "1..1" -- "1..*" Windows
+SemiDetachedHouse "1..1" -- "1..*" Carport
 SemiDetachedHouse "1..1" -- "0..1" Garage
 House "1..*" -- "0..*" Company
-Company "0..*" -- "0..*" Job
-Job "1..*" -- "1..1" JobLog
-JobLog "1..1" -- "1..1" Hours
-JobLog "1..1" -- "1..1" Price
+Company "0..*" -- "0..*" JobLog
+House "1..1" -- "0..*" JobLog
+
+SemiDetachedHouse --|> House
+Basement --|> House
 @enduml
 ```

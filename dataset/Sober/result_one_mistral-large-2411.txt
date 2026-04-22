@@ -1,0 +1,55 @@
+```plantuml
+@startuml
+
+class Customer {
+    String Name
+    String Location
+}
+class Cab {
+    String LicensePlate
+    String Model
+}
+class RideHailService {
+    DateTime PickUpTime
+    DateTime DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    Integer NumberOfPassengers
+    Double Fee
+    String RequestType
+    String LeadCustomerName
+}
+class RideShareService {
+    DateTime PickUpTime
+    DateTime DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    Integer NumberOfCustomers
+    String CustomerNames
+    Double NegotiatedFee
+}
+class Accident {
+    Date AccidentDate
+    String Location
+    Double DamageAmount
+}
+class CarOwner {
+    String Name
+}
+class TreePledge {
+    Integer TreeCount
+}
+
+Customer "0..*" -- "1..*" Cab
+Cab "1..1" -- "0..*" RideHailService
+Cab "1..1" -- "0..*" RideShareService
+Cab "1..1" -- "0..*" Accident
+Cab "0..*" -- "0..1" CarOwner
+RideShareService "0..*" -- "1..*" TreePledge
+
+@enduml
+```

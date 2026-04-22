@@ -1,0 +1,644 @@
+<bos><start_of_turn>user
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - an association list (with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+ClassName1, ClassName2, ...
+
+The association list format is:
+mul1 ClassName1 -- mul2 ClassName2
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every entry in the association list write:
+  ClassName1 "mul1" -- "mul2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, prioritizing those that seem most relevant and descriptive:
+
+*   **EuropeanUnion**
+*   **Funds**
+*   **Database**
+*   **ResearchDatabase** (More specific and better)
+*   **Information**
+*   **Article**
+*   **ScientificArticle** (More specific and better)
+*   **DOI**
+*   **Title**
+*   **Authors**
+*   **Person**
+*   **Researcher**
+*   **Institution**
+*   **ResearchInstitution** (More specific and better)
+*   **PersonID**
+*   **InstitutionCode**
+*   **PhoneNumber**
+*   **Keywords**
+*   **Reviewer**
+*   **PeerReviewedArticle** (More specific and better)
+*   **TechnicalReport**
+*   **CitationCount**
+*   **Publisher**
+*   **Name**
+*   **Journal**
+*   **DecisionSupportSystems** (Specific example, could be useful)
+*   **ImpactFactor**
+*   **ScientificPublisher** (More specific and better)
+*   **ManagementScience** (Specific example, could be useful)
+
+I've tried to differentiate between general nouns and more specific ones that would likely represent distinct classes within the system.
+
+##############
+
+The text specification is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+ResearchDatabase
+Researcher
+ResearchInstitution
+ScientificArticle
+DOI
+Title
+Author
+Person
+PhoneNumber
+Keywords
+PeerReviewedArticle
+TechnicalReport
+CitationCount
+Publisher
+Journal
+ScientificPublisher
+ManagementScience
+ImpactFactor
+
+
+##############
+
+The association list is:
+
+mul1 Class1 -- mul2 Class2
+...
+
+##############
+
+The attributes dictionary is:
+
+<bos><start_of_turn>user
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, prioritizing those that seem most relevant and descriptive:
+
+*   **EuropeanUnion**
+*   **Funds**
+*   **Database**
+*   **ResearchDatabase** (More specific and better)
+*   **Information**
+*   **Article**
+*   **ScientificArticle** (More specific and better)
+*   **DOI**
+*   **Title**
+*   **Authors**
+*   **Person**
+*   **Researcher**
+*   **Institution**
+*   **ResearchInstitution** (More specific and better)
+*   **PersonID**
+*   **InstitutionCode**
+*   **PhoneNumber**
+*   **Keywords**
+*   **Reviewer**
+*   **PeerReviewedArticle** (More specific and better)
+*   **TechnicalReport**
+*   **CitationCount**
+*   **Publisher**
+*   **Name**
+*   **Journal**
+*   **DecisionSupportSystems** (Specific example, could be useful)
+*   **ImpactFactor**
+*   **ScientificPublisher** (More specific and better)
+*   **ManagementScience** (Specific example, could be useful)
+
+I've tried to differentiate between general nouns and more specific ones that would likely represent distinct classes within the system.
+
+##############
+
+The text specification is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+ResearchDatabase
+Researcher
+ResearchInstitution
+ScientificArticle
+DOI
+Title
+Author
+Person
+PhoneNumber
+Keywords
+PeerReviewedArticle
+TechnicalReport
+CitationCount
+Publisher
+Journal
+ScientificPublisher
+ManagementScience
+ImpactFactor
+
+
+#############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The attributes dictionary is:<end_of_turn>
+<start_of_turn>model
+```json
+{
+    "ResearchDatabase": [
+        "name",
+        "description"
+    ],
+    "Researcher": [
+        "personID",
+        "phoneNumber",
+        "keywords",
+        "institutionCode"
+    ],
+    "ResearchInstitution": [
+        "institutionCode",
+        "name"
+    ],
+    "ScientificArticle": [
+        "doi",
+        "title",
+        "citationCount"
+    ],
+    "Author": [
+        "position"
+    ],
+    "Person": [
+        "personID"
+    ],
+    "PeerReviewedArticle": [
+        "citationCount",
+        "reviewer"
+    ],
+    "TechnicalReport": [
+        "institutionCode"
+    ],
+    "Publisher": [
+        "name"
+    ],
+    "Journal": [
+        "name",
+        "publisherName"
+    ],
+    "ImpactFactor": [
+        "value"
+    ]
+}
+```
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 2:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Identify classes from the nouns list extracted from the problem description above.
+A class is the description for a set of similar objects that have the same structure and behavior, i.e., its instances.
+All objects with the same features and behavior are instances of one class.
+In general, something should be a class if it could have instances.
+In general, something should be an instance if it is clearly a single member of the set defined by a class.
+Keep in mind that some of the nouns may be attributes or roles of the identified classes.
+Choose proper names for classes according the the following rules:
+1. Noun
+2. Singular
+3. Not too general, not too specific - at the right level of abstraction
+4. Avoid software engineering terms (data, record, table, information)
+5. Conventions: first letter capitalized; camel case without spaces if needed
+
+Example class names:
+Hospital, Doctor, PartTimeEmployee
+
+Constraints:
+Create classes at the right level of abstraction.
+Not all nouns in the nouns list are classes, some of them may be attributes, role names, or even not needed for diagram.
+Do NOT include all the nouns list as classes. Evaluate if it is needed to be a class.
+ONLY generate classes that are necessary to develop the system.
+
+Example:
+Problem Description: This system helps the Java Valley police officers keep track of the cases they are assigned to do.
+Officers may be assigned to investigate particular crimes,
+which involves interviewing victims at their homes and entering notes in the PI system.
+Identified Class List: PoliceStation, Case, PoliceOfficer, Victim, Crime, Note
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The noun list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+Identify all the nouns in the specification text which can potentially be the class name.
+Include as much as nouns as possible and do not care about their functions for now.
+
+###########
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+Here's a list of nouns from the text that could potentially be used as class names, prioritizing those that seem most relevant and descriptive:
+
+*   **EuropeanUnion**
+*   **Funds**
+*   **Database**
+*   **ResearchDatabase** (More specific and better)
+*   **Information**
+*   **Article**
+*   **ScientificArticle** (More specific and better)
+*   **DOI**
+*   **Title**
+*   **Authors**
+*   **Person**
+*   **Researcher**
+*   **Institution**
+*   **ResearchInstitution** (More specific and better)
+*   **PersonID**
+*   **InstitutionCode**
+*   **PhoneNumber**
+*   **Keywords**
+*   **Reviewer**
+*   **PeerReviewedArticle** (More specific and better)
+*   **TechnicalReport**
+*   **CitationCount**
+*   **Publisher**
+*   **Name**
+*   **Journal**
+*   **DecisionSupportSystems** (Specific example, could be useful)
+*   **ImpactFactor**
+*   **ScientificPublisher** (More specific and better)
+*   **ManagementScience** (Specific example, could be useful)
+
+I've tried to differentiate between general nouns and more specific ones that would likely represent distinct classes within the system.
+
+##############
+
+The text specification is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+ResearchDatabase
+Researcher
+ResearchInstitution
+ScientificArticle
+DOI
+Title
+Author
+Person
+PhoneNumber
+Keywords
+PeerReviewedArticle
+TechnicalReport
+CitationCount
+Publisher
+Journal
+ScientificPublisher
+ManagementScience
+ImpactFactor
+
+
+#############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############<end_of_turn>
+<start_of_turn>model
+ASSOCIATIONS:
+ResearchDatabase -- Researcher
+ResearchDatabase -- ResearchInstitution
+Researcher -- Person
+Researcher -- ScientificArticle
+Researcher -- PeerReviewedArticle
+ScientificArticle -- DOI
+ScientificArticle -- Title
+ScientificArticle -- Author
+ScientificArticle -- CitationCount
+ScientificArticle -- PeerReviewedArticle
+TechnicalReport -- ResearchInstitution
+Publisher -- Journal
+Publisher -- ManagementScience
+Journal -- ResearchInstitution
+Publisher -- ScientificPublisher
+
+##############
+
+The plant uml is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class ResearchDatabase {
+  - name : String
+  - description : String
+}
+
+class Researcher {
+  - personID : String
+  - phoneNumber : String
+  - keywords : String
+  - institutionCode : String
+}
+
+class ResearchInstitution {
+  - institutionCode : String
+  - name : String
+}
+
+class ScientificArticle {
+  - doi : String
+  - title : String
+  - citationCount : Int
+}
+
+class Author {
+  - position : String
+}
+
+class PeerReviewedArticle {
+  - reviewer : String
+}
+
+class TechnicalReport {
+  - institutionCode : String
+}
+
+class Publisher {
+  - name : String
+}
+
+class Journal {
+  - name : String
+  - publisherName : String
+}
+
+class ScientificPublisher {
+  - name : String
+}
+
+class ManagementScience {
+  - name : String
+}
+
+class ImpactFactor {
+  - value : Float
+}
+
+ResearchDatabase "1" -- Researcher : stores
+ResearchDatabase "1" -- ResearchInstitution : contains
+Researcher "1" -- Person : is a
+Researcher "1" -- ScientificArticle : writes
+Researcher "1" -- PeerReviewedArticle : reviews
+ScientificArticle "1" -- DOI : has
+ScientificArticle "1" -- Title : has
+ScientificArticle "1" -- Author : has
+ScientificArticle "1" -- CitationCount : has
+ScientificArticle "1" -- PeerReviewedArticle : is a
+TechnicalReport "1" -- ResearchInstitution : published by
+Publisher "1" -- Journal : publishes
+Publisher "1" -- ScientificPublisher : is a
+Journal "1" -- ResearchInstitution : subscribed by
+Publisher "1" -- ManagementScience : has
+ManagementScience "1" -- Journal : is
+
+@enduml
+```

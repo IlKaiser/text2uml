@@ -1,24 +1,54 @@
 @startuml
-class GasStation{}
-class Customer{}
-class RefuelTurn{}
-class RefuelCard{}
-class Invoice{}
-class Payment{}
-class Pump{}
-class Reservoir{}
-class FuelType{}
-
-GasStation "1..*" -- "1..1" Pump
-Pump "1..1" -- "0..*" FuelType
-Pump "1..1" -- "1..1" Reservoir
+class Customer {
+  customer_type:String
+  status:String
+}
+class Gasoline {
+  type:String
+}
+class GasStation {
+}
+class Invoice {
+  total_amount:Float
+  discount_amount:Float
+  sent_date:Date
+  due_date:Date
+  payment_status:String
+}
+class Payment {
+  amount:Float
+  payment_date:Date
+}
+class Pump {
+  pump_number:Int
+  is_blocked:Boolean
+}
+class RefuelCard {
+  card_number:String
+  is_blocked:Boolean
+}
+class RefuelTurn {
+  amount:Float
+  date:Date
+  start_time:Date
+  end_time:Date
+}
+class Reservoir {
+  reordering_level:Float
+  critical_level:Float
+  current_level:Float
+  quantity_to_order:Float
+}
 Customer "0..*" -- "1..1" RefuelTurn
 Customer "0..1" -- "1..1" RefuelCard
+RefuelCard "0..*" -- "0..1" RefuelTurn
 Customer "0..*" -- "1..1" Invoice
-RefuelTurn "1..1" -- "0..*" Pump
-RefuelTurn "0..1" -- "0..*" RefuelCard
-RefuelTurn "0..1" -- "0..*" Invoice
-RefuelTurn "0..1" -- "1..1" Payment
-RefuelCard "0..*" -- "1..1" Invoice
+Invoice "1..*" -- "0..1" RefuelTurn
 Invoice "0..1" -- "1..1" Payment
+GasStation "1..*" -- "1..1" Pump
+Pump "1..1" -- "0..*" Gasoline
+Customer "0..*" -- "0..1" Pump
+RefuelTurn "1..1" -- "0..*" Pump
+Pump "1..1" -- "1..1" Reservoir
+Reservoir "1..1" -- "0..*" Gasoline
 @enduml

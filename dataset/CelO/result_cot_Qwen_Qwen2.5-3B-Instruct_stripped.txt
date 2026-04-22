@@ -1,0 +1,48 @@
+@startuml
+title PlantUML Diagram for Celebrations Organization System
+
+class Organizer {
+    +firstName: String
+    +lastName: String
+    +email: String
+    +postalAddress: String
+    +phoneNumber: String
+    +password: String
+    +selectedEvent: Event
+    +invitedAttendees: List<Attendee>
+}
+
+class Attendee {
+    +firstName: String
+    +lastName: String
+    +email: String
+    +invitationStatus: String
+    +tasksToComplete: List<Task>
+}
+
+class Event {
+    +eventName: String
+    +startDate: Date
+    +endDate: Date
+    +occasion: String
+    +location: Location
+    +tasks: List<Task>
+}
+
+class Task {
+    +name: String
+    +status: String
+}
+
+interface Location {
+    +name: String
+    +address: String
+}
+
+Organizer --|> Event
+Organizer..> Attendee
+Attendee..> Event
+Attendee..> Task
+Event..> Task
+
+@enduml

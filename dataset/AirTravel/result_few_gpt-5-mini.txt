@@ -1,31 +1,67 @@
 @startuml
 
-class Aircraft{}
-class Flight{}
-class Passenger{}
-class Ticket{}
-class PassengerAircraft{}
-class SeatCategory{}
-class Airline{}
-class FlightAttendant{}
-class Pilot{}
-class Airport{}
+class Aircraft {
+    String Name
+    String Type
+    Int YearOfManufacture
+    Date NextInspectionDate
+}
+class PassengerAircraft {
+    Int NumberOfSeats
+}
+class Flight {
+    String FlightNumber
+    Date Date
+}
+class Passenger {
+    String Name
+    String PassportNumber
+}
+class Ticket {
+    String TicketNumber
+    Double Price
+    Boolean UpgradeDesired
+}
+class SeatCategory {
+    String Designation
+    Boolean EntertainmentProgram
+    Int SeatCount
+}
+class Airline {
+    String Name
+}
+class FlightAttendant {
+    String Name
+    Date DateOfEmployment
+    Boolean IsChief
+}
+class Pilot {
+    String Name
+    Date DateOfEmployment
+    String License
+}
+class Airport {
+    String Name
+    String Address
+    Int NumberOfRunways
+}
 
-Aircraft "1" -- "0..*" Flight
-Flight -- Passenger
-Passenger "1" -- "0..*" Ticket
-Flight "1" -- "0..*" Ticket
-PassengerAircraft "1" -- "1" Aircraft
-PassengerAircraft "1" -- "0..*" SeatCategory
-SeatCategory "1" -- "0..*" Ticket
-Airline "1" -- "0..*" Aircraft
-Airline "1" -- "0..*" FlightAttendant
-Airline "1" -- "0..*" Pilot
-Flight -- FlightAttendant
-Flight "1" -- "1" Pilot
-Flight "1" -- "1..2" Pilot
-Airport "1" -- "0..*" Aircraft
-Flight "1" -- "1" Airport
-Flight "1" -- "1" Airport
+PassengerAircraft --|> Aircraft
+
+Aircraft "1..1" -- "0..*" Flight
+Passenger "0..*" -- "0..*" Flight
+Flight "1..1" -- "0..*" Ticket
+Passenger "1..1" -- "0..*" Ticket
+PassengerAircraft "1..1" -- "0..*" SeatCategory
+SeatCategory "1..1" -- "0..*" Ticket
+Airline "0..1" -- "0..*" Aircraft
+Airline "1..1" -- "0..*" FlightAttendant
+Airline "1..1" -- "0..*" Pilot
+FlightAttendant "0..*" -- "0..*" Flight
+Pilot "1..1" -- "0..*" Flight
+Pilot "1..2" -- "0..*" Flight
+Airport "0..1" -- "0..*" Aircraft
+Airport "1..1" -- "0..*" Flight
+Airport "1..1" -- "0..*" Flight
 
 @enduml

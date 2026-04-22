@@ -1,0 +1,195 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: This exercise teaches you to build and re-evaluate your solution in an iterative manner to handle changing requirements.
+First, create a class diagram for the use case described in STEP 1, and add attributes, event types, non-default FSMs and constraints if necessary. For each step, revise your model and add, remove or change elments where necessary.
+
+STEP 1
+Your brand new company sells goods to local supermarkets. You want to create a simple information system to keep track of your stock, your customers and their orders.
+
+When you register a new customer, you enter their address and VAT number.
+
+To keep track of your stock, you want to be able to register the products you offer and the current stock of each product. Your customers' orders consist of one or more order lines, with each order line recording the quantity ordered of a particular product.
+
+To minimise the overhead of managing payments and deliveries for your small business, your customers are required to pay for their order in full before it is sent out for delivery. Similarly, orders are always shipped in their entirety to keep shipping simple. To ensure that you have the information you need for your accounts, you want to record when orders are paid for and shipped.
+
+At the end of each working day, you manually adjust the stock levels of your products in the system based on the orders placed that day.
+
+STEP 2
+
+As your business grows, you start to offer more exclusive products that are not always available. To ensure customer satisfaction, you want to start organising deliveries on a line-by-line basis so that available products can be shipped immediately and unavailable products can be shipped later.
+
+Of course, you need to adapt your information system to keep track of partially shipped orders so that you can record which order lines have been shipped and which are still on the to-be-shipped list. Orders that have been fully shipped will also be marked so that you know that they can be removed from your watchlist.
+
+STEP 3
+
+As your products become more popular, you start supplying larger supermarkets. These supermarkets sometimes have several warehouses that they use for different locations. You want to start keeping track of both the customer's head office address and the addresses where the orders are delivered.
+
+ To further professionalise your business, you want to send invoices to your customers for their orders. Customers can now choose to pay the invoice directly when they place the order, or after the order has been delivered. An order should still be paid in full.
+
+STEP 4
+As your business grows, keeping track of shipments on a line-by-line basis becomes too cumbersome. You would prefer to do this for each group of order lines that are shipped together.
+
+ In addition, you have recently noticed some problems with the delivery service you use, as customers have informed you that some deliveries are missing or damaged. You want to gather more information about the deliveries in order to decide whether you should switch to another delivery service or start delivering yourself. To do this, you want to know the status of each delivery (remember that partial deliveries of one or more order lines are possible). You want to track a shipment as it is packed, shipped and received by the customer.
+<｜Assistant｜><think>
+Okay, so the user has provided a detailed query about transforming a specification text into a Plant UML model. They've given a step-by-step example of how they want the output to look, including classes with attributes, relations with cardinality, and using inheritance where necessary. 
+
+First, I need to understand the user's requirements thoroughly. They want the Plant UML to be generated in a specific order: extract classes first, then attributes, then relations and inheritance, and finally assign cardinality. They also emphasized avoiding class properties and using only bi-directional arcs without any descriptions. 
+
+Looking at the example they provided, I notice that they included both classes and their attributes, followed immediately by the relations. So, I should follow that structure closely. The example used a simple structure with classes like Book and Page, which is straightforward, but in the user's case, the scenario is more complex with multiple steps and evolving requirements.
+
+The user's scenario describes a company that evolves over four steps, each introducing new functionalities. For STEP 1, they have customers, products, orders, and payments. Each of these can be represented as classes with their respective attributes. For instance, the Customer class would have address and VAT number, Product has name, stock, and product lines, and so on.
+
+I should start by identifying all the primary classes involved. From STEP 1, the main classes are Customer, Product, Order, Payment, Invoice, and Shipment. Each of these will need attributes. For example, Customer has address and VAT, Product has name, stock, and product lines, Order has lines and paid status, etc.
+
+Next, I need to extract the relations. The initial step involves customers placing orders, which in turn are linked to products. Orders can have multiple lines, each with a product. Payments are made after orders are shipped, so there's a relation between Payment and Order. Invoices are sent after orders are shipped, so Invoice relates to Order. Shipments are part of orders, so there's a relation between Order and Shipment.
+
+Moving to STEP 2, the system needs to handle partial shipments, so there's a PartialShipment class. This affects the Order class, which now can have both RegularShipment and PartialShipment. The relations here would include how orders are split into shipments.
+
+In STEP 3, the system tracks delivery addresses, so each Order has a HomeOfficeAddress and DeliveryAddress. Invoices are sent to Customers, so Invoice has a Customer. Payments can be made either at order time or after delivery, so there's a relation between Payment, Invoice, and Order.
+
+For STEP 4, the system needs to track shipment status in detail. This introduces ShipmentStatus, which can be In transit, Delivered, or Lost. Orders are grouped into Shipments, which in turn have multiple ShipmentStatus entries. Payments are now linked to ShipmentStatus to track when they were made.
+
+I need to ensure that all these classes and their attributes are correctly defined. For example, the Customer class has address and VAT, while the Product class has name, stock, and product lines. Each Order has lines and a paid status, and each line has a product and quantity.
+
+Relations are crucial here. For example, a Customer can place multiple Orders, so the relation between Customer and Order is many-to-many. Similarly, a Product can be part of multiple Orders, so that's another many-to-many relation. Payments are made after orders are shipped, so Payment depends on Order. Invoices are sent after orders are shipped, so Invoice depends on Order as well.
+
+I also need to handle inheritance where necessary. For instance, PartialShipment might inherit from Shipment, but in this case, it's a separate entity. However, in the example, they didn't use inheritance, so I might not need it here unless required by the relations.
+
+Assigning cardinality is another step. For example, a Customer can have many Orders, so the relation is "many..many". An Order can have many Lines, so that's "many..*". Payments are made after orders are shipped, so the relation is "1..1" because each Order is paid once. Invoices are sent per Order, so that's "1..1". Shipments are part of Orders, so "1..1".
+
+I should also ensure that the Plant UML syntax is correct. Using bi-directional arcs where necessary, but in this case, most relations are one-way. For example, a Customer can place an Order, so the arrow goes from Customer to Order. Similarly, an Order can have Lines, so the arrow goes from Order to Line.
+
+Putting it all together, I'll start by defining all the classes with their attributes, then list the relations with the correct cardinality. I'll make sure to follow the order: classes first, then relations. I'll also check for any missing attributes or relations that the user might have missed.
+
+Finally, I'll review the generated Plant UML to ensure it accurately reflects the specification text, with all necessary classes, attributes, and relations correctly defined and cardinalities properly assigned. This way, the user can use this diagram to model their system accurately and iteratively refine it as needed.
+</think>
+
+Here is the Plant UML model based on the provided specification text:
+
+```plantuml
+@startuml
+
+class Customer{
+    String address
+    String vatNumber
+
+    class Order "1..*"
+        String description
+        String lineTotal
+        Boolean paidStatus
+
+        class Line "1..*"
+            Product product
+            Integer quantity
+        End
+    End
+}
+
+class Product{
+    String name
+    Integer stock
+    Integer productLines "0..*"
+
+    class Line "1..*"
+        Product product
+        Integer quantity
+    End
+}
+ 
+class Order{
+    Integer orderNumber
+    String description
+    String lineTotal
+    Boolean paidStatus
+
+    class Lines "1..*"
+        Product product
+        Integer quantity
+    End
+}
+
+class Payment{
+    String date
+    String amount
+
+    class Invoice "1..1"
+        String invoiceNumber
+        String dueDate
+        String totalAmount
+
+        class Shipment "1..1"
+            String shipmentNumber
+            String trackingNumber
+        End
+    End
+}
+
+class Invoice{
+    String invoiceNumber
+    String dueDate
+    String totalAmount
+
+    class Shipment "1..1"
+        String shipmentNumber
+        String trackingNumber
+    End
+}
+
+class Shipment{
+    String shipmentNumber
+    String trackingNumber
+    Boolean inTransit
+    Boolean delivered
+    Boolean lost
+
+    class ShipmentStatus "1..1"
+        String status
+    End
+}
+
+class PartialShipment{
+    String shipmentNumber
+    String trackingNumber
+    Boolean inTransit
+    Boolean delivered
+    Boolean lost
+
+    class ShipmentStatus "1..1"
+        String status
+    End
+}
+
+@enduml
+```

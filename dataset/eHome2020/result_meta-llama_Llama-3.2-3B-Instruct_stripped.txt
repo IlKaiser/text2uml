@@ -1,0 +1,67 @@
+```plantuml
+@startuml
+class Apartment {
+    String Address
+    String Description
+    Room "0..*" -- "1..*" Room
+}
+
+class Room {
+    String Description
+    String RoomNumber
+}
+
+class Sensor {
+    String VendorId
+    String Description
+    String Unit
+    String ValueRange
+    String Value
+    String Timestamp
+    String Room
+    String Type
+}
+
+class PowerSensor {
+    String Value
+    String Unit
+    String Room
+}
+
+class TemperatureSensor {
+    String Value
+    String Unit
+    String Room
+    String ValueRange
+}
+
+class SensorController {
+    String Username
+    String Password
+    Apartment "1..*" -- "1..*" Apartment
+    Room "1..*" -- "1..*" Room
+    Sensor "1..*" -- "1..*" Sensor
+    Email "0..*" -- "0..*" Apartment
+}
+
+class EMonitor {
+    Apartment "1..*" -- "1..*" Apartment
+    Sensor "1..*" -- "1..*" Sensor
+}
+
+class HomeTec {
+    String Description
+    String Address
+    Apartment "1..*" -- "1..*" Apartment
+}
+
+class EHome2020 {
+    String Description
+    String Address
+    HomeTec "1..*" -- "1..*" HomeTec
+    SensorController "1..*" -- "1..*" SensorController
+    EMonitor "1..*" -- "1..*" EMonitor
+}
+
+@enduml
+```

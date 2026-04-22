@@ -1,0 +1,86 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: Alpha Insurance is an insurance company that provides its clients with various types of insurance policies. 
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer’s file. The broker is registered in the system, so that when a customer calls, based on the contract, the help desk can immediately trace who is the customer's first account manager. After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for, so the broker could, depending on the case, either assess the customer’s profile on the spot or send the customer’s file for analysis to the head office. After the customer’s profile has been assessed and the customer has been deemed trustworthy , a preliminary contract/offer on an insurance product is made to the customer either in person or by email. (Such offers can also be extended to already existing customers.) If the customer agrees to the offer, the contract is signed by both parties. After the signing of the contract, the client enjoys the coverage and is invoiced (monthly or yearly – depending on the choice made in the contract) according to the price of the insurance product they bought.
+In case the insured event happens, a customer should send a claim for compensation. Then the company opens one or several claim cases (e.g. in case of an accident, often material damage & physical damage are handled separately). Once the case file is complete, it is sent for assessment by different estimators based on their area of expertise. According to the reports issued by the estimators, it is decided whether the claim case is approved. In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.  For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer’s account.  The estimators’ reports must be stored in the database for at least one year after the payment of compensation for legal purposes.<｜Assistant｜><think>
+Okay, so the user wants me to create a PlantUML model based on the provided specification text. Let me break down what I need to do step by step.
+
+First, I need to extract the classes from the text. The specification mentions Alpha Insurance as an insurance company, a broker, a customer, and a claim case. So, the classes I'll identify are: AlphaInsurance, Broker, Customer, and ClaimCase.
+
+Next, I should extract the attributes for each class. Looking at the text, AlphaInsurance doesn't have any attributes mentioned, so it will be attributeless. Broker has a registration date, so I'll add that as an attribute. Similarly, Customer has a name and contact info, and ClaimCase has a case number and date.
+
+Now, moving on to the relations. The text describes several interactions. The first is the assignment of a broker to a customer, which is a one-to-one relationship because each customer is assigned one broker. Then, the broker can handle multiple claims, so that's one-to-many. The customer can have multiple policies, so that's another one-to-many relationship. The claim case is handled by one or more estimators, so that's one-to-many as well. Lastly, the insurance company and customer have a one-to-many relationship because existing customers can also receive offers.
+
+I need to represent these relationships with bi-directional arcs in PlantUML, using the correct cardinality symbols. For each relationship, I'll assign the appropriate multiplicity: 1..1, 1..*, or 0..* if not specified.
+
+Putting it all together, I'll start by defining each class with their attributes and then draw the relationships between them, ensuring the cardinality symbols are correctly placed. I'll make sure the diagram is ordered as per the user's instructions: first all classes, then all relations.
+
+I should also check if any inheritance is needed, but in this case, it doesn't seem necessary as each class is distinct without any parent-child relationships beyond the specified ones.
+
+Finally, I'll format the PlantUML code correctly, ensuring there are no extra explanations or text after the diagram. I'll double-check that all elements are correctly represented and that the relationships accurately reflect the specification text.
+</think>
+
+```plantuml
+@startuml
+
+class AlphaInsurance{
+}
+
+class Broker{
+    String RegistrationDate
+}
+
+class Customer{
+    String Name
+    String ContactInfo
+}
+
+class ClaimCase{
+    Integer CaseNumber
+    Date CaseDate
+}
+
+AlphaInsurance "1..*" Broker
+
+Broker "1..*" ClaimCase
+
+Customer "1..*" Policy
+
+ClaimCase "1..*" Estimator
+
+Customer "0..*" AlphaInsurance
+
+@enduml
+```

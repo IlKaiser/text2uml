@@ -1,0 +1,96 @@
+@startuml
+class Home {
+    String Name
+    String Address
+}
+
+class Department {
+    String Name
+    String Description
+}
+
+class Room {
+    String RoomNumber
+    String Capacity
+}
+
+class Bed {
+    String BedNumber
+    String Category
+}
+
+class Category {
+    String Name
+    String Price
+}
+
+class Inhabitant {
+    String ID
+    String Name
+    String DateOfBirth
+    String ContactInfo
+}
+
+class Stay {
+    String Type
+    String StartDate
+    String EndDate
+    String Status
+    String Discount
+}
+
+class Proposal {
+    String ProposalID
+    String Status
+    String Date
+}
+
+class Invoice {
+    String InvoiceID
+    String Amount
+    String Status
+    String Date
+}
+
+class CreditNote {
+    String CreditNoteID
+    String Amount
+    String Date
+}
+
+class Assessment {
+    String AssessmentID
+    String Date
+    String Result
+}
+
+class Registration {
+    String RegistrationID
+    String Date
+}
+
+class WaitingList {
+    String Position
+    String DateRegistered
+}
+
+Home "1..*" -- "1..*" Department
+Department "1..*" -- "1..*" Room
+Room "1..*" -- "1..*" Bed
+Bed "1..1" -- "1..1" Category
+Category "1..*" -- "1..*" Stay
+
+Inhabitant "1..*" -- "1..*" Bed
+Inhabitant "1..*" -- "1..*" Stay
+Inhabitant "1..*" -- "1..*" Proposal
+Inhabitant "1..*" -- "1..*" Invoice
+Inhabitant "1..*" -- "1..*" Assessment
+Inhabitant "1..*" -- "1..*" Registration
+Inhabitant "1..*" -- "1..*" WaitingList
+
+Stay "1..*" -- "1..*" Invoice
+Proposal "1..*" -- "1..*" Stay
+Proposal "1..*" -- "1..*" Inhabitant
+Invoice "1..*" -- "1..*" CreditNote
+Inhabitant "1..*" -- "1..*" WaitingList
+@enduml

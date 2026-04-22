@@ -1,23 +1,61 @@
 ```plantuml
 @startuml
-class Sober{}
-class Taxi{}
-class Car{}
-class Customer{}
-class RideHailing{}
-class RideSharing{}
-class Accident{}
 
-Sober "1..1" -- "1..1" Taxi
-Sober "1..*" -- "1..*" Car
-Sober "1..*" -- "1..*" Customer
-Sober "1..1" -- "1..1" RideHailing
-Sober "1..1" -- "1..1" RideSharing
-Sober "0..*" -- "0..*" Accident
-Taxi "1..1" -- "1..1" Car
-Taxi "1..1" -- "1..1" Customer
-RideHailing "1..*" -- "1..*" Customer
-RideSharing "1..*" -- "1..*" Customer
-Car "0..*" -- "0..*" Accident
+class Car {
+  damageAmount:Float
+}
+
+class Customer {
+  name:String
+}
+
+class RideHailing {
+  timeOfPickUp:Date
+  timeOfDropOff:Date
+  locationOfPickUp:Location
+  locationOfDropOff:Location
+  rideDuration:Float
+  distance:Float
+  numberOfPassengers:Int
+  fee:Fee
+  typeOfRequest:String
+  leadCustomerName:String
+}
+
+class RideSharing {
+  timeOfPickUp:Date
+  timeOfDropOff:Date
+  locationOfPickUp:Location
+  locationOfDropOff:Location
+  rideDuration:Float
+  distance:Float
+  numberOfCustomers:Int
+  customerNames:[String]
+  negotiatedFee:Fee
+}
+
+class Accident {
+  date:Date
+  location:Location
+  damageAmount:Float
+}
+
+Sober "1..1" -- "0..*" Car
+Sober "1..*" -- "0..*" Customer
+Sober "1..1" -- "0..*" RideHailing
+Sober "1..1" -- "0..*" RideSharing
+Sober "0..*" -- "1..*" Accident
+Sober "0..*" -- "1..*" Fee
+Sober "0..*" -- "1..*" Location
+Sober "0..*" -- "1..*" Tree
+Customer "0..*" -- "1..1" Car
+RideHailing "0..*" -- "1..1" Fee
+RideHailing "0..*" -- "1..*" Location
+RideSharing "0..*" -- "1..1" Fee
+RideSharing "0..*" -- "1..*" Location
+Accident "1..1" -- "1..*" Car
+Accident "1..1" -- "1..*" Location
+RideHailing --|> RideSharing
+
 @enduml
 ```

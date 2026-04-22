@@ -1,25 +1,87 @@
 ```
 @startuml
-class OilCompany{}
-class GasStation{}
-class Customer{}
-class RefuelTurn{}
-class CreditCard{}
-class FuelCard{}
-class MonthlyInvoice{}
-class Pump{}
-class Gasoline{}
-class Reservoir{}
-class Report{}
+class OilCompany {
+}
 
-GasStation "0..*" -- "1..1" OilCompany
-Customer "0..*" -- "0..*" RefuelTurn
-Customer "0..1" -- "0..1" CreditCard
-Customer "0..1" -- "0..1" FuelCard
-RefuelTurn "1..*" -- "0..1" MonthlyInvoice
-GasStation "1..*" -- "0..*" Pump
-Pump "1..*" -- "0..1" Gasoline
-Pump "1..*" -- "0..1" Reservoir
-GasStation "0..1" -- "0..*" Report
+class GasStation {
+  id: Int
+  name: String
+  location: String
+}
+
+class Customer {
+  id: Int
+  name: String
+  cardBlocked: Boolean
+}
+
+class RefuelTurn {
+  id: Int
+  date: Date
+  amount: Float
+  paid: Boolean
+  pumpId: Int
+  customerId: Int
+}
+
+class RefuelCard {
+  id: Int
+  holderId: Int
+  turnover: Float
+}
+
+class MonthlyInvoice {
+  id: Int
+  customerId: Int
+  date: Date
+  amount: Float
+  discount: Float
+  paid: Boolean
+}
+
+class Payment {
+}
+
+class Discount {
+}
+
+class Pump {
+  id: Int
+  gasolineType: String
+  reservoirLevel: Float
+  reorderingLevel: Float
+  criticalLevel: Float
+  blocked: Boolean
+}
+
+class Gasoline {
+}
+
+class Nozzle {
+}
+
+class Reservoir {
+}
+
+class Report {
+  date: Date
+  pumpNeedsRefill: Boolean
+  currentGasolineLevel: Float
+  quantityToOrder: Float
+}
+
+OilCompany "1..*" -- "0..*" GasStation
+GasStation "0..*" -- "1..*" Pump
+Pump "1..1" -- "1..1" Nozzle
+Pump "1..1" -- "1..1" Reservoir
+Pump "1..1" -- "1..1" Gasoline
+Customer "1..1" -- "1..*" RefuelTurn
+Customer "1..1" -- "0..1" RefuelCard
+Customer "0..*" -- "0..*" Payment
+RefuelCard "1..1" -- "0..*" MonthlyInvoice
+MonthlyInvoice "1..*" -- "0..*" Discount
+MonthlyInvoice "0..*" -- "0..*" Payment
+MonthlyInvoice "1..*" -- "0..*" RefuelTurn
+GasStation "1..*" -- "0..*" Report
 @enduml
 ```

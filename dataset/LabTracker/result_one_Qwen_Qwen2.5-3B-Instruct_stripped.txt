@@ -1,0 +1,61 @@
+@startuml
+
+class Doctor {
+    String PractitionerNumber
+    String Signature
+    String FullName
+    String Address
+    String PhoneNumber
+    Date ValidFrom
+}
+class Patient {
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+class Requisition {
+    Doctor Doctor
+    Date ValidFrom
+    List<Patient> Patients
+}
+class Test {
+    String Type
+    Duration Duration
+}
+class Appointment {
+    Date Date
+    Time StartTime
+    Time EndTime
+    String LabAddress
+    String LabRegistrationNumber
+    String ConfirmationNumber
+}
+class WalkInTest {
+    String Type
+}
+class RepeatableTest {
+    String Type
+    int NumberOfRepeats
+    int Interval
+}
+class Sample {
+    String Type
+}
+
+Doctor "1" -- "0..*" Requisition
+Requisition "1" -- "0..*" Appointment
+Requisition "1" -- "0..*" RepeatableTest
+Patient "1" -- "0..*" Requisition
+Test "1" -- "0..*" Appointment
+Test "1" -- "0..*" WalkInTest
+Test "1" -- "0..*" RepeatableTest
+WalkInTest "1" -- "0..1" Appointment
+RepeatableTest "1" -- "0..1" Appointment
+Appointment "1" -- "0..1" WalkInTest
+Appointment "1" -- "0..1" RepeatableTest
+Appointment "1" -- "0..1" Sample
+
+@enduml

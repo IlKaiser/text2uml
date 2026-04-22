@@ -1,0 +1,57 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: Boeing sells aircrafts to airline companies.  As aircrafts are very expensive to build, they are only built "on demand", meaning that first a sales agreement is made with a customer, before the airplane is actually built. (An exception are demo versions of airplanes, but these are out of scope for this case). The sales are regulated by means of contracts with the airline companies, whereby a single contract may consist of several acquisitions of airplanes. The global contract stipulates common elements across all acquisitions such as delivery conditions, legal aspects, etc. Each acquisition of an airplane has further specific details, such as the chosen model of airplane, the negotiated price for that airplane, chosen options & customizations, delivery date, etc. Each contract is managed by a Boeing salesperson. An employee can act as salesperson for several contracts. Given the long term of contracts, the assigned salesperson may change over time, but Boeing ensures there is always a salesperson available for the client. 
+Some airlines are related to each other: for example, main airlines often have a low cost daughter airline company. Boeing therefore keep track as much as possible of the mother-daughter relationships between airline companies, to be able to track whether to sold aircrafts are shifted to partner airlines of the original buyer.<end_of_turn>
+<start_of_turn>model
+@startuml
+
+class AirlineCompany { String Name }
+class Contract { String ContractID, Date ContractDate, Date ExpiryDate }
+class Salesperson { String EmployeeID, String Name }
+class Aircraft { String Model, Date ManufacturingDate, Date DeliveryDate }
+class Acquisition { String AcquisitionID, Date AcquisitionDate, Float Price }
+class Option { String OptionID, String Description, Float Cost }
+
+AirlineCompany "1..*" -- "1..*" Contract : manages
+Salesperson "1..*" -- "1..*" Contract : manages
+Contract "1..*" -- "1..*" Acquisition : contains
+Aircraft "1..*" -- "1..*" Acquisition : is part of
+Acquisition "1..*" -- "0..*" Option : includes
+AirlineCompany "0..*" -- "0..*" AirlineCompany : has_daughter
+
+@enduml

@@ -1,0 +1,55 @@
+```plantuml
+@startuml
+
+class School {
+  name: String
+}
+
+class Teacher {
+  firstName: String
+  lastName: String
+  email: String
+}
+
+class Student {
+  firstName: String
+  lastName: String
+}
+
+class Classroom {
+  name: String
+  capacity: Int
+}
+
+class Room {
+}
+
+class Gym {
+  name: String
+  size: Int
+}
+
+class ClassGroup {
+  name: String
+}
+
+class Principal {
+  firstName: String
+  lastName: String
+}
+
+0..3 Teacher -- 1..1 School
+1..1 Student -- 1..1 School
+1..1 School -- 1..1 Principal
+1..1 Principal -- 1..1 Teacher
+1..1 Student -- 1..1 ClassGroup
+1..1 ClassGroup -- 1..1 Classroom
+1..1 Classroom -- 1..1 Room
+1..1 Gym -- 1..1 Room
+0..* Room -- 1..1 School
+
+Classroom --|> Room
+Gym --|> Room
+
+@enduml
+```

@@ -1,0 +1,239 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+One of your (hipster) acquaintances thinks he has the next billion-dollar startup idea for an app: Pizza Delivery with Entertainment. He heard from other people that you are following the course on database management, and asks you to design the UML class diagram. Afterwards, he will use the UML class diagram to ask programmers to implement the app.
+He explains the basic functionality of the app as follows: customers can order pizzas from restaurants to be delivered to a specific address, and if they want to, they can choose a special “entertainment order”. When an order is an entertainment order, the delivery person stays with the customer after delivering the pizza and entertains the customers (e.g., by singing, making jokes, doing magic tricks, etc.) for a certain amount of time.
+New follows a detailed explanation of the range of capabilities of the app: when people create an account for the app and become app users, they have to indicate their birthday and fill in their name and address. Every user should also be uniquely identifiable.
+Once the account is created, the users should be presented with three options: the first option in the app is to select “business owner”. Of these business owners, we also ask them to provide their LinkedIn account so we can add them to our profession network. Every business owner can own a number of pizza restaurants. Of these pizza restaurants, we want to register the zip code, address, phone number, website, and the opening hours.
+Each pizza restaurant can offer a number of pizzas. Of those pizzas, we want to keep the name (margarita, quattro stagioni, etc.), the crust structure (for example, classic Italian crust, deep dish crust, cheese crust), and the price. While two pizzas from different pizza restaurants may have the same name, they will not be exactly the same as the taste will be different, and thus should be considered unique. Moreover, pizzas should be distinguishable even if they have the same price, e.g., a pizza margarita from Pizza Pronto in New York which costs $12 must be distinguishable from a pizza margarita from Pizza Rapido in Singapore, which also costs $12.
+The second option in the app is to select “hungry customer”. For these hungry customers, we need a delivery address. Hungry customers can make orders for pizzas. Each order gets assigned an ID, and we want our app to log the date and time when the order was placed. We also allow the hungry customer to indicate the latest time of delivery, and ask how many people the order is for. An order can be for one or more pizzas.
+Also, a special type of order can be made: the entertainment order. Not every order has to be an entertainment order. But when a hungry customer indicates that he or she wants to be entertained while eating the pizza, we not only want to register all the regular order information, but also the type of entertainment the user requests, and for how long (a duration).
+The third option in the app to select is that of “entertainer”. When users select entertainer, they need to provide a stage name, write a short bio about themselves, and indicate their price per 30 minutes. Every entertainment order is fulfilled by exactly one entertainer. Every entertainer can choose for which pizza restaurant(s) he/she wants to work. For each pizza restaurant an entertainer wants to work with, he/she should indicate his/her availability by day (Monday, Tuesday, Wednesday, etc.).
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a UML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the requirements and relationships between the different entities.
+
+First, the user describes an app called Pizza Delivery with Entertainment. There are three main user options: business owner, hungry customer, and entertainer. Each of these will likely be represented as classes in the UML diagram.
+
+Starting with the business owners: they need to provide their LinkedIn account and can own multiple pizza restaurants. Pizza restaurants, in turn, have details like zip code, address, phone number, website, and opening hours. Additionally, each pizza restaurant offers various pizzas with specific crust structures and prices. These pizzas are unique even if they have the same name and price because they come from different restaurants.
+
+Next, the hungry customers make orders, which can be for one or more pizzas. Orders can be regular or entertainment orders. Entertainment orders require additional information like the type of entertainment and the duration. Each order is assigned an ID and has a delivery address. Orders are linked to the customer who placed them and can include multiple pizzas.
+
+Entertainers are assigned to specific pizza restaurants based on their availability. Each entertainment order is fulfilled by exactly one entertainer, and each entertainer can work with multiple pizza restaurants.
+
+I also need to consider user accounts. Users must provide their birthday, name, and address. Since business owners and customers are both users, I'll create a single User class that includes these attributes. However, business owners have an additional attribute, their LinkedIn account, so I'll include that in their class.
+
+Now, I'll outline the classes:
+
+1. **User**: The base class for all users, containing Name, Email, Birthday, and Address.
+2. **BusinessOwner**: Inherits from User and adds LinkedIn.
+3. **PizzaRestaurant**: Has attributes like ZipCode, Address, Phone, Website, and OpeningHours.
+4. **Pizza**: Includes Name, CrustType, and Price.
+5. **Order**: Contains OrderID, Customer, DeliveryAddress, and PizzaList. Orders can be entertainment orders, so I'll add a flag for that.
+6. **EntertainmentOrder**: Inherits from Order and includes EntertainmentType and Duration.
+7. **Entertainer**: Has a PricePer30Minutes and Availability by day of the week.
+8. **PizzaRestaurant** also has a list of Pizzas it offers.
+
+Next, I'll define the relationships:
+
+- **BusinessOwner** has a many-to-many relationship with **PizzaRestaurant** because a business owner can own multiple restaurants, and a restaurant can have multiple business owners (though the text doesn't specify this, it's a common relationship in such systems).
+- **Pizza** is many-to-many with **PizzaRestaurant** since a pizza can belong to multiple restaurants (though the text says each pizza is unique per restaurant, so maybe one-to-many? Wait, the text says two pizzas from different restaurants with the same name are unique, so each pizza is tied to one restaurant. So Pizza has a one-to-one relationship with PizzaRestaurant. But business owners can own multiple restaurants, so BusinessOwner is one-to-many to PizzaRestaurant, which is one-to-one with Pizza.
+- **Order** is one-to-many to **Pizza** because one order can have multiple pizzas.
+- **Order** is one-to-one with **Customer** because each order is made by one customer.
+- **EntertainmentOrder** is a subset of **Order**, so it's one-to-one with **Order**.
+- **Entertainer** is one-to-many to **PizzaRestaurant** because one entertainer can work with multiple restaurants. Each restaurant-entertainer pair has an availability relationship, which is one-to-one.
+
+I need to represent these relationships in UML. Using the appropriate cardinality symbols:
+
+- BusinessOwner <-> PizzaRestaurant (many-to-many)
+- Pizza one-to-one with PizzaRestaurant
+- Order one-to-many with Pizza
+- Order one-to-one with Customer
+- EntertainmentOrder one-to-one with Order
+- Entertainer one-to-many with PizzaRestaurant
+- Each restaurant-entertainer pair has an Availability relationship, which is one-to-one
+
+I'll structure the UML diagram starting with the base User class, then BusinessOwner and PizzaRestaurant, followed by Pizza, Order, EntertainmentOrder, Entertainer, and their relationships.
+</think>
+
+Here is the UML class diagram based on the provided specification:
+
+```uml
+@startuml
+
+class User {
+    String Name
+    String Email
+    Date Birthday
+    String Address
+}
+
+class BusinessOwner extends User {
+    String LinkedIn
+}
+
+class PizzaRestaurant {
+    Integer ZipCode
+    String Address
+    String Phone
+    String Website
+    Date OpeningHours
+}
+
+class Pizza {
+    String Name
+    String CrustType
+    Double Price
+}
+
+class Order {
+    Integer OrderID
+    Class Customer
+    String DeliveryAddress
+    List<Pizza> PizzaList
+    Boolean isEntertainmentOrder = false
+}
+
+class EntertainmentOrder extends Order {
+    String EntertainmentType
+    Integer Duration
+}
+
+class Entertainer {
+    Integer PricePer30Minutes
+    String Availability[Monday..Sunday]
+}
+
+class BusinessOwner <-> PizzaRestaurant
+
+Pizza one..one -> PizzaRestaurant
+
+Order one..many <- Pizza
+
+Order one..one <- Customer
+
+EntertainmentOrder one..one <- Order
+
+Entertainer one..many -> PizzaRestaurant
+[ (PizzaRestaurant) <-> (Entertainer) one..one ]
+@enduml
+```

@@ -1,28 +1,49 @@
-```
+```plantuml
 @startuml
 
-class Customer {}
-class InsurancePolicy {}
-class Contract {}
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
 class Invoice {}
-class Broker {}
-class Claim {}
-class ClaimCase {}
-class Estimator {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
 class Report {}
-class CompensationDecision {}
-class CompensationPayment {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
 
-Broker "1" -- "1..*" Customer
-Customer "1..*" -- "1..*" Contract
-Contract "1" -- "1..*" InsurancePolicy
-Contract "1..*" -- "1..*" Invoice
-Customer "1..*" -- "1..*" Claim
-Claim "1..*" -- "1..*" ClaimCase
-ClaimCase "1" -- "1..*" Report
-Estimator "1" -- "0..*" Report
-ClaimCase "1" -- "1" CompensationDecision
-CompensationDecision "1" -- "1" CompensationPayment
+Customer "1" -- "0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" -- "0..*" ClaimCase
+(ClaimCase, Estimator) .. Report
+Customer "0..*" -- "0..1" Broker
 
 @enduml
 ```

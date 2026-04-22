@@ -1,36 +1,95 @@
 ```plantuml
 @startuml
 
-class Employee{}
-class Driver{}
-class Planner{}
-class AdministrativeStaff{}
-class Customer{}
-class Vehicle{}
-class RefrigeratedTruck{}
-class SmallVan{}
-class LoadingPlatform{}
-class BoxTruck{}
-class RepairShop{}
-class Order{}
-class PartnerCompany{}
+class Employee {
+    name:String
+    socialSecurityNumber:String
+}
 
-Employee "0..*" -- "0..*" Driver
-Employee "0..*" -- "0..*" Planner
-Employee "0..*" -- "0..*" AdministrativeStaff
-Employee "1..*" -- "0..*" Order
-Driver "1..*" -- "0..*" Vehicle
+class Driver {
+    name:String
+    socialSecurityNumber:String
+}
+
+class Planner {
+    name:String
+    socialSecurityNumber:String
+    username:String
+    password:String
+}
+
+class AdministrativeStaff {
+    name:String
+    socialSecurityNumber:String
+    username:String
+    password:String
+    fieldOfActivity:String
+}
+
+class Customer {
+    name:String
+    billingAddress:String
+}
+
+class Vehicle {
+    licensePlateNumber:String
+    mileage:Int
+}
+
+class RefrigeratedTruck {
+    licensePlateNumber:String
+    mileage:Int
+}
+
+class SmallVan {
+    licensePlateNumber:String
+    mileage:Int
+}
+
+class LoadingPlatform {
+    licensePlateNumber:String
+    mileage:Int
+}
+
+class BoxTruck {
+    licensePlateNumber:String
+    mileage:Int
+}
+
+class RepairShop {
+    name:String
+    address:String
+}
+
+class Order {
+    pickupAddress:String
+    deliveryAddress:String
+    packageSize:String
+    comment:String
+    startTime:Date
+    endTime:Date
+}
+
+class PartnerCompany {
+    name:String
+    address:String
+}
+
+Employee "1..*" -- "0..*" Vehicle
 Driver "1..*" -- "0..*" Order
 Planner "1..*" -- "0..*" Order
 AdministrativeStaff "1..*" -- "0..*" Order
-Customer "1..*" -- "0..*" Order
-Vehicle "0..*" -- "0..*" RefrigeratedTruck
-Vehicle "0..*" -- "0..*" SmallVan
-Vehicle "0..*" -- "0..*" LoadingPlatform
-Vehicle "0..*" -- "0..*" BoxTruck
-Vehicle "1..*" -- "0..*" RepairShop
-RepairShop "0..*" -- "0..*" Employee
+Customer "1..*" -- "1..*" Order
+Vehicle "0..*" -- "0..*" RepairShop
 Order "0..*" -- "0..*" PartnerCompany
+
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
+RefrigeratedTruck --|> Vehicle
+SmallVan --|> Vehicle
+LoadingPlatform --|> Vehicle
+BoxTruck --|> Vehicle
 
 @enduml
 ```

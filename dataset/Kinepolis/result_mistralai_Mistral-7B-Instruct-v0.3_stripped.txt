@@ -1,0 +1,56 @@
+@startuml
+
+class Kinepolis {
+    String Name
+}
+
+class Cinema {
+    String Name
+    Kinepolis kinepolis
+    "0..*" Theatre
+}
+
+class Theatre {
+    String Name
+    Cinema cinema
+    "1..*" Show
+}
+
+class Movie {
+    String Title
+}
+
+class Copy {
+    Movie movie
+    Cinema cinema
+    "0..*" Show
+}
+
+class Show {
+    DateTime StartTime
+    DateTime PublicationDate
+    "0..*" Reservation
+    "0..*" Copy
+}
+
+class Reservation {
+    DateTime ReservationTime
+    DateTime CancellationTime
+    Boolean Paid
+    String CustomerName
+    Show show
+}
+
+class Ticket {
+    Boolean Anonymous
+    Show show
+    String SeatNumber
+}
+
+Cinema "1" -- "0..*" Theatre
+Theatre "1..*" Show
+Show "0..*" Reservation
+Show "0..*" Copy
+Copy "1" -- "1" Movie
+
+@enduml

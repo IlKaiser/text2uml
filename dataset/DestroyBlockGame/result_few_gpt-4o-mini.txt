@@ -1,25 +1,44 @@
+```plantuml
 @startuml
 
-class User{}
-class Game{}
-class Block{}
-class Level{}
-class Paddle{}
-class Ball{}
-class HallOfFame{}
-class Score{}
-class Admin{}
+class User {
+    String Username
+    String Password
+}
+class Game {
+    String Name
+}
+class Block {
+    String Color
+    Int Points
+}
+class Level {
+    Int Number
+    Boolean IsRandom
+}
+class Paddle {
+    Double Length
+}
+class Ball {
+    Double Speed
+}
+class HallOfFame {
+    String Score
+}
+class GameSession {
+    Int Lives
+    Int TotalScore
+}
 
-User "1" -- "0..1" Admin
-User "1" -- "0..*" Game
-Admin "1" -- "1" Game
+User "1" -- "0..1" Game
+User "0..*" -- "0..*" GameSession
+Game "1" -- "1" User
 Game "1" -- "0..*" Block
-Game "1" -- "1..99" Level
-Level "1" -- "1..*" Block
-Level "1" -- "1" Paddle
-Level "1" -- "1" Ball
-Game "1" -- "1" HallOfFame
-Player "1" -- "0..*" Score
-Score "1" -- "1" HallOfFame
+Game "1" -- "0..*" Level
+Game "1" -- "0..1" HallOfFame
+Level "1" -- "0..*" Block
+GameSession "1" -- "1" Ball
+GameSession "1" -- "1" Paddle
 
 @enduml
+```

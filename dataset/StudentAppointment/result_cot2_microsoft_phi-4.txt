@@ -1,0 +1,31 @@
+```plantuml
+@startuml
+
+class Student {
+  registeredCourses: List<String>
+}
+
+class Question {
+}
+
+class Course {
+}
+
+class Appointment {
+  course: Course
+  student: Student
+  teachingAssistant: TeachingAssistant
+}
+
+class TeachingAssistant {
+  coursesTeaching: List<Course>
+}
+
+Student "1..*" -- "0..*" Course
+Student "1..*" -- "1..1" Appointment
+TeachingAssistant "1..*" -- "0..*" Course
+TeachingAssistant "1..*" -- "1..1" Appointment
+Appointment "1..1" -- "1..1" Course
+
+@enduml
+```

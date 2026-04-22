@@ -1,0 +1,79 @@
+@startuml
+atlas = Aircraft
+flight = Flight
+passenger = Passenger
+ticket = Ticket
+passengerAircraft = PassengerAircraft
+seatCategory = SeatCategory
+airline = Airline
+flightAttendant = FlightAttendant
+pilot = Pilot
+
+class atlas {
+  +name: String
+  +type: String
+  +yearOfManufacture: Int
+  +nextInspectionDate: Date
+}
+
+class flight {
+  +flightNumber: String
+  +date: Date
+}
+
+class passenger {
+  +name: String
+  +passportNumber: String
+}
+
+class ticket {
+  +ticketNumber: String
+  +price: Float
+  +upgradeDesired: Boolean
+}
+
+class passengerAircraft {
+  +numberOfSeats: Int
+}
+
+class seatCategory {
+  +designation: String
+  +entertainmentProgram: Boolean
+  +numberOfSeats: Int
+}
+
+class airline {
+  +name: String
+}
+
+class flightAttendant {
+  +name: String
+  +dateOfEmployment: Date
+  +isChiefStewardOrStewardess: Boolean
+}
+
+class pilot {
+  +name: String
+  +dateOfEmployment: Date
+  +license: String
+}
+
+class airport {
+  +name: String
+  +address: String
+  +numberOfRunways: Int
+}
+
+aircraft --|> atlas
+flight --|> atlas
+passenger --|> flight
+ticket --|> passenger
+passengerAircraft --|> seatCategory
+seatCategory --|> passengerAircraft
+aircraft --|> airline
+airline --|> flightAttendant
+airline --|> pilot
+airport --|> aircraft
+flight --|> airport
+flight --|> airport
+@enduml

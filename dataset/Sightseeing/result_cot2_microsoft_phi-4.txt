@@ -1,0 +1,48 @@
+```plantuml
+@startuml
+
+class City {
+  name: String
+  inhabitants: Int
+}
+
+class Attraction {
+  name: String
+  address: String
+}
+
+class GuidedTour {
+  duration: Float
+  number: Int
+}
+
+class Visitor {
+  name: String
+}
+
+class Discount {
+  amount: Float
+}
+
+class Guide {
+  name: String
+}
+
+class Person {
+  name: String
+}
+
+City "1..1" -- "0..*" Attraction
+Attraction "1..1" -- "0..*" GuidedTour
+GuidedTour "1..1" -- "0..20" Visitor
+Visitor "0..*" -- "0..*" Discount
+GuidedTour "0..*" -- "0..*" Discount
+GuidedTour "1..1" -- "1..1" Guide
+Visitor "1..1" -- "1..1" Person
+Guide "1..1" -- "1..1" Person
+
+Visitor --|> Person
+Guide --|> Person
+
+@enduml
+```

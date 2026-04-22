@@ -1,42 +1,82 @@
 @startuml
-class HelpingHandsStore{}
-class H2SLocation{}
-class Article{}
-class Food{}
-class Resident{}
-class City{}
-class Pickup{}
-class Vehicle{}
-class Route{}
-class Driver{}
-class DistributionCenter{}
-class FoodBank{}
-class Employee{}
-class Category{}
-class Client{}
-class Delivery{}
+class Article {
+  description:String
+  dimensions:String
+  weight:Float
+  canBeUsed:Boolean
+  category:String
+}
+class Food {
+  isNonPerishable:Boolean
+  dimensions:String
+  weight:Float
+}
+class Resident {
+  name:String
+  phoneNumber:String
+  emailAddress:String
+}
+class City {
+}
+class Address {
+}
+class Pickup {
+  date:Date
+  startTime:String
+  endTime:String
+  itemDescription:String
+}
+class Vehicle {
+  storageSpace:Float
+}
+class Route {
+}
+class Driver {
+  availableDays:String
+}
+class DistributionCenter {
+}
+class FoodBank {
+}
+class Employee {
+}
+class RFIDTag {
+}
+class Category {
+  name:String
+}
+class Client {
+  neededCategories:String
+  homeAddress:String
+}
+class Delivery {
+}
 
-HelpingHandsStore "1..1" -- "0..*" H2SLocation
-H2SLocation "0..*" -- "1..1" City
-H2SLocation "1..1" -- "1..1" DistributionCenter
-H2SLocation "1..1" -- "0..*" Vehicle
-Resident "0..*" -- "1..1" City
+Resident "1..1" -- "0..*" City
+Resident "1..1" -- "0..*" Article
+Resident "1..1" -- "0..*" Food
 Resident "1..1" -- "0..*" Pickup
-Pickup "1..1" -- "0..*" Article
-Pickup "1..1" -- "0..*" Food
-Vehicle "1..1" -- "0..*" Route
+Pickup "1..1" -- "0..*" Address
+Article "0..*" -- "1..1" Pickup
+Food "0..*" -- "1..1" Pickup
+Vehicle "1..1" -- "0..*" Pickup
+Vehicle "1..1" -- "0..1" Route
 Driver "1..1" -- "0..*" Route
-Route "1..1" -- "0..*" Pickup
+Driver "1..1" -- "0..*" Article
 DistributionCenter "1..1" -- "0..*" Article
 FoodBank "1..1" -- "0..*" Food
-Employee "0..*" -- "1..1" DistributionCenter
-Employee "0..1" -- "0..*" Article
-Article "0..*" -- "1..1" Category
-Client "0..*" -- "1..1" DistributionCenter
-Client "0..*" -- "0..1" Article
+DistributionCenter "1..1" -- "0..*" Employee
+Employee "1..1" -- "0..*" Article
+Article "1..1" -- "0..1" RFIDTag
+Category "1..1" -- "0..*" Article
+City "1..1" -- "0..1" DistributionCenter
+DistributionCenter "1..1" -- "0..*" Client
 Client "0..*" -- "0..*" Category
+Employee "0..*" -- "0..*" Client
 Employee "1..1" -- "0..*" Delivery
+Article "0..*" -- "1..1" Delivery
 Client "1..1" -- "0..*" Delivery
-Delivery "0..1" -- "0..*" Article
+Address "1..1" -- "0..*" Delivery
 Driver "1..1" -- "0..*" Delivery
+Client "1..1" -- "0..*" Address
 @enduml

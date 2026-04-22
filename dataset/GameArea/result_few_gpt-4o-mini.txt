@@ -1,18 +1,25 @@
 @startuml
 
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
-class Enemy{}
-class Boss{}
+class GameArea {
+    String Name
+}
+class GameElement {
+    long x
+    long y
+}
+class Shape {
+}
+class Object {
+}
+class Opponent {
+    int NumberOfLives
+}
 
 GameArea "1" -- "1..*" GameElement
-GameArea "1" -- "1..2" GamePiece
-Shape "0..*" -- "0..*" Shape : connects
-GameArea "1" -- "1" Boss : has
-GameArea "1" -- "1" Opponent : contains
-Opponent "0..*" -- "1" Enemy : has
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+GameArea "1" -- "1" Opponent
+Shape "0..*" -- "0..*" Shape
 
 @enduml

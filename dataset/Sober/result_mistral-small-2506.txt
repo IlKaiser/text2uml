@@ -1,30 +1,17 @@
 @startuml
 
-class Sober{}
-class Car{}
-class Cab{}
-class CarOwner{}
-class RideHailing{}
-class RideSharing{}
-class Customer{}
-class Accident{}
+class TaxiCompany{ String Name, String Address, Date FoundingDate }
+class SelfDrivingCar{ String Model, String LicensePlate, Date ManufacturingDate }
+class CarOwner{ String Name, String Address, String ContactInfo }
+class TaxiService{ Date PickUpTime, Date DropOffTime, String PickUpLocation, String DropOffLocation, float RideDuration, float Distance, float Fee }
+class RideHailing extends TaxiService{ boolean RequestType, String LeadCustomerName, int NumberOfPassengers }
+class RideSharing extends TaxiService{ String[] CustomerNames, int NumberOfCustomers }
+class Accident{ Date AccidentDate, String AccidentLocation, float DamageAmount }
 
-Sober "1..1" -- "1..*" Car
-Sober "1..1" -- "1..*" Cab
-Sober "1..1" -- "1..*" CarOwner
-Sober "1..1" -- "1..*" RideHailing
-Sober "1..1" -- "1..*" RideSharing
-Sober "1..1" -- "1..*" Customer
-Sober "1..1" -- "1..*" Accident
-
-Car "1..1" -- "1..1" Cab
-Car "1..1" -- "1..1" CarOwner
-Car "1..1" -- "0..*" Accident
-
-Cab "1..1" -- "1..*" RideHailing
-Cab "1..1" -- "1..*" RideSharing
-
-RideHailing "1..1" -- "1..*" Customer
-RideSharing "1..1" -- "1..*" Customer
+TaxiCompany "1..1" -- "1..*" SelfDrivingCar
+TaxiCompany "1..1" -- "1..*" CarOwner
+SelfDrivingCar "1..1" -- "0..*" Accident
+TaxiCompany "1..1" -- "1..*" RideHailing
+TaxiCompany "1..1" -- "1..*" RideSharing
 
 @enduml

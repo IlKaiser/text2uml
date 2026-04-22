@@ -1,30 +1,52 @@
 ```plantuml
 @startuml
 
-class Department{}
-class Room{}
-class Bed{}
-class Inhabitant{}
-class Category{}
-class Registration{}
-class Stay{}
-class Invoice{}
-class WaitingList{}
-class Proposal{}
+class Department {
+    String Name
+}
+class Room {
+    Int Number
+}
+class Bed {
+    String Category
+    Double Price
+}
+class Inhabitant {
+    String Name
+    Date IntakeDate
+}
+class Stay {
+    String Type
+    String Status
+}
+class Registration {
+    String PersonData
+    Date RegistrationDate
+}
+class Assessment {
+    String TypeOfStay
+}
+class WaitingList {
+    Int Position
+}
+class Proposal {
+    Boolean Accepted
+}
+class Invoice {
+    Double OutstandingAmount
+    String Status
+}
 
-Department "1" -- "1..*" Room
-Room "1" -- "1..*" Bed
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
 Bed "1" -- "0..*" Inhabitant
-Bed "1" -- "1" Category
-Category "1" -- "0..*" Price
-Stay "1" -- "0..*" Inhabitant
-Registration "1" -- "1" Inhabitant
+Inhabitant "1" -- "0..*" Stay
 Stay "1" -- "0..*" Invoice
+Inhabitant "1" -- "0..*" Registration
+Registration "1" -- "0..*" Assessment
+Assessment "1" -- "0..*" WaitingList
 WaitingList "1" -- "0..*" Proposal
-Proposal "1" -- "1" Inhabitant
-Proposal "1" -- "1" Stay
-Invoice "1" -- "0..*" Payment
-Inhabitant "1" -- "0..*" WaitingList
+Inhabitant "1" -- "0..*" Proposal
 
 @enduml
 ```

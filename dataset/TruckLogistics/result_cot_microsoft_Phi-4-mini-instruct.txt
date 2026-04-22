@@ -1,0 +1,321 @@
+<|user|>Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+.
+
+##############
+
+The class list is:
+<|end|><|assistant|>[Location, Driver, Vehicle, Order, VehicleNumber, Weight, Seats, Origin, Destination, Date]
+
+##############
+
+The cardinality list is:
+
+<|user|>Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+
+
+##############
+
+The cardinality list is:
+<|end|><|assistant|>[(Location, Driver, 1..1), (Location, Vehicle, 1..1), (Location, Address, 1..1), (Vehicle, Number, 1..1), (Vehicle, Weight, 1..1), (Vehicle, Seats, 1..1), (Order, Origin, 1..1), (Order, Destination, 1..1), (Order, Driver, 1..1), (Order, Date, 1..1), (Driver, Vehicle, 1..1)]
+
+##############
+
+The attributes dictionary is:
+
+<|user|>Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+.
+
+##############
+
+The class list is:
+<|end|><|assistant|>[Location, Driver, Vehicle, Order, VehicleNumber, Weight, Seats, Origin, Destination, Date]
+
+#############
+
+The specification text is:
+
+Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+
+
+##############
+
+The attributes dictionary is:
+<|end|><|assistant|>{
+  Location: [address: String],
+  Driver: [firstName: String, lastName: String],
+  Vehicle: [vehicleNumber: String, weight: Float, seats: Int],
+  Order: [origin: Location, destination: Location, assignedDriver: Driver, dateOfExecution: Date],
+  VehicleNumber: [type: String],
+  Weight: [type: Float],
+  Seats: [type: Int],
+  Origin: [type: Location],
+  Destination: [type: Location],
+  Date: [type: Date]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<|user|>Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+.
+
+##############
+
+The class list is:
+<|end|><|assistant|>[Location, Driver, Vehicle, Order, VehicleNumber, Weight, Seats, Origin, Destination, Date]
+
+#############
+
+The specification text is:
+
+Locations consist of drivers with first and last names and vehicles. Each location has its own address. There are three types of vehicles: trucks, cars and vans. Each vehicle has a vehicle number. While trucks also have a certain weight, passenger cars have a certain number of seats. In addition to vehicles and drivers, orders are also managed. Orders are carried out by drivers. Drivers carry out a maximum of one order assigned to them at any one time. Orders always have an origin and a destination location, at least one assigned driver and the date of execution. In addition to order management, the system also records which vehicles are driven by which driver. For this purpose, vehicles are assigned up to one driver who drives these vehicles.
+
+
+##############
+<|end|><|assistant|>ASSOCIATIONS:
+[(Location, Driver), (Location, Vehicle), (Driver, Vehicle), (Order, Driver), (Order, Location), (Order, Date), (Vehicle, VehicleNumber), (Vehicle, Weight), (Vehicle, Seats), (Driver, Order), (Driver, Vehicle)]
+
+##############
+
+The plant uml is:
+<|end|><|assistant|>@startuml
+class Location {
+    +String address
+    +Driver driver
+    +Vehicle vehicle
+}
+
+class Driver {
+    +String firstName
+    +String lastName
+    +Vehicle vehicle
+    +Order order
+}
+
+class Vehicle {
+    +String vehicleNumber
+    +Float weight
+    +Int seats
+    +Driver driver
+}
+
+class Order {
+    +Location origin
+    +Location destination
+    +Driver assignedDriver
+    +Date dateOfExecution
+}
+
+class VehicleNumber {
+    +String type
+}
+
+class Weight {
+    +Float type
+}
+
+class Seats {
+    +Int type
+}
+
+class Origin {
+    +Location type
+}
+
+class Destination {
+    +Location type
+}
+
+class Date {
+    +Date type
+}
+
+Location "1" -- "1" Driver
+Location "1" -- "1" Vehicle
+Driver "1" -- "1" Vehicle
+Order "1" -- "1" Driver
+Order "1" -- "1" Location
+Order "1" -- "1" Date
+Vehicle "1" -- "1" VehicleNumber
+Vehicle "1" -- "1" Weight
+Vehicle "1" -- "1" Seats
+Driver "1" -- "1" Order
+Driver "1" -- "1" Vehicle
+VehicleNumber "1" -- "1" String
+Weight "1" -- "1" Float
+Seats "1" -- "1" Int
+Origin "1" -- "1" Location
+Destination "1" -- "1" Location
+Date "1" -- "1" Date
+@enduml

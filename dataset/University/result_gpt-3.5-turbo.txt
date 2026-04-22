@@ -1,25 +1,27 @@
-
+```plantuml
 @startuml
 
-class University{}
-class Faculty{}
-class Institute{}
-class Employee{}
-class ResearchAssistant{}
-class Dean{}
-class AdministrativeStaff{}
-class RAProject{}
-class Course{}
-class Lecturer{}
+class University{ String Name }
+class Faculty{ String Name }
+class Institute{ String Name, String Address }
+class Employee{ String SSN, String Name, String Email }
+class Dean
+class ResearchAssistant{ String FieldOfResearch }
+class AdministrativeStaff
+class Project{ String Name, Date StartDate, Date EndDate}
+class Lecturer
+class Course{ String ID, String Name, int WeeklyDuration }
 
-University "1..1" -- "1..*" Faculty
+University "1..*" -- "1..*" Faculty
 Faculty "1..*" -- "1..*" Institute
-Faculty "1..1" -- "1..1" Dean
-Employee "1..*" -- "1..1" Dean
-Employee "1..*" -- "1..1" AdministrativeStaff
-Employee "1..1" -- "0..*" ResearchAssistant
-ResearchAssistant "1..*" -- "0..*" RAProject
-ResearchAssistant -- Lecturer
-Course "1..*" -- "1..*" Lecturer
+Faculty "1..1" -- "1..*" Dean
+Institute "1..*" -- "0..*" Employee
+Employee "0..*" -- "0..1" ResearchAssistant
+Employee "0..*" -- "0..1" AdministrativeStaff
+ResearchAssistant "1..*" -- "1..*" Institute
+ResearchAssistant "0..*" -- "0..*" Project
+ResearchAssistant "0..*" -- "0..*" Lecturer
+Lecturer "1..1" -- "0..*" Course
 
 @enduml
+```

@@ -1,26 +1,38 @@
 @startuml
-class City{}
-class Bus{}
-class BusRoute{}
-class Driver{}
-class Staff{}
-class Shift{}
-class Assignment{}
-class Day{}
-class Schedule{}
+class City
+class Route {
+  number: Int
+}
+class Bus {
+  licencePlate: String
+  inRepair: Boolean
+}
+class Driver {
+  id: Int
+  name: String
+  sick: Boolean
+}
+class StaffMember
+class Shift {
+  type: String
+}
+class Assignment {
+  date: Date
+}
+class Schedule
+class Date
 
-City "1..1" -- "0..*" Bus
-City "1..1" -- "0..*" Driver
-City "1..1" -- "0..*" BusRoute
-City "1..1" -- "0..*" Staff
-BusRoute "1..1" -- "1..*" Shift
-Bus "0..*" -- "0..*" Assignment
-BusRoute "1..1" -- "0..*" Assignment
-Driver "1..1" -- "0..*" Assignment
-Shift "1..1" -- "0..*" Assignment
-Day "1..1" -- "0..*" Assignment
-Staff "1..1" -- "0..*" Assignment
-Staff "1..1" -- "0..*" Schedule
-Driver "0..*" -- "0..*" Schedule
-Day "1..1" -- "0..*" Schedule
+StaffMember "0..*" -- "1..1" City
+Route "0..*" -- "1..1" City
+Bus "0..*" -- "1..1" City
+Driver "0..*" -- "1..1" City
+Shift "1..*" -- "1..1" Route
+Assignment "0..*" -- "1..1" Driver
+Assignment "0..*" -- "1..1" Bus
+Assignment "0..*" -- "1..1" Shift
+Assignment "0..*" -- "1..1" Date
+Assignment "0..*" -- "1..1" Route
+Assignment "0..*" -- "1..1" Schedule
+Schedule "0..*" -- "1..1" StaffMember
+Assignment "0..*" -- "1..1" StaffMember
 @enduml

@@ -1,0 +1,82 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 13 Apr 2026
+
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Transform into plant uml this specification text: Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+```plantuml
+@startuml
+class Person{ String PersonID, String InstitutionCode, String PhoneNumber, String Keywords, String Institution }
+class Institution{ String InstitutionCode }
+class Article{ String DOI, String Title, String Authors, String Position, String Type, String Publisher, String CitationCount, String Reviewers }
+class Publisher{ String Name, String Journals }
+class Journal{ String Name, String Publisher, String ImpactFactor }
+class PeerReview{ String DOI, String Reviewer }
+class TechnicalReport{ String DOI, String Title, String Institution }
+@enduml
+```
+
+Note: I've created the following classes:
+
+- Person: stores information about a person, including their ID, institution code, phone number, keywords, and institution.
+- Institution: stores the institution code.
+- Article: stores information about a scientific article, including its DOI, title, authors, position, type, publisher, citation count, and reviewers.
+- Publisher: stores information about a publisher, including their name and journals.
+- Journal: stores information about a journal, including its name, publisher, and impact factor.
+- PeerReview: stores information about a peer-reviewed article, including its DOI and reviewer.
+- TechnicalReport: stores information about a technical report, including its DOI, title, and institution.
+
+The relations are:
+
+- A person can be associated with one institution (Person "1..1" -- "1..*" Institution).
+- An institution can have multiple people (Institution "1..*" -- "0..*" Person).
+- An article can have multiple authors (Article "1..*" -- "1..*" Person).
+- An article can have multiple reviewers (Article "1..*" -- "0..*" PeerReview).
+- A publisher can have multiple journals (Publisher "1..*" -- "1..*" Journal).
+- A journal can have multiple articles (Journal "1..*" -- "1..*" Article).
+- A technical report is always published by one institution (TechnicalReport "1..1" -- "1..*" Institution).
+- A peer-reviewed article is published in a journal (PeerReview "1..*" -- "1..*" Journal).
+- A journal can have multiple peer-reviewed articles (Journal "1..*" -- "1..*" PeerReview).
+- A publisher can publish multiple journals (Publisher "1..*" -- "1..*" Journal).
+- A journal can have multiple technical reports (Journal "1..*" -- "1..*" TechnicalReport).

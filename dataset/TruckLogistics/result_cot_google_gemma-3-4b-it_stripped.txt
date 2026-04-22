@@ -1,0 +1,46 @@
+@startuml
+class Location {
+    address : String
+}
+
+class Driver {
+    first_name : String
+    last_name : String
+}
+
+class Vehicle {
+    vehicle_number : String
+}
+
+class Truck {
+    weight : Float
+}
+
+class Car {
+    number_of_seats : Int
+}
+
+class Van {
+    
+}
+
+class Order {
+    origin : String
+    destination_location : String
+    date_of_execution : Date
+}
+
+class Route {
+    
+}
+
+Location "1" -- "*" Driver : contains
+Location "1" -- "*" Vehicle : has
+Driver "1" -- "1" Order : carries out
+Order "1" -- "1" Location : origin
+Order "1" -- "1" Location : destination
+Driver "1" -- "1" Order : assigned to
+Vehicle "1" -- "1" Driver : driven by
+Vehicle "1" -- "0..*" Order : associated with
+
+@enduml

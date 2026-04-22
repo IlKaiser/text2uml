@@ -1,0 +1,54 @@
+@startuml
+
+class FitnessCenter {
+    - name: String
+    - address: String
+}
+
+class Room {
+    - number: Int
+    - maxCapacity: Int
+    - fitnessCenter: FitnessCenter
+}
+
+class Person {
+    - firstName: String
+    - familyName: String
+    - birthDate: Date
+    - diploma: String
+}
+
+class Trainer {
+    - firstName: String
+    - familyName: String
+    - birthDate: Date
+    - diploma: String
+}
+
+class Session {
+    - date: Date
+    - startingHour: Time
+    - fitnessCenter: FitnessCenter
+    - type: String
+}
+
+class GroupSession {
+    - trainer: Trainer
+    - type: String
+    extends Session
+}
+
+class IndividualSession {
+    extends Session
+}
+
+FitnessCenter "1" -- "0..*" Room
+Room "1" -- "1" FitnessCenter
+FitnessCenter "0..*" Person
+Person "0..1" Trainer
+Trainer "0..1" Session
+Session "0..*" FitnessCenter
+GroupSession "1" -- "1" Session
+IndividualSession "1" -- "1" Session
+
+@enduml

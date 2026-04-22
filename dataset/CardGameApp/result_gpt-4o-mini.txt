@@ -1,28 +1,24 @@
-```
 @startuml
 
-class Game{}
-class Player{}
-class Deck{}
-class Card{}
-class ScoringTable{}
-class Round{}
-class SoloRound{}
-class MandatorySoloRound{}
-class ComparisonMethod{}
-class Suit{}
+class Game{ String ID }
+class Player{ String ID }
+class Deck{ String ID }
+class Card{ String ID, String Suit }
+class ScoringTable{ String ID }
+class Round{ String ID, String Type, int PointValue }
+class SoloRound{ String ID, String Type }
+class MandatorySoloRound{ String ID }
+class ComparisonMethod{ String Result }
 
 Game "1..1" -- "4..*" Player
 Game "1..1" -- "1..1" Deck
 Game "1..1" -- "1..1" ScoringTable
 Deck "1..1" -- "0..48" Card
-ScoringTable "1..1" -- "0..*" Round
-Round "1..*" -- "0..*" Player : winning
-Round "1..1" -- "0..1" SoloRound
-SoloRound "1..1" -- "0..1" MandatorySoloRound
-SoloRound "1..1" -- "1..1" Player : solo player
-SoloRound "1..1" -- "1..*" Suit : type of solo
+ScoringTable "1..*" -- "0..*" Round
+Round "1..1" -- "0..*" Player
+Round "0..*" -- "0..1" SoloRound
+SoloRound "0..1" -- "1..1" Player
+SoloRound "0..*" -- "0..1" MandatorySoloRound
 Card "1..1" -- "1..1" ComparisonMethod
 
 @enduml
-```

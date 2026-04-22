@@ -1,31 +1,47 @@
-```
+```plantuml
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Inhabitant{}
-class Stay{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Invoice{}
-class Payment{}
-
+class Inhabitant {
+    name:String
+    registrationDate:Date
+}
+class Category {
+    price:Float
+}
+class Stay {
+    type:String
+    startDate:Date
+    endDate:Date
+}
+class Registration {
+    basicIdentificationData:String
+}
+class Assessment {
+    needsForHelp:String
+}
+class WaitingList {
+    position:Int
+}
+class Invoice {
+    remainingAmount:Float
+    status:String
+}
+class Payment {
+    amountPaid:Float
+    paymentDate:Date
+}
 Home "1..*" -- "1..*" Department
 Department "1..*" -- "1..*" Room
 Room "1..*" -- "1..*" Bed
 Inhabitant "1..*" -- "1..1" Bed
 Bed "1..1" -- "1..1" Category
+Category "1..*" -- "1..*" Stay
 Inhabitant "0..*" -- "0..*" Stay
-Stay "1..1" -- "1..1" Category
-Inhabitant "0..*" -- "1..1" Registration
-Inhabitant "0..*" -- "0..*" Assessment
-Assessment "1..1" -- "1..1" Category
-Inhabitant "0..1" -- "1..1" WaitingList
-WaitingList "1..1" -- "1..1" Registration
-Stay "1..1" -- "0..*" Invoice
-Invoice "1..1" -- "0..*" Payment
+Registration "1..1" -- "1..1" Inhabitant
+Assessment "1..1" -- "1..1" Inhabitant
+Inhabitant "0..*" -- "0..*" WaitingList
+WaitingList "1..*" -- "1..1" Stay
+Stay "1..*" -- "1..*" Invoice
+Invoice "1..*" -- "0..*" Payment
+Stay --|> Category
 @enduml
 ```

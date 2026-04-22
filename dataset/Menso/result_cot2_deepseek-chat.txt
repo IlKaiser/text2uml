@@ -1,35 +1,89 @@
 @startuml
-class BusCompany{}
-class Bus{}
-class BusLine{}
-class Trajectory{}
-class TownAuthority{}
-class Approval{}
-class SeasonTicket{}
-class MENSOProject{}
-class Category{}
-class Trip{}
-class Invoice{}
-class Customer{}
-class Discount{}
-class Payment{}
-class MENSOcard{}
-class TicketMachine{}
+class BusCompany
+
+class Bus {
+  line: String
+}
+
+class BusLine {
+  category: String
+}
+
+class Trajectory {
+  status: String
+}
+
+class TownAuthority
+
+class Approval {
+  decision: String
+  date: Date
+}
+
+class SeasonTicket {
+  validityPeriod: String
+  price: Float
+}
+
+class MENSOProject {
+  name: String
+}
+
+class LineCategory
+
+class Trip {
+  time: String
+  date: Date
+  line: String
+}
+
+class Invoice {
+  amount: Float
+  discount: Float
+  date: Date
+}
+
+class Customer {
+  discount: Float
+}
+
+class MENSOCard {
+  cardNumber: String
+}
+
+class TicketMachine {
+  location: String
+}
+
+class Payment {
+  amount: Float
+  date: Date
+}
+
+class PersonalData {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
 
 BusCompany "1..1" -- "0..*" Bus
 BusCompany "1..1" -- "0..*" BusLine
-BusLine "1..1" -- "0..*" Trajectory
-TownAuthority "1..1" -- "0..*" Approval
+BusCompany "1..1" -- "0..*" Trajectory
+BusCompany "1..1" -- "0..*" Approval
+BusCompany "1..1" -- "1..1" MENSOProject
+Bus "0..*" -- "0..*" BusLine
+BusLine "0..*" -- "0..*" Trajectory
 Trajectory "1..1" -- "0..*" Approval
-BusLine "1..1" -- "1..1" Category
-MENSOProject "1..1" -- "0..*" SeasonTicket
-Customer "1..1" -- "0..*" SeasonTicket
-SeasonTicket "1..1" -- "1..1" MENSOcard
-Customer "1..1" -- "0..*" Trip
-BusLine "1..1" -- "0..*" Trip
-TicketMachine "1..1" -- "0..*" Trip
+TownAuthority "1..1" -- "0..*" Approval
+BusLine "1..1" -- "1..1" LineCategory
+MENSOProject "1..1" -- "0..*" MENSOCard
+MENSOProject "1..1" -- "0..*" Customer
+Customer "1..1" -- "0..*" MENSOCard
 Customer "1..1" -- "0..*" Invoice
-Invoice "1..1" -- "0..*" Trip
+Customer "1..1" -- "1..1" PersonalData
+MENSOCard "0..*" -- "0..*" Trip
+TicketMachine "1..1" -- "0..*" Trip
+BusLine "1..1" -- "0..*" Trip
 Invoice "1..1" -- "0..*" Payment
-Customer "1..1" -- "0..*" Discount
+Invoice "1..1" -- "0..*" Trip
 @enduml

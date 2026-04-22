@@ -1,22 +1,37 @@
+```plantuml
 @startuml
-class Hospital{}
-class Patient{}
-class Symptom{}
-class Doctor{}
-class Diagnosis{}
-class Illness{}
-class Treatment{}
-class Consent{}
-class Nurse{}
+class Hospital {
+  name: String
+}
+class Patient {
+  hasSignedConsent: Boolean
+}
+class Doctor
+class Nurse
+class Symptom
+class Illness {
+  priorityScore: String
+}
+class Diagnosis
+class Treatment {
+  stage: Int
+}
+class Consent {
+  isSigned: Boolean
+  isRetracted: Boolean
+}
+class Outbreak
 
-Doctor "1..1" -- "0..*" Diagnosis
 Hospital "1..1" -- "0..*" Patient
-Illness "1..1" -- "0..*" Treatment
-Diagnosis "0..*" -- "0..*" Treatment
-Consent "0..1" -- "0..*" Treatment
-Patient "1..1" -- "0..*" Consent
-Patient "1..1" -- "0..*" Diagnosis
-Patient "1..*" -- "1..*" Doctor
-Patient "1..*" -- "1..*" Nurse
 Patient "1..*" -- "0..*" Symptom
+Doctor "0..*" -- "1..*" Patient
+Doctor "1..1" -- "0..*" Diagnosis
+Patient "1..1" -- "0..*" Diagnosis
+Illness "1..1" -- "0..*" Treatment
+Treatment "0..*" -- "0..*" Diagnosis
+Patient "1..1" -- "0..1" Consent
+Consent "0..1" -- "0..*" Treatment
+Nurse "0..*" -- "0..*" Patient
+Illness "1..1" -- "0..*" Outbreak
 @enduml
+```

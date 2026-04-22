@@ -1,15 +1,32 @@
-```
+```plantuml
 @startuml
-class Bus{}
-class Driver{}
-class Route{}
-class Schedule{}
-class Shift{}
 
-Bus "1..1" -- "1..*" Route
+class Driver {
+    name: String
+    unique ID: Int
+    on sick leave: Boolean
+}
+
+class BusRoute {
+    unique number: Int
+}
+
+class Bus {
+    licence plate: String
+    in the repair shop: Boolean
+}
+
+class Schedule {
+}
+
+class Shift {
+}
+
 Driver "0..*" -- "0..*" Shift
-Driver "0..*" -- "0..*" Schedule
-Bus "1..1" -- "0..*" Schedule
-Route "1..1" -- "1..*" Schedule
+Shift "0..*" -- "0..*" Bus
+Bus "0..*" -- "0..*" BusRoute
+Driver "0..*" -- "0..*" Bus
+Bus "0..*" -- "0..*" Schedule
+
 @enduml
 ```

@@ -1,18 +1,31 @@
 @startuml
-class Hospital{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Illness{}
-class Treatment{}
-class Consent{}
-class Nurse{}
-Hospital "1..1" -- "0..*" Patient.
-Patient "1..1" -- "1..*" Doctor.
-Patient "1..1" -- "0..*" Diagnosis.
-Doctor "1..1" -- "0..*" Diagnosis.
-Diagnosis "0..*" -- "1..1" Illness.
-Diagnosis "1..1" -- "0..*" Treatment.
-Patient "1..1" -- "0..1" Consent.
-Patient "0..*" -- "0..*" Nurse.
+class HospitalHouseMD
+
+class Patient
+
+class Doctor
+
+class Nurse
+
+class Diagnosis
+
+class Illness {
+  priorityScore: String
+}
+
+class Treatment {
+  stage: Int
+}
+
+class Consent {
+  signed: Boolean
+}
+
+HospitalHouseMD "1..1" -- "0..*" Patient
+Patient "1..1" -- "1..*" Doctor
+Doctor "1..1" -- "0..*" Diagnosis
+Illness "1..1" -- "0..*" Treatment
+Diagnosis "1..1" -- "0..*" Treatment
+Patient "1..1" -- "0..1" Consent
+Treatment "1..1" -- "0..*" Nurse
 @enduml

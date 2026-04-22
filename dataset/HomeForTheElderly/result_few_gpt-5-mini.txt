@@ -1,35 +1,39 @@
 @startuml
 
-class Home {}
-class Department {}
-class Room {}
-class Bed {}
-class Category {}
-class Inhabitant {}
-class Stay {}
-class Registration {}
-class Assessment {}
-class WaitingList {}
-class Proposal {}
-class Invoice {}
-class CreditNote {}
+class Home { String Name, String Address }
+class Department { String Name }
+class Room { String Number }
+class Bed { String Number, Boolean Occupied }
+class BedCategory { String Name, Double Price }
+class Inhabitant { String Name, Date BirthDate, Date RegistrationDate }
+class Registration { Date RegistrationDate, String IdentificationData }
+class Assessment { Date AssessmentDate, String NeedsProfile }
+class StayType { String Code, String Description }
+class WaitingListEntry { Date RegistrationDate, Int Position }
+class Proposal { Date ProposalDate, Date ResponseDeadline, String Status, Boolean Validated }
+class Stay { Date StartDate, Date EndDate, String Status, Boolean Suspended }
+class Invoice { Int Number, Date IssueDate, Double Amount, Double OutstandingAmount, String Status }
+class InvoiceLine { Int LineNumber, Double Amount, Double Discount }
+class CreditNote { Int Number, Date IssueDate, Double Amount }
 
-Home "1" -- Department
-Department "1" -- Room
-Room "1" -- Bed
-Category "1" -- Bed
-Inhabitant "1" -- Stay
-Stay "1" -- "1" Bed
-Stay "1" -- "1" Category
-Registration "1" -- Inhabitant
-Assessment "1" -- Inhabitant
-Assessment "1" -- Category
-WaitingList "1" -- Category
-WaitingList "1" -- Inhabitant
-Proposal "1" -- Inhabitant
-Proposal "1" -- Category
-Proposal "0..1" -- "1" Stay
-Stay "1" -- Invoice
-Invoice "0..1" -- "1" CreditNote
+Home "1" -- "0..*" Department
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+BedCategory "1" -- "0..*" Bed
+Inhabitant "1" -- "1..1" Registration
+Inhabitant "1" -- "0..*" Assessment
+Assessment "1" -- "1..1" StayType
+Inhabitant "1" -- "0..*" WaitingListEntry
+StayType "1" -- "0..*" WaitingListEntry
+WaitingListEntry "1" -- "0..*" Proposal
+Inhabitant "1" -- "0..*" Proposal
+StayType "1" -- "0..*" Proposal
+Bed "1" -- "0..*" Stay
+Inhabitant "1" -- "0..*" Stay
+StayType "1" -- "0..*" Stay
+Stay "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" InvoiceLine
+Stay "1" -- "0..*" InvoiceLine
+Invoice "1" -- "0..1" CreditNote
 
 @enduml

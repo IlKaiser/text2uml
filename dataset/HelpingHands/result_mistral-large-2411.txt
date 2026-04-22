@@ -1,36 +1,38 @@
-```plantuml
 @startuml
 
-class H2S{}
-class Resident{}
-class Item{}
-class StreetAddress{}
-class PickupRoute{}
-class VolunteerDriver{}
-class PickupVehicle{}
-class DistributionCenter{}
-class FoodBank{}
-class Employee{}
-class RFIDDevice{}
-class Client{}
+class Resident{ String Name, String StreetAddress, String PhoneNumber, String Email, String ItemDescription }
+class Item{ String Description, String Dimensions, String Weight }
+class Vehicle{ String AvailableStorageSpace }
+class VolunteerDriver{ String AvailableDays }
+class PickupRoute{ Date Date, String Vehicle, String VolunteerDriver }
+class DistributionCenter{ }
+class FoodBank{ }
+class H2SEmployee{ }
+class SecondHandArticle{ String Quality, String RFID, String Category }
+class Client{ String NeededCategories, String HomeAddress }
+class City{ String Operates }
 
-H2S "1..1" -- "1..*" Resident
-H2S "1..1" -- "1..*" DistributionCenter
-H2S "1..1" -- "1..*" PickupVehicle
-H2S "1..1" -- "1..*" Item
-H2S "1..1" -- "1..*" PickupRoute
-H2S "1..1" -- "1..*" VolunteerDriver
-DistributionCenter "1..1" -- "1..*" Item
-DistributionCenter "1..1" -- "1..*" Employee
-DistributionCenter "1..1" -- "0..*" Client
-Employee "1..1" -- "0..*" RFIDDevice
-Resident "1..1" -- "1..*" Item
-Resident "1..1" -- "1..*" StreetAddress
-VolunteerDriver "1..1" -- "1..*" PickupRoute
-PickupRoute "1..1" -- "1..*" PickupVehicle
-PickupRoute "1..1" -- "1..*" Item
-Item "1..1" -- "1..*" StreetAddress
-Item "1..1" -- "0..*" FoodBank
+H2SEmployee "0..*" -- "0..*" DistributionCenter
+DistributionCenter "1..1" -- "1..*" H2SEmployee
+DistributionCenter "1..*" -- "0..*" SecondHandArticle
+SecondHandArticle "0..*" -- "1..1" H2SEmployee
+H2SEmployee "0..*" -- "0..*" Client
+Client "1..*" -- "1..1" DistributionCenter
+Resident "1..*" -- "0..*" Item
+Item "1..*" -- "0..*" PickupRoute
+PickupRoute "1..*" -- "1..1" Vehicle
+PickupRoute "1..*" -- "1..1" VolunteerDriver
+Vehicle "1..*" -- "0..*" VolunteerDriver
+VolunteerDriver "1..*" -- "0..*" PickupRoute
+PickupRoute "0..*" -- "1..1" DistributionCenter
+PickupRoute "0..*" -- "1..1" FoodBank
+City "1..*" -- "1..*" H2SEmployee
+City "1..*" -- "1..*" DistributionCenter
+City "1..*" -- "1..*" VolunteerDriver
+City "1..*" -- "1..*" Resident
+City "1..*" -- "1..*" Client
+Item "0..*" -- "1..1" FoodBank
+Item "0..*" -- "1..1" DistributionCenter
+Resident "0..*" -- "1..1" PickupRoute
 
 @enduml
-```

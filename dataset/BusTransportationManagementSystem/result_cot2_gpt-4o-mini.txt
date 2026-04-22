@@ -1,22 +1,44 @@
-```
+```plantuml
 @startuml
-class City{}
-class Bus{}
-class Driver{}
-class BusRoute{}
-class Shift{}
-class Schedule{}
-class Overview{}
-class SickLeave{}
-class RepairShop{}
+class City {
+}
+class Bus {
+}
+class Driver {
+    name: String
+    ID: Int
+}
+class Route {
+    uniqueNumber: Int
+}
+class LicencePlate {
+    number: String
+}
+class Shift {
+    type: String
+}
+class Day {
+    date: Date
+}
+class Staff {
+}
+class RepairShop {
+    isInRepairShop: Boolean
+}
+class SickLeave {
+    isOnSickLeave: Boolean
+}
+class Overview {
+}
 
-City "1..*" -- "0..*" BusRoute  
-BusRoute "0..*" -- "0..*" Bus  
-Bus "0..*" -- "0..*" Shift  
-Shift "1..*" -- "1..1" Driver  
-Driver "0..1" -- "0..1" SickLeave  
-Bus "0..1" -- "0..1" RepairShop  
-BusRoute "0..*" -- "0..*" Schedule  
-Schedule "0..*" -- "0..*" Overview  
+City "1..*" -- "0..*" Staff
+Staff "1..*" -- "0..*" Shift
+Shift "1..*" -- "1..1" Driver
+Shift "1..*" -- "1..1" Bus
+Bus "0..*" -- "1..*" Route
+Route "1..*" -- "0..*" LicencePlate
+Driver "0..*" -- "0..1" SickLeave
+Bus "0..*" -- "0..1" RepairShop
+Day "1..*" -- "0..*" Overview
 @enduml
 ```

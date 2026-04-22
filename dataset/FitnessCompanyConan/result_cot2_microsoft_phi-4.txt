@@ -1,0 +1,98 @@
+```plantuml
+@startuml
+
+class FitnessCompany {
+}
+
+class Center {
+  name: String
+  address: Address
+}
+
+class Room {
+  maximumCapacity: Int
+  number: Int
+}
+
+class Member {
+  firstName: String
+  familyName: String
+  birthDate: Date
+}
+
+class Trainer {
+  firstName: String
+  familyName: String
+  birthDate: Date
+  diploma: String
+}
+
+class Session {
+  date: Date
+  startingHour: StartingHour
+}
+
+class IndividualSession {
+}
+
+class GroupSession {
+  type: String
+}
+
+class Person {
+  firstName: String
+  familyName: String
+  birthDate: Date
+}
+
+class Prospect {
+  firstName: String
+  familyName: String
+  birthDate: Date
+}
+
+class Intern {
+  firstName: String
+  familyName: String
+  birthDate: Date
+}
+
+class Address {
+}
+
+class Date {
+}
+
+class StartingHour {
+}
+
+class Type {
+}
+
+FitnessCompany "1" -- "0..*" Center
+Center "1" -- "1" Address
+Center "1" -- "0..*" Room
+Member "0..*" -- "0..*" Room
+Trainer "0..*" -- "0..*" Room
+Session "1" -- "1" Room
+Session "1" -- "1" Center
+Session "1" -- "1" Date
+Session "1" -- "1" StartingHour
+GroupSession "1" -- "1" Type
+GroupSession "1" -- "1" Trainer
+IndividualSession "1" -- "1" Member
+GroupSession "1" -- "0..*" Member
+Person "0..1" -- "0..1" Member
+Person "0..1" -- "0..1" Trainer
+Person "0..1" -- "0..1" Prospect
+Trainer "0..1" -- "0..1" Intern
+
+Member --|> Person
+Trainer --|> Person
+Prospect --|> Person
+Intern --|> Trainer
+IndividualSession --|> Session
+GroupSession --|> Session
+
+@enduml
+```

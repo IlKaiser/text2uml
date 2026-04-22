@@ -1,30 +1,67 @@
 @startuml
 
-class User{}
-class Game{}
-class HallOfFame{}
-class Block{}
-class Level{}
-class GridPosition{}
-class Ball{}
-class Paddle{}
-class Play{}
-class SavedGame{}
-class AdminAssignment{}
+class User {
+    String Username
+    String Password
+}
+class Game {
+    String Name
+    Double MinSpeed
+    Double SpeedIncreaseFactor
+    Int MaxPaddleLength
+    Int MinPaddleLength
+    Int NumberOfBlocksPerLevel
+    Int MaxLevels
+    Boolean Published
+}
+class Block {
+    String Color
+    Int Points
+}
+class Level {
+    Int Number
+    Boolean Random
+    String StartingArrangement
+}
+class BlockPlacement {
+    Int PosX
+    Int PosY
+}
+class Play {
+    Date StartTime
+    Date EndTime
+    Int Score
+    Int LivesRemaining
+    String Status
+    Boolean Saved
+}
+class Ball {
+    Double Speed
+    String Direction
+}
+class Paddle {
+    Int Length
+    Int PositionX
+}
+class HallOfFame {}
+class HallOfFameEntry {
+    Int Score
+    Date DateAchieved
+}
 
 User "1" -- "0..*" Play
-Play "1" -- "1" Game
-Game "1" -- "1" HallOfFame
+Game "1" -- "0..*" Play
 Game "1" -- "0..*" Block
 Game "1" -- "1..99" Level
-Level "1" -- "0..*" GridPosition
-GridPosition "1" -- "0..1" Block
+Level "1" -- "0..*" BlockPlacement
+BlockPlacement "1" -- "1" Block
+Block "1" -- "0..*" BlockPlacement
+Game "1" -- "1" HallOfFame
+HallOfFame "1" -- "0..*" HallOfFameEntry
+HallOfFameEntry "1" -- "1" User
 Play "1" -- "1" Ball
 Play "1" -- "1" Paddle
-Play "0..1" -- "0..1" SavedGame
-HallOfFame "1" -- "0..*" Play
-User "1" -- "0..*" AdminAssignment
-AdminAssignment "1" -- "1" Game
-AdminAssignment "1" -- "1" User
+Play "1" -- "1..99" Level
+Game "1" -- "1" User
 
 @enduml

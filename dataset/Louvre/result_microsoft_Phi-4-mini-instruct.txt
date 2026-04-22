@@ -1,0 +1,75 @@
+<|system|>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|end|><|user|>Transform into plant uml this specification text: The Louvre Museum in Paris is a huge museum with quite a large number of rooms, so that many exhibitions can be organised in parallel in the Museum. Also, the planning phase of an exhibition starts at least two years before the actual opening date of an exhibition, so that even for a single room, several exhibitions in different stages of advancement need to be followed up simultaneously. Therefore, a little management system is required to make sure all these exhibitions run smoothly.
+The museum has identified a set of locations inside the museum that can hold exhibitions. The locations can be considered as museums inside the museum, spanning e.g a part of or an entire floor or wing. So, for each location a series of exhibitions is developed. 
+Each exhibition is assigned an employee of the museum as coordinator. First a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, it is defined that one item of his early period is desired, one pencil drawing with the corresponding painting, one sunflower painting, etc. For each desired item, a suitable piece is sourced from the collectors that possess candidate pieces. For some items, only one unique piece is available, but some exhibition items several potential pieces are available from different collectors. (There are for example several "Sunflower" paintings from Vincent Van Gogh).  For each exhibition item, the system will keep track of what pieces are requested from which collector. 
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. This "coaching" relationship between employees is also tracked by the system.
+<|end|><|assistant|>@startuml
+
+class Museum{
+  String Name, String Location, Date OpeningDate
+}
+
+class Location{
+  String Name, String Description
+}
+
+class Exhibition{
+  String Title, String Theme, Date StartDate, Date EndDate
+}
+
+class ExhibitionItem{
+  String Name, String Description, String SourceCollector
+}
+
+class Employee{
+  String Name, String Position, Date HireDate
+}
+
+class Coordinator{
+  String Name, String Responsibility
+}
+
+class Coach{
+  String Name, String SeniorCoach
+}
+
+Museum "1" -- "0..*" Location
+Location "1" -- "0..*" Exhibition
+Exhibition "1" -- "0..*" ExhibitionItem
+ExhibitionItem "0..*" Coordinator
+ExhibitionItem "0..*" Coach
+
+@enduml

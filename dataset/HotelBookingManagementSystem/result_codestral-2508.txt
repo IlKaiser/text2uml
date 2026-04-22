@@ -1,36 +1,66 @@
 ```plantuml
 @startuml
 
-class BusinessTraveller {}
-class HBMS {}
-class Hotel {}
-class HotelChain {}
-class City {}
-class RoomType {}
-class Booking {}
-class PreliminaryBooking {}
-class FinalizedBooking {}
-class SpecialOffer {}
-class Payment {}
-class CreditCard {}
-class TravelPreference {}
-class BillingInformation {}
+class Traveller {
+    String Name
+    String BillingInformation
+    String CompanyName
+    String Address
+    String TravelPreferences
+}
 
-BusinessTraveller "1" -- "1..*" Booking
-HBMS "1" -- "1..*" Booking
-Hotel "1" -- "1..*" Booking
-HotelChain "1" -- "1..*" Hotel
-City "1" -- "1..*" Hotel
-RoomType "1" -- "1..*" Booking
-Booking "1" -- "1..*" SpecialOffer
-Booking "1" -- "1" Payment
-BusinessTraveller "1" -- "1" CreditCard
-BusinessTraveller "1" -- "1" BillingInformation
-BusinessTraveller "1" -- "1" TravelPreference
-HBMS "1" -- "1..*" PreliminaryBooking
-HBMS "1" -- "1..*" FinalizedBooking
-Hotel "1" -- "1..*" RoomType
-Hotel "1" -- "1..*" SpecialOffer
+class Booking {
+    Date ArrivalDate
+    Date DepartureDate
+    int NumberOfRooms
+    String RoomType
+    int HotelRating
+    double Budget
+    String TravelPreferences
+    String CreditCardInformation
+    Date CancellationDeadline
+    String BookingStatus
+    String BookingIdentifier
+}
+
+class Hotel {
+    String Name
+    String Address
+    String City
+    int Rating
+}
+
+class Room {
+    String Type
+    double Price
+    Date AvailabilityStartDate
+    Date AvailabilityEndDate
+    String Status
+}
+
+class SpecialOffer {
+    double Price
+    String CityArea
+    int HotelRating
+    String KeyPreferences
+    String BookingIdentifier
+}
+
+class HotelChain {
+    String Name
+}
+
+class ReliabilityRating {
+    double Rating
+}
+
+Traveller "1..*" -- "1..*" Booking
+Booking "1..1" -- "1..*" Room
+Hotel "1..*" -- "1..*" Room
+Hotel "1..*" -- "0..1" HotelChain
+Traveller "1..1" -- "1..1" ReliabilityRating
+Booking "1..*" -- "1..*" SpecialOffer
+Hotel "1..*" -- "1..*" SpecialOffer
 
 @enduml
 ```

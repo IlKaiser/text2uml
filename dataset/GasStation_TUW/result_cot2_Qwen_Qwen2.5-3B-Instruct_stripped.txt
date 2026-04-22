@@ -1,0 +1,60 @@
+Given the specification text and the identified classes, here is the UML class diagram represented in PlantUML format:
+
+```plantuml
+@startuml
+class GasStation {
+    +uniqueID: String
+    +address: Address
+    +fuelPumps: FuelPump[]
+}
+
+class Address {
+    +street: String
+    +city: String
+    +state: String
+    +zipCode: String
+}
+
+class FuelPump {
+    +number: Int
+    +isSelfService: Boolean
+    +fuelsOffered: Fuel[]
+}
+
+class Fuel {
+    +name: String
+    +octaneRating: Int
+}
+
+class DailyPrice {
+    +date: Date
+    +fuel: Fuel
+    +gasStation: GasStation
+    +pricePerLiter: Float
+}
+
+class FuelPurchase {
+    +id: Int
+    +fuelPump: FuelPump
+    +fuel: Fuel
+    +dailyPrice: DailyPrice
+    +litersDispensed: Int
+}
+
+class Date {
+    +year: Int
+    +month: Int
+    +day: Int
+}
+
+GasStation -- 12 FuelPump
+GasStation -- 1 SelfServiceFuelPump
+FuelPump -- 1..* Fuel
+FuelPump -- 1 DailyPrice
+FuelPump -- 1 FuelPurchase
+FuelPurchase -- 1 DailyPrice
+FuelPurchase -- 1 Liters
+@enduml
+```
+
+This PlantUML code represents the UML class diagram for the gas station management system, including the identified classes and their relationships.

@@ -1,25 +1,22 @@
 ```plantuml
 @startuml
 
-class OilCompany{}
-class GasStation{}
-class Pump{}
-class Gasoline{}
-class Customer{}
-class RefuelCard{}
-class Invoice{}
-class RefuelTurn{}
-class Payment{}
+class OilCompany{ String Name, String Address }
+class GasStation{ String Name, String Address, String PhoneNumber }
+class Pump{ String PumpID, String GasolineType, int CurrentLevel, int ReorderLevel, int CriticalLevel, boolean IsBlocked }
+class Customer{ String Name, String Address, String PhoneNumber, String Email }
+class RefuelCard{ String CardNumber, Date ExpiryDate, boolean IsBlocked }
+class Invoice{ Date InvoiceDate, float TotalAmount, float Discount, boolean IsPaid }
+class RefuelTurn{ Date RefuelDate, float Amount, float PricePerUnit, String PaymentMethod }
+class Discount{ float Percentage, String Description }
 
-OilCompany "1" -- "1..*" GasStation
+OilCompany "1" -- "0..*" GasStation
 GasStation "1" -- "1..*" Pump
-Pump "1" -- "1" Gasoline
-Pump "1" -- "1..*" RefuelTurn
-Customer "1" -- "0..1" RefuelCard
-RefuelCard "1" -- "1..*" Invoice
+Customer "1" -- "0..*" RefuelCard
+Customer "1" -- "0..*" Invoice
 Invoice "1" -- "1..*" RefuelTurn
-Invoice "1" -- "0..*" Payment
-Customer "1" -- "1..*" RefuelTurn
+RefuelTurn "1" -- "1" RefuelCard
+Discount "1" -- "1..*" Invoice
 
 @enduml
 ```

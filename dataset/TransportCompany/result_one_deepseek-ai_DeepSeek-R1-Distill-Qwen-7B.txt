@@ -1,0 +1,206 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+A transport company wants to modernize its operations and switch to a computerized solution. To this end, the structure and organization of the company were discussed in a meeting with the managing director. The following minutes are available to you: 
+I currently employ around 60 drivers and 6-7 other employees (planners and administrative staff) in my company. I need to be able to store their names and social security numbers. Planners and administrative staff should be able to log into the system with a username and password. The administrative staff's field of activity is known. I also need to store my customers' details. The customer's name and billing address are important. In addition to customers and employees, I also want to manage my vehicles. I distinguish between different types of vehicles, such as refrigerated trucks, small vans, loading platforms, and box trucks. I want to store the license plate number and mileage for the vehicles. Of course, it can happen that a vehicle needs to be repaired or inspected. For this purpose, I want to store the repair shop (name and address are known), the employee who took the vehicle to the repair shop, and the duration and cost of the repair.
+Orders can be assigned to each driver. Usually, a customer calls and tells us when they need a transport vehicle and how big the package is. Based on this, the planner knows which type of vehicle is needed for the order. I always want to know which planner has assigned an order to a vehicle. It must also be possible to save a comment with additional information about the order, and I need to know when the driver starts and finishes the order. It is also important that I always know which driver has completed which order with which vehicle. For each order, there is always a customer who is the client, and both the pick-up and delivery addresses are known. The order can be placed directly with an administrative employee or with a partner company whose name and address are known.
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the entities and their relationships.
+
+First, the company has employees, customers, vehicles, orders, and repair shops. There are also administrative staff involved in logging into the system. Let me list out the classes:
+
+1. **Employee**: This includes drivers and administrative staff. They have a username and password for logging in. Administrative staff have a field of activity.
+2. **Customer**: Stores names and social security numbers.
+3. **Vehicle**: Different types like refrigerated trucks, small vans, etc., with license plate and mileage. They can be repaired, requiring a repair shop, employee, duration, and cost.
+4. **Order**: Assigned to drivers, has customer details, pick-up and delivery addresses, and a comment field. Orders can be placed by administrative staff or partner companies.
+5. **Repair Shop**: Stores name and address, involved when a vehicle is repaired.
+
+Next, I'll extract the attributes for each class:
+
+- **Employee**: String Name, String Username, String Password, String FieldOfActivity (only for administrative staff).
+- **Customer**: String Name, String SocialSecurityNumber.
+- **Vehicle**: String Type, String LicensePlate, Integer Mileage.
+- **Order**: String CustomerName, String PickUpAddress, String DeliveryAddress, String Comment.
+- **Repair Shop**: String Name, String Address.
+
+Now, I'll determine the relationships between these classes. 
+
+- **Employee** can be an admin or a driver. Admins can log in, so there's a login relationship. Also, drivers can assign orders.
+- **Customer** interacts with orders and has pick-up and delivery addresses, which might relate to partner companies.
+- **Vehicle** is connected to orders and repairs. Orders assign vehicles, and repairs involve vehicles.
+- **Order** is linked to customers, pick-up and delivery addresses, and can be placed by admins or partners.
+- **Repair Shop** is involved when a vehicle is repaired, requiring an employee.
+
+I need to map these relationships into PlantUML syntax. Using bi-directional arcs where necessary and assigning cardinality based on the context. For example, an admin can log in once, but an employee can have multiple logins. Orders can be assigned to multiple drivers but assigned by one admin. Repairs can involve multiple employees and shops.
+
+I should structure the diagram by first listing all the classes and then the relationships. Ensuring that attributes are correctly assigned and that the cardinality makes sense for each relationship.
+
+I think I've covered all the entities and their interactions. Now, I'll translate this into the PlantUML code, making sure to follow the specified format without any extra text or explanations.
+</think>
+
+```plantuml
+@startuml
+
+class Employee {
+    String Name
+    String Username
+    String Password
+    String FieldOfActivity
+}
+
+class Customer {
+    String Name
+    String SocialSecurityNumber
+}
+
+class Vehicle {
+    String Type
+    String LicensePlate
+    Integer Mileage
+}
+
+class Order {
+    String CustomerName
+    String PickUpAddress
+    String DeliveryAddress
+    String Comment
+}
+
+class RepairShop {
+    String Name
+    String Address
+}
+
+Employee "1..*" - "0..1" Username
+Employee "1..*" - "1..*" Admin
+Customer "1..*" - "0..*" Order
+Customer "1..*" - "0..*" PartnerCompany
+Order "1..*" - "1..*" Driver
+Order "1..*" - "0..1" Admin
+Vehicle "1..*" - "1..*" Order
+Vehicle "1..*" - "1..*" Repair
+RepairShop "1..*" - "1..*" Vehicle
+RepairShop "0..*" - "1..*" Employee
+
+@enduml
+```

@@ -1,30 +1,64 @@
+```plantuml
 @startuml
 
-class HospitalHouseMD{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Illness{}
-class Treatment{}
-class TreatmentStage{}
-class Consent{}
-class HeadDoctor{}
-class Nurse{}
-class PriorityScore{}
+class HospitalHouseMD
+class Patient {
+  String name
+  Boolean hasGivenConsent
+}
+class Doctor {
+  String name
+  String specialization
+}
+class HeadDoctor {
+  String name
+}
+class Illness {
+  String name
+  String priorityScore
+}
+class Treatment {
+  String name
+  String description
+  Integer currentStage
+}
+class Diagnosis {
+  String description
+  Date date
+  Boolean isApproved
+}
+class ConsentForm {
+  Date signingDate
+  Boolean isActive
+}
+class Nurse {
+  String name
+}
 
-HospitalHouseMD "1..1" -- "1..*" Patient
-HospitalHouseMD "1..1" -- "1..*" Doctor
-HospitalHouseMD "1..1" -- "1..*" Illness
-Patient "1..*" -- "1..*" Doctor
-Patient "1..1" -- "1..*" Diagnosis
-Doctor "1..*" -- "1..*" Diagnosis
-HeadDoctor "1..1" -- "1..*" Diagnosis
-Diagnosis "1..1" -- "1..*" Treatment
-Illness "1..1" -- "1..*" Treatment
-Treatment "1..1" -- "1..1" TreatmentStage
-Patient "1..1" -- "0..1" Consent
-Illness "1..1" -- "1..1" PriorityScore
-Patient "1..*" -- "1..*" Nurse
-Doctor "1..*" -- "1..*" Nurse
+HospitalHouseMD "1..1" -- "0..*" Patient
+HospitalHouseMD "1..1" -- "0..*" Doctor
+HospitalHouseMD "1..1" -- "0..*" HeadDoctor
+HospitalHouseMD "1..1" -- "0..*" Illness
+HospitalHouseMD "1..1" -- "0..*" Treatment
+HospitalHouseMD "1..1" -- "0..*" Nurse
+
+Patient "0..*" -- "1..*" Doctor
+Patient "1..1" -- "0..*" Diagnosis
+Patient "1..1" -- "0..1" ConsentForm
+Patient "0..*" -- "0..*" Treatment
+
+Doctor "0..*" -- "0..*" Diagnosis
+HeadDoctor "1..1" -- "0..*" Diagnosis
+
+Illness "1..1" -- "0..*" Treatment
+Illness "1..1" -- "0..*" Diagnosis
+
+Diagnosis "0..*" -- "0..*" Treatment
+
+Treatment "0..*" -- "0..*" Nurse
+Treatment "0..*" -- "0..*" Doctor
+
+HeadDoctor --|> Doctor
 
 @enduml
+```

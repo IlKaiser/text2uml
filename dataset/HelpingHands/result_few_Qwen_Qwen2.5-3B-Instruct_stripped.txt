@@ -1,0 +1,49 @@
+@startuml
+
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemsToPickup
+}
+class PickupRoute {
+    String DayOfWeek
+    String StartTime
+    String EndTime
+}
+class PickupVehicle {
+    String VehicleID
+    String StorageSpace
+    String Dimensions
+    String WeightCapacity
+}
+class PickupDriver {
+    String DriverName
+    Boolean AvailableDays
+}
+class PickupTurn {
+    Int TurnNumber
+}
+class PickupItem {
+    String ItemDescription
+}
+class DistributionCenterEmployee {
+    String EmployeeName
+}
+class SecondHandArticle {
+    String Category
+    String Description
+    String RFIDTag
+}
+class FoodBank {}
+
+Resident "1" -- "0..*" PickupTurn
+PickupTurn "1" -- "0..1" PickupItem
+PickupVehicle "1" -- "0..*" PickupTurn
+PickupDriver "0..*" -- "0..1" PickupTurn
+PickupRoute "1" -- "0..1" PickupTurn
+DistributionCenterEmployee "1" -- "0..*" SecondHandArticle
+FoodBank "1" -- "0..*" SecondHandArticle
+
+@enduml

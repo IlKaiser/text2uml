@@ -1,28 +1,86 @@
 ```plantuml
 @startuml
 
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class Appointment{}
-class Lab{}
-class Confirmation{}
-class Signature{}
-class Report{}
-class Result{}
+class Doctor {
+  practitionerNumber:Int
+  signature:String
+  fullName:String
+  address:String
+  phoneNumber:String
+}
 
-Doctor "1..*" -- "1..*" Patient
-Doctor "1..*" -- "1..*" Requisition
+class Patient {
+  healthNumber:String
+  firstName:String
+  lastName:String
+  dateOfBirth:Date
+  address:String
+  phoneNumber:String
+}
+
+class Requisition {
+  validFrom:Date
+}
+
+class Test {
+  duration:Int
+}
+
+class Group {
+}
+
+class Appointment {
+  confirmationNumber:Int
+  date:Date
+  startTime:Date
+  endTime:Date
+  changeFee:Float
+}
+
+class Lab {
+  address:String
+  businessHours:String
+  registrationNumber:String
+}
+
+class Confirmation {
+  confirmationNumber:Int
+  date:Date
+  startTime:Date
+  endTime:Date
+  labName:String
+  registrationNumber:String
+}
+
+class Repetition {
+  numberOfTimes:Int
+  interval:String
+}
+
+class Result {
+  result:String
+}
+
+class Report {
+}
+
+class Sample {
+}
+
+Doctor "1..1" -- "0..*" Patient
+Doctor "1..*" -- "1..1" Requisition
 Patient "1..*" -- "1..*" Requisition
 Patient "1..*" -- "1..*" Appointment
 Requisition "1..*" -- "1..*" Test
-Requisition "1..*" -- "1..1" Lab
-Appointment "1..*" -- "1..1" Lab
-Appointment "1..*" -- "1..1" Confirmation
-Requisition "1..1" -- "1..1" Signature
-Requisition "1..1" -- "1..1" Report
-Requisition "1..*" -- "1..*" Result
+Requisition "1..1" -- "1..*" Group
+Requisition "0..1" -- "1..1" Repetition
+Requisition "1..1" -- "1..1" Confirmation
+Appointment "1..1" -- "1..1" Lab
+Appointment "1..1" -- "1..1" Confirmation
+Test "1..*" -- "1..1" Group
+Test "1..*" -- "1..1" Sample
+Test "1..1" -- "1..*" Result
+Result "1..1" -- "1..1" Report
 
 @enduml
 ```

@@ -1,35 +1,70 @@
 @startuml
 
-class Appointment {}
-class AppointmentConfirmation {}
-class CancellationFee {}
-class Doctor {}
-class Lab {}
-class LabBusinessHours {}
-class Patient {}
-class RepetitionPattern {}
-class Report {}
-class Requisition {}
-class Test {}
-class TestGroup {}
-class TestResult {}
+class Doctor {
+    String PractitionerNumber
+    String DigitalSignature
+    String FullName
+    String Address
+    String PhoneNumber
+}
+class Patient {
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+class Requisition {
+    Date ValidFromDate
+}
+class TestType {
+    String Name
+    Time Duration
+    Boolean RequiresAppointment
+    Boolean IsSampleDropOff
+}
+class TestGroup {
+    String Name
+}
+class RepetitionPattern {
+    int NumberOfTimes
+    String Interval
+}
+class Test {
+    Date PerformedDate
+}
+class TestResult {
+    String Outcome
+}
+class TestReport {
+    String Content
+}
+class Appointment {
+    String ConfirmationNumber
+    Date AppointmentDate
+    Time StartTime
+    Time EndTime
+}
+class Lab {
+    String Address
+    String RegistrationNumber
+    Double ChangeCancellationFee
+    Time DailyStartTime
+    Time DailyEndTime
+}
 
-Appointment "1" -- "1" AppointmentConfirmation
-Lab "1" -- Appointment
-Patient "1" -- Appointment
-Requisition "1" -- Appointment
-Lab "1" -- "1" CancellationFee
-Doctor "1" -- Requisition
-Doctor "1" -- TestResult
-Lab "1" -- "1" LabBusinessHours
-Patient "1" -- Requisition
-Patient "1" -- TestResult
-Requisition "1" -- "0..1" RepetitionPattern
-TestResult "1" -- "0..1" Report
+Doctor "1" -- "0..*" Requisition
+Patient "1" -- "0..*" Requisition
 Requisition "1" -- "1..*" Test
-Requisition "1" -- TestGroup
-Lab -- Test
+Test "1" -- "1" TestType
+TestType "1" -- "1" TestGroup
+Requisition "1" -- "0..1" RepetitionPattern
 Test "1" -- "0..1" TestResult
-TestGroup "1" -- Test
+Test "1" -- "0..1" TestReport
+Patient "1" -- "0..*" Appointment
+Appointment "1" -- "1" Requisition
+Appointment "1" -- "1" Lab
+Lab "1" -- "0..*" Test
 
 @enduml

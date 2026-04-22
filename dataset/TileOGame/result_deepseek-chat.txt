@@ -1,32 +1,32 @@
 @startuml
 
-class TileOApplication{}
-class GameDesigner{}
-class Player{}
-class Game{}
-class Board{}
-class Tile{}
-class ConnectionPiece{}
-class PlayingPiece{}
-class Die{}
-class ActionCard{}
-class ActionCardDeck{}
-class ActionTile{}
+class TileOApplication
+class GameDesigner
+class Player
+class Game
+class Board
+class Tile
+class ConnectionPiece
+class PlayingPiece
+class ActionCard
+class ActionCardDeck
+class Die
 
-TileOApplication "1..1" -- "1..1" Game
-TileOApplication "1..1" -- "1..1" GameDesigner
+TileOApplication "1..1" -- "1..*" GameDesigner
 TileOApplication "1..1" -- "2..4" Player
+TileOApplication "1..1" -- "1..1" Game
 GameDesigner "1..1" -- "1..1" Game
 Game "1..1" -- "1..1" Board
-Game "1..1" -- "1..1" Die
 Game "1..1" -- "1..1" ActionCardDeck
+Game "1..1" -- "1..1" Die
 Board "1..1" -- "1..*" Tile
 Board "1..1" -- "0..*" ConnectionPiece
-Tile "1..1" -- "0..4" Tile
+Tile "0..1" -- "0..1" Tile
 Tile "1..1" -- "0..4" ConnectionPiece
 Player "1..1" -- "1..1" PlayingPiece
+PlayingPiece "1..1" -- "1..1" Tile
 ActionCardDeck "1..1" -- "1..32" ActionCard
-Tile "1..1" -- "0..1" ActionTile
-ActionTile "1..1" -- "0..1" ActionCard
+Game "1..1" -- "1..1" Player
+Tile "0..1" -- "0..1" PlayingPiece
 
 @enduml

@@ -1,0 +1,29 @@
+@startuml
+class Customer { String Name, String ID, Date RegistrationDate }
+class Broker { String Name, String ID, Date RegistrationDate }
+class HelpDesk { String Name, String ID, Date RegistrationDate }
+class InsuranceProduct { String ProductType, String Price, String CoveragePeriod }
+class Contract { String ContractID, Date SigningDate, String Status }
+class Claim { String ClaimID, Date FilingDate, String Status }
+class ClaimCase { String CaseID, String Type, Date CreationDate }
+class Estimator { String Name, String ID, String AreaOfExpertise }
+class EstimatorReport { String ReportID, Date IssueDate, String Conclusion }
+class CompensationDecision { String DecisionID, Date DecisionDate, String Amount, String Status }
+class Invoice { String InvoiceID, Date IssueDate, String Amount, String Frequency }
+
+Customer "1..*" -- "1..1" Broker
+Customer "1..*" -- "1..*" HelpDesk
+Customer "1..*" -- "1..*" InsuranceProduct
+Customer "1..*" -- "1..*" Contract
+Customer "1..*" -- "1..*" Claim
+Customer "1..*" -- "1..*" Invoice
+
+Broker "1..*" -- "1..*" Claim
+InsuranceProduct "1..*" -- "1..*" Contract
+Contract "1..*" -- "1..*" Claim
+Claim "1..*" -- "1..*" ClaimCase
+ClaimCase "1..*" -- "1..*" Estimator
+Estimator "1..*" -- "1..*" EstimatorReport
+EstimatorReport "1..*" -- "1..*" CompensationDecision
+CompensationDecision "1..*" -- "1..*" Claim
+@enduml

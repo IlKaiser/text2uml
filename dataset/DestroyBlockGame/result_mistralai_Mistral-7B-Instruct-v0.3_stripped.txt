@@ -1,0 +1,33 @@
+@startuml
+
+class User { String username }
+class Player { String password, Boolean isAdmin }
+class Admin { String password }
+
+Player "1" -- "0..1" User
+Admin "1" -- "0..1" User
+
+class Game { String name, String hallOfFame }
+
+class Block { String color, Integer points }
+class Level { Integer levelNumber, Integer maxLevels, Integer startingBlocks, Integer minSpeed, Float speedIncreaseFactor, Float maxLength, Float minLength }
+
+Game "1..1" -- "0..*" Level
+Level "0..*" -- "0..*" Block
+
+class Grid { Integer rows, Integer columns }
+class Position { Integer row, Integer column }
+
+Grid "1..1" -- "0..*" Level
+Level "1..*" -- "0..*" Position
+Block "1..*" -- "1" Position
+
+class Ball { Integer speed, String direction }
+class Paddle { Float length }
+
+class PlayArea { }
+
+PlayArea "1..1" -- "0..*" Ball
+PlayArea "1..1" -- "0..1" Paddle
+
+@enduml

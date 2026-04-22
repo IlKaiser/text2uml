@@ -1,0 +1,57 @@
+@startuml
+class Game
+
+class GameDesigner
+
+class Player {
+  playerNumber: Int
+}
+
+class PlayingPiece {
+  color: String
+}
+
+class GameBoard
+
+class Tile {
+  color: String
+}
+
+class ActionTile {
+  turnsAsRegular: Int
+}
+
+class HiddenTile
+
+class ConnectionPiece
+
+class Die
+
+class ActionCard {
+  instruction: String
+}
+
+class ActionDeck {
+  size: Int
+}
+
+class SpareConnectionPiecePile {
+  size: Int
+}
+
+GameDesigner "1..1" -- "0..*" Game
+Game "1..1" -- "1..1" GameBoard
+Game "1..1" -- "2..4" Player
+Game "1..1" -- "1..1" Die
+Game "1..1" -- "1..1" ActionDeck
+Player "0..*" -- "1..1" PlayingPiece
+GameBoard "1..1" -- "1..*" Tile
+Tile "0..*" -- "0..1" Tile
+Tile "0..*" -- "0..1" ConnectionPiece
+ActionDeck "1..1" -- "32..32" ActionCard
+GameBoard "1..1" -- "0..*" ConnectionPiece
+SpareConnectionPiecePile "1..1" -- "32..32" ConnectionPiece
+
+ActionTile --|> Tile
+HiddenTile --|> Tile
+@enduml

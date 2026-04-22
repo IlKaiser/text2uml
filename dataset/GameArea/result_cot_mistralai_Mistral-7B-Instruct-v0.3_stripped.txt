@@ -1,0 +1,32 @@
+@startuml
+
+class GameArea {
+  - name: String
+  --* has --> GameElement
+  --1 has --> Opponent boss
+}
+
+class GameElement {
+  - x: protected long
+  - y: private long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+  - lives: protected int
+}
+
+GameElement "x" -- "y" GameElement
+GameArea "name" -- "boss" Opponent
+GameArea -- "has" GameElement
+GameElement "x" -- "has" Shape
+GameElement "x" -- "has" Object
+GameElement "x" --* "can connect to" Shape
+Opponent "*" -- "has" Life
+
+@enduml

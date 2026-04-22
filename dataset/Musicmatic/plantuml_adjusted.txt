@@ -1,0 +1,54 @@
+@startuml
+
+class Song {
+    String Title
+    Int Year
+    Int lenght
+    String Genre
+}
+
+class Artist {
+    Date BirthDate
+    String Name
+    String Website
+}
+
+class User {
+    Int UserID
+    String Name
+    String Address
+}
+
+class RegularUser {
+}
+
+class BusinessUser {
+    Int VATnumber
+}
+
+class Single {
+}
+
+class Hit {
+}
+
+class Track {
+    Int TrackNumber
+}
+
+
+Artist "1"--"0..*" Song
+Song "0..*" -- "0..*" Hit : {total; disjoint}
+Song "0..*" -- "0..*"Single
+Hit "0..*"--"0..*" Album
+Hit .. Track
+Hit .. Album
+Song "0..*"-"1" BusinessUser
+BusinessUser "0..*" -- "0..*" User : {total; overlap}
+User "0..*" -- "0..*" RegularUser
+Single "0..*"-"0..*" RegularUser
+RegularUser "1"--"0..*" Album : compose
+RegularUser "0..*"--"0..*" Album : suggestion
+
+
+@enduml

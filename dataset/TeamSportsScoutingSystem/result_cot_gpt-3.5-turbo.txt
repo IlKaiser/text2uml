@@ -1,34 +1,59 @@
 
-```
 @startuml
 
-class TeamSportsScoutingSystem{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class Player{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Pros{}
-class Cons{}
-class Recommendation{}
-class ShortList{}
-class OfficialOffer{}
+class Team {
+}
 
-TeamSportsScoutingSystem "1..*" -- "1..*" Employee
-TeamSportsScoutingSystem "1..*" -- "1..1" HeadCoach
-TeamSportsScoutingSystem "1..*" -- "1..1" Director
-TeamSportsScoutingSystem "1..*" -- "0..*" Scout
-HeadCoach "1..1" -- "1..*" Player
-Scout "0..*" -- "1..*" Player
-Scout "0..*" -- "0..*" ScoutingAssignment
-ScoutingAssignment "1..*" -- "0..*" ScoutingReport
-ScoutingReport "1..*" -- "0..*" Pros
-ScoutingReport "1..*" -- "0..*" Cons
-ScoutingReport "1..*" -- "1..1" Recommendation
-ScoutingReport "1..*" -- "0..*" ShortList
-Director "1..1" -- "1..*" OfficialOffer
+class Employee {
+}
+
+class HeadCoach {
+}
+
+class Director {
+}
+
+class Scout {
+}
+
+class Player {
+  position: String
+  name: String
+  value: String
+}
+
+class ScoutingSystem {
+}
+
+class ScoutingAssignment {
+}
+
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: String
+}
+
+class Position {
+}
+
+class Attribute {
+}
+
+class Offer {
+}
+
+ScoutingSystem "1..*" -- "1..*" Employee
+HeadCoach "1..1" -- "1..*" Employee
+Director "1..1" -- "1..*" Employee
+Scout "1..*" -- "1..*" Employee
+HeadCoach "1..*" -- "1..1" Player
+Scout "1..*" -- "1..*" Player
+ScoutingSystem "1..*" -- "1..*" ScoutingAssignment
+ScoutingAssignment "1..*" -- "1..*" Player
+ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+Position "1..*" -- "1..*" Player
+Attribute "1..*" -- "1..*" Player
+Offer "1..*" -- "1..1" Player
 
 @enduml
-```

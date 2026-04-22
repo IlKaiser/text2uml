@@ -1,20 +1,39 @@
 
 @startuml
 
-class Student {}
-class Tutor {}
-class Subject {}
-class TutoringOffer {}
-class TutoringRequest {}
-class TutoringSession {}
-class Payment {}
+class Person {
+    String Name
+    String Email
+}
 
-Tutor "0..*" -- "1" TutoringOffer
-Tutor "0..*" -- "1" TutoringSession
-Tutor "0..*" -- "1" Payment
-Tutor "0..*" -- "1" TutoringRequest
-Tutor "0..*" -- "0..1" Student
-TutoringRequest "0..*" -- "1" Tutor
-TutoringSession "0..*" -- "1" Student
+class Tutor {
+    String BankAccount
+    Double HourlyPrice
+    String Expertise
+    String Availability
+}
+
+class Student {
+    //Attributes already specified in Person class
+}
+
+class Subject {}
+
+class TutoringRequest {
+    Date TargetDate
+    String Level
+    Date StartTime
+}
+
+class Session {}
+
+class Payment {
+    String PaymentMethod
+}
+
+Tutor "1" -- "0..*" TutoringRequest
+Student "1" -- "0..*" TutoringRequest
+TutoringRequest "1" -- "1" Session
+Session "0..*" -- "0..1" Payment
 
 @enduml

@@ -1,38 +1,72 @@
 ```plantuml
 @startuml
 
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class HeadScout{}
-class Player{}
-class PlayerProfile{}
-class TargetPosition{}
-class PlayerAttribute{}
-class LongList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Recommendation{}
-class ShortList{}
-class Offer{}
+class TeamSportsScoutingSystem
 
-Employee "1..*" -- "1..1" HeadCoach
-Employee "1..*" -- "1..1" Director
-Employee "1..*" -- "1..*" Scout
-Employee "1..1" -- "1..1" HeadScout
-HeadCoach "1..*" -- "1..1" PlayerProfile
-PlayerProfile "1..*" -- "1..1" TargetPosition
-PlayerProfile "1..*" -- "1..1" PlayerAttribute
-Scout "1..*" -- "1..1" LongList
-HeadScout "1..*" -- "1..1" ScoutingAssignment
-Scout "1..*" -- "1..1" ScoutingAssignment
+class Employee
+
+class HeadCoach {
+  targetPosition: String
+  playerAttributes: PlayerAttribute
+}
+
+class Director
+
+class Scout
+
+class HeadScout
+
+class Player
+
+class DesignatedPlayerProfile {
+  targetPosition: String
+  playerAttributes: PlayerAttribute
+}
+
+class TargetPosition {
+  name: String
+}
+
+class PlayerAttribute {
+  name: String
+  value: String
+}
+
+class LongList
+
+class ScoutingAssignment {
+  player: Player
+}
+
+class ScoutingReport {
+  pros: String
+  cons: String
+  recommendation: Recommendation
+}
+
+class Recommendation {
+  type: String
+}
+
+class ShortList
+
+class Offer
+
+TeamSportsScoutingSystem "1..1" -- "0..*" Employee
+HeadCoach "1..*" -- "1..*" DesignatedPlayerProfile
+DesignatedPlayerProfile "1..1" -- "0..*" TargetPosition
+DesignatedPlayerProfile "1..*" -- "1..1" PlayerAttribute
+Scout "0..*" -- "0..*" LongList
+HeadScout "1..1" -- "0..*" ScoutingAssignment
 Scout "1..*" -- "1..1" ScoutingReport
-ScoutingAssignment "1..1" -- "1..1" ScoutingReport
-ScoutingReport "1..1" -- "1..1" Recommendation
-HeadCoach "1..*" -- "1..1" ShortList
-HeadScout "1..*" -- "1..1" ShortList
-HeadScout "1..*" -- "1..1" Offer
+ScoutingReport "1..1" -- "0..*" Recommendation
+HeadScout "1..1" -- "0..*" ShortList
+Director "1..1" -- "0..*" Offer
+
+HeadCoach --|> Employee
+Director --|> Employee
+Scout --|> Employee
+HeadScout --|> Scout
 
 @enduml
 ```

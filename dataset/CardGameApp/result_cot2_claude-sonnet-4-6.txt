@@ -1,0 +1,41 @@
+@startuml
+class Game {
+  id: Int
+}
+class Player {
+  id: Int
+}
+class Deck {
+  id: Int
+}
+class Card {
+  id: Int
+}
+class ScoringTable {
+  id: Int
+}
+class Round {
+  id: Int
+  pointValue: Int
+}
+class SoloRound {
+  id: Int
+  soloType: String
+}
+class MandatorySoloRound
+class Suit {
+  id: Int
+}
+
+Game "1..1" -- "1..*" Player
+Game "1..1" -- "1..1" Deck
+Game "1..1" -- "1..1" ScoringTable
+Deck "1..1" -- "0..48" Card
+Card "1..1" -- "1..1" Suit
+ScoringTable "1..1" -- "0..*" Round
+Round "1..*" -- "1..*" Player
+SoloRound "1..1" -- "1..1" Player
+
+SoloRound --|> Round
+MandatorySoloRound --|> SoloRound
+@enduml

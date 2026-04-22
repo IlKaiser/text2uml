@@ -1,0 +1,65 @@
+<bos><start_of_turn>user
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+Transform into plant uml this specification text: A university consists of several faculties, which are made up of various institutes. Each faculty and institute has a name. The address of each institute is known. 
+Each faculty is headed by a dean, who is an employee of the university. 
+The total number of employees is known. Employees have a social security number, a name, and an email address. A distinction is made between research and administrative staff. 
+Research assistants (RA) are assigned to at least one institute. The field of research of each RA is known. In addition, RAs can be involved in projects for a certain number of hours, whereby the name, start and end dates of the projects are known. Some RAs teach courses. In this case, they are referred to as lecturers. 
+Courses have a unique number (ID), a name and a weekly duration in hours.<end_of_turn>
+<start_of_turn>model
+@startuml
+class University { int TotalEmployees }
+class Faculty { String Name }
+class Institute { String Name, String Address }
+class Employee { String SocialSecurityNumber, String Name, String EmailAddress }
+class Dean { String Name }
+class ResearchAssistant { String FieldOfResearch, int ProjectHours }
+class Lecturer { String Name }
+class Course { int ID, String Name, int WeeklyDuration }
+class Project { String Name, Date StartDate, Date EndDate }
+
+University "1..*" -- "1..*" Faculty
+Faculty "1..1" -- "1..*" Institute
+Institute "1..1" -- "1..*" Employee
+Dean "1..1" -- University
+Employee "0..*1" -- Faculty
+Employee "0..*1" -- Course
+ResearchAssistant "1..*" -- Institute
+ResearchAssistant "0..*1" -- Project
+Lecturer "0..*1" -- Course
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+
+class GameDesigner {
+}
+class Game {
+}
+class Player {
+    int PlayerNumber
+}
+class Board {
+}
+class Tile {
+    boolean IsVisited
+}
+class HiddenTile {
+}
+class ActionTile {
+    int TurnsAsRegularTile
+}
+class PlayingPiece {
+    String Color
+}
+class Die {
+}
+class ConnectionPiece {
+}
+class Deck {
+}
+class ActionCard {
+    String EffectDescription
+}
+class SpareConnectionPiecesPile {
+}
+
+Tile <|-- HiddenTile
+Tile <|-- ActionTile
+
+GameDesigner "1" -- "0..*" Game
+Game "1" -- "1" Board
+Game "1" -- "2..4" Player
+Board "1" -- "0..*" Tile
+ConnectionPiece "1" -- "2" Tile
+Player "1" -- "1" PlayingPiece
+PlayingPiece "1" -- "0..1" Tile
+Player "1" -- "0..*" Tile
+Game "1" -- "1" Deck
+Deck "1" -- "32" ActionCard
+SpareConnectionPiecesPile "1" -- "0..*" ConnectionPiece
+Game "1" -- "1" HiddenTile
+Game "1" -- "0..*" ActionTile
+
+@enduml

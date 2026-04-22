@@ -1,59 +1,64 @@
 @startuml
 
-class Bus {}
-class BusCompany {}
-class BusLine {}
-class Category {}
-class Destination {}
-class Discount {}
-class Invoice {}
-class MENSOUser {}
-class Mensocard {}
-class Mensoticket {}
-class Payment {}
-class PersonalData {}
-class TicketMachine {}
-class TownAuthority {}
-class Trajectory {}
-class TravelingHabitPattern {}
-class Trip {}
-class TripRegistration {}
+class Bus {
+    String ID
+}
+class Line {
+    String LineNumber
+    String Category
+    String Destination
+}
+class Trajectory {
+    String Description
+    String Status
+    Date OperationalStartDate
+    Date CancellationDate
+}
+class TownAuthority {
+    String Name
+}
+class Customer {
+    String Name
+    String HomeAddress
+    String OfficeAddress
+    String WorkingHours
+}
+class MENSO_Card {
+    String CardNumber
+    Date ValidFrom
+    Date ValidUntil
+}
+class Trip {
+    Date Date
+    Time Time
+    Double CalculatedPrice
+}
+class Invoice {
+    Date IssueDate
+    Double TotalAmount
+    Double DiscountPercentage
+    Double AmountDue
+    String Status
+}
+class Payment {
+    Date PaymentDate
+    Double Amount
+}
+class Subscription {
+    Date StartDate
+    Date EndDate
+    String Status
+}
 
-Bus "1" -- "1..*" TicketMachine
-Bus -- BusLine
-Bus -- Trajectory
-
-BusCompany "1" -- Bus
-BusCompany "1" -- Mensoticket
-BusCompany "1" -- PersonalData
-BusCompany "1" -- Trajectory
-
-BusLine "1" -- "1..*" Destination
-BusLine "1" -- "1..*" Trajectory
-BusLine -- "1" Category
-BusLine -- TravelingHabitPattern
-BusLine -- "1" TripRegistration
-
-Invoice "1" -- "0..1" Discount
-Invoice "1" -- Payment
-Invoice "1" -- "1..*" TripRegistration
-
-MENSOUser "1" -- "1" Mensocard
-MENSOUser "1" -- Invoice
-MENSOUser "1" -- Payment
-MENSOUser "1" -- "1" PersonalData
-MENSOUser "1" -- Trip
-
-Mensocard -- TicketMachine
-
-Mensoticket "1" -- Trip
-
-PersonalData "1" -- TravelingHabitPattern
-
-Trajectory -- TownAuthority
-
-Trip "1" -- "1" TripRegistration
-
-TripRegistration "1..*" -- TravelingHabitPattern
+Bus "0..*" -- "0..*" Trajectory
+Line "1" -- "1..*" Trajectory
+Trajectory "0..*" -- "1" TownAuthority
+Customer "1" -- "0..*" Subscription
+Subscription "1" -- "1" MENSO_Card
+MENSO_Card "1" -- "0..*" Trip
+Trip "0..*" -- "1" Line
+Customer "1" -- "0..*" Invoice
+Invoice "0..1" -- "1..*" Trip
+Invoice "1" -- "0..*" Payment
 
 @enduml

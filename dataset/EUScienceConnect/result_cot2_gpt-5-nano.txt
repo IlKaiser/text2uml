@@ -1,33 +1,48 @@
 @startuml
-class ResearchDatabase{}
-class Person{}
-class Institution{}
-class Article{}
-class PeerReviewedArticle{}
-class TechnicalReport{}
-class Journal{}
-class Publisher{}
-class Authorship{}
-class Review{}
-
-ResearchDatabase "0..*" -- "0..*" Person
-ResearchDatabase "0..*" -- "0..*" Institution
-ResearchDatabase "0..*" -- "0..*" Article
-ResearchDatabase "0..*" -- "0..*" Publisher
-ResearchDatabase "0..*" -- "0..*" Journal
-ResearchDatabase "0..*" -- "0..*" Authorship
-ResearchDatabase "0..*" -- "0..*" Review
-Person "1" -- "1" Institution
-Authorship "1" -- "1" Person
-Authorship "1" -- "1" Article
-PeerReviewedArticle "1" -- "1" Journal
-Journal "0..*" -- "0..*" PeerReviewedArticle
-TechnicalReport "1" -- "1" Institution
-Institution "0..*" -- "0..*" TechnicalReport
-Publisher "0..*" -- "0..*" Journal
-Journal "1" -- "1" Publisher
-Journal "0..*" -- "0..*" Institution
+class Person {
+  personID: String
+  phoneNumber: String
+  keywords: String
+  institutionCode: String
+}
+class Institution {
+  institutionCode: String
+}
+class Article {
+  doi: String
+  title: String
+  authors: String
+  authorPositions: String
+}
+class PeerReviewedArticle {
+  doi: String
+  title: String
+  authors: String
+  authorPositions: String
+  citationCount: Int
+  reviewers: String
+}
+class TechnicalReport {
+  doi: String
+  title: String
+  authors: String
+  authorPositions: String
+  publishingInstitutionCode: String
+}
+class Publisher {
+  name: String
+}
+class Journal {
+  name: String
+  impactFactor: Float
+}
+Person "1..1" -- "0..*" Institution
+Article "" -- "1..*" Person
+PeerReviewedArticle "" -- "0..*" Person
+PeerReviewedArticle "1..1" -- "1..1" Journal
+Journal "1..1" -- "1..1" Publisher
+TechnicalReport "1..1" -- "1..1" Institution
 Institution "0..*" -- "0..*" Journal
-Review "1" -- "1" Person
-Review "1" -- "1" PeerReviewedArticle
+PeerReviewedArticle --|> Article
+TechnicalReport --|> Article
 @enduml

@@ -1,23 +1,52 @@
 @startuml
-class University{}
-class Faculty{}
-class Institute{}
-class Employee{}
-class ResearchStaff{}
-class AdministrativeStaff{}
-class ResearchAssistant{}
-class Lecturer{}
-class Course{}
-class Project{}
+class University {
+}
 
-University "1..1" -- "0..*" Faculty
-Faculty "1..1" -- "0..*" Institute
-Faculty "1..1" -- "1..1" Employee
-Employee "0..*" -- "0..1" ResearchStaff
-Employee "0..*" -- "0..1" AdministrativeStaff
-ResearchStaff "0..*" -- "0..*" ResearchAssistant
-ResearchAssistant "0..*" -- "0..*" Institute
+class Faculty {
+  name: String
+}
+
+class Institute {
+  name: String
+  address: String
+}
+
+class Employee {
+  socialSecurityNumber: String
+  name: String
+  email: String
+}
+
+class ResearchStaff {
+}
+
+class AdministrativeStaff {
+}
+
+class ResearchAssistant {
+  fieldOfResearch: String
+}
+
+class Project {
+  name: String
+  startDate: Date
+  endDate: Date
+}
+
+class Course {
+  id: String
+  name: String
+  weeklyDurationHours: Int
+}
+
+University "1..1" -- "1..*" Faculty
+Faculty "1..1" -- "1..*" Institute
+Faculty "0..1" -- "1..1" Employee
+Institute "1..1" -- "0..*" ResearchAssistant
 ResearchAssistant "0..*" -- "0..*" Project
-ResearchAssistant "0..*" -- "0..1" Lecturer
-Lecturer "0..*" -- "0..*" Course
+ResearchAssistant "0..*" -- "0..*" Course
+
+ResearchStaff --|> Employee
+AdministrativeStaff --|> Employee
+ResearchAssistant --|> ResearchStaff
 @enduml

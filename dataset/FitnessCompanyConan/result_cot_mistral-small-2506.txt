@@ -1,23 +1,49 @@
-Here is the PlantUML code based on your class list and cardinality list:
-
 ```plantuml
 @startuml
 
-class FitnessCenter{}
-class Room{}
-class Person{}
-class Trainer{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
+class FitnessCenter {
+  name:String
+  address:String
+}
+
+class Room {
+  maxCapacity:Int
+  number:Int
+}
+
+class Person {
+  firstName:String
+  familyName:String
+  birthDate:Date
+}
+
+class Trainer {
+  diploma:String
+}
+
+class Session {
+  date:Date
+  startingHour:Float
+}
+
+class GroupSession {
+  type:String
+}
+
+class Prospect
+
+class Intern
 
 FitnessCenter "1..*" -- "1..1" Room
-FitnessCenter "1..*" -- "0..*" Person
-FitnessCenter "1..*" -- "0..*" Trainer
 FitnessCenter "1..*" -- "0..*" Session
-Room "1..*" -- "1..1" Session
 Person "0..*" -- "1..1" Session
-Trainer "1..1" -- "1..*" GroupSession
+Trainer "0..*" -- "1..1" Session
+
+GroupSession --|> Session
+IndividualSession --|> Session
+Prospect --|> Person
+Trainer --|> Person
+Intern --|> Trainer
 
 @enduml
 ```

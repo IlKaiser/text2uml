@@ -1,0 +1,354 @@
+<bos><start_of_turn>user
+Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports..
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Person, Institution, Article, Author, Reviewer, Publisher, Journal, ScientificArticle]
+
+##############
+
+The cardinality list is:
+
+<bos><start_of_turn>user
+Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The cardinality list is:<end_of_turn>
+<start_of_turn>model
+[
+(Person, 0..*, Person, 0..*),
+(Person, 0..*, Article, 1..*),
+(Article, 1, Person, 0..*),
+(Article, 0..*, Reviewer, 0..*),
+(Article, 0..*, Article, 0..*),
+(Article, 1, Publisher, 0..*),
+(Publisher, 0..*, Journal, 0..*),
+(Journal, 0..*, Publisher, 0..*),
+(Journal, 0..*, Publication, 0..*),
+(Article, 1, Publication, 0..*),
+(Publication, 0..*, Article, 0..*)
+]
+
+##############
+
+The attributes dictionary is:
+
+<bos><start_of_turn>user
+Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports..
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Person, Institution, Article, Author, Reviewer, Publisher, Journal, ScientificArticle]
+
+#############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############
+
+The attributes dictionary is:<end_of_turn>
+<start_of_turn>model
+```json
+{
+    "Person": [
+        "person_id",
+        "phone_number",
+        "keywords",
+        "institution_code"
+    ],
+    "Institution": [
+        "institution_code"
+    ],
+    "Article": [
+        "doi",
+        "title",
+        "author_list"
+    ],
+    "Author": [
+        "author_position"
+    ],
+    "Reviewer": [
+        "reviewed_article_doi"
+    ],
+    "Publisher": [
+        "publisher_name"
+    ],
+    "Journal": [
+        "journal_name",
+        "publisher_name",
+        "impact_factor"
+    ],
+    "ScientificArticle": [
+        "citation_count"
+    ]
+}
+```
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<bos><start_of_turn>user
+Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports..
+
+##############
+
+The class list is:<end_of_turn>
+<start_of_turn>model
+[Person, Institution, Article, Author, Reviewer, Publisher, Journal, ScientificArticle]
+
+#############
+
+The specification text is:
+
+Recently, the European Union made funds available to set-up a cross-national research database that stores information concerning scientific articles of researchers working at institutions in the EU. Science Connect is the company that will be setting up this database.
+The system will store information regarding scientific staff (persons) and research institutions. Bot hare uniquely identified by a person ID and an institution code, respectively. The following is also recorded for each person: a phone number, keywords that identify his/her keys research topics and the institution he/she works for. A person can be an author of one article and a reviewer of another peer-reviewed article at the same time.
+The database will store the following information concerning scientific articles. Each scientific article is uniquely identified by a DOI (a document object identifier), and the system also stores the title and the authors of the article. In the case of multiple authors, the position of each author is stored. Science Connect distinguishes between two types of scientific articles: a scientific article is either a peer-reviewed paper or a technical report. The system stores the citation count of peer-reviewed papers and who reviewed the paper. A technical report is always published by a single research institution, while research institutions can of course publish multiple technical reports.
+The system keeps track of the different scientific publishers (e.g., IEE, Elsevier). A publisher is identified by name. A publisher can publish multiple journals to which research institutions can subscribe. These journals are given a name by the publisher (e.g., Decision Support Systems). Publishers can have journals with the same name as other publishers; e.g., it is possible that both IEE and Elsevier have a journal with the title Management Science. The impact factor, which measures the scientific impact of a journal is also stored.
+Finally, only peer-reviewed papers are published in journals, not technical reports.
+
+##############<end_of_turn>
+<start_of_turn>model
+ASSOCIATIONS:
+[Person, Article], [Person, Author], [Person, Reviewer], [Article, Author], [Article, Reviewer], [Article, Publisher], [Publisher, Journal], [Journal, Institution]
+
+##############
+
+The plant uml is:<end_of_turn>
+<start_of_turn>model
+```plantuml
+@startuml
+class Person {
+}
+
+class Institution {
+}
+
+class Article {
+}
+
+class Author {
+}
+
+class Reviewer {
+}
+
+class Publisher {
+}
+
+class Journal {
+}
+
+class ScientificArticle {
+}
+
+Person "1" -- "*" Article : writes
+Person "1" -- "*" Author : is author of
+Person "1" -- "*" Reviewer : reviews
+Article "1" -- "*" Author : has authors
+Article "1" -- "*" Reviewer : reviewed by
+Article "1" -- "1" Publisher : published by
+Publisher "1" -- "*" Journal : publishes
+Journal "1" -- "*" Institution : associated with
+
+@enduml
+```

@@ -1,0 +1,59 @@
+```plantuml
+@startuml
+class User{
+    String ID
+    String Name
+    String Email
+    Date DateOfBirth
+    String AccountType
+}
+
+class Account{
+    String AccountNumber
+    String AccountType
+    User User
+    String CompanyName
+    Date CreatedDate
+    Date LastLoginDate
+    String Password
+}
+
+class Page{
+    String PageName
+    String PageContent
+    String PageType
+    Account Account
+    Integer Visits
+    Integer BounceRate
+    Integer ClickThroughRate
+    Integer ConversionRate
+}
+
+class AdvertisementPage extends Page{
+    String Advertiser
+    Integer Impressions
+    Integer Clicks
+    Integer Conversions
+}
+
+class FriendRequest{
+    String Sender
+    String Receiver
+    Date RequestDate
+}
+
+class Message{
+    String Content
+    String Sender
+    String Receiver
+    Date SentDate
+}
+
+Account "1..1" -- "0..*" User
+Account "1..1" -- "1..*" Page
+Page "1..*" -- "1..*" FriendRequest
+Page "1..*" -- "1..*" Message
+AdvertisementPage "1..*" -- "1..*" Message
+Account "1..*" -- "1..*" AdvertisementPage
+@enduml
+```

@@ -1,0 +1,86 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# eval.py – evaluation configuration
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Path to dataset root (resolved relative to this file)
+dataset_path: "dataset"
+
+# Path to the grammar file
+grammar_path: "grammar.ebnf"
+
+# Output CSV filename (written inside dataset_path)
+output_csv: "crash_evaluation_results_llm.csv"
+
+# Directory for saved graphs (resolved relative to this file)
+graph_dir: "graph"
+
+# ── Execution control ─────────────────────────────────────────────────────────
+run_evaluation: true   # set false to skip eval and only regenerate plots
+run_plots: true
+show_plots: false      # set true to call plt.show() interactively
+dpi: 300
+langsmith_tracing: false  # set true only if you have a paid LangSmith account
+
+# ── Parallelism ───────────────────────────────────────────────────────────────
+max_workers: 12
+stall_timeout: 300     # seconds before a stuck worker is cancelled
+poll_interval: 1.0
+
+# ── Preprocessing – strip prompt / assistant scaffolding from result files ────
+strip_prompt:
+  enabled: true
+
+  # Keep everything AFTER the matched marker (discard the prompt prefix).
+  keep_after_last_match: true
+
+  # Per-model rules: key is a Python regex matched (case-insensitive) against
+  # the result filename. The first matching rule wins.
+  # 'pattern' is the end-of-prompt marker; text after its last occurrence is kept.
+  model_patterns:
+    "Mistral.*7B|mistral.*7b":
+      pattern: "\\[/INST\\]\\n?"
+
+    "Qwen":
+      pattern: "<\\|im_start\\|>assistant\\n?"
+
+    "gemma":
+      pattern: "<start_of_turn>model\\n?"
+
+    "Llama|llama":
+      pattern: "<\\|start_header_id\\|>assistant<\\|end_header_id\\|>\\n?"
+
+  # Write the stripped text back to disk next to the original result file.
+  # e.g. result_gpt-4o.txt → result_gpt-4o_stripped.txt
+  save_stripped: true
+  stripped_suffix: "_stripped"
+
+# ── Model ignore list ─────────────────────────────────────────────────────────
+ignore_list:
+  - deepseek-reasoner
+
+# ── Technique prefixes (filename prefix → display label) ─────────────────────
+prefixes:
+  one:  "one-shot"
+  few:  "two-shots"
+  cot:  "CoT"
+  cot2: "CoT-multi"
+
+# ── Models highlighted in per-model bubble charts ─────────────────────────────
+selected_models:
+  - o3-mini
+  - claude-3-7-sonnet-20250219
+  - Qwen2.5-14B-Instruct-4bit
+
+# ── Model and technique for the per-subfolder bubble chart ───────────────────
+subfolder_model: "claude-sonnet-4-6"
+subfolder_technique: "CoT"
+
+# Override for the "best overall" model shown in the best-models bubble chart.
+# Leave empty to auto-select by highest aggregated F1.
+best_overall_model: "claude-sonnet-4-6"
+best_overall_tech: "two-shots"
+
+# Explicit list of open-source model names for the best-models bubble chart.
+# Leave empty ([]) to use the built-in heuristic: any model whose name does NOT
+# start with gpt / o1 / o3 / claude / gemini is treated as open-source.
+open_source_models: []

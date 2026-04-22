@@ -1,0 +1,42 @@
+Given the refined specification text, the identified classes are:
+
+- **Students**
+- **TeachingAssistants**
+- **Courses**
+- **Appointments**
+
+Since the specification focuses on managing appointments between students and teaching assistants for specific courses, the relationships and constraints are clear. Here is the PlantUML representation for the conceptual model:
+
+```plantuml
+@startuml
+class Students {
+    +name: String
+    +coursesRegistered: Set[Courses]
+}
+
+class TeachingAssistants {
+    +name: String
+    +coursesTaught: Set[Courses]
+}
+
+class Courses {
+    +name: String
+    +ta: TeachingAssistant
+}
+
+class Appointments {
+    +student: Students
+    +course: Courses
+    +ta: TeachingAssistant
+}
+
+Students -- Appointments: requests appointment
+TeachingAssistants -- Appointments: provides help
+Courses -- TeachingAssistant: teaches
+Courses -- Appointments: has appointment
+Students -- Courses: registered for
+
+@enduml
+```
+
+This diagram captures the relationships between the identified classes as described in the specification.

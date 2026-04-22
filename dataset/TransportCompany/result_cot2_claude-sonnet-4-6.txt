@@ -1,0 +1,71 @@
+@startuml
+class Company
+class Driver
+class Planner {
+  username: String
+  password: String
+}
+class AdministrativeStaff {
+  username: String
+  password: String
+  fieldOfActivity: String
+}
+class Customer {
+  name: String
+  billingAddress: String
+}
+class Vehicle {
+  licensePlateNumber: String
+  mileage: Float
+}
+class RefrigeratedTruck
+class SmallVan
+class LoadingPlatform
+class BoxTruck
+class Repair {
+  duration: Float
+  cost: Float
+}
+class RepairShop {
+  name: String
+  address: String
+}
+class Order {
+  comment: String
+  startTime: Date
+  endTime: Date
+  pickUpAddress: String
+  deliveryAddress: String
+}
+class Package
+class PartnerCompany {
+  name: String
+  address: String
+}
+class Employee {
+  name: String
+  socialSecurityNumber: String
+}
+
+Company "1..1" -- "1..*" Employee
+Company "1..1" -- "0..*" Customer
+Company "1..1" -- "0..*" Vehicle
+Repair "0..*" -- "1..1" Vehicle
+Repair "0..*" -- "1..1" RepairShop
+Repair "0..*" -- "1..1" Employee
+Order "0..*" -- "1..1" Driver
+Order "0..*" -- "1..1" Vehicle
+Order "0..*" -- "1..1" Planner
+Order "0..*" -- "1..1" Customer
+Order "0..*" -- "0..1" AdministrativeStaff
+Order "0..*" -- "0..1" PartnerCompany
+Package "1..*" -- "1..1" Order
+
+Driver --|> Employee
+Planner --|> Employee
+AdministrativeStaff --|> Employee
+RefrigeratedTruck --|> Vehicle
+SmallVan --|> Vehicle
+LoadingPlatform --|> Vehicle
+BoxTruck --|> Vehicle
+@enduml

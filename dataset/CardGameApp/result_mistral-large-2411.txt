@@ -1,27 +1,32 @@
 @startuml
 
-class Game{}
-class Player{}
-class Deck{}
-class Card{}
-class ScoringTable{}
-class Round{}
-class JackRound{}
-class SoloRound{}
-class MandatorySoloRound{}
-class SoloType{}
-class SoloPlayer{}
+class Game{ }
+class Player{ }
+class Deck{ }
+class Card{ }
+class ScoringTable{ }
+class Round{ }
+class JackRound{ }
+class SoloRound{ }
+class MandatorySoloRound{ }
+class SoloType{ }
+class SoloPlayer{ }
 
 Game "1..1" -- "4..4" Player
 Game "1..1" -- "1..1" Deck
 Game "1..1" -- "1..1" ScoringTable
 Deck "1..1" -- "1..48" Card
-ScoringTable "1..1" -- "1..*" Round
-Round "0..*" -- "0..*" Player
-Round "1..1" -- "1..*" JackRound
-Round "1..1" -- "1..*" SoloRound
-SoloRound "0..*" -- "1..1" MandatorySoloRound
+ScoringTable "1..1" -- "0..*" Round
+Round "1..1" -- "0..*" Player
+Round "1..1" -- "1..1" PointValue
+JackRound "0..*" -- "1..1" Round
+SoloRound "0..*" -- "1..1" Round
+MandatorySoloRound "0..*" -- "1..1" SoloRound
 SoloRound "1..1" -- "1..1" SoloType
 SoloRound "1..1" -- "1..1" SoloPlayer
+
+JackRound --|> Round
+SoloRound --|> Round
+MandatorySoloRound --|> SoloRound
 
 @enduml

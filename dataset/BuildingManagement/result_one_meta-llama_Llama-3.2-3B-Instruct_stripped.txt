@@ -1,0 +1,108 @@
+@startuml
+
+class User {
+    String Username
+    String Email
+    String Password
+    String AdminID
+}
+
+class Building {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    String YearOfConstruction
+    String Owner
+    String ProfilePhoto
+    String[] AdditionalEntries
+}
+
+class Entry {
+    String Name
+    String Type
+    String Value
+}
+
+class Image {
+    String FileName
+}
+
+class UserRegistration {
+    String Username
+    String Email
+    String Password
+    String ConfirmationLink
+}
+
+class UserActivation {
+    String Username
+    String Email
+    String ActivationLink
+}
+
+class BuildingCreation {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    String YearOfConstruction
+    String Owner
+}
+
+class BuildingManagement {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    String YearOfConstruction
+    String Owner
+    String ProfilePhoto
+    String[] AdditionalEntries
+}
+
+class Commenting {
+    String Username
+    String BuildingID
+    String Comment
+}
+
+class Search {
+    String Query
+}
+
+class UserManagement {
+    String Username
+    String Email
+    String AdminID
+}
+
+class AdminFunctions {
+    String Username
+    String Email
+    String AdminID
+    String IDCardNumber
+}
+
+User "0..*" -- "0..*" UserRegistration
+User "0..*" -- "0..*" UserActivation
+User "0..*" -- "0..*" Commenting
+User "0..*" -- "0..*" Search
+User "0..*" -- "0..*" UserManagement
+User "0..*" -- "0..*" AdminFunctions
+
+Building "1" -- "0..*" BuildingCreation
+Building "1" -- "0..*" BuildingManagement
+Building "1" -- "0..*" Commenting
+Building "1" -- "0..*" Search
+
+User "1" -- "0..*" Building
+Building "1" -- "0..*" Image
+Image "1" -- "0..*" Entry
+Entry "1" -- "0..*" AdditionalEntries
+
+User "0..*" -- "0..*" UserRegistration
+User "0..*" -- "0..*" UserActivation
+User "0..*" -- "0..*" AdminFunctions
+
+@enduml

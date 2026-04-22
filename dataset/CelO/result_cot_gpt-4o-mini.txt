@@ -1,15 +1,41 @@
 ```plantuml
 @startuml
-class Organizer{}
-class Attendee{}
-class Event{}
-class Task{}
-class Location{}
+class Organizer {
+    firstName: String
+    lastName: String
+    email: String
+    postalAddress: String
+    phoneNumber: String
+    password: String
+}
+
+class Attendee {
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+    attendanceStatus: String
+}
+
+class Event {
+    startDateTime: Date
+    endDateTime: Date
+    occasion: String
+}
+
+class Location {
+    name: String
+    address: String
+}
+
+class Task {
+    status: String
+}
 
 Organizer "1..*" -- "1..*" Event
 Organizer "1..*" -- "0..*" Task
 Organizer "1..*" -- "0..*" Attendee
 Event "1..1" -- "1..1" Location
-Attendee "0..*" -- "0..*" Task
+Task "0..*" -- "0..*" Attendee
 @enduml
 ```

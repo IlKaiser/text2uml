@@ -1,0 +1,53 @@
+@startuml
+
+class SmartHome {
+    String Address
+}
+
+class Room {
+    String Name
+}
+
+class SensorDevice {
+    String DeviceIdentifier
+    String Type
+}
+
+class ActuatorDevice {
+    String DeviceIdentifier
+    String Type
+}
+
+class SensorReading {
+    String MeasuredValue
+    Date Timestamp
+}
+
+class ControlCommand {
+    String Command
+    Date Timestamp
+    String Status
+}
+
+class ActivityLog {
+}
+
+class AutomationRule {
+    String Precondition
+    String Action
+    Boolean Activated
+    Date LastTriggeredTimestamp
+}
+
+SmartHome "1" -- "1..*" Room
+Room "1" -- "0..*" SensorDevice
+Room "1" -- "0..*" ActuatorDevice
+SensorDevice "1" -- "0..*" SensorReading
+ActuatorDevice "1" -- "0..*" ControlCommand
+SmartHome "1" -- "0..1" ActivityLog
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" ControlCommand
+SmartHome "1" -- "0..*" AutomationRule
+AutomationRule "0..*" -- "0..*" AutomationRule
+
+@enduml

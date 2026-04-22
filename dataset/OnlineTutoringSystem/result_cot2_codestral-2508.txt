@@ -1,28 +1,62 @@
 ```plantuml
 @startuml
-class OTS{}
-class Student{}
-class Tutor{}
-class Subject{}
-class TutoringOffer{}
-class TutoringRequest{}
-class TutoringSession{}
-class Payment{}
-class Award{}
 
-Student "0..*" -- "1..1" TutoringRequest
-Student "1..1" -- "0..*" TutoringSession
-Student "1..1" -- "0..*" Payment
-Student "0..*" -- "0..1" Award
-Tutor "1..1" -- "0..*" TutoringOffer
-Tutor "1..1" -- "0..*" TutoringSession
-Tutor "1..1" -- "0..*" Payment
-Tutor "0..*" -- "0..1" Award
-TutoringOffer "1..1" -- "0..*" TutoringRequest
-TutoringOffer "1..1" -- "0..*" TutoringSession
-TutoringRequest "1..1" -- "0..1" TutoringSession
-TutoringSession "1..1" -- "1..1" Payment
-Subject "1..1" -- "0..*" TutoringOffer
-Award "1..1" -- "1..*" Tutor
+class Student {
+  name: String
+  email: String
+}
+
+class Tutor {
+  name: String
+  email: String
+  bankAccount: String
+}
+
+class Subject {
+}
+
+class TutoringOffer {
+  levelOfExpertise: String
+  hourlyPrice: Float
+}
+
+class TutoringRequest {
+  levelOfTutoring: String
+  targetDate: Date
+  targetTime: String
+}
+
+class TutoringSession {
+  date: Date
+  time: String
+}
+
+class Payment {
+  amount: Float
+  paymentMethod: String
+}
+
+class CancellationPolicy {
+  cancellationFee: Float
+  discount: Float
+}
+
+class Award {
+  month: Date
+}
+
+Tutor "1..*" -- "1..*" TutoringOffer
+Student "1..*" -- "1..*" TutoringRequest
+TutoringRequest "1..*" -- "1..1" TutoringOffer
+TutoringSession "1..*" -- "1..1" TutoringOffer
+TutoringSession "1..*" -- "1..1" Student
+TutoringSession "1..*" -- "1..1" Tutor
+TutoringSession "1..*" -- "0..1" Payment
+TutoringSession "1..*" -- "0..1" CancellationPolicy
+Tutor "1..*" -- "0..*" Award
+Subject "1..*" -- "1..*" TutoringOffer
+
+Tutor --|> Student
+
 @enduml
 ```

@@ -1,19 +1,46 @@
 
 @startuml
-class Tile{}
-class Board{}
-class Player{}
-class ConnectionPiece{}
-class ActionCard{}
-class GameDesigner{}
-class Game{}
 
-Tile 1..4 -- 1..* Board.
-Tile 0..* -- 0..* ConnectionPiece.
-Board 1 -- 1 GameDesigner.
-Player 2..4 -- 1 Board.
-Player 1 -- 1 Tile.
-ActionCard 32 -- 1 Game.
-GameDesigner 1 -- 32 ActionCard.
-GameDesigner 1 -- 1 Game.
+class Game {
+}
+
+class Player {
+  color: String
+  currentTurn: Boolean
+  playingPiece: Piece
+}
+
+class Board {
+  tiles: Tile[]
+  connectionPieces: ConnectionPiece[]
+  actionTiles: Tile[]
+  hiddenTile: Tile
+  startingPositions: Tile[]
+}
+
+class Tile {
+  color: String
+  connectedTiles: Tile[]
+  isActionTile: Boolean
+  isHidden: Boolean
+}
+
+class ConnectionPiece {
+}
+
+class ActionCard {
+  instructions: String
+}
+
+class Die {
+}
+
+
+Game "1..1" -- "1..1" Board
+Game "1..1" -- "2..4" Player
+Game "32..32" -- "0..*" ActionCard
+Player "1..1" -- "1..*" Tile
+Tile "0..*" -- "0..4" ConnectionPiece
+Player "1..1" -- "1..1" Die
+
 @enduml

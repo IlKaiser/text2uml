@@ -1,0 +1,42 @@
+```plantuml
+@startuml
+
+class Product {
+    String Name
+    String Description
+    Double NetPrice
+}
+class Country {
+    String Name
+    Double VATRate
+    String Currency
+    Double ConversionRateToEuro
+}
+class Representative {
+    String FirstName
+    String LastName
+    String SocialSecurityNumber
+    String TelephoneNumber
+    String EmailAddress
+}
+class Customer {
+    String Name
+    String Address
+    String TelephoneNumber
+    String EmailAddress
+}
+class Order {
+    String OrderID
+    Integer Quantity
+    Date OrderDate
+    Date DeliveryDate
+}
+
+Product "1" -- "0..*" Country
+Representative "1" -- "1" Country
+Customer "1" -- "0..*" Representative
+Representative "1" -- "0..*" Order
+Order "1" -- "1" Product
+
+@enduml
+```

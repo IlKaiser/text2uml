@@ -1,0 +1,72 @@
+Here is the UML output based on the provided specification text:
+
+```plantuml
+@startuml
+
+class Event {
+    String Name
+    String Occasion
+    String Location
+    Date StartDate
+    Date EndDate
+    String Type
+}
+
+class Organizer {
+    String FirstName
+    String LastName
+    String Email
+    String Username
+    String Password
+    String PostalAddress
+    String PhoneNumber
+}
+
+class Attendee {
+    String FirstName
+    String LastName
+    String Email
+}
+
+class Task {
+    String Name
+    String Description
+    String Status
+}
+
+class Checklist {
+    String Name
+    String Description
+}
+
+class EventChecklist {
+    Event "1" -- "0..*" Task
+    Task "1" -- "0..*" Checklist
+    Checklist "1" -- "0..*" Task
+}
+
+class Invitation {
+    Event "1" -- "0..*" Attendee
+    Attendee "1" -- "0..*" Event
+}
+
+class Account {
+    String Username
+    String Password
+    String Email
+}
+
+class EventManagementSystem {
+    Event "1" -- "0..*" Organizer
+    Organizer "1" -- "0..*" Event
+    Organizer "1" -- "0..*" Task
+    Organizer "1" -- "0..*" Checklist
+    Organizer "1" -- "0..*" EventChecklist
+    Organizer "1" -- "0..*" Invitation
+    Organizer "1" -- "0..*" Account
+    Account "1" -- "0..*" Event
+    Account "1" -- "0..*" Invitation
+}
+
+@enduml
+```

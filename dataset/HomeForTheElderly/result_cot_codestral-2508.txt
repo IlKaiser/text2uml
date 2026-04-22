@@ -1,32 +1,89 @@
 ```plantuml
 @startuml
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Inhabitant{}
-class Stay{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Invoice{}
-class CreditNote{}
+class Home {
+  name:String
+  address:String
+}
+
+class Department {
+  name:String
+  numberOfRooms:Int
+}
+
+class Room {
+  roomNumber:String
+  numberOfBeds:Int
+}
+
+class Bed {
+  bedId:String
+  category:Category
+}
+
+class Category {
+  type:String
+  price:Float
+}
+
+class Stay {
+  startDate:Date
+  endDate:Date
+  category:Category
+  status:String
+}
+
+class Inhabitant {
+  name:String
+  dateOfBirth:Date
+  registrationDate:Date
+}
+
+class Registration {
+  registrationDate:Date
+  basicData:String
+  assessmentResults:String
+}
+
+class Assessment {
+  needsAssessment:String
+  recommendedCategory:Category
+}
+
+class WaitingList {
+  position:Int
+  category:Category
+}
+
+class Invoice {
+  invoiceId:String
+  amount:Float
+  dueDate:Date
+  status:String
+}
+
+class CreditNote {
+  creditNoteId:String
+  amount:Float
+  issueDate:Date
+}
+
+class Payment
 
 Home "1..*" -- "1..*" Department
 Department "1..*" -- "1..*" Room
 Room "1..*" -- "1..*" Bed
-Bed "1..1" -- "1..*" Category
+Bed "1..1" -- "1..1" Category
 Inhabitant "1..*" -- "0..1" Bed
-Inhabitant "1..*" -- "1..*" Stay
-Stay "1..*" -- "1..1" Category
+Inhabitant "0..*" -- "1..*" Stay
+Category "1..*" -- "1..*" Stay
+WaitingList "1..*" -- "1..1" Category
+WaitingList "1..*" -- "1..1" Inhabitant
 Registration "1..1" -- "1..1" Inhabitant
-Assessment "1..*" -- "1..1" Inhabitant
-Assessment "1..*" -- "1..1" Category
-WaitingList "1..1" -- "1..*" Inhabitant
-WaitingList "1..1" -- "1..1" Category
-Invoice "1..*" -- "1..1" Inhabitant
-Invoice "1..*" -- "1..*" Stay
+Assessment "1..1" -- "1..1" Inhabitant
+Assessment "1..1" -- "1..1" Category
+Invoice "1..1" -- "1..1" Stay
+Invoice "1..1" -- "1..1" Inhabitant
 CreditNote "1..1" -- "1..1" Invoice
+Payment "0..*" -- "1..*" Invoice
 @enduml
 ```

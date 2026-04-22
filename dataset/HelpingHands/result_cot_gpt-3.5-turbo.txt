@@ -1,22 +1,59 @@
 
 @startuml
-class HelpingHandsStore{}
-class PickupDeliveryService{}
-class Resident{}
-class Item{}
-class PickupVehicle{}
-class VolunteerDriver{}
-class DistributionCenter{}
-class RFIDDevice{}
-class Category{}
-class Client{}
 
-HelpingHandsStore "0..*" -- "1" PickupDeliveryService
-Resident "0..*" -- "1..*" Item
-HelpingHandsStore "0..*" -- "0..*" Resident
-PickupVehicle "0..*" -- "1" VolunteerDriver
-HelpingHandsStore "0..*" -- "1" DistributionCenter
-Item "1..*" -- "0..*" RFIDDevice
-Item "1..*" -- "1" Category
-Client "0..*" -- "0..*" Item
+class H2S {
+}
+
+class Resident {
+    name: String
+    streetAddress: String
+    phoneNumber: String
+    emailAddress: String
+    itemsDescription: String
+}
+
+class PickupService {
+}
+
+class PickupRequest {
+    residentName: String
+    streetAddress: String
+    phoneNumber: String
+    emailAddress: String
+    itemsDescription: String
+    pickupDate: Date
+}
+
+class Vehicle {
+    storageSpace: Int
+}
+
+class Driver {
+    availableDays: Array
+}
+
+class Item {
+    RFIDTag: Boolean
+    category: String
+}
+
+class DistributionCenter {
+}
+
+class Employee {
+}
+
+class Category {
+}
+
+H2S "1..*" -- "0..*" Resident.
+Resident "1..1" -- "1..*" PickupService.
+PickupService "1..*" -- "1..*" PickupRequest.
+PickupService "1..*" -- "1..*" Vehicle.
+Vehicle "1..1" -- "1..*" Driver.
+Driver "1..*" -- "1..*" PickupRequest.
+Employee "0..*" -- "1..*" Item.
+Item "1..1" -- "1..1" Category.
+DistributionCenter "1..1" -- "1..*" Employee.
+
 @enduml

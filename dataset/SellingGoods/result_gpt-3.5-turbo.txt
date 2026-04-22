@@ -1,30 +1,64 @@
-
+```plantuml
 @startuml
 
-class Company{}
-class Stock{}
-class Product{}
-class Order{}
-class OrderLine{}
-class Customer{}
-class Address{}
-class Payment{}
-class Delivery{}
-class Warehouse{}
-class Invoice{}
-class Shipment{}
+class Company{
+    String Name
+}
 
-Customer "1..*" -- "1..*" Address
+class Supermarket{
+    String Name
+    String Location
+}
+
+class Warehouse{
+    String Location
+}
+
+class InformationSystem{
+    String Description
+}
+
+class Stock{
+    int CurrentStock
+}
+
+class Product{
+    String Name
+}
+
+class Customer{
+    String Address
+    int VATNumber
+}
+
+class Order{
+    Date Date
+    boolean Paid
+    boolean Shipped
+}
+
+class OrderLine{
+    int Quantity
+}
+
+class Invoice{
+    boolean Paid
+}
+
+Company "1..1" -- "0..*" Supermarket
+Company "1..1" -- "0..*" Warehouse
+Company "1..1" -- "1..1" InformationSystem
+Company "1..1" -- "0..*" Product
 Company "1..1" -- "0..*" Customer
-Stock "1..1" -- "1..*" Product
-Stock "1..*" -- "1..*" Order
-Order "1..*" -- "1..*" OrderLine
-Order "1..1" -- "1..1" Payment
-Order "1..1" -- "1..1" Delivery
-Stock "1..*" -- "0..*" Shipment
-Warehouse "1..1" -- "0..*" Customer
-Warehouse "1..*" -- "1..*" Delivery
-Customer "1..*" -- "1..*" Invoice
-Order "1..1" -- "1..1" Invoice
+Company "1..1" -- "0..*" Order
+Company "1..1" -- "0..*" Invoice
+
+Customer "1..1" -- "0..*" Order
+Stock "1..1" -- "0..*" Product
+Product "1..1" -- "0..*" OrderLine
+Order "1..1" -- "0..*" OrderLine
+Order "1..1" -- "0..1" Invoice
+Order "1..*" -- "0..*" Stock
 
 @enduml
+```

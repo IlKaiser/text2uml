@@ -1,13 +1,46 @@
 @startuml
-class Car {}
-class CarOwner {}
-class Customer {}
-class RideHailingService {}
-class RideSharingService {}
-class Accident {}
+class Car
+
+class CarOwner
+
+class Customer
+
+class RideHail {
+  pickUpTime: Date
+  dropOffTime: Date
+  pickUpLocation: String
+  dropOffLocation: String
+  rideDuration: Float
+  distance: Float
+  numberOfPassengers: Int
+  fee: Float
+  requestType: String
+  leadCustomerName: String
+  leadCustomerContact: String
+}
+
+class RideShare {
+  pickUpTime: Date
+  dropOffTime: Date
+  pickUpLocation: String
+  dropOffLocation: String
+  rideDuration: Float
+  distance: Float
+  customerNames: String
+  fee: Float
+}
+
+class Accident {
+  accidentDate: Date
+  location: String
+  damageAmount: Float
+}
+
+class SoberApp
 
 Car "0..1" -- "0..*" CarOwner
-RideHailingService "1..1" -- "0..*" Customer
-RideSharingService "1..10" -- "0..*" Customer
+RideHail "1..1" -- "0..*" Customer
+RideShare "1..10" -- "0..*" Customer
+RideHail "0..1" -- "0..*" SoberApp
 Accident "1..1" -- "0..*" Car
 @enduml

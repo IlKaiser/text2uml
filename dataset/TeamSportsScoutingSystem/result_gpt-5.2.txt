@@ -1,0 +1,52 @@
+@startuml
+
+class Club{ String Name }
+class Employee{ String EmployeeId, String Name }
+class HeadCoach{ }
+class Director{ }
+class Scout{ }
+class HeadScout{ }
+
+class Player{ String PlayerId, String Name }
+class PlayerProfile{ String ProfileId, String Name }
+class TargetPosition{ String Code, String Name }
+class PlayerAttribute{ String Name, String Value }
+
+class LongList{ String LongListId }
+class ShortList{ String ShortListId }
+
+class ScoutingAssignment{ String AssignmentId, Date AssignedDate, Date DueDate, String Status }
+class ScoutingReport{ String ReportId, String Pros, String Cons, String Recommendation, Date SubmittedDate }
+class Offer{ String OfferId, Date OfferDate, String Status }
+
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+Scout <|-- HeadScout
+
+Club "0..*" -- "0..*" Employee
+
+HeadCoach "0..*" -- "0..*" PlayerProfile
+PlayerProfile "0..*" -- "0..*" TargetPosition
+PlayerProfile "0..*" -- "0..*" PlayerAttribute
+
+LongList "0..*" -- "0..*" Player
+ShortList "0..*" -- "0..*" Player
+
+Scout "0..*" -- "0..*" LongList
+HeadScout "0..*" -- "0..*" LongList
+
+HeadScout "0..*" -- "0..*" ScoutingAssignment
+Scout "0..*" -- "0..*" ScoutingAssignment
+ScoutingAssignment "0..*" -- "1..1" Player
+ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+ScoutingReport "0..*" -- "1..1" Player
+
+PlayerProfile "0..*" -- "0..*" ShortList
+HeadCoach "0..*" -- "0..*" ShortList
+HeadScout "0..*" -- "0..*" ShortList
+
+Director "0..*" -- "0..*" Offer
+Offer "0..*" -- "1..1" Player
+
+@enduml

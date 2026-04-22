@@ -1,0 +1,77 @@
+```plantuml
+@startuml
+class ResearchDatabase {
+  - name : String
+  - description : String
+}
+
+class Researcher {
+  - personID : String
+  - phoneNumber : String
+  - keywords : String
+  - institutionCode : String
+}
+
+class ResearchInstitution {
+  - institutionCode : String
+  - name : String
+}
+
+class ScientificArticle {
+  - doi : String
+  - title : String
+  - citationCount : Int
+}
+
+class Author {
+  - position : String
+}
+
+class PeerReviewedArticle {
+  - reviewer : String
+}
+
+class TechnicalReport {
+  - institutionCode : String
+}
+
+class Publisher {
+  - name : String
+}
+
+class Journal {
+  - name : String
+  - publisherName : String
+}
+
+class ScientificPublisher {
+  - name : String
+}
+
+class ManagementScience {
+  - name : String
+}
+
+class ImpactFactor {
+  - value : Float
+}
+
+ResearchDatabase "1" -- Researcher : stores
+ResearchDatabase "1" -- ResearchInstitution : contains
+Researcher "1" -- Person : is a
+Researcher "1" -- ScientificArticle : writes
+Researcher "1" -- PeerReviewedArticle : reviews
+ScientificArticle "1" -- DOI : has
+ScientificArticle "1" -- Title : has
+ScientificArticle "1" -- Author : has
+ScientificArticle "1" -- CitationCount : has
+ScientificArticle "1" -- PeerReviewedArticle : is a
+TechnicalReport "1" -- ResearchInstitution : published by
+Publisher "1" -- Journal : publishes
+Publisher "1" -- ScientificPublisher : is a
+Journal "1" -- ResearchInstitution : subscribed by
+Publisher "1" -- ManagementScience : has
+ManagementScience "1" -- Journal : is
+
+@enduml
+```

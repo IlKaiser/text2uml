@@ -1,0 +1,46 @@
+@startuml
+class User {
+  ID: Int
+  name: String
+  email: String
+  dateOfBirth: Date
+}
+class Account {
+  accountNumber: Int
+}
+class BusinessAccount {
+  monthlyFee: Float
+}
+class PersonalAccount
+class Company {
+  name: String
+}
+class MarketingCampaign
+class FriendRequest
+class Page {
+  pageName: String
+  numberOfVisits: Int
+}
+class AdvertisementPage {
+  bounceRate: Float
+  clickThroughRate: Float
+  conversionRate: Float
+}
+class Privilege
+class Banner
+class Goal
+
+User "1..1" -- "0..1" Account
+Account "1..1" -- "0..*" Page
+BusinessAccount "1..1" -- "1..1" Company
+BusinessAccount "1..1" -- "0..*" MarketingCampaign
+PersonalAccount "0..*" -- "0..*" FriendRequest
+PersonalAccount "0..*" -- "0..*" Privilege
+Privilege "1..1" -- "1..1" Page
+AdvertisementPage "1..1" -- "1..*" Banner
+AdvertisementPage "1..1" -- "1..*" Goal
+
+BusinessAccount --|> Account
+PersonalAccount --|> Account
+AdvertisementPage --|> Page
+@enduml

@@ -1,0 +1,65 @@
+@startuml
+
+Class University {
+}
+
+Class ResearchProjectManagement {
+}
+
+Class ResearchGroup {
+    - department: String
+}
+
+Class Department {
+    - name: String
+}
+
+Class Researcher {
+    - name: String
+}
+
+Class WorkPackage {
+    - name: String
+    - researchGroup: ResearchGroup
+}
+
+Class ResearchGroup_as_WP_Leader {
+    - researchGroupId: Int
+    - workPackage: WorkPackage
+}
+
+Class Project {
+    - projectId: Int
+}
+
+Class Assignment {
+    - researcher: Researcher
+    - workPackage: WorkPackage
+}
+
+Class ServiceDelivery {
+    - fromResearchGroup: ResearchGroup
+    - toResearchGroup: ResearchGroup
+}
+
+Class Overview {
+    - researchGroup: ResearchGroup
+}
+
+Class ResearcherAssignment {
+    - researcher: Researcher
+    - oldResearchGroup: ResearchGroup
+    - newResearchGroup: ResearchGroup
+    - workPackage: WorkPackage
+    - oldAssignment: Assignment
+    - newAssignment: Assignment
+}
+
+Researcher -- 0..* WorkPackage [assignment]
+ResearchGroup -- 0..* WorkPackage [as WP leader]
+ResearchGroup -- 0..* ResearchGroup [service delivery]
+WorkPackage -- 0..* ResearchGroup [overview]
+Researcher -- 0..1 ResearcherAssignment [researcher changing research group]
+WorkPackage -- 0..1 ResearcherAssignment [WP leadership change]
+
+@enduml

@@ -1,22 +1,42 @@
 @startuml
-class Person{}
-class ResearchInstitution{}
-class Company{}
-class ScientificArticle{}
-class PeerReviewedPaper{}
-class TechnicalReport{}
-class Authorship{}
-class Review{}
-class Publisher{}
-class Journal{}
+class Researcher {
+  personID: String
+  phoneNumber: String
+  keywords: String
+  institutionCode: String
+}
+class ResearchInstitution {
+  institutionCode: String
+}
+class Keyword
+class ScientificArticle {
+  doi: String
+  title: String
+  authors: String
+  authorPositions: String
+}
+class PeerReviewedPaper {
+  citationCount: Int
+  reviewers: String
+}
+class TechnicalReport
+class Publisher {
+  name: String
+}
+class Journal {
+  name: String
+  impactFactor: Float
+}
 
-Person "1..1" -- "0..*" ResearchInstitution
-Person "0..*" -- "1..1" Authorship
-ScientificArticle "0..*" -- "1..1" Authorship
-Person "0..*" -- "1..1" Review
-PeerReviewedPaper "0..*" -- "1..1" Review
-Publisher "1..1" -- "0..*" Journal
-ResearchInstitution "0..*" -- "1..1" TechnicalReport
-Journal "0..*" -- "0..*" ResearchInstitution
-PeerReviewedPaper "0..*" -- "1..1" Journal
+Researcher "1..1" -- "0..*" ResearchInstitution.
+Researcher "0..*" -- "0..*" Keyword.
+Researcher "0..*" -- "0..*" ScientificArticle.
+Researcher "0..*" -- "0..*" PeerReviewedPaper.
+TechnicalReport "1..1" -- "0..*" ResearchInstitution.
+Publisher "0..*" -- "1..1" Journal.
+ResearchInstitution "0..*" -- "0..*" Journal.
+PeerReviewedPaper "1..1" -- "0..*" Journal.
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
 @enduml

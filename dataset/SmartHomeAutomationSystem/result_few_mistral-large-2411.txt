@@ -1,30 +1,50 @@
 ```plantuml
 @startuml
 
-class SHAS{}
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class AutomationRule{}
-class Owner{}
-class RuleTriggerLog{}
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class SensorDevice {
+    String DeviceID
+    Boolean isActive
+}
+class ActuatorDevice {
+    String DeviceID
+    Boolean isActive
+}
+class SensorReading {
+    Double MeasuredValue
+    Date Timestamp
+}
+class ControlCommand {
+    String Command
+    Date Timestamp
+    String Status
+}
+class ActivityLog {}
+class AutomationRule {
+    String Precondition
+    String Action
+    Boolean isActive
+}
+class Owner {
+    String Name
+}
 
-SHAS "1" -- "0..*" SmartHome
 SmartHome "1" -- "0..*" Room
 Room "1" -- "0..*" SensorDevice
 Room "1" -- "0..*" ActuatorDevice
 SensorDevice "1" -- "0..*" SensorReading
 ActuatorDevice "1" -- "0..*" ControlCommand
-SmartHome "1" -- "1" ActivityLog
-AutomationRule "0..*" -- "1" Owner
-AutomationRule "0..*" -- "0..*" AutomationRule
+SmartHome "1" -- "0..1" ActivityLog
 ActivityLog "1" -- "0..*" SensorReading
 ActivityLog "1" -- "0..*" ControlCommand
-AutomationRule "1" -- "0..*" RuleTriggerLog
+Owner "1" -- "0..*" AutomationRule
+AutomationRule "0..*" -- "0..*" AutomationRule
+Owner "1" -- "0..*" SmartHome
 
 @enduml
 ```

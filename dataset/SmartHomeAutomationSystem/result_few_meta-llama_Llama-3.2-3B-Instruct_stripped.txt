@@ -1,0 +1,53 @@
+Here is the UML output for the given specification text:
+
+@startuml
+
+class Room {
+    String Address
+    String Type
+}
+class Sensor {
+    String DeviceId
+    String Type
+    Double Reading
+    Date Timestamp
+}
+class Actuator {
+    String DeviceId
+    String Type
+}
+class ControlCommand {
+    String Command
+    String Status
+    Date Timestamp
+}
+class ActivityLog {
+    String DeviceId
+    String Type
+    Double Reading
+    Date Timestamp
+}
+class AutomationRule {
+    String Precondition
+    String Action
+    Boolean Status
+}
+class AutomationRuleTrigger {
+    String RuleId
+    Date Timestamp
+}
+class AutomationRuleHierarchy {
+    String RuleId
+    String ParentRuleId
+}
+
+Room "1..*" -- "0..*" Sensor
+Room "1..*" -- "0..*" Actuator
+Actuator "1" -- "0..*" ControlCommand
+Sensor "1" -- "0..*" ActivityLog
+ActivityLog "1" -- "0..*" ControlCommand
+AutomationRule "1" -- "0..*" AutomationRuleTrigger
+AutomationRule "1" -- "0..*" AutomationRuleHierarchy
+AutomationRuleTrigger "1" -- "0..*" AutomationRule
+
+@enduml

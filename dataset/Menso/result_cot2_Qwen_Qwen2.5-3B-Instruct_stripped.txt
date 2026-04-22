@@ -1,0 +1,97 @@
+Given the specification text and the identified classes, here is the PlantUML representation for the conceptual model diagram:
+
+```plantuml
+@startuml
+class Bus {
+  id: Int
+  model: String
+  capacity: Int
+}
+
+class Line {
+  id: Int
+  name: String
+  startLocation: String
+  endLocation: String
+}
+
+class Trajectory {
+  id: Int
+  name: String
+  startLocation: String
+  endLocation: String
+}
+
+class TownAuthority {
+  id: Int
+  name: String
+}
+
+class CalendarYear {
+  year: Int
+}
+
+class BusCompany {
+  id: Int
+  name: String
+}
+
+class MensoTicket {
+  id: Int
+  category: String
+}
+
+class MensoUser {
+  id: Int
+  name: String
+  address: Address
+  workingHours: WorkingHours
+}
+
+class Address {
+  street: String
+  city: String
+  postalCode: String
+}
+
+class WorkingHours {
+  mondayStart: Time
+  mondayEnd: Time
+  tuesdayStart: Time
+  tuesdayEnd: Time
+  wednesdayStart: Time
+  wednesdayEnd: Time
+  thursdayStart: Time
+  thursdayEnd: Time
+  fridayStart: Time
+  fridayEnd: Time
+  saturdayStart: Time
+  saturdayEnd: Time
+  sundayStart: Time
+  sundayEnd: Time
+}
+
+class BusCard {
+  id: Int
+}
+
+class BusDoor {
+  id: Int
+}
+
+Bus "0..*" -- "1.." Line : has
+Bus "0..*" -- "1.." Trajectory : has
+Bus "0..*" -- "1.." TownAuthority : has
+Bus "0..*" -- "1.." CalendarYear : has
+Bus "0..*" -- "1.." BusCompany : has
+MensoUser "0..*" -- "1.." BusCard : uses
+MensoUser "0..*" -- "1.." BusDoor : uses
+Invoice "0..*" -- "1.." MensoUser : contains
+Invoice "0..*" -- "1.." Customer : contains
+Invoice "0..*" -- "1.." Address : contains
+Invoice "0..*" -- "1.." WorkingHours : contains
+
+@enduml
+```
+
+This PlantUML code represents the conceptual model diagram with the identified classes and their relationships.

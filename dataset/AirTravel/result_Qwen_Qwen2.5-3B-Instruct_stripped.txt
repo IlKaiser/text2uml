@@ -1,0 +1,77 @@
+@startuml
+
+class Aircraft{
+    +String name
+    +String type
+    +Date yearOfManufacture
+    +Date nextInspection
+    +Flight[] flights
+    +SeatCategory[] seatCategories
+}
+
+class Passenger{
+    +String name
+    +String passportNumber
+    +Flight[] flights
+    +Ticket ticket
+}
+
+class Flight{
+    +String flightNumber
+    +Date date
+}
+
+class Ticket{
+    +String ticketNumber
+    +int price
+    +boolean upgradeDesired
+}
+
+class PassengerAircraft extends Aircraft{}
+
+class SeatCategory{
+    +String designation
+    +boolean hasEntertainmentProgram
+    +int numberOfSeats
+}
+
+class Airline{
+    +String name
+    +FlightAttendant[] flightAttendants
+    +Pilot[] pilots
+}
+
+class FlightAttendant{
+    +String name
+    +Date dateOfEmployment
+    +String role
+}
+
+class Pilot{
+    +String name
+    +Date dateOfEmployment
+    +String license
+}
+
+class Airport{
+    +String name
+    +int numberOfRunways
+    +Aircraft homeAircraft
+    +Airport departureAirport
+    +Airport destinationAirport
+}
+
+Aircraft "1" -- "0..*" Passenger
+Aircraft "1" -- "1.." SeatCategory
+PassengerAircraft "1" -- "1" Aircraft
+Passenger "0..*" -- "1" Flight
+Flight "1" -- "1" Ticket
+Flight "1" -- "1" Passenger
+Flight "1" -- "1" FlightAttendant
+Flight "1" -- "1" Pilot
+Flight "1" -- "1" Airport
+Airport "1" -- "1" Aircraft
+Airport "1" -- "1" DepartureAirport
+Airport "1" -- "1" DestinationAirport
+
+@enduml

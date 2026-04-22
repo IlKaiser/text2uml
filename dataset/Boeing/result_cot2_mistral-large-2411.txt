@@ -1,18 +1,54 @@
-```plantuml
 @startuml
-class Aircraft{}
-class Airline{}
-class Customer{}
-class Airplane{}
-class Contract{}
-class Acquisition{}
-class Salesperson{}
-class Employee{}
-class Client{}
 
-Acquisition "1..*" -- "1..1" Contract
-Airplane "0..*" -- "1..1" Acquisition
+class Aircraft {
+}
+
+class Airline {
+  relationships: String
+}
+
+class SalesAgreement {
+}
+
+class Customer {
+}
+
+class Airplane {
+}
+
+class Contract {
+  acquisitions: String
+  delivery_conditions: String
+  legal_aspects: String
+  salesperson: Salesperson
+}
+
+class Acquisition {
+  model: String
+  price: Float
+  options_customizations: String
+  delivery_date: Date
+}
+
+class Salesperson {
+  contracts: Contract
+}
+
+class Employee {
+}
+
+class Client {
+}
+
+SalesAgreement "1..1" -- "1..1" Customer
+Contract "1..1" -- "1..*" Acquisition
+Acquisition "1..*" -- "1..1" Airplane
 Contract "1..1" -- "1..1" Salesperson
-Airline "0..*" -- "0..1" Airline
+Contract "1..*" -- "1..1" Employee
+Salesperson "1..1" -- "1..1" Client
+Airline "1..*" -- "0..*" Airline
+
+Airplane --|> Aircraft
+Client --|> Customer
+
 @enduml
-```

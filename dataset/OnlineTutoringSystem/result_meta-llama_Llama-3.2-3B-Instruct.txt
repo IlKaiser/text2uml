@@ -1,0 +1,115 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 13 Apr 2026
+
+You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Transform into plant uml this specification text: The OTS is used by students and tutors where a tutor may also be a student. At registration, tutors need to provide their name, email address and bank account. After that, tutors may offer online tutoring in different subjects (e.g. mathematics, science, literature, etc.) by providing their level of expertise (e.g. primary school level, high school level, university level) in the given subject and their hourly price of a tutoring session (which may again be subject specific). Tutors may specify their weekly availability for tutoring sessions (e.g. Thursdays from 10:00 to 11:30). 
+
+Registered students (with a name and an email address) may browse available tutoring offers in a specific subject and then make a tutoring request from the designated tutor by specifying the level of tutoring. This request should suggest the target date and time of the first tutoring session. The tutor may confirm the requested tutoring session or offer a session at another slot. Once the session is agreed, the tutor and the student is expected to turn up at the given time for tutoring. During the tutoring session, the student and the tutor may agree upon to schedule follow-up a tutoring session. After the actual tutoring session, the student pays for the session (with a credit card or wire transfer).  
+
+A tutoring session may be cancelled by either the student or the tutor. However, if the student
+cancels less than 24 hours prior to the session then 75% of the session’s price has to be paid. If the tutor cancels within 24 hours then he/she needs to offer a 25% discount for his/her next session to the same student. 
+
+At the end of each month, tutor-of-the-month awards are given for the best tutors in each subject.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+```plantuml
+@startuml
+class Tutor {
+    String Name
+    String Email
+    String BankAccount
+    String Subject
+    String Level
+    String HourlyPrice
+    String WeeklyAvailability
+    String NextSessionDiscount
+}
+
+class Student {
+    String Name
+    String Email
+    String Tutor
+    String RequestedLevel
+    String RequestedDate
+    String RequestedTime
+    String SessionPrice
+    String PaymentMethod
+}
+
+class TutoringSession {
+    String Tutor
+    String Student
+    String Subject
+    String Level
+    String Date
+    String Time
+    String SessionStatus
+    String NextSessionDiscount
+}
+
+class TutoringOffer {
+    String Tutor
+    String Subject
+    String Level
+    String HourlyPrice
+    String WeeklyAvailability
+}
+
+class TutoringRequest {
+    String Tutor
+    String Student
+    String Subject
+    String Level
+    String RequestedDate
+    String RequestedTime
+}
+
+Tutor "1..1" -- "0..*" TutoringOffer
+TutoringOffer "1..*" -- "1..*" TutoringSession
+TutoringSession "1..*" -- "1..*" TutoringRequest
+TutoringRequest "1..*" -- "1..*" Student
+Student "1..*" -- "1..*" Tutor
+Student "1..*" -- "0..*" TutoringSession
+TutoringSession "1..*" -- "1..*" TutoringOffer
+TutoringOffer "1..*" -- "1..*" TutoringRequest
+TutoringRequest "1..*" -- "1..*" TutoringSession
+TutoringSession "1..*" -- "1..*" TutoringOffer
+TutoringOffer "1..*" -- "1..*" TutoringRequest
+@enduml
+```

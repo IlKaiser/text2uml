@@ -1,31 +1,49 @@
 @startuml
-class Kinepolis{}
-class Cinema{}
-class Town{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Reservation{}
-class CreditCard{}
-class Customer{}
-class Offer{}
-class Ticket{}
-class Program{}
 
-Kinepolis "1..1" -- "0..*" Cinema
-Town "1..1" -- "1..*" Cinema
+class Cinema { 
+  String Town
+}
+
+class Theatre { 
+  int SeatCount
+}
+
+class Movie { 
+  String Title
+}
+
+class Copy { 
+  int CopyNumber
+}
+
+class Show { 
+  Date StartTime
+}
+
+class Reservation { 
+  Date ReservationTime
+}
+
+class CreditCard { 
+  String CardNumber
+}
+
+class Offer { 
+  Date Expiry
+}
+
+class Ticket { 
+  int SeatNumber
+}
+
 Cinema "1..1" -- "1..*" Theatre
-Theatre "1..1" -- "1..*" Show
-Cinema "1..1" -- "1..*" Copy
-Movie "1..1" -- "0..*" Copy
-Show "1..1" -- "1..1" Copy
+Cinema "1..1" -- "0..*" Copy
+Movie "1" -- "0..*" Copy
+Copy "1..1" -- "0..*" Show
+Theatre "1..1" -- "0..*" Show
 Show "1..1" -- "0..*" Reservation
 Reservation "1..1" -- "1..1" CreditCard
-Customer "1..1" -- "0..*" Reservation
-Reservation "1..1" -- "0..1" Offer
-Offer "1..1" -- "1..1" Show
-Program "1..1" -- "0..*" Show
+Show "1..1" -- "0..*" Offer
 Show "1..1" -- "0..*" Ticket
-Kinepolis "1..1" -- "0..*" Show
+
 @enduml

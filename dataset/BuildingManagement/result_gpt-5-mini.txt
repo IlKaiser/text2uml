@@ -1,49 +1,54 @@
 @startuml
 
-class WebPortal{}
-class Building{}
-class User{}
-class Administrator{}
-class Visitor{}
-class Entry{}
-class TextEntry{}
-class NumericEntry{}
-class Image{}
-class Comment{}
-class Register{}
-class ConfirmEmail{}
-class ActivateUser{}
-class Login{}
-class CreateBuilding{}
-class ManageEntries{}
-class CommentBuilding{}
-class SearchBuildings{}
-class UploadImage{}
-class DeleteComment{}
+class WebPortal{ String VersionNumber, String URL }
+class Building{ String ID, String Name, String EnergyClass, String Address, int YearOfConstruction }
+class Entry{ String Name, boolean ReleasedPublicly }
+class TextEntry{ String Content }
+class NumericEntry{ double Value, String Unit }
+class Image{ String FileName }
+class User{ String Username, String Email, String Password, boolean Activated }
+class Administrator{ String IDCardNumber }
+class Visitor{ String VisitorId }
+class Comment{ String Content, Date CreationDate }
+
+class Register{ String Name }
+class ConfirmEmail{ String Name }
+class Login{ String Name }
+class SearchBuildings{ String Name }
+class CreateBuilding{ String Name }
+class ManageEntries{ String Name }
+class AddTextEntry{ String Name }
+class AddNumericEntry{ String Name }
+class CommentOnBuilding{ String Name }
+class AdminManageUsers{ String Name }
 
 WebPortal "1..1" -- "0..*" Building
 WebPortal "1..1" -- "0..*" User
-Building "1..1" -- "1..*" Image
 Building "1..1" -- "0..*" Entry
+Building "1..1" -- "0..*" Image
 Building "1..1" -- "0..*" Comment
-Building "1..1" -- "1..1" User
-User "0..*" -- "0..*" Comment
-User "0..*" -- "0..*" Building
-Administrator "1..1" -- "1..1" User
-Visitor "0..1" -- "0..1" User
-Entry "0..1" -- "0..*" TextEntry
-Entry "0..1" -- "0..*" NumericEntry
-Image "1..1" -- "1..1" Building
+User "1..1" -- "0..*" Building
+User "1..1" -- "0..*" Comment
+Administrator "1..1" -- "0..*" User
+Administrator "1..1" -- "0..*" Comment
 
-Visitor "0..*" -- "1..1" Register
-Register "1..1" -- "1..1" ConfirmEmail
-ConfirmEmail "1..1" -- "1..1" ActivateUser
-Visitor "0..*" -- "0..*" SearchBuildings
-User "0..*" -- "0..*" Login
-User "0..*" -- "0..*" CreateBuilding
-User "0..*" -- "0..*" ManageEntries
-User "0..*" -- "0..*" CommentBuilding
-User "0..*" -- "0..*" UploadImage
-Administrator "0..*" -- "0..*" DeleteComment
+Visitor "1..1" -- "0..*" Register
+Register "1..1" -- "0..1" ConfirmEmail
+User "1..1" -- "0..*" Login
+Visitor "1..1" -- "0..*" SearchBuildings
+User "1..1" -- "0..*" CreateBuilding
+User "1..1" -- "0..*" ManageEntries
+User "1..1" -- "0..*" CommentOnBuilding
+Administrator "1..1" -- "0..*" AdminManageUsers
+
+ManageEntries "1..1" -- "0..*" AddTextEntry
+ManageEntries "1..1" -- "0..*" AddNumericEntry
+
+Entry <|-- TextEntry
+Entry <|-- NumericEntry
+Visitor <|-- User
+User <|-- Administrator
+ManageEntries <|-- AddTextEntry
+ManageEntries <|-- AddNumericEntry
 
 @enduml

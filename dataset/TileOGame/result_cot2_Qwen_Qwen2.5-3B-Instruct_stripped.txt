@@ -1,0 +1,111 @@
+Given the refined specification text, the necessary classes for the UML conceptual model diagram are:
+
+1. Game
+2. Designer
+3. Board
+4. Tile
+5. ConnectionPiece
+6. Player
+7. Die
+8. ActionCard
+9. Deck
+10. ActionTile
+
+Here is the UML conceptual model diagram represented in PlantUML format:
+
+```plantuml
+@startuml
+class Game {
+  +id: String
+  +name: String
+  +designer: Designer
+  +tiles: Tile[]
+  +board: Board
+  +hiddenTile: Tile
+  +startingPositions: Map<Player, Tile>
+  +actionTiles: ActionTile[]
+}
+
+class Designer {
+  +id: String
+  +name: String
+  +game: Game
+  +tiles: Tile[]
+  +board: Board
+  +hiddenTile: Tile
+  +startingPositions: Map<Player, Tile>
+  +actionTiles: ActionTile[]
+}
+
+class Board {
+  +id: String
+  +name: String
+  +tiles: Tile[]
+  +connections: ConnectionPiece[]
+  +hiddenTile: Tile
+  +startingPositions: Map<Player, Tile>
+}
+
+class Tile {
+  +id: String
+  +name: String
+  +connections: ConnectionPiece[]
+  +color: String
+  +visited: Boolean
+}
+
+class ConnectionPiece {
+  +id: String
+  +tile1: Tile
+  +tile2: Tile
+}
+
+class Player {
+  +id: String
+  +name: String
+  +game: Game
+  +die: Die
+  +deck: Deck
+  +actionCards: ActionCard[]
+  +actionTile: ActionTile
+}
+
+class Die {
+  +value: Int
+}
+
+class ActionCard {
+  +id: String
+  +description: String
+}
+
+class Deck {
+  +cards: ActionCard[]
+}
+
+class ActionTile {
+  +id: String
+  +description: String
+  +turns: Int
+}
+
+Game -- Designer: 1
+Designer -- Game: 1
+Board -- Designer: 1
+Designer -- Board: 1
+Tile -- Board: 1
+Board -- Tile: 1
+ConnectionPiece -- Tile: 1
+Tile -- ConnectionPiece: 1
+Player -- Die: 1
+Die -- Player: 1
+Player -- Deck: 1
+Deck -- Player: 1
+Player -- ActionCard: 1
+ActionCard -- Player: 1
+Player -- ActionTile: 1
+ActionTile -- Player: 1
+@enduml
+```
+
+This PlantUML code represents the UML conceptual model diagram with the identified classes and their relationships.

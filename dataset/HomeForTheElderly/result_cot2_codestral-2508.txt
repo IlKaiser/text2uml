@@ -1,40 +1,116 @@
 ```plantuml
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Inhabitant{}
-class Category{}
-class Stay{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Invoice{}
-class CreditNote{}
-class Suspension{}
-class Validation{}
-class Intake{}
-class Discount{}
+class Home {
+    name:String
+    address:String
+}
 
-Home "1..*" -- "0..*" Department
-Department "1..*" -- "0..*" Room
-Room "1..*" -- "0..*" Bed
-Bed "1..*" -- "1..1" Category
-Category "1..*" -- "0..*" Stay
-Inhabitant "1..*" -- "0..*" Stay
-Stay "1..*" -- "0..1" Registration
-Registration "1..*" -- "1..1" Assessment
-Assessment "1..*" -- "1..1" WaitingList
-WaitingList "1..*" -- "0..*" Proposal
-Proposal "1..*" -- "1..1" Validation
-Validation "1..*" -- "1..1" Intake
-Stay "1..*" -- "0..*" Invoice
-Invoice "1..*" -- "0..1" CreditNote
-Stay "1..*" -- "0..*" Suspension
-Stay "1..*" -- "0..*" Discount
+class Department {
+    name:String
+    numberOfRooms:Int
+}
+
+class Room {
+    roomNumber:String
+    numberOfBeds:Int
+}
+
+class Bed {
+    bedId:String
+    category:Category
+}
+
+class Inhabitant {
+    inhabitantId:String
+    name:String
+    registrationDate:Date
+}
+
+class Category {
+    categoryId:String
+    type:String
+    price:Float
+}
+
+class Stay {
+    stayId:String
+    startDate:Date
+    endDate:Date
+    category:Category
+    isSuspended:Boolean
+}
+
+class Registration {
+    registrationId:String
+    registrationDate:Date
+    basicData:String
+}
+
+class Assessment {
+    assessmentId:String
+    assessmentDate:Date
+    recommendedCategory:Category
+}
+
+class WaitingList {
+    position:Int
+    registrationDate:Date
+}
+
+class Proposal {
+    proposalId:String
+    proposalDate:Date
+    isAccepted:Boolean
+    isInvalidated:Boolean
+}
+
+class Invoice {
+    invoiceId:String
+    amount:Float
+    dueDate:Date
+    isPaid:Boolean
+}
+
+class CreditNote {
+    creditNoteId:String
+    amount:Float
+    issueDate:Date
+}
+
+class Discount {
+    discountId:String
+    percentage:Float
+    description:String
+}
+
+class Death {
+    deathId:String
+    deathDate:Date
+}
+
+class Move {
+    moveId:String
+    moveDate:Date
+}
+
+Department "0..*" -- "1..1" Home
+Room "0..*" -- "1..1" Department
+Bed "0..*" -- "1..1" Room
+Bed "1..1" -- "1..1" Category
+Stay "1..*" -- "1..1" Category
+Stay "1..*" -- "1..1" Inhabitant
+Registration "0..*" -- "1..1" Inhabitant
+Assessment "1..1" -- "1..1" Registration
+WaitingList "1..1" -- "1..1" Category
+WaitingList "1..*" -- "0..*" Inhabitant
+Proposal "1..*" -- "1..1" WaitingList
+Proposal "1..*" -- "1..1" Inhabitant
+Invoice "1..*" -- "1..1" Stay
+CreditNote "0..*" -- "1..1" Invoice
+Discount "0..*" -- "1..1" Stay
+Death "1..1" -- "1..1" Inhabitant
+Move "1..1" -- "1..1" Inhabitant
 
 @enduml
 ```

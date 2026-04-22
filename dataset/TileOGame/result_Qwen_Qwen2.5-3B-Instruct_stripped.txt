@@ -1,0 +1,37 @@
+@startuml
+
+class GameDesigner{
+    +String Name
+    +void DefineGame()
+    +void PlaceTiles()
+    +void DefineActionCards()
+}
+
+class Player{
+    +String Color
+    +void MovePiece()
+    +void TakeActionCard()
+}
+
+class Board{
+    +void ConnectTiles()
+    +void HideTile()
+    +void SetStartingPositions()
+}
+
+class Tile{
+    +void ConnectTo(Tile)
+    +void MarkAsVisited()
+}
+
+class ActionCard{
+    +void ExecuteInstructions()
+}
+
+GameDesigner "1" -- "1" Board : Design
+Board "1" -- "*" Tile : Connected
+Player "1..*" -- "1" Tile : Visited
+Player "1" -- "1" ActionCard : Action Card
+ActionCard "1" -- "1" Tile : Action Tile
+
+@enduml

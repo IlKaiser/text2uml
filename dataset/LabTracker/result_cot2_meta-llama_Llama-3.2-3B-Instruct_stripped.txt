@@ -1,0 +1,307 @@
+@startuml
+class Lab {
+    attribute address: String
+    attribute phone: String
+    attribute fee: Float
+    attribute business hours: Time
+    association Doctor --|> Requisition
+    association Doctor --|> Signature
+    association Doctor --|> Appointment
+    association Doctor --|> Sample
+    association Doctor --|> Report
+    association Doctor --|> Interval
+    association Doctor --|> Pattern
+    association Doctor --|> TestResult
+    association Doctor --|> RepetitionPattern
+    association Doctor --|> Business
+    association Doctor --|> Fee
+    association Doctor --|> Confirmation
+    association Doctor --|> Registration
+    association Doctor --|> Year
+    association Doctor --|> Day
+    association Doctor --|> Week
+    association Doctor --|> Time
+}
+
+class Doctor {
+    attribute practitioner number: String
+    attribute name: String
+    attribute date of birth: Date
+    attribute address: String
+    attribute phone number: String
+    attribute signature: Signature
+    attribute health number: HealthNumber
+    association Doctor --|> Requisition
+    association Doctor --|> Examination
+    association Doctor --|> Appointment
+    association Doctor --|> Sample
+    association Doctor --|> Report
+    association Doctor --|> Interval
+    association Doctor --|> Pattern
+    association Doctor --|> TestResult
+    association Doctor --|> RepetitionPattern
+    association Doctor --|> Business
+    association Doctor --|> Fee
+    association Doctor --|> Confirmation
+    association Doctor --|> Registration
+    association Doctor --|> Year
+    association Doctor --|> Day
+    association Doctor --|> Week
+    association Doctor --|> Time
+}
+
+class Requisition {
+    attribute date: Date
+    attribute patient information: Patient
+    attribute tests: Test
+    attribute interval: Interval
+    association Requisition --|> Doctor
+    association Requisition --|> Sample
+    association Requisition --|> Report
+    association Requisition --|> Business
+    association Requisition --|> Fee
+    association Requisition --|> Confirmation
+    association Requisition --|> Registration
+    association Requisition --|> Year
+    association Requisition --|> Day
+    association Requisition --|> Week
+    association Requisition --|> Time
+}
+
+class Test {
+    attribute duration: Float
+    attribute lab network: LabNetwork
+    attribute sample type: SampleType
+    attribute test type: TestType
+    attribute result: TestResult
+    association Test --|> Doctor
+    association Test --|> RepetitionPattern
+    association Test --|> Business
+    association Test --|> Fee
+    association Test --|> Confirmation
+    association Test --|> Registration
+    association Test --|> Year
+    association Test --|> Day
+    association Test --|> Week
+    association Test --|> Time
+}
+
+class Sample {
+    attribute sample type: SampleType
+    association Sample --|> Doctor
+    association Sample --|> Report
+}
+
+class Interval {
+    attribute interval: String
+    association Interval --|> Doctor
+    association Interval --|> RepetitionPattern
+}
+
+class Pattern {
+    attribute pattern: String
+    association Pattern --|> Doctor
+    association Pattern --|> TestResult
+}
+
+class Results {
+    attribute result: String
+    association Results --|> Doctor
+}
+
+class Business {
+    attribute fee: Float
+    attribute business hours: Time
+    association Business --|> Doctor
+    association Business --|> Fee
+    association Business --|> Confirmation
+    association Business --|> Registration
+    association Business --|> Year
+    association Business --|> Day
+    association Business --|> Week
+    association Business --|> Time
+}
+
+class Confirmation {
+    attribute confirmation number: String
+    attribute date: Date
+    attribute start/end times: Time
+    attribute name: String
+    attribute lab name: String
+    attribute registration number: String
+    association Confirmation --|> Doctor
+    association Confirmation --|> Requisition
+    association Confirmation --|> Business
+}
+
+class Registration {
+    attribute registration number: String
+    association Registration --|> Doctor
+    association Registration --|> Year
+    association Registration --|> Day
+    association Registration --|> Week
+    association Registration --|> Time
+}
+
+class Year {
+    attribute year: String
+    association Year --|> Doctor
+    association Year --|> Registration
+    association Year --|> Business
+    association Year --|> Confirmation
+    association Year --|> Day
+    association Year --|> Week
+    association Year --|> Time
+}
+
+class Day {
+    attribute start time: Time
+    attribute end time: Time
+    association Day --|> Doctor
+    association Day --|> Registration
+    association Day --|> Year
+    association Day --|> Week
+    association Day --|> Time
+}
+
+class Week {
+    attribute start time: Time
+    attribute end time: Time
+    association Week --|> Doctor
+    association Week --|> Registration
+    association Week --|> Confirmation
+    association Week --|> Business
+    association Week --|> Year
+    association Week --|> Day
+}
+
+class Time {
+    attribute start time: String
+    attribute end time: String
+    association Time --|> Doctor
+    association Time --|> Registration
+    association Time --|> Confirmation
+    association Time --|> Business
+    association Time --|> Year
+    association Time --|> Week
+    association Time --|> Day
+}
+
+class SampleType {
+    attribute sample type: String
+    association SampleType --|> Sample
+}
+
+class TestType {
+    attribute test type: String
+    association TestType --|> Test
+}
+
+class RepetitionPattern {
+    attribute repetition pattern: String
+    association RepetitionPattern --|> Test
+}
+
+class TestResult {
+    attribute result: String
+    association TestResult --|> Doctor
+    association TestResult --|> Pattern
+}
+
+class Business {
+    attribute fee: Float
+    attribute business hours: Time
+    association Business --|> Doctor
+    association Business --|> Fee
+    association Business --|> Confirmation
+    association Business --|> Registration
+    association Business --|> Year
+    association Business --|> Day
+    association Business --|> Week
+    association Business --|> Time
+}
+
+class Confirmation {
+    attribute confirmation number: String
+    attribute date: Date
+    attribute start/end times: Time
+    attribute name: String
+    attribute lab name: String
+    attribute registration number: String
+    association Confirmation --|> Doctor
+    association Confirmation --|> Requisition
+    association Confirmation --|> Business
+}
+
+class Registration {
+    attribute registration number: String
+    association Registration --|> Doctor
+    association Registration --|> Year
+    association Registration --|> Business
+    association Registration --|> Confirmation
+    association Registration --|> Day
+    association Registration --|> Week
+    association Registration --|> Time
+}
+
+class Year {
+    attribute year: String
+    association Year --|> Doctor
+    association Year --|> Registration
+    association Year --|> Business
+    association Year --|> Confirmation
+    association Year --|> Day
+    association Year --|> Week
+    association Year --|> Time
+}
+
+class Day {
+    attribute start time: Time
+    association Day --|> Doctor
+    association Day --|> Registration
+    association Day --|> Year
+    association Day --|> Business
+    association Day --|> Confirmation
+    association Day --|> Week
+    association Day --|> Time
+}
+
+class Week {
+    attribute start time: Time
+    association Week --|> Doctor
+    association Week --|> Registration
+    association Week --|> Confirmation
+    association Week --|> Business
+    association Week --|> Year
+    association Week --|> Day
+    association Week --|> Time
+}
+
+class Time {
+    attribute start time: String
+    attribute end time: String
+    association Time --|> Doctor
+    association Time --|> Registration
+    association Time --|> Confirmation
+    association Time --|> Business
+    association Time --|> Year
+    association Time --|> Week
+    association Time --|> Day
+}
+
+class SampleType {
+    attribute sample type: String
+    association SampleType --|> Sample
+}
+
+class TestType {
+    attribute test type: String
+    association TestType --|> Test
+}
+
+class RepetitionPattern {
+    attribute repetition pattern: String
+    association RepetitionPattern --|> Test
+}
+
+@enduml

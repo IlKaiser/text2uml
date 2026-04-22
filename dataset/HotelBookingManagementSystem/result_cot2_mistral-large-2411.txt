@@ -1,25 +1,70 @@
+```plantuml
 @startuml
-class Traveller{}
-class Booking{}
-class Hotel{}
-class Accommodation{}
-class Room{}
-class City{}
-class Offer{}
-class PreliminaryBooking{}
-class FinalizedBooking{}
 
-Traveller "1..*" -- "0..*" PreliminaryBooking
-PreliminaryBooking "1..*" -- "1..1" Hotel
-PreliminaryBooking "0..*" -- "0..*" Offer
-Traveller "1..*" -- "0..*" FinalizedBooking
-FinalizedBooking "1..*" -- "1..1" Hotel
-Hotel "1..*" -- "0..*" Room
-Hotel "1..*" -- "1..1" City
-City "0..*" -- "0..*" Hotel
-Room "1..*" -- "1..1" Accommodation
-Traveller "0..*" -- "0..*" Booking
-Booking "1..*" -- "1..1" Hotel
-FinalizedBooking "1..*" -- "1..1" Booking
-PreliminaryBooking "1..*" -- "1..1" Booking
+class BusinessTraveller {
+    name: String
+    billing information: String
+    travel preferences: String
+}
+class HBMS {}
+class Accommodation {}
+class Deal {}
+class Hotel {
+    address: String
+    city: String
+    hotel chain: String
+}
+class Registration {
+    name: String
+    billing information: String
+    travel preferences: String
+}
+class Booking {
+    price: Float
+    city area: String
+    hotel rating: Int
+    booking identifier: String
+    cancellation deadline: Date
+}
+class PreliminaryBooking {
+    price: Float
+    city area: String
+    hotel rating: Int
+    booking identifier: String
+}
+class Room {
+    type of rooms: String
+}
+class City {}
+class HotelChain {}
+class Offer {}
+class Payment {
+    credit card information: String
+}
+class Confirmation {}
+class Cancellation {}
+class ReliabilityRating {}
+class SpecialOffer {}
+
+BusinessTraveller "0..*" -- "1..1" Registration
+BusinessTraveller "0..*" -- "0..*" Booking
+BusinessTraveller "0..*" -- "0..*" PreliminaryBooking
+BusinessTraveller "0..1" -- "1..1" Payment
+Hotel "0..*" -- "0..*" Accommodation
+Hotel "1..1" -- "1..1" City
+Hotel "0..*" -- "0..1" HotelChain
+Hotel "0..*" -- "0..*" Room
+Hotel "0..*" -- "0..*" Deal
+Hotel "0..*" -- "0..*" SpecialOffer
+Hotel "0..*" -- "0..*" Confirmation
+Hotel "0..*" -- "0..*" Cancellation
+PreliminaryBooking "1..1" -- "0..5" SpecialOffer
+Booking "1..1" -- "1..1" Payment
+Booking "1..1" -- "0..1" Confirmation
+Booking "1..1" -- "0..1" Cancellation
+Registration "0..*" -- "0..1" ReliabilityRating
+
+PreliminaryBooking --|> Booking
+
 @enduml
+```

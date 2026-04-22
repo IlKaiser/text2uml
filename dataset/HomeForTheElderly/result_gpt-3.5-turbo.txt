@@ -1,40 +1,45 @@
-
+```plantuml
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Price{}
-class Stay{}
-class RegistrationProcess{}
-class Question{}
-class Data{}
-class AbilitiesAssessment{}
-class WaitingList{}
-class Proposal{}
-class Intake{}
-class Invoice{}
-class Payment{}
-class CreditNote{}
+class HomeForTheElderly
+class Department
+class Room
+class Bed
+class Category
+class Price
+class TypeOfStay
+class Inhabitant
+class RegistrationProcess
+class QuestionSet
+class Answer
+class AbilitiesAssessment
+class WaitingList
+class Proposal
+class Invoice
+class Payment
+class CreditNote
 
-Home "1..*" -- "1..*" Department
-Department "1..*" -- "1..*" Room
-Room "1..*" -- "1..*" Bed
-Bed "1..1" -- "1..1" Category
-Category "1..*" -- "1..1" Price
-Category "1..*" -- "1..*" Stay
-Stay "1..*" -- "1..1" RegistrationProcess
-RegistrationProcess "1..1" -- "1..1" Data
-RegistrationProcess "1..1" -- "1..1" AbilitiesAssessment
-AbilitiesAssessment "1..1" -- "1..1" Stay
-AbilitiesAssessment "1..1" -- "1..1" WaitingList
-WaitingList "1..*" -- "1..1" Proposal
-Proposal "1..1" -- "1..1" Intake
-Intake "1..1" -- "1..*" AbilitiesAssessment
-Stay "1..*" -- "1..*" Invoice
-Invoice "1..*" -- "1..*" Payment
-Invoice "1..1" -- "1..1" CreditNote
+HomeForTheElderly "1" -- "0..*" Department
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+Bed "1" -- "1" Category
+Category "1" -- "1" Price
+Category "1" -- "1" TypeOfStay
+Inhabitant "0..*" -- "0..*" TypeOfStay
+
+Inhabitant "1" -- "1" RegistrationProcess
+RegistrationProcess "1" -- "0..*" QuestionSet
+QuestionSet "1" -- "0..*" Answer
+Inhabitant "0..1" -- "1" AbilitiesAssessment
+AbilitiesAssessment "1" -- "0..*" TypeOfStay
+TypeOfStay "1" -- "0..*" WaitingList
+WaitingList "1" -- "0..*" Proposal
+Proposal "1" -- "0..1" Inhabitant
+Proposal "1" -- "0..1" TypeOfStay
+
+TypeOfStay "0..*" -- "1" Invoice
+Invoice "0..*" -- "1" Payment
+Payment "0..1" -- "1" CreditNote
 
 @enduml
+```  

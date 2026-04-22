@@ -1,26 +1,39 @@
 ```plantuml
 @startuml
-class HelpingHandsStore{}
-class Resident{}
-class Pickup{}
-class DeliveryService{}
-class Article{}
-class Vehicle{}
-class VolunteerDriver{}
-class DistributionCenter{}
-class Employee{}
-class Category{}
+class Resident {
+    name: String
+    streetAddress: String
+    phoneNumber: String
+    emailAddress: String
+    description: String
+}
+class Employee {
+    qualityExamination: Boolean
+    descriptionCorrection: String
+    categoryAssignment: String
+}
+class Client {
+    homeAddress: String
+    neededCategories: String
+}
+class Store
+class Item
+class PickupService
+class Vehicle
+class Driver
+class DistributionCenter
+class Article
+class Category
 
-HelpingHandsStore "0..*" -- "1..*" Resident
-HelpingHandsStore "0..*" -- "1..*" Pickup
-HelpingHandsStore "0..*" -- "0..*" DeliveryService
-HelpingHandsStore "0..*" -- "0..*" Article
-HelpingHandsStore "0..*" -- "1..1" DistributionCenter
-Pickup "1..*" -- "1..1" Vehicle
-Pickup "1..*" -- "1..1" VolunteerDriver
-DeliveryService "0..*" -- "0..*" Article
-DeliveryService "1..*" -- "1..1" VolunteerDriver
-Article "1..*" -- "1..1" Category
-DistributionCenter "1..*" -- "1..1" Employee
+Resident "1..*" -- "0..*" Item
+PickupService "1..*" -- "1..*" Resident
+PickupService "1..*" -- "1..*" Vehicle
+Vehicle "0..*" -- "0..*" Driver
+Driver "0..*" -- "1..*" PickupService
+PickupService "1..1" -- "1..1" DistributionCenter
+DistributionCenter "1..*" -- "1..*" Employee
+Employee "1..*" -- "1..*" Article
+Article "1..1" -- "1..1" Category
+Client "0..*" -- "0..*" Article
 @enduml
 ```

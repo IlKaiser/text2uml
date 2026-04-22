@@ -1,0 +1,51 @@
+@startuml
+
+class User {
+    String UserName
+    String Email
+    String Password
+}
+class Building {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    Int YearOfConstruction
+    User Owner
+}
+class Entry {
+    String Name
+    Float Value
+    String Unit
+    Boolean Public
+}
+class Image {
+    String FileName
+}
+class Portal {
+    String Version
+    String URL
+}
+class Comment {
+    String Text
+    User Author
+    Building Building
+}
+
+User "1" -- "0..1" Portal
+Building "1" -- "0..1" Portal
+Entry "1" -- "0..1" Building
+Image "1" -- "0..*" Building
+Portal "1" -- "0..1" User
+Portal "1" -- "0..1" Comment
+Comment "1" -- "0..1" Building
+
+User "1" -- "0..1" Comment
+Comment "1" -- "0..1" User
+User "1" -- "0..1" Building
+Building "1" -- "0..1" User
+Building "1" -- "0..1" Comment
+Comment "1" -- "0..1" Portal
+Portal "1" -- "0..1" Comment
+
+@enduml

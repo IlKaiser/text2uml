@@ -1,27 +1,71 @@
 ```plantuml
 @startuml
-class User{}
-class Account{}
-class Customer{}
-class Restaurant{}
-class Pizza{}
-class Order{}
-class EntertainmentOrder{}
-class Entertainer{}
-class DeliveryPerson{}
+
+class User {
+    birthday: Date
+    name: String
+    address: String
+}
+
+class Account {
+}
+
+class BusinessOwner {
+    LinkedIn: String
+}
+
+class PizzaRestaurant {
+    zip code: String
+    address: String
+    phone number: String
+    website: String
+    opening hours: String
+}
+
+class Pizza {
+    name: String
+    crust structure: String
+    price: Float
+}
+
+class Order {
+    ID: String
+    date and time: Date
+    latest time of delivery: Date
+    number of people: Int
+}
+
+class EntertainmentOrder {
+    type of entertainment: String
+    duration: Float
+}
+
+class Entertainer {
+    stage name: String
+    bio: String
+    price per 30 minutes: Float
+    availability by day: String
+}
+
+class DeliveryPerson {
+}
 
 User "1..1" -- "1..1" Account
-Account "1..1" -- "0..1" Customer
-Account "1..1" -- "0..1" Restaurant
-Account "1..1" -- "0..1" Entertainer
-Restaurant "1..1" -- "0..*" Pizza
-Customer "1..1" -- "0..*" Order
+Account "1..1" -- "0..1" BusinessOwner
+BusinessOwner "1..1" -- "0..*" PizzaRestaurant
+PizzaRestaurant "1..1" -- "0..*" Pizza
+PizzaRestaurant "1..1" -- "0..*" Entertainer
+User "1..1" -- "0..*" Order
 Order "1..1" -- "1..*" Pizza
 Order "1..1" -- "0..1" EntertainmentOrder
 EntertainmentOrder "1..1" -- "1..1" Entertainer
-Entertainer "1..1" -- "0..*" Restaurant
-Restaurant "1..1" -- "0..*" Entertainer
-Order "1..1" -- "1..1" DeliveryPerson
 EntertainmentOrder "1..1" -- "1..1" DeliveryPerson
+PizzaRestaurant "1..1" -- "1..*" DeliveryPerson
+
+EntertainmentOrder --|> Order
+BusinessOwner --|> User
+DeliveryPerson --|> User
+Entertainer --|> User
+
 @enduml
 ```

@@ -1,25 +1,44 @@
+```plantuml
 @startuml
 
-class Cinema {}
-class Theatre {}
-class Show {}
-class Movie {}
-class Copy {}
-class Program {}
-class Reservation {}
-class Seat {}
-class CreditCard {}
-class Ticket {}
+class Cinema {
+    String Name
+    String Location
+}
+class Theatre {
+    Int Number
+    Int SeatCapacity
+}
+class Show {
+    DateTime StartingTime
+    String Status
+}
+class MovieCopy {
+    String Title
+    String Location
+}
+class Reservation {
+    DateTime ReservationTime
+    DateTime CancellationTime
+    String Status
+}
+class Ticket {
+    String SeatNumber
+}
+class FreeTicket {
+    String CustomerName
+    String Address
+}
+class Customer {}
 
-Cinema "1" -- "0..*" Theatre
+Cinema "1" -- "1..*" Theatre
 Theatre "1" -- "0..*" Show
-Show "0..*" -- "1" Program
+Cinema "1" -- "0..*" MovieCopy
 Show "1" -- "0..*" Reservation
-Show "0..*" -- "1" Ticket
-Movie "0..*" -- "1" Copy
-Copy "1" -- "0..*" Cinema
-Seat "1" -- "0..*" Reservation
-Seat "0..*" -- "1" Ticket
-CreditCard "1" -- "0..*" Reservation
+Show "1" -- "0..*" Ticket
+Customer "1" -- "0..*" Reservation
+Reservation "1" -- "0..1" FreeTicket
+Theatre "1" -- "0..*" MovieCopy
 
 @enduml
+```

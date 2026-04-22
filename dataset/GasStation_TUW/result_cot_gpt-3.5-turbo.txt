@@ -1,17 +1,38 @@
 
 @startuml
+class GasStation {
+    ID: Int
+    address: String
+}
 
-class GasStation{}
-class FuelPump{}
-class Fuel{}
-class DailyPrice{}
-class FuelPurchase{}
+class FuelPump {
+    number: Int
+    selfService: Boolean
+}
+
+class Fuel {
+    name: String
+    octaneRating: Int
+}
+
+class DailyPrice {
+    date: Date
+    fuel: Fuel
+    gasStation: GasStation
+    pricePerLiter: Float
+}
+
+class FuelPurchase {
+    ID: Int
+    fuelPump: FuelPump
+    dailyPrice: DailyPrice
+    litersDispensed: Float
+}
 
 GasStation "1..*" -- "1..12" FuelPump
-FuelPump "1..*" -- "1..*" Fuel
-GasStation "1..*" -- "0..*" DailyPrice
-DailyPrice "1..1" -- "1..*" Fuel
-FuelPurchase "1..*" -- "1..1" FuelPump
-FuelPurchase "1..1" -- "1..1" DailyPrice
-
+FuelPump "1..*" -- Fuel
+GasStation "0..*" -- "0..*" DailyPrice
+FuelPump "0..*" -- "0..*" FuelPurchase
+DailyPrice "1..1" -- "1..1" Fuel
+FuelPurchase "1..1" -- "1..1" Fuel
 @enduml

@@ -1,16 +1,33 @@
 
 @startuml
 
-class Organizer {}
-class Attendee {}
-class Event {}
-class Location {}
-class Task {}
+class Organizer {
+    String FirstName
+    String LastName
+    String Email
+    String Address
+    String Phone
+    String Password
+    List<String> Events
+}
 
-Organizer "1..*" -- "0..*" Event
-Event "0..*" -- "1..*" Attendee
-Event "1" -- "0..*" Location
-Event "1" -- "0..*" Task
-Task "0..*" -- "1..*" Attendee
+class Event {
+    String Name
+    String Type
+    String Location
+    DateTime StartDate
+    DateTime EndDate
+}
+
+class Attendee {
+    String FirstName
+    String LastName
+    String Email
+    List<String> BringItems
+}
+
+Organizer "1" -- "0..*" Event
+Organizer "1" -- "0..*" Attendee
+Attendee "0..*" -- "0..*" Event
 
 @enduml

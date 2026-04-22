@@ -1,31 +1,61 @@
 @startuml
-class User{}
-class Player{}
-class GameAdmin{}
-class Game{}
-class Block{}
-class Level{}
-class HallOfFame{}
-class Score{}
-class Ball{}
-class Paddle{}
-class PlayArea{}
-class GridSystem{}
-class GameSession{}
-class SavedGame{}
+class User {
+  username: String
+  password: String
+}
 
-User "1..1" -- "0..1" GameAdmin
-User "1..1" -- "1..*" Player
-GameAdmin "1..1" -- "1..*" Game
-Game "1..1" -- "1..*" Level
+class Game {
+  name: String
+}
+
+class Admin {
+  password: String
+}
+
+class Player {
+  password: String
+}
+
+class Block {
+  color: String
+  points: Int
+}
+
+class Level {
+  number: Int
+  isRandom: Boolean
+}
+
+class HallOfFame {
+}
+
+class Ball {
+  speed: Float
+  direction: String
+}
+
+class Paddle {
+  length: Float
+}
+
+class PlayArea {
+}
+
+class Wall {
+}
+
+User "1..1" -- "0..1" Admin
+User "1..1" -- "1..1" Player
+Admin "1..1" -- "1..*" Game
 Game "1..1" -- "1..1" HallOfFame
-Level "1..1" -- "1..*" Block
-Level "1..1" -- "1..1" GridSystem
-GameSession "1..1" -- "1..1" Game
-GameSession "1..1" -- "1..1" Player
-GameSession "1..1" -- "0..*" SavedGame
-GameSession "1..1" -- "1..*" Score
+Game "1..1" -- "1..*" Level
+Game "1..1" -- "1..*" Block
+Level "1..1" -- "0..*" Block
+Game "1..1" -- "1..*" Player
+Player "1..1" -- "0..*" Game
 PlayArea "1..1" -- "1..1" Ball
 PlayArea "1..1" -- "1..1" Paddle
-HallOfFame "1..1" -- "1..*" Score
+PlayArea "1..1" -- "1..*" Wall
+Level "1..1" -- "1..1" PlayArea
+Player "1..1" -- "0..*" HallOfFame
 @enduml

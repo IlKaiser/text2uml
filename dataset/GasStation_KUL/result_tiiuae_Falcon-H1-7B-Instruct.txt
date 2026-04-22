@@ -1,0 +1,21 @@
+@startuml
+
+class OilCompany
+class GasStation{ String Location }
+class Pump{ String GasolineType, Float ReorderingLevel, Float CriticalLevel }
+class Customer{ String Name, String CreditCardNumber }
+class RefuelCard{ String CardNumber }
+class RefuelTurn{ Date Date, Float Amount }
+class Invoice{ Date Date, Float TotalAmount, Float Discount }
+class Payment{ Date Date, Float Amount }
+class DailyReport{ Date Date }
+
+GasStation "1" -- "*" Pump
+Pump "1" -- "*" RefuelTurn
+Customer "1" -- "*" RefuelCard
+RefuelCard "1" -- "*" RefuelTurn
+RefuelTurn "1" -- "*" Invoice
+Invoice "1" -- "*" Payment
+Pump "--|>" DailyReport
+
+@enduml

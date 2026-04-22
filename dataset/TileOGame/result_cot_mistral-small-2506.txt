@@ -1,29 +1,57 @@
 ```plantuml
 @startuml
 
-class Game{}
-class Board{}
-class Tile{}
-class ConnectionPiece{}
-class Player{}
-class PlayingPiece{}
-class Die{}
-class ActionCard{}
-class ActionTile{}
-class HiddenTile{}
-class StartingPosition{}
+class Player {
+  color: String
+}
 
-Game "1..1" -- "1..1" Board
-Game "1..1" -- "2..4" Player
-Board "1..*" -- "1..1" Tile
-Board "1..*" -- "1..1" ConnectionPiece
-Board "1..1" -- "2..4" StartingPosition
-Tile "0..4" -- "1..1" ConnectionPiece
-Player "1..1" -- "1..1" PlayingPiece
-Game "1..1" -- "1..1" Die
-Game "1..1" -- "32..32" ActionCard
-Game "1..*" -- "0..*" ActionTile
-Game "1..1" -- "1..1" HiddenTile
+class Tile {
+  color: String
+}
+
+class Board {
+  hiddenTile: Tile
+  startingPositions: StartingPosition[]
+}
+
+class PlayingPiece {
+  color: String
+}
+
+class ActionCard {
+  actionType: String
+}
+
+class Die {
+}
+
+class ConnectionPiece {
+}
+
+class StartingPosition {
+}
+
+class HiddenTile {
+}
+
+class ActionTile {
+}
+
+Game "1..1" -- "2..4" Player.
+Game "1..1" -- "1..1" Board.
+Board "1..*" -- "1..*" Tile.
+Board "1..32" -- "1..*" ConnectionPiece.
+Tile "0..4" -- "1..1" ConnectionPiece.
+Player "1..1" -- "1..1" PlayingPiece.
+Board "1..1" -- "1..1" HiddenTile.
+Board "1..4" -- "1..1" StartingPosition.
+Board "0..*" -- "1..1" ActionTile.
+Player "1..1" -- "32..32" ActionCard.
+Player "1..1" -- "1..1" Die.
+
+HiddenTile --|> Tile
+ActionTile --|> Tile
+StartingPosition --|> Tile
 
 @enduml
 ```

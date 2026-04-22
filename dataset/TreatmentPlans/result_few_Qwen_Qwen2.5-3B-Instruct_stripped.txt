@@ -1,0 +1,31 @@
+@startuml
+
+class Hospital {
+    String Name
+    Set<ExamType> AllowedExams
+}
+class ExamType {
+    String Type
+}
+class TreatmentPlan {
+    Map<String, List<ExamType>> ProblemToExams
+}
+class Doctor {
+    String Name
+}
+class Patient {
+    String Name
+    String Problem
+}
+class ActualTreatment {
+    Map<ExamType, Boolean> ExamPermitted
+    Map<ExamType, String> ExamPerformed
+    Map<String, MedicalAction> AdditionalActions
+}
+
+Hospital "1" -- "0..*" TreatmentPlan
+Hospital "1" -- "0..*" Doctor
+Doctor "1" -- "0..*" Patient
+Patient "1" -- "0..1" ActualTreatment
+
+@enduml

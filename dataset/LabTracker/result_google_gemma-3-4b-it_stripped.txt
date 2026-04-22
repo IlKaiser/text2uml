@@ -1,0 +1,65 @@
+@startuml
+class Doctor {
+    String PractitionerNumber
+    String Signature
+    String FirstName
+    String LastName
+    String Address
+    String PhoneNumber
+    Date ValidFrom
+}
+
+class Patient {
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+
+class Test {
+    String Name
+    int Duration
+}
+
+class Requisition {
+    int RequisitionId
+    Doctor Doctor
+    Patient Patient
+    Date ValidFrom
+    int RepeatCount
+    String Interval
+}
+
+class Result {
+    String TestName
+    String Result
+    String Report
+}
+
+class Appointment {
+    int AppointmentId
+    Patient Patient
+    Lab Lab
+    Date Date
+    Time StartTime
+    Time EndTime
+    String ConfirmationNumber
+}
+
+class Lab {
+    String RegistrationNumber
+    String Address
+    String BusinessHours
+    int Fee
+}
+
+Requisition "1" -- "*" Test : contains
+Requisition "1" -- "1" Patient : for
+Requisition "1" -- "1" Doctor : created by
+Appointment "1" -- "1" Patient : for
+Appointment "1" -- "1" Lab : at
+Result "*" -- "1" Test : relates to
+
+@enduml

@@ -1,36 +1,84 @@
 ```plantuml
 @startuml
-class Employee{}
-class FilmSet{}
-class CreativeEmployee{}
-class Director{}
-class Actor{}
-class Education{}
-class DirectorAssistant{}
-class OscarWinner{}
-class Technician{}
-class FieldOfActivity{}
-class Film{}
-class Genre{}
-class Screenwriter{}
-class Screenplay{}
-class Novel{}
-class Author{}
+class Employee {
+    name: String
+    socialSecurityNumber: String
+}
 
-Employee "0..*" -- "0..*" FilmSet
-CreativeEmployee "1..*" -- "0..*" FilmSet
-Director "1..1" -- "0..1" DirectorAssistant
-Actor "1..*" -- "0..*" Film
-Director "1..1" -- "0..*" Film
-OscarWinner "0..*" -- "0..*" Actor
-OscarWinner "0..*" -- "0..*" Director
-Technician "1..*" -- "0..1" FieldOfActivity
-FilmSet "0..*" -- "0..*" Film
-Film "0..*" -- "1..1" Genre
-Screenwriter "1..*" -- "0..*" Screenplay
-Screenplay "1..1" -- "1..1" Film
-Screenplay "1..*" -- "0..1" Novel
-Novel "1..1" -- "1..1" Author
-Actor "1..*" -- "0..*" Screenplay
+class CreativeEmployee {
+}
+
+class Director {
+    hasOscar: Boolean
+}
+
+class Actor {
+    education: String
+    hasOscar: Boolean
+}
+
+class Education {
+}
+
+class DirectorAssistant {
+    name: String
+}
+
+class OscarWinner {
+}
+
+class Technician {
+    fieldOfActivity: String
+}
+
+class FieldOfActivity {
+}
+
+class Film {
+    title: String
+    yearOfRelease: Int
+}
+
+class Genre {
+}
+
+class Screenwriter {
+    name: String
+    mostSuccessfulFilm: String
+}
+
+class Screenplay {
+    title: String
+    version: String
+    date: Date
+    numberOfScenes: Int
+    plot: String
+}
+
+class Novel {
+    title: String
+    author: String
+}
+
+class Author {
+}
+
+1..* Employee -- 0..* FilmSet
+0..* CreativeEmployee -- 0..* FilmSet
+0..* DirectorAssistant -- 0..1 Director
+0..* OscarWinner -- 0..* CreativeEmployee
+1..* Technician -- 0..* FilmSet
+1..1 FilmSet -- 0..* Film
+1..* Film -- 1..* Genre
+1..* Screenwriter -- 0..* Screenplay
+1..1 Screenplay -- 0..1 Novel
+1..1 Screenplay -- 0..1 Film
+0..* Actor -- 0..* Screenplay
+1..1 Director -- 0..* Screenplay
+
+CreativeEmployee --|> Employee
+Director --|> CreativeEmployee
+Actor --|> CreativeEmployee
+OscarWinner --|> CreativeEmployee
 @enduml
 ```

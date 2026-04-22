@@ -1,25 +1,41 @@
-
+```plantuml
 @startuml
 
-class Game{}
-class Player{}
-class Deck{}
-class Card{}
-class ScoringTable{}
-class Round{}
-class Solo{}
-class SoloPlayer{}
+class Game
+class Player
+class Deck
+class Card
+class ComparisonMethod
+class ScoringTable
+class Round
+class SoloRound
+class MandatorySoloRound
+class Solo
+class SoloPlayer
 
-Game "1..1" -- "4..4" Player
-Game "1..1" -- "1..1" Deck
-Game "1..1" -- "1..1" ScoringTable
+Game
+Player
+Deck
+Card
+ComparisonMethod
+ScoringTable
+Round
+SoloRound
+MandatorySoloRound
+Solo
+SoloPlayer
 
-Deck "1..1" -- "0..48" Card
-
-ScoringTable "1..*" -- "0..*" Round
-
-Round "1..1" -- "1..*" Player
-Round "1..1" -- "1..1" Solo
-Round "1..1" -- "1..1" SoloPlayer
+Game "1" -- "4" Player
+Game "1" -- "1" Deck
+Game "1" -- "1" ScoringTable
+Deck "1" -- "*" Card
+Card "1" -- "1" ComparisonMethod
+ScoringTable "1" -- "*" Round
+ScoringTable "1" -- "*" SoloRound
+Round "0..*" -- "0..*" Player
+Round "1" -- "1" SoloRound
+SoloRound "0..*" -- "1" SoloPlayer
+SoloRound <|-- MandatorySoloRound
 
 @enduml
+```

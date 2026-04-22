@@ -1,21 +1,31 @@
 ```plantuml
 @startuml
-class Hospital{}
-class Doctor{}
-class Patient{}
-class Examination{}
-class TreatmentPlan{}
-class Problem{}
-class ActualTreatment{}
+class Hospital {
+}
+class Doctor {
+}
+class Patient {
+}
+class Examination {
+    type: String
+}
+class TreatmentPlan {
+    advisedExaminations: String
+}
+class Problem {
+}
+class ActualTreatment {
+}
 
-Hospital "1..*" -- "0..*" Doctor
-Hospital "1..*" -- "0..*" Examination
-Hospital "1..*" -- "0..*" TreatmentPlan
-Doctor "1..*" -- "0..*" Patient
-Doctor "1..*" -- "1..*" Problem
-Patient "0..*" -- "0..*" Examination
-Patient "0..*" -- "0..*" TreatmentPlan
-Problem "1..*" -- "0..*" TreatmentPlan
-TreatmentPlan "1..*" -- "0..*" ActualTreatment
+Hospital "1..*" -- "0..*" Doctor.
+Hospital "1..*" -- "0..*" Patient.
+Hospital "0..*" -- "0..*" Examination.
+Doctor "1..*" -- "1..*" Patient.
+Doctor "0..*" -- "0..*" Examination.
+Patient "1..*" -- "1..1" Problem.
+Problem "1..1" -- "1..1" TreatmentPlan.
+TreatmentPlan "1..*" -- "0..*" Examination.
+Patient "1..1" -- "0..*" ActualTreatment.
+Doctor "1..1" -- "0..*" ActualTreatment.
 @enduml
 ```

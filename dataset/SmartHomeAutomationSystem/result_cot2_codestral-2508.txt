@@ -1,48 +1,151 @@
 ```plantuml
 @startuml
+class SmartHomeAutomationSystem {
+  name: String
+}
 
-class SmartHomeAutomationSystem{}
-class User{}
-class SmartHome{}
-class Room{}
-class SensorDevice{}
-class ActuatorDevice{}
-class DeviceType{}
-class DeviceIdentifier{}
-class InfrastructureMap{}
-class SensorReading{}
-class ControlCommand{}
-class ActivityLog{}
-class Alert{}
-class Owner{}
-class AutomationRule{}
-class BooleanExpression{}
-class RelationalTerm{}
-class BasicBooleanOperator{}
-class Action{}
+class User {
+  userId: String
+  name: String
+}
 
-SmartHomeAutomationSystem "0..*" -- "1..1" InfrastructureMap
-SmartHomeAutomationSystem "1..1" -- "0..*" User
-SmartHomeAutomationSystem "1..1" -- "0..*" SmartHome
-SmartHomeAutomationSystem "1..1" -- "0..*" ActivityLog
-SmartHomeAutomationSystem "1..1" -- "0..*" Alert
-SmartHomeAutomationSystem "1..1" -- "0..*" AutomationRule
-SmartHome "1..*" -- "0..*" Room
-Room "1..*" -- "0..*" SensorDevice
-Room "1..*" -- "0..*" ActuatorDevice
+class SmartHome {
+  homeId: String
+  name: String
+}
+
+class PhysicalAddress {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+}
+
+class Room {
+  roomId: String
+  name: String
+  type: String
+}
+
+class SensorDevice {
+  deviceId: String
+  type: String
+  status: Boolean
+}
+
+class ActuatorDevice {
+  deviceId: String
+  type: String
+  status: Boolean
+}
+
+class DeviceIdentifier {
+  id: String
+}
+
+class InfrastructureMap {
+  lastUpdated: Date
+}
+
+class SensorReading {
+  readingId: String
+  value: Float
+  timestamp: Date
+}
+
+class MeasuredValue {
+  value: Float
+  unit: String
+}
+
+class Timestamp {
+  time: Date
+}
+
+class ControlCommand {
+  commandId: String
+  command: String
+  timestamp: Date
+  status: String
+}
+
+class Status {
+  state: String
+}
+
+class ActivityLog {
+  logId: String
+  timestamp: Date
+}
+
+class Alert {
+  alertId: String
+  message: String
+  timestamp: Date
+}
+
+class AutomationRule {
+  ruleId: String
+  name: String
+  status: Boolean
+}
+
+class Precondition {
+  expression: String
+}
+
+class BooleanExpression {
+  expression: String
+}
+
+class RelationalTerm {
+  term: String
+}
+
+class BasicBooleanOperator {
+  operator: String
+}
+
+class Action {
+  actionId: String
+  commandSequence: String
+}
+
+class Owner {
+  ownerId: String
+  name: String
+}
+
+class RuleHierarchy {
+  hierarchyId: String
+}
+
+User "0..*" -- "1..1" SmartHomeAutomationSystem
+SmartHome "1..1" -- "1..1" PhysicalAddress
+SmartHome "1..1" -- "0..*" Room
+Room "0..*" -- "0..*" SensorDevice
+Room "0..*" -- "0..*" ActuatorDevice
 SensorDevice "1..1" -- "1..1" DeviceIdentifier
 ActuatorDevice "1..1" -- "1..1" DeviceIdentifier
-SensorDevice "1..*" -- "0..*" SensorReading
-ActuatorDevice "1..*" -- "0..*" ControlCommand
-AutomationRule "1..1" -- "1..1" BooleanExpression
+SensorDevice "0..*" -- "0..*" SensorReading
+ActuatorDevice "0..*" -- "0..*" ControlCommand
+SensorReading "1..*" -- "1..1" MeasuredValue
+SensorReading "1..*" -- "1..1" Timestamp
+ControlCommand "1..*" -- "1..1" Timestamp
+ControlCommand "1..*" -- "1..1" Status
+SmartHomeAutomationSystem "1..1" -- "1..1" ActivityLog
+ActivityLog "1..1" -- "0..*" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+SmartHome "1..1" -- "0..*" Alert
+Owner "1..1" -- "0..*" Alert
+Owner "1..1" -- "0..*" AutomationRule
+AutomationRule "1..1" -- "1..1" Precondition
 AutomationRule "1..1" -- "1..1" Action
-BooleanExpression "1..*" -- "0..*" RelationalTerm
-BooleanExpression "1..*" -- "0..*" BasicBooleanOperator
-ActivityLog "1..*" -- "0..*" SensorReading
-ActivityLog "1..*" -- "0..*" ControlCommand
-Owner "1..1" -- "1..1" User
-Owner "1..*" -- "0..*" Alert
-Owner "1..*" -- "0..*" AutomationRule
-
+Precondition "1..1" -- "1..*" BooleanExpression
+BooleanExpression "1..1" -- "0..*" RelationalTerm
+BooleanExpression "1..1" -- "0..*" BasicBooleanOperator
+Action "1..1" -- "0..*" ControlCommand
+AutomationRule "1..1" -- "1..1" RuleHierarchy
+Owner --|> User
 @enduml
 ```

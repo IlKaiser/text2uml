@@ -1,0 +1,29 @@
+
+@startuml
+
+class BusDriver {
+    String Name
+    String ID
+    Boolean isSickLeave
+}
+class Bus {
+    String LicencePlate
+    Boolean isInRepairShop
+}
+class BusRoute {
+    String RouteNumber
+}
+class Shift {
+    String ShiftType
+}
+class Schedule {}
+class Assignment {}
+
+BusDriver "1" -- "0..*" Schedule
+Shift "1" -- "0..*" Schedule
+Bus "1" -- "0..*" Assignment
+BusRoute "1" -- "0..*" Assignment
+BusRoute "1" -- "0..*" Schedule
+(BusDriver, Bus) .. Assignment
+
+@enduml

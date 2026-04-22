@@ -1,0 +1,57 @@
+```plantuml
+@startuml
+
+class Museum {
+}
+
+class Location {
+}
+
+class Exhibition {
+  coordinator: Employee
+}
+
+class Employee {
+}
+
+class Coordinator {
+}
+
+class ExhibitionItem {
+  desiredItem: String
+  sourcedPiece: Piece
+  requestedPieces: List[Piece]
+  collectors: List[Collector]
+}
+
+class Piece {
+}
+
+class Collector {
+}
+
+class JuniorEmployee {
+}
+
+class SeniorEmployee {
+}
+
+class CoachingRelationship {
+  juniorEmployee: JuniorEmployee
+  seniorEmployee: SeniorEmployee
+}
+
+Museum "1..*" -- "0..*" Location
+Location "1..*" -- "0..*" Exhibition
+Exhibition "1..1" -- "1..1" Employee
+Exhibition "1..1" -- "0..*" ExhibitionItem
+ExhibitionItem "1..1" -- "0..*" Piece
+Piece "1..1" -- "1..1" Collector
+JuniorEmployee "1..1" -- "1..1" CoachingRelationship
+SeniorEmployee "1..1" -- "1..*" CoachingRelationship
+
+JuniorEmployee --|> Employee
+SeniorEmployee --|> Employee
+
+@enduml
+```

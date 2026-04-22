@@ -1,0 +1,76 @@
+```plantuml
+@startuml
+
+class Person {
+  PersonID: String
+  PhoneNumber: String
+  ResearchTopic: String
+  InstitutionCode: String
+}
+
+class ResearchInstitution {
+  InstitutionCode: String
+}
+
+class ScientificArticle {
+  DOI: String
+  ArticleTitle: String
+}
+
+class PeerReviewedPaper {
+  CitationCount: Int
+}
+
+class TechnicalReport {
+  InstitutionCode: String
+}
+
+class Publisher {
+  Name: String
+}
+
+class Journal {
+  Name: String
+  ImpactFactor: Float
+}
+
+class DOI {}
+
+class PersonID {}
+
+class InstitutionCode {}
+
+class PhoneNumber {}
+
+class ResearchTopic {}
+
+class Author {}
+
+class Reviewer {}
+
+class CitationCount {}
+
+class ImpactFactor {}
+
+class ArticleTitle {}
+
+class AuthorPosition {}
+
+class JournalName {}
+
+Person "0..*" -- "0..1" ResearchInstitution
+Person "1..1" -- "0..1" ScientificArticle
+Person "0..*" -- "0..1" PeerReviewedPaper
+ScientificArticle "1..1" -- "1..*" Author
+PeerReviewedPaper "1..1" -- "0..*" Reviewer
+PeerReviewedPaper "1..1" -- "1..1" CitationCount
+TechnicalReport "1..1" -- "1..1" ResearchInstitution
+Publisher "1..*" -- "0..*" Journal
+Journal "1..1" -- "1..1" ImpactFactor
+PeerReviewedPaper "1..1" -- "0..1" Journal
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
+
+@enduml
+```

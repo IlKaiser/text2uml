@@ -1,0 +1,37 @@
+Here is the UML output based on the provided specification text:
+
+@startuml
+
+class Driver {
+    String FirstName
+    String LastName
+    String Address
+}
+class Vehicle {
+    String VehicleNumber
+    String Type
+    String Weight
+    String Seats
+}
+class Order {
+    String Origin
+    String Destination
+    Date DateOfExecution
+    Driver Driver
+}
+class VehicleAssignment {
+    Vehicle Vehicle
+    Driver Driver
+}
+class OrderManagement {
+    String Status
+}
+
+Driver "1..*" -- "0..*" Vehicle
+Vehicle "1..*" -- "0..*" Order
+Vehicle "1..*" -- "0..*" VehicleAssignment
+Order "1" -- "0..*" OrderManagement
+VehicleAssignment "1" -- "0..*" OrderManagement
+Driver "1" -- "0..1" VehicleAssignment
+
+@enduml

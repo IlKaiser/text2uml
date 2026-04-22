@@ -1,28 +1,21 @@
-```plantuml
 @startuml
 
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class TestGroup{}
-class Appointment{}
-class Lab{}
-class Result{}
-class Report{}
-class Confirmation{}
+class Doctor{ String PractitionerNumber, String Signature, String FullName, String Address, String PhoneNumber }
+class Patient{ String HealthNumber, String FirstName, String LastName, Date DateOfBirth, String Address, String PhoneNumber }
+class Requisition{ Date ValidFrom, Boolean IsRepeated, String RepetitionInterval, int RepetitionNumber }
+class Test{ String TestType, int Duration }
+class TestGroup{ String GroupName }
+class Appointment{ String ConfirmationNumber, Date Date, Time StartTime, Time EndTime, Boolean IsCancelled, Boolean IsChanged, float ChangeCancellationFee }
+class Lab{ String Address, Time StartTime, Time EndTime, float ChangeCancellationFee, String RegistrationNumber }
+class Result{ String ResultType, String Report }
 
-Doctor "1" -- "1..*" Requisition
-Patient "1" -- "1..*" Requisition
-Patient "1" -- "1..*" Appointment
-Requisition "1" -- "1..*" Test
-Test "1..*" -- "1" TestGroup
-Requisition "1" -- "0..1" Confirmation
-Appointment "1" -- "1" Confirmation
-Lab "1..*" -- "1..*" Appointment
-Lab "1..*" -- "1..*" Requisition
-Test "1" -- "1" Result
-Test "1" -- "1" Report
+Doctor "1..1" -- "1..*" Requisition
+Patient "1..1" -- "1..*" Requisition
+Requisition "1..*" -- "1..*" Test
+Test "1..*" -- "1..1" TestGroup
+Requisition "1..1" -- "0..1" Appointment
+Patient "1..1" -- "1..*" Appointment
+Lab "1..1" -- "1..*" Appointment
+Test "1..*" -- "1..*" Result
 
 @enduml
-```

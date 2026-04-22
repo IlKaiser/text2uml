@@ -1,0 +1,93 @@
+@startuml
+
+class Kinepolis {
+    String Name
+}
+class Cinema {
+    String Town
+    String Address
+}
+class Theatre {
+    String Name
+    Int SeatCapacity
+}
+class Movie {
+    String Title
+    Int DurationMinutes
+}
+class MovieCopy {
+    String CopyId
+    Date AcquisitionDate
+}
+class Program {
+    Date PublishDate
+    Date WeekStartDate
+    Date WeekEndDate
+}
+class Show {
+    DateTime StartTime
+    String Status
+    Boolean Published
+}
+class Seat {
+    String SeatNumber
+    String Row
+}
+class Customer {
+    String Name
+    String Email
+    String Address
+}
+class CreditCard {
+    String CardNumber
+    Date ExpirationDate
+    String CardHolderName
+}
+class Reservation {
+    DateTime ReservationTime
+    String Status
+    DateTime CancelDeadline
+}
+class Payment {
+    Double Amount
+    DateTime AuthorizedAt
+    DateTime DebitedAt
+    String Status
+}
+class Offer {
+    DateTime OfferTime
+    DateTime ExpirationTime
+    String Status
+}
+class Ticket {
+    String TicketNumber
+    DateTime IssueTime
+    String SeatNumber
+    Boolean Anonymous
+    Boolean Refundable
+}
+
+Kinepolis "1..1" -- "0..*" Cinema
+Cinema "1..1" -- "0..*" Theatre
+Cinema "1..1" -- "0..*" MovieCopy
+Movie "1..1" -- "0..*" MovieCopy
+Theatre "1..1" -- "0..*" Seat
+Theatre "1..1" -- "0..*" Show
+Movie "1..1" -- "0..*" Show
+MovieCopy "1..1" -- "0..*" Show
+Cinema "1..1" -- "0..*" Program
+Program "1..1" -- "0..*" Show
+Show "1..1" -- "0..*" Reservation
+Customer "1..1" -- "0..*" Reservation
+Reservation "1..1" -- "1..1" Seat
+Reservation "1..1" -- "1..1" Payment
+Customer "1..1" -- "0..*" CreditCard
+CreditCard "1..1" -- "0..*" Payment
+Show "1..1" -- "0..*" Ticket
+Ticket "1..1" -- "1..1" Seat
+Customer "0..1" -- "0..*" Ticket
+Reservation "1..1" -- "0..*" Offer
+Offer "1..1" -- "0..1" Reservation
+Offer "1..1" -- "0..1" Ticket
+
+@enduml

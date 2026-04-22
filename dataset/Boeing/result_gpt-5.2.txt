@@ -1,0 +1,15 @@
+@startuml
+
+class Boeing{ String Name }
+class AirlineCompany{ String Name }
+class Contract{ String ContractNumber, Date StartDate, Date EndDate, String DeliveryConditions, String LegalAspects }
+class Acquisition{ String AcquisitionNumber, String AirplaneModel, Decimal NegotiatedPrice, String OptionsAndCustomizations, Date DeliveryDate }
+class Employee{ String EmployeeId, String FullName, String Role }
+
+Boeing "0..*" -- "0..*" AirlineCompany
+AirlineCompany "1..1" -- "0..*" Contract
+Contract "1..1" -- "1..*" Acquisition
+Employee "0..*" -- "1..1" Contract
+AirlineCompany "0..*" -- "0..*" AirlineCompany
+
+@enduml

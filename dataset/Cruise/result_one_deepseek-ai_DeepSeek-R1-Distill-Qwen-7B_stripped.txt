@@ -1,0 +1,208 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the entities and their relationships.
+
+First, I'll identify the main classes. From the text, I can see mentions of Cruise, Provider, Guest, Ticket, and Agency. There's also a mention of Ship, DestinationArea, Show, and maybe others like Book or Page, but I don't see those here. So, I'll focus on the ones mentioned.
+
+Next, I'll extract the attributes for each class. For example, the Provider has a name and location. The Cruise has a number, name, start and end dates, and requires many Employees. Each Guest has a name and a VIP status, and can participate in multiple Cruises. Tickets are issued per Cruise and belong to exactly one Cruise, with a Guest list. The Agency has a name and address. The Ship has details like number of decks, length, passengers, and can be used in different Cruises. DestinationArea has a name and sea name, and Cruises go there. Shows have titles and durations, offered on Cruises.
+
+Now, I'll determine the relationships between these classes. A Cruise is organized by a Provider, so Provider is a parent class with a 1:1 relationship. A Cruise requires Employees, so that's a many-to-many relationship. Guests participate in Cruises, another many-to-many. Tickets are issued for Cruises and belong to Guests, so that's a many-to-many relationship as well. The Agency books Cruises, so Agency and Cruise have a 1:1 relationship. Ships can be used for multiple Cruises, another 1:1. DestinationAreas are where Cruises go, so a many-to-many relationship. Shows are offered on Cruises, so a 1:many relationship. Guests can have multiple Tickets, but each Ticket is for one Guest, so that's a 1:1 relationship. The Ship has a list of Guests, so that's a 1:many relationship.
+
+I need to represent these in PlantUML syntax. I'll start by listing all the classes with their attributes. Then, I'll draw the relationships with the appropriate cardinalities. For example, Provider "1:1" -- "many" Guest, since a Provider has one Cruise but can have many Guests. Similarly, Guests "1:many" -- "1:1" Tickets.
+
+I should make sure to use bi-directional arcs for relationships unless specified otherwise. Since the specification doesn't mention specific cardinalities beyond what's implied, I'll use defaults where possible. For example, between Agency and Cruise, it's a direct 1:1 relationship, so I'll use "1:1".
+
+I think I've covered all the entities and their relationships. Now, I'll structure the PlantUML code accordingly, ensuring that each class is defined with its attributes and relationships are correctly represented.
+</think>
+
+```
+@startuml
+
+class Provider {
+    String Name
+    String Location
+}
+
+class Cruise {
+    Integer Number
+    String Name
+    Date StartDate
+    Date EndDate
+    Many Employees
+}
+
+class Guest {
+    String Name
+    Boolean VIP
+}
+
+class Ticket {
+    String GuestList
+    String BookingNumber
+    String BookingDate
+}
+
+class Agency {
+    String Name
+    String Address
+}
+
+class Ship {
+    Integer NumberOfDecks
+    Integer Length
+    Integer NumberOfPassengers
+    Many Guests
+}
+
+class DestinationArea {
+    String Name
+    String SeaName
+}
+
+class Show {
+    String Title
+    Integer Duration
+}
+
+Cruise "1:1" -- "many" Provider
+Cruise "1:many" -- "1:1" Guest
+Cruise "1:many" -- "many" Ticket
+Cruise "1:many" -- "many" Guest
+Agency "1:1" -- "1:1" Cruise
+Ship "1:1" -- "many" Cruise
+DestinationArea "many" -- "many" Cruise
+DestinationArea "1:1" -- "many" Show
+Cruise "1:many" -- "1:1" Show
+Guest "1" -- "1" Ticket
+
+@enduml
+```

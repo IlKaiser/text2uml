@@ -1,19 +1,30 @@
 @startuml
 
-class Patient{}
-class Doctor{}
-class Illness{}
-class Treatment{}
-class Diagnosis{}
-class ConsentForm{}
-class PriorityScore{}
+class HospitalHouseMD { String Name }
 
-Patient "1..*" -- Doctor
-Diagnosis "1" -- "1" Patient
+class Patient { String Name, String PatientID }
+
+class Doctor { String Name, String Specialty }
+
+class HeadDoctor { String Title }
+
+class Illness { String Name, String PriorityScore }
+
+class Treatment { String Name, String Stage }
+
+class Diagnosis { String Findings }
+
+class Consent { Date ConsentDate }
+
+HeadDoctor --|> Doctor
+
+HospitalHouseMD "1" -- "0..*" Patient
+Patient "1" -- "0..*" Diagnosis
 Diagnosis "1" -- "1" Illness
-Diagnosis "1" -- "1" Doctor
+Diagnosis "0..*" -- "0..*" Doctor
 Illness "1" -- "0..*" Treatment
-Patient "0..*" -- "1" ConsentForm
-PriorityScore "1" -- "1" Illness
+Consent "1" -- "0..*" Treatment
+Patient "1" -- "0..*" Consent
+Diagnosis "1" -- "1" HeadDoctor
 
 @enduml

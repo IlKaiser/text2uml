@@ -1,0 +1,47 @@
+@startuml
+
+class Designer {
+    String Name
+}
+class Game {
+    String Name
+}
+class Board {
+    String Name
+}
+class Tile {
+    String Color
+    Boolean Visited
+    Boolean IsActionTile
+    Integer TurnsUntilRegular
+}
+class ConnectionPiece {
+}
+class ActionCard {
+    String ActionType
+}
+class ActionDeck {
+    Integer CardCount
+}
+class Die {
+    Integer Sides
+}
+class PlayingPiece {
+    String Color
+}
+class Player {
+    String Name
+}
+
+Designer "0..*" -- "1" Game
+Game "1" -- "1" Board
+Board "1" -- "0..*" Tile
+ConnectionPiece "1" -- "1" Tile : End1
+ConnectionPiece "1" -- "1" Tile : End2
+Game "1" -- "1" Die
+ActionDeck "1" -- "0..*" ActionCard
+Game "1" -- "0..*" Player
+Player "1" -- "1" PlayingPiece
+Game "1" -- "0..1" Tile : HiddenTile
+
+@enduml

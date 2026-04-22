@@ -1,0 +1,96 @@
+```plantuml
+@startuml
+
+class House {
+  address: String
+  buildingMaterial: String
+}
+
+class Basement {
+  size: Size
+  name: Name
+}
+
+class EarthBasement {
+  humidityLevel: HumidityLevel
+}
+
+class ConcreteBasement
+
+class SemiDetachedHouse {
+  hasGarden: Boolean
+  numberOfWindows: Int
+}
+
+class Garden
+
+class Window
+
+class Carport {
+  isDoubleCarport: Boolean
+  hasFlatRoof: Boolean
+}
+
+class DoubleCarport {
+  isDoubleCarport: Boolean
+  hasFlatRoof: Boolean
+}
+
+class Garage {
+  hasAutomaticGarageDoor: Boolean
+}
+
+class AutomaticGarageDoor {
+  hasAutomaticGarageDoor: Boolean
+}
+
+class Company {
+  name: String
+  address: String
+}
+
+class JobLog {
+  hours: Hours
+  price: Price
+}
+
+class Address
+
+class BuildingMaterial
+
+class Size
+
+class Name
+
+class HumidityLevel
+
+class Hours
+
+class Price
+
+1..1 House -- 1..1 Address
+1..1 House -- 1..1 BuildingMaterial
+0..1 House -- 0..1 Basement
+1..1 Basement -- 1..1 Size
+1..1 Basement -- 1..1 Name
+0..1 Basement -- 0..1 EarthBasement
+0..1 Basement -- 0..1 ConcreteBasement
+1..1 EarthBasement -- 1..1 HumidityLevel
+0..1 SemiDetachedHouse -- 0..1 Garden
+1..1 SemiDetachedHouse -- 0..* Window
+1..1 SemiDetachedHouse -- 0..2 Carport
+1..1 SemiDetachedHouse -- 0..1 Garage
+0..1 Carport -- 0..1 DoubleCarport
+0..1 Garage -- 0..1 AutomaticGarageDoor
+1..1 House -- 0..* Company
+1..1 Company -- 1..1 Address
+0..* Company -- 0..* JobLog
+1..1 JobLog -- 1..1 Hours
+1..1 JobLog -- 1..1 Price
+
+SemiDetachedHouse --|> House
+EarthBasement --|> Basement
+ConcreteBasement --|> Basement
+
+@enduml
+```

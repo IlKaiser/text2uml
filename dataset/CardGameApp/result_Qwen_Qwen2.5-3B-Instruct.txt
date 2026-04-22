@@ -1,0 +1,51 @@
+@startuml
+
+class Game {
+    +String ID
+    +int numberOfPlayers
+    +Deck deck
+    +ScoringTable scoringTable
+}
+
+class Deck {
+    +String ID
+    +int numberOfCards
+    +Card[] cards
+    +Card compare(Card other)
+}
+
+class Card {
+    +String ID
+    +String suit
+    +String compare(Card other)
+}
+
+class ScoringRound {
+    +String ID
+    +List<Player> winningPlayers
+    +int pointValue
+}
+
+class JackRound extends ScoringRound {}
+class SoloRound extends ScoringRound {}
+class MandatorySoloRound extends SoloRound {}
+class TrumpSolo extends SoloRound {}
+class JackSolo extends SoloRound {}
+class QueenSolo extends SoloRound {}
+
+Player {
+    +String ID
+}
+
+Game "1" -- "1" Deck
+Deck "1" -- "0..*" Card
+Card "1" -- "1" Player
+Card "1" -- "0..1" ScoringRound
+ScoringRound "1" -- "1" Player
+ScoringRound "1" -- "0..1" JackRound
+ScoringRound "1" -- "0..1" SoloRound
+ScoringRound "1" -- "0..1" MandatorySoloRound
+ScoringRound "1" -- "0..1" TrumpSolo
+ScoringRound "1" -- "0..1" JackSolo
+ScoringRound "1" -- "0..1" QueenSolo
+@enduml

@@ -1,35 +1,51 @@
-```plantuml
 @startuml
 
-class Resident {}
-class PickupRequest {}
-class PickupVehicle {}
-class VolunteerDriver {}
-class PickupRoute {}
-class SecondHandArticle {}
-class NonPerishableFood {}
-class DistributionCenter {}
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+}
+class Item {
+    String Description
+    String Category
+    Double Weight
+    Double Dimensions
+}
+class PickupRequest {
+    DateTime PickupTime
+    String Status
+}
+class Vehicle {
+    Double AvailableStorage
+}
+class Driver {
+    String Name
+    String AvailableDays
+}
+class DistributionCenter {
+    String Location
+}
 class FoodBank {}
-class H2SEmployee {}
-class Category {}
-class Client {}
-class DeliveryRequest {}
+class Employee {
+    String Name
+}
+class Client {
+    String Name
+    String HomeAddress
+}
+class Category {
+    String Name
+}
 
 Resident "1" -- "0..*" PickupRequest
-PickupRequest "1" -- "1" PickupVehicle
-PickupVehicle "1" -- "0..*" PickupRoute
-VolunteerDriver "1" -- "0..*" PickupRoute
-PickupRoute "1" -- "0..*" PickupRequest
-PickupRoute "1" -- "1" VolunteerDriver
-PickupRequest "1" -- "0..*" SecondHandArticle
-PickupRequest "1" -- "0..*" NonPerishableFood
-SecondHandArticle "1" -- "1" DistributionCenter
-NonPerishableFood "1" -- "1" FoodBank
-SecondHandArticle "1" -- "1" Category
-H2SEmployee "1" -- "0..*" SecondHandArticle
-H2SEmployee "1" -- "0..*" DeliveryRequest
-Client "1" -- "0..*" DeliveryRequest
-DeliveryRequest "1" -- "0..*" SecondHandArticle
+PickupRequest "1" -- "0..*" Item
+Vehicle "1" -- "0..*" PickupRequest
+Driver "1" -- "0..*" Vehicle
+DistributionCenter "1" -- "0..*" Item
+Item "1" -- "0..1" Category
+Employee "1" -- "0..*" Item
+Client "1" -- "0..*" Category
+FoodBank "1" -- "0..*" Item
 
 @enduml
-```

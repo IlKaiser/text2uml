@@ -1,23 +1,41 @@
 ```plantuml
 @startuml
 
-class Bus{}
-class Line{}
-class Trajectory{}
-class Approval{}
-class SeasonTicket{}
-class MENSO{}
-class Customer{}
-class Invoice{}
-class Trip{}
+class Bus {
+  line: String
+}
 
-Bus "0..*" -- "1..1" Line
-Line "1..*" -- "0..*" Trajectory
-Trajectory "1..1" -- "0..*" Approval
-Line "1..1" -- "0..*" MENSO
-Customer "1..1" -- "0..*" MENSO
-MENSO "1..1" -- "0..*" Invoice
-Customer "1..1" -- "0..*" Invoice
+class BusLine {
+  category: String
+}
+
+class Invoice {
+  amount: Float
+  discount: Float
+}
+
+class Customer {
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+}
+
+class Trip {
+  time: Date
+  date: Date
+  line: String
+}
+
+Bus "0..*" -- "1..*" BusLine.
+Bus "0..*" -- "1..*" Trajectory.
+BusLine "1..*" -- "1..*" Trajectory.
+Approval "1..1" -- "1..1" Trajectory.
+SeasonTicket "1..1" -- "1..1" Customer.
+MENSO "1..1" -- "1..1" Customer.
+MENSO "0..*" -- "1..1" Invoice.
+Invoice "1..1" -- "1..1" Customer.
+
+SeasonTicket --|> MENSO
 
 @enduml
 ```

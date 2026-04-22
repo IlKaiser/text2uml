@@ -1,0 +1,35 @@
+@startuml
+
+class AirlineCompany {
+    String Name
+}
+class AircraftModel {
+    String ModelName
+}
+class Aircraft {
+    String SerialNumber
+    Date BuildDate
+}
+class Contract {
+    String ContractID
+    String DeliveryConditions
+    String LegalAspects
+}
+class Acquisition {
+    Double NegotiatedPrice
+    String OptionsCustomizations
+    Date DeliveryDate
+}
+class Salesperson {
+    String Name
+    String EmployeeID
+}
+
+AirlineCompany "1" -- "0..*" Contract
+Contract "1" -- "1..*" Acquisition
+AircraftModel "1" -- "0..*" Acquisition
+Acquisition "1" -- "0..1" Aircraft
+Salesperson "0..*" -- "1" Contract
+AirlineCompany "0..*" -- "0..1" AirlineCompany
+
+@enduml

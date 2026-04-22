@@ -1,19 +1,48 @@
 @startuml
-class Member{}
-class Trainer{}
-class Person{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
-class Center{}
-class City{}
-class Room{}
+class Center {
+  name: String
+  address: String
+}
 
-Person "1..1" -- "0..*" Member
-Person "1..1" -- "0..*" Trainer
-Member "0..*" -- "0..*" Session
-Trainer "0..1" -- "0..*" GroupSession
-Session "1..1" -- "1..1" Room
-Room "1..1" -- "1..1" Center
-Center "1..1" -- "1..1" City
+class Room {
+  maxCapacity: Int
+  number: Int
+}
+
+class Person {
+  firstName: String
+  familyName: String
+  birthDate: Date
+}
+
+class Member {
+}
+
+class Trainer {
+  diploma: String
+}
+
+class Session {
+  date: Date
+  startingHour: String
+}
+
+class GroupSession {
+  type: String
+}
+
+class IndividualSession {
+}
+
+Center "1..1" -- "1..*" Room
+Room "1..1" -- "0..*" Session
+Session "1..1" -- "0..*" Person
+Person "0..*" -- "0..*" Session
+GroupSession "1..1" -- "1..1" Trainer
+Session "1..1" -- "1..1" Center
+
+Member --|> Person
+Trainer --|> Person
+GroupSession --|> Session
+IndividualSession --|> Session
 @enduml

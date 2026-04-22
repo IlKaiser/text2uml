@@ -1,39 +1,44 @@
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class Category{}
-class Person{}
-class Inhabitant{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Stay{}
-class Invoice{}
-class Payment{}
-class CreditNote{}
+class Home{ String Name, String Address }
+class Department{ String Name, int Floor }
+class Room{ String Number, int Capacity }
+class Bed{ String Identifier, String BedNumber, Boolean IsOccupied }
+class Category{ String Name, String Code, Decimal Price }
+class Inhabitant{ String FirstName, String LastName, Date BirthDate, String NationalID }
+class Registration{ Date RegistrationDate, String Status }
+class Question{ String Text, String Answer }
+class Assessment{ Date Date, String Result, String RecommendedStayType }
+class WaitingListEntry{ Date RegistrationDate, int Position, String Status }
+class Proposal{ Date ProposalDate, Date Deadline, String Status }
+class Stay{ Date StartDate, Date EndDate, String Status, Boolean Suspended, Decimal Discount }
+class Invoice{ Date InvoiceDate, Decimal TotalAmount, Decimal OutstandingAmount, String Status }
+class PaymentEvent{ Date Date, Decimal Amount }
+class CreditNote{ Date Date, Decimal Amount, String Reason }
 
 Home "1..1" -- "1..*" Department
 Department "1..1" -- "1..*" Room
 Room "1..1" -- "1..*" Bed
-Category "1..1" -- "1..*" Bed
-Person "1..1" -- "0..1" Inhabitant
-Registration "1..1" -- "1..1" Person
-Assessment "1..1" -- "1..1" Person
-WaitingList "1..1" -- "1..1" Category
-WaitingList "1..1" -- "0..*" Person
-Proposal "1..1" -- "1..1" WaitingList
-Proposal "1..1" -- "1..1" Person
-Inhabitant "1..1" -- "0..*" Stay
-Stay "1..1" -- "0..1" Bed
-Stay "1..1" -- "1..1" Category
-Invoice "1..1" -- "1..1" Stay
-Invoice "1..1" -- "1..1" Inhabitant
-Invoice "0..*" -- "0..*" Payment
-Invoice "1..1" -- "0..1" CreditNote
-CreditNote "1..1" -- "0..1" Payment
+Category "0..*" -- "1..1" Bed
+Inhabitant "0..*" -- "1..1" Stay
+Bed "0..*" -- "1..1" Stay
+Category "0..*" -- "1..1" Stay
+Inhabitant "0..1" -- "0..1" Registration
+Registration "0..*" -- "0..*" Question
+Assessment "0..*" -- "0..*" Question
+Inhabitant "0..*" -- "1..1" Assessment
+Category "0..*" -- "1..1" Assessment
+Inhabitant "0..*" -- "0..*" WaitingListEntry
+Category "0..*" -- "0..*" WaitingListEntry
+WaitingListEntry "0..*" -- "0..*" Proposal
+Inhabitant "0..*" -- "0..*" Proposal
+Category "0..*" -- "0..*" Proposal
+Bed "0..1" -- "0..*" Proposal
+Proposal "0..*" -- "0..1" Stay
+Inhabitant "0..*" -- "1..1" Invoice
+Invoice "0..*" -- "0..*" Stay
+Invoice "0..*" -- "0..*" PaymentEvent
+Invoice "0..*" -- "0..*" CreditNote
+PaymentEvent "0..*" -- "0..1" CreditNote
 
 @enduml

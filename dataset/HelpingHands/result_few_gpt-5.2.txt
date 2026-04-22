@@ -1,0 +1,105 @@
+@startuml
+
+class H2SLocation{
+    String Name
+    String City
+}
+class Resident{
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+}
+class PickupRequest{
+    Date RequestedWeekday
+    String ItemDescription
+    String PickupTimeWindow
+}
+class PickupVehicle{
+    String VehicleId
+    Double StorageCapacity
+}
+class VolunteerDriver{
+    String Name
+    String PhoneNumber
+}
+class DriverAvailability{
+    Date Weekday
+}
+class PickupRoute{
+    Date RouteDate
+}
+class PickupStop{
+    String StreetAddress
+    String TimeWindow
+}
+class Item{
+    String Description
+    Double Weight
+    Double Dimensions
+}
+class SecondHandArticle{
+    String QualityStatus
+}
+class NonPerishableFood{
+    Date ExpirationDate
+}
+class DistributionCenter{
+    String Address
+}
+class FoodBank{
+    String Name
+    String Address
+}
+class Employee{
+    String Name
+}
+class RFIDTag{
+    String TagId
+}
+class Category{
+    String CategoryName
+    String CategoryCode
+}
+class Client{
+    String Name
+    String PhoneNumber
+    String HomeAddress
+}
+class NeededCategory{
+    Date CreatedDate
+}
+class Delivery{
+    Date DeliveryDate
+    String DeliveryAddress
+}
+
+Item <|-- SecondHandArticle
+Item <|-- NonPerishableFood
+
+H2SLocation "0..*" -- "0..*" PickupVehicle
+H2SLocation "0..*" -- "0..*" VolunteerDriver
+VolunteerDriver "1..1" -- "0..*" DriverAvailability
+PickupVehicle "1..1" -- "0..*" PickupRoute
+VolunteerDriver "1..1" -- "0..*" PickupRoute
+PickupRoute "1..1" -- "0..*" PickupStop
+PickupStop "1..1" -- "0..*" PickupRequest
+Resident "1..1" -- "0..*" PickupRequest
+PickupRequest "1..1" -- "0..*" Item
+H2SLocation "0..*" -- "0..*" DistributionCenter
+H2SLocation "0..*" -- "0..*" FoodBank
+DistributionCenter "1..1" -- "0..*" SecondHandArticle
+FoodBank "1..1" -- "0..*" NonPerishableFood
+Employee "0..*" -- "0..*" SecondHandArticle
+SecondHandArticle "0..1" -- "0..1" RFIDTag
+SecondHandArticle "0..*" -- "0..*" Category
+H2SLocation "0..*" -- "0..*" Client
+Client "1..1" -- "0..*" NeededCategory
+NeededCategory "1..1" -- "0..*" Category
+Employee "0..*" -- "0..*" Client
+Employee "0..*" -- "0..*" Delivery
+Delivery "1..1" -- "0..*" SecondHandArticle
+Client "1..1" -- "0..*" Delivery
+VolunteerDriver "1..1" -- "0..*" Delivery
+
+@enduml

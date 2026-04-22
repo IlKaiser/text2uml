@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+
+class SmartHome {
+    String Address
+}
+
+class Room {
+    String Name
+}
+
+class SensorDevice {
+    String DeviceIdentifier
+}
+
+class ActuatorDevice {
+    String DeviceIdentifier
+}
+
+class SensorReading {
+    String Timestamp
+    double Value
+}
+
+class ControlCommand {
+    String Timestamp
+    String Command
+    String Status
+}
+
+class ActivityLog {
+    String Timestamp
+}
+
+class AutomationRule {
+    String Name
+    String Precondition
+    String Action
+    boolean Active
+}
+
+SmartHome "1" -- "*" Room
+Room "1" -- "*" SensorDevice
+Room "1" -- "*" ActuatorDevice
+SensorDevice "1" -- "*" SensorReading
+ActuatorDevice "1" -- "*" ControlCommand
+SmartHome "1" -- "*" ActivityLog
+AutomationRule "1" -- "1" ActivityLog
+
+@enduml
+```

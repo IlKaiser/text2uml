@@ -1,45 +1,81 @@
 @startuml
-class SmartHomeAutomationSystem {}
-class Address {}
-class SmartHome {}
-class Room {}
-class Sensor {}
-class Actuator {}
-class Device {}
-class AutomationRule {}
-class Precondition {}
-class BooleanExpression {}
-class RelationalTerm {}
-class BooleanOperator {}
-class Action {}
-class ControlCommand {}
-class SensorReading {}
-class ActivityLog {}
-class InfrastructureMap {}
-class Owner {}
-class User {}
-
-SmartHomeAutomationSystem "0..*" -- "0..*" User
-SmartHomeAutomationSystem "0..*" -- "0..*" SmartHome
-SmartHome "1..1" -- "1..1" Address
-SmartHome "1..*" -- "0..*" Room
-Room "0..*" -- "0..*" Sensor
-Room "0..*" -- "0..*" Actuator
-Sensor "1..*" -- "0..*" SensorReading
-Actuator "1..*" -- "0..*" ControlCommand
-SensorReading "0..*" -- "1..*" ActivityLog
-ControlCommand "0..*" -- "1..*" ActivityLog
-ActivityLog "1..*" -- "1..*" SmartHome
-AutomationRule "1..*" -- "1..1" Precondition
-AutomationRule "1..*" -- "1..1" Action
-Precondition "1..1" -- "1..1" BooleanExpression
-BooleanExpression "1..*" -- "0..*" RelationalTerm
-BooleanExpression "0..*" -- "0..*" BooleanOperator
-RelationalTerm "0..*" -- "0..*" Room
-RelationalTerm "0..*" -- "0..*" Sensor
-RelationalTerm "0..*" -- "0..*" Actuator
-RelationalTerm "0..*" -- "0..*" SensorReading
-RelationalTerm "0..*" -- "0..*" ControlCommand
-InfrastructureMap "1..*" -- "0..*" Device
-Owner "0..*" -- "1..*" AutomationRule
+class SmartHomeAutomationSystem
+class SmartHome {
+  address: PhysicalAddress
+}
+class PhysicalAddress
+class Room {
+  name: String
+}
+class Sensor {
+  deviceId: String
+  active: Boolean
+}
+class TemperatureSensor
+class MovementSensor
+class Actuator {
+  deviceId: String
+  active: Boolean
+}
+class LightController
+class LockController
+class Device {
+  deviceId: String
+}
+class InfrastructureMap {
+  lastUpdated: Date
+}
+class SensorReading {
+  value: Float
+  timestamp: Date
+}
+class ActivityLog
+class AutomationRule {
+  precondition: Precondition
+  action: Action
+}
+class Precondition {
+  expression: BooleanExpression
+}
+class Action {
+  commands: String
+}
+class BooleanExpression
+class RelationalTerm
+class AtomicRelationalTerm
+class BooleanOperator
+class AND
+class OR
+class NOT
+class Owner
+class RuleHierarchy
+class ActiveRule {
+  triggeredAt: Date
+}
+class ControlCommand {
+  name: String
+  timestamp: Date
+  status: String
+}
+SmartHome "1..1" -- "1..1" PhysicalAddress
+SmartHome "1..1" -- "1..1" InfrastructureMap
+SmartHome "1..1" -- "1..1" ActivityLog
+SmartHome "1..1" -- "0..*" Room
+Room "0..*" -- "1..1" Sensor
+Room "0..*" -- "1..1" Actuator
+Sensor "0..*" -- "1..1" SensorReading
+ActivityLog "0..*" -- "1..1" SensorReading
+ActivityLog "1..1" -- "0..*" ControlCommand
+Actuator "0..*" -- "1..1" ControlCommand
+AutomationRule "1..1" -- "1..1" Precondition
+AutomationRule "1..1" -- "1..1" Action
+Owner "0..*" -- "1..1" AutomationRule
+RuleHierarchy "0..*" -- "1..1" AutomationRule
+TemperatureSensor --|> Sensor
+MovementSensor --|> Sensor
+LightController --|> Actuator
+LockController --|> Actuator
+Sensor --|> Device
+Actuator --|> Device
+ActiveRule --|> AutomationRule
 @enduml

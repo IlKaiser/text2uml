@@ -1,0 +1,45 @@
+```plantuml
+@startuml
+
+class Faculty {
+    String Name
+}
+class Institute {
+    String Name
+    String Address
+}
+class Dean {
+    String SocialSecurityNumber
+    String Name
+    String Email
+}
+class Employee {
+    String SocialSecurityNumber
+    String Name
+    String Email
+}
+class ResearchAssistant {
+    String FieldOfResearch
+}
+class Project {
+    String Name
+    Date StartDate
+    Date EndDate
+}
+class Lecturer {}
+class Course {
+    String ID
+    String Name
+    Integer WeeklyDuration
+}
+
+Faculty "1" -- "0..*" Institute
+Faculty "1" -- "1" Dean
+Employee "1" -- "0..*" ResearchAssistant
+ResearchAssistant "1" -- "0..*" Project
+ResearchAssistant "0..*" -- "0..*" Course
+Lecturer --|> ResearchAssistant
+Dean --|> Employee
+
+@enduml
+```

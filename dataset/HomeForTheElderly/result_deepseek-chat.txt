@@ -1,35 +1,82 @@
 @startuml
 
-class Home{}
-class Department{}
-class Room{}
-class Bed{}
-class BedCategory{}
-class Stay{}
-class Inhabitant{}
-class Registration{}
-class Assessment{}
-class WaitingList{}
-class Proposal{}
-class Invoice{}
-class PaymentEvent{}
-class CreditNote{}
+class Home {
+  String name
+}
+
+class Department {
+  String name
+}
+
+class Room {
+  String number
+}
+
+class Bed {
+  String identifier
+}
+
+class Category {
+  String name
+  BigDecimal price
+}
+
+class Stay {
+  Date startDate
+  Date endDate
+  String status
+}
+
+class Inhabitant {
+  String name
+  Date registrationDate
+}
+
+class Registration {
+  Date date
+  String status
+}
+
+class Assessment {
+  Date date
+  String resultType
+}
+
+class WaitingListEntry {
+  Integer position
+}
+
+class Proposal {
+  Date date
+  String status
+}
+
+class Invoice {
+  Date issueDate
+  BigDecimal totalAmount
+  BigDecimal outstandingAmount
+  String status
+}
+
+class CreditNote {
+  Date date
+  BigDecimal amount
+}
 
 Home "1..1" -- "1..*" Department
 Department "1..1" -- "1..*" Room
 Room "1..1" -- "1..*" Bed
-Bed "1..1" -- "1..1" BedCategory
-BedCategory "1..1" -- "1..*" Stay
-Inhabitant "1..1" -- "0..*" Stay
-Inhabitant "1..1" -- "1..1" Registration
-Registration "1..1" -- "1..1" Assessment
-Assessment "1..1" -- "1..1" BedCategory
-Assessment "1..1" -- "1..1" WaitingList
-WaitingList "1..1" -- "1..*" Inhabitant
-Proposal "1..1" -- "1..1" Inhabitant
-Proposal "1..1" -- "1..1" Bed
-Stay "1..1" -- "1..*" Invoice
-Invoice "1..1" -- "0..*" PaymentEvent
-Invoice "1..1" -- "0..1" CreditNote
+Bed "1..1" -- "1..1" Category
+Bed "1..1" -- "0..*" Stay
+Stay "1..1" -- "1..1" Category
+Stay "1..1" -- "1..1" Inhabitant
+Inhabitant "1..1" -- "0..*" Registration
+Inhabitant "1..1" -- "0..*" Assessment
+Inhabitant "1..1" -- "0..*" WaitingListEntry
+WaitingListEntry "1..1" -- "1..1" Category
+Proposal "1..1" -- "1..1" WaitingListEntry
+Proposal "1..1" -- "0..1" Bed
+Invoice "1..1" -- "1..1" Stay
+CreditNote "1..1" -- "1..1" Invoice
 
 @enduml

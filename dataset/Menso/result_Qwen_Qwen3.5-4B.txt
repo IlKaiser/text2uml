@@ -1,0 +1,35 @@
+@startuml
+class BusCompany { String Name }
+class Trajectory { String Name, String Destination, Date StartDate, Date EndDate, Boolean IsActive }
+class Line { String Name, List<Trajectory> Trajectories }
+class TrajectoryApproval { String Reference, Boolean Approved, Date RequestDate, Date DecisionDate }
+class Bus { String LicensePlate, String LineNumber, String Model }
+class TicketMachine { String Location, String Status }
+class MensoTicket { String TicketId, Date ValidFrom, Date ValidTo, Double Price }
+class Customer { String Name, String HomeAddress, String OfficeAddress, List<WorkingHours> WorkingHours }
+class Invoice { String InvoiceId, Double Amount, Boolean Paid, Date IssueDate }
+class MensoUser { String CardNumber, List<MensoTicket> Trips, List<Invoice> Invoices }
+
+BusCompany "1..*" has "0..*" Trajectory
+BusCompany "1..*" has "0..*" Line
+BusCompany "1..*" has "0..*" Bus
+BusCompany "1..*" has "0..*" TicketMachine
+BusCompany "1..*" has "0..*" Customer
+BusCompany "1..*" has "0..*" MensoUser
+
+Trajectory "0..*" has "0..*" TrajectoryApproval
+Trajectory "0..*" has "0..*" Bus
+Trajectory "0..*" has "0..*" Line
+
+Line "1..*" has "0..*" Trajectory
+
+Bus "1..*" has "0..*" MensoUser
+
+MensoUser "1..*" has "0..*" Invoice
+MensoUser "1..*" has "0..*" TicketMachine
+
+Invoice "1..*" has "0..*" Customer
+Invoice "1..*" has "0..*" MensoUser
+
+Customer "1..*" has "0..*" MensoUser
+@enduml

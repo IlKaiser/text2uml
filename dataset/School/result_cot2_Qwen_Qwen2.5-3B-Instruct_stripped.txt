@@ -1,0 +1,54 @@
+@startuml
+title UML Conceptual Model Diagram
+
+class School {
+  +name: String
+}
+
+class Teacher {
+  +firstName: String
+  +lastName: String
+  +email: String
+  +schoolsTeaching: School[]
+}
+
+class Student {
+  +firstName: String
+  +lastName: String
+  +school: School
+}
+
+class Principal {
+  +firstName: String
+  +lastName: String
+}
+
+class Room {
+  +name: String
+  +size: Float
+}
+
+class Classroom {
+  +name: String
+  +capacity: Int
+}
+
+class Gym {
+  +name: String
+  +size: Float
+}
+
+class ClassGroup {
+  +name: String
+  +students: Student[]
+}
+
+Student --|> School
+Teacher --|> School
+Principal --|> School
+Room --|> Classroom
+Classroom --|> ClassGroup
+ClassGroup --|> Classroom
+ClassGroup --|> Student
+
+@enduml

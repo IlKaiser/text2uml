@@ -1,0 +1,55 @@
+```plantuml
+@startuml
+
+class Hospital {
+    String Name
+}
+
+class Examination {
+    String Type
+}
+
+class Permission {
+    Date ValidUntil
+}
+
+class Problem {
+    String Description
+}
+
+class TreatmentPlan {
+    String ProblemType
+}
+
+class Diagnosis {
+    Date Date
+}
+
+class Treatment {
+    Date Date
+}
+
+class Doctor {
+    String Name
+}
+
+class Patient {
+    String Name
+}
+
+Hospital "1" -- "0..*" Permission
+Permission "1" -- "1" Examination
+Hospital "1" -- "0..*" TreatmentPlan
+TreatmentPlan "1" -- "1" Problem
+Doctor "1" -- "0..*" Diagnosis
+Diagnosis "1" -- "1" Treatment
+Diagnosis "1" -- "1" Problem
+Treatment "1" -- "0..*" Examination
+Treatment "1" -- "0..*" Doctor
+Patient "1" -- "0..*" Diagnosis
+Doctor "1" -- "0..*" Hospital
+Diagnosis "1" -- "1" Hospital
+Treatment "1" -- "1" Hospital
+
+@enduml
+```

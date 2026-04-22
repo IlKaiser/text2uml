@@ -1,22 +1,45 @@
 ```plantuml
 @startuml
-class FitnessCenter{}
-class Room{}
-class Person{}
-class Member{}
-class Trainer{}
-class Session{}
-class GroupSession{}
-class IndividualSession{}
+class FitnessCompany {
+}
+class Center {
+    name: String
+    address: String
+}
+class Room {
+    number: Int
+    maxCapacity: Int
+}
+class Person {
+    firstName: String
+    familyName: String
+    birthDate: Date
+}
+class Trainer {
+    diploma: String
+}
+class Session {
+    date: Date
+    startingHour: String
+}
+class IndividualSession {
+}
+class GroupSession {
+    type: String
+}
 
-FitnessCenter "1..*" -- "1..*" Room.
-FitnessCenter "1..*" -- "0..*" Session.
-Person "0..*" -- "0..*" Member.
-Person "0..*" -- "0..*" Trainer.
-Member "0..*" -- "0..*" Session.
-Trainer "1..1" -- "1..*" Session.
-GroupSession "1..1" -- "1..1" Trainer.
-IndividualSession "1..*" -- "0..*" Person.
-GroupSession "1..*" -- "0..*" Person.
+FitnessCompany "1..*" -- "1..*" Center
+Center "1..*" -- "1..*" Room
+Center "1..*" -- "0..*" Session
+Room "1..*" -- "0..*" Session
+Person "0..*" -- "0..*" Session
+Trainer "0..*" -- "0..*" Session
+Trainer "0..*" -- "0..*" Person
+Session "0..*" -- "0..*" IndividualSession
+Session "0..*" -- "0..*" GroupSession
+
+IndividualSession --|> Session
+GroupSession --|> Session
+Trainer --|> Person
 @enduml
 ```

@@ -1,31 +1,78 @@
 ```plantuml
 @startuml
-class DestroyBlock{}
-class User{}
-class Player{}
-class Admin{}
-class Game{}
-class HallOfFame{}
-class Block{}
-class Level{}
-class GridSystem{}
-class Ball{}
-class Paddle{}
-class Wall{}
-class HighScore{}
+
+class User {
+  username:String
+  password:String
+}
+
+class Admin {
+}
+
+class Player {
+  lives:Int
+}
+
+class Game {
+  name:String
+  minSpeed:Float
+  speedIncreaseFactor:Float
+  maxPaddleLength:Float
+  minPaddleLength:Float
+}
+
+class HallOfFame {
+}
+
+class Block {
+  color:String
+  points:Int
+}
+
+class Level {
+  levelNumber:Int
+  isRandom:Boolean
+  numBlocks:Int
+}
+
+class Grid {
+}
+
+class Cell {
+  x:Int
+  y:Int
+}
+
+class Ball {
+  speed:Float
+  direction:String
+}
+
+class Paddle {
+  length:Float
+}
+
+class Wall {
+}
 
 User "1..1" -- "1..1" Player
 User "1..1" -- "0..1" Admin
-Admin "0..*" -- "1..*" Game
+Admin "1..1" -- "0..*" Game
 Game "1..1" -- "1..1" HallOfFame
-Game "1..*" -- "0..*" Block
-Game "1..*" -- "1..*" Level
-Level "1..*" -- "1..*" Block
-Level "1..1" -- "1..1" GridSystem
-Game "1..1" -- "1..1" GridSystem
-Game "0..*" -- "0..*" Wall
+Game "1..1" -- "1..*" Block
+Block "1..1" -- "1..1" Cell
+Game "1..1" -- "1..*" Level
+Level "1..1" -- "1..*" Block
+Level "1..1" -- "1..1" Grid
+Grid "1..1" -- "1..*" Cell
 Game "1..1" -- "1..1" Ball
 Game "1..1" -- "1..1" Paddle
-HallOfFame "1..1" -- "1..*" HighScore
+Game "1..1" -- "1..1" Wall
+Player "1..*" -- "0..*" Game
+Player "1..*" -- "0..*" HallOfFame
+
+Admin --|> User
+Player --|> User
+
 @enduml
 ```

@@ -1,0 +1,73 @@
+@startuml
+class Department
+class Room
+class Bed
+class Inhabitant
+class Category {
+  price: Float
+  type: String
+}
+class Stay {
+  startDate: Date
+  endDate: Date
+  suspended: Boolean
+  discount: Boolean
+}
+class Registration {
+  registrationDate: Date
+}
+class Person {
+  name: String
+}
+class Activity {
+  description: String
+}
+class Assessment {
+  result: String
+}
+class WaitingList {
+  position: Int
+}
+class Proposal {
+  proposalDate: Date
+  status: String
+  invalidated: Boolean
+}
+class Invoice {
+  amount: Float
+  outstandingAmount: Float
+  status: String
+  sentDate: Date
+}
+class CreditNote {
+  amount: Float
+}
+class Representative
+class Item {
+  description: String
+  amount: Float
+}
+
+Department "1..*" -- "1..1" Department
+Department "1..1" -- "1..*" Room
+Room "1..1" -- "1..*" Bed
+Bed "1..1" -- "1..1" Category
+Bed "1..1" -- "0..1" Stay
+Inhabitant "1..1" -- "1..*" Stay
+Stay "1..1" -- "1..1" Category
+Person "1..1" -- "1..1" Registration
+Person "1..1" -- "0..1" Assessment
+Assessment "1..1" -- "1..1" Category
+Person "1..1" -- "0..1" WaitingList
+WaitingList "1..1" -- "1..1" Category
+WaitingList "1..1" -- "0..*" Proposal
+Proposal "1..1" -- "1..1" Bed
+Stay "1..1" -- "0..*" Invoice
+Invoice "1..1" -- "0..*" Item
+Invoice "1..1" -- "0..*" CreditNote
+Inhabitant "1..1" -- "0..1" Representative
+Person "1..1" -- "0..1" Representative
+
+Inhabitant --|> Person
+Representative --|> Person
+@enduml

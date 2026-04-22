@@ -1,0 +1,115 @@
+Given the specification text and the identified classes, here is the PlantUML representation for the UML conceptual model diagram:
+
+```plantuml
+@startuml
+class Kinepolis {
+  +name: String
+  +towns: Set[String]
+}
+
+class Cinema {
+  +name: String
+  +theatres: Set[Theatre]
+  +movie: Movie
+}
+
+class Theatres {
+  +name: String
+  +shows: Set[Show]
+}
+
+class Shows {
+  +title: String
+  +startTime: DateTime
+  +endTime: DateTime
+  +showDate: DateTime
+  +movie: Movie
+  +seatReservations: Set[SeatReservation]
+  +showCancellation: ShowCancellation
+  +offer: Offer
+  +freeTicket: FreeTicket
+  +entranceTickets: Set[Ticket]
+}
+
+class Movie {
+  +title: String
+  +description: String
+  +copies: Set[Copy]
+}
+
+class Copy {
+  +title: String
+  +premise: Premise
+}
+
+class Premise {
+  +name: String
+  +theatres: Set[Theatre]
+  +copies: Set[Copy]
+}
+
+class Website {
+  +publishProgram: DateTime
+  +shows: Set[Show]
+}
+
+class Customer {
+  +name: String
+  +creditCard: CreditCard
+  +seatReservation: SeatReservation
+  +showCancellation: ShowCancellation
+  +offer: Offer
+  +freeTicket: FreeTicket
+  +entranceTicket: Ticket
+}
+
+class SeatReservation {
+  +customer: Customer
+  +show: Show
+  +reservationTime: DateTime
+  +cancellationTime: DateTime?
+}
+
+class CreditCard {
+  +number: String
+  +expirationDate: DateTime
+  +balance: Float
+}
+
+class ShowCancellation {
+  +show: Show
+  +customer: Customer?
+}
+
+class Offer {
+  +show: Show
+  +newPremise: Premise
+  +offerTime: DateTime
+  +offerExpirationTime: DateTime
+}
+
+class FreeTicket {
+  +show: Show
+  +customer: Customer
+  +sendAtHome: Boolean
+}
+
+class Ticket {
+  +seatNumber: String
+  +show: Show
+}
+
+class Entrance {
+  +show: Show
+  +display: Display
+}
+
+class Display {
+  +show: Show
+  +availableSeats: Int
+}
+
+@enduml
+```
+
+This PlantUML code represents the conceptual model with the identified classes and their relationships. Each class is defined with its attributes, and the associations between classes are represented using the `--` notation.

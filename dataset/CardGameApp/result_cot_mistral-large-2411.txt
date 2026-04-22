@@ -1,24 +1,41 @@
+```plantuml
 @startuml
-class Game{}
-class Player{}
-class Deck{}
-class Card{}
-class ScoringTable{}
-class Round{}
-class JackRound{}
-class SoloRound{}
-class MandatorySoloRound{}
-class SoloPlayer{}
-class SoloType{}
-
-Game "1" -- "4" Player
-Game "1" -- "1" Deck
-Game "1" -- "1" ScoringTable
-Deck "1" -- "1..48" Card
-ScoringTable "1" -- "0..*" Round
-Round "0..*" -- "0..*" Player
-Round "0..*" -- "0..*" SoloRound
-Round "0..*" -- "0..*" JackRound
-SoloRound "1" -- "1" SoloPlayer
-SoloRound "1" -- "1" SoloType
+class Game {
+  uniqueID: String
+}
+class Player {
+  uniqueID: String
+}
+class Deck {
+  uniqueID: String
+}
+class Card {
+  uniqueID: String
+  suit: String
+  height: String
+}
+class ScoringTable {
+  uniqueID: String
+}
+class Round {
+  uniqueID: String
+  winningPlayers: String
+  pointValue: Int
+}
+class SoloRound {
+  uniqueID: String
+  soloType: String
+  soloPlayer: String
+}
+class MandatorySoloRound {
+  uniqueID: String
+}
+Game "1..1" -- "4..4" Player
+Game "1..1" -- "1..1" Deck
+Game "1..1" -- "1..1" ScoringTable
+Deck "1..1" -- "0..48" Card
+ScoringTable "1..1" -- "0..*" Round
+SoloRound --|> Round
+MandatorySoloRound --|> SoloRound
 @enduml
+```

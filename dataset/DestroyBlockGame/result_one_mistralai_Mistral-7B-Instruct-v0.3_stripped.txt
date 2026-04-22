@@ -1,0 +1,81 @@
+@startuml
+
+class User {
+    String Username
+    String Password
+}
+class Player {
+    User user
+}
+class Admin {
+    User user
+}
+class Game {
+    String Name
+    HallOfFame HallOfFame
+}
+class Block {
+    String Color
+    int Points
+}
+class Level {
+    int Number
+    int MinSpeed
+    int SpeedIncreaseFactor
+    int MaxLength
+    int MinLength
+    int BlocksNumber
+    Block[] Blocks
+    boolean IsRandom
+}
+class Grid {
+    int Rows
+    int Columns
+}
+class PlayArea {
+    Grid Grid
+}
+class Ball {
+    int Speed
+    int Direction
+}
+class Paddle {
+    int Length
+}
+class Wall {
+    boolean Top
+    boolean Right
+    boolean Left
+}
+class Score {
+    int Total
+}
+class Life {
+    int Lives
+}
+class GameSession {
+    Game game
+    Level currentLevel
+    PlayArea playArea
+    Ball ball
+    Paddle paddle
+    Wall[] walls
+    Score score
+    Life life
+    boolean IsPaused
+    boolean IsEnded
+}
+class HallOfFame {
+    Game game
+    Player[] Players
+}
+
+Player "1" -- "0..1" Admin
+Game "1" -- "0..*" HallOfFame
+Admin "1" -- "1" Game
+Player "0..*" -- "0..*" GameSession
+GameSession "1" -- "1" Game
+Level "1" -- "0..*" Game
+Block "0..*" -- "0..*" Level
+
+@enduml

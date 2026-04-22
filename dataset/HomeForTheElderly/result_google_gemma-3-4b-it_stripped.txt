@@ -1,0 +1,50 @@
+@startuml
+class Person {
+  String FirstName
+  String LastName
+  String IdentificationNumber
+  String RegistrationDate
+}
+
+class Stay {
+  String Type
+  Date IntakeDate
+}
+
+class Category {
+  String Name
+  float Price
+}
+
+class Bed {
+  int BedNumber
+  Category Category
+}
+
+class Department {
+  String Name
+}
+
+class Room {
+  int RoomNumber
+  Bed Bed
+}
+
+class Home {
+  String Name
+}
+
+class Invoice {
+  Date InvoiceDate
+  float Amount
+  boolean Paid
+}
+
+Person "1" -- "*" Stay : stays in
+Stay "1" -- "1" Category : type
+Bed "1" -- "1" Category : belongs to
+Department "1" -- "*" Room : contains
+Room "1" -- "1" Bed : has
+Home "1" -- "*" Department : has
+
+@enduml

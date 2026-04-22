@@ -1,0 +1,22 @@
+@startuml
+
+class House { String Address, String BuildingMaterial }
+class Basement { String Name, String Type }
+class EarthBasement { Float HumidityLevel }
+class ConcreteBasement { }
+class SemiDetachedHouse { Boolean HasGarden, Int NumberOfWindows, Int NumberOfCarports_or_Garage }
+class Carport { Boolean IsDoubleCarport, Boolean HasFlatRoof }
+class Garage { Boolean HasAutomaticDoor }
+class Company { String Name, String Address }
+class JobLog { Int NumberOfHours, Float AgreedPrice }
+
+House "0..*" -- "0..1" Basement
+Basement "1" -- EarthBasement : EarthBasement
+Basement "1" -- ConcreteBasement : ConcreteBasement
+House "1" -- SemiDetachedHouse
+SemiDetachedHouse "1" -- Carport : Carport
+SemiDetachedHouse "1" -- Garage : Garage
+House "0..*" -- "0..*" Company
+House "1..*" -- "0..*" JobLog
+
+@enduml

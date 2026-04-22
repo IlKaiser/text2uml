@@ -1,0 +1,38 @@
+@startuml
+
+class Person {
+    String PersonID
+    String PhoneNumber
+    String Keywords
+    String InstitutionCode
+}
+class Institution {
+    String InstitutionCode
+}
+class ScientificArticle {
+    String DOI
+    String Title
+}
+class PeerReviewedPaper {
+    Int CitationCount
+    Person Reviewer
+}
+class TechnicalReport {
+}
+class Publisher {
+    String Name
+}
+class Journal {
+    String Name
+    Double ImpactFactor
+}
+
+Person "1" -- "0..*" ScientificArticle
+Person "1" -- "0..*" Institution
+Institution "1" -- "0..*" TechnicalReport
+Publisher "1" -- "0..*" Journal
+ScientificArticle "1" -- "0..*" Person : Author
+PeerReviewedPaper "1" -- "0..*" Journal
+TechnicalReport "1" -- "1" Institution
+
+@enduml

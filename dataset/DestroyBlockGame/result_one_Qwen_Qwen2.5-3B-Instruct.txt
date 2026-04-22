@@ -1,0 +1,57 @@
+@startuml
+
+class User {
+    String Username
+    String Password
+    Boolean isAdmin
+}
+class GameAdmin {
+    String AdminName
+}
+class Player {
+    String Name
+}
+class Game {
+    String Name
+    HallOfFame hallOfFame
+}
+class HallOfFame {
+    String UserName
+    Integer Score
+}
+class DesignGame {
+    String GameName
+    Set<Block> Blocks
+    Set<Level> Levels
+}
+class PlayGame {
+    String GameName
+    Integer CurrentLevel
+    Integer Lives
+    Ball Ball
+    Paddle Paddle
+    Block[] Blocks
+}
+class Level {
+    Integer Number
+    Block[][] StartingArrangement
+    Boolean Random
+}
+class Block {
+    String Color
+    Integer Points
+}
+class DesignGame "1" -- "1" Game
+Game "1" -- "1" HallOfFame
+User "0..1" -- "0..1" GameAdmin
+User "0..1" -- "0..1" Player
+Game "1" -- "0..*" DesignGame
+Game "1" -- "0..1" PlayGame
+PlayGame "1" -- "0..1" HallOfFame
+DesignGame "1" -- "0..*" Level
+Level "1" -- "0..1" Block
+PlayGame "1" -- "*" Ball
+PlayGame "1" -- "*" Paddle
+PlayGame "1" -- "*" Blocks
+Level "1" -- "*" Block
+@enduml

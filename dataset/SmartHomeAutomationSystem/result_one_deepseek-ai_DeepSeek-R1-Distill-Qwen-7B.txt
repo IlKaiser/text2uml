@@ -1,0 +1,246 @@
+<｜begin▁of▁sentence｜><｜User｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.
+
+##############
+
+Here is an example of how should be done.
+
+The specificartion example text is:
+
+Alpha Insurance is an insurance company that provides its clients with various types of insurance policies.
+As soon as a customer addresses Alpha Insurance, a broker is assigned to follow the customer's file.
+The broker is registered in the system, so that when a customer calls, based on the contract,
+the help desk can immediately trace who is the customer's first account manager.
+After the broker is assigned to the customer, the latter indicates which type(s) of insurance policy they would like to sign for,
+so the broker could, depending on the case, either assess the customer's profile on the spot or send the customer's file
+for analysis to the head office. After the customer's profile has been assessed and the customer has been deemed trustworthy,
+a preliminary contract/offer on an insurance product is made to the customer either in person or by email.
+(Such offers can also be extended to already existing customers.)
+If the customer agrees to the offer, the contract is signed by both parties.
+After the signing of the contract, the client enjoys the coverage and is invoiced
+(monthly or yearly - depending on the choice made in the contract) according to the price of the insurance product they bought.
+
+In case the insured event happens, a customer should send a claim for compensation.
+Then the company opens one or several claim cases (e.g. in case of an accident,
+often material damage & physical damage are handled separately). Once the case file is complete,
+it is sent for assessment by different estimators based on their area of expertise.
+According to the reports issued by the estimators, it is decided whether the claim case is approved.
+In case of approval the compensation decision is registered that stipulates which costs are eligible for (partial) refund.
+For the supplied documents, the sum of compensation is calculated and the compensation is paid to the customer's account.
+
+The estimators' reports must be stored in the database for at least one year after the payment of compensation for legal purposes.
+
+The corresponding uml is:
+
+@startuml
+
+class Customer {
+    String Name
+    String email
+}
+class InsurancePolicy {
+    String Type
+    Double MonthlyPrice
+    Double YearlyPrice
+}
+class Contract {
+    String Status
+    String InvoiceFrequency
+}
+class Invoice {}
+class Broker {
+    String Name
+}
+class Claim {
+    Double CompensationTotal
+    Double calculateCompenstationSum()
+}
+class ClaimCase {
+    String Status
+    String CompensationDecision
+}
+class Report {}
+class Estimator {
+    String AreaOfExpertise
+}
+class CompensationPayment {
+    Date PaymentDate
+}
+
+Customer "1"--"0..*" Contract
+Contract "1" -- "0..*" Invoice
+InsurancePolicy "1" -- "0..*" Contract
+Contract "1" -- "0..*" ClaimCase
+Customer "1" -- "0..*" Claim
+Claim "1" -- "0..*" ClaimCase
+ClaimCase "1" -- "0..*" CompensationPayment
+Estimator "0..*" - "0..*" ClaimCase
+(ClaimCase,Estimator) .. Report
+Customer "0..*" - "0..1" Broker
+
+@enduml
+
+##############
+
+The specification text is:
+
+A smart home automation system (SHAS) offers various users to automatically manage smart home automation tasks. A smart home (located at a physical address) consists of several rooms, each of which may contain sensor devices and actuator (controller) devices of different types (e.g. temperature sensor, movement sensor, light controller, lock controller). Each sensor and actuator have a unique device identifier. Once a new sensor or actuator is activated or deactivated, SHAS will recognize the change and update its infrastructure map.
+When SHAS is operational, a sensor device periodically provides sensor readings (recording the measured value and the timestamp). Similarly, a predefined set of control commands (e.g. lockDoor, turnOnHeating) can be sent to the actuator devices with the timestamp and the status of the command (e.g. requested, completed, failed, etc.). All sensor readings and control commands for a smart home are recorded by SHAS in an activity log.
+Relevant alerts in a smart home can be set up and managed by its owner by setting up automation rules. An automation rule has a precondition and an action. The precondition is a Boolean expression constructed from relational terms connected by basic Boolean operators (AND, OR, NOT). Atomic relational terms may refer to rooms, sensors, actuators, sensor readings and control commands. The action is a sequence of control commands. For example, a sample rule could specify:
+when actualTemperature by Device #1244 in Living Room < 18 and window is closed
+then turnOnHeating in Living Room
+Automation rules can be created, edited, activated and deactivated by owners. Only deactivated rules can be edited. Rules can also depend on or conflict with other rules, thus a complex rule hierarchy can be designed. SHAS records whenever an active rule was triggered using a timestamp.
+
+
+##############
+
+Based on the example, the uml output is:
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the provided specification text. Let me start by carefully reading through the text to understand the components involved.
+
+First, the specification talks about a Smart Home Automation System (SHAS) that manages various devices like sensors and actuators. There are smart homes, each with rooms containing different devices. These devices can be sensors or actuators, each with a unique identifier.
+
+When a device is activated or deactivated, SHAS updates its infrastructure map. Sensors provide periodic readings with timestamps, and actuators receive control commands with timestamps and statuses. All these readings and commands are recorded in an activity log by SHAS.
+
+There are automation rules that can be set up by the owner. These rules have a precondition, which is a Boolean expression using relational terms and basic Boolean operators, and an action, which is a sequence of control commands. Rules can be created, edited, activated, or deactivated by the owner, but only deactivated rules can be edited. Rules can also conflict with each other, allowing for complex hierarchies.
+
+Now, I'll extract the classes from the text. The main classes seem to be:
+
+1. SmartHome: Represents a smart home located at a physical address, containing rooms, sensors, and actuators.
+2. Room: A part of a smart home, containing sensor and actuator devices.
+3. Sensor: A device that measures values like temperature or light.
+4. Actuator: A device that controls actions like locking doors or turning on heating.
+5. SensorReading: The data recorded by sensors, including the measured value and timestamp.
+6. ControlCommand: The commands sent to actuators, including the command, timestamp, and status.
+7. ActivityLog: Where SHAS records sensor readings and control commands.
+8. AutomationRule: Contains a precondition (Boolean expression) and an action (sequence of control commands).
+
+Next, I'll extract the attributes for each class.
+
+- SmartHome: String Address, List<Room> Rooms, List<Sensor> Sensors, List<Actuator> Actuators.
+- Room: List<Device> Devices (since each room has multiple devices).
+- Sensor: String Identifier, String Name, String Description, Double MeasurementValue, Date Timestamp.
+- Actuator: String Identifier, String Name, String Description, String Command, Date Timestamp, String Status.
+- SensorReading: String Identifier, String MeasurementValue, Date Timestamp.
+- ControlCommand: String Identifier, String Command, Date Timestamp, String Status.
+- ActivityLog: String Name, List<SensorReading> SensorReadings, List<ControlCommand> ControlCommands.
+- AutomationRule: String Precondition, List<ControlCommand> Action.
+
+Now, I'll extract the relations and their cardinalities.
+
+- SmartHome has one Room, so SmartHome "1..1" -- "0..*" Room.
+- Each Room has multiple Devices, so Room "0..*" -- "1..*" Device.
+- Each Sensor and Actuator is part of a Room, so Sensor "0..*" -- "1..*" Room and Actuator "0..*" -- "1..*" Room.
+- Each SensorReading is associated with a Sensor and a timestamp, so Sensor "1..*" -- "0..*" SensorReading.
+- Each ControlCommand is associated with an Actuator and a timestamp, so Actuator "1..*" -- "0..*" ControlCommand.
+- Each ActivityLog records SensorReadings and ControlCommands, so ActivityLog "0..*" -- "1..*" SensorReading and ActivityLog "0..*" -- "1..*" ControlCommand.
+- Each AutomationRule has a Precondition and an Action, so AutomationRule "0..*" -- "1..*" Precondition and AutomationRule "1..*" -- "0..*" Action.
+
+I need to ensure that the cardinalities are correctly assigned. For example, a SmartHome can have many Rooms, but each Room has only one SmartHome. Similarly, each Sensor and Actuator is part of only one Room. SensorReadings and ControlCommands are recorded by ActivityLog, which can have many of each.
+
+I also need to make sure that the relationships are bidirectional where appropriate. For example, the relationship between Room and Devices is bidirectional because a Room can have multiple Devices, and a Device belongs to a Room.
+
+Finally, I'll structure the PlantUML code by first listing all the classes with their attributes and then defining the relations with their cardinalities.
+</think>
+
+```
+@startuml
+
+class SmartHome {
+    String Address
+    List<Room> Rooms
+    List<Sensor> Sensors
+    List<Actuator> Actuators
+}
+
+class Room {
+    List<Device> Devices
+}
+
+class Sensor {
+    String Identifier
+    String Name
+    String Description
+    Double MeasurementValue
+    Date Timestamp
+}
+
+class Actuator {
+    String Identifier
+    String Name
+    String Description
+    String Command
+    Date Timestamp
+    String Status
+}
+
+class SensorReading {
+    String Identifier
+    String MeasurementValue
+    Date Timestamp
+}
+
+class ControlCommand {
+    String Identifier
+    String Command
+    Date Timestamp
+    String Status
+}
+
+class ActivityLog {
+    String Name
+    List<SensorReading> SensorReadings
+    List<ControlCommand> ControlCommands
+}
+
+class AutomationRule {
+    String Precondition
+    List<ControlCommand> Action
+}
+
+SmartHome "1..1" -- "0..*" Room
+Room "0..*" -- "1..*" Device
+Sensor "0..*" -- "1..*" Room
+Actuator "0..*" -- "1..*" Room
+Sensor "1..*" -- "0..*" SensorReading
+Actuator "1..*" -- "0..*" ControlCommand
+ActivityLog "0..*" -- "1..*" SensorReading
+ActivityLog "0..*" -- "1..*" ControlCommand
+AutomationRule "0..*" -- "1..*" Precondition
+AutomationRule "1..*" -- "0..*" Action
+
+@enduml
+```

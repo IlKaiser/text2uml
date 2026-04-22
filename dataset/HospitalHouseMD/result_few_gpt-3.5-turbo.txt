@@ -1,32 +1,36 @@
 
 @startuml
 
-class HospitalHouseMD {}
-class Patient {}
-class Doctor {}
+class Patient {
+    String Name
+}
+class Doctor {
+    String Name
+}
+class HeadDoctor {
+    String Name
+}
 class Diagnosis {}
 class Treatment {}
-class HeadDoctor {}
-class Stage {}
-class ConsentForm {}
-class FollowUp {}
-class Nurse {}
-class Illness {}
-class PriorityScore {}
+class Illness {
+    String Name
+    String PriorityScore
+}
+class Nurse {
+    String Name
+}
 
-Patient "1..*" -- "1..*" Doctor
-Patient "1..*" -- "0..*" Diagnosis
-Diagnosis "0..*" -- "1..*" Treatment
-Treatment "1" -- "1" Stage
-Treatment "1" -- "1" ConsentForm
-Treatment "0..1" -- "1" Patient
-Treatment "1..*" -- "1" Illness
-Treatment "0..*" -- "1" FollowUp
-FollowUp "0..*" -- "1..*" Nurse
-Illness "1..1" -- "0..1" PriorityScore
+Patient "1" -- "0..*" Diagnosis
+Patient "1" -- "0..*" Treatment
+Patient "1" -- "0..*" Nurse
 Doctor "1" -- "0..*" Diagnosis
-HeadDoctor "1" -- "0..*" Diagnosis
-Stage "1" -- "0..1" Patient
-Stage "1..3" -- "1" Treatment
+Doctor "1" -- "0..*" Treatment
+Doctor "1" -- "0..*" Nurse
+HeadDoctor "0..1" -- "0..*" Doctor
+Diagnosis "1" -- "1" Illness
+Treatment "1" -- "1" Illness
+Treatment "1" -> "1" HeadDoctor
+Illness "0..*" -- "1" Diagnosis
+Illness "0..*" -- "0..*" Treatment
 
 @enduml

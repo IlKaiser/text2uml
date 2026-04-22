@@ -1,27 +1,58 @@
 ```plantuml
 @startuml
-class TaxiCompany{}
-class SelfDrivingCar{}
-class CarOwner{}
-class Customer{}
-class Request{}
-class RideHailService{}
-class RideShareService{}
-class Accident{}
-class Tree{}
 
-TaxiCompany "1..1" -- "1..1" RideHailService
-TaxiCompany "1..1" -- "1..1" RideShareService
-TaxiCompany "1..1" -- "0..*" SelfDrivingCar
+class TaxiCompany {
+    name: String
+}
+
+class RideHailing {
+    timeOfPickUp: Date
+    timeOfDropOff: Date
+    locationOfPickUp: String
+    locationOfDropOff: String
+    rideDuration: Float
+    distance: Float
+    numberOfPassengers: Int
+    fee: Float
+    typeOfRequest: String
+    leadCustomerName: String
+}
+
+class RideSharing {
+    timeOfPickUp: Date
+    timeOfDropOff: Date
+    locationOfPickUp: String
+    locationOfDropOff: String
+    rideDuration: Float
+    distance: Float
+    numberOfCustomers: Int
+    customerNames: String
+    negotiatedFee: Float
+}
+
+class Accident {
+    date: Date
+    location: String
+    damageAmount: Float
+}
+
+TaxiCompany "1..1" -- "1..1" Fleet
 TaxiCompany "1..1" -- "0..*" CarOwner
 TaxiCompany "1..1" -- "0..*" Customer
+TaxiCompany "1..1" -- "1..1" RideHailing
+TaxiCompany "1..1" -- "1..1" RideSharing
+Fleet "0..*" -- "0..*" SelfDrivingCar
+Fleet "0..*" -- "0..*" Car
+CarOwner "0..*" -- "1..1" Car
 Customer "0..*" -- "0..*" Request
-Request "1..1" -- "1..1" RideHailService
-Request "1..1" -- "1..1" RideShareService
-SelfDrivingCar "0..*" -- "0..1" Accident
-CarOwner "0..*" -- "0..*" SelfDrivingCar
-RideHailService "1..1" -- "0..6" Customer
-RideShareService "1..1" -- "0..10" Customer
-RideShareService "0..*" -- "0..*" Tree
+Request "1..1" -- "0..1" RideHailing
+Request "1..1" -- "0..1" RideSharing
+RideHailing "1..1" -- "1..1" Request
+RideSharing "1..1" -- "1..1" Request
+Car "0..*" -- "0..*" Accident
+
+SelfDrivingCar --|> Car
+RideHailing --|> RideSharing
+
 @enduml
 ```

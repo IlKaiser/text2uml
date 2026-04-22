@@ -1,27 +1,71 @@
 @startuml
-class Customer {}
-class Employee {}
-class Driver {}
-class Planner {}
-class AdministrativeStaff {}
-class Vehicle {}
-class RepairShop {}
-class Order {}
-class PartnerCompany {}
-class Repair {}
 
-Driver --|> Employee
-Planner --|> Employee
-AdministrativeStaff --|> Employee
+class Employee {
+    String Name
+    String SSN
+}
+
+class Driver {
+}
+
+class Planner {
+    String Username
+    String Password
+}
+
+class AdminStaff {
+    String Username
+    String Password
+    String FieldOfActivity
+}
+
+Employee <|-- Driver
+Employee <|-- Planner
+Employee <|-- AdminStaff
+
+class Customer {
+    String Name
+    String BillingAddress
+}
+
+class Vehicle {
+    String LicensePlate
+    Double Mileage
+}
+
+class RepairShop {
+    String Name
+    String Address
+}
+
+class Repair {
+    String Duration
+    Double Cost
+}
+
+class Order {
+    String Comment
+    Date StartTime
+    Date FinishTime
+    String PackageSize
+    String PickupAddress
+    String DeliveryAddress
+}
+
+class PartnerCompany {
+    String Name
+    String Address
+}
 
 Driver "1" -- "0..*" Order
 Planner "1" -- "0..*" Order
-Customer "1" -- "0..*" Order
 Vehicle "1" -- "0..*" Order
-Order "0..1" -- "1" AdministrativeStaff
-Order "0..1" -- "1" PartnerCompany
+Customer "1" -- "0..*" Order
+AdminStaff "0..1" -- "0..*" Order
+PartnerCompany "0..1" -- "0..*" Order
 
 Vehicle "1" -- "0..*" Repair
 RepairShop "1" -- "0..*" Repair
 Employee "1" -- "0..*" Repair
+
 @enduml

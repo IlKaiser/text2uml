@@ -1,0 +1,60 @@
+@startuml
+
+class Provider {
+    String Name
+    String Location
+}
+class Cruise {
+    String Number
+    String Name
+    Date StartDate
+    Date EndDate
+}
+class Employee {
+    String Name
+    String SSN
+}
+class Guest {
+    String Name
+    Boolean VIP
+}
+class Ship {
+    String Name
+    Int NumberOfDecks
+    Double Length
+    Int NumberOfPassengers
+}
+class DestinationArea {
+    String Name
+    String SeaName
+}
+class Show {
+    String Title
+    Int Duration
+}
+class Booking {
+    String BookingNumber
+    Date BookingDate
+}
+class TravelAgency {
+    String Name
+    String Address
+}
+class Ticket {
+    String CruiseNumber
+}
+
+Provider "1" -- "0..*" Cruise
+Cruise "1" -- "0..*" Employee
+Cruise "1" -- "0..*" Guest
+Cruise "1" -- "0..*" Ship
+Cruise "1" -- "0..*" DestinationArea
+Cruise "1" -- "0..*" Show
+Cruise "1" -- "0..*" Booking
+Booking "1" -- "0..1" Cruise
+TravelAgency "1" -- "0..1" Booking
+Guest "1" -- "0..*" Cruise
+Cruise "1" -- "0..*" Ticket
+Ticket "1" -- "0..1" Cruise
+
+@enduml

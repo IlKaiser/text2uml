@@ -1,0 +1,150 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+<｜Assistant｜><think>
+Okay, so I need to create a PlantUML class diagram based on the given specification. Let me go through each part step by step.
+
+First, I'll extract all the classes. From the text, I can see the following classes:
+
+1. Provider
+2. Cruise
+3. Employee
+4. Guest
+5. Ship
+6. Booking
+7. TravelAgency
+8. DestinationArea
+9. Show
+10. Ticket
+
+Now, I'll move on to extracting attributes for each class. Each class might have properties like name, location, number, etc.
+
+- Provider has Name and Location.
+- Cruise has Number, Name, Start Date, End Date.
+- Employee has Name and SSN.
+- Guest has Name and VIP status.
+- Ship has Name, Number of Decks, Length, Passengers.
+- Booking has Unique Number and Date.
+- Travel Agency has Name and Address.
+- Destination Area has Name and Sea Name.
+- Show has Title and Duration.
+- Ticket has probably a Cruise reference since it's linked to a cruise.
+
+Next, I need to extract the relations and their cardinalities. Let's go through each relation mentioned:
+
+1. Provider organizes a Cruise. So Provider has a relation to Cruise. Since a provider can organize many cruises, and a cruise is organized by one provider, the cardinality is 1..*.
+
+2. A Cruise has many Employees. Each employee is associated with a cruise, so it's 1..*.
+
+3. Several Guests participate in a Cruise. So Guests can be in multiple Cruises, which is *..*.
+
+4. A Guest can take several Cruises. So Guest has *..* relation to Cruise.
+
+5. A Cruise requires many Employees, which we've already noted as 1..*.
+
+6. A Guest has a Guest attribute, which is already covered.
+
+7. A Guest can take several Cruises, which is *..*.
+
+8. A Cruise is booked by a Travel Agency. So Cruise has a relation to Travel Agency. Since a booking is unique, it's 1..*.
+
+9. A Travel Agency has many Bookings, so it's *..*.
+
+10. A Cruise goes to a Destination Area. So Cruise has a relation to Destination Area, which is 1..*.
+
+11. On a Cruise, guests are offered several Shows. So Guests have a relation to Shows, which is *..*.
+
+12. A Show is part of a Cruise, so Show has a 1..* relation to Cruise.
+
+13. A Cruise has several Guests, which is 1..*.
+
+14. Several Tickets are issued for each Cruise. So Tickets are *..* related to Cruise.
+
+15. A Ticket belongs to exactly one Cruise, so Ticket has a 1..1 relation to Cruise.
+
+16. A Guest can have any number of Tickets, but only one per Cruise. So Guest has a *..1 relation to Tickets.
+
+17. A Ticket is issued by a Guest, so Ticket has a 1..* relation to Guest.
+
+I think I've covered all the relations. Now, I'll map each relation to the correct classes and assign the cardinality. I'll make sure to use bi-directional arcs where necessary and avoid class properties, using only attributes where needed.
+</think>
+
+```plantuml
+@startuml
+
+class Provider{ String Name, String Location }
+class Cruise{ String Number, String Name, Date Start Date, Date End Date }
+class Employee{ String Name, String SSN }
+class Guest{ String Name, Boolean VIP }
+class Ship{ String Name, Integer Number of Decks, Integer Length, Integer Passengers }
+class Booking{ String Unique Number, Date Date }
+class Travel Agency{ String Name, String Address }
+class Destination Area{ String Name, String Sea Name }
+class Show{ String Title, Integer Duration }
+class Ticket{ String }
+
+Cruise "1..*" -- "1..*" Provider
+
+Cruise "1..*" -- "1..*" Employees
+
+Guest "1..*" -- "1..*" Cruise
+
+Guest "*..*" -- "1..*" Cruise
+
+Cruise "1..*" -- "1..*" Travel Agency
+
+Cruise "*..*" -- "1..*" Booking
+
+Cruise "1..*" -- "1..*" Destination Area
+
+Guest "*..*" -- "1..*" Shows
+
+Show "1..*" -- "1..*" Cruise
+
+Cruise "1..*" -- "1..*" Guests
+
+Cruise "*..*" -- "1..*" Tickets
+
+Ticket "1..1" -- "1..*" Guest
+
+Ticket "1..*" -- "1..*" Guest
+
+@enduml
+```

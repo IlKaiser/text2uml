@@ -1,0 +1,75 @@
+@startuml
+
+class RepairShop {
+    String Name
+    String Address
+}
+
+class Repair {
+    Int Duration
+    Double Cost
+}
+
+class Vehicle {
+    String LicensePlateNumber
+    Int Milage
+    VehicleType Type
+}
+
+class Order {
+    Int PacketSize
+    Date Date
+    Sting Comment
+    Time StartTime
+    Time EndTime
+    String PickUpAddress
+    String DeliveryAddress
+}
+
+abstract class Employee {
+    Int Ssn
+    String FirstName
+    String LastName
+}
+
+class Driver {}
+
+abstract class OtherEmployee {
+    String UserName
+    String Password
+}
+
+class Planner {}
+
+class AdministrationEmployee {
+    String FieldOfActivity
+}
+
+class PartnerFirm {
+    String Name
+    String Address
+}
+
+class Customer {
+    String Name
+    String Address
+}
+
+
+RepairShop "1"--"0..*" Repair
+Repair "0..*"--"1" Vehicle
+Repair "0..*"--"1" Employee
+Vehicle "1"--"0..*" Order
+Employee "0..*" -- "0..*" Driver
+Driver "1"--"0..*" Order
+Employee "0..*" -- "0..*" OtherEmployee
+OtherEmployee "0..*" -- "0..*" Planner
+OtherEmployee "0..*" -- "0..*" AdministrationEmployee
+Planner "1" --"0..*" Order : creates
+AdministrationEmployee "0..1"--"0..*" Order
+Order "0..*"-"0..1" PartnerFirm
+Order "0..*"--"1" Customer
+
+
+
+@enduml

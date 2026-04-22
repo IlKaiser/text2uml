@@ -1,16 +1,22 @@
-
+```plantuml
 @startuml
 
-class BusinessTraveller{}
-class HBMS{}
-class Hotel{}
-class Booking{}
-class Room{}
+class BusinessTraveller{ String Name, String BillingInformation, String TravelPreferences }
+class HBMS
+class Hotel{ String Address }
+class RoomType
+class Payment{ String Type }
+class Booking{ Date ConfirmationDate, Date CancellationDeadline }
 
-BusinessTraveller "1..*" -- "1" HBMS
-HBMS "1..*" -- "0..*" Hotel
-HBMS "1..*" -- "0..*" Booking
-Hotel "1..*" -- "0..*" Room
-Booking "1" -- "1..*" Room
+BusinessTraveller "0..*" -- "1" HBMS
+BusinessTraveller "0..*" -- "0..*" Booking
+HBMS "1" -- "0..*" Hotel
+Hotel "0..*" -- "1" RoomType
+Hotel "0..1" -- "0..*" Hotel
+HBMS "0..*" -- "0..*" RoomType
+Booking "0..1" -- "1" Payment
+Booking "1" -- "0..1" Booking
+Hotel "1" -- "0..*" RoomType
 
 @enduml
+```  

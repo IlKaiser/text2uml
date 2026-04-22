@@ -1,0 +1,64 @@
+Here is the UML output for the given specification text:
+
+@startuml
+
+class Person {
+    String PersonID
+    String InstitutionCode
+    String PhoneNumber
+    String Keywords
+    String Institution
+    String Position
+    String Email
+    String AuthorOf
+    String ReviewerOf
+}
+
+class Institution {
+    String InstitutionCode
+    String Name
+}
+
+class Article {
+    String DOI
+    String Title
+    String Authors
+    String Type
+    String Publisher
+    String Journal
+    String CitationCount
+    String Reviewer
+}
+
+class Publisher {
+    String Name
+    String Journals
+}
+
+class Journal {
+    String Name
+    String ImpactFactor
+}
+
+class PeerReview {
+    String DOI
+    String Reviewer
+}
+
+class TechnicalReport {
+    String DOI
+    String Title
+    String Authors
+    String Institution
+}
+
+Person "1" -- "0..*" Article
+Person "1" -- "0..*" PeerReview
+Person "1" -- "0..*" TechnicalReport
+Institution "1" -- "0..*" Article
+Institution "1" -- "0..*" TechnicalReport
+Publisher "1" -- "0..*" Journal
+Journal "1" -- "0..*" Article
+Article "1" -- "0..*" PeerReview
+Article "1" -- "0..*" TechnicalReport
+@enduml

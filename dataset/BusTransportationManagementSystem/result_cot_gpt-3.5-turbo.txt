@@ -1,16 +1,41 @@
 
+```plantuml
 @startuml
+class City
+class "Bus Transportation Management System (BTMS)" {
+}
+class Driver {
+  name: String
+  ID: Int
+  sick_leave: Boolean
+}
+class Bus {
+  licence_plate: String
+  in_repair_shop: Boolean
+}
+class Route {
+  route_number: Int
+}
+class Schedule {
+  route_number: Int
+  morning_shift: String
+  afternoon_shift: String
+  night_shift: String
+}
+class Shift {
+  driver_ID: Int
+  driver_name: String
+  bus_licence_plate: String
+}
 
-class City{}
-class Bus{}
-class Driver{}
-class Shift{}
-class Route{}
-class BTMS{}
-
-City "1..*" -- "1..1" BTMS
-Bus "1..*" -- "1..1" Route
-Bus "1..1" -- "0..*" Shift
-Driver "1..*" -- "1..*" Shift
-
+City "1..1" -- "1..*" "Bus Transportation Management System (BTMS)"
+"Bus Transportation Management System (BTMS)" "1..*" -- "1..*" Driver
+"Bus Transportation Management System (BTMS)" "1..*" -- "1..*" Bus
+"Bus Transportation Management System (BTMS)" "1..1" -- "0..*" Route
+"Bus Transportation Management System (BTMS)" "1..1" -- "1..*" Schedule
+"Bus Transportation Management System (BTMS)" "1..1" -- "1..*" Shift
+Route "0..9999" -- "1..*" Bus
+Schedule "1..*" -- "1..*" Driver
+Shift "1..*" -- "1..*" Driver
 @enduml
+```

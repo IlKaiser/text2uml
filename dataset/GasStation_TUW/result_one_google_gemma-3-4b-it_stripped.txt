@@ -1,0 +1,42 @@
+```plantuml
+@startuml
+class GasStation {
+    int ID
+    String Address
+    int NumberOfFuelPumps
+}
+
+class FuelPump {
+    int Number
+    boolean IsSelfService
+}
+
+class Fuel {
+    String Name
+    double OctaneRating
+}
+
+class DailyFuelPrice {
+    Date Date
+    Fuel Fuel
+    GasStation GasStation
+    double PricePerLiter
+}
+
+class FuelPurchase {
+    int ID
+    FuelPump FuelPump
+    Fuel Fuel
+    DailyFuelPrice DailyFuelPrice
+    double LitersDispensed
+}
+
+GasStation "1" -- "*" FuelPump
+FuelPump "1" -- "*" Fuel
+GasStation "1" -- "*" DailyFuelPrice
+Fuel "1" -- "1" DailyFuelPrice
+FuelPurchase "1" -- "1" FuelPump
+FuelPurchase "1" -- "1" DailyFuelPrice
+
+@enduml
+```

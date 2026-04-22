@@ -1,0 +1,45 @@
+@startuml
+
+class Customer {
+    String Name
+    String CardNumber
+    boolean Active
+    List<Invoice> Invoices
+}
+
+class Invoice {
+    Date InvoiceDate
+    List<RefuelTurn> RefuelTurns
+    float TotalAmount
+    float Discount
+}
+
+class RefuelTurn {
+    Date RefuelDate
+    float Amount
+    boolean Paid
+}
+
+class GasStation {
+    String Location
+    List<Pump> Pumps
+}
+
+class Pump {
+    String Type
+    boolean Available
+    float GasolineLevel
+    float CriticalLevel
+    float ReorderingLevel
+    boolean Blocked
+
+    "1" --* RefuelTurn
+    "1" --* DailyReport
+}
+
+Customer "0..*" -- "1" GasStation
+GasStation "1" -- "1..*" Pump
+RefuelTurn "1" -- "1" Pump
+Invoice "0..*" -- "1" Customer
+
+@enduml

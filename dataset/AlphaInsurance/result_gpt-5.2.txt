@@ -1,0 +1,54 @@
+@startuml
+
+class InsuranceCompany{ String Name }
+class Customer{ String CustomerId, String Name, String Email }
+class Broker{ String BrokerId, String Name }
+class HelpDesk{ String HelpDeskId }
+class HeadOffice{ String HeadOfficeId }
+class InsurancePolicyType{ String PolicyTypeId, String Name }
+class InsuranceProduct{ String ProductId, String Name, Decimal Price }
+class Offer{ String OfferId, Date OfferDate, String Channel }
+class Contract{ String ContractId, Date SigningDate, String BillingFrequency }
+class Coverage{ String CoverageId, Date StartDate, Date EndDate }
+class Invoice{ String InvoiceId, Date InvoiceDate, Decimal Amount, String Period }
+class InsuredEvent{ String EventId, Date EventDate, String Type }
+class Claim{ String ClaimId, Date SubmissionDate }
+class ClaimCase{ String CaseId, String CaseType, Date OpenDate, String Status }
+class CaseFile{ String CaseFileId, Date CompletionDate }
+class Estimator{ String EstimatorId, String Name, String ExpertiseArea }
+class EstimatorReport{ String ReportId, Date ReportDate, String Outcome }
+class CompensationDecision{ String DecisionId, Date DecisionDate, String ApprovalStatus }
+class SuppliedDocument{ String DocumentId, String DocumentType, Date DocumentDate }
+class CompensationPayment{ String PaymentId, Date PaymentDate, Decimal Amount }
+class BankAccount{ String AccountId, String IBAN, String BankName }
+
+InsuranceCompany "0..*" -- "0..*" Customer
+Broker "0..*" -- "0..*" Customer
+HelpDesk "0..*" -- "0..*" Broker
+Customer "0..*" -- "0..*" InsurancePolicyType
+HeadOffice "0..*" -- "0..*" Customer
+Offer "0..*" -- "0..*" Customer
+Offer "0..*" -- "0..*" Broker
+Offer "0..*" -- "0..*" InsuranceProduct
+Contract "0..*" -- "0..*" Customer
+Contract "0..*" -- "0..*" InsuranceProduct
+Contract "0..*" -- "0..*" Broker
+Contract "0..*" -- "0..*" Coverage
+Contract "0..*" -- "0..*" Invoice
+Customer "0..*" -- "0..*" Invoice
+InsuredEvent "0..*" -- "0..*" Customer
+Claim "0..*" -- "0..*" Customer
+Claim "0..*" -- "0..*" InsuredEvent
+Claim "1..1" -- "1..*" ClaimCase
+ClaimCase "1..1" -- "1..1" CaseFile
+ClaimCase "0..*" -- "0..*" Estimator
+Estimator "0..*" -- "0..*" EstimatorReport
+ClaimCase "0..*" -- "0..*" EstimatorReport
+ClaimCase "0..*" -- "0..*" CompensationDecision
+CompensationDecision "0..*" -- "0..*" SuppliedDocument
+CompensationDecision "0..*" -- "0..*" CompensationPayment
+CompensationPayment "0..*" -- "0..*" BankAccount
+Customer "0..*" -- "0..*" BankAccount
+CompensationPayment "0..*" -- "0..*" Customer
+
+@enduml

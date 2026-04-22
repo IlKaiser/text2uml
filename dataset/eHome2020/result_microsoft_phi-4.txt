@@ -1,0 +1,59 @@
+```plantuml
+@startuml
+
+class Sensor {
+    String vendorId
+    String description
+    String unit
+    String roomId
+}
+
+class TemperatureSensor extends Sensor {
+    float minValue
+    float maxValue
+}
+
+class PowerSensor extends Sensor {
+    float counterReading
+}
+
+class SensorController {
+    String apartmentInfo
+    String username
+    String password
+}
+
+class Inhabitant {
+    String username
+    String password
+    boolean isAdmin
+}
+
+class Room {
+    String description
+    String roomId
+}
+
+class Apartment {
+    String address
+    String apartmentId
+}
+
+class SensorValue {
+    Date timestamp
+    float value
+}
+
+class EMonitor {
+    String emailAddress
+}
+
+SensorController "1" -- "1..*" Inhabitant
+SensorController "1" -- "1..*" Sensor
+Sensor "1" -- "1" Room
+Apartment "1" -- "2..*" Room
+Sensor "1" -- "1..*" SensorValue
+EMonitor "1" -- "1..*" Sensor
+
+@enduml
+```

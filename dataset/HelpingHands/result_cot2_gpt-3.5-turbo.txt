@@ -1,31 +1,91 @@
 
-```plantuml
 @startuml
 
-class HelpingHandsStore{}
-class Resident{}
-class City{}
-class PickupDeliveryService{}
-class PickupVehicle{}
-class VolunteerDriver{}
-class Client{}
-class Item{}
-class Article{}
-class Category{}
-class RFIDDevice{}
-class FoodBank{}
-class DistributionCenter{}
+class HelpingHandsStore {
+}
 
-Resident "0..*" -- "1..1" HelpingHandsStore
-Resident "0..*" -- "0..5" PickupDeliveryService
-PickupDeliveryService "0..*" -- "1..*" PickupVehicle
-PickupVehicle "0..*" -- "1..*" VolunteerDriver
-VolunteerDriver "0..*" -- "1..5" PickupVehicle
-PickupVehicle "0..*" -- "1..*" Item
-RFIDDevice "0..*" -- "0..*" Item
-Item "0..*" -- "1..1" Category
-DistributionCenter "0..*" -- "1..5" HelpingHandsStore
-Client "0..*" -- "0..*" HelpingHandsStore
+class Article {
+    dimensions: String
+    weight: Float
+}
+
+class Food {
+}
+
+class Resident {
+    name: String
+    streetAddress: String
+    phoneNumber: PhoneNumber
+    emailAddress: EmailAddress
+}
+
+class PickupDeliveryService {
+    description: String
+}
+
+class Address {
+}
+
+class PhoneNumber {
+}
+
+class EmailAddress {
+}
+
+class PickupVehicle {
+    storageSpace: Float
+}
+
+class VolunteerDriver {
+    availableDays: List
+}
+
+class PickupRoute {
+}
+
+class ScheduledItem {
+    dimensions: String
+    weight: Float
+}
+
+class DistributionCenter {
+}
+
+class Employee {
+}
+
+class RFIDDevice {
+}
+
+class Category {
+}
+
+class Client {
+    neededCategories: List
+}
+
+class PersonalVisit {
+}
+
+class HomeAddress {
+}
+
+Resident "1..*" -- "0..*" Article.
+Resident "0..*" -- "0..1" PickupDeliveryService.
+Resident "1..*" -- "0..1" Address.
+Resident "1..*" -- "0..1" PhoneNumber.
+Resident "0..*" -- "0..1" EmailAddress.
+PickupDeliveryService "1..*" -- "1..*" Resident.
+PickupDeliveryService "1..*" -- "1..*" ScheduledItem.
+PickupDeliveryService "1..*" -- "1..*" PickupVehicle.
+PickupVehicle "1..*" -- "1..*" VolunteerDriver.
+VolunteerDriver "1..*" -- "1..*" ScheduledItem.
+ScheduledItem "1..1" -- "1..1" PickupVehicle.
+Employee --|> RFIDDevice.
+Article "1..*" -- "0..*" Category.
+Client "1..*" -- "0..*" Category.
+Client "1..*" -- "0..1" ScheduledItem.
+Client "1..*" -- "0..*" HomeAddress.
 
 @enduml
-```
+

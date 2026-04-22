@@ -1,0 +1,43 @@
+```plantuml
+@startuml
+
+class Student {
+  String Name
+  String Email
+}
+
+class Tutor {
+  String Name
+  String Email
+  String BankAccount
+}
+
+class TutoringSession {
+  String Date
+  String Time
+  String Subject
+  String Level
+  String Price
+  String Status
+}
+
+class Request {
+  String ProposedDate
+  String ProposedTime
+  String Level
+}
+
+class Payment {
+  String PaymentMethod
+  String Amount
+}
+
+Student "1..*" -- "1..*" Request : makes
+Tutor "1..*" -- "1..*" TutoringSession : offers
+TutoringSession "1..*" -- "1..*" Request : associated with
+Tutor "1..*" -- "1..*" Payment : makes
+TutoringSession "1..*" -- "1..*" Payment : has
+TutoringSession "1..*" -- "1..*" TutoringSession : has follow-up
+
+@enduml
+```

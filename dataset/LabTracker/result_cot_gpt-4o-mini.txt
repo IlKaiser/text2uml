@@ -1,16 +1,49 @@
 ```plantuml
 @startuml
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class Appointment{}
-class Lab{}
+class Doctor {
+    practitioner_number: Int
+    signature: String
+    full_name: String
+    address: String
+    phone_number: String
+    valid_from: Date
+}
 
-Doctor "1..*" -- "1..*" Requisition
+class Patient {
+    health_number: String
+    first_name: String
+    last_name: String
+    date_of_birth: Date
+    address: String
+    phone_number: String
+}
+
+class Requisition {
+    repetition_number: Int
+    interval: String
+}
+
+class Appointment {
+    confirmation_number: Int
+    date: Date
+    start_time: Date
+    end_time: Date
+    lab_name: String
+    registration_number: String
+}
+
+class Lab {
+    address: String
+    business_hours: String
+    fee: Float
+}
+
 Doctor "1..*" -- "0..*" Patient
-Patient "1..*" -- "0..*" Appointment
+Doctor "1..*" -- "1..*" Requisition
+Patient "0..*" -- "0..*" Requisition
+Patient "1..*" -- "1..1" Appointment
 Requisition "1..*" -- "1..*" Test
 Test "1..*" -- "1..1" Lab
+Appointment "1..1" -- "1..1" Lab
 @enduml
 ```

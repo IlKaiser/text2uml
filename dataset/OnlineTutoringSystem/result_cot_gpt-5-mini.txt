@@ -1,25 +1,61 @@
 @startuml
-class Person{}
-class Subject{}
-class TutoringOffer{}
-class AvailabilitySlot{}
-class TutoringRequest{}
-class TutoringSession{}
-class Payment{}
-class Cancellation{}
-class TutorAward{}
+class User {
+  name: String
+  email: String
+  bankAccount: String
+}
 
-Person "1..*" -- "1..1" TutoringOffer.
-Person "0..*" -- "1..1" TutoringRequest.
-Person "0..*" -- "2..2" TutoringSession.
-TutoringOffer "1..1" -- "0..*" Subject.
-TutoringOffer "0..*" -- "1..1" AvailabilitySlot.
-TutoringRequest "1..1" -- "0..*" TutoringOffer.
-TutoringRequest "0..*" -- "0..1" TutoringSession.
-TutoringSession "1..1" -- "1..1" Payment.
-Payment "1..1" -- "0..*" Person.
-Cancellation "1..1" -- "0..1" TutoringSession.
-Cancellation "1..1" -- "0..*" Person.
-TutorAward "1..1" -- "0..*" Person.
-TutorAward "1..1" -- "0..*" Subject.
+class TutoringOffer {
+  expertiseLevel: String
+  hourlyPrice: Float
+}
+
+class Subject {
+  name: String
+}
+
+class AvailabilitySlot {
+  day: String
+  startTime: String
+  endTime: String
+}
+
+class TutoringRequest {
+  level: String
+  suggestedDateTime: Date
+}
+
+class TutoringSession {
+  scheduledDateTime: Date
+  price: Float
+  confirmed: Boolean
+  cancelled: Boolean
+}
+
+class Payment {
+  method: String
+  amount: Float
+  date: Date
+}
+
+class BankAccount
+
+class Award {
+  name: String
+  subject: String
+  month: Date
+}
+
+User "0..1" -- "1..1" BankAccount
+User "0..*" -- "1..1" TutoringOffer
+TutoringOffer "1..1" -- "0..*" Subject
+User "0..*" -- "1..1" AvailabilitySlot
+TutoringRequest "1..1" -- "0..*" TutoringOffer
+TutoringRequest "1..1" -- "0..*" AvailabilitySlot
+TutoringSession "1..1" -- "0..*" TutoringRequest
+TutoringSession "2..2" -- "0..*" User
+TutoringSession "0..1" -- "1..1" Payment
+Payment "1..1" -- "0..*" User
+Award "1..1" -- "0..*" User
+Award "1..1" -- "0..*" Subject
 @enduml

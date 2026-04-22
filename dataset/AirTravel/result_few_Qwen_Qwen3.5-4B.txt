@@ -1,0 +1,63 @@
+@startuml
+class Aircraft {
+    String Name
+    String Type
+    Int YearOfManufacture
+    Date NextInspection
+}
+class Flight {
+    String FlightNumber
+    Date FlightDate
+}
+class Passenger {
+    String Name
+    String PassportNumber
+}
+class Ticket {
+    String TicketNumber
+    Double Price
+    Boolean UpgradeDesired
+}
+class SeatCategory {
+    String Designation
+    Boolean HasEntertainment
+    Int NumberOfSeats
+}
+class Airline {
+    String Name
+}
+class FlightAttendant {
+    String Name
+    Date DateOfEmployment
+    Boolean IsChiefSteward
+}
+class Pilot {
+    String Name
+    Date DateOfEmployment
+    String License
+}
+class Airport {
+    String Name
+    Int NumberOfRunways
+}
+class PassengerAircraft {
+    Int NumberOfSeats
+}
+
+Aircraft "1" -- "0..*" Flight
+Aircraft "1" -- "0..*" Ticket
+Aircraft "1" -- "0..*" SeatCategory
+Aircraft "1" -- "0..*" Airline
+Aircraft "0..*" -- "1" PassengerAircraft
+PassengerAircraft "1" -- "0..*" SeatCategory
+Flight "1" -- "0..*" Passenger
+Flight "1" -- "0..*" Ticket
+Flight "1" -- "0..*" Airport
+Flight "1" -- "0..*" Airport
+Passenger "0..*" -- "1" Ticket
+Airline "1" -- "0..*" FlightAttendant
+Airline "1" -- "0..*" Pilot
+Flight "1" -- "0..*" FlightAttendant
+Flight "1" -- "1..2" Pilot
+Airport "1" -- "0..*" Aircraft
+@enduml

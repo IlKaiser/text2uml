@@ -1,24 +1,39 @@
-```plantuml
+```plaintext
 @startuml
 
-class Patient {}
-class Doctor {}
-class Diagnosis {}
-class Treatment {}
-class HeadDoctor {}
-class ConsentForm {}
-class Illness {}
-class Nurse {}
+class Patient {
+    String Name
+    Boolean ConsentGiven
+}
+class Doctor {
+    String Name
+}
+class Diagnosis {
+    Boolean Approved
+}
+class Treatment {
+    Int Stage
+    String Status
+}
+class Illness {
+    String PriorityScore
+}
+class HeadDoctor {
+    String Name
+}
+class Nurse {
+    String Name
+}
 
-Doctor "1..*" -- "1" Patient
-Diagnosis "0..*" -- "1" Patient
+Patient "1" -- "1..*" Doctor
+Patient "1" -- "1..*" Diagnosis
+Doctor "1" -- "1..*" Diagnosis
 HeadDoctor "1" -- "0..*" Diagnosis
-Treatment "0..*" -- "1" Diagnosis
 Illness "1" -- "0..*" Treatment
-ConsentForm "1" -- "1" Patient
-Nurse "0..*" -- "1" Patient
-Patient "1" -- "0..*" ConsentForm
-HeadDoctor "1" -- "0..*" Treatment
+Diagnosis "1" -- "0..*" Treatment
+Patient "1" -- "0..*" Treatment
+Doctor "1" -- "0..*" Treatment
+Nurse "0..*" -- "0..*" Treatment
 
 @enduml
 ```

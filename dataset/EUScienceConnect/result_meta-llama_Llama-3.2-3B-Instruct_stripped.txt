@@ -1,0 +1,35 @@
+```plantuml
+@startuml
+class Person{ String PersonID, String InstitutionCode, String PhoneNumber, String Keywords, String Institution }
+class Institution{ String InstitutionCode }
+class Article{ String DOI, String Title, String Authors, String Position, String Type, String Publisher, String CitationCount, String Reviewers }
+class Publisher{ String Name, String Journals }
+class Journal{ String Name, String Publisher, String ImpactFactor }
+class PeerReview{ String DOI, String Reviewer }
+class TechnicalReport{ String DOI, String Title, String Institution }
+@enduml
+```
+
+Note: I've created the following classes:
+
+- Person: stores information about a person, including their ID, institution code, phone number, keywords, and institution.
+- Institution: stores the institution code.
+- Article: stores information about a scientific article, including its DOI, title, authors, position, type, publisher, citation count, and reviewers.
+- Publisher: stores information about a publisher, including their name and journals.
+- Journal: stores information about a journal, including its name, publisher, and impact factor.
+- PeerReview: stores information about a peer-reviewed article, including its DOI and reviewer.
+- TechnicalReport: stores information about a technical report, including its DOI, title, and institution.
+
+The relations are:
+
+- A person can be associated with one institution (Person "1..1" -- "1..*" Institution).
+- An institution can have multiple people (Institution "1..*" -- "0..*" Person).
+- An article can have multiple authors (Article "1..*" -- "1..*" Person).
+- An article can have multiple reviewers (Article "1..*" -- "0..*" PeerReview).
+- A publisher can have multiple journals (Publisher "1..*" -- "1..*" Journal).
+- A journal can have multiple articles (Journal "1..*" -- "1..*" Article).
+- A technical report is always published by one institution (TechnicalReport "1..1" -- "1..*" Institution).
+- A peer-reviewed article is published in a journal (PeerReview "1..*" -- "1..*" Journal).
+- A journal can have multiple peer-reviewed articles (Journal "1..*" -- "1..*" PeerReview).
+- A publisher can publish multiple journals (Publisher "1..*" -- "1..*" Journal).
+- A journal can have multiple technical reports (Journal "1..*" -- "1..*" TechnicalReport).

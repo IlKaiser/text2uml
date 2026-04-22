@@ -1,28 +1,108 @@
 @startuml
-class BusinessTraveller{}
-class BillingInformation{}
-class Address{}
-class TravelPreference{}
-class Hotel{}
-class HotelChain{}
-class City{}
-class RoomType{}
-class Booking{}
-class PreliminaryBooking{}
-class FinalizedBooking{}
-class Offer{}
-class CreditCardInformation{}
-class PaymentOption{}
+class BusinessTraveller {
+  name: String
+}
+class BillingInformation {
+  companyName: String
+  address: String
+}
+class TravelPreferences {
+  breakfastIncluded: Boolean
+  freeWifi: Boolean
+  frontDesk24_7: Boolean
+}
+class TravelPeriod {
+  arrivalDate: Date
+  departureDate: Date
+}
+class City {
+  name: String
+}
+class Address {
+  addressLine: String
+}
+class Hotel {
+  city: String
+  address: String
+}
+class HotelRating {
+  rating: Int
+}
+class Room {
+  roomType: String
+}
+class Availability {
+  isAvailable: Boolean
+}
+class Price {
+  amount: Float
+}
+class CostPerNight {
+  amount: Float
+}
+class Budget {
+  maxPerNight: Float
+}
+class Booking {
+  bookingIdentifier: String
+  price: Float
+  cityArea: String
+  hotelRating: Int
+  keyPreferences: String
+  creditCardInfo: String
+}
+class Confirmation {
+  confirmed: Boolean
+  timestamp: Date
+}
+class CreditCardInformation {
+  cardNumber: String
+}
+class Payment {
+  paid: Boolean
+}
+class Reimbursement {
+  amount: Float
+}
+class PastBookingInformation {
+  lastBookingDate: Date
+  totalBookings: Int
+}
+class ReliabilityRating {
+  score: Float
+}
+class CancellationDeadline {
+  deadlineDate: Date
+}
+class HotelChain
+class CompetitorHotel
+class RoomType
+class Offer
+class SpecialOffer
 
-Hotel "0..*" -- "1..1" City
-Hotel "0..*" -- "0..1" HotelChain
-RoomType "0..*" -- "1..1" Hotel
-Offer "0..*" -- "1..1" Hotel
-FinalizedBooking "0..*" -- "1..1" Hotel
-Booking "0..*" -- "1..1" BusinessTraveller
-TravelPreference "0..*" -- "1..1" BusinessTraveller
-BillingInformation "1..1" -- "1..1" Address
 BusinessTraveller "1..1" -- "1..1" BillingInformation
-FinalizedBooking "0..*" -- "1..1" CreditCardInformation
-FinalizedBooking "0..*" -- "1..1" PaymentOption
+BusinessTraveller "0..1" -- "0..1" TravelPreferences
+BillingInformation "1..1" -- "1..1" Address
+BusinessTraveller "0..1" -- "0..1" Budget
+PastBookingInformation "0..*" -- "1..1" BusinessTraveller
+Booking "1..*" -- "1..1" City
+Booking "1..*" -- "1..1" TravelPeriod
+Booking "1..*" -- "1..1" Hotel
+Booking "1..*" -- "1..1" Payment
+Booking "1..*" -- "1..1" Confirmation
+Booking "1..*" -- "1..1" CreditCardInformation
+Booking "0..*" -- "0..*" SpecialOffer
+SpecialOffer "1..*" -- "1..1" CompetitorHotel
+Offer "1..*" -- "1..1" Price
+SpecialOffer "1..*" -- "1..1" Price
+Hotel "1..*" -- "1..1" City
+Hotel "1..*" -- "1..1" Address
+Hotel "0..1" -- "0..1" HotelChain
+Hotel "1..*" -- "1..1" HotelRating
+Availability "1..*" -- "1..1" Hotel
+Availability "1..*" -- "1..1" TravelPeriod
+Availability "1..*" -- "1..1" RoomType
+Room "1..*" -- "1..1" RoomType
+Room "1..*" -- "1..1" CostPerNight
+ReliabilityRating "1..1" -- "1..1" BusinessTraveller
 @enduml

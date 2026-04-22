@@ -1,19 +1,39 @@
 ```
 @startuml
-class Hospital{}
-class Doctor{}
-class Patient{}
-class Examination{}
-class TreatmentPlan{}
-class Diagnosis{}
-class Permission{}
 
-Doctor "1..1" -- "1..1" Hospital
-Doctor "0..*" -- "0..*" Patient
+class Hospital {
+    permission: Boolean
+}
+
+class Doctor {
+    affiliated: Boolean
+}
+
+class Examination {
+    type: String
+}
+
+class Patient {
+    problem: String
+}
+
+class TreatmentPlan {
+    advisedExaminations: String
+}
+
+class Diagnosis {
+}
+
+class Problem {
+}
+
+Hospital "1..1" -- "0..*" Doctor
+Doctor "1..1" -- "0..*" Examination
+Doctor "1..1" -- "0..*" Diagnosis
+Patient "1..1" -- "0..*" Examination
 Patient "1..1" -- "0..*" Diagnosis
-Diagnosis "1..1" -- "1..1" TreatmentPlan
+Problem "1..1" -- "0..*" TreatmentPlan
 TreatmentPlan "1..1" -- "0..*" Examination
-Hospital "1..1" -- "0..*" Permission
-Permission "1..1" -- "0..*" Examination
+
 @enduml
 ```

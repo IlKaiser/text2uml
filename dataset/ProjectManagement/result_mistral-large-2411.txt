@@ -1,19 +1,20 @@
-```plaintext
 @startuml
 
 class University{}
 class Department{}
 class ResearchGroup{}
-class Researcher{}
+class Researcher{ String researcherID }
 class Project{}
-class WorkPackage{}
+class WorkPackage{ String wpID }
+class Assignment{ String assignmentID }
 
 University "1..1" -- "1..*" Department
 Department "1..1" -- "1..*" ResearchGroup
 ResearchGroup "1..1" -- "1..*" Researcher
 Project "1..1" -- "1..*" WorkPackage
-ResearchGroup "1..1" -- "1..*" WorkPackage
-Researcher "1..1" -- "1..*" WorkPackage
+WorkPackage "1..1" -- "1..1" ResearchGroup
+Researcher "1..1" -- "0..*" Assignment
+WorkPackage "1..1" -- "0..*" Assignment
+ResearchGroup "1..1" -- "0..*" Assignment
 
 @enduml
-```

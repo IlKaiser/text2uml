@@ -1,25 +1,27 @@
 @startuml
-class Hospital{}
-class Doctor{}
-class Patient{}
-class ExaminationType{}
-class Examination{}
-class Permission{}
-class TreatmentPlan{}
-class Problem{}
-class Treatment{}
-class MedicalAction{}
 
-Hospital "1" -- "0..*" Doctor
-Doctor "1" -- "0..*" Patient
-Examination "1" -- "0..*" ExaminationType
-Hospital "1" -- "0..*" Permission
-ExaminationType "0..*" -- "1" Permission
-Problem "1" -- "0..*" TreatmentPlan
-TreatmentPlan "0..*" -- "0..*" ExaminationType
+class Hospital{ String Name }
+class Doctor{ String Name }
+class Patient{ String Name }
+class ExaminationType{ String Name }
+class Permission{ Boolean Granted }
+class MedicalProblem{ String Name }
+class TreatmentPlan{ String Name }
+class Treatment{ String Description }
+class Examination{ Date DatePerformed, String Notes }
+class MedicalAction{ String Description }
+
 Doctor "1" -- "0..*" Treatment
 Patient "1" -- "0..*" Treatment
+MedicalProblem "1" -- "1" TreatmentPlan
+TreatmentPlan "0..*" -- "1" ExaminationType
+Treatment "1" -- "1" MedicalProblem
 Treatment "1" -- "1" TreatmentPlan
-Treatment "0..*" -- "1" Examination
-Treatment "0..*" -- "1" MedicalAction
+Treatment "1" -- "0..*" Examination
+Examination "1" -- "1" ExaminationType
+Examination "1" -- "1" Hospital
+Treatment "1" -- "0..*" MedicalAction
+Hospital "0..*" -- "0..*" Permission
+ExaminationType "0..*" -- "0..*" Permission
+
 @enduml

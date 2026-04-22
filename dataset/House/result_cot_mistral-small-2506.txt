@@ -1,21 +1,56 @@
 ```plantuml
 @startuml
 
-class House{}
-class Basement{}
-class EarthBasement{}
-class ConcreteBasement{}
-class SemiDetachedHouse{}
-class Carport{}
-class Garage{}
-class Company{}
-class JobLog{}
+class House {
+  address:String
+  building material:String
+}
 
-House "0..1" -- "1..1" Basement
-House "1..*" -- "1..1" Company
-House "1..*" -- "1..1" JobLog
-SemiDetachedHouse "1..1" -- "1..2" Carport
-SemiDetachedHouse "0..1" -- "1..1" Garage
+class Basement {
+  size:Int
+  name:String
+}
+
+class EarthBasement {
+  humidity level:Float
+}
+
+class ConcreteBasement {
+
+}
+
+class SemiDetachedHouse {
+  has its own garden:Boolean
+  number of windows:Int
+}
+
+class Carport {
+  is double carport:Boolean
+  has a flat roof:Boolean
+}
+
+class Garage {
+  has an automatic garage door:Boolean
+}
+
+class Company {
+  name:String
+  address:String
+}
+
+class JobLog {
+  number of hours:Int
+  agreed price:Float
+}
+
+House "1..*" -- "0..*" Company
+SemiDetachedHouse "1..1" -- "2..2" Carport
+SemiDetachedHouse "1..1" -- "0..1" Garage
+
+Basement --|> House
+EarthBasement --|> Basement
+ConcreteBasement --|> Basement
+SemiDetachedHouse --|> House
 
 @enduml
 ```

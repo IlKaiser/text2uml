@@ -1,51 +1,42 @@
 @startuml
 
-class TeamSportsScoutingSystem{}
-class Employee{}
-class HeadCoach{}
-class Director{}
-class Scout{}
-class HeadScout{}
-class Player{}
-class PlayerProfile{}
-class TargetPosition{}
-class PlayerAttribute{}
-class LongList{}
-class ShortList{}
-class ScoutingAssignment{}
-class ScoutingReport{}
-class Recommendation{}
-class Offer{}
+class TeamSportsScoutingSystem { String systemName }
+class Employee { String name, String employeeId }
+class HeadCoach { }
+class HeadScout { }
+class Scout { }
+class Director { }
+class Player { String playerId, String name }
+class DesignatedPlayerProfile { String profileName, String description }
+class TargetPosition { String code }
+class PlayerAttribute { String name, String value }
+class LongList { String name }
+class ShortList { String name }
+class ScoutingAssignment { Date assignedDate, Boolean completed }
+class ScoutingReport { String pros, String cons, String recommendation }
+class Offer { String terms, Date offerDate, String status }
 
-TeamSportsScoutingSystem "1..1" -- "1..*" Employee
-Employee "0..1" -- "0..1" HeadCoach
-Employee "0..1" -- "0..1" Director
-Employee "0..*" -- "0..*" Scout
-Scout "0..1" -- "0..1" HeadScout
+HeadCoach --|> Employee
+Scout --|> Employee
+HeadScout --|> Scout
+Director --|> Employee
 
-HeadCoach "1..*" -- "0..*" PlayerProfile
-PlayerProfile "1..*" -- "0..*" TargetPosition
-PlayerProfile "0..*" -- "0..*" PlayerAttribute
-
-LongList "1..1" -- "0..*" Player
-Scout "0..*" -- "0..1" LongList
-
+TeamSportsScoutingSystem "1..1" -- "0..*" Employee
+HeadCoach "1..1" -- "0..*" DesignatedPlayerProfile
+DesignatedPlayerProfile "0..*" -- "0..*" TargetPosition
+DesignatedPlayerProfile "0..*" -- "0..*" PlayerAttribute
+Scout "0..*" -- "0..*" LongList
+LongList "0..*" -- "0..*" Player
+HeadScout "1..1" -- "0..*" LongList
 HeadScout "1..1" -- "0..*" ScoutingAssignment
-Scout "0..*" -- "0..*" ScoutingAssignment
-ScoutingAssignment "1..1" -- "1..1" Player
-
-ScoutingAssignment "1..1" -- "0..*" ScoutingReport
-ScoutingReport "1..1" -- "1..1" Scout
-ScoutingReport "1..1" -- "1..1" Player
-ScoutingReport "1..1" -- "1..1" Recommendation
-
+ScoutingAssignment "0..*" -- "0..*" Scout
+ScoutingAssignment "0..*" -- "1..1" Player
+ScoutingAssignment "1..1" -- "1..1" ScoutingReport
+ScoutingReport "0..*" -- "1..1" Scout
 HeadCoach "1..1" -- "0..*" ShortList
 HeadScout "1..1" -- "0..*" ShortList
-ShortList "1..1" -- "0..*" Player
-ShortList "0..*" -- "0..*" ScoutingAssignment
-
-HeadScout "0..*" -- "0..1" Recommendation
+ShortList "0..*" -- "0..*" Player
+Offer "0..*" -- "1..1" Player
 Director "1..1" -- "0..*" Offer
-Offer "1..1" -- "1..1" Player
 
 @enduml

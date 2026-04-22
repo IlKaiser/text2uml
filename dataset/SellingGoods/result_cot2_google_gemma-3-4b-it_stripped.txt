@@ -1,0 +1,96 @@
+```plantuml
+@startuml
+class Customer {
+    - address : String
+    - vatNumber : String
+}
+
+class Product {
+    - name : String
+    - stockLevel : Int
+}
+
+class Order {
+    - orderDate : Date
+    - totalAmount : Float
+}
+
+class OrderLine {
+    - quantity : Int
+    - product : Product
+    - order : Order
+}
+
+class Stock {
+    - product : Product
+    - currentStockLevel : Int
+}
+
+class Delivery {
+    - order : Order
+    - deliveryDate : Date
+    - status : String
+}
+
+class Invoice {
+    - order : Order
+    - invoiceDate : Date
+    - amountDue : Float
+    - paymentStatus : String
+}
+
+class Warehouse {
+    - address : String
+    - supermarket : Supermarket
+}
+
+class Supermarket {
+    - name : String
+    - headOfficeAddress : String
+}
+
+class Payment {
+    - paymentDate : Date
+    - amount : Float
+    - invoice : Invoice
+}
+
+class Shipment {
+    - delivery : Delivery
+    - shipmentDate : Date
+}
+
+class Address {
+    - street : String
+    - city : String
+    - zipCode : String
+    - country : String
+}
+
+class VATNumber {
+    - vatNumber : String
+}
+
+class Company {
+    - name : String
+}
+
+Customer "1" -- "*" Order : places
+Customer "1" -- "1" Address : has
+Customer "1" -- "1" VATNumber : has
+Product "1" -- "*" OrderLine : is part of
+Order "1" -- "*" OrderLine : contains
+OrderLine "1" -- "1" Quantity : has
+Stock "1" -- "*" Product : manages
+Stock "1" -- "1" CurrentStockLevel : has
+Order "1" -- "1" Payment : makes
+Order "1" -- "1" Shipment : ships
+Shipment "1" -- "1" Delivery : is
+Delivery "1" -- "1" Address : delivered to
+Delivery "1" -- "1" Status : has
+Invoice "1" -- "1" Order : for
+Supermarket "1" -- "*" Warehouse : has
+Warehouse "1" -- "1" Address : located at
+
+@enduml
+```

@@ -1,0 +1,121 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# text2uml – unified runner configuration
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Path to the dataset root (resolved relative to this file)
+dataset_path: "dataset"
+
+# Per-invocation timeout in seconds (chain is killed after this)
+timeout: 360
+
+# ── Techniques ───────────────────────────────────────────────────────────────
+# Each enabled technique is run against every enabled provider/model.
+# Result files are saved as:  result_{prefix}{model}.txt
+techniques:
+  zero_shot:
+    enabled: true
+  one_shot:
+    enabled: true
+    # Skip the case used verbatim as the one-shot example in the prompt
+    skip_folders:
+      - AlphaInsurance
+  few_shot:
+    enabled: true
+    # Skip both cases used verbatim as few-shot examples in the prompt
+    skip_folders:
+      - AlphaInsurance
+      - GasStation
+  cot:
+    enabled: true
+  cot_domain:
+    enabled: true
+
+# ── LLM Providers ────────────────────────────────────────────────────────────
+providers:
+  openai:
+    enabled: false
+    reasoning_effort: low   # passed only when the model supports it (o-series)
+    models:
+      - gpt-4o-mini
+      - o3-mini
+      - gpt-5-mini
+      - gpt-5.2
+      - gpt-5-nano
+      - gpt-3.5-turbo
+
+  anthropic:
+    enabled: false
+    models:
+      - claude-sonnet-4-6
+      # - claude-sonnet-4-5-20250929
+
+  deepseek:
+    enabled: false
+    models:
+      - deepseek-chat
+
+  ollama:
+    enabled: false
+    temperature: 0
+    timeout: 3
+    models: []
+    # - llama3.2:3b-text-fp16
+
+  huggingface:
+    enabled: true
+    max_new_tokens: 8192
+    temperature: 0.1
+
+    models:
+    - microsoft/phi-4
+
+    endpoints:
+      microsoft/phi-4: "https://t4qe3zptrce0ixgy.us-east-1.aws.endpoints.huggingface.cloud"
+
+    # - google/gemma-2-2b-it
+
+  # Local HuggingFace inference (HuggingFacePipeline – downloads and runs on device).
+  # Set from_mlx: true to automatically derive models from the mlx.models list
+  # using the MLX_TO_HF mapping in run.py.
+  # You can also list models explicitly, or combine both.
+  huggingface_local:
+    enabled: false
+    from_mlx: false          # auto-populate from mlx.models via MLX_TO_HF mapping
+    max_new_tokens: 18192
+    temperature: 0.1
+    do_sample: false
+    models:
+    # Add explicit HF model IDs here to run alongside (or instead of) from_mlx:
+    - meta-llama/Llama-3.2-3B-Instruct
+    - mistralai/Mistral-7B-Instruct-v0.3
+    - google/gemma-3-4b-it
+    - tiiuae/Falcon-H1-7B-Instruct
+    #- Qwen/Qwen2.5-3B-Instruct
+    - Qwen/Qwen3.5-4B
+    - deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+    #- microsoft/Phi-4-mini-instruct
+
+  gemini:
+    enabled: true
+    models:
+      - gemini-2.5-flash
+
+  mistral:
+    enabled: true
+    models:
+      - mistral-large-2411
+      - codestral-2508
+      - mistral-small-2506
+
+  mlx:
+    enabled: false
+    max_tokens: 15000
+    temperature: 0.1
+    models:
+      - mlx-community/Llama-3.2-3B-Instruct-4bit
+      - mlx-community/phi-4-8bit
+      - mlx-community/Mistral-7B-Instruct-v0.3-4bit
+      - mlx-community/Falcon3-10B-Instruct-6bit
+      - mlx-community/gemma-3-4b-it-5bit
+      - mlx-community/Qwen2.5-3B-Instruct-4bit
+      - mlx-community/DeepSeek-R1-Distill-Qwen-7B-4bit

@@ -1,36 +1,34 @@
 @startuml
-class H2S{}
-class Location{}
-class Resident{}
-class Website{}
-class Pickup{}
-class Vehicle{}
-class Route{}
-class SecondHandArticle{}
-class NonPerishableFood{}
-class DistributionCenter{}
-class Employee{}
-class RFIDTag{}
-class Category{}
-class FoodBank{}
-class VolunteerDriver{}
-class Client{}
+class H2S{ String Name, String Website }
+class CityLocation{ String CityName }
+class DistributionCenter{ String Address }
+class FoodBank{ String Address }
+class VolunteerDriver{ String Name, String AvailableDays }
+class PickupVehicle{ String VehicleID, String Capacity, String StorageSpace }
+class Schedule{ String Day, String TimeWindow }
+class Resident{ String Name, String StreetAddress, String Phone, String Email }
+class Item{ String Description, String Dimensions, String Weight, Boolean RFIDTagged, String RFIDTag, String Category }
+class SecondHandArticle{ String Description, String Dimensions, String Weight, Boolean RFIDTagged, String RFIDTag, String Category }
+class NonPerishableFood{ String Description, String Category }
+class H2SEmployee{ String EmployeeID, String Name }
+class Client{ String Name, String HomeAddress, String Phone, String Email }
+class CategoryRequest{ String Categories }
+class Delivery{ String DeliveryDate, String Status }
 
-H2S "1" -- "0..*" Location
-Location "1" -- "0..*" Resident
-Website "1" -- "0..*" Resident
-Resident "0..*" -- "1" Pickup
-Pickup "1" -- "0..*" SecondHandArticle
-Pickup "1" -- "0..*" NonPerishableFood
-SecondHandArticle "1" -- "1" RFIDTag
-Category "0..*" -- "1" SecondHandArticle
-Category "0..*" -- "1" NonPerishableFood
-DistributionCenter "1" -- "0..*" Employee
-Vehicle "0..1" -- "1" VolunteerDriver
-Vehicle "0..*" Route
-Route "1..*" -- "1" Pickup
-Route "0..1" -- "0..1" DistributionCenter
-Route "0..1" -- "0..1" FoodBank
-NonPerishableFood "1" -- "1" FoodBank
-Client{}
+H2S "0..*" -- "1" CityLocation
+CityLocation "1" -- "1" DistributionCenter
+CityLocation "1" -- "1" FoodBank
+Resident "0..*" -- "1" Item
+SecondHandArticle "0..*" -- "1" H2SEmployee
+H2SEmployee "0..*" -- "1" DistributionCenter
+SecondHandArticle "0..*" -- "1" DistributionCenter
+NonPerishableFood "0..*" -- "1" FoodBank
+Item "0..*" -- "1" Schedule
+Schedule "1" -- "1" PickupVehicle
+Schedule "1" -- "1" VolunteerDriver
+Item "0..*" -- "1" Schedule
+Delivery "1" -- "1" VolunteerDriver
+Delivery "1" -- "1" Client
+Delivery "1" -- "0..1" CategoryRequest
+Client "0..*" -- "1" CategoryRequest
 @enduml

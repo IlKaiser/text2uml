@@ -1,44 +1,75 @@
 ```plantuml
 @startuml
 
-class Doctor{}
-class Patient{}
-class Requisition{}
-class Test{}
-class TestGroup{}
-class Appointment{}
-class Lab{}
-class Result{}
-class Report{}
-class Signature{}
-class Address{}
-class PhoneNumber{}
-class BusinessHours{}
-class Confirmation{}
-class Fee{}
+class Doctor {
+    String practitionerNumber
+    String fullName
+    String address
+    String phoneNumber
+    Image signature
+}
 
-Doctor "1" -- "1..*" Requisition
-Doctor "1" -- "1" Signature
-Doctor "1" -- "1" Address
-Doctor "1" -- "1" PhoneNumber
-Patient "1" -- "1..*" Requisition
-Patient "1" -- "1" Address
-Patient "1" -- "1" PhoneNumber
-Requisition "1" -- "1..*" Test
-Requisition "1" -- "1" TestGroup
-Requisition "1" -- "0..1" Appointment
-Requisition "1" -- "1" Confirmation
-Requisition "1" -- "1..*" Result
-Requisition "1" -- "1..*" Report
-Test "1..*" -- "1" TestGroup
-Test "1" -- "1" Lab
-Appointment "1" -- "1" Lab
-Appointment "1" -- "1" BusinessHours
-Appointment "1" -- "1" Fee
-Lab "1" -- "1" Address
-Lab "1" -- "1" BusinessHours
-Lab "1" -- "1" Fee
-Result "1" -- "1" Report
+class Patient {
+    String healthNumber
+    String firstName
+    String lastName
+    Date dateOfBirth
+    String address
+    String phoneNumber
+}
+
+class Requisition {
+    Date validFrom
+}
+
+class Test {
+    String name
+    Duration duration
+    Boolean isWalkIn
+    Boolean requiresSample
+}
+
+class TestGroup {
+    String name
+}
+
+class TestResult {
+    String result
+    String report
+}
+
+class Appointment {
+    Date date
+    Time startTime
+    Time endTime
+    String confirmationNumber
+    Boolean isChangedWithin24Hours
+}
+
+class Lab {
+    String name
+    String address
+    Time businessStartTime
+    Time businessEndTime
+    String registrationNumber
+    Fee changeCancellationFee
+}
+
+class Repetition {
+    Integer numberOfTimes
+    Interval interval
+}
+
+Doctor "1..*" -- "1..*" Patient
+Doctor "1..*" -- "1..*" Requisition
+Patient "1..*" -- "1..*" Requisition
+Requisition "1..*" -- "1..*" Test
+TestGroup "1..*" -- "1..*" Test
+Test "1..*" -- "1..*" TestResult
+Test "1..*" -- "1..*" Appointment
+Patient "1..*" -- "1..*" Appointment
+Lab "1..*" -- "1..*" Appointment
+Requisition "1..*" -- "1..*" Repetition
 
 @enduml
 ```

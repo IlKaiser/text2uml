@@ -1,32 +1,55 @@
 @startuml
-class Musicmatic{}
-class Artist{}
-class Song{}
-class Single{}
-class Hit{}
-class Album{}
-class Track{}
-class User{}
-class RegularUser{}
-class BusinessUser{}
-class Occasion{}
-class PurchasingBehavior{}
-class Suggestion{}
+class Musicmatic
+class Artist {
+  dateOfBirth: Date
+  name: String
+  url: String
+}
+class Song {
+  title: String
+  year: Int
+  length: Int
+  genre: String
+}
+class Single
+class Hit
+class Album
+class Track {
+  trackNumber: Int
+}
+class User {
+  id: String
+  name: String
+  address: String
+}
+class RegularUser {
+  id: String
+  name: String
+  address: String
+}
+class BusinessUser {
+  id: String
+  name: String
+  address: String
+  VATNumber: String
+}
+class Address
+class PurchasingBehavior
+class Suggestion
 
-Song "1..1" -- "0..*" Artist
-RegularUser "0..*" -- "0..*" PurchasingBehavior
-PurchasingBehavior "0..*" -- "1..1" Song
-BusinessUser "0..*" -- "1..1" Song
-Song "0..1" -- "0..1" Single
-Song "0..1" -- "0..1" Hit
-Album "0..*" -- "0..*" Track
-Track "1..1" -- "0..*" Hit
-Album "0..*" -- "0..*" Suggestion
-Suggestion "0..*" -- "1..1" RegularUser
-RegularUser "0..*" -- "0..*" Album
-User "0..*" -- "0..*" Occasion
-Occasion "0..*" -- "0..*" User
-Musicmatic "0..*" -- "0..*" Song
-Musicmatic "0..*" -- "0..*" User
-Musicmatic "0..*" -- "0..*" Artist
+Single --|> Song
+Hit --|> Song
+RegularUser --|> User
+BusinessUser --|> User
+Song "0..*" -- "1..1" Artist
+RegularUser "0..*" -- "1..1" PurchasingBehavior
+PurchasingBehavior "0..*" -- "1..1" Single
+RegularUser "0..*" -- "1..1" Album
+Album "0..*" -- "1..1" Track
+Track "0..*" -- "1..1" Hit
+Album "0..*" -- "1..1" Suggestion
+RegularUser "0..*" -- "1..1" Suggestion
+BusinessUser "0..*" -- "1..1" Single
+BusinessUser "0..*" -- "1..1" Hit
+User "1..1" -- "1..1" Address
 @enduml

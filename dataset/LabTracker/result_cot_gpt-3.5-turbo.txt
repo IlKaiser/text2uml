@@ -1,21 +1,58 @@
 
 @startuml
+class LabTracker {
+}
 
-class LabTracker{}
-class Doctor{}
-class Patient{}
-class Test{}
-class Requisition{}
-class Appointment{}
-class Lab{}
+class Doctor {
+    practitioner_number: Int
+    signature: String
+    full_name: String
+    address: String
+    phone_number: String
+}
 
-Requisition "1..*" -- "1" Doctor
-Requisition "1..*" -- "1" Patient
-Doctor "0..*" -- "0..*" Patient
-Lab "1" -- "0..*" Test
-Test "1" -- "0..*" Lab
-Doctor "0..*" -- "0..*" Lab
-Patient "0..*" -- "0..*" Appointment
-Appointment "1" -- "1" Lab
+class Patient {
+    health_number: String
+    first_name: String
+    last_name: String
+    date_of_birth: Date
+    address: String
+    phone_number: String
+}
 
+class Requisition {
+    valid_from: Date
+}
+
+class Test {
+    duration: Int
+}
+
+class Examination {
+}
+
+class GroupOfTests {
+}
+
+class Appointment {
+    confirmation_number: Int
+    date: Date
+    start_time: Date
+    end_time: Date
+    lab_name: String
+    registration_number: Int
+}
+
+class Lab {
+    address: String
+    business_hours: String
+    fee: Float
+}
+
+Doctor "1" -- "1" Requisition.
+Patient "0..*" -- "1" Appointment.
+Patient "0..*" -- "0..*" Requisition.
+Requisition "1" -- "1" GroupOfTests.
+GroupOfTests "1" -- "1" Test.
+Appointment "1" -- "1" Lab.
 @enduml

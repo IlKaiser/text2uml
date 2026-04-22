@@ -3,31 +3,31 @@
 class HeadCoach {}
 class Director {}
 class Scout {}
-class PlayerProfile {}
-class TargetPosition {}
-class PlayerAttribute {}
+class PlayerProfile {
+    String TargetPosition
+}
+class PlayerAttribute {
+    String Name
+    String Value
+}
+class Player {}
+class ScoutingAssignment {}
+class ScoutingReport {
+    String Pros
+    String Cons
+    String Recommendation
+}
 class LongList {}
 class ShortList {}
-class ScoutingAssignment {}
-class ScoutingReport {}
-class Player {}
-class Recommendation {}
 
 HeadCoach "1" -- "0..*" PlayerProfile
-HeadCoach "1" -- "0..*" ShortList
-HeadCoach "1" -- "0..*" ScoutingAssignment
-Director "1" -- "0..*" ScoutingAssignment
-Director "1" -- "0..*" Player
-Scout "1" -- "0..*" LongList
-Scout "1" -- "0..*" ScoutingAssignment
-Scout "1" -- "0..*" ScoutingReport
-PlayerProfile "1" -- "0..*" TargetPosition
 PlayerProfile "1" -- "0..*" PlayerAttribute
-PlayerProfile "1" -- "0..*" ScoutingAssignment
-Player "1" -- "0..*" LongList
-Player "1" -- "0..*" ShortList
-Player "1" -- "0..*" ScoutingReport
+Scout "1" -- "0..*" LongList
+LongList "0..*" -- "1" Player
+Scout "1" -- "0..*" ScoutingAssignment
 ScoutingAssignment "1" -- "0..*" ScoutingReport
-ScoutingReport "1" -- "0..*" Recommendation
+Player "1" -- "0..*" ScoutingReport
+HeadCoach "1" -- "1" ShortList
+ShortList "0..*" -- "1" Player
 
 @enduml

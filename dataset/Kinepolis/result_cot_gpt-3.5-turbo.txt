@@ -1,25 +1,34 @@
 
 @startuml
-class Cinema{}
-class Theatre{}
-class Show{}
-class Movie{}
-class Copy{}
-class Program{}
-class Reservation{}
-class CreditCard{}
-class Customer{}
-class Seat{}
-class Ticket{}
+
+class Cinema
+
+class Theatre
+
+class Show
+
+class Movie
+
+class Copy
+
+class Reservation {
+    startingTime: Date
+    paid: Boolean
+}
+
+class CreditCard
+
+class Seat
+
+class Ticket
 
 Cinema "1..*" -- "1..*" Theatre
 Theatre "1..*" -- "1..*" Show
-Cinema "1..*" -- "1..*" Copy
-Show "0..*" -- "1..1" Movie
-Show "0..*" -- "1..*" Program
-Show "1..*" -- "1..*" Reservation
-Reservation "1..1" -- "1..1" CreditCard
-Reservation "1..1" -- "1..1" Customer
-Reservation "1..*" -- "1..*" Seat
-Customer "0..*" -- "1..*" Ticket
+Show "1..*" -- "1..*" Movie
+Cinema "1..*" -- "0..*" Copy
+Show "1..*" -- "0..*" Reservation
+Reservation "1..*" -- "1..1" CreditCard
+Show "1..*" -- "0..*" Seat
+Seat "1..*" -- "0..*" Ticket
+
 @enduml

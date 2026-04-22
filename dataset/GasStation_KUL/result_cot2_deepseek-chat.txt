@@ -1,21 +1,61 @@
 @startuml
-class OilCompany{}
-class GasStation{}
-class Customer{}
-class RefuelCard{}
-class Invoice{}
-class Payment{}
-class Pump{}
-class Gasoline{}
-class Reservoir{}
-class DailyReport{}
+class OilCompany {
+}
+
+class GasStation {
+  name:String
+}
+
+class Customer {
+  name:String
+  status:String
+}
+
+class RefuelCard {
+  cardNumber:String
+  isBlocked:Boolean
+}
+
+class Invoice {
+  invoiceNumber:String
+  month:Date
+  amount:Float
+  isPaid:Boolean
+}
+
+class Payment {
+  paymentDate:Date
+  amount:Float
+}
+
+class Pump {
+  pumpNumber:String
+  currentLevel:Float
+  orderQuantity:Float
+  isBlocked:Boolean
+}
+
+class FuelType {
+  typeName:String
+}
+
+class Tank {
+  reorderLevel:Float
+  criticalLevel:Float
+}
+
+class DailyReport {
+  reportDate:Date
+}
 
 OilCompany "1..1" -- "0..*" GasStation
-GasStation "1..1" -- "0..*" Pump
-Pump "1..1" -- "1..1" Reservoir
-Pump "1..1" -- "1..*" Gasoline
-Customer "0..*" -- "0..1" RefuelCard
-RefuelCard "1..1" -- "0..*" Invoice
-Invoice "1..1" -- "0..*" Payment
-GasStation "1..1" -- "0..*" DailyReport
+Customer "0..*" -- "0..*" RefuelCard
+Customer "1..1" -- "0..*" Invoice
+Customer "1..1" -- "0..*" Payment
+Invoice "0..*" -- "0..*" Payment
+GasStation "0..*" -- "1..*" Pump
+Pump "1..1" -- "1..1" Tank
+Pump "1..1" -- "1..1" FuelType
+GasStation "0..*" -- "0..*" DailyReport
+Tank "1..1" -- "0..*" DailyReport
 @enduml

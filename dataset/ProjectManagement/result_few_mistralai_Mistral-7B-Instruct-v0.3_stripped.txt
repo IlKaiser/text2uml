@@ -1,0 +1,24 @@
+@startuml
+
+class University { }
+class Department { }
+class ResearchGroup {
+    Department department
+}
+class Researcher {
+    ResearchGroup researchGroup
+}
+class WorkPackage {
+    ResearchGroup wpLeader
+}
+class Assignment {
+    Researcher researcher
+    WorkPackage workPackage
+}
+
+ResearchGroup "1" -- "0..*" Researcher
+WorkPackage "1" -- "1" ResearchGroup
+Researcher "0..*" -- "0..*" Assignment
+Assignment "0..*" -- "1" WorkPackage
+
+@enduml

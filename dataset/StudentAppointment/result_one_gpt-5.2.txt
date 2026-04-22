@@ -1,0 +1,46 @@
+@startuml
+
+class Student {
+  String StudentId
+  String Name
+  String Email
+}
+
+class Course {
+  String CourseCode
+  String Title
+}
+
+class TeachingAssistant {
+  String AssistantId
+  String Name
+  String Email
+}
+
+class Appointment {
+  DateTime ScheduledAt
+  String Location
+  String Status
+}
+
+class CourseRegistration {
+  Date RegistrationDate
+  String Status
+}
+
+class TeachingAssignment {
+  Date StartDate
+  Date EndDate
+}
+
+Student "1" -- "0..*" CourseRegistration
+Course "1" -- "0..*" CourseRegistration
+
+TeachingAssistant "1" -- "0..*" TeachingAssignment
+Course "1" -- "0..*" TeachingAssignment
+
+Appointment "0..*" -- "1..1" Course
+Appointment "0..*" -- "1..1" TeachingAssistant
+Appointment "0..*" -- "1..*" Student
+
+@enduml

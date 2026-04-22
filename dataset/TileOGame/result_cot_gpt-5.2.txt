@@ -1,0 +1,56 @@
+@startuml
+class TileOApplication
+
+class Game
+
+class Designer
+
+class Player
+
+class Board
+
+class Tile {
+  color: String
+}
+
+class HiddenTile
+
+class ActionTile {
+  disabledTurns: Int
+}
+
+class PlayingPiece {
+  color: String
+}
+
+class Die
+
+class Deck
+
+class ActionCard
+
+class ConnectionPiece
+
+class SpareConnectionPiecePile
+
+TileOApplication "1..1" -- "0..1" Game
+TileOApplication "1..1" -- "0..*" Designer
+TileOApplication "1..1" -- "0..*" Player
+Designer "1..1" -- "0..*" Game
+Game "2..4" -- "1..1" Player
+Game "1..1" -- "1..1" Board
+Game "1..1" -- "1..1" Die
+Game "1..1" -- "1..1" Deck
+Board "1..*" -- "1..1" Tile
+Tile "0..4" -- "0..2" ConnectionPiece
+Deck "32..32" -- "1..1" ActionCard
+Player "1..1" -- "1..1" PlayingPiece
+SpareConnectionPiecePile "32..32" -- "0..1" ConnectionPiece
+ActionCard "0..1" -- "0..1" ConnectionPiece
+ActionCard "0..1" -- "0..1" SpareConnectionPiecePile
+ActionCard "0..1" -- "0..1" PlayingPiece
+ActionCard "0..1" -- "0..1" Tile
+
+HiddenTile --|> Tile
+ActionTile --|> Tile
+@enduml

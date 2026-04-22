@@ -1,0 +1,53 @@
+@startuml
+
+class Sober {
+    String Name
+}
+class Car {
+    String LicensePlate
+    Boolean IsCompanyOwned
+}
+class CarOwner {
+    String Name
+}
+class Customer {
+    String Name
+}
+class RideHailService {
+    DateTime PickupTime
+    DateTime DropoffTime
+    String PickupLocation
+    String DropoffLocation
+    Integer Duration
+    Double Distance
+    Integer PassengerCount
+    Double Fee
+    String RequestType
+}
+class RideShareService {
+    DateTime PickupTime
+    DateTime DropoffTime
+    String PickupLocation
+    String DropoffLocation
+    Integer Duration
+    Double Distance
+    Integer PassengerCount
+    Double Fee
+}
+class Accident {
+    Date AccidentDate
+    String Location
+    Double DamageAmount
+}
+
+Sober "1" -- "0..*" Car
+CarOwner "1" -- "0..*" Car
+Customer "0..*" -- "0..*" RideHailService
+Customer "0..*" -- "0..*" RideShareService
+Car "1" -- "0..*" RideHailService
+Car "1" -- "0..*" RideShareService
+Car "1" -- "0..*" Accident
+RideHailService "0..*" -- "1" Customer : lead >
+RideShareService "0..*" -- "0..*" Customer
+
+@enduml

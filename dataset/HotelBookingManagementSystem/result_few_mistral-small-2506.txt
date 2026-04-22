@@ -1,38 +1,69 @@
 @startuml
 
-class Traveller {}
-class Booking {}
-class PreliminaryBooking {}
-class FinalizedBooking {}
-class Hotel {}
-class City {}
-class Address {}
-class HotelChain {}
-class RoomType {}
-class SpecialOffer {}
-class CreditCardInformation {}
-class ReliabilityRating {}
-class Confirmation {}
-class CancellationDeadline {}
-class Reimbursement {}
+class Traveller {
+    String Name
+    String BillingInformation
+    String CompanyName
+    String CompanyAddress
+    String TravelPreferences
+}
 
-Booking "0..*" -- "1" Traveller
+class Hotel {
+    String Name
+    String Address
+    String City
+    HotelChain Chain
+}
+
+class HotelChain {
+    String Name
+}
+
+class RoomType {
+    String Type
+    Double PricePerNight
+}
+
+class Booking {
+    String Status
+    Date ArrivalDate
+    Date DepartureDate
+    Double TotalPrice
+    String PaymentMethod
+    Date CancellationDeadline
+    String BookingIdentifier
+    Double ReliabilityRating
+}
+
+class PreliminaryBooking {
+    String Status
+    Date Deadline
+}
+
+class SpecialOffer {
+    String OfferDetails
+}
+
+class Confirmation {
+    String ConfirmationDetails
+}
+
+class Cancellation {
+    String CancellationDetails
+}
+
+Traveller "1" -- "0..*" Booking
 Booking "1" -- "0..*" RoomType
-Booking "1" -- "0..*" SpecialOffer
-Booking "1" -- "0..*" CreditCardInformation
-Booking "1" -- "0..*" Confirmation
-Booking "1" -- "0..*" CancellationDeadline
-Booking "1" -- "0..*" Reimbursement
-
-PreliminaryBooking "1" -- "0..*" SpecialOffer
-PreliminaryBooking "1" -- "0..*" Hotel
-
-FinalizedBooking "1" -- "0..*" Confirmation
-FinalizedBooking "1" -- "0..*" Reimbursement
-
 Hotel "1" -- "0..*" RoomType
-Hotel "1" -- "1" Address
-Hotel "0..1" -- "1" HotelChain
-Hotel "1" -- "0..*" City
+Hotel "1" -- "0..*" Booking
+Hotel "1" -- "0..*" PreliminaryBooking
+Traveller "1" -- "0..*" PreliminaryBooking
+PreliminaryBooking "1" -- "0..*" SpecialOffer
+Traveller "1" -- "0..*" SpecialOffer
+Booking "1" -- "0..1" Confirmation
+Hotel "1" -- "0..*" Confirmation
+Booking "1" -- "0..1" Cancellation
+Traveller "1" -- "0..*" Cancellation
+Hotel "0..*" -- "1" HotelChain
 
 @enduml

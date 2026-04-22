@@ -1,46 +1,45 @@
 ```plantuml
 @startuml
-class HelpingHandsStore{}
-class Article{}
-class Food{}
-class Resident{}
-class City{}
-class PickupService{}
-class DeliveryService{}
-class Customer{}
-class Pickup{}
-class Vehicle{}
-class Driver{}
-class PickupRoute{}
-class VolunteerDriver{}
-class StorageSpace{}
-class DistributionCenter{}
-class Employee{}
-class Quality{}
-class RFIDDevice{}
-class Category{}
-class Client{}
-class HomeAddress{}
-class RelevantArticle{}
-
-HelpingHandsStore "1..1" -- "0..*" Article  
-HelpingHandsStore "1..1" -- "0..*" Food  
-Resident "0..*" -- "1..1" City  
-PickupService "0..*" -- "0..*" Customer  
-DeliveryService "0..*" -- "0..*" Customer  
-PickupService "1..1" -- "0..*" Pickup  
-DeliveryService "1..1" -- "0..*" Pickup  
-Vehicle "0..*" -- "0..*" Pickup  
-Driver "1..1" -- "0..*" Pickup  
-PickupRoute "1..1" -- "0..*" Pickup  
-VolunteerDriver "1..1" -- "0..*" PickupRoute  
-StorageSpace "1..1" -- "0..*" Vehicle  
-DistributionCenter "1..1" -- "0..*" Article  
-Employee "1..1" -- "0..*" Article  
-Article "1..1" -- "0..1" Quality  
-Article "1..1" -- "1..1" RFIDDevice  
-Article "1..1" -- "1..1" Category  
-Client "1..1" -- "0..*" RelevantArticle  
-HomeAddress "0..1" -- "1..1" Client  
+class Resident {
+    name:String
+    streetAddress:String
+    phoneNumber:String
+    emailAddress:String
+    description:String
+}
+class ScheduledPickup {
+    pickupTime:Date
+}
+class H2SEmployee {
+    quality:Quality
+}
+class Article {
+    description:String
+    category:String
+}
+class Client {
+    homeAddress:String
+}
+class Category {
+    name:String
+}
+1..* Resident -- 0..* Article
+1..* Resident -- 1..* HomeAddress
+0..* H2SEmployee -- 1..* Quality
+1..1 Article -- 0..1 RFIDDevice
+1..* Article -- 0..1 Category
+1..1 DeliveryService -- 0..* Client
+1..* PickupService -- 0..* Resident
+0..* Vehicle -- 1..* PickupRoute
+1..* PickupRoute -- 1..* VolunteerDriver
+1..1 Pickup -- 0..1 PickupService
+1..1 Pickup -- 1..1 StorageSpace
+1..1 ScheduledPickup -- 1..1 Pickup
+1..* Pickup -- 1..* Building
+1..1 Building -- 1..1 FrontDoor
+1..1 DistributionCenter -- 0..* Article
+0..* DistributionCenter -- 0..1 City
+0..1 City -- 1..* Location
+1..* Pickup -- 1..* Fleet
 @enduml
 ```

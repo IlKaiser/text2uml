@@ -1,30 +1,130 @@
 ```plantuml
 @startuml
+class App {
+}
 
-class Customer{}
-class User{}
-class Account{}
-class BusinessOwner{}
-class PizzaRestaurant{}
-class Pizza{}
-class Order{}
-class EntertainmentOrder{}
-class Entertainer{}
-class Address{}
-class DeliveryAddress{}
+class Account {
+  birthday:Date
+  name:String
+}
 
-User "0..*" -- "1..1" Account
-Customer "1..1" -- "1..1" Account
-BusinessOwner "1..1" -- "1..1" Account
-User "1..1" -- "1..1" Address
+class User {
+  id:Int
+}
+
+class BusinessOwner {
+  linkedIn:String
+}
+
+class PizzaRestaurant {
+  zipCode:ZipCode
+  address:Address
+  phoneNumber:PhoneNumber
+  website:Website
+  openingHours:OpeningHours
+}
+
+class Pizza {
+  name:String
+  crustStructure:CrustStructure
+  price:Price
+}
+
+class Order {
+  id:Int
+  dateTime:DateTime
+  deliveryTime:DeliveryTime
+  numberOfPeople:NumberOfPeople
+}
+
+class EntertainmentOrder {
+  entertainmentType:EntertainmentType
+  duration:Duration
+}
+
+class HungryCustomer {
+  deliveryAddress:Address
+}
+
+class Deliverer {
+}
+
+class Entertainer {
+  stageName:String
+  bio:String
+  pricePer30Minutes:Float
+}
+
+class Address {
+}
+
+class ZipCode {
+}
+
+class PhoneNumber {
+}
+
+class Website {
+}
+
+class OpeningHours {
+}
+
+class CrustStructure {
+}
+
+class Price {
+}
+
+class DateTime {
+}
+
+class DeliveryTime {
+}
+
+class NumberOfPeople {
+}
+
+class EntertainmentType {
+}
+
+class Duration {
+}
+
+class Availability {
+}
+
+class Day {
+}
+
+User "1..1" -- "1..1" Account
 BusinessOwner "1..1" -- "0..*" PizzaRestaurant
 PizzaRestaurant "1..1" -- "0..*" Pizza
+PizzaRestaurant "1..1" -- "0..*" Order
 PizzaRestaurant "1..1" -- "0..*" Entertainer
-Customer "1..1" -- "0..*" Order
+HungryCustomer "1..1" -- "1..1" Address
+HungryCustomer "1..1" -- "0..*" Order
 Order "1..1" -- "0..*" Pizza
-Order "1..1" -- "1..1" DeliveryAddress
-EntertainmentOrder "1..1" -- "1..1" Entertainer
-EntertainmentOrder "0..1" -- "1..1" Order
+Order "1..1" -- "0..1" EntertainmentOrder
+EntertainmentOrder "1..1" -- "1..1" EntertainmentType
+EntertainmentOrder "1..1" -- "1..1" Duration
+Entertainer "1..1" -- "1..1" Availability
+PizzaRestaurant "1..1" -- "1..1" Address
+PizzaRestaurant "1..1" -- "1..1" ZipCode
+PizzaRestaurant "1..1" -- "1..1" PhoneNumber
+PizzaRestaurant "1..1" -- "0..1" Website
+PizzaRestaurant "1..1" -- "1..1" OpeningHours
+Pizza "1..1" -- "1..1" CrustStructure
+Pizza "1..1" -- "1..1" Price
+Order "1..1" -- "1..1" DateTime
+Order "1..1" -- "1..1" DeliveryTime
+Order "1..1" -- "1..1" NumberOfPeople
+Entertainer "1..1" -- "0..*" Availability
+Availability "1..1" -- "1..1" Day
 
+BusinessOwner --|> User
+HungryCustomer --|> User
+Entertainer --|> User
+EntertainmentOrder --|> Order
 @enduml
 ```

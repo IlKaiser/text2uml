@@ -1,0 +1,64 @@
+Here is the UML model for the given specification text:
+
+```plantuml
+@startuml
+
+class Student {
+    String Name
+    String Email
+}
+
+class Tutor {
+    String Name
+    String Email
+    String BankAccount
+}
+
+class TutoringSession {
+    String Subject
+    String Level
+    Double HourlyPrice
+    Date StartTime
+    Date EndTime
+    Boolean Confirmed
+}
+
+class TutoringOffer {
+    String Subject
+    String Level
+    Double HourlyPrice
+    Date StartTime
+    Date EndTime
+}
+
+class TutoringRequest {
+    String Tutor
+    String Student
+    String Subject
+    String Level
+    Date StartTime
+    Date EndTime
+}
+
+class Payment {
+    Double Amount
+    Date Date
+    String Type
+}
+
+class TutoringAward {
+    String Subject
+    String Tutor
+    String Level
+}
+
+Student "1" -- "0..*" TutoringRequest
+Tutor "1" -- "0..*" TutoringOffer
+TutoringOffer "1" -- "0..*" TutoringSession
+TutoringSession "1" -- "0..*" Payment
+TutoringRequest "1" -- "0..*" Payment
+Tutor "1" -- "0..*" TutoringAward
+TutoringAward "1" -- "0..*" Tutor
+
+@enduml
+```

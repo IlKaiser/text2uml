@@ -1,0 +1,67 @@
+@startuml
+
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+}
+class Item {
+    String Description
+    Double Weight
+    Double Dimensions
+}
+class PickupRequest {
+    Date RequestedDate
+    Time PickupWindowStart
+    Time PickupWindowEnd
+}
+class Vehicle {
+    String StorageSpace
+}
+class VolunteerDriver {
+    String Name
+    Date AvailableDays
+}
+class PickupRoute {
+    Date RouteDate
+}
+class DistributionCenter {
+    String City
+}
+class H2SEmployee {
+    String Name
+}
+class RFIDTag {
+    String TagID
+}
+class ArticleCategory {
+    String CategoryName
+}
+class Client {
+    String Name
+    String HomeAddress
+    String PhoneNumber
+}
+class FoodBank {}
+class Delivery {
+    Date DeliveryDate
+}
+
+Resident "1" -- "0..*" PickupRequest
+PickupRequest "1" -- "1..*" Item
+Vehicle "1" -- "0..*" PickupRoute
+VolunteerDriver "1" -- "0..*" PickupRoute
+PickupRoute "1" -- "0..*" PickupRequest
+DistributionCenter "1" -- "0..*" H2SEmployee
+H2SEmployee "1" -- "0..*" Item
+Item "1" -- "0..1" RFIDTag
+ArticleCategory "1" -- "0..*" Item
+Client "1" -- "0..*" Delivery
+H2SEmployee "1" -- "0..*" Delivery
+Delivery "1" -- "1..*" Item
+FoodBank "1" -- "0..*" Item
+PickupRoute "1" -- "0..1" Vehicle
+VolunteerDriver "0..*" -- "0..1" Vehicle
+
+@enduml

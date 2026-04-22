@@ -1,0 +1,38 @@
+@startuml
+
+class User {
+    String ID
+    String Name
+    String Email
+    Date DateOfBirth
+}
+class Account {
+    String AccountNumber
+    String Type
+}
+class PersonalAccount {
+    Boolean canSendFriendRequests
+    Boolean canReceiveFriendRequests
+}
+class BusinessAccount {
+    String CompanyName
+    Double MonthlyFee
+}
+class Page {
+    String PageName
+    Integer NumberOfVisits
+}
+class AdvertisementPage {
+    Double BounceRate
+    Double ClickThroughRate
+    Double ConversionRate
+}
+
+User "1" -- "1" Account
+Account <|-- PersonalAccount
+Account <|-- BusinessAccount
+Account "1" -- "0..*" Page
+Page <|-- AdvertisementPage
+PersonalAccount "0..*" -- "0..*" Page : privileges >
+
+@enduml

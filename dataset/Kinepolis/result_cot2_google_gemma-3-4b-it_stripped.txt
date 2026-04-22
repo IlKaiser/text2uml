@@ -1,0 +1,97 @@
+```plantuml
+@startuml
+class Cinema {
+    - name : String
+    - town : String
+    --
+    + getCinemaName() : String
+    + getTown() : String
+}
+
+class Theatre {
+    - name : String
+    --
+    + getName() : String
+}
+
+class Show {
+    - title : String
+    - movie : Movie
+    - time : Date
+    --
+    + getTitle() : String
+    + getMovie() : Movie
+    + getTime() : Date
+}
+
+class Movie {
+    - title : String
+    --
+    + getTitle() : String
+}
+
+class Reservation {
+    - customer : Customer
+    - seat : Seat
+    - show : Show
+    - time : Date
+    - status : Boolean
+    --
+    + getTime() : Date
+    + getStatus() : Boolean
+}
+
+class Seat {
+    - seatNumber : Int
+    --
+    + getSeatNumber() : Int
+}
+
+class Customer {
+    - name : String
+    - creditCard : CreditCard
+    --
+    + getName() : String
+    + getCreditCard() : CreditCard
+}
+
+class Ticket {
+    - seatNumber : Int
+    - customer : Customer
+    - show : Show
+    --
+    + getSeatNumber() : Int
+}
+
+class CreditCard {
+    - cardNumber : String
+    --
+    + getCardNumber() : String
+}
+
+class Kinepolis {
+    - name : String
+    --
+    + getName() : String
+}
+
+class Display {
+    --
+    + showAvailableSeats() : Int
+}
+
+Cinema "1" -- "*" Theatre : owns
+Theatre "1" -- "*" Show : has
+Cinema "1" -- "*" Movie : has
+Movie "1" -- "*" Reservation : has
+Reservation "1" -- "1" Customer : made by
+Reservation "1" -- "1" Seat : reserved
+Show "1" -- "*" Reservation : has
+Seat "1" -- "1" Reservation : part of
+Customer "1" -- "*" Reservation : makes
+Reservation "1" -- "1" CreditCard : paid with
+Show "1" -- "*" Ticket : has
+Display "1" -- "1" Theatre : displays
+
+@enduml
+```

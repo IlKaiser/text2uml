@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+class Organizer {
+    firstName : String
+    lastName : String
+    email : String
+    username : String
+    postalAddress : String
+    phoneNumber : String
+    password : String
+    eventKind : String
+}
+
+class Event {
+    name : String
+    startDate : Date
+    endDate : Date
+    occasion : String
+    locationName : String
+    locationAddress : String
+}
+
+class Attendee {
+    firstName : String
+    lastName : String
+    email : String
+    password : String
+    attendanceStatus : String
+}
+
+class Task {
+    name : String
+    status : String
+    event : Event
+}
+
+class Invitation {
+    eventId : String
+    attendeeEmail : String
+    status : String
+}
+
+Organizer "1" -- "*" Event : organizes
+Organizer "1" -- "*" Attendee : invites
+Event "1" -- "*" Task : has
+Task "1" -- "*" Attendee : assignedTo
+Task "1" -- "1" Organizer : createdBy
+Invitation "1" -- "1" Attendee : sentTo
+
+@enduml
+```

@@ -1,0 +1,48 @@
+@startuml
+class Customer {
+    String Name
+    String LeadCustomerName
+}
+class Car {
+    String OwnerName
+    Boolean IsSoberCar
+}
+class RideHailRequest {
+    Date PickupTime
+    Date DropoffTime
+    Location PickupLocation
+    Location DropoffLocation
+    Double RideDuration
+    Double Distance
+    Int PassengerCount
+    Double Fee
+    String RequestType
+}
+class RideShareRequest {
+    Date PickupTime
+    Date DropoffTime
+    Location PickupLocation
+    Location DropoffLocation
+    Double RideDuration
+    Double Distance
+    Int PassengerCount
+    List<String> CustomerNames
+    Double Fee
+}
+class Accident {
+    Date AccidentDate
+    Location AccidentLocation
+    Double DamageAmount
+}
+class TreePlanting {
+    Int TreeCount
+}
+
+Customer "1" -- "0..*" RideHailRequest
+Customer "1" -- "0..*" RideShareRequest
+Car "1" -- "0..*" RideHailRequest
+Car "1" -- "0..*" RideShareRequest
+Car "1" -- "0..*" Accident
+RideShareRequest "1" -- "0..*" TreePlanting
+RideHailRequest "1" -- "0..*" RideShareRequest
+@enduml

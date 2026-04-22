@@ -1,26 +1,59 @@
 @startuml
 
-class Person{}
-class Teacher{}
-class Student{}
-class School{}
-class Room{}
-class Classroom{}
-class Gym{}
-class ClassGroup{}
+class School {
+  String name
+}
 
-Person <|-- Teacher
-Person <|-- Student
+abstract class Person {
+  String firstName
+  String lastName
+}
 
-Teacher "1..3" -- "1..*" School
-School "1..*" -- "1" Student
-School "1" -- "0..1" Teacher
-School "1" -- "0..*" Room
+class Teacher {
+  String email
+}
+Teacher --|> Person
 
-ClassGroup "10..31" -- "1" Student
-ClassGroup "1" -- "1" Classroom
+class Student {
+}
+Student --|> Person
 
-Room <|-- Classroom
-Room <|-- Gym
+abstract class Room {
+}
+
+class Classroom {
+  String name
+  int capacity
+}
+Classroom --|> Room
+
+class OtherRoom {
+  String name
+  double size
+}
+OtherRoom --|> Room
+
+class ClassGroup {
+  String name
+}
+
+class Teaching {
+  int hours
+}
+
+School "1" -- "0..*" Student : attends
+Student "1" -- "1" School : attends
+
+Teacher "1" -- "0..*" Teaching : teaches_in
+School "1" -- "0..*" Teaching : taught_by
+
+School "1" -- "1" Teacher : principal
+Teacher "0..1" -- "1" School : principal_role
+
+ClassGroup "1" -- "10..31" Student : includes
+Student "1" -- "1" ClassGroup : in
+
+ClassGroup "1" -- "1" Classroom : allocated_in
+Classroom "1" -- "1" ClassGroup : has
 
 @enduml

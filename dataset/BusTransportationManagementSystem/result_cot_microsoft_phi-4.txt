@@ -1,0 +1,49 @@
+```plantuml
+@startuml
+
+class City {
+}
+
+class "Bus Transportation Management System" {
+}
+
+class Driver {
+    name: String
+    ID: Int
+    onSickLeave: Boolean
+}
+
+class Bus {
+    licencePlate: String
+    inRepairShop: Boolean
+}
+
+class Route {
+    routeNumber: Int
+}
+
+class Shift {
+}
+
+class "Licence Plate" {
+    licencePlateNumber: String
+}
+
+class Schedule {
+}
+
+City "1..1" -- "1..1" "Bus Transportation Management System"
+"Bus Transportation Management System" "1..*" -- "0..*" Driver
+"Bus Transportation Management System" "1..*" -- "0..*" Bus
+"Bus Transportation Management System" "1..*" -- "1..*" Route
+"Bus Transportation Management System" "1..*" -- "0..*" Shift
+"Bus Transportation Management System" "1..*" -- "0..*" "Licence Plate"
+"Bus Transportation Management System" "1..*" -- "1..*" Schedule
+Driver "1..1" -- "0..*" Shift
+Driver "1..1" -- "0..*" Bus
+Bus "1..1" -- "0..*" Route
+Bus "1..1" -- "1..1" "Licence Plate"
+Route "1..1" -- "1..3" Shift
+
+@enduml
+```

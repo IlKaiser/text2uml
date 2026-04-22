@@ -1,0 +1,74 @@
+```plaintext
+@startuml
+
+class User {
+  username: String
+  password: String
+}
+
+class Admin {
+  password: String
+}
+Admin --|> User
+
+class Player {
+  password: String
+}
+Player --|> User
+
+class Game {
+  name: String
+  hallOfFame: HallOfFame
+}
+
+class Block {
+  color: String
+  points: Int
+}
+
+class Level {
+  number: Int
+  startingArrangement: List[Block]
+  isRandom: Boolean
+}
+
+class HallOfFame {
+}
+
+class Paddle {
+  length: Int
+}
+
+class Ball {
+  speed: Float
+  direction: String
+}
+
+class PlayArea {
+}
+
+class Score {
+  total: Int
+}
+
+class Life {
+  count: Int
+}
+
+Admin "1" -- "1..*" Game
+Player "1..*" -- "1..1" Game
+Game "1" -- "1" HallOfFame
+Admin "1" -- "1..*" Block
+Game "1" -- "1..99" Level
+Block "1..*" -- "1..*" Level
+Game "1" -- "1" PlayArea
+Ball "1" -- "1" PlayArea
+Paddle "1" -- "1" PlayArea
+Player "1" -- "1" Paddle
+Ball "1" -- "0..*" Block
+Block "1" -- "1" Score
+Player "1" -- "1..*" Score
+Player "1" -- "1..3" Life
+
+@enduml
+```

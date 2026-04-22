@@ -1,0 +1,113 @@
+<｜begin▁of▁sentence｜>You will be asked by the user to create a plant UMl model from specification text. Do so in the most
+clear way possible, avoid class properties and assign molteplicity.
+
+Do include attributes for classes. For example the class Book would be:
+
+class Book{ String Title, String Author, Date PublicationDate }
+
+Use only bi-directional arc for relations and no description. For example a relation between
+the class Book and the class Page, if the Book can have from one to many pages and the
+pages could have exactly one book, would be:
+
+Book "1..1" -- "1..*" Page
+
+Adapt the cardinality to each case. Where no specific cardinality is specified, use the default "0..*".
+If necessary, feel free to use inheritance.
+The plantuml has to be the class diagram. In generating the diagram perform this steps in order
+
+1. Extract class from text
+2. Extract attributes for each class
+3. Extract relations form text and look for the inheritance
+4. Assign the relation to the corresponding class
+5. Add cardinality to the relations
+
+Put everything in this order: first all classes and then all relations. In our example would be:
+
+@startuml
+
+class Book{ String Title, String Author, Date PublicationDate }
+class Page{ String Content}
+
+Book "1..1" -- "1..*" Page
+
+@enduml
+
+Output plantuml without futher text or explaination.<｜User｜>Transform into plant uml this specification text: A city is using the Bus Transportation Management System (BTMS) to simplify the day-to-day activities related to the city’s public bus system.
+The BTMS keeps track of a driver’s name and automatically assigns a unique ID to each driver. A bus route is identified by a unique number that is determined by city staff, while a bus is identified by its unique licence plate. The highest possible number for a bus route is 9999, while a licence plate number may be up to 10 characters long, inclusive. For up to a year in advance, city staff assigns buses to routes. Several buses may be assigned to a route per day. Each bus serves at the most one route per day but may be assigned to different routes on different days. Similarly, for up to a year in advance, city staff posts the schedule for its bus drivers. For each route, there is a morning shift, an afternoon shift, and a night shift. A driver is assigned by city staff to a shift for a particular bus on a particular day. The BTMS offers city staff great flexibility, i.e., there are no restrictions in terms of how many shifts a bus driver has per day. It is even possible to assign a bus driver to two shifts at the same time.
+The current version of BTMS does not support the information of bus drivers or buses to be updated – only adding and deleting is supported. However, BTMS does support indicating whether a bus driver is on sick leave and whether a bus is in the repair shop. If that is the case, the driver cannot be scheduled or the bus cannot be assigned to a route. For a given day, an overview shows – for each route number – the licence plate number of each assigned bus, the entered shifts and the IDs and names of the assigned drivers. If a driver is currently sick or a bus is in the repair shop, the driver or bus, respectively, is highlighted in the overview.
+<｜Assistant｜><think>
+Okay, so the user wants me to create a Plant UML model based on the provided specification text. Let me start by understanding the requirements. They mentioned that I should extract classes, their attributes, and then the relations between them, following a specific order. 
+
+First, I'll go through the text to identify all the classes. The main entities here are City, Bus, Route, Driver, and Schedule. Each of these will be a separate class in the UML diagram.
+
+Next, I need to extract the attributes for each class. For City, the attributes are Name, Address, Latitude, Longitude, and BTMSVersion. Bus has attributes like LicensePlate, DriverID, and Driver. Route has ID, MorningShift, AfternoonShift, and NightShift. Driver has Name, ID, Status (like Sick or Available), and maybe a LeaveType. Schedule has RouteID, Day, and Shifts.
+
+Now, moving on to the relations. The text mentions that a City uses the BTMS, so there's a hasVersion relationship between City and BTMS. Routes are assigned by city staff, so Route has a hasAssignments relationship with City. Each Route has Shifts, which are Morning, Afternoon, or Night, so Route has a hasShifts relationship with Shift. Shifts are assigned to Drivers, so Shift has a hasAssignments relationship with Driver. Drivers can be assigned to multiple Shifts on the same day, so the multiplicity for that is 1..*. Routes are assigned by City Staff, so Route has a hasAssignments with City Staff. Schedules are posted by City Staff for Routes, so Schedule has a hasAssignments with City Staff. Schedules are linked to Routes through RouteID, so Schedule has a hasRoute relationship with Route. Finally, Schedules are assigned by City Staff to Routes, so Schedule has a hasAssignments with City Staff.
+
+I need to make sure the cardinalities are correct. For example, a Route can have multiple Shifts, each Shift can have multiple Drivers, and a Schedule can have multiple Routes. I'll represent these with the appropriate cardinality symbols in the UML.
+
+I should also check if any inheritance is needed. In this case, Schedule doesn't inherit from another class, so I won't add any inheritance arrows. 
+
+Putting it all together, I'll structure the UML starting with the classes, then the relations with their cardinalities. I'll make sure to use bi-directional arcs where necessary and avoid class properties as per the instructions.
+
+I think that's all. Now, I'll format it into the correct Plant UML syntax as per the user's example.
+</think>
+
+```plantuml
+@startuml
+
+class City{
+    String Name
+    String Address
+    Double Latitude
+    Double Longitude
+    String BTMSVersion
+}
+
+class Bus{
+    String LicensePlate
+    Integer DriverID
+    String Driver
+    String Status
+    String LeaveType
+}
+
+class Route{
+    Integer ID
+    String MorningShift
+    String AfternoonShift
+    String NightShift
+    List<Shift> Shifts
+}
+
+class Driver{
+    String Name
+    Integer ID
+    String Status
+    String LeaveType
+}
+
+class Schedule{
+    Integer RouteID
+    String Day
+    List<Shift> Shifts
+}
+
+City hasVersion BTMS
+Route hasAssignments City
+Route hasShifts Shift
+Shift hasAssignments Driver
+Driver hasStatus Available
+Driver hasLeaveType Sick
+Driver hasLeaveType Off
+Shift hasAssignments Driver 1..*
+
+Route hasAssignments CityStaff
+Schedule hasAssignments CityStaff
+Schedule hasRoute Route
+Route hasAssignments Schedule
+Schedule hasAssignments CityStaff
+Route hasAssignments Schedule
+
+@enduml
+```

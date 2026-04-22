@@ -1,0 +1,68 @@
+```plantuml
+@startuml
+
+class Member {
+    first name: String
+    family name: String
+    birth date: Date
+}
+
+class Trainer {
+    first name: String
+    family name: String
+    birth date: Date
+    diploma: String
+}
+
+class FitnessCenter {
+    name: String
+    address: Address
+}
+
+class Room {
+    maximum capacity: Int
+    number: Int
+}
+
+class Session {
+    date: Date
+    starting hour: String
+}
+
+class GroupSession {
+    type: String
+}
+
+class IndividualSession {
+}
+
+class Address {
+}
+
+class Prospect {
+    first name: String
+    family name: String
+    birth date: Date
+}
+
+class Intern {
+    first name: String
+    family name: String
+    birth date: Date
+}
+
+Member "0..*" -- "0..*" Session
+Trainer "0..*" -- "0..1" Session
+FitnessCenter "1..*" -- "1..*" Room
+FitnessCenter "1" -- "1" Address
+Session "1" -- "0..*" Room
+GroupSession "1" -- "0..*" Trainer
+Session "1" -- "1..*" FitnessCenter
+
+GroupSession --|> Session
+IndividualSession --|> Session
+Prospect --|> Member
+Intern --|> Trainer
+
+@enduml
+```

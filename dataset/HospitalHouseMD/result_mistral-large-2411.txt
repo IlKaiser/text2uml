@@ -1,29 +1,24 @@
-```uml
 @startuml
 
-class HospitalHouseMD{}
-class Patient{}
-class Doctor{}
-class Diagnosis{}
-class Treatment{}
-class HeadDoctor{}
-class Consent{}
-class Nurses{}
-class Illness{}
-class PriorityScore{}
+class HospitalHouseMD{ }
+class Patient{ String Name, String Symptoms }
+class Doctor{ String Name, String Specialization }
+class Diagnosis{ String Description, Date DiagnosisDate }
+class Treatment{ String Description, int Stage }
+class Illness{ String Name, String PriorityScore }
+class HeadDoctor{ String Name }
+class ConsentForm{ Date SignedDate }
+class Nurse {String Name, String Specialization}
 
 HospitalHouseMD "1..1" -- "1..*" Patient
-Patient "1..*" -- "1..1" Doctor
-Doctor "1..*" -- "1..*" Diagnosis
-Diagnosis "1..*" -- "1..*" Treatment
-HeadDoctor "1..1" -- "1..*" Diagnosis
-Treatment "1..1" -- "1..*" Consent
-Patient "1..*" -- "1..*" Consent
-Doctor "1..*" -- "1..*" Consent
-Patient "1..*" -- "1..1" Nurses
-Patient "1..*" -- "1..*" Illness
-Illness "1..1" -- "1..*" PriorityScore
+Patient "1..1" -- "1..*" Doctor
+Doctor "1..1" -- "1..*" Diagnosis
+Diagnosis "1..1" -- "1..*" Treatment
+HospitalHouseMD "1..1" -- "1..*" Illness
 Illness "1..1" -- "1..*" Treatment
+HeadDoctor "1..1" -- "1..*" Diagnosis
+Patient "1..1" -- "0..1" ConsentForm
+Patient "1..1" -- "1..*" Nurse
+Nurse "1..1" -- "1..*" Doctor
 
 @enduml
-```

@@ -1,25 +1,63 @@
-Here's the PlantUML model based on your specifications:
-
 ```plantuml
 @startuml
-class EuropeanUnion{}
-class ResearchDatabase{}
-class Researcher{}
-class Institution{}
-class ScientificArticle{}
-class PeerReviewedArticle{}
-class TechnicalReport{}
-class Publisher{}
-class Journal{}
 
-EuropeanUnion "1..*" -- "1..1" ResearchDatabase
-Researcher "1..*" -- "1..1" Institution
-Researcher "1..*" -- "0..*" ScientificArticle
-ScientificArticle "1..*" -- "1..1" Publisher
-Publisher "1..*" -- "0..*" Journal
-Journal "1..*" -- "0..*" PeerReviewedArticle
-Institution "1..*" -- "0..*" TechnicalReport
-PeerReviewedArticle "1..*" -- "0..*" Researcher
-PeerReviewedArticle "1..*" -- "1..1" Researcher
+class EuropeanUnion {
+}
+
+class ResearchDatabase {
+}
+
+class Researcher {
+    personID: String
+    phoneNumber: String
+    keywords: String
+    institution: Institution
+}
+
+class Institution {
+    institutionCode: String
+}
+
+class ScientificArticle {
+    DOI: String
+    title: String
+    authors: String
+    authorPosition: Int
+}
+
+class PeerReviewedPaper {
+    citationCount: Int
+    reviewers: Researcher
+}
+
+class TechnicalReport {
+}
+
+class Publisher {
+    name: String
+}
+
+class Journal {
+    name: String
+    impactFactor: Float
+}
+
+class Subscription {
+}
+
+Researcher "1..1" -- "1..1" Institution
+Researcher "1..1" -- "0..*" ScientificArticle
+Researcher "1..1" -- "0..*" PeerReviewedPaper
+Researcher "1..1" -- "0..*" TechnicalReport
+Publisher "1..1" -- "0..*" Journal
+Institution "0..*" -- "0..*" Subscription
+Journal "1..1" -- "1..1" Publisher
+PeerReviewedPaper "1..1" -- "0..*" Researcher
+PeerReviewedPaper "1..1" -- "0..*" Researcher
+TechnicalReport "1..1" -- "1..1" Institution
+
+PeerReviewedPaper --|> ScientificArticle
+TechnicalReport --|> ScientificArticle
+
 @enduml
 ```

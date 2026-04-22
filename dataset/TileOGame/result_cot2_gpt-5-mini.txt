@@ -1,36 +1,73 @@
 @startuml
-class GameDesigner{}
-class Game{}
-class Board{}
-class Tile{}
-class RegularTile{}
-class ActionTile{}
-class HiddenTile{}
-class ConnectionPiece{}
-class SpareConnectionPile{}
-class PlayingPiece{}
-class Player{}
-class Die{}
-class ActionCard{}
-class ActionDeck{}
-class StartingPosition{}
-class Turn{}
+class Game {
+  minPlayers: Int
+  maxPlayers: Int
+  canBePaused: Boolean
+  canBeSaved: Boolean
+  maxConcurrentGames: Int
+  startingPlayer: Int
+  objective: String
+}
+class GameDesigner
+class Player {
+  playerNumber: Int
+}
+class Board {
+  layout: String
+  hiddenTileLocation: String
+  startingPositions: String
+  actionTileLocations: String
+}
+class Tile {
+  color: String
+  visited: Boolean
+  isHidden: Boolean
+  isActionTile: Boolean
+  connectedTop: Boolean
+  connectedBottom: Boolean
+  connectedLeft: Boolean
+  connectedRight: Boolean
+}
+class ActionTile {
+  turnsAsRegular: Int
+}
+class RegularTile
+class PlayingPiece {
+  color: String
+}
+class Connection
+class ConnectionPiece
+class SpareConnectionPiecesPile {
+  count: Int
+}
+class ActionDeck {
+  size: Int
+}
+class ActionCard {
+  type: String
+}
+class Die
+class Turn
+class TileLocation
 
-Game "0..*" -- "1..1" GameDesigner
+GameDesigner "1..1" -- "0..*" Game
+Game "1..1" -- "1..*" Player
 Game "1..1" -- "1..1" Board
 Board "1..1" -- "1..*" Tile
-Tile "0..*" -- "0..*" ConnectionPiece
-SpareConnectionPile "1..1" -- "0..*" ConnectionPiece
-Game "1..1" -- "1..1" SpareConnectionPile
-Game "1..1" -- "1..1" ActionDeck
-ActionDeck "1..1" -- "1..*" ActionCard
-Game "1..1" -- "1..*" Player
+Board "1..1" -- "1..*" TileLocation
+Tile "0..1" -- "1..1" TileLocation
 Player "1..1" -- "1..1" PlayingPiece
-Game "1..1" -- "1..1" Die
+TileLocation "1..1" -- "0..*" PlayingPiece
+ActionDeck "1..1" -- "1..*" ActionCard
+Game "1..1" -- "1..1" ActionDeck
+Die "1..1" -- "1..*" Turn
 Game "1..1" -- "1..*" Turn
-Turn "1..*" -- "1..1" Player
-StartingPosition "1..*" -- "1..1" Player
-StartingPosition "1..*" -- "1..1" Tile
-Tile "1..*" -- "0..*" PlayingPiece
-Player "0..*" -- "0..*" ActionCard
+Player "1..1" -- "1..*" Turn
+Board "1..1" -- "1..1" SpareConnectionPiecesPile
+SpareConnectionPiecesPile "1..1" -- "0..*" ConnectionPiece
+ConnectionPiece "0..1" -- "0..1" Connection
+Connection "1..1" -- "1..*" Tile
+
+ActionTile --|> Tile
+RegularTile --|> Tile
 @enduml

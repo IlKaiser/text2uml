@@ -1,0 +1,373 @@
+<s>[INST] Step 5:
+
+You will be asked to create a PlantUML class diagram from:
+  - a class list
+  - a cardinality list (associations with multiplicities)
+  - an attributes dictionary
+  - an inheritance list
+
+The format of the class list is:
+[ClassName1, ClassName2, ...]
+
+The format of the cardinality list is:
+[(ClassName1, Cardinality1, ClassName2, Cardinality2), ...]
+
+The attributes dictionary format is:
+{ClassName: [attr1:Type1, attr2:Type2, ...], ...}
+
+The inheritance list format is:
+[(ChildClass, ParentClass), ...]
+
+For every class in the class list write:
+  class ClassName1 {
+    attr1: Type1
+    attr2: Type2
+  }
+Omit the curly-brace block if the class has no attributes.
+
+For every tuple in the cardinality list write:
+  ClassName1 "Cardinality1" -- "Cardinality2" ClassName2.
+
+For every tuple in the inheritance list write:
+  ChildClass --|> ParentClass
+
+Output plantuml without further text or explanation. Use tags
+@startuml
+at the beginning and
+@enduml
+at the end of the output.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+.
+
+##############
+
+The class list is:
+[/INST] [Cruise, Provider, Employee, Guest, Ship, TravelAgency, DestinationArea, Show, Booking, Ticket]
+
+##############
+
+The cardinality list is:
+
+<s>[INST] Step 3:
+
+You will be asked to extact, from text specification and a list of association, the cardinality for
+each association to use in a uml conceptual model diagram.
+
+Use only association from the list. The format of the cardinality is:
+
+min_cardinality..max_cardinlaity
+
+For example 1..100 has 1 as minimum cardinality and 100 as maximum cadinality.
+Use the asterisk (*) for an undefined number of maximum cardinality,
+and 0 for an undefined number of minumum cardinality.
+
+If you are not sure assign default cardinality: 0..*
+
+Decide the correct cardinality for each association from text and output the results in a list form:
+
+[(ClassName1, Cadinality1 ,ClassName2, Cardinality2), ...]
+
+i.e. for a Book text specification:
+
+[(Book, 1..* ,Page, 1..1),  ...]
+
+Output only the list and no other text.
+
+##############
+
+The association list is:
+
+[(ClassName1, ClassName2), (ClassName1, ClassName3), ...]
+
+#############
+
+The specification text is:
+
+A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+
+
+##############
+
+The cardinality list is:
+[/INST] [("Cruise", 1..1, "Provider", 1..1),
+ ("Provider", 0..1, "Location"),
+ ("Cruise", 1..1, "Name"),
+ ("Cruise", 1..1, "Start Date"),
+ ("Cruise", 1..1, "End Date"),
+ ("Cruise", 0..*, "Employee"),
+ ("Employee", 0..*, "Name"),
+ ("Employee", 0..*, "Social Security Number"),
+ ("Cruise", 0..*, "Guest"),
+ ("Guest", 0..*, "Name"),
+ ("Guest", 0..1, "VIP"),
+ ("Guest", 0..*, "Cruise"),
+ ("Ship", 0..1, "Name"),
+ ("Ship", 1..*, "Deck"),
+ ("Ship", 1..1, "Length"),
+ ("Ship", 1..*, "Passenger"),
+ ("Ship", 0..*, "Cruise"),
+ ("Cruise", 0..1, "Destination Area"),
+ ("Destination Area", 1..1, "Name"),
+ ("Destination Area", 1..1, "Sea Name"),
+ ("Cruise", 0..*, "Show"),
+ ("Show", 1..1, "Title"),
+ ("Show", 1..1, "Duration"),
+ ("Cruise", 0..*, "Guest"),
+ ("Guest", 0..*, "Cruise"),
+ ("Cruise", 0..*, "Ticket"),
+ ("Ticket", 1..1, "Cruise"),
+ ("Guest", 0..*, "Ticket"),
+ ("Ticket", 0..1, "Guest"),
+ ("Booking", 1..1, "Booking Number"),
+ ("Booking", 1..1, "Booking Date"),
+ ("Cruise", 0..1, "Travel Agency"),
+ ("Travel Agency", 1..1, "Name"),
+ ("Travel Agency", 1..1, "Address")]
+
+##############
+
+The attributes dictionary is:
+
+<s>[INST] Step 2b:
+
+You will be asked to extract, from text specification and a list of classes, the attributes
+for each class to use in a UML conceptual model diagram.
+
+For each class, list the attributes explicitly mentioned in the text together with their type.
+Use simple types: String, Int, Float, Boolean, Date.
+
+Output a dictionary-like structure:
+
+{ClassName1: [attr1:Type1, attr2:Type2, ...], ClassName2: [attr1:Type1], ...}
+
+Only include classes that have attributes explicitly mentioned in the text. Omit classes
+with no attributes. If no attributes are found output: {}
+
+Output only the dictionary and no other text.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+.
+
+##############
+
+The class list is:
+[/INST] [Cruise, Provider, Employee, Guest, Ship, TravelAgency, DestinationArea, Show, Booking, Ticket]
+
+#############
+
+The specification text is:
+
+A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+
+
+##############
+
+The attributes dictionary is:
+[/INST] {
+    "Cruise": ["number": "String", "name": "String", "start_date": "Date", "end_date": "Date"],
+    "Provider": ["name": "String", "location": "String"],
+    "Employee": ["name": "String", "social_security_number": "String"],
+    "Guest": ["name": "String", "VIP": "Boolean"],
+    "Ship": ["name": "String", "number_of_decks": "Int", "length": "Float", "number_of_passengers": "Int"],
+    "TravelAgency": ["name": "String", "address": "String"],
+    "DestinationArea": ["name": "String", "sea_name": "String"],
+    "Show": ["title": "String", "duration": "Float"]
+}
+
+##############
+
+The inheritance list is:
+
+[(ChildClass, ParentClass), ...]
+
+If there are no inheritance relationships output an empty list: []
+
+Output only the two sections and no other text.
+Keep both lists as short as possible.
+
+##############
+
+The class list is:
+
+<s>[INST] Step 1:
+
+You will be asked to extact, from text specification, the list of class to use in
+a uml conceptual model diagram. Include only classes relevant for conceptual modeling.
+
+Choose the key words from text and output the results in a list form:
+
+[ClassName1, ClassName2, ...]
+
+i.e. for a Book text specification:
+
+[Book, Page, Author, ...]
+
+Output only the list and no other text.
+Keep the list as short as possible and do not add irrelevant classes.
+
+##############
+
+The specification text is:
+
+A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+.
+
+##############
+
+The class list is:
+[/INST] [Cruise, Provider, Employee, Guest, Ship, TravelAgency, DestinationArea, Show, Booking, Ticket]
+
+#############
+
+The specification text is:
+
+A cruise is organized by a specific provider, each provider has a name and a location. A cruise is identified by a number and a name and has a start and end date. A cruise requires many employees, each of whom has a name and a social security number.
+Several guests take part in a cruise, each guest has a name and it is also noted whether they are a VIP or not. A guest can, of course, also take several cruises. 
+The name of each ship, the number of decks, the length of the ship, and the number of passengers are known. A ship can be used for different cruises.
+A cruise is booked through a travel agency. Each booking has a unique booking number and a booking date. A travel agency has a name and an address.
+A cruise always heads for a specific destination area, each destination area has a name, and the name of the sea is also noted. On a cruise, guests are offered several shows, each show has a title and a certain duration.
+A cruise has several guests, and each guest can participate in several cruises. Several tickets are issued for each cruise. A ticket belongs to exactly one cruise. A guest can have any number of tickets, but only one ticket per cruise.
+
+
+##############
+[/INST] ASSOCIATIONS:
+[Cruise-Provider, Cruise-Employee, Cruise-Guest, Cruise-Ship, Cruise-DestinationArea, Cruise-Show, Cruise-Booking, Guest-Ticket]
+
+##############
+
+The plant uml is:
+[/INST] @startuml
+
+class Cruise {
+    - number: String
+    - name: String
+    - start_date: Date
+    - end_date: Date
+}
+
+class Provider {
+    - name: String
+    - location: String
+}
+
+class Employee {
+    - name: String
+    - social_security_number: String
+}
+
+class Guest {
+    - name: String
+    - VIP: Boolean
+}
+
+class Ship {
+    - name: String
+    - number_of_decks: Int
+    - length: Float
+    - number_of_passengers: Int
+}
+
+class TravelAgency {
+    - name: String
+    - address: String
+}
+
+class DestinationArea {
+    - name: String
+    - sea_name: String
+}
+
+class Show {
+    - title: String
+    - duration: Float
+}
+
+class Booking {
+    - booking_number: String
+    - booking_date: Date
+}
+
+Cruise "1..*" -- "1..*" Provider
+Cruise "1..*" -- "0..*" Employee
+Cruise "1..*" -- "0..*" Guest
+Cruise "1..*" -- "0..*" Ship
+Cruise "1..*" -- "1..*" DestinationArea
+Cruise "0..*" -- "0..*" Show
+Cruise "0..*" -- "0..*" Booking
+Guest "0..*" -- "0..*" Ticket
+
+@enduml

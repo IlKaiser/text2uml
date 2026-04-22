@@ -1,0 +1,22 @@
+```plantuml
+@startuml
+class Frame{ String Material }
+class DriveSystem{ String Type }
+class Controller{ String State, Date NextMaintenanceDate }
+class Battery{ String Type, double EnergyInWh }
+class Wheel{ String Size }
+class EBike{ String Frame, DriveSystem, Controller, Battery }
+
+Frame "1..1" -- "1..*" Wheel
+DriveSystem "1..1" -- "1..*" Motor
+Controller "1..1" -- "1..*" Battery
+Controller "1..1" -- "1..*" DriveSystem
+Controller "1..1" -- "1..*" Wheel
+Battery "0..1" -- "1..*" Controller
+Controller "1..1" -- "1..*" Date
+EBike "1..1" -- "1..*" Frame
+EBike "1..1" -- "1..*" DriveSystem
+EBike "1..1" -- "1..*" Controller
+EBike "0..1" -- "1..*" Battery
+@enduml
+```

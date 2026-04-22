@@ -1,24 +1,36 @@
-```plantuml
 @startuml
 
-class Bus{}
-class BusLine{}
-class Trajectory{}
-class Approval{}
-class SeasonTicket{}
-class MENSO{}
-class Customer{}
-class Invoice{}
+class Bus{ String BusNumber, String Model}
+class Trajectory{ String Description, Date ApprovalDate, Date OperationalDate, Date SuspensionDate, Date CancellationDate }
+class Line{ String LineNumber, String Category }
+class BusCompany{ String Name, String Address }
+class TownAuthority{ String Name, String Address }
+class ApprovalRequest{ Date RequestDate, String Status }
+class SeasonTicket{ String TicketNumber, Date StartDate, Date EndDate }
+class Invoice{ Date InvoiceDate, float Amount, float Discount, float TotalAmount }
+class Customer{ String Name, String HomeAddress, String OfficeAddress, String WorkingHours }
+class Trip{ Date Date, Time Time, Line Line }
 
-Bus "1..*" -- "1..1" BusLine
-BusLine "1..*" -- "1..*" Trajectory
-Trajectory "1..*" -- "1..1" Approval
-Approval "1..1" -- "0..*" Trajectory
-Trajectory "1..1" -- "0..*" Bus
-BusLine "1..1" -- "1..*" MENSO
-MENSO "1..1" -- "1..*" Invoice
-Customer "1..1" -- "1..*" MENSO
-Customer "1..1" -- "1..*" Invoice
+BusCompany "1..1" -- "1..*" Bus
+BusCompany "1..1" -- "1..*" Trajectory
+BusCompany "1..1" -- "1..*" Line
+BusCompany "1..1" -- "1..*" SeasonTicket
+BusCompany "1..1" -- "1..*" Invoice
+BusCompany "1..1" -- "1..*" Customer
+
+TownAuthority "1..1" -- "1..*" ApprovalRequest
+
+Trajectory "1..1" -- "1..1" ApprovalRequest
+Trajectory "1..1" -- "1..1" Line
+
+Line "1..1" -- "1..*" Trip
+
+SeasonTicket "1..1" -- "1..*" Trip
+SeasonTicket "1..1" -- "1..1" Customer
+
+Invoice "1..1" -- "1..1" Customer
+Invoice "1..1" -- "1..*" Trip
+
+Customer "1..1" -- "1..*" SeasonTicket
 
 @enduml
-```

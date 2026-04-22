@@ -1,31 +1,25 @@
-```plantuml
 @startuml
 
-class HelpingHandsStore{}
-class Resident{}
-class PickupService{}
-class PickupVehicle{}
-class VolunteerDriver{}
-class PickupRoute{}
-class DistributionCenter{}
-class Employee{}
-class Article{}
-class Category{}
-class Client{}
-class Delivery{}
+class HelpingHandsStore{ String Name, String Website }
+class Resident{ String Name, String StreetAddress, String PhoneNumber, String Email, String Description }
+class Vehicle{ String ID, String StorageSpace }
+class VolunteerDriver{ String Name, String AvailableDays }
+class Pickup{ Time ScheduledTime }
+class DistributionCenter{ String Location }
+class Employee{ String Name }
+class Article{ String Description, String RFID, String Category }
+class FoodBank{ String Name }
+class Client{ String Name, String HomeAddress }
 
-HelpingHandsStore "1..*" -- "1..*" Resident
-HelpingHandsStore "1..*" -- "1..*" PickupService
-PickupService "1..*" -- "1..*" PickupVehicle
-PickupVehicle "1..*" -- "1..*" VolunteerDriver
-PickupVehicle "1..*" -- "1..*" PickupRoute
-PickupRoute "1..*" -- "1..*" Resident
-DistributionCenter "1..1" -- "1..*" Article
-Employee "1..*" -- "1..*" Article
-Article "1..1" -- "1..*" Category
-Client "1..*" -- "1..*" Article
-Employee "1..*" -- "1..*" Delivery
-Delivery "1..1" -- "1..*" Client
+HelpingHandsStore "1..1" -- "0..*" Location
+HelpingHandsStore "1..1" -- "0..*" Vehicle
+HelpingHandsStore "1..*" -- "0..*" Resident 
+HelpingHandsStore "1..1" -- "0..*" DistributionCenter
+HelpingHandsStore "1..*" -- "0..*" Pickup 
+HelpingHandsStore "1..*" -- "0..*" VolunteerDriver
+DistributionCenter "1..1" -- "0..*" Employee
+DistributionCenter "1..1" -- "0..*" Article
+Article "1..1" -- "0..*" Client 
+DistributionCenter "1..1" -- "0..1" FoodBank
 
 @enduml
-```

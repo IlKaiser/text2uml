@@ -1,15 +1,30 @@
 
-```
 @startuml
-class GameArea{}
-class GameElement{}
-class Shape{}
-class Object{}
-class Opponent{}
+class GameArea {
+    name: String
+}
 
-GameElement "0..*" -- "1..2" GameArea
-Shape "1..*" -- "1..*" Shape
-Object "1..*" -- "0..*" GameElement
+class GameElement {
+    x: long
+    y: long
+}
+
+class GamePiece {
+    x: long
+    y: long
+}
+
+class Shape
+
+class Object
+
+class Opponent {
+    numLives: int
+}
+
+GameElement "1..*" -- "1..1" GameArea
+GamePiece "1..2" -- "1..1" GameArea
+Shape "1..*" -- "0..*"
+Object "1..*" -- "0..*"
 Opponent "1..1" -- "1..1" GameArea
 @enduml
-```
