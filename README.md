@@ -1,57 +1,127 @@
 # Text2UML
-Code for the experiments of the paper **Assessing the Suitability of Large Language Models in Generating UML Class Diagrams as Conceptual Models** 
+Code for the experiments of the paper **Assessing the Suitability of Large Language Models in Generating UML Class Diagrams as Conceptual Models**
 
 ![Architecture of the experiments](./images/text2uml_arch.png)
 
 
 # Repo Structure
-The repo structure is at if follows:
-- notebook/
-- dataset/
-- environment.yml
 
-In notebook folder you will found a notebook for each prompting technique used in the experiments, the notebook used to generate the dataset for huggingface and the dataset for the evaluation.
-In dataser folder you will found the raw text data and corresponding plant uml that composes the dataset.
-The environment.yml is used to setup the python virtual enviroment for the experiments.
+```
+text2uml/
+├── dataset/            # 45 domain scenarios (description.md + reference UML per case)
+├── notebook/           # Jupyter notebooks for each prompting technique and evaluation
+├── src/
+│   ├── run.py          # Unified runner: generates PlantUML outputs for all configured models
+│   ├── eval.py         # Evaluation script: computes F1 scores and generates plots
+│   ├── config.yaml     # Runner configuration (techniques, providers, models)
+│   └── eval_config.yaml# Evaluator configuration (metrics, plots, ignore list)
+├── results/            # Aggregated evaluation CSVs
+├── run_logs/           # Execution logs produced by run.py
+├── grammar.ebnf        # EBNF grammar used by eval.py to parse PlantUML
+├── images/             # Architecture diagram and generated charts
+└── environment.yml     # Conda environment definition
+```
 
-For more info on the dataset and the evaluation you can look the online appendix at [OSF](https://osf.io/rbe7d/files/osfstorage).
+For more info on the dataset and the evaluation see the online appendix at [OSF](https://osf.io/rbe7d/files/osfstorage).
 
 
 # Setup
-To recreate the experiments you will need:
 
-## 1. Setup python Virtual Env
-Make sure you have [Conda](https://anaconda.org/anaconda/conda) installed on your machine, and run:
+## 1. Setup Python Virtual Environment
+
+Make sure you have [Conda](https://anaconda.org/anaconda/conda) installed, then run:
 
 ```sh
 conda env create -f environment.yml -p text2uml
+conda activate text2uml
 ```
-
-To create a text2uml environment.
 
 ## 2. Setup .env
-To access local variables for the api keys it is needed a .env file. You can create one with this template:
+
+Create a `.env` file in the repo root with the API keys for the providers you want to use:
 
 ```sh
-OPENAI_API_KEY=YOUR_OPEN_AI_KEY
+OPENAI_API_KEY=YOUR_OPENAI_KEY
+ANTHROPIC_API_KEY=YOUR_ANTHROPIC_KEY
+DEEPSEEK_API_KEY=YOUR_DEEPSEEK_KEY
+GOOGLE_API_KEY=YOUR_GOOGLE_AI_KEY
+MISTRAL_API_KEY=YOUR_MISTRALAI_KEY
 HF_TOKEN=YOUR_HF_TOKEN
 LANGCHAIN_TRACING_V2=true
-LANGCHAIN_API_KEY=YOUR_LANGCHAIN_API_TREE
-ANTHROPIC_API_KEY=YOUR_ANTHROPIC_API_KEY
-DEEPSEEK_API_KEY=YOUR_DEEPSEK_API_KEY
-GOOGLE_API_KEY=YOUR_GOOGLE_AI_API_KEY
-MISTRAL_API_KEY=YOUR_MISTRALAI_API_KEY
+LANGCHAIN_API_KEY=YOUR_LANGSMITH_KEY
 ```
 
-Note that none of these variable are mandatory, but remeber to add your key to generate text with the corresponding LLM. Langchain APIs enable the tracing of the LLM generation to [LangSmith](https://www.langchain.com/langsmith). It is enabled by default.
-# Run the experiments
-To run the experiments type:
+None of these variables are mandatory — only add the keys for the providers you intend to use. LangSmith tracing is enabled by default when `LANGCHAIN_TRACING_V2=true`; set it to `false` to disable.
+
+
+# Running the Experiments
+
+## Option A: Unified Runner (recommended)
+
+Edit `src/config.yaml` to enable the providers, models, and prompting techniques you want, then:
 
 ```sh
-conda activate text2uml
-jupyer notebook
+python src/run.py
 ```
 
-And choose the notebook you want to execute. 
+Optional flags:
+| Flag | Description |
+|---|---|
+| `--config PATH` | Use a custom config file instead of the default `config.yaml` |
+| `--log-file PATH` | Write logs to a specific file (default: `src/run.log`) |
+| `--force` | Recompute and overwrite existing result files |
+| `--skip-blank` | Skip existing zero-byte result files instead of retrying them |
 
-NOTE: to run some models locally you will nee hardware with adeguate performances. In the script there is native support for Apple Silicon architecture, but to enable the Cuda backed it is as easy as adding the models in the huggingface part.
+### Supported Prompting Techniques
+
+| Key in config | Description |
+|---|---|
+| `zero_shot` | Direct generation from specification text |
+| `one_shot` | One in-context example |
+| `few_shot` | Two in-context examples |
+| `cot` | Chain-of-Thought (step-by-step class/relation/attribute extraction) |
+| `cot_domain` | CoT with an additional noun-extraction step inspired by domain modelling |
+
+### Supported Providers
+
+| Provider key | Description |
+|---|---|
+| `openai` | OpenAI API (GPT-4o, o-series, GPT-4.1, …) |
+| `anthropic` | Anthropic API (Claude 3/4 family) |
+| `deepseek` | DeepSeek API |
+| `gemini` | Google Gemini API |
+| `mistral` | Mistral AI API |
+| `huggingface` | HuggingFace Inference Endpoints |
+| `huggingface_local` | Local HuggingFace pipeline (downloads and runs on device) |
+| `ollama` | Local Ollama server |
+| `mlx` | Apple Silicon MLX inference |
+
+Result files are written next to each scenario's `description.md` as `result_{prefix}{model}.txt`.
+
+## Option B: Jupyter Notebooks
+
+For manual or exploratory runs, individual notebooks are available in the `notebook/` folder:
+
+```sh
+jupyter notebook
+```
+
+Available notebooks: `Zero-Shot.ipynb`, `One-Shot.ipynb`, `Few-Shot.ipynb`, `CoT.ipynb`, `CoT-DomainModelGeneration.ipynb`, `ToT.ipynb`, `Eval.ipynb`, `Dataset.ipynb`, and others.
+
+> **Note:** running models locally requires adequate hardware. Native Apple Silicon (MLX) support is included. To enable CUDA, add your models in the HuggingFace section of `config.yaml`.
+
+
+# Evaluation
+
+After generating results, run the evaluator to compute F1 scores and produce charts:
+
+```sh
+python src/eval.py
+```
+
+Optional flags:
+| Flag | Description |
+|---|---|
+| `--config PATH` | Use a custom eval config file instead of `eval_config.yaml` |
+
+Output is written to `dataset/crash_evaluation_results_llm.csv` (configurable) and charts are saved to `graph/`. Aggregated results are also available in `results/`.
