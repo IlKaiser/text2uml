@@ -47,6 +47,76 @@ def _present_metrics(metrics_df: pd.DataFrame) -> List[str]:
     return [m for m in metric_names() if m in metrics_df.columns]
 
 
+def _z_scores(metrics_df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Return (raw metric values, per-metric z-scores), indexed by dataset.
+
+    Each metric column is z-scored across datasets so that heterogeneous
+    scales become directly comparable.
+    """
+    metrics = _present_metrics(metrics_df)
+    data = metrics_df.set_index("sub_folder_name")[metrics].astype(float)
+    z = (data - data.mean()) / data.std(ddof=0)
+    return data, z
+
+
+def _raw_complexity(z: pd.DataFrame) -> pd.Series:
+    """Mean oriented z-score per dataset (higher = more complex).
+
+    Flesch Reading Ease is inverted (higher = simpler) so every oriented metric
+    grows with linguistic complexity before averaging.
+    """
+    oriented = z.copy()
+    if "flesch_reading_ease" in oriented.columns:
+        oriented["flesch_reading_ease"] = -oriented["flesch_reading_ease"]
+    return oriented.mean(axis=1)
+
+
+def complexity_index(metrics_df: pd.DataFrame) -> pd.DataFrame:
+    """Per-dataset complexity index normalized to ``[0, 1]``.
+
+    The mean oriented z-score (see :func:`_raw_complexity`) is the raw index;
+    it is then min-max scaled across datasets so the result is interpretable on
+    a fixed scale: ``0`` = simplest dataset in the set, ``1`` = most complex.
+    When every dataset scores identically the index is undefined, so ``0.5`` is
+    returned as a neutral fallback.
+
+    Args:
+        metrics_df: Loaded ``complexity_metrics.csv`` (one row per dataset).
+
+    Returns:
+        DataFrame with ``sub_folder_name``, the raw ``complexity_z`` index, and
+        the normalized ``z_index`` in ``[0, 1]``, sorted simplest -> most complex.
+    """
+    _, z = _z_scores(metrics_df)
+    raw = _raw_complexity(z)
+
+    span = raw.max() - raw.min()
+    if not np.isfinite(span) or span == 0:
+        normalized = pd.Series(0.5, index=raw.index)
+    else:
+        normalized = (raw - raw.min()) / span
+
+    out = pd.DataFrame(
+        {
+            "sub_folder_name": raw.index,
+            "complexity_z": raw.to_numpy(),
+            "z_index": normalized.to_numpy(),
+        }
+    )
+    return out.sort_values("z_index").reset_index(drop=True)
+
+
+def write_complexity_index(
+    metrics_df: pd.DataFrame, cfg: TextConfig = DEFAULT_CONFIG
+) -> pd.DataFrame:
+    """Compute the normalized complexity index and persist it to ``cfg.index_csv``."""
+    index_df = complexity_index(metrics_df)
+    cfg.output_dir.mkdir(parents=True, exist_ok=True)
+    index_df.to_csv(cfg.index_csv, index=False)
+    logger.info("Wrote complexity index for %d datasets to %s", len(index_df), cfg.index_csv)
+    return index_df
+
+
 def load_metrics(cfg: TextConfig = DEFAULT_CONFIG) -> pd.DataFrame:
     """Load the computed metrics CSV."""
     if not cfg.metrics_csv.is_file():
@@ -73,33 +143,41 @@ def aggregate_results(cfg: TextConfig = DEFAULT_CONFIG) -> pd.DataFrame:
 
 
 def plot_complexity_profile(metrics_df: pd.DataFrame, cfg: TextConfig = DEFAULT_CONFIG) -> None:
-    """Heatmap of z-scored metrics per dataset (the complexity profile)."""
-    metrics = _present_metrics(metrics_df)
-    data = metrics_df.set_index("sub_folder_name")[metrics].astype(float)
-    # z-score each metric column so heterogeneous scales are comparable.
-    z = (data - data.mean()) / data.std(ddof=0)
+    """Heatmap of z-scored metrics per dataset (the complexity profile).
 
-    # Overall complexity = mean z-score across metrics. Flesch Reading Ease is
-    # inverted (higher = simpler), so flip its sign before averaging.
-    oriented = z.copy()
-    if "flesch_reading_ease" in oriented.columns:
-        oriented["flesch_reading_ease"] = -oriented["flesch_reading_ease"]
-    complexity = oriented.mean(axis=1)
+    The per-metric z-scores are drawn on a diverging, centre-0 scale; a narrow
+    companion column on the right shows the normalized ``z_index`` (0 = simplest,
+    1 = most complex) on its own sequential 0..1 scale.
+    """
+    metrics = _present_metrics(metrics_df)
+    data, z = _z_scores(metrics_df)
+    # Overall complexity = mean oriented z-score across metrics.
+    complexity = _raw_complexity(z)
     # Sort datasets by increasing overall complexity (top = simplest).
     order = complexity.sort_values().index
     z = z.reindex(order)
     # Raw metric values, in the same order, used as cell annotations.
     annot = data.reindex(order)
 
+    # Normalized [0, 1] index per dataset, in the same order, for the side column.
+    index_df = complexity_index(metrics_df).set_index("sub_folder_name")
+    z_index = index_df["z_index"].reindex(order).to_frame("z_index")
+
     height = max(6.0, 0.28 * len(z))
-    fig, ax = plt.subplots(figsize=(1.2 * len(metrics) + 4, height))
+    fig, (ax, ax_idx) = plt.subplots(
+        1,
+        2,
+        figsize=(1.2 * len(metrics) + 5, height),
+        gridspec_kw={"width_ratios": [len(metrics), 1], "wspace": 0.05},
+        sharey=True,
+    )
     sns.heatmap(
         z,
         cmap="RdBu_r",
         center=0,
         linewidths=0.4,
         linecolor="white",
-        cbar_kws={"label": "z-score"},
+        cbar_kws={"label": "z-score", "pad": 0.02},
         annot=annot,
         fmt=".2f",
         annot_kws={"fontsize": 7},
@@ -108,7 +186,68 @@ def plot_complexity_profile(metrics_df: pd.DataFrame, cfg: TextConfig = DEFAULT_
     ax.set_title("Linguistic-complexity profile per dataset (z-scored)")
     ax.set_xlabel("metric")
     ax.set_ylabel("dataset")
+
+    # Companion z_index column on its own 0..1 sequential scale.
+    sns.heatmap(
+        z_index,
+        cmap="viridis",
+        vmin=0.0,
+        vmax=1.0,
+        linewidths=0.4,
+        linecolor="white",
+        cbar_kws={"label": "z_index (0=simple, 1=complex)", "pad": 0.1},
+        annot=True,
+        fmt=".2f",
+        annot_kws={"fontsize": 7},
+        ax=ax_idx,
+    )
+    ax_idx.set_xlabel("")
+    ax_idx.set_ylabel("")
+    ax_idx.tick_params(left=False)
     _save(fig, cfg, "complexity_profile_heatmap")
+
+
+def plot_z_index_distribution(metrics_df: pd.DataFrame, cfg: TextConfig = DEFAULT_CONFIG) -> None:
+    """Scatter of the normalized ``z_index`` across datasets (cases).
+
+    Each dataset is a point at its ``z_index`` (x), ordered simplest -> most
+    complex (y), coloured by the same value. Mean and median reference lines
+    summarise where the bulk of the cases sit on the 0..1 scale.
+    """
+    index_df = complexity_index(metrics_df)  # already sorted simplest -> complex
+    if index_df.empty:
+        logger.warning("No data for z_index distribution; plot skipped.")
+        return
+
+    values = index_df["z_index"].to_numpy()
+    names = index_df["sub_folder_name"].tolist()
+    y = np.arange(len(values))
+
+    height = max(6.0, 0.28 * len(values))
+    fig, ax = plt.subplots(figsize=(8, height))
+    scatter = ax.scatter(
+        values, y, c=values, cmap="viridis", vmin=0.0, vmax=1.0,
+        s=70, edgecolor="white", linewidth=0.6, zorder=3,
+    )
+    # Thin connector from the simple end to each point, for readability.
+    ax.hlines(y, 0, values, color="#cccccc", linewidth=0.8, zorder=1)
+
+    mean_v, median_v = float(values.mean()), float(np.median(values))
+    ax.axvline(mean_v, color="#c0392b", linestyle="--", linewidth=1.2,
+               label=f"mean = {mean_v:.2f}", zorder=2)
+    ax.axvline(median_v, color="#2c3e50", linestyle=":", linewidth=1.2,
+               label=f"median = {median_v:.2f}", zorder=2)
+
+    ax.set_yticks(y)
+    ax.set_yticklabels(names, fontsize=7)
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xlabel("z_index (0 = simplest, 1 = most complex)")
+    ax.set_ylabel("dataset")
+    ax.set_title("z_index distribution across datasets")
+    ax.legend(loc="lower right", fontsize=8)
+    ax.invert_yaxis()  # simplest at top, matching the heatmap order
+    fig.colorbar(scatter, ax=ax, label="z_index", pad=0.02)
+    _save(fig, cfg, "z_index_distribution")
 
 
 def _corr(x: pd.Series, y: pd.Series) -> Tuple[float, float, float, float]:
@@ -188,4 +327,6 @@ def generate_all_plots(cfg: TextConfig = DEFAULT_CONFIG) -> pd.DataFrame:
     """
     metrics_df = load_metrics(cfg)
     plot_complexity_profile(metrics_df, cfg)
+    plot_z_index_distribution(metrics_df, cfg)
+    write_complexity_index(metrics_df, cfg)
     return pd.DataFrame()

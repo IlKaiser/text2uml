@@ -25,6 +25,7 @@ class TextConfig:
     results_csv: Path = _REPO_ROOT / "dataset" / "evaluation_results_llm.csv"
     output_dir: Path = _PACKAGE_DIR / "output"
     metrics_csv_name: str = "complexity_metrics.csv"
+    index_csv_name: str = "complexity_index.csv"
     spacy_model: str = "en_core_web_sm"
     # Figure formats written for every plot (matches the repo's SVG convention).
     figure_formats: List[str] = field(default_factory=lambda: ["svg", "png"])
@@ -32,6 +33,10 @@ class TextConfig:
     @property
     def metrics_csv(self) -> Path:
         return self.output_dir / self.metrics_csv_name
+
+    @property
+    def index_csv(self) -> Path:
+        return self.output_dir / self.index_csv_name
 
 
 DEFAULT_CONFIG = TextConfig()
