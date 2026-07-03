@@ -525,6 +525,29 @@ def check_class_syn(predicted, correct, path_to_check=""):
         return {"precision": 0.0, "recall": 0.0, "f1": 0.0, "len_": len(correct)}
 
 
+def _parse_class_alias_pairs(res: str, predicted: list, correct: list) -> dict:
+    """Parse ``Correct -> Predicted`` lines into ``{predicted_name: correct_name}``.
+
+    Keys are normalised to the *exact* strings from ``predicted`` (not the LLM's
+    possibly-reworded echo of them) so the map can be used to rewrite relation
+    endpoint names, which come from the same parsed predicted-class strings.
+    """
+    pred_lookup = {p.lower(): p for p in predicted}
+    corr_lookup = {c.lower(): c for c in correct}
+    alias_map: dict = {}
+    for line in res.splitlines():
+        if "->" not in line:
+            continue
+        left, right = line.split("->", 1)
+        left = left.strip().strip("\"'-*• ")
+        right = right.strip().strip("\"'-*• ")
+        corr_name = corr_lookup.get(left.lower())
+        pred_name = pred_lookup.get(right.lower())
+        if corr_name and pred_name:
+            alias_map[pred_name] = corr_name
+    return alias_map
+
+
 def check_class_llm(predicted, correct, path_to_check):
     try:
         from langchain_core.prompts import PromptTemplate
@@ -534,14 +557,21 @@ def check_class_llm(predicted, correct, path_to_check):
         return check_class(predicted, correct)
 
     prompt = PromptTemplate.from_template(
-        """You will be asked by the user to compare two list of class extracted from a text specification.
-You will recieve the specification text in input and two list of class: the predicted classes and the correct classes.
-You will output the intersection between these two list, keeping in mind that similar names can be used as well and they are acceptable.
-Include only the class from the correct list in the intersection. Use the context from the specification to understand if a class name is acceptable.
+        """You will be asked by the user to compare two lists of class names extracted from a text specification.
+You will receive the specification text in input and two lists of class names: the predicted classes and the correct classes.
+For every class in the correct list that refers to the same real-world concept as a class in the predicted list
+(even if the name differs, e.g. synonyms or paraphrases), output one line in the form:
 
-For example, if the correct class list is ["person"] and the predicted class is ["human"] the intersection should be: ["person"].
+CorrectClassName -> PredictedClassName
 
-Output only the intersection list without further explanation.
+Use the context from the specification to judge whether two differently-named classes refer to the same concept.
+Match each correct class to at most one predicted class (its best match). Omit correct classes with no matching
+predicted class. Do not invent class names that are not in either list.
+
+For example, if the correct class list is ["Person"] and the predicted class list is ["Human"], output:
+Person -> Human
+
+Output only the pairs, one per line, without further explanation. If there are no matches, output nothing.
 
 ##############
 
@@ -559,7 +589,7 @@ The correct list is:
 
 ##############
 
-The intersection list is:
+The pairs are:
 """
     )
     try:
@@ -567,15 +597,15 @@ The intersection list is:
         chain = prompt | model | StrOutputParser()
         spec_path = "/".join(path_to_check.split("/")[:-1]) + "/description.md"
         res = chain.invoke({"text": open(spec_path).read(), "predicted": predicted, "correct": correct})
-        intr = set(map(str.strip, res.replace("[", "").replace("]", "").replace("'", "").split(",")))
-        if intr == {""}:
-            intr = set()
+        alias_map = _parse_class_alias_pairs(res, predicted, correct)
+        intr = set(alias_map.values())
         tp = min(len(intr), len(predicted))  # LLM can hallucinate extras; cap TP at |predicted|
         precision = tp / len(predicted) if predicted else 0.0
         recall = len(intr) / len(correct) if correct else 0.0
         f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
         return {"precision": round(precision, 2), "recall": round(recall, 2),
-                "f1": round(f1, 2), "len_": len(correct), "n_pred": len(predicted)}
+                "f1": round(f1, 2), "len_": len(correct), "n_pred": len(predicted),
+                "alias_map": alias_map}
     except Exception:
         return check_class(predicted, correct)
 
@@ -712,12 +742,36 @@ def check_inheritance(predicted_inh, correct_inh, path_to_check=""):
             "f1": round(f1, 2), "len_": len(corr_set), "n_pred": len(pred_set)}
 
 
+def _alias_relation_endpoints(rel_list: list, alias_map: dict) -> list:
+    """Rewrite relation endpoint class names through a predicted->gold alias map.
+
+    ``check_relations`` matches endpoints by exact string equality, so a
+    predicted relation between differently-but-equivalently-named classes
+    (e.g. "Line" vs. gold's "BusLine") would otherwise never match even
+    though ``check_class_llm`` already established the two names refer to
+    the same concept. A combined key ("ClassA, ClassB") can appear for
+    n-ary association endpoints, so each comma-separated part is aliased
+    individually.
+    """
+    if not alias_map:
+        return rel_list
+    aliased = []
+    for rel in rel_list:
+        new_rel = {}
+        for key, card in rel.items():
+            parts = [alias_map.get(p, p) for p in key.split(", ")]
+            new_rel[", ".join(parts)] = card
+        aliased.append(new_rel)
+    return aliased
+
+
 def evaluate(path_uml: str, path_to_check: str, parser: Lark, strip_cfg: dict | None = None):
     # Gold standard: never strip (it's a clean plantuml.txt file)
     class_uml, rel_uml, attrs_uml, inh_uml = parse_path(path_uml, parser, strip_cfg=None)
     # Candidate: apply stripping to remove prompt scaffolding if enabled
     class_check, rel_check, attrs_check, inh_check = parse_path(path_to_check, parser, strip_cfg=strip_cfg)
     res_cl = check_class_llm(class_check, class_uml, path_to_check=path_to_check)
+    rel_check = _alias_relation_endpoints(rel_check, res_cl.get("alias_map", {}))
     res_re = check_relations(rel_check, rel_uml, path_to_check=path_to_check)
     res_at_naive = check_attributes(attrs_check, attrs_uml)
     res_at_syn = check_attributes_syn(attrs_check, attrs_uml)
