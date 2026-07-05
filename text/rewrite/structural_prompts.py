@@ -16,12 +16,17 @@ from __future__ import annotations
 from typing import Dict, Optional
 
 STRUCTURAL_METRIC_GUIDANCE: Dict[str, str] = {
-    "mdd": "pack qualifiers onto each entity via commas, parentheses, or a "
-    "trailing participial clause (e.g. 'many Pumps (1 -> 0..*), each Pump "
-    "belonging to one station') instead of a separate sentence",
-    "subordination_index": "never use subordinating conjunctions (when, "
-    "because, although, since, if); state each fact as a flat declarative "
-    "bullet",
+    "mdd": "pack qualifiers onto each entity mainly via commas and "
+    "parentheses (e.g. 'many Pumps (1 -> 0..*)') rather than participial "
+    "clauses — parenthetical/comma packing raises dependency distance "
+    "without adding a subordinate clause",
+    "subordination_index": "avoid not just subordinating conjunctions (when, "
+    "because, although, since, if) but also participial/appositive clause "
+    "modifiers (e.g. '...Pumps, each belonging to one station') — the "
+    "parser counts those as subordination too. Use at most ONE such "
+    "participial phrase in the entire document (for the single most "
+    "important relationship); pack every other qualifier via parentheses "
+    "or commas instead",
     "context_dependence_proxy": "after an entity's first mention, refer back "
     "to it with a pronoun (it, its, they) instead of repeating its full name",
 }
@@ -39,10 +44,17 @@ def structural_system_prompt() -> str:
         "(e.g. '1 -> 0..*'), and any qualifying condition, packed into a "
         "single sentence via commas/parentheses/participial clauses.\n\n"
         "Style rules (these produce the target notes genre):\n"
-        "- Pack qualifiers onto each entity via commas, parentheses, or a "
-        "trailing participial clause instead of a separate sentence.\n"
+        "- Pack qualifiers onto each entity mainly via commas and "
+        "parentheses (e.g. 'many Pumps (1 -> 0..*)') instead of a separate "
+        "sentence — this raises dependency distance without adding a "
+        "subordinate clause.\n"
         "- Never use subordinating conjunctions (when, because, although, "
-        "since, if); every line is a flat declarative statement.\n"
+        "since, if). Also avoid participial/appositive clause modifiers "
+        "(e.g. '...Pumps, each belonging to one station') — a parser counts "
+        "those as subordination too, exactly like a 'because' clause. Use "
+        "at most ONE such participial phrase in the entire document, for "
+        "the single most important relationship; pack every other "
+        "qualifier via parentheses or commas instead.\n"
         "- After an entity's first mention, refer back to it with a pronoun "
         "(it, its, they) instead of repeating its full name.\n\n"
         "Hard rules:\n"
