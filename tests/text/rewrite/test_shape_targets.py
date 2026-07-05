@@ -48,6 +48,26 @@ def test_check_shape_degenerate_l3_skips_band():
     assert shape_ok(checks) is True  # degenerate never fails on its own
 
 
+def test_subordination_index_rank_not_enforced_at_zero_but_still_enforced_at_one_and_two():
+    """Calibration against real generation (2026-07 shape-aware level-zero
+    rollout) showed structured notes at level zero routinely exceed L3's
+    subordination_index (their mdd-boosting participial clauses are counted
+    as subordination too) -- L3 no longer needs to dominate at "zero", but
+    must still dominate at "one"/"two" where simplification reliably lowers
+    it in practice."""
+    # subordination_index exceeds L3 (0.5) at every level here.
+    values = {"mdd": 3.4, "subordination_index": 0.6, "context_dependence_proxy": 0.7}
+
+    zero_checks = check_shape("zero", values, L3)
+    zero_sub = next(c for c in zero_checks if c.metric == "subordination_index")
+    assert zero_sub.rank_ok is True
+
+    for level in ("one", "two"):
+        checks = check_shape(level, values, L3)
+        sub_check = next(c for c in checks if c.metric == "subordination_index")
+        assert sub_check.rank_ok is False
+
+
 def test_check_case_shape_global_max_constraints():
     levels = {
         "zero": {"mdd": 3.4, "subordination_index": 0.2, "context_dependence_proxy": 0.9},

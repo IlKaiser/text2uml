@@ -26,10 +26,19 @@ from typing import Dict, List, Optional, Tuple
 SHAPE_METRICS: Tuple[str, ...] = ("mdd", "subordination_index", "context_dependence_proxy")
 
 # level tag -> metric -> (min_ratio, max_ratio); max_ratio=None means one-sided (>= min_ratio).
+#
+# zero/subordination_index's ceiling was widened from an original 0.65 (based
+# on one hand-authored reference) to 1.5 after calibration against real LLM
+# generation (see docs/superpowers/plans/2026-07-05-levels-shape-aware-
+# generation.md, Task 6): the participial/appositive clauses needed to pack
+# qualifiers at high density (for mdd) are themselves counted as subordinate
+# clauses by SubordinationIndex, so real structured notes for a genuinely
+# detailed spec consistently land around 1.15-1.4x the real spec's value,
+# not the ~0.45-0.53x the single reference example happened to produce.
 RATIO_BANDS: Dict[str, Dict[str, Tuple[float, Optional[float]]]] = {
     "zero": {
         "mdd": (1.05, None),
-        "subordination_index": (0.35, 0.65),
+        "subordination_index": (0.35, 1.5),
         "context_dependence_proxy": (1.5, None),
     },
     "one": {
@@ -61,11 +70,21 @@ class ShapeCheck:
 
 
 def _rank_ok(metric: str, level: str, value: float, l3_value: float) -> bool:
-    """Hard rank constraints from the design spec (Section: Target shape rules)."""
+    """Hard rank constraints from the design spec (Section: Target shape rules).
+
+    subordination_index's "L3 dominates" rank rule applies only to the
+    narrative-simplification levels ("one"/"two"), where it holds reliably
+    in practice (genuine subordinate-clause density really does drop when
+    simplifying prose). It is deliberately NOT enforced at "zero": real
+    structured-notes generation regularly exceeds L3's subordination_index
+    because its mdd-boosting participial clauses are themselves counted as
+    subordination (calibrated against real generation runs, see
+    RATIO_BANDS's comment above) — L3 no longer needs to be the max there.
+    """
     if metric == "mdd" and level == "zero":
         return value > l3_value
-    if metric == "subordination_index":
-        return l3_value >= value  # L3 must dominate every other level.
+    if metric == "subordination_index" and level in ("one", "two"):
+        return l3_value >= value
     if metric == "context_dependence_proxy" and level == "zero":
         return value >= l3_value
     return True
@@ -138,8 +157,10 @@ def check_case_shape(levels: Dict[str, Dict[str, float]]) -> List[ShapeCheck]:
     for level in ("zero", "one", "two"):
         if level in levels:
             checks.extend(check_shape(level, levels[level], l3_values))
+    # subordination_index has no global "three is the max of all four" check:
+    # level zero is legitimately allowed to exceed L3 on this metric (see
+    # _rank_ok's docstring) — only the local one/two-vs-L3 rank rules apply.
     for metric, expected_max_level in (
-        ("subordination_index", "three"),
         ("context_dependence_proxy", "zero"),
     ):
         gmax = _global_max_check(metric, expected_max_level, levels)
