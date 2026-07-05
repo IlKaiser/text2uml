@@ -1,0 +1,35 @@
+## Classes
+- **Home** — for the elderly, divided in departments, offers types of stays (RH, RNH, SF).
+- **Department** — consists of rooms.
+- **Room** — has beds.
+- **Bed** — belongs to one category.
+- **Category** — type of stay (RH, RNH, SF), has a price.
+- **Inhabitant** — assigned a bed, may do more than one stay at a time, has representative.
+- **Stay** — type (=category), state (active, suspended, ended), date of intake, invoiced monthly.
+- **Person** — registration data (basic identification), registration date, assessed abilities (eating, dressing, personal care), defined type of stay.
+- **Registration** — set of questions (basic identification data), final step registers person's data.
+- **Assessment** — questions gauging needs for help, results in a type of stay, re-assessment validates requested type.
+- **WaitingList** — per type of stay, position determined by registration date only.
+- **Proposal** — made to highest person, accept/refuse within three days, state (accepted, refused, invalidated).
+- **Invoice** — outstanding amount, remaining amount, state (open, paid), re-sent, correctable.
+- **Payment** — event (not object), registered, amount paid.
+- **CreditNote** — created on overpayment, refund executed immediately.
+
+## Relationships
+- Home and Department (1 -> 0..*), it (the Home) divided into them.
+- Department and Room (1 -> 0..*).
+- Room and Bed (1 -> 0..*).
+- Bed and Category (0..*  -> 1), it belonging to one.
+- Category and price (1 -> 1), it (RH, RNH, SF) having one.
+- Inhabitant and Bed (1 -> 1 per stay), it assigned one for its stay.
+- Inhabitant and Stay (1 -> 1..*, more than one at a time), a suspended service-flat stay (John) coexisting with a rest&nursing stay, its switch requiring no proposal.
+- Stay and Category (0..* -> 1), it (its type) determining the invoiced amount, a discount applying to the service-flat stay during concurrent rest&nursing.
+- Person and Registration (1 -> 1), it answering questions, its data registered as final step.
+- Person and Assessment (1 -> 1..*, initial and re-assessment), it (the assessment) defining/validating the type of stay.
+- Person and WaitingList (0..* -> 1 per type), it placed by registration date only.
+- WaitingList and Proposal (1 -> 0..*), it (the proposal) made to the highest person on a free bed of the corresponding category.
+- Proposal and Person (0..* -> 1), it accepted/refused within three days, a refusal passing it to the next requester, an invalidated one keeping the person's same position with updated requested type.
+- Stay and Invoice (1 -> 0..*, monthly, continuing after end until all paid).
+- Invoice and Payment (1 -> 0..*, events), it (each payment) registered and reducing the outstanding amount.
+- Invoice and CreditNote (1 -> 0..1, on overpayment), it setting outstanding to zero, marking paid, and refunding immediately.
+- Invoice and Inhabitant/representative (0..* -> 1), it (unpaid) modifiable/correctable on complaint about invoiced items.

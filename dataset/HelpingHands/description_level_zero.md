@@ -1,0 +1,34 @@
+## Classes
+- **H2S** — collects second hand articles and non-perishable foods, distributes them to those in need, operates in many cities (each location run independently), offers Pickup and Delivery Service via its website.
+- **Resident** — name, street address, phone number, optional email address, description of items; places them outside its front door on the requested weekday morning.
+- **Item** — description, dimensions, weight (scheduled for pickup).
+- **SecondHandArticle** — quality-examined, RFID-tagged (usable ones), description double-checked/corrected, assigned a category.
+- **NonPerishableFood** — dropped directly at food bank.
+- **PickupVehicle** — available storage space (part of the fleet).
+- **VolunteerDriver** — available days indicated on the website.
+- **PickupRoute** — determined per weekday, per vehicle (accounts for its available storage space, item dimensions/weights).
+- **Pickup** — scheduled, weekday requested, anytime 8:00–14:00.
+- **H2SEmployee** — examines quality, tags RFID, checks/corrects description, assigns category, calls clients, arranges delivery.
+- **DistributionCenter** — receives second hand articles.
+- **FoodBank** — handles non-perishable foods (no further H2S involvement).
+- **Category** — standard list of 134 (e.g., baby clothing, women's winter boots, fridge, microwave…).
+- **Client** — needed categories indicated, home address (receives second hand articles, unable to visit it, in some cities).
+- **Delivery** — of an article to its home address, made before pickups per route.
+
+## Relationships
+- **H2S** operates in many cities (1 -> 0..*, each run independently).
+- **Resident** schedules **Pickup** online (1 -> 0..*, stating a street address).
+- **Pickup** covers **Items** (1 -> 1..*, with dimensions and weights).
+- **H2S** operates a fleet of **PickupVehicles** (1 -> 1..*).
+- **PickupVehicle** is assigned a **VolunteerDriver** (1 -> 0..1, available for that weekday).
+- **It** has a **PickupRoute** for the day (1 -> 0..1, its driver available).
+- **PickupRoute** includes scheduled **Pickups** (1 -> 0..*, 8:00–14:00).
+- **VolunteerDriver**, after completing all scheduled pickups, drops off collected **SecondHandArticles** at the **DistributionCenter** (1 -> 0..*).
+- **It** drops off **NonPerishableFoods** directly at the **FoodBank** (1 -> 0..*, handled without further H2S involvement).
+- **DistributionCenter** employs **H2SEmployees** (1 -> 1..*).
+- **H2SEmployee** tags **SecondHandArticles** with RFID (1 -> 0..*, usable ones only).
+- **SecondHandArticle** is assigned one **Category** (0..* -> 1, from the 134-category list).
+- **Client**, unable to personally visit it, indicates needed **Categories** (1 -> 1..*, in some cities).
+- **H2SEmployee** calls **Clients** at day's end about relevant dropped-off articles (1 -> 0..*).
+- **It** arranges **Delivery** of an article to a **Client**'s home address (1 -> 0..*, it still needed).
+- **VolunteerDriver** performs **Delivery** before picking up items per its pickup route (1 -> 0..*).

@@ -1,0 +1,5 @@
+A gas station chain wants to manage its gas stations electronically in the future. Please model this situation with a UML class diagram. Use the information below.
+
+Each gas station has a unique ID and an address. Each gas station also has fuel pumps. A gas station can have at most 12 fuel pumps. Each fuel pump is identified by a number. For each fuel pump, it is noted whether the fuel pump is self-service or not. For each fuel pump, it is also known which fuels the fuel pump offers. A fuel is uniquely identified by its name. The octane rating of the fuel is also noted.
+
+Each gas station archives all daily fuel prices. A daily price is identified by three things. These are a date, the fuel the price applies to, and the gas station. The price per liter is also noted. A fuel purchase is uniquely identified by an ID. For each purchase, it is noted at which fuel pump the fuel was bought. For each purchase, it is also noted which fuel was bought. For each purchase, it is also noted at which daily price the fuel was bought. The number of liters of fuel dispensed is also stored.

@@ -1,0 +1,9 @@
+A group of students likes the success of Spotify. The students want to build a music streaming website. The website is called Musicmatic. The students are economists. The students do not know much about databases. So the students asked you to create a UML class diagram.
+
+Musicmatic will offer many songs. You must store this information for each song: title, year, length, and genre. You must also add artist information. Artist information includes the date of birth, the name, and a URL to a website. For example, the URL can be a Wikipedia page. The website gives more information on the artist. An artist has a unique name. A song always belongs to exactly one artist. The students note that two songs can have the same title. Only the combination of song and artist is unique.
+
+The database must also store information on the people who use Musicmatic. There are only two types of users. The two types are regular users and business users. Regular users can buy music. Business users deliver the content. Business users upload the music. You store this information for each user: a unique ID, a name, and an address. Business users also have a VAT number.
+
+The students want a flexible service. Business users can only upload individual songs. Each song is a single or a hit. Regular users can buy singles directly. People can also make an album. An album is made of many hits. An album has no singles. The database stores the position of each hit in the album. This position is a track number. An album of a regular user can become a suggestion. The suggestion goes to other regular users. These other regular users have similar purchasing behavior.
+
+Finally, one person can be a regular user at some times. For example, a person is a regular user when the person downloads a single or an album. The same person can be a business user at other times. For example, a person is a business user when the person uploads their own songs to Musicmatic.

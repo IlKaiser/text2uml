@@ -1,0 +1,13 @@
+An oil company owns many gas stations. These stations are spread across the country. Customers can pay for their refuel turn in cash at the counter. They can also pay with a personal credit card. Or they can ask for a refuel card.
+
+With a refuel card, customers do not pay for the refuel turn right away. Instead, the card holder gets a monthly invoice at the end of each month. This invoice lists the amounts of all refuel turns paid with the fuel card. The invoice gives discounts. These discounts depend on the customer's turnover during the invoiced month.
+
+Invoicing and paying can happen in any order. A customer can get a second invoice before paying the first one. But each invoice must be sent before its payment can be received. Each refuel turn appears only on the invoice for the month of that refuel turn.
+
+Suppose a customer does not pay the invoice. Then the unpaid refuel turns are not added to the next month's invoice. Instead, the invoice is simply sent again. This reminds the customer of the payment due. Suppose a customer repeatedly fails to pay the invoices, for example two months in a row. Then the customer is suspended and the card is blocked. The block lasts until the bills are paid. The exact threshold to block a customer is not fully fixed. Very good customers get a bit more slack than new customers. Once the bills are settled, a customer may return to the normal state.
+
+Each gas station has a number of pumps. Each pump contains a particular type of gasoline. Only one customer can refuel a car at a given pump at a time. When the nozzle is taken, refueling can start. When the nozzle is put back, refueling stops. Between these two moments, no other customer can use this pump. As soon as the nozzle is put back, the pump becomes available for the next customer.
+
+Each pump has a separate reservoir. The reservoir must be refilled when the gasoline quantity drops below a preset reordering level. Refilling can happen at any time. The system should produce a daily report. This report indicates which pump needs to be refilled. For each pump, it also gives the current level of gasoline and the quantity to order.
+
+The bottom of a tank can contain dirt. So when the fuel drops below a critical level, the pump is automatically blocked. No refueling can then occur with this pump. For the same reason, refilling a tank still above the critical level also causes a block. In that case, the gas station responsible blocks the pump temporarily for about an hour. This lets dirt sink to the bottom. The pump is released when the gas station responsible judges that refueling with it is safe again.

@@ -1,0 +1,5 @@
+This case is about research project management. The university has many research groups. Each research group belongs to a department. Each researcher belongs to exactly one research group. Projects are split into Work Packages (WP). Each WP has exactly one research group as its WP leader. To run a research project, researchers must be assigned to Work Packages.
+
+A researcher can be assigned to any WP. The choice does not depend on which research group leads the WP.
+
+But "service delivery" from one group to another must be traceable. You should be able to see all researchers from other groups. These researchers work on WPs led by a research group. "Service delivery" works in this way. A researcher may change research group. Then the current WP team member assignments for that researcher end. New assignments are made. This keeps a correct record of the service delivery. The same thing happens when WP leadership moves to a new group. Then the team member assignments are recorded again. This keeps the service delivery recorded correctly.

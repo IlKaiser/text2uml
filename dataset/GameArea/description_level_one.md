@@ -1,0 +1,5 @@
+Formalize this textual description of a game area. Create a suitable class diagram. Use at least one role name. Use at least one association name. You do not need to model setters and getters.
+
+A game area has a name of type String. A game area has at least one game element. A game area has one or two game pieces. A game element has an x value of type protected long. A game element has a y value of type private long. The x value and the y value give the position of the game element in the game area. Each game element is a shape, an object, or an opponent. A shape can connect to any number of other shapes. The game area knows exactly one opponent. This one opponent is called the boss. Enemies have a number of lives of type protected int. Enemies can be killed.
+
+Now write down four classes from the class diagram. The four classes are game element, shape, object, and opponent. Also write down the relationships between the four classes. Use the textual syntax for class diagrams from the DEX tool. Ignore the visibilities.
