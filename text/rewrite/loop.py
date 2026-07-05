@@ -155,9 +155,13 @@ def rewrite_to_shape(
     tconf: TextConfig = cfg.text_config
     min_tokens = cfg.min_token_ratio * max(1, original_score.n_tokens)
 
+    def _fail_count(checks) -> int:
+        """Number of checks failing (non-degenerate and not both rank+band ok)."""
+        return sum(1 for c in checks if not (c.degenerate or (c.rank_ok and c.band_ok)))
+
     best_text = original
     best_checks = check_shape(level_name, original_score.values, l3_values)
-    best_ok = shape_ok(best_checks)
+    best_fail_count = _fail_count(best_checks)
     candidate_text = original
     feedback: Optional[str] = None
     reached = False
@@ -186,12 +190,12 @@ def rewrite_to_shape(
 
         if ok and keeps_content:
             if not cfg.verify_meaning:
-                best_text, best_checks, best_ok, final_z = candidate_text, checks, True, latest_score.z_index
+                best_text, best_checks, best_fail_count, final_z = candidate_text, checks, 0, latest_score.z_index
                 reached = True
                 break
             check = verify_meaning(client, cfg, original, candidate_text)
             if check.equivalent:
-                best_text, best_checks, best_ok, final_z = candidate_text, checks, True, latest_score.z_index
+                best_text, best_checks, best_fail_count, final_z = candidate_text, checks, 0, latest_score.z_index
                 reached = True
                 break
             feedback = "Your shape is on target — keep it there. " + check.feedback()
@@ -201,8 +205,9 @@ def rewrite_to_shape(
             feedback = format_feedback(checks, metric_guidance) or "Restore every entity, attribute, relationship, action, and constraint from the source; your version is too short."
             continue
 
-        if not best_ok:
-            best_text, best_checks, final_z = candidate_text, checks, latest_score.z_index
+        fail_count = _fail_count(checks)
+        if keeps_content and fail_count < best_fail_count:
+            best_text, best_checks, best_fail_count, final_z = candidate_text, checks, fail_count, latest_score.z_index
         feedback = format_feedback(checks, metric_guidance)
 
     return ShapeLevelResult(

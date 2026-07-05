@@ -68,3 +68,38 @@ def test_rewrite_to_shape_stops_at_max_iterations_when_never_reached(monkeypatch
     )
     assert result.reached is False
     assert result.iterations == 2
+
+
+def test_rewrite_to_shape_keeps_closest_candidate_not_the_last_one(monkeypatch):
+    """When no candidate reaches the target shape, the returned text must be
+    the one with the fewest failing checks seen so far -- not simply the most
+    recently attempted one, even if a later, worse candidate keeps failing."""
+    l3_values = {"mdd": 3.0, "subordination_index": 0.5, "context_dependence_proxy": 0.4}
+    # Original: all three metrics fail (3 failing checks) -> a weak starting point.
+    original_score = _score(mdd=1.0, sub=0.9, ctx=0.1)
+    # Iteration 1 "CLOSER": only mdd fails (1 failing check).
+    closer_score = _score(mdd=2.5, sub=0.2, ctx=0.7)
+    # Iteration 2 "WORSE": all three metrics fail again (3 failing checks).
+    worse_score = _score(mdd=2.0, sub=0.9, ctx=0.1)
+
+    texts = iter(["CLOSER", "WORSE"])
+    scores = iter([closer_score, worse_score])
+    monkeypatch.setattr("text.rewrite.loop.rewrite_once", lambda client, cfg, system, user: next(texts))
+    monkeypatch.setattr("text.rewrite.loop.score_text", lambda text, reference, cfg: next(scores))
+
+    cfg = RewriteConfig(verify_meaning=False, max_iterations=2)
+    result = rewrite_to_shape(
+        client=None,
+        cfg=cfg,
+        original="ORIGINAL",
+        original_score=original_score,
+        reference=_reference(),
+        level_name="zero",
+        l3_values=l3_values,
+        system_prompt="SYSTEM",
+        user_prompt_fn=lambda original, current, feedback: "USER",
+        metric_guidance={},
+    )
+    assert result.reached is False
+    assert result.iterations == 2
+    assert result.text == "CLOSER"
