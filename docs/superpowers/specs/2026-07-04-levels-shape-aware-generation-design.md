@@ -91,9 +91,11 @@ Self-referential to each case's own (untouched) L3 metric values. Two layers:
    | | L2 | 0.7–1.2× |
 
    A case with `z3` ≈ 0 for a metric (e.g. a description with zero
-   subordinate clauses) makes ratio bands degenerate (0 × anything = 0); in
-   that situation the rank constraint alone governs and the ratio band is
-   skipped (logged, not treated as failure).
+   subordinate clauses) makes both the ratio band and the rank comparison
+   degenerate — there is no meaningful reference point (requiring every
+   other level to also be exactly zero is not a reasonable rank constraint
+   either). In that situation the whole check for that metric is skipped
+   (logged, not treated as failure), not just the ratio band.
 
 The existing aggregate `z_index` target (`level_one_target = 0.0`,
 `level_two_target = actual_z * 0.5`) is kept as a coarse secondary signal
@@ -214,9 +216,10 @@ New script `experiments/levels/shape_loop.py`:
 
 ## Error handling
 
-- A case whose L3 has a metric value of 0 (degenerate ratio band): rank
-  constraint still applies; ratio band skipped and logged, never fails the
-  case on that account alone.
+- A case whose L3 has a metric value of 0 (degenerate): the whole check for
+  that metric — rank and ratio band alike — is skipped and logged, never
+  fails the case on that account alone (there's no meaningful reference
+  point to rank or scale against at zero).
 - Claude API failures during a single iteration: logged and the loop moves on
   with the best candidate so far, exactly as `rewrite_to_target` does today
   (no new behavior needed here).

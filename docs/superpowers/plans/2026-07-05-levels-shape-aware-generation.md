@@ -293,15 +293,20 @@ def check_case_shape(levels: Dict[str, Dict[str, float]]) -> List[ShapeCheck]:
 
 
 def shape_ok(checks: List[ShapeCheck]) -> bool:
-    """True only if every rank constraint holds and every band holds (or is degenerate)."""
-    return all(c.rank_ok and (c.band_ok or c.degenerate) for c in checks)
+    """True only if every non-degenerate check holds both its rank and band.
+
+    A degenerate check (L3 reference value is exactly 0 for that metric) has
+    no meaningful rank or ratio to compare against, so it is exempted
+    entirely rather than only skipping its ratio band.
+    """
+    return all(c.degenerate or (c.rank_ok and c.band_ok) for c in checks)
 
 
 def format_feedback(checks: List[ShapeCheck], guidance: Dict[str, str]) -> str:
     """Turn failing checks into concrete editing guidance for the rewrite prompt."""
     lines: List[str] = []
     for c in checks:
-        if c.rank_ok and (c.band_ok or c.degenerate):
+        if c.degenerate or (c.rank_ok and c.band_ok):
             continue
         lo, hi = c.band
         band_str = f">= {lo:.2f}x" if hi is None else f"{lo:.2f}x-{hi:.2f}x"
@@ -1133,7 +1138,7 @@ def find_noncompliant_cases(df: pd.DataFrame) -> Dict[str, List[str]]:
             continue
         bad_levels = sorted({
             c.level for c in checks
-            if not (c.rank_ok and (c.band_ok or c.degenerate)) and c.level in ("zero", "one", "two")
+            if not (c.degenerate or (c.rank_ok and c.band_ok)) and c.level in ("zero", "one", "two")
         })
         failing[case] = bad_levels or ["zero", "one", "two"]
     return failing

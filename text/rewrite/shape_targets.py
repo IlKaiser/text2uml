@@ -8,8 +8,13 @@ reference pattern. Two tiers:
 
 * Rank constraints (hard): e.g. mdd(L0) must exceed mdd(L3).
 * Ratio bands (soft): the level's metric value, as a multiple of that case's
-  own L3 value, must fall in an empirically-derived band. A band is skipped
-  (never fails) when the L3 value is exactly zero (degenerate ratio).
+  own L3 value, must fall in an empirically-derived band.
+
+When the L3 reference value is exactly zero, there is no meaningful ratio or
+rank to compare against for that metric (e.g. a real spec with zero
+subordinate clauses would force every other level to also have zero, an
+unreasonable requirement) — the whole check is skipped (never fails) and
+marked ``degenerate``, rather than only skipping the ratio band.
 """
 
 from __future__ import annotations
@@ -152,7 +157,7 @@ def format_feedback(checks: List[ShapeCheck], guidance: Dict[str, str]) -> str:
     """Turn failing checks into concrete editing guidance for the rewrite prompt."""
     lines: List[str] = []
     for c in checks:
-        if c.rank_ok and (c.band_ok or c.degenerate):
+        if c.degenerate or (c.rank_ok and c.band_ok):
             continue
         lo, hi = c.band
         band_str = f">= {lo:.2f}x" if hi is None else f"{lo:.2f}x-{hi:.2f}x"
