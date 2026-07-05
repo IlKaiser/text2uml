@@ -1,17 +1,20 @@
-"""CLI: rewrite every dataset's description toward two complexity levels.
+"""CLI: rewrite every dataset's description toward all three complexity levels.
 
-For each ``dataset/<Name>/description.md`` this:
+For each ``dataset/<Name>/description.md`` this delegates to
+``process_dataset``, which:
   1. scores the original on the corpus ``z_index`` scale,
-  2. drives it toward ``level_one`` (target z_index 0.0 — as clear as possible),
-  3. drives it toward ``level_two`` (midpoint between actual and simplest),
-  4. writes ``description_level_one.md`` / ``description_level_two.md`` beside the
-     original, and appends a row to ``text/output/rewrite_summary.csv``.
+  2. drives it toward ``level_zero`` (compact structural UML notes genre),
+     ``level_one`` (simplest narrative), and ``level_two`` (mid-complexity
+     narrative) via the shape-matching feedback loop (``rewrite_to_shape``),
+  3. writes ``description_level_zero.md`` / ``description_level_one.md`` /
+     ``description_level_two.md`` beside the original, and appends a row to
+     ``text/output/rewrite_shape_summary.csv``.
 
 Originals are never overwritten.
 
 Examples:
-    python -m text.rewrite.run                    # all datasets, both levels
-    python -m text.rewrite.run --dry-run          # score originals + targets only
+    python -m text.rewrite.run                    # all datasets, all levels
+    python -m text.rewrite.run --dry-run          # score originals only
     python -m text.rewrite.run --datasets Sober AirTravel
     python -m text.rewrite.run --limit 5
 """
@@ -19,18 +22,33 @@ Examples:
 from __future__ import annotations
 
 import argparse
+import functools
 import logging
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Tuple
 
 import pandas as pd
 
 from ..config import DEFAULT_CONFIG, TextConfig
 from .config import DEFAULT_REWRITE_CONFIG, RewriteConfig
-from .scorer import build_reference, score_text
+from .loop import rewrite_to_shape
+from .prompts import METRIC_GUIDANCE, build_shape_user_prompt, system_prompt
+from .scorer import ComplexityReference, build_reference, score_text
+from .shape_targets import shape_ok
+from .structural_prompts import (
+    STRUCTURAL_METRIC_GUIDANCE,
+    build_structural_user_prompt,
+    structural_system_prompt,
+)
 
 logger = logging.getLogger("text.rewrite")
+
+_LEVEL_TAGS: Tuple[str, ...] = ("zero", "one", "two")
+_LEVEL_LABELS = {
+    "one": "a simplified, easy-to-read narrative (level one: simplest)",
+    "two": "a moderately simplified narrative (level two: mid-complexity)",
+}
 
 
 def _iter_description_paths(cfg: TextConfig, only: List[str] | None) -> List[Path]:
@@ -41,16 +59,59 @@ def _iter_description_paths(cfg: TextConfig, only: List[str] | None) -> List[Pat
     return paths
 
 
-def _write(path: Path, text: str) -> None:
-    path.write_text(text.rstrip() + "\n", encoding="utf-8")
-    logger.info("Wrote %s", path)
-
-
 def _configure_logging(verbose: bool) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,
         format="%(levelname)s | %(name)s | %(message)s",
     )
+
+
+def _level_setup(cfg: RewriteConfig, tag: str):
+    """(output level-name, system prompt, user-prompt fn, metric guidance) for one level tag."""
+    if tag == "zero":
+        return cfg.level_zero_name, structural_system_prompt(), build_structural_user_prompt, STRUCTURAL_METRIC_GUIDANCE
+    out_name = cfg.level_one_name if tag == "one" else cfg.level_two_name
+    user_fn = functools.partial(build_shape_user_prompt, level_label=_LEVEL_LABELS[tag])
+    return out_name, system_prompt(), user_fn, METRIC_GUIDANCE
+
+
+def process_dataset(
+    name: str,
+    description_path: Path,
+    cfg: RewriteConfig,
+    reference: ComplexityReference,
+    tconf: TextConfig,
+    client,
+    levels: Tuple[str, ...] = _LEVEL_TAGS,
+    force: bool = False,
+) -> dict:
+    """Regenerate the requested complexity levels for one dataset case.
+
+    Returns a summary row: ``sub_folder_name``, ``actual_z``, and per
+    processed level ``<tag>_reached`` / ``<tag>_iterations`` / ``<tag>_shape_ok``.
+    """
+    original = description_path.read_text(encoding="utf-8")
+    base = score_text(original, reference, tconf)
+    row: dict = {"sub_folder_name": name, "actual_z": round(base.z_index, 4)}
+
+    for tag in levels:
+        out_level_name, sprompt, user_fn, guidance = _level_setup(cfg, tag)
+        out_path = cfg.output_path(description_path.parent, out_level_name)
+        if out_path.is_file() and not force:
+            logger.info("%s/%s: exists, skipping (pass force=True to regenerate)", name, tag)
+            continue
+        result = rewrite_to_shape(
+            client=client, cfg=cfg, original=original, original_score=base,
+            reference=reference, level_name=tag, l3_values=base.values,
+            system_prompt=sprompt, user_prompt_fn=user_fn, metric_guidance=guidance,
+        )
+        out_path.write_text(result.text.rstrip() + "\n", encoding="utf-8")
+        row[f"{tag}_reached"] = result.reached
+        row[f"{tag}_iterations"] = result.iterations
+        row[f"{tag}_shape_ok"] = shape_ok(result.shape_checks)
+        logger.info("%s/%s: reached=%s in %d iter(s)", name, tag, result.reached, result.iterations)
+
+    return row
 
 
 def main(argv=None) -> int:
@@ -101,55 +162,28 @@ def main(argv=None) -> int:
         from .client import make_client
 
         client = make_client()
-        from .loop import rewrite_to_target
 
     rows = []
     for path in paths:
         name = path.parent.name
-        original = path.read_text(encoding="utf-8")
         try:
-            base = score_text(original, reference, tconf)
+            base = score_text(path.read_text(encoding="utf-8"), reference, tconf)
         except ValueError as exc:
             logger.warning("Skipping %s: %s", name, exc)
             continue
 
-        t1 = cfg.level_one_target
-        t2 = base.z_index * cfg.level_two_factor
-        logger.info(
-            "%s: actual z_index=%.2f -> level_one target=%.2f, level_two target=%.2f",
-            name, base.z_index, t1, t2,
-        )
+        if args.dry_run:
+            logger.info("%s: actual z_index=%.2f (dry run, no rewrite)", name, base.z_index)
+            continue
 
-        row = {
-            "sub_folder_name": name,
-            "actual_z": round(base.z_index, 4),
-            "level_one_target": round(t1, 4),
-            "level_two_target": round(t2, 4),
-        }
-
-        if not args.dry_run:
-            for level_name, target in (
-                (cfg.level_one_name, t1),
-                (cfg.level_two_name, t2),
-            ):
-                res = rewrite_to_target(
-                    client, cfg, original, base, reference, level_name, target
-                )
-                _write(cfg.output_path(path.parent, level_name), res.text)
-                row[f"{level_name}_z"] = round(res.final_z, 4)
-                row[f"{level_name}_reached"] = res.reached
-                row[f"{level_name}_iters"] = res.iterations
-                logger.info(
-                    "%s/%s: z=%.2f (target %.2f) reached=%s in %d iter(s)",
-                    name, level_name, res.final_z, target, res.reached, res.iterations,
-                )
+        row = process_dataset(name, path, cfg, reference, tconf, client)
         rows.append(row)
 
     if rows and not args.dry_run:
-        out = tconf.output_dir / cfg.summary_csv_name
+        out = tconf.output_dir / "rewrite_shape_summary.csv"
         tconf.output_dir.mkdir(parents=True, exist_ok=True)
         pd.DataFrame(rows).to_csv(out, index=False)
-        logger.info("Wrote summary for %d datasets to %s", len(rows), out)
+        logger.info("Wrote shape summary for %d datasets to %s", len(rows), out)
 
     return 0
 

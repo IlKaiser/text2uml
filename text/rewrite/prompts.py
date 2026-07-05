@@ -7,12 +7,12 @@ the measured metric breakdown into concrete, human-readable editing guidance.
 
 from __future__ import annotations
 
-from typing import Dict
+from typing import Dict, Optional
 
 from .scorer import ScoreResult
 
 # Plain-language guidance for reducing each metric (what makes it high).
-_METRIC_GUIDANCE: Dict[str, str] = {
+METRIC_GUIDANCE: Dict[str, str] = {
     "mdd": "shorten sentences and keep related words close together "
     "(reduces mean dependency distance)",
     "subordination_index": "split subordinate clauses into separate, "
@@ -82,7 +82,7 @@ def build_feedback(score: ScoreResult, target: float, tolerance: float) -> str:
     if score.z_index > target:
         lines.append("The metrics contributing MOST to the excess complexity are:")
         for name, val in top:
-            guidance = _METRIC_GUIDANCE.get(name, "simplify the phrasing")
+            guidance = METRIC_GUIDANCE.get(name, "simplify the phrasing")
             lines.append(f"  - {name} (+{val:.2f} above corpus average): {guidance}.")
     else:
         lines.append(
@@ -115,6 +115,26 @@ def build_user_prompt(
         f"action, and constraint from here:\n"
         f"<source>\n{original}\n</source>\n\n"
         f"VERSION TO IMPROVE — rewrite this, keeping all meaning from the source:\n"
+        f"<current>\n{current_text}\n</current>\n\n"
+        f"Return only the rewritten Markdown description."
+    )
+
+
+def build_shape_user_prompt(
+    original: str, current_text: str, level_label: str, feedback: Optional[str]
+) -> str:
+    """Per-iteration narrative-rewrite request, framed by level label instead
+    of a numeric z_index target (acceptance is shape-based, see
+    ``text.rewrite.shape_targets``)."""
+    feedback_block = f"\nFEEDBACK ON YOUR LAST ATTEMPT:\n{feedback}\n" if feedback else ""
+    return (
+        f"TASK: rewrite the description as {level_label}.\n"
+        f"{feedback_block}\n"
+        f"SOURCE OF TRUTH — preserve every fact, entity, attribute, "
+        f"relationship, action, and constraint from here:\n"
+        f"<source>\n{original}\n</source>\n\n"
+        f"VERSION TO IMPROVE — rewrite this, keeping all meaning from the "
+        f"source:\n"
         f"<current>\n{current_text}\n</current>\n\n"
         f"Return only the rewritten Markdown description."
     )
