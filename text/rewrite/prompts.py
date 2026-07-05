@@ -121,11 +121,19 @@ def build_user_prompt(
 
 
 def build_shape_user_prompt(
-    original: str, current_text: str, level_label: str, feedback: Optional[str]
+    original: str, current_text: str, feedback: Optional[str], *, level_label: str
 ) -> str:
     """Per-iteration narrative-rewrite request, framed by level label instead
     of a numeric z_index target (acceptance is shape-based, see
-    ``text.rewrite.shape_targets``)."""
+    ``text.rewrite.shape_targets``).
+
+    ``level_label`` is keyword-only so ``functools.partial(build_shape_user_prompt,
+    level_label=...)`` can be called positionally with exactly the 3 args
+    (``original``, ``current_text``, ``feedback``) that ``rewrite_to_shape``'s
+    ``user_prompt_fn`` contract expects — a positional-or-keyword
+    ``level_label`` would collide with the 3rd positional argument at call
+    time (``TypeError: got multiple values for argument 'level_label'``).
+    """
     feedback_block = f"\nFEEDBACK ON YOUR LAST ATTEMPT:\n{feedback}\n" if feedback else ""
     return (
         f"TASK: rewrite the description as {level_label}.\n"

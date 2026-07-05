@@ -26,7 +26,7 @@ import functools
 import logging
 import sys
 from pathlib import Path
-from typing import List, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -66,7 +66,9 @@ def _configure_logging(verbose: bool) -> None:
     )
 
 
-def _level_setup(cfg: RewriteConfig, tag: str):
+def _level_setup(
+    cfg: RewriteConfig, tag: str
+) -> Tuple[str, str, Callable[[str, str, Optional[str]], str], Dict[str, str]]:
     """(output level-name, system prompt, user-prompt fn, metric guidance) for one level tag."""
     if tag == "zero":
         return cfg.level_zero_name, structural_system_prompt(), build_structural_user_prompt, STRUCTURAL_METRIC_GUIDANCE

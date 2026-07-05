@@ -737,7 +737,7 @@ three levels (zero/one/two) through `rewrite_to_shape`.
 
 **Interfaces:**
 - Consumes: `rewrite_to_shape`, `ShapeLevelResult` (Task 3); `structural_system_prompt`, `build_structural_user_prompt`, `STRUCTURAL_METRIC_GUIDANCE` (Task 2); `text.rewrite.prompts.system_prompt`, `METRIC_GUIDANCE` (existing `_METRIC_GUIDANCE`, renamed — see Step 1; the existing numeric-target `build_user_prompt` is NOT reused here, since it bakes in a z_index target/level_name that no longer drives acceptance — Step 1 adds a shape-appropriate replacement instead).
-- Produces: `build_shape_user_prompt(original: str, current_text: str, level_label: str, feedback: Optional[str]) -> str` (in `text/rewrite/prompts.py`); `process_dataset(name: str, description_path: Path, cfg: RewriteConfig, reference: ComplexityReference, tconf: TextConfig, client, levels: Tuple[str, ...] = ("zero", "one", "two"), force: bool = False) -> dict` (a summary row with keys `sub_folder_name`, `actual_z`, and per level `<level>_reached`, `<level>_iterations`, `<level>_shape_ok`).
+- Produces: `build_shape_user_prompt(original: str, current_text: str, feedback: Optional[str], *, level_label: str) -> str` (in `text/rewrite/prompts.py` — `level_label` is keyword-only, see Step 1's note on why); `process_dataset(name: str, description_path: Path, cfg: RewriteConfig, reference: ComplexityReference, tconf: TextConfig, client, levels: Tuple[str, ...] = ("zero", "one", "two"), force: bool = False) -> dict` (a summary row with keys `sub_folder_name`, `actual_z`, and per level `<level>_reached`, `<level>_iterations`, `<level>_shape_ok`).
 
 - [ ] **Step 1: Rename `_METRIC_GUIDANCE` and add a shape-appropriate narrative user-prompt to `text/rewrite/prompts.py`**
 
@@ -778,11 +778,18 @@ entirely in favor of a plain-language level label:
 
 ```python
 def build_shape_user_prompt(
-    original: str, current_text: str, level_label: str, feedback: Optional[str]
+    original: str, current_text: str, feedback: Optional[str], *, level_label: str
 ) -> str:
     """Per-iteration narrative-rewrite request, framed by level label instead
     of a numeric z_index target (acceptance is shape-based, see
-    ``text.rewrite.shape_targets``)."""
+    ``text.rewrite.shape_targets``).
+
+    ``level_label`` is keyword-only: ``functools.partial(build_shape_user_prompt,
+    level_label=...)`` must be callable positionally with exactly the 3 args
+    (``original``, ``current_text``, ``feedback``) that ``rewrite_to_shape``'s
+    ``user_prompt_fn`` contract expects. A positional-or-keyword ``level_label``
+    collides with that 3rd positional argument at call time.
+    """
     feedback_block = f"\nFEEDBACK ON YOUR LAST ATTEMPT:\n{feedback}\n" if feedback else ""
     return (
         f"TASK: rewrite the description as {level_label}.\n"
