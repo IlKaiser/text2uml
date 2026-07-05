@@ -40,6 +40,7 @@ class RewriteConfig:
     level_two_factor: float = 0.5
 
     # --- Output ---
+    level_zero_name: str = "level_zero"
     level_one_name: str = "level_one"
     level_two_name: str = "level_two"
     summary_csv_name: str = "rewrite_summary.csv"
