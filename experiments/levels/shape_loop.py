@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import pandas as pd
 
@@ -88,30 +88,41 @@ def find_noncompliant_cases(df: pd.DataFrame) -> Dict[str, List[str]]:
     return failing
 
 
-def _iter_dataset_paths(levels_cfg: LevelsConfig) -> List[Path]:
-    return sorted(p / "description.md" for p in levels_cfg.dataset_dir.iterdir() if p.is_dir() and (p / "description.md").is_file())
+def _iter_dataset_paths(levels_cfg: LevelsConfig, only: Optional[List[str]] = None) -> List[Path]:
+    paths = sorted(p / "description.md" for p in levels_cfg.dataset_dir.iterdir() if p.is_dir() and (p / "description.md").is_file())
+    if only:
+        wanted = set(only)
+        paths = [p for p in paths if p.parent.name in wanted]
+    return paths
 
 
 def run_shape_loop(
     levels_cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG,
     rewrite_cfg: RewriteConfig = DEFAULT_REWRITE_CONFIG,
     max_retries: int = 2,
+    only: Optional[List[str]] = None,
 ) -> pd.DataFrame:
-    """Full closed loop: generate -> recheck -> retry outliers -> report."""
+    """Full closed loop: generate -> recheck -> retry outliers -> report.
+
+    ``only`` restricts the run to these dataset folder names (else every
+    case under ``levels_cfg.dataset_dir``) -- e.g. for a smoke-test run
+    against a scratch ``levels_cfg`` (a different ``output_dir``) without
+    touching the corpus-wide ``levels_complexity.csv``/compliance report.
+    """
     from text.config import DEFAULT_CONFIG
     from text.rewrite.client import make_client
 
     reference = build_reference(DEFAULT_CONFIG)
     client = make_client()
 
-    for desc_path in _iter_dataset_paths(levels_cfg):
+    for desc_path in _iter_dataset_paths(levels_cfg, only):
         case = desc_path.parent.name
         try:
             process_dataset(case, desc_path, rewrite_cfg, reference, DEFAULT_CONFIG, client)
         except Exception as exc:  # noqa: BLE001 - one bad case must not abort the whole corpus run
             logger.error("process_dataset failed for %s (initial pass): %s", case, exc)
 
-    df = compute_level_metrics(levels_cfg)
+    df = compute_level_metrics(levels_cfg, only=only)
     write_complexity_csv(df, levels_cfg)
 
     for attempt in range(1, max_retries + 1):
@@ -126,7 +137,7 @@ def run_shape_loop(
                 process_dataset(case, desc_path, rewrite_cfg, reference, DEFAULT_CONFIG, client, levels=tuple(bad_levels), force=True)
             except Exception as exc:  # noqa: BLE001 - one bad case must not abort the whole retry pass
                 logger.error("process_dataset failed for %s (retry pass %d, levels=%s): %s", case, attempt, bad_levels, exc)
-        df = compute_level_metrics(levels_cfg)
+        df = compute_level_metrics(levels_cfg, only=only)
         write_complexity_csv(df, levels_cfg)
 
     report_rows = []

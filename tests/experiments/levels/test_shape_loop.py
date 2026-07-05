@@ -1,8 +1,25 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 import pandas as pd
 
-from experiments.levels.shape_loop import find_noncompliant_cases
+from experiments.levels.config import DEFAULT_LEVELS_CONFIG
+from experiments.levels.shape_loop import _iter_dataset_paths, find_noncompliant_cases
+
+
+def test_iter_dataset_paths_restricts_to_only(tmp_path):
+    for name in ("Alpha", "Beta", "Gamma"):
+        d = tmp_path / name
+        d.mkdir()
+        (d / "description.md").write_text("text", encoding="utf-8")
+    cfg = replace(DEFAULT_LEVELS_CONFIG, dataset_dir=tmp_path)
+
+    all_paths = _iter_dataset_paths(cfg)
+    assert [p.parent.name for p in all_paths] == ["Alpha", "Beta", "Gamma"]
+
+    scoped_paths = _iter_dataset_paths(cfg, only=["Gamma", "Alpha"])
+    assert [p.parent.name for p in scoped_paths] == ["Alpha", "Gamma"]
 
 
 def _row(case, level, rank, mdd, sub, ctx):
