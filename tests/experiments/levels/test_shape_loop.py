@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import threading
 from dataclasses import replace
+from pathlib import Path
 
 import pandas as pd
 
 from experiments.levels.config import DEFAULT_LEVELS_CONFIG
-from experiments.levels.shape_loop import _iter_dataset_paths, find_noncompliant_cases
+from experiments.levels.shape_loop import _dispatch_concurrent, _iter_dataset_paths, find_noncompliant_cases
 
 
 def test_iter_dataset_paths_restricts_to_only(tmp_path):
@@ -20,6 +22,33 @@ def test_iter_dataset_paths_restricts_to_only(tmp_path):
 
     scoped_paths = _iter_dataset_paths(cfg, only=["Gamma", "Alpha"])
     assert [p.parent.name for p in scoped_paths] == ["Alpha", "Gamma"]
+
+
+def test_dispatch_concurrent_isolates_one_job_failure_and_runs_all_jobs(monkeypatch):
+    """One job raising must not stop the others (mirrors the sequential
+    try/except-log-continue behavior), and jobs genuinely run concurrently
+    (not just concurrently-dispatched-but-actually-serial)."""
+    seen = []
+    lock = threading.Lock()
+
+    def fake_process_dataset(case, desc_path, rewrite_cfg, reference, tconf, client, **kwargs):
+        if case == "Bad":
+            raise RuntimeError("simulated total generation failure")
+        with lock:
+            seen.append((case, kwargs.get("levels"), kwargs.get("force")))
+
+    monkeypatch.setattr("experiments.levels.shape_loop.process_dataset", fake_process_dataset)
+
+    jobs = [
+        ("Good1", Path("Good1/description.md"), None, False),
+        ("Bad", Path("Bad/description.md"), None, False),
+        ("Good2", Path("Good2/description.md"), ("zero",), True),
+    ]
+    _dispatch_concurrent(jobs, rewrite_cfg=None, reference=None, client=None, max_workers=4, pass_label="test pass")
+
+    assert ("Good1", None, False) in seen
+    assert ("Good2", ("zero",), True) in seen
+    assert len(seen) == 2  # "Bad" raised and was skipped, not silently retried or duplicated
 
 
 def _row(case, level, rank, mdd, sub, ctx):

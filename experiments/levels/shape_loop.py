@@ -11,11 +11,13 @@ extra corpus-level passes.
 from __future__ import annotations
 
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
+from text.config import DEFAULT_CONFIG
 from text.rewrite.config import DEFAULT_REWRITE_CONFIG, RewriteConfig
 from text.rewrite.run import process_dataset
 from text.rewrite.scorer import build_reference
@@ -96,11 +98,40 @@ def _iter_dataset_paths(levels_cfg: LevelsConfig, only: Optional[List[str]] = No
     return paths
 
 
+def _dispatch_concurrent(
+    jobs: List[Tuple[str, Path, Optional[Tuple[str, ...]], bool]],
+    rewrite_cfg: RewriteConfig,
+    reference,
+    client,
+    max_workers: int,
+    pass_label: str,
+) -> None:
+    """Run ``process_dataset`` for each ``(case, desc_path, levels, force)``
+    job concurrently (I/O-bound API calls; ``client``'s underlying httpx
+    client supports concurrent use). One job's exception is isolated exactly
+    as in the sequential path -- logged and skipped, never aborting the
+    others or the whole run."""
+
+    def _run_one(job: Tuple[str, Path, Optional[Tuple[str, ...]], bool]) -> None:
+        case, desc_path, levels, force = job
+        kwargs = {"force": force}
+        if levels is not None:
+            kwargs["levels"] = levels
+        try:
+            process_dataset(case, desc_path, rewrite_cfg, reference, DEFAULT_CONFIG, client, **kwargs)
+        except Exception as exc:  # noqa: BLE001 - one bad case must not abort the whole run
+            logger.error("process_dataset failed for %s (%s): %s", case, pass_label, exc)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        list(executor.map(_run_one, jobs))
+
+
 def run_shape_loop(
     levels_cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG,
     rewrite_cfg: RewriteConfig = DEFAULT_REWRITE_CONFIG,
     max_retries: int = 2,
     only: Optional[List[str]] = None,
+    max_workers: int = 4,
 ) -> pd.DataFrame:
     """Full closed loop: generate -> recheck -> retry outliers -> report.
 
@@ -108,19 +139,22 @@ def run_shape_loop(
     case under ``levels_cfg.dataset_dir``) -- e.g. for a smoke-test run
     against a scratch ``levels_cfg`` (a different ``output_dir``) without
     touching the corpus-wide ``levels_complexity.csv``/compliance report.
+
+    ``max_workers`` bounds how many datasets are processed concurrently
+    within a pass (initial pass, and each retry pass): cases are otherwise
+    fully independent (each only touches its own files), so this is a pure
+    wall-clock speedup, not a change in total API usage.
     """
-    from text.config import DEFAULT_CONFIG
     from text.rewrite.client import make_client
 
     reference = build_reference(DEFAULT_CONFIG)
     client = make_client()
 
-    for desc_path in _iter_dataset_paths(levels_cfg, only):
-        case = desc_path.parent.name
-        try:
-            process_dataset(case, desc_path, rewrite_cfg, reference, DEFAULT_CONFIG, client)
-        except Exception as exc:  # noqa: BLE001 - one bad case must not abort the whole corpus run
-            logger.error("process_dataset failed for %s (initial pass): %s", case, exc)
+    initial_jobs = [
+        (desc_path.parent.name, desc_path, None, False)
+        for desc_path in _iter_dataset_paths(levels_cfg, only)
+    ]
+    _dispatch_concurrent(initial_jobs, rewrite_cfg, reference, client, max_workers, "initial pass")
 
     df = compute_level_metrics(levels_cfg, only=only)
     write_complexity_csv(df, levels_cfg)
@@ -131,12 +165,11 @@ def run_shape_loop(
             logger.info("Shape loop converged after %d retry pass(es).", attempt - 1)
             break
         logger.info("Retry pass %d: %d non-compliant case(s): %s", attempt, len(failing), sorted(failing))
-        for case, bad_levels in failing.items():
-            desc_path = levels_cfg.dataset_dir / case / "description.md"
-            try:
-                process_dataset(case, desc_path, rewrite_cfg, reference, DEFAULT_CONFIG, client, levels=tuple(bad_levels), force=True)
-            except Exception as exc:  # noqa: BLE001 - one bad case must not abort the whole retry pass
-                logger.error("process_dataset failed for %s (retry pass %d, levels=%s): %s", case, attempt, bad_levels, exc)
+        retry_jobs = [
+            (case, levels_cfg.dataset_dir / case / "description.md", tuple(bad_levels), True)
+            for case, bad_levels in failing.items()
+        ]
+        _dispatch_concurrent(retry_jobs, rewrite_cfg, reference, client, max_workers, f"retry pass {attempt}")
         df = compute_level_metrics(levels_cfg, only=only)
         write_complexity_csv(df, levels_cfg)
 
@@ -166,11 +199,12 @@ def main(argv=None) -> int:
 
     parser = argparse.ArgumentParser(description="Run the corpus-level shape closed loop.")
     parser.add_argument("--max-retries", type=int, default=2)
+    parser.add_argument("--max-workers", type=int, default=4, help="Datasets processed concurrently per pass.")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s | %(name)s | %(message)s")
 
-    report = run_shape_loop(max_retries=args.max_retries)
+    report = run_shape_loop(max_retries=args.max_retries, max_workers=args.max_workers)
     # Mirror shape_ok's real semantics exactly: a check fails only when it is
     # NOT degenerate and it fails its rank or its band (a degenerate check —
     # L3 reference value of exactly 0 for that metric — is fully exempted).
