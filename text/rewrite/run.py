@@ -107,6 +107,22 @@ def process_dataset(
             reference=reference, level_name=tag, l3_values=base.values,
             system_prompt=sprompt, user_prompt_fn=user_fn, metric_guidance=guidance,
         )
+        if result.text == original:
+            # No candidate ever improved on the untouched source (most often
+            # a total API failure on the very first call, e.g. an outage or
+            # exhausted credits) -- writing it out would silently replace a
+            # level file with a byte-identical copy of description.md.
+            # Mirrors generate.py's guard against clobbering a good result
+            # with a failed one: leave whatever was already on disk alone.
+            logger.error(
+                "%s/%s: no candidate ever improved on the source description "
+                "(likely a total generation failure); leaving %s untouched",
+                name, tag, out_path.name,
+            )
+            row[f"{tag}_reached"] = False
+            row[f"{tag}_iterations"] = result.iterations
+            row[f"{tag}_shape_ok"] = False
+            continue
         out_path.write_text(result.text.rstrip() + "\n", encoding="utf-8")
         row[f"{tag}_reached"] = result.reached
         row[f"{tag}_iterations"] = result.iterations

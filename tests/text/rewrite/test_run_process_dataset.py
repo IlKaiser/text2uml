@@ -133,6 +133,74 @@ def test_process_dataset_force_overwrites_existing_output(tmp_path, monkeypatch)
     assert row["zero_reached"] is True
 
 
+def test_process_dataset_does_not_clobber_existing_file_on_total_generation_failure(tmp_path, monkeypatch):
+    """A total generation failure (e.g. an API outage/exhausted credits on the
+    very first call) leaves rewrite_to_shape's best_text equal to the
+    untouched original -- writing that out would silently replace a level
+    file with a byte-identical copy of description.md. This happened for
+    real during a 2026-07 batch run when Anthropic API credits ran out
+    mid-retry, corrupting two cases' level files with no way to recover
+    them (they were never backed up, since only the two GasStation
+    reference cases were anticipated as calibration-overwrite targets)."""
+    dataset_dir = tmp_path / "ToyCase5"
+    dataset_dir.mkdir()
+    desc = dataset_dir / "description.md"
+    original_text = "A Customer places an Order."
+    desc.write_text(original_text, encoding="utf-8")
+    existing = dataset_dir / "description_level_zero.md"
+    existing.write_text("PREVIOUSLY GOOD CONTENT\n", encoding="utf-8")
+
+    def fake_rewrite_to_shape(client, cfg, original, original_score, reference, level_name, l3_values, system_prompt, user_prompt_fn, metric_guidance):
+        from text.rewrite.loop import ShapeLevelResult
+        # Simulates rewrite_to_shape's own fallback when every iteration
+        # raised before producing a scoreable candidate: best_text stays
+        # equal to `original` (the untouched description.md content).
+        return ShapeLevelResult(
+            level_name=level_name, final_z=0.0, shape_checks=(), reached=False,
+            iterations=1, text=original,
+        )
+
+    monkeypatch.setattr("text.rewrite.run.rewrite_to_shape", fake_rewrite_to_shape)
+
+    cfg = RewriteConfig()
+    row = process_dataset(
+        name="ToyCase5", description_path=desc, cfg=cfg, reference=_reference(),
+        tconf=DEFAULT_CONFIG, client=None, levels=("zero",), force=True,
+    )
+
+    assert existing.read_text(encoding="utf-8") == "PREVIOUSLY GOOD CONTENT\n"
+    assert row["zero_reached"] is False
+    assert row["zero_shape_ok"] is False
+
+
+def test_process_dataset_skips_write_on_total_failure_when_no_prior_file_existed(tmp_path, monkeypatch):
+    """Same total-failure scenario, but no output file existed yet -- must
+    not create one filled with a verbatim copy of the source."""
+    dataset_dir = tmp_path / "ToyCase6"
+    dataset_dir.mkdir()
+    desc = dataset_dir / "description.md"
+    original_text = "A Customer places an Order."
+    desc.write_text(original_text, encoding="utf-8")
+
+    def fake_rewrite_to_shape(client, cfg, original, original_score, reference, level_name, l3_values, system_prompt, user_prompt_fn, metric_guidance):
+        from text.rewrite.loop import ShapeLevelResult
+        return ShapeLevelResult(
+            level_name=level_name, final_z=0.0, shape_checks=(), reached=False,
+            iterations=1, text=original,
+        )
+
+    monkeypatch.setattr("text.rewrite.run.rewrite_to_shape", fake_rewrite_to_shape)
+
+    cfg = RewriteConfig()
+    row = process_dataset(
+        name="ToyCase6", description_path=desc, cfg=cfg, reference=_reference(),
+        tconf=DEFAULT_CONFIG, client=None, levels=("zero",),
+    )
+
+    assert not (dataset_dir / "description_level_zero.md").exists()
+    assert row["zero_reached"] is False
+
+
 def test_level_setup_user_prompt_fn_is_callable_positionally_for_narrative_levels():
     """rewrite_to_shape (Task 3) always calls user_prompt_fn(original, current,
     feedback) with exactly 3 positional args -- reproduce that exact call
