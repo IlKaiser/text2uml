@@ -149,7 +149,12 @@ def check_case_shape(levels: Dict[str, Dict[str, float]]) -> List[ShapeCheck]:
 
 
 def shape_ok(checks: List[ShapeCheck]) -> bool:
-    """True only if every rank constraint holds and every band holds (or is degenerate)."""
+    """True only if every non-degenerate check holds both its rank and band.
+
+    A degenerate check (L3 reference value is exactly 0 for that metric) has
+    no meaningful rank or ratio to compare against, so it is exempted
+    entirely rather than only skipping its ratio band.
+    """
     return all(c.degenerate or (c.rank_ok and c.band_ok) for c in checks)
 
 
