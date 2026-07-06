@@ -39,6 +39,11 @@ class LevelsConfig:
 
     repo_root: Path = _REPO_ROOT
     dataset_dir: Path = _REPO_ROOT / "dataset"
+    # Level-tagged UML generation results (result_few_<level>_<model>.txt) live
+    # here, mirrored per case, instead of alongside the dataset's own
+    # description/gold files -- keeps generated model output separate from
+    # the case study's source material.
+    text_output_dir: Path = _REPO_ROOT / "text_output"
     src_dir: Path = _REPO_ROOT / "src"
     grammar_path: Path = _REPO_ROOT / "grammar.ebnf"
     run_config: Path = _REPO_ROOT / "src" / "config.yaml"
@@ -62,12 +67,12 @@ class LevelsConfig:
     dpi: int = 200
 
     def result_path(self, dataset_dir: Path, level_tag: str, safe_model: str) -> Path:
-        """Level-tagged result file: ``result_few_<tag>_<model>.txt``."""
-        return dataset_dir / f"result_{self.result_prefix}_{level_tag}_{safe_model}.txt"
+        """Level-tagged result file: ``text_output/<case>/result_few_<tag>_<model>.txt``."""
+        return self.text_output_dir / dataset_dir.name / f"result_{self.result_prefix}_{level_tag}_{safe_model}.txt"
 
     def legacy_result_path(self, dataset_dir: Path, safe_model: str) -> Path:
-        """The original two-shot result on the real spec: ``result_few_<model>.txt``."""
-        return dataset_dir / f"result_{self.result_prefix}_{safe_model}.txt"
+        """The original two-shot result on the real spec: ``text_output/<case>/result_few_<model>.txt``."""
+        return self.text_output_dir / dataset_dir.name / f"result_{self.result_prefix}_{safe_model}.txt"
 
     @property
     def f1_csv(self) -> Path:

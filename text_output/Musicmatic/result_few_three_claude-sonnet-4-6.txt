@@ -1,0 +1,51 @@
+@startuml
+
+class Song {
+    String Title
+    Int Year
+    Int Length
+    String Genre
+}
+class Artist {
+    String Name
+    Date DateOfBirth
+    String URL
+}
+class User {
+    Int ID
+    String Name
+    String Address
+}
+class RegularUser {
+}
+class BusinessUser {
+    String VATNumber
+}
+class Single {
+}
+class Hit {
+}
+class Album {
+    String Title
+}
+class AlbumTrack {
+    Int TrackNumber
+}
+class Suggestion {
+}
+
+User <|-- RegularUser
+User <|-- BusinessUser
+Song <|-- Single
+Song <|-- Hit
+
+Artist "1..1" -- "1..*" Song
+BusinessUser "1..1" -- "0..*" Song
+RegularUser "0..*" -- "0..*" Single
+Album "1..1" -- "1..*" AlbumTrack
+Hit "1..1" -- "0..*" AlbumTrack
+RegularUser "1..1" -- "0..*" Album
+Album "0..*" -- "0..*" Suggestion
+RegularUser "0..*" -- "0..*" Suggestion
+
+@enduml

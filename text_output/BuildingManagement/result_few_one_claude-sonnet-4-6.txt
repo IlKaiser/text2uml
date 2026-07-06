@@ -1,0 +1,56 @@
+@startuml
+
+class WebPortal {
+    String VersionNumber
+    String URL
+}
+class Building {
+    String UniqueID
+    String Name
+    String EnergyClass
+    String Address
+    Int YearOfConstruction
+}
+class ExtraEntry {
+    String Name
+    Boolean IsPublic
+}
+class TextualEntry {
+    String Text
+}
+class NumericEntry {
+    Double Value
+    String Unit
+}
+class Image {
+    String FileName
+    Boolean IsProfilePhoto
+}
+class User {
+    String UserName
+    String Email
+    String Password
+    Boolean IsActivated
+}
+class Administrator {
+    String IDCardNumber
+}
+class Comment {
+    String Content
+}
+class Visitor {}
+
+ExtraEntry <|-- TextualEntry
+ExtraEntry <|-- NumericEntry
+User <|-- Administrator
+Visitor <|-- User
+
+WebPortal "1" -- "0..*" Building
+WebPortal "1" -- "0..*" Visitor
+Building "1" -- "0..*" ExtraEntry
+Building "1" -- "0..*" Image
+Building "0..*" -- "1" User
+Building "1" -- "0..*" Comment
+Comment "0..*" -- "1" User
+
+@enduml

@@ -102,6 +102,7 @@ def generate(
                     dataset.name, tag, out_file.name,
                 )
                 continue
+            out_file.parent.mkdir(parents=True, exist_ok=True)
             out_file.write_text(result, encoding="utf-8")
             written += 1
             logger.info(
