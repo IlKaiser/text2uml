@@ -32,10 +32,10 @@ def _ordered_levels(df: pd.DataFrame):
     return list(seen["level_label"]), list(seen[_LEVEL_ORDER_COL])
 
 
-def _save(fig, cfg: LevelsConfig, stem: str) -> None:
-    cfg.output_dir.mkdir(parents=True, exist_ok=True)
+def _save(fig, cfg: LevelsConfig, stem: str, subdir: str = "corpus") -> None:
+    out_dir = cfg.figure_dir(subdir)
     for fmt in cfg.figure_formats:
-        path = cfg.output_dir / f"{stem}.{fmt}"
+        path = out_dir / f"{stem}.{fmt}"
         fig.savefig(path, bbox_inches="tight", dpi=cfg.dpi)
         logger.info("Saved %s", path)
     plt.close(fig)
@@ -237,7 +237,7 @@ def plot_case_bars(case: str, df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVE
     ax.set_title(f"{case}: F1 by category and complexity level (model: {model})")
     ax.legend(title="level")
     ax.grid(axis="y", linestyle=":", alpha=0.5)
-    _save(fig, cfg, f"levels_bars_{case}")
+    _save(fig, cfg, case, subdir="levels_bars")
 
 
 def generate_all_plots(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> None:

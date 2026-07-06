@@ -103,10 +103,10 @@ def write_complexity_csv(
     return out
 
 
-def _save(fig, cfg: LevelsConfig, stem: str) -> None:
-    cfg.output_dir.mkdir(parents=True, exist_ok=True)
+def _save(fig, cfg: LevelsConfig, stem: str, subdir: str = "corpus") -> None:
+    out_dir = cfg.figure_dir(subdir)
     for fmt in cfg.figure_formats:
-        path = cfg.output_dir / f"{stem}.{fmt}"
+        path = out_dir / f"{stem}.{fmt}"
         fig.savefig(path, bbox_inches="tight", dpi=cfg.dpi)
         logger.info("Saved %s", path)
     plt.close(fig)

@@ -172,9 +172,9 @@ def plot_case(
         f"L0 is {top.pct_from_l3[0]:+.0f}% vs L3)",
         fontsize=13, y=1.0,
     )
-    levels_cfg.output_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = levels_cfg.figure_dir("case_metrics")
     for fmt in levels_cfg.figure_formats:
-        path = levels_cfg.output_dir / f"case_metrics_{case}.{fmt}"
+        path = out_dir / f"{case}.{fmt}"
         fig.savefig(path, bbox_inches="tight", dpi=levels_cfg.dpi)
         logger.info("Saved %s", path)
     plt.close(fig)

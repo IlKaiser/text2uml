@@ -84,5 +84,17 @@ class LevelsConfig:
     def f1_csv(self) -> Path:
         return self.output_dir / self.f1_csv_name
 
+    def figure_dir(self, subdir: str) -> Path:
+        """Subdirectory of ``output_dir`` for one category of figures.
+
+        Keeps the ~180-file flat ``output/`` directory navigable: per-case
+        plots and corpus-wide plots each get their own folder instead of
+        sharing one directory by filename prefix alone. CSVs are unaffected
+        and stay at ``output_dir`` root.
+        """
+        d = self.output_dir / subdir
+        d.mkdir(parents=True, exist_ok=True)
+        return d
+
 
 DEFAULT_LEVELS_CONFIG = LevelsConfig()
