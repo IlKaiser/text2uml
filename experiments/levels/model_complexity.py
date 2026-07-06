@@ -16,10 +16,6 @@ import logging
 from pathlib import Path
 from typing import List
 
-import matplotlib
-
-matplotlib.use("Agg")  # headless / reproducible rendering
-import matplotlib.pyplot as plt
 import pandas as pd
 
 from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig
@@ -105,30 +101,3 @@ def weighted_f1(
             "total_weight": total_w,
         })
     return pd.DataFrame(rows).sort_values("level_rank").reset_index(drop=True)
-
-
-def plot_weighted_f1(result: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> None:
-    """Plain vs. complexity-weighted mean F1 per level, side by side."""
-    level_labels_by_rank = {0: "L0 (minimal)", 1: "L1 (simple)", 2: "L2 (mid)", 3: "L3 (real)"}
-    labels = [level_labels_by_rank.get(r, str(r)) for r in result["level_rank"]]
-    xs = range(len(labels))
-
-    fig, ax = plt.subplots(figsize=(7, 5))
-    ax.plot(xs, result["f1_mean"], marker="o", label="unweighted mean F1", color="#3b6fb0", linewidth=2)
-    ax.plot(xs, result["f1_weighted_mean"], marker="o", label="complexity-weighted mean F1", color="#c0392b", linewidth=2)
-    for x, (mean_v, weighted_v) in enumerate(zip(result["f1_mean"], result["f1_weighted_mean"])):
-        ax.annotate(f"{mean_v:.2f}", (x, mean_v), textcoords="offset points", xytext=(0, 8), ha="center", fontsize=8, color="#3b6fb0")
-        ax.annotate(f"{weighted_v:.2f}", (x, weighted_v), textcoords="offset points", xytext=(0, -12), ha="center", fontsize=8, color="#c0392b")
-    ax.set_xticks(list(xs))
-    ax.set_xticklabels(labels)
-    ax.set_ylim(0, 1.0)
-    ax.set_ylabel("global F1")
-    ax.set_title("Corpus F1: plain mean vs. weighted by gold-model size\n(weight = n_classes + n_attributes + n_associations)")
-    ax.legend()
-    ax.grid(linestyle=":", alpha=0.4)
-    fig.tight_layout()
-    for fmt in cfg.figure_formats:
-        path = cfg.output_dir / f"levels_global_f1_weighted.{fmt}"
-        fig.savefig(path, bbox_inches="tight", dpi=cfg.dpi)
-        logger.info("Saved %s", path)
-    plt.close(fig)
