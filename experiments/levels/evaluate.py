@@ -126,7 +126,26 @@ def evaluate_all(
 
 
 def write_f1_csv(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> Path:
+    """Merge ``df`` into the existing F1 CSV: rows for any case present in
+    ``df`` are replaced, every other case's rows are left untouched.
+
+    This matters because ``evaluate_all`` is routinely called with
+    ``only=[...]`` scoped to one or two cases (e.g. after regenerating a
+    single case's description) -- an unconditional overwrite would silently
+    truncate the corpus-wide CSV down to just those cases. Mirrors
+    ``case_pipeline.py``'s ``_merge_case_rows`` pattern, generalized to
+    multiple cases in one call.
+    """
     cfg.output_dir.mkdir(parents=True, exist_ok=True)
-    df.to_csv(cfg.f1_csv, index=False)
-    logger.info("Wrote %d rows to %s", len(df), cfg.f1_csv)
+    if cfg.f1_csv.is_file() and not df.empty:
+        existing = pd.read_csv(cfg.f1_csv)
+        touched_cases = set(df["sub_folder_name"].unique())
+        existing = existing[~existing["sub_folder_name"].isin(touched_cases)]
+        merged = pd.concat([existing, df], ignore_index=True)
+        merged = merged.sort_values(["sub_folder_name", "level_rank"]).reset_index(drop=True)
+    else:
+        merged = df
+    merged.to_csv(cfg.f1_csv, index=False)
+    logger.info("Wrote %d row(s) for %d case(s) to %s (%d rows total in file)",
+                len(df), df["sub_folder_name"].nunique() if not df.empty else 0, cfg.f1_csv, len(merged))
     return cfg.f1_csv
