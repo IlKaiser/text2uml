@@ -15,12 +15,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
 
+import pandas as pd
 from text.metrics.base import parse as spacy_parse
 
 from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig
 from .evaluate import load_evaluator
 
 logger = logging.getLogger(__name__)
+
+_SNR_CSV = "levels_snr.csv"
 
 
 def _eval_module(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG):
@@ -163,3 +166,61 @@ def classify_sentences(sentences: List[Sentence], gold: GoldComponents) -> List[
     except Exception as exc:  # noqa: BLE001 - any LLM/parsing failure falls back
         logger.warning("Sentence classification failed (%s); using substring heuristic.", exc)
         return _heuristic_labels(sentences, gold)
+
+
+def compute_case_snr(case: str, description_path: Path, gold_path: Path, parser) -> dict:
+    gold = gold_components(gold_path, parser)
+    sentences = split_sentences(description_path.read_text(encoding="utf-8"))
+    labels = classify_sentences(sentences, gold)
+
+    n_sentences = len(sentences)
+    n_signal = sum(1 for l in labels if l == "SIGNAL")
+    n_noise = n_sentences - n_signal
+    signal_tokens = sum(s.n_tokens for s, l in zip(sentences, labels) if l == "SIGNAL")
+    noise_tokens = sum(s.n_tokens for s, l in zip(sentences, labels) if l == "NOISE")
+    snr = signal_tokens / noise_tokens if noise_tokens else float("inf")
+    total_tokens = signal_tokens + noise_tokens
+    signal_ratio = signal_tokens / total_tokens if total_tokens else float("nan")
+
+    return {
+        "sub_folder_name": case,
+        "n_sentences": n_sentences,
+        "n_signal": n_signal,
+        "n_noise": n_noise,
+        "signal_tokens": signal_tokens,
+        "noise_tokens": noise_tokens,
+        "snr": snr,
+        "signal_ratio": signal_ratio,
+        "n_classes": len(gold.classes),
+        "n_attributes": len(gold.attributes),
+        "n_associations": len(gold.associations),
+        "n_inheritance": len(gold.inheritance),
+    }
+
+
+def compute_all(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> pd.DataFrame:
+    ev = _eval_module(cfg)
+    parser = ev.init_parser(str(cfg.grammar_path))
+
+    rows: List[dict] = []
+    for dataset in sorted(p for p in cfg.dataset_dir.iterdir() if p.is_dir()):
+        if dataset.name in cfg.skip_folders:
+            continue
+        description_path = dataset / "description.md"
+        gold_path = dataset / cfg.gold_filename
+        if not description_path.is_file() or not gold_path.is_file():
+            logger.debug("%s: missing description.md or %s; skipping", dataset.name, cfg.gold_filename)
+            continue
+        try:
+            rows.append(compute_case_snr(dataset.name, description_path, gold_path, parser))
+        except Exception as exc:  # noqa: BLE001 - one bad case must not abort the batch
+            logger.warning("%s: SNR computation failed (%s); skipping", dataset.name, exc)
+    return pd.DataFrame(rows)
+
+
+def write_snr_csv(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> Path:
+    cfg.output_dir.mkdir(parents=True, exist_ok=True)
+    out = cfg.output_dir / _SNR_CSV
+    df.to_csv(out, index=False)
+    logger.info("Wrote %d rows to %s", len(df), out)
+    return out

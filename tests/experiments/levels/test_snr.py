@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pandas as pd
+
 from experiments.levels.snr import GoldComponents, Sentence, gold_components, split_sentences
 
 
@@ -104,3 +106,74 @@ def test_classify_sentences_falls_back_to_heuristic_on_failure(monkeypatch):
 
     labels = classify_sentences(sentences, _toy_gold())
     assert labels == ["SIGNAL", "NOISE"]
+
+
+from dataclasses import replace
+
+from experiments.levels.config import DEFAULT_LEVELS_CONFIG
+from experiments.levels.snr import compute_all, compute_case_snr, write_snr_csv
+
+
+def test_compute_case_snr_aggregates_tokens_and_ratios(monkeypatch, tmp_path):
+    import experiments.levels.snr as snr_module
+
+    description_path = tmp_path / "description.md"
+    description_path.write_text(
+        "A Customer places an Order. This is unrelated narrative filler text here.",
+        encoding="utf-8",
+    )
+    gold_path = tmp_path / "plantuml.txt"
+    gold_path.write_text("@startuml\n@enduml\n", encoding="utf-8")
+
+    fake_gold = GoldComponents(
+        classes=("Customer", "Order"), attributes=(), associations=("Customer -- Order",), inheritance=(),
+    )
+    monkeypatch.setattr(snr_module, "gold_components", lambda path, parser: fake_gold)
+    monkeypatch.setattr(snr_module, "classify_sentences", lambda sentences, gold: ["SIGNAL", "NOISE"])
+
+    row = compute_case_snr("ToyCase", description_path, gold_path, parser=None)
+
+    assert row["sub_folder_name"] == "ToyCase"
+    assert row["n_sentences"] == 2
+    assert row["n_signal"] == 1
+    assert row["n_noise"] == 1
+    assert row["signal_tokens"] > 0
+    assert row["noise_tokens"] > 0
+    assert row["snr"] == row["signal_tokens"] / row["noise_tokens"]
+    assert 0.0 < row["signal_ratio"] < 1.0
+    assert row["n_classes"] == 2
+    assert row["n_associations"] == 1
+
+
+def test_compute_all_skips_cases_missing_gold_or_description(tmp_path, monkeypatch):
+    cfg = replace(DEFAULT_LEVELS_CONFIG, dataset_dir=tmp_path)
+
+    complete = tmp_path / "Complete"
+    complete.mkdir()
+    (complete / "description.md").write_text("A Customer places an Order.", encoding="utf-8")
+    (complete / "plantuml.txt").write_text("@startuml\n@enduml\n", encoding="utf-8")
+
+    missing_gold = tmp_path / "MissingGold"
+    missing_gold.mkdir()
+    (missing_gold / "description.md").write_text("Some text.", encoding="utf-8")
+
+    import experiments.levels.snr as snr_module
+    monkeypatch.setattr(
+        snr_module, "compute_case_snr",
+        lambda case, desc, gold, parser: {"sub_folder_name": case, "n_sentences": 1},
+    )
+    monkeypatch.setattr(snr_module, "_eval_module", lambda cfg=None: type(
+        "FakeEval", (), {"init_parser": staticmethod(lambda path: None)}
+    )())
+
+    df = compute_all(cfg)
+    assert set(df["sub_folder_name"]) == {"Complete"}
+
+
+def test_write_snr_csv_overwrites_unconditionally(tmp_path):
+    cfg = replace(DEFAULT_LEVELS_CONFIG, output_dir=tmp_path)
+    write_snr_csv(pd.DataFrame([{"sub_folder_name": "A", "snr": 1.0}]), cfg)
+    write_snr_csv(pd.DataFrame([{"sub_folder_name": "B", "snr": 2.0}]), cfg)
+
+    result = pd.read_csv(cfg.f1_csv.parent / "levels_snr.csv")
+    assert set(result["sub_folder_name"]) == {"B"}
