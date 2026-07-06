@@ -558,7 +558,9 @@ git commit -m "feat(levels): add per-case SNR orchestration, corpus driver, and 
 
 **Interfaces:**
 - Consumes: `levels_snr.csv` columns (`sub_folder_name`, `signal_ratio`); `levels_f1.csv` columns (`sub_folder_name`, `level`, `f1_global`) as produced by `experiments/levels/evaluate.py`.
-- Produces: `def plot_snr_vs_f1(snr_df: pd.DataFrame, f1_df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> float` — returns the Pearson r, and saves `levels_snr_vs_f1.{png,svg}` to `cfg.output_dir`.
+- Produces: `def plot_snr_vs_f1(snr_df: pd.DataFrame, f1_df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> float` — returns the Pearson r, and saves `levels_snr_vs_f1.{png,svg}` to `cfg.figure_dir("corpus")`.
+
+**Note on a concurrent repo change:** since this plan was written, another session added `LevelsConfig.figure_dir(subdir: str) -> Path` (`experiments/levels/config.py`) and routed every other plotting module's save helper through it (`experiments/levels/plots.py`'s `_save`, `case_metrics.py`, `complexity.py`, `correlation.py`) so corpus-wide figures land in `output/corpus/` instead of `output/` directly (CSVs are unaffected and still live at `output_dir` root). This task's plot must follow the same convention: save through `cfg.figure_dir("corpus")`, not `cfg.output_dir` directly.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -586,8 +588,8 @@ def test_plot_snr_vs_f1_returns_pearson_r_and_saves_files(tmp_path):
     r = plot_snr_vs_f1(snr_df, f1_df, cfg)
 
     assert r == pytest.approx(1.0, abs=1e-6)
-    assert (tmp_path / "levels_snr_vs_f1.png").is_file()
-    assert (tmp_path / "levels_snr_vs_f1.svg").is_file()
+    assert (tmp_path / "corpus" / "levels_snr_vs_f1.png").is_file()
+    assert (tmp_path / "corpus" / "levels_snr_vs_f1.svg").is_file()
 ```
 
 Add `import pytest` to the top of `tests/experiments/levels/test_snr.py` if not already present.
@@ -634,9 +636,9 @@ def plot_snr_vs_f1(
     ax.set_title(f"L3 signal ratio vs F1 (r={r:+.3f}, p={p:.3g}, n={len(merged)})")
     ax.grid(linestyle=":", alpha=0.4)
 
-    cfg.output_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = cfg.figure_dir("corpus")
     for fmt in cfg.figure_formats:
-        path = cfg.output_dir / f"levels_snr_vs_f1.{fmt}"
+        path = out_dir / f"levels_snr_vs_f1.{fmt}"
         fig.savefig(path, bbox_inches="tight", dpi=cfg.dpi)
         logger.info("Saved %s", path)
     plt.close(fig)
