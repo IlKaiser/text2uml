@@ -4,8 +4,11 @@ For a given project, plots every linguistic metric at each configured level
 (``LevelsConfig.levels``) and identifies which metric moved the most from the
 first to the last level. Because the metrics live on different scales, "moved
 the most" is measured in corpus standard-deviation units (the same
-normalization behind ``z_index``), so the ranking is fair; raw values are
-shown too.
+normalization behind ``z_index``), so the ranking is fair. Point annotations
+show each level's percentage variation relative to L3 (the real spec) rather
+than the raw metric value, since raw magnitudes aren't comparable across
+metrics with very different scales (e.g. mdd vs subordination_index) and
+percentage-vs-reference is the more legible, comparable framing.
 
 Reads the precomputed ``levels_complexity.csv`` (no spaCy needed).
 """
@@ -43,6 +46,7 @@ class MetricChange:
     labels: Tuple[str, ...]  # short level labels ("L0", "L1", ...), same order
     raw_delta: float  # last level - first level
     std_delta: float  # (last - first) / corpus_std  (signed; oriented toward complexity)
+    pct_from_l3: Tuple[float, ...]  # each level's % variation vs the real spec (last level); NaN if L3 value is 0
 
 
 def _load(cfg: LevelsConfig) -> pd.DataFrame:
@@ -86,7 +90,9 @@ def analyze_case(
         std_d = raw / sd if sd and np.isfinite(sd) and sd > 0 else float("nan")
         if m == "flesch_reading_ease":
             std_d = -std_d  # orient toward complexity
-        changes.append(MetricChange(m, values, labels, raw, std_d))
+        l3 = values[-1]
+        pct = tuple((v - l3) / l3 * 100 if l3 else float("nan") for v in values)
+        changes.append(MetricChange(m, values, labels, raw, std_d, pct))
 
     changes.sort(key=lambda c: abs(c.std_delta) if np.isfinite(c.std_delta) else -1, reverse=True)
     return changes
@@ -99,9 +105,10 @@ def plot_case(
 ) -> MetricChange:
     """Plot every metric across the three levels for ``case``.
 
-    Left grid: raw value per metric vs level (the biggest mover is titled in
-    red). Right panel: |L1->L3| change in corpus-std units, sorted, so the
-    dominant metric is obvious. Returns the top mover.
+    Left grid: value per metric vs level, annotated with each level's percent
+    variation relative to L3 (the biggest mover is titled in red). Right
+    panel: |L1->L3| change in corpus-std units, sorted, so the dominant
+    metric is obvious. Returns the top mover.
     """
     changes = analyze_case(case, levels_cfg, text_cfg)
     top = changes[0]
@@ -122,8 +129,9 @@ def plot_case(
         vals = list(ch.values)
         color = "#c0392b" if ch.metric == top.metric else "#3b6fb0"
         ax.plot(xs, vals, marker="o", color=color, linewidth=2)
-        for x, y in zip(xs, vals):
-            ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points",
+        for x, y, pct in zip(xs, vals, ch.pct_from_l3):
+            label = "L3 (ref)" if np.isclose(pct, 0.0) else f"{pct:+.0f}% vs L3"
+            ax.annotate(label, (x, y), textcoords="offset points",
                         xytext=(0, 7), ha="center", fontsize=7)
         title = ch.metric + ("  ★" if ch.metric == top.metric else "")
         ax.set_title(f"{title}\nΔstd={ch.std_delta:+.2f}", fontsize=9,
@@ -151,7 +159,7 @@ def plot_case(
     fig.suptitle(
         f"{case}: text metrics across complexity levels — "
         f"biggest mover: {top.metric} (Δstd={top.std_delta:+.2f}, "
-        f"{top.values[0]:.2f}→{top.values[-1]:.2f})",
+        f"L0 is {top.pct_from_l3[0]:+.0f}% vs L3)",
         fontsize=13, y=1.0,
     )
     levels_cfg.output_dir.mkdir(parents=True, exist_ok=True)
@@ -199,8 +207,8 @@ def main(argv=None) -> int:
         changes = analyze_case(case, cfg)
         logger.info("%s — metrics ranked by |first->last level| change (std units):", case)
         for c in changes:
-            val_str = "  ".join(f"{lab}={v:7.3f}" for lab, v in zip(c.labels, c.values))
-            logger.info("  %-26s %s  Δstd=%+.2f", c.metric, val_str, c.std_delta)
+            pct_str = "  ".join(f"{lab}={p:+6.0f}%" for lab, p in zip(c.labels, c.pct_from_l3))
+            logger.info("  %-26s %s  Δstd=%+.2f", c.metric, pct_str, c.std_delta)
         logger.info("  >> biggest mover: %s (Δstd=%+.2f)", top.metric, top.std_delta)
     return 0
 
