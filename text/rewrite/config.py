@@ -43,6 +43,7 @@ class RewriteConfig:
     level_zero_name: str = "level_zero"
     level_one_name: str = "level_one"
     level_two_name: str = "level_two"
+    level_four_name: str = "level_four"
     summary_csv_name: str = "rewrite_summary.csv"
 
     text_config: TextConfig = field(default_factory=lambda: DEFAULT_CONFIG)

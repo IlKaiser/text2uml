@@ -32,7 +32,8 @@ import pandas as pd
 
 from ..config import DEFAULT_CONFIG, TextConfig
 from .config import DEFAULT_REWRITE_CONFIG, RewriteConfig
-from .loop import rewrite_to_shape
+from .flat_prompts import build_flat_feedback, build_flat_user_prompt, flat_system_prompt
+from .loop import rewrite_to_minimize, rewrite_to_shape
 from .prompts import METRIC_GUIDANCE, build_shape_user_prompt, system_prompt
 from .scorer import ComplexityReference, build_reference, score_text
 from .shape_targets import shape_ok
@@ -130,6 +131,62 @@ def process_dataset(
         logger.info("%s/%s: reached=%s in %d iter(s)", name, tag, result.reached, result.iterations)
 
     return row
+
+
+def process_dataset_level_four(
+    name: str,
+    description_path: Path,
+    cfg: RewriteConfig,
+    reference: ComplexityReference,
+    tconf: TextConfig,
+    client,
+    force: bool = False,
+) -> dict:
+    """Generate ``description_level_four.md``: minimize parse_tree_depth vs.
+    the real spec (description.md), preserving meaning. Unlike
+    ``process_dataset``'s shape-matching levels, this targets one metric
+    directly rather than a rank+band shape (see ``text.rewrite.flat_prompts``
+    for why: parse_tree_depth is the strongest single F1 predictor at L3 in
+    this corpus, so this tests whether directly minimizing it helps further).
+
+    Returns a summary row: ``sub_folder_name``, ``source_value``,
+    ``best_value``, ``improved``, ``iterations``.
+    """
+    out_path = cfg.output_path(description_path.parent, cfg.level_four_name)
+    if out_path.is_file() and not force:
+        logger.info("%s/four: exists, skipping (pass force=True to regenerate)", name)
+        return {"sub_folder_name": name}
+
+    original = description_path.read_text(encoding="utf-8")
+    base = score_text(original, reference, tconf)
+    result = rewrite_to_minimize(
+        client=client, cfg=cfg, original=original, original_score=base,
+        reference=reference, metric_name="parse_tree_depth",
+        system_prompt=flat_system_prompt(), user_prompt_fn=build_flat_user_prompt,
+        feedback_fn=build_flat_feedback,
+    )
+    if result.text == original:
+        # Mirrors process_dataset's guard: never write a level file that
+        # ends up byte-identical to the source (total generation failure).
+        logger.error(
+            "%s/four: no candidate ever improved on the source description "
+            "(likely a total generation failure); leaving %s untouched",
+            name, out_path.name,
+        )
+        return {"sub_folder_name": name, "four_improved": False, "four_iterations": result.iterations}
+
+    out_path.write_text(result.text.rstrip() + "\n", encoding="utf-8")
+    logger.info(
+        "%s/four: parse_tree_depth %.2f -> %.2f (improved=%s) in %d iter(s)",
+        name, result.source_value, result.best_value, result.improved, result.iterations,
+    )
+    return {
+        "sub_folder_name": name,
+        "source_value": round(result.source_value, 4),
+        "best_value": round(result.best_value, 4),
+        "improved": result.improved,
+        "iterations": result.iterations,
+    }
 
 
 def main(argv=None) -> int:

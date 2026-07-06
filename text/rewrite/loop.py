@@ -14,6 +14,11 @@ from .scorer import ComplexityReference, ScoreResult, score_text
 from .shape_targets import check_shape, format_feedback, shape_ok
 from .verifier import verify_meaning
 
+# Feedback builder signature shared by rewrite_to_minimize's caller (e.g.
+# text.rewrite.flat_prompts.build_flat_feedback): (current_value, best_value,
+# source_value) -> str.
+MinimizeFeedbackFn = Callable[[float, float, float], str]
+
 logger = logging.getLogger(__name__)
 
 
@@ -215,6 +220,95 @@ def rewrite_to_shape(
         final_z=final_z,
         shape_checks=tuple(best_checks),
         reached=reached,
+        iterations=iterations,
+        text=best_text,
+    )
+
+
+@dataclass(frozen=True)
+class MinimizeResult:
+    """Outcome of iteratively rewriting ``original`` to minimize one metric."""
+
+    metric_name: str
+    source_value: float  # the metric's value on the untouched original (L3)
+    best_value: float  # the lowest value achieved (== source_value if never improved)
+    improved: bool  # whether any accepted candidate beat source_value
+    iterations: int
+    text: str
+
+
+def rewrite_to_minimize(
+    client,
+    cfg: RewriteConfig,
+    original: str,
+    original_score: ScoreResult,
+    reference: ComplexityReference,
+    metric_name: str,
+    system_prompt: str,
+    user_prompt_fn: Callable[[str, str, Optional[str]], str],
+    feedback_fn: MinimizeFeedbackFn,
+) -> MinimizeResult:
+    """Iteratively rewrite ``original`` to minimize ``metric_name``, keeping
+    meaning and content. Unlike ``rewrite_to_shape``/``rewrite_to_target``
+    (which stop once a target/shape is reached), this always runs the full
+    ``cfg.max_iterations`` budget and keeps the single best (lowest-value,
+    meaning-preserving, content-preserving) candidate seen across all of
+    them -- there is no target to "reach", only "as low as possible."
+    """
+    tconf: TextConfig = cfg.text_config
+    min_tokens = cfg.min_token_ratio * max(1, original_score.n_tokens)
+    source_value = original_score.values[metric_name]
+
+    best_text = original
+    best_value = source_value
+    improved = False
+    candidate_text = original
+    feedback: Optional[str] = None
+    iterations = 0
+
+    for i in range(cfg.max_iterations):
+        iterations = i + 1
+        user = user_prompt_fn(original, candidate_text, feedback)
+        try:
+            candidate_text = rewrite_once(client, cfg, system_prompt, user)
+        except Exception as exc:  # noqa: BLE001 - report and stop iterating
+            logger.error("Minimize rewrite call failed on '%s' iter %d: %s", metric_name, i, exc)
+            break
+
+        try:
+            latest_score = score_text(candidate_text, reference, tconf)
+        except ValueError as exc:
+            logger.warning("Could not score minimize candidate (%s); retrying.", exc)
+            feedback = "The previous output could not be parsed. Return a normal, complete Markdown document."
+            continue
+
+        current_value = latest_score.values[metric_name]
+        keeps_content = latest_score.n_tokens >= min_tokens
+
+        if keeps_content and current_value < best_value:
+            if cfg.verify_meaning:
+                check = verify_meaning(client, cfg, original, candidate_text)
+                if not check.equivalent:
+                    feedback = (
+                        f"Your {metric_name} improved to {current_value:.2f}, but the meaning "
+                        "check failed -- fix these while keeping it flat: " + check.feedback()
+                    )
+                    continue
+            best_text, best_value, improved = candidate_text, current_value, True
+
+        feedback = feedback_fn(current_value, best_value, source_value)
+        if not keeps_content:
+            feedback += (
+                "\nWARNING: your version is much shorter than the source — you may "
+                "have dropped information. Restore every entity, attribute, "
+                "relationship, action, and constraint from the source."
+            )
+
+    return MinimizeResult(
+        metric_name=metric_name,
+        source_value=source_value,
+        best_value=best_value,
+        improved=improved,
         iterations=iterations,
         text=best_text,
     )

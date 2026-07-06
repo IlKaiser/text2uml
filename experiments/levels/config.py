@@ -26,6 +26,12 @@ _LEVELS: List[LevelSpec] = [
     ("one", "description_level_one.md", "L1 (simple)", 1),
     ("two", "description_level_two.md", "L2 (mid)", 2),
     ("three", "description.md", "L3 (real)", 3),
+    # Minimizes parse_tree_depth vs. L3 directly (text.rewrite.flat_prompts),
+    # rather than the zero/one/two shape-matching genres -- motivated by
+    # parse_tree_depth being the strongest single F1 predictor at L3 in this
+    # corpus. Rank 4 places it after L3 on plot x-axes as an additional
+    # derived variant, not a "more complex than L3" level.
+    ("four", "description_level_four.md", "L4 (flat)", 4),
 ]
 
 # Per-category F1 series drawn in the plots. "cardinality" reuses the relation
