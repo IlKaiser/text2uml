@@ -16,7 +16,7 @@ def test_gold_components_renders_classes_attributes_associations_inheritance(tmp
             {"Pump, refillingPump": '"1"', "RefuelTurn": '"0..*"'},
         ]
         attributes = [("CardHolder", "Name:String"), ("Invoice", "Number:Int")]
-        inheritance = [("Manager", "Employee")]
+        inheritance = [("Manager", "Employee")]  # (parent, child) format as returned by real function
         return classes, relationships, attributes, inheritance
 
     import experiments.levels.snr as snr_module
@@ -24,11 +24,12 @@ def test_gold_components_renders_classes_attributes_associations_inheritance(tmp
     monkeypatch.setattr(snr_module, "_eval_module", lambda: fake_eval)
 
     gold = gold_components(gold_path, parser=None)
+    assert isinstance(gold, GoldComponents)
 
     assert gold.classes == ("CardHolder", "Invoice")
     assert gold.attributes == ("CardHolder.Name:String", "Invoice.Number:Int")
     assert gold.associations == ("CardHolder -- Invoice", "Pump -- RefuelTurn")
-    assert gold.inheritance == ("Manager <|-- Employee",)
+    assert gold.inheritance == ("Employee <|-- Manager",)
     assert "CardHolder" in gold.all_names()
     assert "CardHolder.Name:String" in gold.all_names()
 

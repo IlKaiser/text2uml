@@ -10,12 +10,9 @@ surfaces in the diagram ("noise"). See
 from __future__ import annotations
 
 import logging
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
-
-import pandas as pd
 
 from text.metrics.base import parse as spacy_parse
 
@@ -23,8 +20,6 @@ from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig
 from .evaluate import load_evaluator
 
 logger = logging.getLogger(__name__)
-
-_SNR_CSV = "levels_snr.csv"
 
 
 def _eval_module(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG):
@@ -34,6 +29,8 @@ def _eval_module(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG):
 
 @dataclass(frozen=True)
 class GoldComponents:
+    """Named UML components extracted from a gold plantuml.txt."""
+
     classes: Tuple[str, ...]
     attributes: Tuple[str, ...]
     associations: Tuple[str, ...]
@@ -49,6 +46,7 @@ def _class_name(raw: str) -> str:
 
 
 def gold_components(gold_path: Path, parser) -> GoldComponents:
+    """Extract classes, attributes, associations, and inheritance edges from a gold plantuml.txt."""
     ev = _eval_module()
     classes, relationships, attributes, inheritance = ev.parse_path(str(gold_path), parser)
 
@@ -57,7 +55,7 @@ def gold_components(gold_path: Path, parser) -> GoldComponents:
     for rel in relationships:
         names = [_class_name(k) for k in rel.keys()]
         assocs.append(" -- ".join(names))
-    inh = tuple(f"{child} <|-- {parent}" for child, parent in inheritance)
+    inh = tuple(f"{child} <|-- {parent}" for parent, child in inheritance)
 
     return GoldComponents(
         classes=tuple(classes),
@@ -69,11 +67,14 @@ def gold_components(gold_path: Path, parser) -> GoldComponents:
 
 @dataclass(frozen=True)
 class Sentence:
+    """One sentence from a description, with its spaCy token count."""
+
     text: str
     n_tokens: int
 
 
 def split_sentences(text: str) -> List[Sentence]:
+    """Split text into sentences via spaCy, dropping empty ones."""
     doc = spacy_parse(text)
     sentences: List[Sentence] = []
     for span in doc.sents:
