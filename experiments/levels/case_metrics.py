@@ -107,8 +107,10 @@ def plot_case(
 
     Left grid: value per metric vs level, annotated with each level's percent
     variation relative to L3 (the biggest mover is titled in red). Right
-    panel: |L1->L3| change in corpus-std units, sorted, so the dominant
-    metric is obvious. Returns the top mover.
+    panel: L0's percent variation vs L3 per metric, ranked by |std_delta|
+    (the cross-metric-fair measure from ``analyze_case``) so the dominant
+    metric is still first, but the displayed bar values are percentages
+    rather than corpus-std units. Returns the top mover.
     """
     changes = analyze_case(case, levels_cfg, text_cfg)
     top = changes[0]
@@ -119,8 +121,8 @@ def plot_case(
     n = len(metrics)
     ncols = 3
     nrows = int(np.ceil(n / ncols))
-    fig = plt.figure(figsize=(5 * ncols + 4, 3.2 * nrows))
-    gs = fig.add_gridspec(nrows, ncols + 1, width_ratios=[1] * ncols + [1.1], wspace=0.35, hspace=0.55)
+    fig = plt.figure(figsize=(5 * ncols + 5.5, 3.2 * nrows))
+    gs = fig.add_gridspec(nrows, ncols + 1, width_ratios=[1] * ncols + [1.7], wspace=0.35, hspace=0.55)
 
     # One small-multiple per metric (ordered by importance).
     for i, ch in enumerate(changes):
@@ -140,20 +142,28 @@ def plot_case(
         ax.set_xticklabels(labels, fontsize=8)
         ax.grid(linestyle=":", alpha=0.4)
 
-    # Right column (full height): ranked |Δstd| bar chart.
+    # Right column (full height): ranked bar chart, by % variation of L0 vs L3
+    # (ranking/top-mover order itself still comes from |std_delta|, the
+    # cross-metric-fair measure computed in analyze_case; only the displayed
+    # bar values switch to percentage, matching the small-multiples above).
     ax_bar = fig.add_subplot(gs[:, ncols])
     ordered = changes  # already sorted by |std_delta| desc
     names = [c.metric for c in ordered][::-1]
-    std_deltas = [c.std_delta for c in ordered][::-1]
+    pct_deltas = [c.pct_from_l3[0] for c in ordered][::-1]
     colors = ["#c0392b" if c.metric == top.metric else "#7f8ca8" for c in ordered][::-1]
-    ax_bar.barh(names, std_deltas, color=colors, edgecolor="white")
+    ax_bar.barh(names, pct_deltas, color=colors, edgecolor="white")
     ax_bar.axvline(0, color="black", linewidth=0.8)
-    for y, v in enumerate(std_deltas):
-        ax_bar.annotate(f"{v:+.2f}", (v, y), textcoords="offset points",
-                        xytext=(6 if v >= 0 else -6, 0),
-                        va="center", ha="left" if v >= 0 else "right", fontsize=8)
-    ax_bar.set_title("L1→L3 change\n(corpus-std units)", fontsize=10)
-    ax_bar.set_xlabel("Δstd (+ = more complex)")
+    finite = [v for v in pct_deltas if np.isfinite(v)]
+    lo, hi = (min(finite + [0]), max(finite + [0])) if finite else (0, 0)
+    span = max(hi - lo, 1.0)
+    ax_bar.set_xlim(lo - 0.28 * span, hi + 0.28 * span)
+    for y, v in enumerate(pct_deltas):
+        label = "n/a" if not np.isfinite(v) else f"{v:+.0f}%"
+        ax_bar.annotate(label, (0 if not np.isfinite(v) else v, y), textcoords="offset points",
+                        xytext=(6 if (np.isfinite(v) and v >= 0) else -6, 0),
+                        va="center", ha="left" if (not np.isfinite(v) or v >= 0) else "right", fontsize=8)
+    ax_bar.set_title("L0 vs L3\n(% variation)", fontsize=10)
+    ax_bar.set_xlabel("% variation (+ = higher than the real spec)")
     ax_bar.grid(axis="x", linestyle=":", alpha=0.4)
 
     fig.suptitle(
