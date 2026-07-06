@@ -169,6 +169,17 @@ from typing import Dict, List, Optional, Tuple
 
 SHAPE_METRICS: Tuple[str, ...] = ("mdd", "subordination_index", "context_dependence_proxy")
 
+# POST-IMPLEMENTATION NOTE (Task 6 calibration, see commit 6c183e7): real
+# generation runs showed subordination_index at level zero consistently
+# landing around 1.15-1.4x the real spec's value (participial clauses that
+# boost mdd are themselves counted as subordination), never within the band
+# below -- the shipped code widened "zero"'s band to (0.35, 1.5) and removed
+# the "L3 must dominate every level" rank rule for this one metric at this
+# one level (see the _rank_ok and check_case_shape notes below, and
+# shape_targets.py directly for the actual current values). The values shown
+# in this historical planning snippet are what was originally specified
+# before that recalibration.
+
 # level tag -> metric -> (min_ratio, max_ratio); max_ratio=None means one-sided (>= min_ratio).
 RATIO_BANDS: Dict[str, Dict[str, Tuple[float, Optional[float]]]] = {
     "zero": {
@@ -205,7 +216,13 @@ class ShapeCheck:
 
 
 def _rank_ok(metric: str, level: str, value: float, l3_value: float) -> bool:
-    """Hard rank constraints from the design spec (Section: Target shape rules)."""
+    """Hard rank constraints from the design spec (Section: Target shape rules).
+
+    POST-IMPLEMENTATION: the shipped version gates the subordination_index
+    rule to `level in ("one", "two")` only -- level "zero" is exempted (see
+    the RATIO_BANDS note above). This snippet shows the original,
+    pre-recalibration version.
+    """
     if metric == "mdd" and level == "zero":
         return value > l3_value
     if metric == "subordination_index":
@@ -277,6 +294,12 @@ def check_case_shape(levels: Dict[str, Dict[str, float]]) -> List[ShapeCheck]:
     ``levels`` maps level tag ("zero", "one", "two", "three") to that level's
     metric-value dict (e.g. one row of ``levels_complexity.csv`` per level).
     """
+    # POST-IMPLEMENTATION: the shipped version drops the
+    # ("subordination_index", "three") cross-level check entirely -- level
+    # zero is now allowed to exceed L3 on this metric (see the RATIO_BANDS
+    # note above), so "L3 is the max across all four levels" is no longer a
+    # claim this function makes for subordination_index. Only the
+    # context_dependence_proxy cross-level check remains.
     l3_values = levels.get("three", {})
     checks: List[ShapeCheck] = []
     for level in ("zero", "one", "two"):

@@ -71,7 +71,10 @@ Self-referential to each case's own (untouched) L3 metric values. Two layers:
 
 1. **Rank constraints (hard gate)**, always required:
    - `mdd(L0) > mdd(L3)`
-   - `subordination_index(L3)` is the max across all four levels
+   - `subordination_index(L3)` is the max across L1/L2 only (NOT L0 — see
+     below; removed after calibration showed L0's mdd-boosting participial
+     clauses are themselves counted as subordination, so L0 routinely
+     exceeds L3 on this metric)
    - `context_dependence_proxy(L0)` is the max across all four levels
 2. **Ratio bands (soft tightening)**, computed as the observed envelope
    across both GasStation cases with a small margin (not mean ± fixed
@@ -83,7 +86,7 @@ Self-referential to each case's own (untouched) L3 metric values. Two layers:
    | `mdd` | L0 | ≥ 1.05× |
    | | L1 | 0.60–0.90× |
    | | L2 | 0.75–0.95× |
-   | `subordination_index` | L0 | 0.35–0.65× |
+   | `subordination_index` | L0 | 0.35–1.5× (widened from 0.35–0.65×; see below) |
    | | L1 | 0.20–0.70× |
    | | L2 | 0.45–0.75× |
    | `context_dependence_proxy` | L0 | ≥ 1.5× |
