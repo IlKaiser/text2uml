@@ -174,10 +174,10 @@ def compute_case_snr(case: str, description_path: Path, gold_path: Path, parser)
     labels = classify_sentences(sentences, gold)
 
     n_sentences = len(sentences)
-    n_signal = sum(1 for l in labels if l == "SIGNAL")
+    n_signal = sum(1 for label in labels if label == "SIGNAL")
     n_noise = n_sentences - n_signal
-    signal_tokens = sum(s.n_tokens for s, l in zip(sentences, labels) if l == "SIGNAL")
-    noise_tokens = sum(s.n_tokens for s, l in zip(sentences, labels) if l == "NOISE")
+    signal_tokens = sum(s.n_tokens for s, label in zip(sentences, labels) if label == "SIGNAL")
+    noise_tokens = sum(s.n_tokens for s, label in zip(sentences, labels) if label == "NOISE")
     snr = signal_tokens / noise_tokens if noise_tokens else float("inf")
     total_tokens = signal_tokens + noise_tokens
     signal_ratio = signal_tokens / total_tokens if total_tokens else float("nan")
@@ -205,6 +205,7 @@ def compute_all(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> pd.DataFrame:
     rows: List[dict] = []
     for dataset in sorted(p for p in cfg.dataset_dir.iterdir() if p.is_dir()):
         if dataset.name in cfg.skip_folders:
+            logger.debug("%s: in skip_folders; skipping", dataset.name)
             continue
         description_path = dataset / "description.md"
         gold_path = dataset / cfg.gold_filename

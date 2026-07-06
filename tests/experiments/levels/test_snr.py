@@ -170,6 +170,67 @@ def test_compute_all_skips_cases_missing_gold_or_description(tmp_path, monkeypat
     assert set(df["sub_folder_name"]) == {"Complete"}
 
 
+def test_compute_all_skips_folders_in_skip_folders(tmp_path):
+    cfg = replace(DEFAULT_LEVELS_CONFIG, dataset_dir=tmp_path, skip_folders=("AlphaInsurance",))
+
+    skipped = tmp_path / "AlphaInsurance"
+    skipped.mkdir()
+    (skipped / "description.md").write_text("A Customer places an Order.", encoding="utf-8")
+    (skipped / "plantuml.txt").write_text("@startuml\n@enduml\n", encoding="utf-8")
+
+    kept = tmp_path / "KeptCase"
+    kept.mkdir()
+    (kept / "description.md").write_text("A Customer places an Order.", encoding="utf-8")
+    (kept / "plantuml.txt").write_text("@startuml\n@enduml\n", encoding="utf-8")
+
+    import experiments.levels.snr as snr_module
+    import experiments.levels.snr as _snr_for_monkeypatch  # noqa: F401 (name kept for clarity)
+
+    from unittest.mock import patch
+
+    with patch.object(
+        snr_module, "compute_case_snr",
+        side_effect=lambda case, desc, gold, parser: {"sub_folder_name": case, "n_sentences": 1},
+    ), patch.object(
+        snr_module, "_eval_module",
+        return_value=type("FakeEval", (), {"init_parser": staticmethod(lambda path: None)})(),
+    ):
+        df = compute_all(cfg)
+
+    assert set(df["sub_folder_name"]) == {"KeptCase"}
+
+
+def test_compute_all_isolates_one_bad_case_from_the_rest(tmp_path):
+    cfg = replace(DEFAULT_LEVELS_CONFIG, dataset_dir=tmp_path)
+
+    bad = tmp_path / "BadCase"
+    bad.mkdir()
+    (bad / "description.md").write_text("Some text.", encoding="utf-8")
+    (bad / "plantuml.txt").write_text("@startuml\n@enduml\n", encoding="utf-8")
+
+    good = tmp_path / "GoodCase"
+    good.mkdir()
+    (good / "description.md").write_text("Some text.", encoding="utf-8")
+    (good / "plantuml.txt").write_text("@startuml\n@enduml\n", encoding="utf-8")
+
+    import experiments.levels.snr as snr_module
+
+    def fake_compute_case_snr(case, description_path, gold_path, parser):
+        if case == "BadCase":
+            raise RuntimeError("simulated failure")
+        return {"sub_folder_name": case, "n_sentences": 1}
+
+    from unittest.mock import patch
+
+    with patch.object(snr_module, "compute_case_snr", side_effect=fake_compute_case_snr), patch.object(
+        snr_module, "_eval_module",
+        return_value=type("FakeEval", (), {"init_parser": staticmethod(lambda path: None)})(),
+    ):
+        df = compute_all(cfg)
+
+    assert set(df["sub_folder_name"]) == {"GoodCase"}
+
+
 def test_write_snr_csv_overwrites_unconditionally(tmp_path):
     cfg = replace(DEFAULT_LEVELS_CONFIG, output_dir=tmp_path)
     write_snr_csv(pd.DataFrame([{"sub_folder_name": "A", "snr": 1.0}]), cfg)
