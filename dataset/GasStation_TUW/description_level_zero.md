@@ -1,17 +1,15 @@
-Classes:
+## Classes
+- **GasStation** — ID (unique), address
+- **FuelPump** — number (identifier), self-service (yes/no)
+- **Fuel** — name (unique identifier), octane rating
+- **DailyPrice** — date, price per liter (identified by date + Fuel + GasStation)
+- **FuelPurchase** — ID (unique), liters dispensed
 
-GasStation — has a Name.
-Pump — a fuel dispenser, with Type, InUse, RefillThreshold, and Blocked flags.
-CardHolder — a customer holding a fuel card, with Name and a Suspended flag.
-RefuelTurn — a single card-based refueling session, identified by RefuelTurnNumber.
-CashTurn — a cash-based refueling session (no attributes, no customer, no invoice).
-Invoice — a bill with Number, Discount, and status.
-InvoiceLine — a single line item on an invoice, with Number.
-
-Relationships:
-
-A GasStation contains many Pumps (1 → 0..*), each Pump belonging to one station.
-Each Pump records many RefuelTurns and many CashTurns (the two ways it gets used: by card or by cash).
-A CardHolder performs many RefuelTurns and receives many Invoices.
-An Invoice is composed of many InvoiceLines.
-Each RefuelTurn maps to at most one InvoiceLine (0..1) — a refueling event optionally gets billed as a single line.
+## Relationships
+- GasStation (1) -> FuelPump (0..12, each identified by its number), it comprising up to twelve of them.
+- FuelPump (0..*) -> Fuel (1..*, offered fuels).
+- GasStation (1) -> DailyPrice (0..*, archived daily prices).
+- Fuel (1) -> DailyPrice (0..*), it applying to one of them.
+- DailyPrice (1) -> FuelPurchase (0..*, price at which it was purchased).
+- FuelPump (1) -> FuelPurchase (0..*, pump at which it was purchased).
+- Fuel (1) -> FuelPurchase (0..*, fuel purchased).
