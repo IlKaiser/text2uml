@@ -47,3 +47,60 @@ def test_split_sentences_counts_tokens_per_sentence():
 def test_split_sentences_drops_empty_sentences():
     sentences = split_sentences("First sentence.   \n\n  Second sentence.")
     assert len(sentences) == 2
+
+
+from experiments.levels.snr import classify_sentences
+
+
+def _toy_gold():
+    return GoldComponents(
+        classes=("Customer", "Order"),
+        attributes=("Customer.name:String",),
+        associations=("Customer -- Order",),
+        inheritance=(),
+    )
+
+
+def test_classify_sentences_parses_llm_response(monkeypatch):
+    import experiments.levels.snr as snr_module
+
+    sentences = [
+        Sentence("A Customer places an Order.", 5),
+        Sentence("This is a fun fact about the company history.", 9),
+    ]
+
+    def fake_invoke_chain(sentences_arg, gold_arg):
+        return "1: SIGNAL\n2: NOISE\n"
+
+    monkeypatch.setattr(snr_module, "_invoke_classification_chain", fake_invoke_chain)
+
+    labels = classify_sentences(sentences, _toy_gold())
+    assert labels == ["SIGNAL", "NOISE"]
+
+
+def test_classify_sentences_defaults_missing_index_to_noise(monkeypatch):
+    import experiments.levels.snr as snr_module
+
+    sentences = [Sentence("A Customer places an Order.", 5), Sentence("Unrelated aside.", 3)]
+
+    monkeypatch.setattr(snr_module, "_invoke_classification_chain", lambda s, g: "1: SIGNAL\n")
+
+    labels = classify_sentences(sentences, _toy_gold())
+    assert labels == ["SIGNAL", "NOISE"]
+
+
+def test_classify_sentences_falls_back_to_heuristic_on_failure(monkeypatch):
+    import experiments.levels.snr as snr_module
+
+    sentences = [
+        Sentence("A Customer places an Order.", 5),
+        Sentence("Unrelated narrative aside.", 3),
+    ]
+
+    def raise_error(sentences_arg, gold_arg):
+        raise RuntimeError("API down")
+
+    monkeypatch.setattr(snr_module, "_invoke_classification_chain", raise_error)
+
+    labels = classify_sentences(sentences, _toy_gold())
+    assert labels == ["SIGNAL", "NOISE"]

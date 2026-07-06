@@ -10,6 +10,7 @@ surfaces in the diagram ("noise"). See
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
@@ -83,3 +84,82 @@ def split_sentences(text: str) -> List[Sentence]:
             continue
         sentences.append(Sentence(text=stripped, n_tokens=len(span)))
     return sentences
+
+
+_LABEL_LINE_RE = re.compile(r"^\s*(\d+)\s*:\s*(SIGNAL|NOISE)\s*$", re.IGNORECASE)
+
+_CLASSIFICATION_PROMPT = """You will be given a numbered list of sentences from a software specification, \
+and four lists of UML diagram components (classes, attributes, associations, inheritance edges) that were \
+manually modeled from that same specification.
+
+For each sentence, decide:
+- SIGNAL: the sentence introduces, describes, or gives a cardinality/relationship for at least one of the \
+listed components.
+- NOISE: the sentence is narrative elaboration, an example, a business rule, or a process description that \
+does not correspond to any listed component.
+
+Output exactly one line per sentence, in the form "N: SIGNAL" or "N: NOISE", where N is the sentence number. \
+Output nothing else.
+
+##############
+
+Classes: {classes}
+
+Attributes: {attributes}
+
+Associations: {associations}
+
+Inheritance: {inheritance}
+
+Sentences:
+{sentences}
+
+##############
+
+Labels:
+"""
+
+
+def _invoke_classification_chain(sentences: List[Sentence], gold: GoldComponents) -> str:
+    from langchain_core.output_parsers import StrOutputParser
+    from langchain_core.prompts import PromptTemplate
+    from langchain_openai import ChatOpenAI
+
+    numbered = "\n".join(f"{i}. {s.text}" for i, s in enumerate(sentences, start=1))
+    prompt = PromptTemplate.from_template(_CLASSIFICATION_PROMPT)
+    model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    chain = prompt | model | StrOutputParser()
+    return chain.invoke({
+        "classes": list(gold.classes),
+        "attributes": list(gold.attributes),
+        "associations": list(gold.associations),
+        "inheritance": list(gold.inheritance),
+        "sentences": numbered,
+    })
+
+
+def _heuristic_labels(sentences: List[Sentence], gold: GoldComponents) -> List[str]:
+    names = [n.lower() for n in gold.all_names()]
+    labels = []
+    for s in sentences:
+        low = s.text.lower()
+        labels.append("SIGNAL" if any(n in low for n in names) else "NOISE")
+    return labels
+
+
+def classify_sentences(sentences: List[Sentence], gold: GoldComponents) -> List[str]:
+    if not sentences:
+        return []
+    try:
+        response = _invoke_classification_chain(sentences, gold)
+        parsed: dict[int, str] = {}
+        for line in response.splitlines():
+            m = _LABEL_LINE_RE.match(line)
+            if m:
+                parsed[int(m.group(1))] = m.group(2).upper()
+        if not parsed:
+            raise ValueError("no parseable SIGNAL/NOISE lines in LLM response")
+        return [parsed.get(i, "NOISE") for i in range(1, len(sentences) + 1)]
+    except Exception as exc:  # noqa: BLE001 - any LLM/parsing failure falls back
+        logger.warning("Sentence classification failed (%s); using substring heuristic.", exc)
+        return _heuristic_labels(sentences, gold)
