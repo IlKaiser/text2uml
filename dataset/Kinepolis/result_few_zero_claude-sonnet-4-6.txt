@@ -1,0 +1,68 @@
+@startuml
+
+class Kinepolis {
+    String Name
+}
+class Cinema {
+    String Town
+}
+class Theatre {
+    Int NumberOfSeats
+}
+class Show {
+    Date Day
+    Time StartingTime
+    Boolean Cancelled
+}
+class Movie {
+    String Title
+}
+class Copy {}
+class Program {
+    Date From
+    Date To
+}
+class Reservation {
+    Int SeatNumber
+    Boolean Cancelled
+}
+class CreditCard {
+    String CardNumber
+}
+class Offer {
+    Date Expiry
+    Boolean Accepted
+}
+class Ticket {
+    Int SeatNumber
+    Boolean Anonymous
+    Boolean Cancellable
+    Boolean Refundable
+}
+class Customer {
+    String Name
+    String Email
+}
+class Display {
+    Int AvailableSeats
+}
+
+Kinepolis "1" -- "1..*" Cinema
+Cinema "1" -- "1..*" Theatre
+Theatre "1" -- "0..*" Show
+Cinema "1" -- "1..*" Copy
+Movie "1" -- "0..*" Copy
+Copy "0..*" -- "1" Cinema
+Kinepolis "1" -- "1" Program
+Program "1" -- "0..*" Show
+Show "1" -- "0..*" Reservation
+Customer "1" -- "0..*" Reservation
+Reservation "0..*" -- "1" CreditCard
+Kinepolis "1" -- "0..*" Show
+Reservation "1" -- "0..1" Offer
+Customer "1" -- "0..*" Offer
+Customer "1" -- "0..1" Ticket
+Customer "1" -- "0..*" Ticket
+Show "1" -- "1" Display
+
+@enduml

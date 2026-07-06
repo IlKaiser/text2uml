@@ -1,0 +1,32 @@
+@startuml
+
+class EBike {}
+class Frame {
+    String Material
+}
+class Wheel {}
+class DriveSystem {}
+class Motor {}
+class Battery {
+    Double StoredEnergy
+}
+class Controller {
+    String State
+}
+class BasicController {}
+class AdvancedController {
+    Date NextMaintenanceInspection
+}
+
+EBike "1" *-- "1" Frame
+EBike "1" *-- "1" DriveSystem
+EBike "1" *-- "1" Controller
+Frame "1" *-- "2" Wheel
+DriveSystem "1" *-- "1" Motor
+EBike "1" -- "0..1" Battery
+Controller "1" -- "0..1" Battery
+Controller "1" -- "1" DriveSystem
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+
+@enduml
