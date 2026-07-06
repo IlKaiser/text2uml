@@ -137,7 +137,12 @@ def plot_f1_vs_complexity(
 def plot_f1_per_case(
     merged: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG
 ) -> None:
-    """Heatmap of global F1 per case (rows) x level (cols), sorted by real F1."""
+    """Heatmap of global F1 per case (rows) x level (cols), sorted by real F1.
+
+    An "Average" row (the column-wise mean across all cases) is appended
+    below the per-case rows and set off with a heavier border, so the
+    corpus-wide trend is visible in the same figure as the individual cases.
+    """
     labels_ranks = (
         merged[["level_rank", "level_label"]].drop_duplicates().sort_values("level_rank")
     )
@@ -150,13 +155,19 @@ def plot_f1_per_case(
     sort_col = labels[-1] if labels[-1] in pivot.columns else labels[0]
     pivot = pivot.reindex(pivot.sort_values(sort_col).index)
 
-    height = max(4.0, 0.28 * len(pivot))
+    average_row = pivot.mean(axis=0, skipna=True)
+    pivot_with_avg = pd.concat([pivot, average_row.to_frame("Average").T])
+
+    height = max(4.0, 0.28 * len(pivot_with_avg))
     fig, ax = plt.subplots(figsize=(1.7 * len(labels) + 3, height))
     sns.heatmap(
-        pivot, cmap="RdYlGn", vmin=0.0, vmax=1.0, linewidths=0.4, linecolor="white",
+        pivot_with_avg, cmap="RdYlGn", vmin=0.0, vmax=1.0, linewidths=0.4, linecolor="white",
         annot=True, fmt=".2f", annot_kws={"fontsize": 7},
         cbar_kws={"label": "global F1"}, ax=ax,
     )
+    # Heavier border between the per-case rows and the summary "Average" row.
+    ax.axhline(len(pivot), color="black", linewidth=2.5)
+    ax.get_yticklabels()[-1].set_fontweight("bold")
     ax.set_title("Per-case global F1 across the three complexity levels")
     ax.set_xlabel("description level")
     ax.set_ylabel("dataset")
