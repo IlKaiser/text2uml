@@ -15,7 +15,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Tuple
 
+import matplotlib
+
+matplotlib.use("Agg")  # headless / reproducible rendering
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+from scipy.stats import pearsonr
 from text.metrics.base import parse as spacy_parse
 
 from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig
@@ -225,3 +231,33 @@ def write_snr_csv(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -
     df.to_csv(out, index=False)
     logger.info("Wrote %d rows to %s", len(df), out)
     return out
+
+
+def plot_snr_vs_f1(
+    snr_df: pd.DataFrame, f1_df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG
+) -> float:
+    l3 = f1_df[f1_df["level"] == "three"][["sub_folder_name", "f1_global"]]
+    merged = snr_df.merge(l3, on="sub_folder_name", how="inner").dropna(
+        subset=["signal_ratio", "f1_global"]
+    )
+
+    r, p = pearsonr(merged["signal_ratio"], merged["f1_global"])
+
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.scatter(merged["signal_ratio"], merged["f1_global"], color="#3b6fb0", edgecolor="white")
+    if len(merged) >= 2:
+        slope, intercept = np.polyfit(merged["signal_ratio"], merged["f1_global"], 1)
+        xs = np.linspace(merged["signal_ratio"].min(), merged["signal_ratio"].max(), 100)
+        ax.plot(xs, slope * xs + intercept, color="#c0392b", linewidth=2)
+    ax.set_xlabel("signal_ratio (L3 description)")
+    ax.set_ylabel("f1_global (L3)")
+    ax.set_title(f"L3 signal ratio vs F1 (r={r:+.3f}, p={p:.3g}, n={len(merged)})")
+    ax.grid(linestyle=":", alpha=0.4)
+
+    out_dir = cfg.figure_dir("corpus")
+    for fmt in cfg.figure_formats:
+        path = out_dir / f"levels_snr_vs_f1.{fmt}"
+        fig.savefig(path, bbox_inches="tight", dpi=cfg.dpi)
+        logger.info("Saved %s", path)
+    plt.close(fig)
+    return float(r)

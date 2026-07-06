@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 
 from experiments.levels.snr import GoldComponents, Sentence, gold_components, split_sentences
 
@@ -238,3 +239,28 @@ def test_write_snr_csv_overwrites_unconditionally(tmp_path):
 
     result = pd.read_csv(cfg.f1_csv.parent / "levels_snr.csv")
     assert set(result["sub_folder_name"]) == {"B"}
+
+
+from experiments.levels.snr import plot_snr_vs_f1
+
+
+def test_plot_snr_vs_f1_returns_pearson_r_and_saves_files(tmp_path):
+    cfg = replace(DEFAULT_LEVELS_CONFIG, output_dir=tmp_path)
+
+    snr_df = pd.DataFrame([
+        {"sub_folder_name": "A", "signal_ratio": 0.1},
+        {"sub_folder_name": "B", "signal_ratio": 0.5},
+        {"sub_folder_name": "C", "signal_ratio": 0.9},
+    ])
+    f1_df = pd.DataFrame([
+        {"sub_folder_name": "A", "level": "three", "f1_global": 0.1},
+        {"sub_folder_name": "B", "level": "three", "f1_global": 0.5},
+        {"sub_folder_name": "C", "level": "three", "f1_global": 0.9},
+        {"sub_folder_name": "A", "level": "zero", "f1_global": 0.99},  # must be filtered out
+    ])
+
+    r = plot_snr_vs_f1(snr_df, f1_df, cfg)
+
+    assert r == pytest.approx(1.0, abs=1e-6)
+    assert (tmp_path / "corpus" / "levels_snr_vs_f1.png").is_file()
+    assert (tmp_path / "corpus" / "levels_snr_vs_f1.svg").is_file()
