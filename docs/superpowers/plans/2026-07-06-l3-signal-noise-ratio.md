@@ -279,7 +279,9 @@ Expected: FAIL with `ImportError: cannot import name 'classify_sentences'` (or `
 
 - [ ] **Step 3: Implement classification in `experiments/levels/snr.py`**
 
-`List` and `Tuple` are already imported from Task 1's `from typing import List, Tuple` — no new imports needed. Append to `experiments/levels/snr.py`:
+`List` and `Tuple` are already imported from Task 1's `from typing import List, Tuple` — no new imports needed for those. This task does need one new import Task 1 doesn't have: add `import re` near the top of `experiments/levels/snr.py`, alongside the existing `import logging` line (Task 1's review found and removed a premature unused `import re`, so it needs to be re-added here, where it's actually used).
+
+Append to `experiments/levels/snr.py`:
 
 ```python
 _LABEL_LINE_RE = re.compile(r"^\s*(\d+)\s*:\s*(SIGNAL|NOISE)\s*$", re.IGNORECASE)
@@ -473,7 +475,7 @@ Expected: FAIL with `ImportError: cannot import name 'compute_case_snr'` (or sim
 
 - [ ] **Step 3: Implement orchestration in `experiments/levels/snr.py`**
 
-Add `from pathlib import Path` (already present from Task 1) and append:
+`from pathlib import Path` is already present from Task 1. This task needs two things Task 1 doesn't have (Task 1's review found and removed both as premature/unused, so add them back now that they're actually used): add `import pandas as pd` near the top alongside the other imports, and add the module-level constant `_SNR_CSV = "levels_snr.csv"` right after the `logger = logging.getLogger(__name__)` line. Then append:
 
 ```python
 def compute_case_snr(case: str, description_path: Path, gold_path: Path, parser) -> dict:
