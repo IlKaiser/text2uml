@@ -25,11 +25,12 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+from dataclasses import replace as _dc_replace
 from typing import List
 
 import pandas as pd
 
-from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig
+from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig, TECHNIQUE_RESULT_PREFIXES
 
 logger = logging.getLogger("experiments.levels")
 
@@ -66,9 +67,16 @@ def main(argv=None) -> int:
     )
     parser.add_argument("--provider", help="Provider key (required for generate).")
     parser.add_argument("--model", help="Model id (required for generate/evaluate).")
+    parser.add_argument(
+        "--technique", choices=sorted(TECHNIQUE_RESULT_PREFIXES), default="few_shot",
+        help="Generation technique from src.run._CHAIN_BUILDERS (default: few_shot, "
+        "the original two-shot pipeline). Non-default techniques get their own "
+        "output_dir subfolder (experiments/levels/output/<technique>/) so their "
+        "CSVs/plots never mix with or overwrite the few_shot corpus results.",
+    )
     parser.add_argument("--datasets", nargs="*", help="Only these dataset folder names.")
     parser.add_argument(
-        "--levels", nargs="*", choices=["one", "two", "three"],
+        "--levels", nargs="*", choices=["zero", "one", "two", "three", "four"],
         help="Only these complexity levels (default: all).",
     )
     parser.add_argument("--force", action="store_true", help="Regenerate existing result files.")
@@ -77,6 +85,13 @@ def main(argv=None) -> int:
 
     _configure_logging(args.verbose)
     cfg = DEFAULT_LEVELS_CONFIG
+    if args.technique != cfg.technique:
+        cfg = _dc_replace(
+            cfg,
+            technique=args.technique,
+            result_prefix=TECHNIQUE_RESULT_PREFIXES[args.technique],
+            output_dir=DEFAULT_LEVELS_CONFIG.output_dir / args.technique,
+        )
     stages = set(args.stage)
 
     if "complexity" in stages:
@@ -127,7 +142,21 @@ def main(argv=None) -> int:
                 logger.error("No F1 CSV at %s — run the evaluate stage first.", cfg.f1_csv)
                 return 1
             df = pd.read_csv(cfg.f1_csv)
-        generate_all_plots(df, cfg)
+
+        # Once a second model's rows land in the same F1 CSV (see
+        # write_f1_csv), blending them into one "corpus" plot mixes two
+        # models' scores into a meaningless average. If --model narrows to
+        # one of several present, scope the plots to it and save under a
+        # model-specific subdir instead of overwriting the blended default.
+        plot_df, subdir, title_suffix = df, "corpus", ""
+        if args.model and "model" in df.columns and set(df["model"].unique()) != {args.model}:
+            plot_df = df[df["model"] == args.model]
+            if plot_df.empty:
+                logger.error("No rows for model %s in %s", args.model, cfg.f1_csv)
+                return 1
+            subdir = f"corpus_{args.model.replace('/', '_').replace(':', '_')}"
+            title_suffix = f" — {args.model}"
+        generate_all_plots(plot_df, cfg, subdir=subdir, title_suffix=title_suffix)
 
     if "correlate" in stages:
         from .correlation import generate_all as correlate_all

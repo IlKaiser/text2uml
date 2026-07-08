@@ -1,0 +1,9 @@
+The fitness company "Conan" wants to set up a database. The database serves its members. The database serves its trainers. The system has one aim. The system records information. Members participate in sessions. The system records this. Trainers supervise sessions. The system records this.
+
+Conan operates various fitness centers. The centers are in various cities. Every center has a unique name. One example is Fitplaza. Another example is my6pack. Every center has an address. Consider the address as atomic. Every center has one or more rooms. Every room has a maximum capacity. Each room has a number. This number is unique within a center. Examples are 1, 2, 3, etc.
+
+People can register for sessions. The sessions are in different centers. A session is individual. A session is group. Each group session requires exactly one trainer. An individual session has no trainer. Each person has a first name. Each person has a family name. Each person has a birth date. Assume this combination is unique. Each trainer also has a diploma. A person can be a trainer in one session. The same person can be a participant in another session. That other session is individual. That other session is group.
+
+The model also includes some people. These people have not participated in any sessions yet. One example is prospects. The model also includes some trainers. These trainers have not supervised any group sessions yet. One example is interns.
+
+Each session has a date. Each session has a starting hour. Each group session also has a type. Examples are aerobics, bodystyling, etc. Sessions can start at the same time on the same day. These sessions occur in different rooms. These rooms are in one center. These sessions can also occur in different centers. At most one session can start in a given room. This room belongs to a given center. This session starts at a given start hour. This start hour belongs to a given day. This session is individual. This session is group.

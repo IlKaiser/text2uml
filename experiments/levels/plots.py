@@ -67,7 +67,8 @@ def _weighted_sem(group: pd.DataFrame, value_col: str, weight_col: Optional[str]
 
 
 def plot_global_f1(
-    df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, weight_col: Optional[str] = None
+    df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, weight_col: Optional[str] = None,
+    subdir: str = "corpus", title_suffix: str = "",
 ) -> None:
     """Global F1 vs complexity level: faint per-project lines + bold mean.
 
@@ -75,6 +76,13 @@ def plot_global_f1(
     into ``df`` by the caller) switches the bold line from a plain mean/SEM
     to a weight_col-weighted mean/SEM, and saves to a ``_weighted`` filename
     instead of overwriting the unweighted plot.
+
+    ``subdir``/``title_suffix`` let a caller pre-filter ``df`` to one model
+    (the F1 CSV can hold rows for several models once more than one has been
+    evaluated) and save the result somewhere that won't clobber the
+    all-models-blended default plot -- mirrors ``plot_case_bars``'s existing
+    ``subdir`` convention for the same reason, one level up (model instead of
+    case).
     """
     labels, ranks = _ordered_levels(df)
     fig, ax = plt.subplots(figsize=(7, 5))
@@ -114,19 +122,20 @@ def plot_global_f1(
     weight_note = f"\n(weighted by {weight_col})" if weight_col else ""
     ax.set_title(
         f"Two-shot UML global F1 vs description complexity\n"
-        f"(faint lines: {n_complete} projects present at all levels){weight_note}"
+        f"(faint lines: {n_complete} projects present at all levels){weight_note}{title_suffix}"
     )
     ax.legend(loc="best")
     ax.grid(axis="y", linestyle=":", alpha=0.5)
-    _save(fig, cfg, "levels_global_f1_weighted" if weight_col else "levels_global_f1")
+    _save(fig, cfg, "levels_global_f1_weighted" if weight_col else "levels_global_f1", subdir=subdir)
 
 
 def plot_category_lines(
-    df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, weight_col: Optional[str] = None
+    df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, weight_col: Optional[str] = None,
+    subdir: str = "corpus", title_suffix: str = "",
 ) -> None:
     """One panel per category: mean F1 (± SEM) vs level.
 
-    See ``plot_global_f1`` for ``weight_col`` semantics.
+    See ``plot_global_f1`` for ``weight_col``/``subdir``/``title_suffix`` semantics.
     """
     labels, ranks = _ordered_levels(df)
     n = len(CATEGORIES)
@@ -158,17 +167,25 @@ def plot_category_lines(
     if nrows > 1:
         axes[ncols].set_ylabel("mean F1")
     weight_note = f" (weighted by {weight_col})" if weight_col else ""
-    fig.suptitle(f"Two-shot UML F1 by category vs description complexity{weight_note}", y=1.0, fontsize=13)
+    fig.suptitle(f"Two-shot UML F1 by category vs description complexity{weight_note}{title_suffix}", y=1.0, fontsize=13)
     fig.tight_layout()
-    _save(fig, cfg, "levels_category_f1_weighted" if weight_col else "levels_category_f1")
+    _save(fig, cfg, "levels_category_f1_weighted" if weight_col else "levels_category_f1", subdir=subdir)
+
+
+# One distinct color per level rank (0-4: zero/one/two/three/four) -- a
+# 3-color palette silently reused colors across levels once level four
+# existed (rank 4 wrapping onto rank 1's color), making grouped bars
+# misleading rather than just less colorful.
+_LEVEL_BAR_COLORS = ["#4c78a8", "#f58518", "#54a24b", "#e45756", "#9d4edd"]
 
 
 def plot_category_bars(
-    df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, weight_col: Optional[str] = None
+    df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, weight_col: Optional[str] = None,
+    subdir: str = "corpus", title_suffix: str = "",
 ) -> None:
     """Grouped bar chart: mean F1 per category, grouped by level.
 
-    See ``plot_global_f1`` for ``weight_col`` semantics.
+    See ``plot_global_f1`` for ``weight_col``/``subdir``/``title_suffix`` semantics.
     """
     labels, ranks = _ordered_levels(df)
     grouped = df.groupby(_LEVEL_ORDER_COL)
@@ -178,14 +195,13 @@ def plot_category_bars(
     }
     x = np.arange(len(CATEGORIES))
     width = 0.8 / max(1, len(ranks))
-    colors = ["#4c78a8", "#f58518", "#54a24b"]
 
     fig, ax = plt.subplots(figsize=(9, 5))
     for i, (label, rank) in enumerate(zip(labels, ranks)):
         vals = [means[cat][i] for cat in CATEGORIES]
         offset = (i - (len(ranks) - 1) / 2) * width
         bars = ax.bar(x + offset, vals, width, label=label,
-                      color=colors[i % len(colors)], edgecolor="white")
+                      color=_LEVEL_BAR_COLORS[rank % len(_LEVEL_BAR_COLORS)], edgecolor="white")
         ax.bar_label(bars, fmt="%.2f", fontsize=7, padding=2)
 
     ax.set_xticks(x)
@@ -194,10 +210,10 @@ def plot_category_bars(
     ax.set_ylabel("mean F1")
     ax.set_xlabel("category")
     weight_note = f" (weighted by {weight_col})" if weight_col else ""
-    ax.set_title(f"Two-shot UML mean F1 by category and complexity level{weight_note}")
+    ax.set_title(f"Two-shot UML mean F1 by category and complexity level{weight_note}{title_suffix}")
     ax.legend(title="level")
     ax.grid(axis="y", linestyle=":", alpha=0.5)
-    _save(fig, cfg, "levels_category_bars_weighted" if weight_col else "levels_category_bars")
+    _save(fig, cfg, "levels_category_bars_weighted" if weight_col else "levels_category_bars", subdir=subdir)
 
 
 _CASE_BAR_PALETTE = ["#9d4edd", "#4c78a8", "#f58518", "#54a24b", "#e45756", "#72b7b2"]
@@ -240,13 +256,16 @@ def plot_case_bars(case: str, df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVE
     _save(fig, cfg, case, subdir="levels_bars")
 
 
-def generate_all_plots(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> None:
+def generate_all_plots(
+    df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG,
+    subdir: str = "corpus", title_suffix: str = "",
+) -> None:
     if df.empty:
         logger.warning("No F1 data; skipping plots.")
         return
-    plot_global_f1(df, cfg)
-    plot_category_lines(df, cfg)
-    plot_category_bars(df, cfg)
+    plot_global_f1(df, cfg, subdir=subdir, title_suffix=title_suffix)
+    plot_category_lines(df, cfg, subdir=subdir, title_suffix=title_suffix)
+    plot_category_bars(df, cfg, subdir=subdir, title_suffix=title_suffix)
 
 
 def generate_all_weighted_plots(

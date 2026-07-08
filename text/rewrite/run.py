@@ -13,10 +13,11 @@ For each ``dataset/<Name>/description.md`` this delegates to
 Originals are never overwritten.
 
 Examples:
-    python -m text.rewrite.run                    # all datasets, all levels
+    python -m text.rewrite.run                    # all datasets, levels zero/one/two
     python -m text.rewrite.run --dry-run          # score originals only
     python -m text.rewrite.run --datasets Sober AirTravel
     python -m text.rewrite.run --limit 5
+    python -m text.rewrite.run --levels four      # level four only, all datasets
 """
 
 from __future__ import annotations
@@ -194,6 +195,15 @@ def main(argv=None) -> int:
     parser.add_argument("--datasets", nargs="*", help="Only these dataset folder names.")
     parser.add_argument("--limit", type=int, help="Process at most N datasets.")
     parser.add_argument(
+        "--levels", nargs="*", choices=["zero", "one", "two", "four"],
+        help="Which levels to (re)generate (default: zero one two). 'four' "
+        "(direct parse_tree_depth minimization) is dispatched to "
+        "process_dataset_level_four instead of the shape-matching loop.",
+    )
+    parser.add_argument(
+        "--force", action="store_true", help="Regenerate level files that already exist.",
+    )
+    parser.add_argument(
         "--dry-run", action="store_true",
         help="Score originals and print targets; make no API calls and write nothing.",
     )
@@ -238,6 +248,10 @@ def main(argv=None) -> int:
 
         client = make_client()
 
+    levels_arg = tuple(args.levels) if args.levels else _LEVEL_TAGS
+    shape_levels = tuple(tag for tag in levels_arg if tag != "four")
+    want_four = "four" in levels_arg
+
     rows = []
     for path in paths:
         name = path.parent.name
@@ -251,7 +265,13 @@ def main(argv=None) -> int:
             logger.info("%s: actual z_index=%.2f (dry run, no rewrite)", name, base.z_index)
             continue
 
-        row = process_dataset(name, path, cfg, reference, tconf, client)
+        row: dict = {}
+        if shape_levels:
+            row.update(process_dataset(name, path, cfg, reference, tconf, client, levels=shape_levels, force=args.force))
+        if want_four:
+            four_row = process_dataset_level_four(name, path, cfg, reference, tconf, client, force=args.force)
+            row.update(four_row)
+        row.setdefault("sub_folder_name", name)
         rows.append(row)
 
     if rows and not args.dry_run:

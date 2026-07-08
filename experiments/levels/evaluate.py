@@ -23,7 +23,7 @@ from typing import Dict, List
 import pandas as pd
 
 from .config import CATEGORIES, DEFAULT_LEVELS_CONFIG, LevelsConfig
-from .generate import _iter_datasets, _load_src_module
+from .generate import _iter_datasets, _load_src_module, load_runner
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +67,11 @@ def evaluate_all(
     f1_global.
     """
     ev = load_evaluator(cfg)
-    runner_safe = model.replace("/", "_")
+    # Reuse src.run's own sanitization instead of duplicating it inline --
+    # generate.py names result files via runner._safe_model_name(model), and
+    # a second, drifted copy here (e.g. missing ":" handling for Ollama tags
+    # like "gemma4:e4b") would silently fail to find any result file.
+    runner_safe = load_runner(cfg)._safe_model_name(model)
     parser = ev.init_parser(str(cfg.grammar_path))
     # Read the strip config from the eval yaml so scaffolding removal matches
     # the main pipeline; fall back to no stripping if unavailable.
@@ -126,8 +130,9 @@ def evaluate_all(
 
 
 def write_f1_csv(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> Path:
-    """Merge ``df`` into the existing F1 CSV: rows for any case present in
-    ``df`` are replaced, every other case's rows are left untouched.
+    """Merge ``df`` into the existing F1 CSV: rows matching ``df``'s
+    (sub_folder_name, level, model) are replaced, every other row is left
+    untouched.
 
     This matters because ``evaluate_all`` is routinely called with
     ``only=[...]`` scoped to one or two cases (e.g. after regenerating a
@@ -135,12 +140,20 @@ def write_f1_csv(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) ->
     truncate the corpus-wide CSV down to just those cases. Mirrors
     ``case_pipeline.py``'s ``_merge_case_rows`` pattern, generalized to
     multiple cases in one call.
+
+    Keying on ``sub_folder_name`` alone (the original implementation) also
+    silently deleted every *other* model's or level's rows for a touched
+    case once a second model was evaluated into the same CSV -- it went
+    unnoticed as long as only one model (``claude-sonnet-4-6``) had ever
+    been scored here. Keying on every identifying column present in both
+    frames fixes that without changing behavior for single-model CSVs.
     """
     cfg.output_dir.mkdir(parents=True, exist_ok=True)
     if cfg.f1_csv.is_file() and not df.empty:
         existing = pd.read_csv(cfg.f1_csv)
-        touched_cases = set(df["sub_folder_name"].unique())
-        existing = existing[~existing["sub_folder_name"].isin(touched_cases)]
+        key_cols = [c for c in ("sub_folder_name", "level", "model") if c in df.columns and c in existing.columns]
+        touched = set(map(tuple, df[key_cols].drop_duplicates().to_numpy()))
+        existing = existing[~existing[key_cols].apply(tuple, axis=1).isin(touched)]
         merged = pd.concat([existing, df], ignore_index=True)
         merged = merged.sort_values(["sub_folder_name", "level_rank"]).reset_index(drop=True)
     else:

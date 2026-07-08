@@ -1,9 +1,10 @@
-"""Generate two-shot UML for each project at three complexity levels.
+"""Generate UML for each project at every complexity level, for one technique.
 
 Reuses the existing generation stack in ``src/run.py`` (LLM construction,
-few-shot chain, timeout-guarded invocation) but drives it from a level-specific
-description file and writes level-tagged result files:
-``result_few_<level>_<model>.txt``. Originals are never overwritten.
+``_CHAIN_BUILDERS[cfg.technique]``, timeout-guarded invocation) but drives it
+from a level-specific description file and writes level-tagged result files:
+``result_<prefix>_<level>_<model>.txt`` (prefix from
+``config.TECHNIQUE_RESULT_PREFIXES``). Originals are never overwritten.
 """
 
 from __future__ import annotations
@@ -69,7 +70,8 @@ def generate(
     runner = load_runner(cfg)
     safe_model = runner._safe_model_name(model)
     llm = runner._make_llm(provider, model, provider_cfg)
-    chain = runner.build_few_shot_chain(llm)
+    build_chain = runner._CHAIN_BUILDERS[cfg.technique]
+    chain = build_chain(llm)
 
     want_levels = set(levels) if levels else {t for t, *_ in cfg.levels}
     datasets = _iter_datasets(cfg, only)

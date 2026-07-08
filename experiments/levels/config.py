@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 # experiments/levels/config.py -> repo root is two parents up.
 _REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -37,6 +37,20 @@ _LEVELS: List[LevelSpec] = [
 # Per-category F1 series drawn in the plots. "cardinality" reuses the relation
 # score (endpoint + cardinality correctness) as score_rel / max_score.
 CATEGORIES: List[str] = ["class", "association", "attribute", "cardinality"]
+
+# Result-file prefix per src.run._CHAIN_BUILDERS technique key. "few_shot" ->
+# "few" matches the filenames already on disk from before multi-technique
+# support existed; the others are spelled out to stay unambiguous next to the
+# level tags ("zero"/"one"/"two"/... appear in both technique names and level
+# tags, e.g. result_zeroshot_zero_<model>.txt is technique=zero_shot,
+# level=zero).
+TECHNIQUE_RESULT_PREFIXES: Dict[str, str] = {
+    "zero_shot": "zeroshot",
+    "one_shot": "oneshot",
+    "few_shot": "few",
+    "cot": "cot",
+    "cot_domain": "cotdomain",
+}
 
 
 @dataclass(frozen=True)

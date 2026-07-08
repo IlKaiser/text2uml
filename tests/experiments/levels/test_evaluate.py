@@ -44,3 +44,25 @@ def test_write_f1_csv_can_add_a_new_case_not_previously_present(tmp_path):
 
     result = pd.read_csv(cfg.f1_csv)
     assert set(result["sub_folder_name"]) == {"A", "B"}
+
+
+def test_write_f1_csv_does_not_clobber_a_different_models_rows_for_the_same_case(tmp_path):
+    """Bug history: keying the merge on sub_folder_name alone meant scoring a
+    second model for a case already in the CSV silently deleted the first
+    model's row for that same case (and every other level of it), since the
+    anti-join never looked at the model or level columns. Only surfaced once
+    a second model was evaluated -- lock in the fix."""
+    cfg = replace(DEFAULT_LEVELS_CONFIG, output_dir=tmp_path)
+
+    write_f1_csv(pd.DataFrame([
+        {"sub_folder_name": "A", "level": "three", "level_rank": 3, "model": "claude-sonnet-4-6", "f1_global": 0.5},
+    ]), cfg)
+    write_f1_csv(pd.DataFrame([
+        {"sub_folder_name": "A", "level": "three", "level_rank": 3, "model": "gpt-4o-mini", "f1_global": 0.3},
+    ]), cfg)
+
+    result = pd.read_csv(cfg.f1_csv)
+    assert set(result["model"]) == {"claude-sonnet-4-6", "gpt-4o-mini"}
+    by_model = result.set_index("model")
+    assert by_model.loc["claude-sonnet-4-6", "f1_global"] == 0.5
+    assert by_model.loc["gpt-4o-mini", "f1_global"] == 0.3
