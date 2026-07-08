@@ -84,16 +84,16 @@ def run_evaluate(case: str, model: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFI
     return df
 
 
-def run_plots(case: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> None:
+def run_plots(case: str, model: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> None:
     """Redraw the per-case text-metric trajectory and F1-by-category bar chart."""
     plot_case(case, cfg)
     f1_df = pd.read_csv(cfg.f1_csv)
-    plot_case_bars(case, f1_df, cfg)
+    plot_case_bars(case, f1_df, cfg, model=model)
 
 
-def run_correlate(case: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> pd.DataFrame:
+def run_correlate(case: str, model: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> pd.DataFrame:
     """Correlate level_rank against F1 (global + categories) for ``case`` alone."""
-    corr = case_level_score_correlation(case, cfg)
+    corr = case_level_score_correlation(case, cfg, model=model)
     logger.info("correlate:\n%s", corr.to_string(index=False))
     return corr
 
@@ -141,9 +141,9 @@ def main(argv=None) -> int:
     if "evaluate" in stages:
         run_evaluate(args.case, args.model, cfg)
     if "plots" in stages:
-        run_plots(args.case, cfg)
+        run_plots(args.case, args.model, cfg)
     if "correlate" in stages:
-        run_correlate(args.case, cfg)
+        run_correlate(args.case, args.model, cfg)
 
     logger.info("Done. Outputs in %s", cfg.output_dir)
     return 0

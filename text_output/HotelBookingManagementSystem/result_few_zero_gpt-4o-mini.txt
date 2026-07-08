@@ -1,0 +1,80 @@
+```plantuml
+@startuml
+
+class HBMS { 
+    String ReliabilityRating 
+}
+class Traveller { 
+    String Name 
+    String BillingInformation 
+    String TravelPreferences 
+    String CreditCardInformation 
+    String ReliabilityRating 
+}
+class Search { 
+    String City 
+    Date ArrivalDate 
+    Date DepartureDate 
+    Int NumberOfRooms 
+    String RoomType 
+    Double MinimumHotelRating 
+    Double TentativeBudget 
+    String FurtherTravelPreferences 
+}
+class Offer { 
+    String City 
+    Date Dates 
+    String RoomType 
+    Double Rating 
+    Double Price 
+}
+class Booking { 
+    Date TravelPeriod 
+    Int Rooms 
+    Date CancellationDeadline 
+    Boolean IsPrePaid 
+}
+class PreliminaryBooking { 
+    String UniqueBookingIdentifier 
+    Double Price 
+    String CityArea 
+    Double HotelRating 
+    String KeyPreferences 
+}
+class SpecialOffer { 
+    String CompetingOffer 
+}
+class Hotel { 
+    String Address 
+    String City 
+}
+class HotelChain { 
+    String Name 
+}
+class City { 
+    String Name 
+}
+class CreditCard { 
+    String CardNumber 
+}
+
+Traveller "1" -- "1" HBMS
+Traveller "1" -- "0..*" Search
+Search "1" -- "0..*" Offer
+Traveller "1" -- "0..*" Booking
+Booking "1" -- "0..1" PreliminaryBooking
+HBMS "1" -- "0..*" Hotel
+Hotel "1" -- "0..*" SpecialOffer
+HBMS "1" -- "5" SpecialOffer
+Traveller "1" -- "0..1" SpecialOffer
+Booking "1" -- "1" CreditCard
+Hotel "1" -- "0..*" Booking
+HBMS "1" -- "0..*" Booking
+Booking "1" -- "1" Traveller
+Hotel "1" -- "0..*" Traveller
+Hotel "1" -- "1" City
+Hotel "1" -- "0..1" HotelChain
+Hotel "1" -- "0..*" RoomType
+
+@enduml
+```

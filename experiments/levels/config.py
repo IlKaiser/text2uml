@@ -111,4 +111,14 @@ class LevelsConfig:
         return d
 
 
+def safe_subdir_model(model: str) -> str:
+    """Sanitize a model id for use in an output subdir name.
+
+    "/" for HuggingFace-style "org/model" ids; ":" for Ollama tags (e.g.
+    "gemma4:e4b") -- mirrors ``src.run._safe_model_name``'s filename
+    sanitization so a model's subdir and its result filenames agree.
+    """
+    return model.replace("/", "_").replace(":", "_")
+
+
 DEFAULT_LEVELS_CONFIG = LevelsConfig()

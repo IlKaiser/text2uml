@@ -1,0 +1,69 @@
+```plantuml
+@startuml
+
+class Kinepolis {
+    String Name
+}
+class Cinema {
+    String Town
+}
+class Theatre {
+    Int SeatCount
+}
+class Show {
+    Date StartDate
+    Time StartTime
+    Boolean Cancellable
+}
+class Movie {
+    String Title
+}
+class Copy {
+    String ID
+}
+class Program {
+    Date PublicationDate
+}
+class Reservation {
+    String SeatNumber
+    Boolean Cancellable
+    Date MadeDate
+}
+class CreditCard {
+    String CardNumber
+}
+class Offer {
+    Boolean Accepted
+    Date ExpiryDate
+}
+class Ticket {
+    String SeatNumber
+    Boolean Refundable
+}
+class Customer {
+    String Name
+}
+class Display {
+    Int AvailableSeats
+}
+
+Kinepolis "1" -- "1..*" Cinema
+Cinema "1" -- "1..*" Theatre
+Theatre "1" -- "0..*" Show
+Cinema "1" -- "1..*" Copy
+Movie "1" -- "0..*" Copy
+Copy "1" -- "0..*" Cinema
+Kinepolis "1" -- "1" Program
+Program "1" -- "0..*" Show
+Show "1" -- "0..*" Reservation
+Customer "1" -- "0..*" Reservation
+Reservation "1" -- "1" CreditCard
+Kinepolis "1" -- "0..*" Show
+Reservation "1" -- "0..1" Offer
+Customer "1" -- "0..*" Offer
+Customer "1" -- "0..1" Ticket
+Customer "1" -- "0..*" Ticket
+Show "1" -- "1" Display
+
+@enduml
+```

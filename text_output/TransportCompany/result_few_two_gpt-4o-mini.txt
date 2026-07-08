@@ -1,0 +1,52 @@
+@startuml
+
+class Driver {
+    String Name
+    String SocialSecurityNumber
+}
+class Staff {
+    String Name
+    String Username
+    String Password
+}
+class Planner {
+    String FieldOfActivity
+}
+class Customer {
+    String Name
+    String BillingAddress
+}
+class Vehicle {
+    String LicensePlateNumber
+    Double Mileage
+}
+class RepairShop {
+    String Name
+    String Address
+}
+class Repair {
+    Double Cost
+    int Duration
+}
+class Order {
+    String PackageSize
+    Date StartTime
+    Date EndTime
+    String Comment
+}
+class PartnerCompany {
+    String Name
+    String Address
+}
+
+Driver "1" -- "0..*" Order
+Staff "1..1" -- "0..*" Order
+Planner "1" -- "0..*" Order
+Customer "1" -- "0..*" Order
+Order "1" -- "1" Customer
+Order "1" -- "1" Vehicle
+Order "1" -- "1..*" PartnerCompany
+Vehicle "1" -- "0..*" Repair
+Repair "1" -- "1" RepairShop
+
+@enduml

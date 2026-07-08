@@ -1,0 +1,46 @@
+```plantuml
+@startuml
+
+class Game {
+    String ID
+}
+class Player {
+    String ID
+}
+class Deck {
+    String ID
+}
+class Card {
+    String ID
+    String Suit
+}
+class ScoringTable {
+    String ID
+}
+class Round {
+    String ID
+    Int PointValue
+}
+class MandatorySoloRound {
+    String ID
+}
+class SoloRound {
+    String ID
+    String Type
+}
+class ComparisonMethod {
+    String ID
+}
+
+Game "1" -- "4" Player
+Game "1" -- "1" Deck
+Game "1" -- "1" ScoringTable
+Deck "1" -- "0..48" Card
+ScoringTable "1" -- "0..*" Round
+Round "1" -- "0..*" Player
+Round "1" -- "0..1" MandatorySoloRound
+Round "1" -- "0..1" SoloRound
+SoloRound "1" -- "1" Player
+
+@enduml
+```

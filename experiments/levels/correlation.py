@@ -15,7 +15,7 @@ Each figure is written under ``experiments/levels/output`` in every format.
 from __future__ import annotations
 
 import logging
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import matplotlib
 
@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from .config import CATEGORIES, DEFAULT_LEVELS_CONFIG, LevelsConfig
+from .config import CATEGORIES, DEFAULT_LEVELS_CONFIG, LevelsConfig, safe_subdir_model
 
 logger = logging.getLogger(__name__)
 
@@ -37,11 +37,32 @@ _SERIES: List[Tuple[str, str]] = [("f1_global", "global")] + [
 _LEVEL_COLORS = {1: "#4c78a8", 2: "#f58518", 3: "#54a24b"}
 
 
-def load_merged(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> pd.DataFrame:
+def _scope_to_model(df: pd.DataFrame, model: Optional[str], csv_name: str) -> pd.DataFrame:
+    """Filter ``df`` to one model, or raise if several are present and unspecified.
+
+    ``levels_f1.csv`` can hold rows for several models once more than one has
+    been evaluated. Silently correlating/plotting all of them together mixes
+    unrelated models' scores against the same complexity points -- fail loud
+    instead, mirroring ``run.py``'s plot-stage guard for the same hazard.
+    """
+    if "model" not in df.columns:
+        return df
+    if model is not None:
+        return df[df["model"] == model]
+    models = df["model"].unique()
+    if len(models) > 1:
+        raise ValueError(
+            f"{csv_name} has multiple models ({sorted(models)}); pass model= to disambiguate."
+        )
+    return df
+
+
+def load_merged(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, model: Optional[str] = None) -> pd.DataFrame:
     """Join F1 and complexity on (sub_folder_name, level).
 
     Raises:
         FileNotFoundError: When either input CSV is missing.
+        ValueError: When the F1 CSV has multiple models and ``model`` is None.
     """
     f1_path = cfg.f1_csv
     cx_path = cfg.output_dir / _COMPLEXITY_CSV
@@ -51,7 +72,7 @@ def load_merged(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> pd.DataFrame:
                 f"Missing {p.name}. Run the evaluate stage and the complexity "
                 f"stage first."
             )
-    f1 = pd.read_csv(f1_path)
+    f1 = _scope_to_model(pd.read_csv(f1_path), model, f1_path.name)
     cx = pd.read_csv(cx_path)[["sub_folder_name", "level", "z_index", "n_tokens"]]
     merged = f1.merge(cx, on=["sub_folder_name", "level"], how="inner")
     if merged.empty:
@@ -82,7 +103,8 @@ def _save(fig, cfg: LevelsConfig, stem: str, subdir: str = "corpus") -> None:
 
 
 def plot_f1_vs_complexity(
-    merged: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG
+    merged: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG,
+    subdir: str = "corpus", title_suffix: str = "",
 ) -> pd.DataFrame:
     """Scatter grid: F1 (global + categories) vs z_index, colored by level.
 
@@ -127,15 +149,18 @@ def plot_f1_vs_complexity(
     axes[0].legend(title="level", fontsize=8, loc="best")
     for ax in axes[n:]:
         ax.axis("off")
-    fig.suptitle("Per-case F1 vs description complexity (each point = one case at one level)",
-                 y=1.0, fontsize=13)
+    fig.suptitle(
+        f"Per-case F1 vs description complexity (each point = one case at one level){title_suffix}",
+        y=1.0, fontsize=13,
+    )
     fig.tight_layout()
-    _save(fig, cfg, "levels_f1_vs_complexity")
+    _save(fig, cfg, "levels_f1_vs_complexity", subdir=subdir)
     return pd.DataFrame(records)
 
 
 def plot_f1_per_case(
-    merged: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG
+    merged: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG,
+    subdir: str = "corpus", title_suffix: str = "",
 ) -> None:
     """Heatmap of global F1 per case (rows) x level (cols), sorted by real F1.
 
@@ -168,14 +193,14 @@ def plot_f1_per_case(
     # Heavier border between the per-case rows and the summary "Average" row.
     ax.axhline(len(pivot), color="black", linewidth=2.5)
     ax.get_yticklabels()[-1].set_fontweight("bold")
-    ax.set_title("Per-case global F1 across the three complexity levels")
+    ax.set_title(f"Per-case global F1 across the three complexity levels{title_suffix}")
     ax.set_xlabel("description level")
     ax.set_ylabel("dataset")
-    _save(fig, cfg, "levels_f1_per_case")
+    _save(fig, cfg, "levels_f1_per_case", subdir=subdir)
 
 
 def case_level_score_correlation(
-    case: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG
+    case: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, model: Optional[str] = None
 ) -> pd.DataFrame:
     """Correlate ``level_rank`` directly against F1 (global + categories) for one case.
 
@@ -189,6 +214,7 @@ def case_level_score_correlation(
     """
     f1 = pd.read_csv(cfg.f1_csv)
     sub = f1[f1["sub_folder_name"] == case].sort_values("level_rank")
+    sub = _scope_to_model(sub, model, cfg.f1_csv.name)
     if sub.empty:
         raise ValueError(f"No F1 rows for case {case!r} in {cfg.f1_csv.name}.")
 
@@ -209,16 +235,26 @@ def case_level_score_correlation(
     return corr
 
 
-def generate_all(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> pd.DataFrame:
-    """Merge, plot both figures, and write the correlation table."""
-    merged = load_merged(cfg)
+def generate_all(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, model: Optional[str] = None) -> pd.DataFrame:
+    """Merge, plot both figures, and write the correlation table.
+
+    ``model`` scopes to one model's rows when ``levels_f1.csv`` holds several
+    (see ``_scope_to_model``) and routes output to a ``corpus_<model>``
+    subdir / suffixed CSV so it never overwrites the unscoped default.
+    """
+    merged = load_merged(cfg, model=model)
     if merged.empty:
         logger.warning("Nothing to correlate.")
         return merged
-    corr = plot_f1_vs_complexity(merged, cfg)
-    plot_f1_per_case(merged, cfg)
+
+    subdir = "corpus" if model is None else f"corpus_{safe_subdir_model(model)}"
+    title_suffix = "" if model is None else f" — {model}"
+    csv_suffix = "" if model is None else f"_{safe_subdir_model(model)}"
+
+    corr = plot_f1_vs_complexity(merged, cfg, subdir=subdir, title_suffix=title_suffix)
+    plot_f1_per_case(merged, cfg, subdir=subdir, title_suffix=title_suffix)
     cfg.output_dir.mkdir(parents=True, exist_ok=True)
-    corr_path = cfg.output_dir / "levels_f1_complexity_correlation.csv"
+    corr_path = cfg.output_dir / f"levels_f1_complexity_correlation{csv_suffix}.csv"
     corr.to_csv(corr_path, index=False)
     logger.info("Wrote correlation table to %s", corr_path)
     if corr["pearson_r"].notna().any():
@@ -237,6 +273,9 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         description="Correlate per-case F1 with description complexity."
     )
+    parser.add_argument(
+        "--model", help="Scope to one model (required if levels_f1.csv has more than one).",
+    )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
     logging.basicConfig(
@@ -244,8 +283,8 @@ def main(argv=None) -> int:
         format="%(levelname)s | %(name)s | %(message)s",
     )
     try:
-        generate_all(DEFAULT_LEVELS_CONFIG)
-    except FileNotFoundError as exc:
+        generate_all(DEFAULT_LEVELS_CONFIG, model=args.model)
+    except (FileNotFoundError, ValueError) as exc:
         logger.error("%s", exc)
         return 1
     logger.info("Done. Outputs in %s", DEFAULT_LEVELS_CONFIG.output_dir)

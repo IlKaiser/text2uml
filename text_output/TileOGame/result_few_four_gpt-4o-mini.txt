@@ -1,0 +1,46 @@
+```plantuml
+@startuml
+
+class Game {
+    String Objective
+}
+class Designer {
+    String Name
+}
+class Player {
+    String Color
+}
+class Board {
+    String Layout
+}
+class Tile {
+    String Type
+}
+class ConnectionPiece {
+    String Type
+}
+class Die {
+    Int Value
+}
+class ActionCard {
+    String Choice
+}
+class Pile {
+    Int Count
+}
+
+Game "1" -- "0..*" Player
+Game "1" -- "1" Board
+Board "1" -- "0..*" Tile
+Tile "0..*" -- "0..1" Tile
+Tile "0..*" -- "0..*" ConnectionPiece
+Tile "1" -- "0..*" ActionTile
+Board "1" -- "0..*" ConnectionPiece
+Game "1" -- "1" Designer
+Game "1" -- "1" Die
+Board "1" -- "1" Pile
+Pile "1" -- "0..*" ConnectionPiece
+Pile "1" -- "0..*" ActionCard
+
+@enduml
+```

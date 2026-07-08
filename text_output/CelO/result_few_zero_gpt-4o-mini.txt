@@ -1,0 +1,47 @@
+@startuml
+
+class Organizer {
+    String FirstName
+    String LastName
+    String Email
+    String PostalAddress
+    String PhoneNumber
+    String Password
+}
+class Attendee {
+    String FirstName
+    String LastName
+    String Email
+    String Password
+    String AttendanceStatus
+}
+class Event {
+    String Kind
+    String Occasion
+    DateTime StartDateTime
+    DateTime EndDateTime
+    String InvitationStatus
+}
+class EventKind {
+}
+class Location {
+    String Name
+    String Address
+}
+class Checklist {
+}
+class Task {
+    String Status
+    String Designation
+}
+
+Event "1" -- "1..*" Organizer
+Organizer "1" -- "0..*" Attendee
+Event "0..*" -- "1" EventKind
+Event "0..*" -- "1" Location
+Event "0..*" -- "0..*" Attendee
+Event "1" -- "1" Checklist
+Checklist "1" -- "0..*" Task
+Task "0..*" -- "0..*" Attendee
+
+@enduml

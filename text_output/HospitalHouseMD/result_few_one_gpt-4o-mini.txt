@@ -1,0 +1,38 @@
+```plantuml
+@startuml
+
+class Patient {
+    String Name
+    Boolean Consent
+}
+class Doctor {
+    String Name
+}
+class HeadDoctor {
+    String Name
+}
+class Diagnosis {
+    String Description
+}
+class Treatment {
+    String Stage
+    Boolean RequiresConsent
+}
+class ConsentForm {
+    Date DateSigned
+}
+class Illness {
+    String Name
+    String PriorityScore
+}
+
+Patient "1..*" -- "0..*" Doctor
+Patient "0..*" -- "0..*" Treatment
+Doctor "1..1" -- "0..*" Diagnosis
+HeadDoctor "1..1" -- "0..*" Diagnosis
+Diagnosis "1..1" -- "0..*" Treatment
+Treatment "1..1" -- "0..1" ConsentForm
+Illness "1..1" -- "0..*" Treatment
+
+@enduml
+```

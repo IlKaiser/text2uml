@@ -219,7 +219,9 @@ def plot_category_bars(
 _CASE_BAR_PALETTE = ["#9d4edd", "#4c78a8", "#f58518", "#54a24b", "#e45756", "#72b7b2"]
 
 
-def plot_case_bars(case: str, df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> None:
+def plot_case_bars(
+    case: str, df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG, model: Optional[str] = None
+) -> None:
     """Grouped bar chart for one case: global + per-category F1, grouped by level.
 
     Unlike ``plot_category_bars`` (which averages across every dataset), this
@@ -229,6 +231,20 @@ def plot_case_bars(case: str, df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVE
     sub = df[df["sub_folder_name"] == case]
     if sub.empty:
         raise ValueError(f"No F1 rows for case {case!r}.")
+    if "model" in sub.columns:
+        if model is not None:
+            sub = sub[sub["model"] == model]
+        elif sub["model"].nunique() > 1:
+            # Once a second model scores this case, `row = sub[...].iloc[0]`
+            # below would silently pick whichever model happens to sort
+            # first *per level* -- possibly a different model at each bar --
+            # producing a chimera plot mislabeled with only one model's name.
+            raise ValueError(
+                f"Multiple models present for case {case!r} ({sorted(sub['model'].unique())}); "
+                f"pass model= to disambiguate."
+            )
+        if sub.empty:
+            raise ValueError(f"No F1 rows for case {case!r} and model {model!r}.")
     labels, ranks = _ordered_levels(sub)
     series = ["global"] + list(CATEGORIES)
 

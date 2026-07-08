@@ -1,0 +1,44 @@
+```plantuml
+@startuml
+
+class Traveller {
+    String Name
+    String CompanyName
+    String Address
+    String TravelPreferences
+}
+class Hotel {
+    String Name
+    String Address
+    String City
+}
+class Booking {
+    String Status
+    String PaymentType
+    Date CancellationDeadline
+}
+class SpecialOffer {
+    Double Price
+    Double HotelRating
+    String UniqueBookingID
+}
+class RoomType {
+    String Type
+    Int Rating
+}
+class HotelChain {
+    String Name
+}
+class BookingInformation {
+    String ReliabilityRating
+}
+
+Traveller "1" -- "0..*" Booking
+Booking "1" -- "0..*" SpecialOffer
+Hotel "1" -- "0..*" RoomType
+Hotel "1" -- "0..1" HotelChain
+Traveller "0..*" -- "0..*" SpecialOffer
+Booking "0..1" -- "1..1" BookingInformation
+
+@enduml
+```

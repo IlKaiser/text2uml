@@ -26,11 +26,12 @@ import argparse
 import logging
 import sys
 from dataclasses import replace as _dc_replace
-from typing import List
+from pathlib import Path
+from typing import List, Optional, Tuple
 
 import pandas as pd
 
-from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig, TECHNIQUE_RESULT_PREFIXES
+from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig, TECHNIQUE_RESULT_PREFIXES, safe_subdir_model
 
 logger = logging.getLogger("experiments.levels")
 
@@ -40,6 +41,34 @@ def _configure_logging(verbose: bool) -> None:
         level=logging.DEBUG if verbose else logging.INFO,
         format="%(levelname)s | %(name)s | %(message)s",
     )
+
+
+def _resolve_plot_scope(df: pd.DataFrame, model: Optional[str], f1_csv: Path) -> Tuple[pd.DataFrame, str, str]:
+    """Decide the plot stage's (dataframe, output subdir, title suffix).
+
+    Once a second model's rows land in the same F1 CSV (see
+    ``evaluate.write_f1_csv``), blending them into one "corpus" plot mixes
+    two models' scores into a meaningless average. If ``model`` narrows to
+    one of several present, scope the plots to it and save under a
+    model-specific subdir instead of overwriting the shared default.
+
+    The "one of several present" check looks at every model in the
+    persisted CSV, not just ``df`` -- when generate+evaluate+plot run
+    together for one model, ``df`` (from ``evaluate_all``) only ever holds
+    that model's freshly-scored rows, so checking ``df`` alone would never
+    detect other models already on disk and would silently overwrite the
+    shared ``corpus/`` plots with single-model data.
+    """
+    all_models = set(df["model"].unique()) if "model" in df.columns else set()
+    if f1_csv.is_file():
+        all_models |= set(pd.read_csv(f1_csv, usecols=["model"])["model"].unique())
+
+    if model and all_models and all_models != {model}:
+        plot_df = df[df["model"] == model] if "model" in df.columns else df
+        subdir = f"corpus_{safe_subdir_model(model)}"
+        title_suffix = f" — {model}"
+        return plot_df, subdir, title_suffix
+    return df, "corpus", ""
 
 
 def _load_provider_cfg(provider: str, cfg: LevelsConfig) -> dict:
@@ -143,27 +172,18 @@ def main(argv=None) -> int:
                 return 1
             df = pd.read_csv(cfg.f1_csv)
 
-        # Once a second model's rows land in the same F1 CSV (see
-        # write_f1_csv), blending them into one "corpus" plot mixes two
-        # models' scores into a meaningless average. If --model narrows to
-        # one of several present, scope the plots to it and save under a
-        # model-specific subdir instead of overwriting the blended default.
-        plot_df, subdir, title_suffix = df, "corpus", ""
-        if args.model and "model" in df.columns and set(df["model"].unique()) != {args.model}:
-            plot_df = df[df["model"] == args.model]
-            if plot_df.empty:
-                logger.error("No rows for model %s in %s", args.model, cfg.f1_csv)
-                return 1
-            subdir = f"corpus_{args.model.replace('/', '_').replace(':', '_')}"
-            title_suffix = f" — {args.model}"
+        plot_df, subdir, title_suffix = _resolve_plot_scope(df, args.model, cfg.f1_csv)
+        if args.model and plot_df.empty:
+            logger.error("No rows for model %s in %s", args.model, cfg.f1_csv)
+            return 1
         generate_all_plots(plot_df, cfg, subdir=subdir, title_suffix=title_suffix)
 
     if "correlate" in stages:
         from .correlation import generate_all as correlate_all
 
         try:
-            correlate_all(cfg)
-        except FileNotFoundError as exc:
+            correlate_all(cfg, model=args.model)
+        except (FileNotFoundError, ValueError) as exc:
             logger.error("%s", exc)
             return 1
 

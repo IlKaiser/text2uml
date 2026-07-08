@@ -1,0 +1,77 @@
+```plantuml
+@startuml
+
+class H2S {
+    String Name
+}
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String Email
+    String ItemDescription
+}
+class Item {
+    String Description
+    String Dimensions
+    Double Weight
+}
+class SecondHandArticle {
+    String Quality
+    String RFID
+    String Description
+}
+class NonPerishableFood {
+    String Description
+}
+class PickupVehicle {
+    Double AvailableStorageSpace
+}
+class VolunteerDriver {
+    String AvailableDays
+}
+class PickupRoute {
+    String Weekday
+}
+class Pickup {
+    String ScheduledTime
+    String WeekdayRequested
+}
+class H2SEmployee {
+    String Name
+}
+class DistributionCenter {
+    String Location
+}
+class FoodBank {
+    String Location
+}
+class Category {
+    String Name
+}
+class Client {
+    String HomeAddress
+}
+class Delivery {
+    String DeliveryAddress
+}
+
+H2S "1" -- "0..*" Resident
+Resident "1" -- "0..*" Pickup
+Pickup "1" -- "1..*" Item
+H2S "1" -- "1..*" PickupVehicle
+PickupVehicle "1" -- "0..1" VolunteerDriver
+PickupVehicle "1" -- "0..1" PickupRoute
+PickupRoute "1" -- "0..*" Pickup
+VolunteerDriver "1" -- "0..*" SecondHandArticle
+VolunteerDriver "1" -- "0..*" NonPerishableFood
+DistributionCenter "1" -- "1..*" H2SEmployee
+H2SEmployee "1" -- "0..*" SecondHandArticle
+SecondHandArticle "0..*" -- "1" Category
+Client "1" -- "1..*" Category
+H2SEmployee "1" -- "0..*" Client
+H2SEmployee "1" -- "0..*" Delivery
+VolunteerDriver "1" -- "0..*" Delivery
+
+@enduml
+```

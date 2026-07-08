@@ -1,0 +1,37 @@
+```plantuml
+@startuml
+
+class FitnessCenter {
+    String Name
+    String Address
+}
+class Room {
+    String Number
+    Int Capacity
+}
+class Person {
+    String FirstName
+    String LastName
+    Date BirthDate
+}
+class Trainer {
+    String Diploma
+}
+class Session {
+    Date Date
+    String StartingHour
+}
+class GroupSession {
+    String Type
+}
+class IndividualSession {}
+
+FitnessCenter "1" -- "0..*" Room
+Room "1" -- "0..*" Session
+Trainer "0..*" -- "0..*" GroupSession
+Person "0..*" -- "0..*" Session
+GroupSession "1" -- "1" Trainer
+Session "0..1" -- "1" IndividualSession
+
+@enduml
+```

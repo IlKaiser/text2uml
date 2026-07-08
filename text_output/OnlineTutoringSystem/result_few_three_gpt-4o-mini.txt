@@ -1,0 +1,42 @@
+@startuml
+
+class Tutor {
+    String Name
+    String Email
+    String BankAccount
+    Double HourlyPrice
+}
+class Student {
+    String Name
+    String Email
+}
+class Subject {
+    String Name
+    String LevelOfExpertise
+}
+class TutoringRequest {
+    Date TargetDate
+    Time TargetTime
+}
+class TutoringSession {
+    Date Date
+    Time StartTime
+    Time EndTime
+    Boolean Cancelled
+}
+class Payment {
+    Double Amount
+    String PaymentMethod
+}
+class Award {
+    String Type
+}
+
+Tutor "1" -- "0..*" TutoringRequest
+Tutor "1" -- "0..*" TutoringSession
+Student "1" -- "0..*" TutoringRequest
+Student "1" -- "0..*" TutoringSession
+Subject "1" -- "0..*" Tutor
+TutoringSession "1" -- "0..1" Payment
+
+@enduml
