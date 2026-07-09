@@ -38,7 +38,7 @@ def make_client(provider: str = "anthropic"):
         _load_dotenv_once()
         import ollama
 
-        return ollama.Client(timeout=180.0)
+        return ollama.Client(timeout=600.0)
 
     if provider == "openai":
         _load_dotenv_once()
