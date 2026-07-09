@@ -16,10 +16,12 @@ from ..config import DEFAULT_CONFIG, TextConfig
 class RewriteConfig:
     """Immutable configuration for the rewrite loop."""
 
-    # --- Claude API ---
+    # --- LLM backend ---
+    provider: str = "anthropic"  # anthropic | ollama
     model: str = "claude-opus-4-8"
-    effort: str = "medium"  # low | medium | high | max
+    effort: str = "medium"  # low | medium | high | max (anthropic only)
     max_tokens: int = 16000
+    temperature: float = 0.0  # ollama only
 
     # --- Feedback loop ---
     max_iterations: int = 5

@@ -207,26 +207,49 @@ def main(argv=None) -> int:
         "--dry-run", action="store_true",
         help="Score originals and print targets; make no API calls and write nothing.",
     )
-    parser.add_argument("--model", help="Override the Claude model id.")
+    parser.add_argument(
+        "--provider", choices=["anthropic", "openai", "ollama"], default="anthropic",
+        help="LLM backend for the rewrite calls (default: anthropic).",
+    )
+    parser.add_argument("--model", help="Override the model id (Claude id for anthropic, OpenAI id for openai, tag for ollama).")
     parser.add_argument("--effort", choices=["low", "medium", "high", "max"])
     parser.add_argument("--max-iterations", type=int)
     parser.add_argument("--tolerance", type=float)
     parser.add_argument(
         "--verify-meaning", action="store_true",
         help="Audit semantic equivalence with a second Claude call before "
-        "accepting a complexity-matching rewrite (extra cost).",
+        "accepting a complexity-matching rewrite (extra cost, anthropic only).",
+    )
+    parser.add_argument(
+        "--output-suffix", default="",
+        help="Appended to the level output name before writing (e.g. "
+        "'_gemma4e4bmlx' -> description_level_zero_gemma4e4bmlx.md instead "
+        "of description_level_zero.md). Use this to compare an alternate "
+        "provider/model's rewrite without ever overwriting the existing "
+        "level file.",
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
 
     _configure_logging(args.verbose)
     tconf = DEFAULT_CONFIG
+    default_model = (
+        DEFAULT_REWRITE_CONFIG.model if args.provider == "anthropic" else None
+    )
+    if args.provider != "anthropic" and not args.model:
+        logger.error("--model is required when --provider is not anthropic.")
+        return 2
     cfg = RewriteConfig(
-        model=args.model or DEFAULT_REWRITE_CONFIG.model,
+        provider=args.provider,
+        model=args.model or default_model,
         effort=args.effort or DEFAULT_REWRITE_CONFIG.effort,
         max_iterations=args.max_iterations or DEFAULT_REWRITE_CONFIG.max_iterations,
         tolerance=args.tolerance if args.tolerance is not None else DEFAULT_REWRITE_CONFIG.tolerance,
         verify_meaning=args.verify_meaning,
+        level_zero_name=DEFAULT_REWRITE_CONFIG.level_zero_name + args.output_suffix,
+        level_one_name=DEFAULT_REWRITE_CONFIG.level_one_name + args.output_suffix,
+        level_two_name=DEFAULT_REWRITE_CONFIG.level_two_name + args.output_suffix,
+        level_four_name=DEFAULT_REWRITE_CONFIG.level_four_name + args.output_suffix,
     )
 
     try:
@@ -246,7 +269,7 @@ def main(argv=None) -> int:
     if not args.dry_run:
         from .client import make_client
 
-        client = make_client()
+        client = make_client(cfg.provider)
 
     levels_arg = tuple(args.levels) if args.levels else _LEVEL_TAGS
     shape_levels = tuple(tag for tag in levels_arg if tag != "four")
@@ -277,7 +300,16 @@ def main(argv=None) -> int:
     if rows and not args.dry_run:
         out = tconf.output_dir / "rewrite_shape_summary.csv"
         tconf.output_dir.mkdir(parents=True, exist_ok=True)
-        pd.DataFrame(rows).to_csv(out, index=False)
+        new_df = pd.DataFrame(rows)
+        # Merge on sub_folder_name instead of overwriting: this is routinely
+        # invoked with --datasets scoped to one or a few cases, and an
+        # unconditional overwrite would truncate every other case's row out
+        # of the corpus-wide summary.
+        if out.is_file():
+            existing = pd.read_csv(out)
+            existing = existing[~existing["sub_folder_name"].isin(new_df["sub_folder_name"])]
+            new_df = pd.concat([existing, new_df], ignore_index=True)
+        new_df.to_csv(out, index=False)
         logger.info("Wrote shape summary for %d datasets to %s", len(rows), out)
 
     return 0
