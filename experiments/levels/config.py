@@ -19,8 +19,9 @@ from typing import Dict, List, Tuple
 # experiments/levels/config.py -> repo root is two parents up.
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 
-# (tag, description filename, display label, rank). Rank orders the x-axis.
-LevelSpec = Tuple[str, str, str, int]
+# (tag, description filename, display label, rank). Rank orders the x-axis;
+# float so a level can be inserted between two integer-ranked ones.
+LevelSpec = Tuple[str, str, str, float]
 _LEVELS: List[LevelSpec] = [
     ("zero", "description_level_zero.md", "L0 (minimal)", 0),
     ("one", "description_level_one.md", "L1 (simple)", 1),
@@ -32,6 +33,21 @@ _LEVELS: List[LevelSpec] = [
     # corpus. Rank 4 places it after L3 on plot x-axes as an additional
     # derived variant, not a "more complex than L3" level.
     ("four", "description_level_four.md", "L4 (flat)", 4),
+    # An alternate L0 description rewritten by a different model
+    # (gemma4:e4b-mlx via Ollama, vs. the Claude-authored description_level_
+    # zero.md) -- same structural-notes genre and shape target, different
+    # rewriter. Rank 0.5 places it right after L0 on plot x-axes without
+    # disturbing the existing 0/1/2/3/4 ordering. Own filename/tag so its
+    # generated diagrams (result_<prefix>_zeroalt_<model>.txt) never collide
+    # with or overwrite the original L0 results.
+    ("zeroalt", "description_level_zero_gemma4e4bmlx.md", "L0-alt (gemma rewrite)", 0.5),
+    # A second alternate L0 description, rewritten by gpt-4o-mini instead of
+    # gemma4:e4b-mlx or Claude -- same structural-notes genre and shape
+    # target, third rewriter. Rank 0.6 keeps it right after "zeroalt" (0.5)
+    # and before L1 (1) without disturbing any existing ordering. Own
+    # filename/tag so its generated diagrams (result_<prefix>_zeroalt2_
+    # <model>.txt) never collide with or overwrite any existing results.
+    ("zeroalt2", "description_level_zero_gpt4omini.md", "L0-alt (gpt-4o-mini rewrite)", 0.6),
 ]
 
 # Per-category F1 series drawn in the plots. "cardinality" reuses the relation
@@ -83,6 +99,7 @@ class LevelsConfig:
 
     levels: Tuple[LevelSpec, ...] = tuple(_LEVELS)
     f1_csv_name: str = "levels_f1.csv"
+    time_csv_name: str = "levels_generation_time.csv"
     figure_formats: Tuple[str, ...] = ("svg", "png")
     dpi: int = 200
 
@@ -97,6 +114,10 @@ class LevelsConfig:
     @property
     def f1_csv(self) -> Path:
         return self.output_dir / self.f1_csv_name
+
+    @property
+    def time_csv(self) -> Path:
+        return self.output_dir / self.time_csv_name
 
     def figure_dir(self, subdir: str) -> Path:
         """Subdirectory of ``output_dir`` for one category of figures.

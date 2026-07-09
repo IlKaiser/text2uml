@@ -12,9 +12,12 @@ from __future__ import annotations
 import importlib.util
 import logging
 import sys
+import time
 from pathlib import Path
 from types import ModuleType
 from typing import List
+
+import pandas as pd
 
 from .config import DEFAULT_LEVELS_CONFIG, LevelsConfig
 
@@ -43,6 +46,28 @@ def _iter_datasets(cfg: LevelsConfig, only: List[str] | None) -> List[Path]:
         wanted = set(only)
         paths = [p for p in paths if p.name in wanted]
     return [p for p in paths if p.name not in set(cfg.skip_folders)]
+
+
+def _merge_time_csv(rows: List[dict], cfg: LevelsConfig) -> None:
+    """Merge newly measured generation times into ``levels_generation_time.csv``.
+
+    Mirrors ``evaluate.write_f1_csv``'s replace-matching-rows-only merge, keyed
+    on (sub_folder_name, level, model, technique), so a partial/rerun never
+    wipes out another model's or technique's timing rows.
+    """
+    if not rows:
+        return
+    new_df = pd.DataFrame(rows)
+    cfg.output_dir.mkdir(parents=True, exist_ok=True)
+    key_cols = ["sub_folder_name", "level", "model", "technique"]
+    if cfg.time_csv.is_file():
+        existing = pd.read_csv(cfg.time_csv)
+        touched = set(map(tuple, new_df[key_cols].to_numpy()))
+        existing = existing[~existing[key_cols].apply(tuple, axis=1).isin(touched)]
+        merged = pd.concat([existing, new_df], ignore_index=True)
+    else:
+        merged = new_df
+    merged.to_csv(cfg.time_csv, index=False)
 
 
 def generate(
@@ -76,6 +101,7 @@ def generate(
     want_levels = set(levels) if levels else {t for t, *_ in cfg.levels}
     datasets = _iter_datasets(cfg, only)
     written = 0
+    time_rows: List[dict] = []
 
     for dataset in datasets:
         for tag, desc_name, _label, _rank in cfg.levels:
@@ -92,7 +118,9 @@ def generate(
 
             text = desc.read_text(encoding="utf-8")
             cb = runner._UsageCallback()
+            t0 = time.time()
             result = runner._run_chain(chain, text, cfg.timeout, cb)
+            elapsed = time.time() - t0
             if provider == "huggingface_local":
                 result = runner._parse_hf_local_output(result)
             if not result:
@@ -107,9 +135,15 @@ def generate(
             out_file.parent.mkdir(parents=True, exist_ok=True)
             out_file.write_text(result, encoding="utf-8")
             written += 1
+            time_rows.append({
+                "sub_folder_name": dataset.name, "level": tag,
+                "model": model, "technique": cfg.technique, "seconds": elapsed,
+                "estimated": False,  # timed live via time.time(), not backfilled from file mtimes
+            })
             logger.info(
-                "  %s/%s -> %s (%d chars)", dataset.name, tag, out_file.name, len(result)
+                "  %s/%s -> %s (%d chars, %.1fs)", dataset.name, tag, out_file.name, len(result), elapsed
             )
 
+    _merge_time_csv(time_rows, cfg)
     logger.info("Generated %d result file(s) for %s", written, model)
     return written

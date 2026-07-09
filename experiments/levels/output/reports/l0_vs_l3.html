@@ -211,11 +211,87 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
   pre .path { color: var(--text-primary); }
+
+  .section-title {
+    font-size: 0.95rem;
+    margin: 32px 0 4px;
+  }
+  .matrix-section .group-note { margin: 0 0 14px; }
+  .matrix-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .matrix-legend .ramp {
+    display: flex;
+    height: 10px;
+    width: 160px;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .matrix-legend .ramp span { flex: 1; }
+  .matrix-wrap {
+    overflow: auto;
+    max-height: 520px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 10px 0 24px;
+  }
+  table.matrix-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.72rem;
+    width: max-content;
+  }
+  .matrix-table td, .matrix-table th {
+    padding: 4px 7px;
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+  .matrix-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--surface-1);
+    z-index: 2;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: left;
+    vertical-align: bottom;
+    height: 190px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+  .matrix-table thead th:first-child {
+    writing-mode: horizontal-tb;
+    transform: none;
+    height: auto;
+    vertical-align: bottom;
+  }
+  .matrix-table td:first-child, .matrix-table th:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--surface-1);
+    text-align: left;
+    z-index: 3;
+    color: var(--text-secondary);
+    border-right: 1px solid var(--border);
+  }
+  .matrix-table thead th:first-child { z-index: 4; }
+  .matrix-cell-empty { color: var(--text-muted); }
 </style>
 
 <div class="viz-root">
   <h1>L0 (minimal) vs L3 (real spec): global F1</h1>
-  <p class="subtitle">Direct comparison across 5 runs — generated from levels_f1.csv</p>
+  <p class="subtitle">Direct comparison across 11 runs — generated from levels_f1.csv</p>
 
   <div class="legend">
     <div class="legend-item"><span class="swatch l0"></span>L0 — minimal description</div>
@@ -241,7 +317,40 @@
   </table>
 
   <div class="findings">
-    <strong>Reading it:</strong> few-shot · claude-sonnet-4-6 is the only run where L3 (real spec) doesn't lose to L0 (minimal) (+0.001, +0.3%). zero-shot · gemma4:e4b (local) shows the largest drop from L0 to L3 (-0.067, -24.0%).
+    <strong>Reading it:</strong> few-shot · claude-sonnet-4-6 (L0-alt: gpt-4o-mini rewrite) is the only run where L0 (minimal) doesn't score higher than L3 (real spec) (-23.0% vs. L3). zero-shot · gemma4:e4b (local) shows the largest L0 increase over L3 (+31.6%).
+  </div>
+
+  <div class="matrix-section">
+    <h2 class="section-title">Per-case F1 (global) — every run × every case</h2>
+    <p class="group-note">
+      Blank cells mean that run has no scored row for that case — for an
+      alt-L0 run this is almost always the text-rewrite step failing to
+      produce a usable candidate for that dataset (see the coverage note
+      under each run above), not a diagram-generation failure. Hover a cell
+      for the exact value.
+    </p>
+
+    <div class="matrix-legend">
+      <span>0.00</span>
+      <div class="ramp" id="matrix-legend-ramp"></div>
+      <span id="matrix-legend-max"></span>
+    </div>
+
+    <p class="group-title" style="margin-top:16px;">L0 (or alt-L0)</p>
+    <div class="matrix-wrap">
+      <table class="matrix-table">
+        <thead><tr id="matrix-head-l0"></tr></thead>
+        <tbody id="matrix-body-l0"></tbody>
+      </table>
+    </div>
+
+    <p class="group-title">L3 (real spec)</p>
+    <div class="matrix-wrap">
+      <table class="matrix-table">
+        <thead><tr id="matrix-head-l3"></tr></thead>
+        <tbody id="matrix-body-l3"></tbody>
+      </table>
+    </div>
   </div>
 
   <div class="provenance">
@@ -251,9 +360,15 @@
       <p class="provenance-label">Source result files (per case, per level, per model) — <code class="inline">text_output/&lt;case&gt;/</code></p>
       <pre><span class="path">text_output/&lt;case&gt;/result_few_&lt;level&gt;_claude-sonnet-4-6.txt</span>  # few-shot · claude-sonnet-4-6
 <span class="path">text_output/&lt;case&gt;/result_few_&lt;level&gt;_gpt-4o-mini.txt</span>  # few-shot · gpt-4o-mini
+<span class="path">text_output/&lt;case&gt;/result_few_&lt;level&gt;_gemma4_e4b-mlx.txt</span>  # few-shot · gemma4:e4b-mlx (local)
 <span class="path">text_output/&lt;case&gt;/result_zeroshot_&lt;level&gt;_claude-sonnet-4-6.txt</span>  # zero-shot · claude-sonnet-4-6
 <span class="path">text_output/&lt;case&gt;/result_zeroshot_&lt;level&gt;_gpt-4o-mini.txt</span>  # zero-shot · gpt-4o-mini
-<span class="path">text_output/&lt;case&gt;/result_zeroshot_&lt;level&gt;_gemma4_e4b.txt</span>  # zero-shot · gemma4:e4b (local)</pre>
+<span class="path">text_output/&lt;case&gt;/result_zeroshot_&lt;level&gt;_gemma4_e4b.txt</span>  # zero-shot · gemma4:e4b (local)
+<span class="path">text_output/&lt;case&gt;/result_zeroshot_&lt;level&gt;_gemma4_e4b-mlx.txt</span>  # zero-shot · gemma4:e4b-mlx (local)
+<span class="path">text_output/&lt;case&gt;/result_few_&lt;level&gt;_claude-sonnet-4-6.txt</span>  # few-shot · claude-sonnet-4-6 (L0-alt: gemma4:e4b-mlx rewrite)
+<span class="path">text_output/&lt;case&gt;/result_few_&lt;level&gt;_claude-sonnet-4-6.txt</span>  # few-shot · claude-sonnet-4-6 (L0-alt: gpt-4o-mini rewrite)
+<span class="path">text_output/&lt;case&gt;/result_zeroshot_&lt;level&gt;_claude-sonnet-4-6.txt</span>  # zero-shot · claude-sonnet-4-6 (L0-alt: gemma4:e4b-mlx rewrite)
+<span class="path">text_output/&lt;case&gt;/result_zeroshot_&lt;level&gt;_claude-sonnet-4-6.txt</span>  # zero-shot · claude-sonnet-4-6 (L0-alt: gpt-4o-mini rewrite)</pre>
     </div>
 
     <div class="provenance-block">
@@ -298,7 +413,11 @@ const data = [
         0.287955,
         0.348337
       ]
-    }
+    },
+    "avg_seconds": null,
+    "avg_seconds_estimated": false,
+    "n_l0": 44,
+    "n_l3": 44
   },
   {
     "run": "few-shot \u00b7 gpt-4o-mini",
@@ -317,7 +436,34 @@ const data = [
         0.282045,
         0.204857
       ]
-    }
+    },
+    "avg_seconds": 6.0,
+    "avg_seconds_estimated": true,
+    "n_l0": 44,
+    "n_l3": 44
+  },
+  {
+    "run": "few-shot \u00b7 gemma4:e4b-mlx (local)",
+    "l0": 0.374034,
+    "l3": 0.359231,
+    "cat": {
+      "l0": [
+        0.589091,
+        0.320682,
+        0.315455,
+        0.270907
+      ],
+      "l3": [
+        0.591136,
+        0.306591,
+        0.309318,
+        0.229879
+      ]
+    },
+    "avg_seconds": 72.0,
+    "avg_seconds_estimated": true,
+    "n_l0": 44,
+    "n_l3": 44
   },
   {
     "run": "zero-shot \u00b7 claude-sonnet-4-6",
@@ -336,7 +482,11 @@ const data = [
         0.249091,
         0.327
       ]
-    }
+    },
+    "avg_seconds": 5.2,
+    "avg_seconds_estimated": true,
+    "n_l0": 44,
+    "n_l3": 44
   },
   {
     "run": "zero-shot \u00b7 gpt-4o-mini",
@@ -355,7 +505,11 @@ const data = [
         0.236136,
         0.206177
       ]
-    }
+    },
+    "avg_seconds": 3.2,
+    "avg_seconds_estimated": true,
+    "n_l0": 44,
+    "n_l3": 44
   },
   {
     "run": "zero-shot \u00b7 gemma4:e4b (local)",
@@ -374,7 +528,126 @@ const data = [
         0.168636,
         0.128375
       ]
-    }
+    },
+    "avg_seconds": 46.0,
+    "avg_seconds_estimated": true,
+    "n_l0": 44,
+    "n_l3": 44
+  },
+  {
+    "run": "zero-shot \u00b7 gemma4:e4b-mlx (local)",
+    "l0": 0.372269,
+    "l3": 0.30606,
+    "cat": {
+      "l0": [
+        0.579091,
+        0.337273,
+        0.292727,
+        0.279986
+      ],
+      "l3": [
+        0.526364,
+        0.2725,
+        0.227273,
+        0.198105
+      ]
+    },
+    "avg_seconds": 57.4,
+    "avg_seconds_estimated": true,
+    "n_l0": 44,
+    "n_l3": 44
+  },
+  {
+    "run": "few-shot \u00b7 claude-sonnet-4-6 (L0-alt: gemma4:e4b-mlx rewrite)",
+    "l0": 0.395711,
+    "l3": 0.426459,
+    "cat": {
+      "l0": [
+        0.653333,
+        0.381667,
+        0.263333,
+        0.284513
+      ],
+      "l3": [
+        0.660227,
+        0.409318,
+        0.287955,
+        0.348337
+      ]
+    },
+    "avg_seconds": null,
+    "avg_seconds_estimated": false,
+    "n_l0": 24,
+    "n_l3": 44
+  },
+  {
+    "run": "few-shot \u00b7 claude-sonnet-4-6 (L0-alt: gpt-4o-mini rewrite)",
+    "l0": 0.328541,
+    "l3": 0.426459,
+    "cat": {
+      "l0": [
+        0.597143,
+        0.314286,
+        0.179048,
+        0.223689
+      ],
+      "l3": [
+        0.660227,
+        0.409318,
+        0.287955,
+        0.348337
+      ]
+    },
+    "avg_seconds": 4.2,
+    "avg_seconds_estimated": false,
+    "n_l0": 21,
+    "n_l3": 44
+  },
+  {
+    "run": "zero-shot \u00b7 claude-sonnet-4-6 (L0-alt: gemma4:e4b-mlx rewrite)",
+    "l0": 0.397112,
+    "l3": 0.397716,
+    "cat": {
+      "l0": [
+        0.65625,
+        0.38125,
+        0.27,
+        0.280949
+      ],
+      "l3": [
+        0.634773,
+        0.38,
+        0.249091,
+        0.327
+      ]
+    },
+    "avg_seconds": 5.0,
+    "avg_seconds_estimated": true,
+    "n_l0": 24,
+    "n_l3": 44
+  },
+  {
+    "run": "zero-shot \u00b7 claude-sonnet-4-6 (L0-alt: gpt-4o-mini rewrite)",
+    "l0": 0.329797,
+    "l3": 0.397716,
+    "cat": {
+      "l0": [
+        0.594762,
+        0.300476,
+        0.20619,
+        0.21776
+      ],
+      "l3": [
+        0.634773,
+        0.38,
+        0.249091,
+        0.327
+      ]
+    },
+    "avg_seconds": 5.0,
+    "avg_seconds_estimated": true,
+    "n_l0": 21,
+    "n_l3": 44
   }
 ];
 
@@ -384,17 +657,32 @@ const maxVal = 0.5; // shared scale reference so bar lengths are comparable acro
 function fmt(v) { return v.toFixed(3); }
 
 data.forEach(d => {
-  const delta = d.l3 - d.l0;
+  // L0's absolute edge over L3, and its percentage increase using L3 as the
+  // baseline (rather than L3's percentage decrease using L0 as the baseline).
+  const delta = d.l0 - d.l3;
   const deltaClass = delta > 0.003 ? "up" : delta < -0.003 ? "down" : "flat";
   const deltaSign = delta >= 0 ? "+" : "";
-  const deltaPct = d.l0 !== 0 ? (delta / d.l0 * 100) : 0;
+  const deltaPct = d.l3 !== 0 ? (delta / d.l3 * 100) : 0;
   const deltaPctSign = deltaPct >= 0 ? "+" : "";
+
+  const timeNote = d.avg_seconds != null
+    ? d.avg_seconds_estimated
+      ? `<p class="group-note">avg generation time: ~${d.avg_seconds.toFixed(1)}s/case (estimated from file timestamps)</p>`
+      : `<p class="group-note">avg generation time: ${d.avg_seconds.toFixed(1)}s/case</p>`
+    : "";
+
+  const missing = d.n_l3 - d.n_l0;
+  const coverageNote = missing > 0
+    ? `<p class="group-note">L0 coverage: ${d.n_l0}/${d.n_l3} cases (<strong>${missing} missing</strong> — rewrite never produced a usable candidate for ${missing === 1 ? "this case" : "these cases"})</p>`
+    : "";
 
   const block = document.createElement("div");
   block.className = "group-block";
   block.innerHTML = `
     <p class="group-title">${d.run}</p>
-    <p class="group-note">L3 − L0 = <span class="delta ${deltaClass}">${deltaSign}${fmt(delta)} (${deltaPctSign}${deltaPct.toFixed(1)}%)</span></p>
+    <p class="group-note">L0 − L3 = <span class="delta ${deltaClass}">${deltaSign}${fmt(delta)} (${deltaPctSign}${deltaPct.toFixed(1)}% over L3)</span></p>
+    ${timeNote}
+    ${coverageNote}
     <div class="bars">
       <div class="row-label">L0 (minimal)</div>
       <div class="bar-track"><div class="bar-fill l0" style="width:${(d.l0/maxVal*100).toFixed(1)}%">
@@ -425,4 +713,1074 @@ data.forEach(d => {
     tbody.appendChild(tr);
   });
 });
+
+// --- Per-case matrix: sequential one-hue (blue) ramp, light->dark by value.
+// Same 13-step ramp as the palette's sequential blue (references/palette.md);
+// applied identically in light/dark mode (not separately re-validated for the
+// dark surface) with per-cell text color chosen from the cell's own luminance
+// so labels stay legible either way.
+const matrix = {
+  "cases": [
+    "AirTravel",
+    "BankAccount",
+    "Boeing",
+    "BuildingManagement",
+    "BusTransportationManagementSystem",
+    "CardGameApp",
+    "CelO",
+    "ClothingCompany",
+    "Cruise",
+    "DestroyBlockGame",
+    "EUScienceConnect",
+    "Ebike",
+    "Facepage",
+    "FilmSet",
+    "FitnessCompanyConan",
+    "GameArea",
+    "GasStation_KUL",
+    "GasStation_TUW",
+    "HelpingHands",
+    "HomeForTheElderly",
+    "HospitalHouseMD",
+    "HotelBookingManagementSystem",
+    "House",
+    "Kinepolis",
+    "LabTracker",
+    "Louvre",
+    "Menso",
+    "Musicmatic",
+    "OnlineTutoringSystem",
+    "PizzaDeliveryWithEntertainment",
+    "ProjectManagement",
+    "School",
+    "SellingGoods",
+    "Sightseeing",
+    "SmartHomeAutomationSystem",
+    "Sober",
+    "StudentAppointment",
+    "TeamSportsScoutingSystem",
+    "TileOGame",
+    "TransportCompany",
+    "TreatmentPlans",
+    "TruckLogistics",
+    "University",
+    "eHome2020"
+  ],
+  "runs": [
+    {
+      "run": "few-shot \u00b7 claude-sonnet-4-6",
+      "l0": {
+        "AirTravel": 0.3211,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2042,
+        "BuildingManagement": 0.5112,
+        "BusTransportationManagementSystem": 0.17,
+        "CardGameApp": 0.2356,
+        "CelO": 0.2864,
+        "ClothingCompany": 0.5575,
+        "Cruise": 0.4456,
+        "DestroyBlockGame": 0.3658,
+        "EUScienceConnect": 0.4775,
+        "Ebike": 0.5092,
+        "Facepage": 0.48,
+        "FilmSet": 0.5998,
+        "FitnessCompanyConan": 0.7486,
+        "GameArea": 0.4254,
+        "GasStation_KUL": 1.0,
+        "GasStation_TUW": 0.7717,
+        "HelpingHands": 0.1382,
+        "HomeForTheElderly": 0.3067,
+        "HospitalHouseMD": 0.3108,
+        "HotelBookingManagementSystem": 0.1983,
+        "House": 0.4984,
+        "Kinepolis": 0.21,
+        "LabTracker": 0.2821,
+        "Louvre": 0.5533,
+        "Menso": 0.2407,
+        "Musicmatic": 0.7202,
+        "OnlineTutoringSystem": 0.365,
+        "PizzaDeliveryWithEntertainment": 0.6221,
+        "ProjectManagement": 0.3775,
+        "School": 0.6452,
+        "SellingGoods": 0.4319,
+        "Sightseeing": 0.8263,
+        "SmartHomeAutomationSystem": 0.3288,
+        "Sober": 0.0625,
+        "StudentAppointment": 0.4088,
+        "TeamSportsScoutingSystem": 0.244,
+        "TileOGame": 0.2065,
+        "TransportCompany": 0.4486,
+        "TreatmentPlans": 0.2017,
+        "TruckLogistics": 0.3937,
+        "University": 0.44,
+        "eHome2020": 0.3525
+      },
+      "l3": {
+        "AirTravel": 0.3504,
+        "BankAccount": 0.755,
+        "Boeing": 0.2392,
+        "BuildingManagement": 0.4425,
+        "BusTransportationManagementSystem": 0.15,
+        "CardGameApp": 0.2719,
+        "CelO": 0.2829,
+        "ClothingCompany": 0.6775,
+        "Cruise": 0.4331,
+        "DestroyBlockGame": 0.4025,
+        "EUScienceConnect": 0.6238,
+        "Ebike": 0.5175,
+        "Facepage": 0.535,
+        "FilmSet": 0.64,
+        "FitnessCompanyConan": 0.6164,
+        "GameArea": 0.4614,
+        "GasStation_KUL": 0.6286,
+        "GasStation_TUW": 0.7917,
+        "HelpingHands": 0.0825,
+        "HomeForTheElderly": 0.315,
+        "HospitalHouseMD": 0.6567,
+        "HotelBookingManagementSystem": 0.2302,
+        "House": 0.4809,
+        "Kinepolis": 0.3742,
+        "LabTracker": 0.325,
+        "Louvre": 0.4708,
+        "Menso": 0.1902,
+        "Musicmatic": 0.6682,
+        "OnlineTutoringSystem": 0.3675,
+        "PizzaDeliveryWithEntertainment": 0.5098,
+        "ProjectManagement": 0.375,
+        "School": 0.5132,
+        "SellingGoods": 0.46,
+        "Sightseeing": 0.6125,
+        "SmartHomeAutomationSystem": 0.2249,
+        "Sober": 0.1492,
+        "StudentAppointment": 0.4088,
+        "TeamSportsScoutingSystem": 0.3393,
+        "TileOGame": 0.2463,
+        "TransportCompany": 0.4511,
+        "TreatmentPlans": 0.2701,
+        "TruckLogistics": 0.4012,
+        "University": 0.45,
+        "eHome2020": 0.3725
+      }
+    },
+    {
+      "run": "few-shot \u00b7 gpt-4o-mini",
+      "l0": {
+        "AirTravel": 0.2793,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2317,
+        "BuildingManagement": 0.4637,
+        "BusTransportationManagementSystem": 0.1475,
+        "CardGameApp": 0.2356,
+        "CelO": 0.2889,
+        "ClothingCompany": 0.5408,
+        "Cruise": 0.4425,
+        "DestroyBlockGame": 0.3708,
+        "EUScienceConnect": 0.5262,
+        "Ebike": 0.555,
+        "Facepage": 0.5275,
+        "FilmSet": 0.4564,
+        "FitnessCompanyConan": 0.5603,
+        "GameArea": 0.3864,
+        "GasStation_KUL": 1.0,
+        "GasStation_TUW": 0.7717,
+        "HelpingHands": 0.09,
+        "HomeForTheElderly": 0.3417,
+        "HospitalHouseMD": 0.3133,
+        "HotelBookingManagementSystem": 0.2158,
+        "House": 0.5209,
+        "Kinepolis": 0.2125,
+        "LabTracker": 0.3096,
+        "Louvre": 0.3525,
+        "Menso": 0.2432,
+        "Musicmatic": 0.6045,
+        "OnlineTutoringSystem": 0.39,
+        "PizzaDeliveryWithEntertainment": 0.5644,
+        "ProjectManagement": 0.3925,
+        "School": 0.5295,
+        "SellingGoods": 0.3758,
+        "Sightseeing": 0.8213,
+        "SmartHomeAutomationSystem": 0.3013,
+        "Sober": 0.0625,
+        "StudentAppointment": 0.4088,
+        "TeamSportsScoutingSystem": 0.2819,
+        "TileOGame": 0.194,
+        "TransportCompany": 0.4254,
+        "TreatmentPlans": 0.2017,
+        "TruckLogistics": 0.3225,
+        "University": 0.38,
+        "eHome2020": 0.365
+      },
+      "l3": {
+        "AirTravel": 0.2668,
+        "BankAccount": 0.795,
+        "Boeing": 0.045,
+        "BuildingManagement": 0.42,
+        "BusTransportationManagementSystem": 0.1325,
+        "CardGameApp": 0.3694,
+        "CelO": 0.2086,
+        "ClothingCompany": 0.4908,
+        "Cruise": 0.42,
+        "DestroyBlockGame": 0.3733,
+        "EUScienceConnect": 0.3038,
+        "Ebike": 0.3467,
+        "Facepage": 0.3975,
+        "FilmSet": 0.54,
+        "FitnessCompanyConan": 0.4506,
+        "GameArea": 0.0,
+        "GasStation_KUL": 1.0,
+        "GasStation_TUW": 0.7583,
+        "HelpingHands": 0.1325,
+        "HomeForTheElderly": 0.2342,
+        "HospitalHouseMD": 0.2767,
+        "HotelBookingManagementSystem": 0.1488,
+        "House": 0.4984,
+        "Kinepolis": 0.2283,
+        "LabTracker": 0.3425,
+        "Louvre": 0.3183,
+        "Menso": 0.205,
+        "Musicmatic": 0.5141,
+        "OnlineTutoringSystem": 0.2858,
+        "PizzaDeliveryWithEntertainment": 0.5217,
+        "ProjectManagement": 0.275,
+        "School": 0.53,
+        "SellingGoods": 0.5006,
+        "Sightseeing": 0.5862,
+        "SmartHomeAutomationSystem": 0.2089,
+        "Sober": 0.0325,
+        "StudentAppointment": 0.3962,
+        "TeamSportsScoutingSystem": 0.1676,
+        "TileOGame": 0.1422,
+        "TransportCompany": 0.3446,
+        "TreatmentPlans": 0.2311,
+        "TruckLogistics": 0.3612,
+        "University": 0.3625,
+        "eHome2020": 0.3975
+      }
+    },
+    {
+      "run": "few-shot \u00b7 gemma4:e4b-mlx (local)",
+      "l0": {
+        "AirTravel": 0.2793,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2367,
+        "BuildingManagement": 0.4587,
+        "BusTransportationManagementSystem": 0.1825,
+        "CardGameApp": 0.0,
+        "CelO": 0.2764,
+        "ClothingCompany": 0.5,
+        "Cruise": 0.3494,
+        "DestroyBlockGame": 0.3808,
+        "EUScienceConnect": 0.5413,
+        "Ebike": 0.5967,
+        "Facepage": 0.57,
+        "FilmSet": 0.587,
+        "FitnessCompanyConan": 0.4678,
+        "GameArea": 0.0,
+        "GasStation_KUL": 1.0,
+        "GasStation_TUW": 0.7717,
+        "HelpingHands": 0.0975,
+        "HomeForTheElderly": 0.3467,
+        "HospitalHouseMD": 0.3133,
+        "HotelBookingManagementSystem": 0.2183,
+        "House": 0.503,
+        "Kinepolis": 0.2025,
+        "LabTracker": 0.3121,
+        "Louvre": 0.315,
+        "Menso": 0.2682,
+        "Musicmatic": 0.6716,
+        "OnlineTutoringSystem": 0.0,
+        "PizzaDeliveryWithEntertainment": 0.5896,
+        "ProjectManagement": 0.635,
+        "School": 0.4955,
+        "SellingGoods": 0.0,
+        "Sightseeing": 0.6687,
+        "SmartHomeAutomationSystem": 0.3213,
+        "Sober": 0.0,
+        "StudentAppointment": 0.6587,
+        "TeamSportsScoutingSystem": 0.3449,
+        "TileOGame": 0.0,
+        "TransportCompany": 0.4068,
+        "TreatmentPlans": 0.2442,
+        "TruckLogistics": 0.4187,
+        "University": 0.44,
+        "eHome2020": 0.0
+      },
+      "l3": {
+        "AirTravel": 0.3461,
+        "BankAccount": 0.7875,
+        "Boeing": 0.1,
+        "BuildingManagement": 0.4325,
+        "BusTransportationManagementSystem": 0.08,
+        "CardGameApp": 0.0,
+        "CelO": 0.2725,
+        "ClothingCompany": 0.5583,
+        "Cruise": 0.4311,
+        "DestroyBlockGame": 0.335,
+        "EUScienceConnect": 0.3688,
+        "Ebike": 0.5383,
+        "Facepage": 0.5825,
+        "FilmSet": 0.3852,
+        "FitnessCompanyConan": 0.5481,
+        "GameArea": 0.3957,
+        "GasStation_KUL": 0.5036,
+        "GasStation_TUW": 0.7958,
+        "HelpingHands": 0.075,
+        "HomeForTheElderly": 0.2675,
+        "HospitalHouseMD": 0.4025,
+        "HotelBookingManagementSystem": 0.1544,
+        "House": 0.508,
+        "Kinepolis": 0.3,
+        "LabTracker": 0.36,
+        "Louvre": 0.5083,
+        "Menso": 0.23,
+        "Musicmatic": 0.7,
+        "OnlineTutoringSystem": 0.3825,
+        "PizzaDeliveryWithEntertainment": 0.5781,
+        "ProjectManagement": 0.68,
+        "School": 0.0,
+        "SellingGoods": 0.475,
+        "Sightseeing": 0.5237,
+        "SmartHomeAutomationSystem": 0.113,
+        "Sober": 0.0375,
+        "StudentAppointment": 0.595,
+        "TeamSportsScoutingSystem": 0.0,
+        "TileOGame": 0.1218,
+        "TransportCompany": 0.4554,
+        "TreatmentPlans": 0.1625,
+        "TruckLogistics": 0.4175,
+        "University": 0.2975,
+        "eHome2020": 0.0
+      }
+    },
+    {
+      "run": "zero-shot \u00b7 claude-sonnet-4-6",
+      "l0": {
+        "AirTravel": 0.325,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2217,
+        "BuildingManagement": 0.4788,
+        "BusTransportationManagementSystem": 0.1675,
+        "CardGameApp": 0.2356,
+        "CelO": 0.2864,
+        "ClothingCompany": 0.5833,
+        "Cruise": 0.4294,
+        "DestroyBlockGame": 0.3658,
+        "EUScienceConnect": 0.4637,
+        "Ebike": 0.5392,
+        "Facepage": 0.5225,
+        "FilmSet": 0.5998,
+        "FitnessCompanyConan": 0.7486,
+        "GameArea": 0.4254,
+        "GasStation_KUL": 0.8807,
+        "GasStation_TUW": 0.7717,
+        "HelpingHands": 0.1432,
+        "HomeForTheElderly": 0.2742,
+        "HospitalHouseMD": 0.3133,
+        "HotelBookingManagementSystem": 0.1983,
+        "House": 0.5145,
+        "Kinepolis": 0.21,
+        "LabTracker": 0.2821,
+        "Louvre": 0.5458,
+        "Menso": 0.2157,
+        "Musicmatic": 0.7157,
+        "OnlineTutoringSystem": 0.365,
+        "PizzaDeliveryWithEntertainment": 0.6021,
+        "ProjectManagement": 0.3775,
+        "School": 0.582,
+        "SellingGoods": 0.3919,
+        "Sightseeing": 0.8712,
+        "SmartHomeAutomationSystem": 0.2988,
+        "Sober": 0.0625,
+        "StudentAppointment": 0.4088,
+        "TeamSportsScoutingSystem": 0.244,
+        "TileOGame": 0.2312,
+        "TransportCompany": 0.4561,
+        "TreatmentPlans": 0.1992,
+        "TruckLogistics": 0.3887,
+        "University": 0.4375,
+        "eHome2020": 0.3225
+      },
+      "l3": {
+        "AirTravel": 0.3579,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2442,
+        "BuildingManagement": 0.4738,
+        "BusTransportationManagementSystem": 0.185,
+        "CardGameApp": 0.2719,
+        "CelO": 0.2704,
+        "ClothingCompany": 0.615,
+        "Cruise": 0.4331,
+        "DestroyBlockGame": 0.4,
+        "EUScienceConnect": 0.4537,
+        "Ebike": 0.5475,
+        "Facepage": 0.575,
+        "FilmSet": 0.5948,
+        "FitnessCompanyConan": 0.5839,
+        "GameArea": 0.3639,
+        "GasStation_KUL": 0.2418,
+        "GasStation_TUW": 0.7317,
+        "HelpingHands": 0.08,
+        "HomeForTheElderly": 0.4175,
+        "HospitalHouseMD": 0.5842,
+        "HotelBookingManagementSystem": 0.2526,
+        "House": 0.495,
+        "Kinepolis": 0.3217,
+        "LabTracker": 0.0,
+        "Louvre": 0.4617,
+        "Menso": 0.2211,
+        "Musicmatic": 0.6882,
+        "OnlineTutoringSystem": 0.4117,
+        "PizzaDeliveryWithEntertainment": 0.4985,
+        "ProjectManagement": 0.38,
+        "School": 0.3593,
+        "SellingGoods": 0.4314,
+        "Sightseeing": 0.6487,
+        "SmartHomeAutomationSystem": 0.2168,
+        "Sober": 0.1492,
+        "StudentAppointment": 0.39,
+        "TeamSportsScoutingSystem": 0.3518,
+        "TileOGame": 0.2463,
+        "TransportCompany": 0.4461,
+        "TreatmentPlans": 0.1532,
+        "TruckLogistics": 0.4012,
+        "University": 0.44,
+        "eHome2020": 0.3225
+      }
+    },
+    {
+      "run": "zero-shot \u00b7 gpt-4o-mini",
+      "l0": {
+        "AirTravel": 0.3104,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2042,
+        "BuildingManagement": 0.4838,
+        "BusTransportationManagementSystem": 0.1825,
+        "CardGameApp": 0.2731,
+        "CelO": 0.2864,
+        "ClothingCompany": 0.5125,
+        "Cruise": 0.43,
+        "DestroyBlockGame": 0.3633,
+        "EUScienceConnect": 0.4862,
+        "Ebike": 0.555,
+        "Facepage": 0.47,
+        "FilmSet": 0.5952,
+        "FitnessCompanyConan": 0.5428,
+        "GameArea": 0.4379,
+        "GasStation_KUL": 0.9175,
+        "GasStation_TUW": 0.7717,
+        "HelpingHands": 0.09,
+        "HomeForTheElderly": 0.3142,
+        "HospitalHouseMD": 0.3133,
+        "HotelBookingManagementSystem": 0.2158,
+        "House": 0.4859,
+        "Kinepolis": 0.2125,
+        "LabTracker": 0.3096,
+        "Louvre": 0.35,
+        "Menso": 0.2407,
+        "Musicmatic": 0.623,
+        "OnlineTutoringSystem": 0.37,
+        "PizzaDeliveryWithEntertainment": 0.5904,
+        "ProjectManagement": 0.3825,
+        "School": 0.6477,
+        "SellingGoods": 0.3939,
+        "Sightseeing": 0.0,
+        "SmartHomeAutomationSystem": 0.3013,
+        "Sober": 0.0625,
+        "StudentAppointment": 0.4088,
+        "TeamSportsScoutingSystem": 0.2744,
+        "TileOGame": 0.194,
+        "TransportCompany": 0.0,
+        "TreatmentPlans": 0.2017,
+        "TruckLogistics": 0.3375,
+        "University": 0.3875,
+        "eHome2020": 0.3225
+      },
+      "l3": {
+        "AirTravel": 0.2821,
+        "BankAccount": 0.7,
+        "Boeing": 0.2542,
+        "BuildingManagement": 0.5188,
+        "BusTransportationManagementSystem": 0.1275,
+        "CardGameApp": 0.2442,
+        "CelO": 0.1829,
+        "ClothingCompany": 0.5342,
+        "Cruise": 0.4211,
+        "DestroyBlockGame": 0.3417,
+        "EUScienceConnect": 0.2838,
+        "Ebike": 0.3975,
+        "Facepage": 0.4675,
+        "FilmSet": 0.538,
+        "FitnessCompanyConan": 0.4756,
+        "GameArea": 0.4546,
+        "GasStation_KUL": 0.2821,
+        "GasStation_TUW": 0.7217,
+        "HelpingHands": 0.05,
+        "HomeForTheElderly": 0.3167,
+        "HospitalHouseMD": 0.2583,
+        "HotelBookingManagementSystem": 0.1765,
+        "House": 0.4523,
+        "Kinepolis": 0.2958,
+        "LabTracker": 0.3337,
+        "Louvre": 0.3725,
+        "Menso": 0.08,
+        "Musicmatic": 0.5373,
+        "OnlineTutoringSystem": 0.22,
+        "PizzaDeliveryWithEntertainment": 0.6063,
+        "ProjectManagement": 0.365,
+        "School": 0.4105,
+        "SellingGoods": 0.4136,
+        "Sightseeing": 0.6162,
+        "SmartHomeAutomationSystem": 0.293,
+        "Sober": 0.0325,
+        "StudentAppointment": 0.4062,
+        "TeamSportsScoutingSystem": 0.1888,
+        "TileOGame": 0.1594,
+        "TransportCompany": 0.3046,
+        "TreatmentPlans": 0.1125,
+        "TruckLogistics": 0.3287,
+        "University": 0.34,
+        "eHome2020": 0.33
+      }
+    },
+    {
+      "run": "zero-shot \u00b7 gemma4:e4b (local)",
+      "l0": {
+        "AirTravel": 0.2671,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2042,
+        "BuildingManagement": 0.0,
+        "BusTransportationManagementSystem": 0.255,
+        "CardGameApp": 0.0,
+        "CelO": 0.2521,
+        "ClothingCompany": 0.575,
+        "Cruise": 0.0,
+        "DestroyBlockGame": 0.2775,
+        "EUScienceConnect": 0.4887,
+        "Ebike": 0.5692,
+        "Facepage": 0.57,
+        "FilmSet": 0.5757,
+        "FitnessCompanyConan": 0.6483,
+        "GameArea": 0.0,
+        "GasStation_KUL": 0.9657,
+        "GasStation_TUW": 0.7717,
+        "HelpingHands": 0.105,
+        "HomeForTheElderly": 0.2567,
+        "HospitalHouseMD": 0.1675,
+        "HotelBookingManagementSystem": 0.0,
+        "House": 0.0,
+        "Kinepolis": 0.2025,
+        "LabTracker": 0.3371,
+        "Louvre": 0.3808,
+        "Menso": 0.2507,
+        "Musicmatic": 0.0,
+        "OnlineTutoringSystem": 0.0,
+        "PizzaDeliveryWithEntertainment": 0.5662,
+        "ProjectManagement": 0.635,
+        "School": 0.0,
+        "SellingGoods": 0.2075,
+        "Sightseeing": 0.7512,
+        "SmartHomeAutomationSystem": 0.0,
+        "Sober": 0.0,
+        "StudentAppointment": 0.3625,
+        "TeamSportsScoutingSystem": 0.2865,
+        "TileOGame": 0.1872,
+        "TransportCompany": 0.0,
+        "TreatmentPlans": 0.0,
+        "TruckLogistics": 0.37,
+        "University": 0.0,
+        "eHome2020": 0.0
+      },
+      "l3": {
+        "AirTravel": 0.0,
+        "BankAccount": 0.5825,
+        "Boeing": 0.165,
+        "BuildingManagement": 0.0,
+        "BusTransportationManagementSystem": 0.2175,
+        "CardGameApp": 0.3304,
+        "CelO": 0.0,
+        "ClothingCompany": 0.5192,
+        "Cruise": 0.4356,
+        "DestroyBlockGame": 0.0,
+        "EUScienceConnect": 0.0,
+        "Ebike": 0.5517,
+        "Facepage": 0.455,
+        "FilmSet": 0.0,
+        "FitnessCompanyConan": 0.0,
+        "GameArea": 0.4429,
+        "GasStation_KUL": 0.3018,
+        "GasStation_TUW": 0.7833,
+        "HelpingHands": 0.095,
+        "HomeForTheElderly": 0.0,
+        "HospitalHouseMD": 0.39,
+        "HotelBookingManagementSystem": 0.1788,
+        "House": 0.4573,
+        "Kinepolis": 0.29,
+        "LabTracker": 0.34,
+        "Louvre": 0.0,
+        "Menso": 0.2,
+        "Musicmatic": 0.0,
+        "OnlineTutoringSystem": 0.0,
+        "PizzaDeliveryWithEntertainment": 0.0,
+        "ProjectManagement": 0.68,
+        "School": 0.0,
+        "SellingGoods": 0.4256,
+        "Sightseeing": 0.5538,
+        "SmartHomeAutomationSystem": 0.0,
+        "Sober": 0.0,
+        "StudentAppointment": 0.0,
+        "TeamSportsScoutingSystem": 0.0,
+        "TileOGame": 0.2207,
+        "TransportCompany": 0.0,
+        "TreatmentPlans": 0.09,
+        "TruckLogistics": 0.2812,
+        "University": 0.3375,
+        "eHome2020": 0.0
+      }
+    },
+    {
+      "run": "zero-shot \u00b7 gemma4:e4b-mlx (local)",
+      "l0": {
+        "AirTravel": 0.0,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2042,
+        "BuildingManagement": 0.4688,
+        "BusTransportationManagementSystem": 0.2825,
+        "CardGameApp": 0.2656,
+        "CelO": 0.2989,
+        "ClothingCompany": 0.5833,
+        "Cruise": 0.3494,
+        "DestroyBlockGame": 0.3625,
+        "EUScienceConnect": 0.4862,
+        "Ebike": 0.5692,
+        "Facepage": 0.5425,
+        "FilmSet": 0.5575,
+        "FitnessCompanyConan": 0.7386,
+        "GameArea": 0.0,
+        "GasStation_KUL": 0.9857,
+        "GasStation_TUW": 0.7717,
+        "HelpingHands": 0.09,
+        "HomeForTheElderly": 0.2717,
+        "HospitalHouseMD": 0.3283,
+        "HotelBookingManagementSystem": 0.0,
+        "House": 0.507,
+        "Kinepolis": 0.1875,
+        "LabTracker": 0.3146,
+        "Louvre": 0.3325,
+        "Menso": 0.2782,
+        "Musicmatic": 0.6145,
+        "OnlineTutoringSystem": 0.3575,
+        "PizzaDeliveryWithEntertainment": 0.0,
+        "ProjectManagement": 0.6275,
+        "School": 0.6432,
+        "SellingGoods": 0.3167,
+        "Sightseeing": 0.7762,
+        "SmartHomeAutomationSystem": 0.3013,
+        "Sober": 0.0625,
+        "StudentAppointment": 0.6587,
+        "TeamSportsScoutingSystem": 0.3799,
+        "TileOGame": 0.0,
+        "TransportCompany": 0.0,
+        "TreatmentPlans": 0.2016,
+        "TruckLogistics": 0.4187,
+        "University": 0.4575,
+        "eHome2020": 0.0
+      },
+      "l3": {
+        "AirTravel": 0.0,
+        "BankAccount": 0.7525,
+        "Boeing": 0.0,
+        "BuildingManagement": 0.4025,
+        "BusTransportationManagementSystem": 0.205,
+        "CardGameApp": 0.2631,
+        "CelO": 0.0,
+        "ClothingCompany": 0.6833,
+        "Cruise": 0.4342,
+        "DestroyBlockGame": 0.3733,
+        "EUScienceConnect": 0.5938,
+        "Ebike": 0.0,
+        "Facepage": 0.555,
+        "FilmSet": 0.3627,
+        "FitnessCompanyConan": 0.5456,
+        "GameArea": 0.5186,
+        "GasStation_KUL": 0.1775,
+        "GasStation_TUW": 0.7383,
+        "HelpingHands": 0.0975,
+        "HomeForTheElderly": 0.1458,
+        "HospitalHouseMD": 0.4108,
+        "HotelBookingManagementSystem": 0.159,
+        "House": 0.4477,
+        "Kinepolis": 0.3,
+        "LabTracker": 0.3325,
+        "Louvre": 0.3858,
+        "Menso": 0.2457,
+        "Musicmatic": 0.6555,
+        "OnlineTutoringSystem": 0.3075,
+        "PizzaDeliveryWithEntertainment": 0.0,
+        "ProjectManagement": 0.43,
+        "School": 0.3723,
+        "SellingGoods": 0.0,
+        "Sightseeing": 0.5075,
+        "SmartHomeAutomationSystem": 0.113,
+        "Sober": 0.0,
+        "StudentAppointment": 0.39,
+        "TeamSportsScoutingSystem": 0.1538,
+        "TileOGame": 0.105,
+        "TransportCompany": 0.0,
+        "TreatmentPlans": 0.1705,
+        "TruckLogistics": 0.3887,
+        "University": 0.3775,
+        "eHome2020": 0.365
+      }
+    },
+    {
+      "run": "few-shot \u00b7 claude-sonnet-4-6 (L0-alt: gemma4:e4b-mlx rewrite)",
+      "l0": {
+        "AirTravel": 0.3211,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2758,
+        "CardGameApp": 0.3069,
+        "ClothingCompany": 0.4758,
+        "Cruise": 0.43,
+        "EUScienceConnect": 0.5763,
+        "Ebike": 0.4008,
+        "Facepage": 0.1725,
+        "GameArea": 0.4629,
+        "GasStation_TUW": 0.7833,
+        "HospitalHouseMD": 0.34,
+        "House": 0.5114,
+        "Louvre": 0.4767,
+        "OnlineTutoringSystem": 0.1742,
+        "ProjectManagement": 0.415,
+        "School": 0.3223,
+        "Sightseeing": 0.7588,
+        "SmartHomeAutomationSystem": 0.1384,
+        "StudentAppointment": 0.4012,
+        "TeamSportsScoutingSystem": 0.1225,
+        "TreatmentPlans": 0.105,
+        "TruckLogistics": 0.3787,
+        "University": 0.36
+      },
+      "l3": {
+        "AirTravel": 0.3504,
+        "BankAccount": 0.755,
+        "Boeing": 0.2392,
+        "BuildingManagement": 0.4425,
+        "BusTransportationManagementSystem": 0.15,
+        "CardGameApp": 0.2719,
+        "CelO": 0.2829,
+        "ClothingCompany": 0.6775,
+        "Cruise": 0.4331,
+        "DestroyBlockGame": 0.4025,
+        "EUScienceConnect": 0.6238,
+        "Ebike": 0.5175,
+        "Facepage": 0.535,
+        "FilmSet": 0.64,
+        "FitnessCompanyConan": 0.6164,
+        "GameArea": 0.4614,
+        "GasStation_KUL": 0.6286,
+        "GasStation_TUW": 0.7917,
+        "HelpingHands": 0.0825,
+        "HomeForTheElderly": 0.315,
+        "HospitalHouseMD": 0.6567,
+        "HotelBookingManagementSystem": 0.2302,
+        "House": 0.4809,
+        "Kinepolis": 0.3742,
+        "LabTracker": 0.325,
+        "Louvre": 0.4708,
+        "Menso": 0.1902,
+        "Musicmatic": 0.6682,
+        "OnlineTutoringSystem": 0.3675,
+        "PizzaDeliveryWithEntertainment": 0.5098,
+        "ProjectManagement": 0.375,
+        "School": 0.5132,
+        "SellingGoods": 0.46,
+        "Sightseeing": 0.6125,
+        "SmartHomeAutomationSystem": 0.2249,
+        "Sober": 0.1492,
+        "StudentAppointment": 0.4088,
+        "TeamSportsScoutingSystem": 0.3393,
+        "TileOGame": 0.2463,
+        "TransportCompany": 0.4511,
+        "TreatmentPlans": 0.2701,
+        "TruckLogistics": 0.4012,
+        "University": 0.45,
+        "eHome2020": 0.3725
+      }
+    },
+    {
+      "run": "few-shot \u00b7 claude-sonnet-4-6 (L0-alt: gpt-4o-mini rewrite)",
+      "l0": {
+        "Boeing": 0.2517,
+        "BuildingManagement": 0.5038,
+        "CardGameApp": 0.2844,
+        "FilmSet": 0.6398,
+        "GameArea": 0.3254,
+        "GasStation_KUL": 0.3414,
+        "GasStation_TUW": 0.7633,
+        "HelpingHands": 0.0925,
+        "HospitalHouseMD": 0.4075,
+        "House": 0.4366,
+        "Louvre": 0.355,
+        "OnlineTutoringSystem": 0.105,
+        "ProjectManagement": 0.3275,
+        "School": 0.3532,
+        "SmartHomeAutomationSystem": 0.1005,
+        "StudentAppointment": 0.2487,
+        "TeamSportsScoutingSystem": 0.1801,
+        "TileOGame": 0.2379,
+        "TransportCompany": 0.4875,
+        "TreatmentPlans": 0.1,
+        "eHome2020": 0.3575
+      },
+      "l3": {
+        "AirTravel": 0.3504,
+        "BankAccount": 0.755,
+        "Boeing": 0.2392,
+        "BuildingManagement": 0.4425,
+        "BusTransportationManagementSystem": 0.15,
+        "CardGameApp": 0.2719,
+        "CelO": 0.2829,
+        "ClothingCompany": 0.6775,
+        "Cruise": 0.4331,
+        "DestroyBlockGame": 0.4025,
+        "EUScienceConnect": 0.6238,
+        "Ebike": 0.5175,
+        "Facepage": 0.535,
+        "FilmSet": 0.64,
+        "FitnessCompanyConan": 0.6164,
+        "GameArea": 0.4614,
+        "GasStation_KUL": 0.6286,
+        "GasStation_TUW": 0.7917,
+        "HelpingHands": 0.0825,
+        "HomeForTheElderly": 0.315,
+        "HospitalHouseMD": 0.6567,
+        "HotelBookingManagementSystem": 0.2302,
+        "House": 0.4809,
+        "Kinepolis": 0.3742,
+        "LabTracker": 0.325,
+        "Louvre": 0.4708,
+        "Menso": 0.1902,
+        "Musicmatic": 0.6682,
+        "OnlineTutoringSystem": 0.3675,
+        "PizzaDeliveryWithEntertainment": 0.5098,
+        "ProjectManagement": 0.375,
+        "School": 0.5132,
+        "SellingGoods": 0.46,
+        "Sightseeing": 0.6125,
+        "SmartHomeAutomationSystem": 0.2249,
+        "Sober": 0.1492,
+        "StudentAppointment": 0.4088,
+        "TeamSportsScoutingSystem": 0.3393,
+        "TileOGame": 0.2463,
+        "TransportCompany": 0.4511,
+        "TreatmentPlans": 0.2701,
+        "TruckLogistics": 0.4012,
+        "University": 0.45,
+        "eHome2020": 0.3725
+      }
+    },
+    {
+      "run": "zero-shot \u00b7 claude-sonnet-4-6 (L0-alt: gemma4:e4b-mlx rewrite)",
+      "l0": {
+        "AirTravel": 0.3014,
+        "BankAccount": 0.7375,
+        "Boeing": 0.2933,
+        "CardGameApp": 0.3069,
+        "ClothingCompany": 0.4758,
+        "Cruise": 0.375,
+        "EUScienceConnect": 0.5225,
+        "Ebike": 0.5617,
+        "Facepage": 0.1925,
+        "GameArea": 0.3846,
+        "GasStation_TUW": 0.7583,
+        "HospitalHouseMD": 0.335,
+        "House": 0.4341,
+        "Louvre": 0.4867,
+        "OnlineTutoringSystem": 0.1708,
+        "ProjectManagement": 0.3925,
+        "School": 0.3398,
+        "Sightseeing": 0.7788,
+        "SmartHomeAutomationSystem": 0.1384,
+        "StudentAppointment": 0.6262,
+        "TeamSportsScoutingSystem": 0.09,
+        "TreatmentPlans": 0.105,
+        "TruckLogistics": 0.3787,
+        "University": 0.345
+      },
+      "l3": {
+        "AirTravel": 0.3579,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2442,
+        "BuildingManagement": 0.4738,
+        "BusTransportationManagementSystem": 0.185,
+        "CardGameApp": 0.2719,
+        "CelO": 0.2704,
+        "ClothingCompany": 0.615,
+        "Cruise": 0.4331,
+        "DestroyBlockGame": 0.4,
+        "EUScienceConnect": 0.4537,
+        "Ebike": 0.5475,
+        "Facepage": 0.575,
+        "FilmSet": 0.5948,
+        "FitnessCompanyConan": 0.5839,
+        "GameArea": 0.3639,
+        "GasStation_KUL": 0.2418,
+        "GasStation_TUW": 0.7317,
+        "HelpingHands": 0.08,
+        "HomeForTheElderly": 0.4175,
+        "HospitalHouseMD": 0.5842,
+        "HotelBookingManagementSystem": 0.2526,
+        "House": 0.495,
+        "Kinepolis": 0.3217,
+        "LabTracker": 0.0,
+        "Louvre": 0.4617,
+        "Menso": 0.2211,
+        "Musicmatic": 0.6882,
+        "OnlineTutoringSystem": 0.4117,
+        "PizzaDeliveryWithEntertainment": 0.4985,
+        "ProjectManagement": 0.38,
+        "School": 0.3593,
+        "SellingGoods": 0.4314,
+        "Sightseeing": 0.6487,
+        "SmartHomeAutomationSystem": 0.2168,
+        "Sober": 0.1492,
+        "StudentAppointment": 0.39,
+        "TeamSportsScoutingSystem": 0.3518,
+        "TileOGame": 0.2463,
+        "TransportCompany": 0.4461,
+        "TreatmentPlans": 0.1532,
+        "TruckLogistics": 0.4012,
+        "University": 0.44,
+        "eHome2020": 0.3225
+      }
+    },
+    {
+      "run": "zero-shot \u00b7 claude-sonnet-4-6 (L0-alt: gpt-4o-mini rewrite)",
+      "l0": {
+        "Boeing": 0.2842,
+        "BuildingManagement": 0.5112,
+        "CardGameApp": 0.2844,
+        "FilmSet": 0.5491,
+        "GameArea": 0.5329,
+        "GasStation_KUL": 0.2507,
+        "GasStation_TUW": 0.755,
+        "HelpingHands": 0.0675,
+        "HospitalHouseMD": 0.3683,
+        "House": 0.4541,
+        "Louvre": 0.4025,
+        "OnlineTutoringSystem": 0.105,
+        "ProjectManagement": 0.3375,
+        "School": 0.3623,
+        "SmartHomeAutomationSystem": 0.1005,
+        "StudentAppointment": 0.2487,
+        "TeamSportsScoutingSystem": 0.1338,
+        "TileOGame": 0.2754,
+        "TransportCompany": 0.4675,
+        "TreatmentPlans": 0.1,
+        "eHome2020": 0.335
+      },
+      "l3": {
+        "AirTravel": 0.3579,
+        "BankAccount": 0.7875,
+        "Boeing": 0.2442,
+        "BuildingManagement": 0.4738,
+        "BusTransportationManagementSystem": 0.185,
+        "CardGameApp": 0.2719,
+        "CelO": 0.2704,
+        "ClothingCompany": 0.615,
+        "Cruise": 0.4331,
+        "DestroyBlockGame": 0.4,
+        "EUScienceConnect": 0.4537,
+        "Ebike": 0.5475,
+        "Facepage": 0.575,
+        "FilmSet": 0.5948,
+        "FitnessCompanyConan": 0.5839,
+        "GameArea": 0.3639,
+        "GasStation_KUL": 0.2418,
+        "GasStation_TUW": 0.7317,
+        "HelpingHands": 0.08,
+        "HomeForTheElderly": 0.4175,
+        "HospitalHouseMD": 0.5842,
+        "HotelBookingManagementSystem": 0.2526,
+        "House": 0.495,
+        "Kinepolis": 0.3217,
+        "LabTracker": 0.0,
+        "Louvre": 0.4617,
+        "Menso": 0.2211,
+        "Musicmatic": 0.6882,
+        "OnlineTutoringSystem": 0.4117,
+        "PizzaDeliveryWithEntertainment": 0.4985,
+        "ProjectManagement": 0.38,
+        "School": 0.3593,
+        "SellingGoods": 0.4314,
+        "Sightseeing": 0.6487,
+        "SmartHomeAutomationSystem": 0.2168,
+        "Sober": 0.1492,
+        "StudentAppointment": 0.39,
+        "TeamSportsScoutingSystem": 0.3518,
+        "TileOGame": 0.2463,
+        "TransportCompany": 0.4461,
+        "TreatmentPlans": 0.1532,
+        "TruckLogistics": 0.4012,
+        "University": 0.44,
+        "eHome2020": 0.3225
+      }
+    }
+  ],
+  "domain_max": 1.05
+};
+const RAMP = [
+  "#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5",
+  "#2a78d6", "#256abf", "#1c5cab", "#184f95", "#104281", "#0d366b",
+];
+
+function relLuminance(hex) {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const lin = c => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+}
+function cellColor(value) {
+  const t = Math.max(0, Math.min(1, value / matrix.domain_max));
+  return RAMP[Math.round(t * (RAMP.length - 1))];
+}
+function textColorFor(hex) {
+  return relLuminance(hex) > 0.45 ? "#0b0b0b" : "#ffffff";
+}
+
+function renderMatrixHeader(rowId) {
+  const tr = document.getElementById(rowId);
+  let html = "<th>Case</th>";
+  matrix.runs.forEach(run => { html += `<th class="run-col">${run.run}</th>`; });
+  tr.innerHTML = html;
+}
+function renderMatrixBody(bodyId, level) {
+  const tbody = document.getElementById(bodyId);
+  matrix.cases.forEach(caseName => {
+    let html = `<td>${caseName}</td>`;
+    matrix.runs.forEach(run => {
+      const v = run[level][caseName];
+      if (v == null) {
+        html += `<td class="matrix-cell-empty">–</td>`;
+      } else {
+        const bg = cellColor(v);
+        const fg = textColorFor(bg);
+        html += `<td style="background:${bg};color:${fg}" title="${run.run} · ${caseName} · ${level.toUpperCase()} = ${v.toFixed(4)}">${v.toFixed(2)}</td>`;
+      }
+    });
+    const tr = document.createElement("tr");
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+}
+
+renderMatrixHeader("matrix-head-l0");
+renderMatrixHeader("matrix-head-l3");
+renderMatrixBody("matrix-body-l0", "l0");
+renderMatrixBody("matrix-body-l3", "l3");
+
+document.getElementById("matrix-legend-ramp").innerHTML =
+  RAMP.map(c => `<span style="background:${c}"></span>`).join("");
+document.getElementById("matrix-legend-max").textContent = matrix.domain_max.toFixed(2);
 </script>

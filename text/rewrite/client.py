@@ -35,9 +35,10 @@ def make_client(provider: str = "anthropic"):
     no credentials needed.
     """
     if provider == "ollama":
+        _load_dotenv_once()
         import ollama
 
-        return ollama.Client()
+        return ollama.Client(timeout=180.0)
 
     if provider == "openai":
         _load_dotenv_once()

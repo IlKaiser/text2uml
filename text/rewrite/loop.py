@@ -71,7 +71,9 @@ def rewrite_to_target(
             original, candidate_text, target, level_name, latest_score.z_index, feedback
         )
         try:
+            logger.info("  %s: Starting iteration %d/%d...", level_name, iterations, cfg.max_iterations)
             candidate_text = rewrite_once(client, cfg, system_prompt(), user)
+            logger.info("  %s: Received rewrite candidate. Scoring...", level_name)
         except Exception as exc:  # noqa: BLE001 - report and stop iterating
             logger.error("Rewrite call failed on '%s' iter %d: %s", level_name, i, exc)
             break
@@ -177,7 +179,9 @@ def rewrite_to_shape(
         iterations = i + 1
         user = user_prompt_fn(original, candidate_text, feedback)
         try:
+            logger.info("  %s: Starting iteration %d/%d...", level_name, iterations, cfg.max_iterations)
             candidate_text = rewrite_once(client, cfg, system_prompt, user)
+            logger.info("  %s: Received rewrite candidate. Scoring...", level_name)
         except Exception as exc:  # noqa: BLE001 - report and stop iterating
             logger.error("Shape rewrite call failed on '%s' iter %d: %s", level_name, i, exc)
             break
@@ -270,7 +274,9 @@ def rewrite_to_minimize(
         iterations = i + 1
         user = user_prompt_fn(original, candidate_text, feedback)
         try:
+            logger.info("  %s: Starting iteration %d/%d...", metric_name, iterations, cfg.max_iterations)
             candidate_text = rewrite_once(client, cfg, system_prompt, user)
+            logger.info("  %s: Received rewrite candidate. Scoring...", metric_name)
         except Exception as exc:  # noqa: BLE001 - report and stop iterating
             logger.error("Minimize rewrite call failed on '%s' iter %d: %s", metric_name, i, exc)
             break
