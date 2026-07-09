@@ -65,13 +65,14 @@ def rewrite_once(client, cfg: RewriteConfig, system: str, user: str) -> str:
             stream=True,
         )
         parts = []
+        import sys
         for chunk in response:
             content = chunk.get("message", {}).get("content", "")
             parts.append(content)
-            if logger.isEnabledFor(logging.DEBUG):
-                print(content, end="", flush=True)
-        if logger.isEnabledFor(logging.DEBUG):
-            print()
+            sys.stdout.write(content)
+            sys.stdout.flush()
+        sys.stdout.write("\n")
+        sys.stdout.flush()
         return "".join(parts).strip()
 
     if cfg.provider == "openai":
