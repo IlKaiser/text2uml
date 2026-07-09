@@ -62,8 +62,17 @@ def rewrite_once(client, cfg: RewriteConfig, system: str, user: str) -> str:
                 {"role": "user", "content": user},
             ],
             options={"temperature": cfg.temperature},
+            stream=True,
         )
-        return response["message"]["content"].strip()
+        parts = []
+        for chunk in response:
+            content = chunk.get("message", {}).get("content", "")
+            parts.append(content)
+            if logger.isEnabledFor(logging.DEBUG):
+                print(content, end="", flush=True)
+        if logger.isEnabledFor(logging.DEBUG):
+            print()
+        return "".join(parts).strip()
 
     if cfg.provider == "openai":
         response = client.chat.completions.create(
