@@ -46,6 +46,17 @@ def make_client(provider: str = "anthropic"):
 
         return openai.OpenAI()
 
+    if provider == "openrouter":
+        _load_dotenv_once()
+        import os
+
+        import openai
+
+        return openai.OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=os.environ["OPENROUTER_API_KEY"],
+        )
+
     _load_dotenv_once()
     import anthropic
 
@@ -86,13 +97,30 @@ def rewrite_once(client, cfg: RewriteConfig, system: str, user: str) -> str:
         )
         return response.choices[0].message.content.strip()
 
+    if cfg.provider == "openrouter":
+        # Separate branch from "openai" (rather than folding into it) so
+        # neither provider's call path is touched by adding the other.
+        response = client.chat.completions.create(
+            model=cfg.model,
+            temperature=cfg.temperature,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+        )
+        return response.choices[0].message.content.strip()
+
+    # The installed anthropic SDK's typed `thinking=`/`output_config=` params
+    # don't recognize "adaptive"/effort-based thinking (a newer server-side
+    # feature this SDK version predates) -- extra_body bypasses the client's
+    # type validation and merges these fields into the raw request body,
+    # which the API itself does support for this model.
     with client.messages.stream(
         model=cfg.model,
         max_tokens=cfg.max_tokens,
-        thinking={"type": "adaptive"},
-        output_config={"effort": cfg.effort},
         system=system,
         messages=[{"role": "user", "content": user}],
+        extra_body={"thinking": {"type": "adaptive"}, "output_config": {"effort": cfg.effort}},
     ) as stream:
         message = stream.get_final_message()
 

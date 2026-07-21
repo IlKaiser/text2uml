@@ -105,7 +105,7 @@ def main(argv=None) -> int:
     )
     parser.add_argument("--datasets", nargs="*", help="Only these dataset folder names.")
     parser.add_argument(
-        "--levels", nargs="*", choices=["zero", "one", "two", "three", "four", "zeroalt", "zeroalt2"],
+        "--levels", nargs="*", choices=[tag for tag, *_ in DEFAULT_LEVELS_CONFIG.levels],
         help="Only these complexity levels (default: all).",
     )
     parser.add_argument("--force", action="store_true", help="Regenerate existing result files.")

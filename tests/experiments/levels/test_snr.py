@@ -253,13 +253,14 @@ def test_plot_snr_vs_f1_returns_pearson_r_and_saves_files(tmp_path):
         {"sub_folder_name": "C", "signal_ratio": 0.9},
     ])
     f1_df = pd.DataFrame([
-        {"sub_folder_name": "A", "level": "three", "f1_global": 0.1},
-        {"sub_folder_name": "B", "level": "three", "f1_global": 0.5},
-        {"sub_folder_name": "C", "level": "three", "f1_global": 0.9},
-        {"sub_folder_name": "A", "level": "zero", "f1_global": 0.99},  # must be filtered out
+        {"sub_folder_name": "A", "level": "three", "model": "claude-sonnet-4-6", "f1_global": 0.1},
+        {"sub_folder_name": "B", "level": "three", "model": "claude-sonnet-4-6", "f1_global": 0.5},
+        {"sub_folder_name": "C", "level": "three", "model": "claude-sonnet-4-6", "f1_global": 0.9},
+        {"sub_folder_name": "A", "level": "zero", "model": "claude-sonnet-4-6", "f1_global": 0.99},  # must be filtered out (wrong level)
+        {"sub_folder_name": "A", "level": "three", "model": "gpt-4o-mini", "f1_global": 0.01},  # must be filtered out (wrong model)
     ])
 
-    r = plot_snr_vs_f1(snr_df, f1_df, cfg)
+    r = plot_snr_vs_f1(snr_df, f1_df, model="claude-sonnet-4-6", cfg=cfg)
 
     assert r == pytest.approx(1.0, abs=1e-6)
     assert (tmp_path / "corpus" / "levels_snr_vs_f1.png").is_file()

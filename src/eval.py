@@ -548,10 +548,32 @@ def _parse_class_alias_pairs(res: str, predicted: list, correct: list) -> dict:
     return alias_map
 
 
+def _judge_chat_model():
+    """Chat model used for LLM-assisted class/attribute matching.
+
+    Defaults to the pipeline's original judge (gpt-4o-mini via OpenAI) so
+    existing behavior is unchanged. Set EVAL_JUDGE_PROVIDER/EVAL_JUDGE_MODEL
+    to score with a non-participant judge instead (e.g. for a judge-ablation
+    robustness check when one of the generation models under test is also
+    the default judge).
+    """
+    provider = os.environ.get("EVAL_JUDGE_PROVIDER", "openai")
+    if provider == "deepseek":
+        from langchain_deepseek import ChatDeepSeek
+        model = os.environ.get("EVAL_JUDGE_MODEL", "deepseek-chat")
+        return ChatDeepSeek(model=model, temperature=0, max_tokens=None, timeout=None, max_retries=2)
+    if provider == "gemini":
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        model = os.environ.get("EVAL_JUDGE_MODEL", "gemini-2.5-flash")
+        return ChatGoogleGenerativeAI(model=model, temperature=0)
+    from langchain_openai import ChatOpenAI
+    model = os.environ.get("EVAL_JUDGE_MODEL", "gpt-4o-mini")
+    return ChatOpenAI(model=model, temperature=0)
+
+
 def check_class_llm(predicted, correct, path_to_check):
     try:
         from langchain_core.prompts import PromptTemplate
-        from langchain_openai import ChatOpenAI
         from langchain_core.output_parsers import StrOutputParser
     except ImportError:
         return check_class(predicted, correct)
@@ -593,7 +615,7 @@ The pairs are:
 """
     )
     try:
-        model = ChatOpenAI(model="gpt-4o-mini")
+        model = _judge_chat_model()
         chain = prompt | model | StrOutputParser()
         spec_path = "/".join(path_to_check.split("/")[:-1]) + "/description.md"
         res = chain.invoke({"text": open(spec_path).read(), "predicted": predicted, "correct": correct})
@@ -673,11 +695,6 @@ def check_attributes_syn(predicted_attrs, correct_attrs, path_to_check=""):
 
 
 def check_attributes_llm(predicted_attrs, correct_attrs, path_to_check=""):
-    try:
-        from openai import OpenAI
-    except ImportError:
-        return check_attributes(predicted_attrs, correct_attrs)
-
     if not correct_attrs and not predicted_attrs:
         return {"precision": 1.0, "recall": 1.0, "f1": 1.0, "len_": 0}
     if not predicted_attrs or not correct_attrs:
@@ -705,13 +722,9 @@ def check_attributes_llm(predicted_attrs, correct_attrs, path_to_check=""):
         "Intersection:"
     )
     try:
-        client = OpenAI()
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0,
-        )
-        res = response.choices[0].message.content or ""
+        model = _judge_chat_model()
+        response = model.invoke(prompt)
+        res = response.content or ""
         intr = {
             x.strip()
             for x in res.replace("[", "").replace("]", "").replace('"', "").replace("'", "").split(",")
@@ -722,7 +735,7 @@ def check_attributes_llm(predicted_attrs, correct_attrs, path_to_check=""):
         recall = len(intr) / len(correct_attrs) if correct_attrs else 0.0
         f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
         return {"precision": round(precision, 2), "recall": round(recall, 2),
-                "f1": round(f1, 2), "len_": len(correct_attrs)}
+                "f1": round(f1, 2), "len_": len(correct_attrs), "intr": sorted(intr)}
     except Exception:
         return check_attributes(predicted_attrs, correct_attrs)
 

@@ -60,6 +60,7 @@ def default_runs(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> List[RunSpec]:
         RunSpec("few-shot · claude-sonnet-4-6", cfg.f1_csv, "claude-sonnet-4-6", "few_shot"),
         RunSpec("few-shot · gpt-4o-mini", cfg.f1_csv, "gpt-4o-mini", "few_shot"),
         RunSpec("few-shot · gemma4:e4b-mlx (local)", cfg.f1_csv, "gemma4:e4b-mlx", "few_shot"),
+        RunSpec("few-shot · gpt-5.5 (direct OpenAI)", cfg.f1_csv, "gpt-5.5", "few_shot"),
         RunSpec("zero-shot · claude-sonnet-4-6", zero_shot_csv, "claude-sonnet-4-6", "zero_shot"),
         RunSpec("zero-shot · gpt-4o-mini", zero_shot_csv, "gpt-4o-mini", "zero_shot"),
         RunSpec("zero-shot · gemma4:e4b (local)", zero_shot_csv, "gemma4:e4b", "zero_shot"),
@@ -87,6 +88,50 @@ def default_runs(cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -> List[RunSpec]:
         RunSpec(
             "few-shot · gemma4:e4b-mlx (L0-alt: gemma4:e4b-mlx rewrite, local)",
             cfg.f1_csv, "gemma4:e4b-mlx", "few_shot", l0_tag="zeroalt",
+        ),
+        RunSpec(
+            "few-shot · gemma4:e4b-mlx (L0-alt: qwen3.6-27b rewrite, local)",
+            cfg.f1_csv, "gemma4:e4b-mlx", "few_shot", l0_tag="zeroalt3",
+        ),
+        RunSpec(
+            "few-shot · gemma4:e4b-mlx (L0-alt: glm-5.2 rewrite, local)",
+            cfg.f1_csv, "gemma4:e4b-mlx", "few_shot", l0_tag="zeroalt4",
+        ),
+        RunSpec(
+            "few-shot · gemma4:e4b-mlx (L0-alt: gpt-5.5 rewrite, OpenRouter)",
+            cfg.f1_csv, "gemma4:e4b-mlx", "few_shot", l0_tag="zeroalt5",
+        ),
+        RunSpec(
+            "few-shot · gemma4:e4b-mlx (L0-alt: gpt-5.5 rewrite, direct OpenAI)",
+            cfg.f1_csv, "gemma4:e4b-mlx", "few_shot", l0_tag="zeroalt6",
+        ),
+        RunSpec(
+            "zero-shot · gemma4:e4b-mlx (L0-alt: gpt-5.5 rewrite, OpenRouter)",
+            zero_shot_csv, "gemma4:e4b-mlx", "zero_shot", l0_tag="zeroalt5",
+        ),
+        RunSpec(
+            "zero-shot · gemma4:e4b-mlx (L0-alt: gpt-5.5 rewrite, direct OpenAI)",
+            zero_shot_csv, "gemma4:e4b-mlx", "zero_shot", l0_tag="zeroalt6",
+        ),
+        RunSpec(
+            "few-shot · claude-sonnet-4-6 (L-1: recall-density optimized)",
+            cfg.f1_csv, "claude-sonnet-4-6", "few_shot", l0_tag="levelminus1",
+        ),
+        RunSpec(
+            "few-shot · claude-sonnet-4-6 (L-2: recall-density, source-only)",
+            cfg.f1_csv, "claude-sonnet-4-6", "few_shot", l0_tag="levelminus2",
+        ),
+        RunSpec(
+            "few-shot · claude-sonnet-4-6 (L-3: recall-density, LLM-extracted)",
+            cfg.f1_csv, "claude-sonnet-4-6", "few_shot", l0_tag="levelminus3",
+        ),
+        RunSpec(
+            "few-shot · claude-sonnet-4-6 (L-4: recall-density, entities+relations)",
+            cfg.f1_csv, "claude-sonnet-4-6", "few_shot", l0_tag="levelminus4",
+        ),
+        RunSpec(
+            "few-shot · claude-sonnet-4-6 (L-5: recall-density, +cardinality)",
+            cfg.f1_csv, "claude-sonnet-4-6", "few_shot", l0_tag="levelminus5",
         ),
     ]
 

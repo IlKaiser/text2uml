@@ -234,30 +234,61 @@ def write_snr_csv(df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG) -
 
 
 def plot_snr_vs_f1(
-    snr_df: pd.DataFrame, f1_df: pd.DataFrame, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG
+    snr_df: pd.DataFrame, f1_df: pd.DataFrame, model: str, cfg: LevelsConfig = DEFAULT_LEVELS_CONFIG
 ) -> float:
-    l3 = f1_df[f1_df["level"] == "three"][["sub_folder_name", "f1_global"]]
+    """Scatter signal_ratio (L3 description) against L3 f1_global, scoped to
+    one model.
+
+    ``f1_df`` routinely holds L3 rows from several models (each case's L3
+    description was fed to claude-sonnet-4-6, gpt-4o-mini, gemma4:e4b-mlx,
+    gpt-5.5...). Merging on ``sub_folder_name`` without filtering by model
+    first pools every model's F1 for the same SNR value into one
+    correlation -- the same per-case-vs-pooled aggregation problem this
+    project's own mdd-correlation analysis ran into earlier (r=+0.63 pooled
+    vs. r=-0.12, not significant, once scoped per rewiter/case). SNR is a
+    property of the L3 text alone, so the correlation is only meaningful
+    against one model's downstream F1 at a time.
+    """
+    import seaborn as sns
+
+    sns.set_theme(style="whitegrid", font="sans-serif")
+
+    l3 = f1_df[(f1_df["level"] == "three") & (f1_df["model"] == model)][["sub_folder_name", "f1_global"]]
     merged = snr_df.merge(l3, on="sub_folder_name", how="inner").dropna(
         subset=["signal_ratio", "f1_global"]
     )
+    if merged.empty:
+        raise ValueError(f"No L3 rows for model={model!r} in the F1 data; nothing to correlate.")
 
     r, p = pearsonr(merged["signal_ratio"], merged["f1_global"])
+    sig = "*" * sum(p < t for t in (0.05, 0.01, 0.001))
 
-    fig, ax = plt.subplots(figsize=(6, 5))
-    ax.scatter(merged["signal_ratio"], merged["f1_global"], color="#3b6fb0", edgecolor="white")
+    fig, ax = plt.subplots(figsize=(7.5, 6))
+    fig.patch.set_facecolor("#fcfcfb")
+    ax.set_facecolor("#fcfcfb")
+    ax.scatter(
+        merged["signal_ratio"], merged["f1_global"], s=60, color="#2A6FDB",
+        edgecolor="white", linewidth=0.8, zorder=3,
+    )
     if len(merged) >= 2:
         slope, intercept = np.polyfit(merged["signal_ratio"], merged["f1_global"], 1)
         xs = np.linspace(merged["signal_ratio"].min(), merged["signal_ratio"].max(), 100)
-        ax.plot(xs, slope * xs + intercept, color="#c0392b", linewidth=2)
-    ax.set_xlabel("signal_ratio (L3 description)")
-    ax.set_ylabel("f1_global (L3)")
-    ax.set_title(f"L3 signal ratio vs F1 (r={r:+.3f}, p={p:.3g}, n={len(merged)})")
-    ax.grid(linestyle=":", alpha=0.4)
+        ax.plot(xs, slope * xs + intercept, color="#C1447E", linewidth=2.2, zorder=2)
+
+    ax.set_xlabel("signal ratio (L3 description: signal tokens / total tokens)", fontsize=10.5)
+    ax.set_ylabel("F1 global (L3)", fontsize=10.5)
+    ax.set_title(
+        f"{model}: L3 signal ratio vs. F1 (r={r:+.3f}{sig}, p={p:.3g}, n={len(merged)})",
+        fontsize=12.5, fontweight="600", pad=12,
+    )
+    for spine in ["top", "right"]:
+        ax.spines[spine].set_visible(False)
+    ax.grid(color="#e2e1db")
 
     out_dir = cfg.figure_dir("corpus")
     for fmt in cfg.figure_formats:
         path = out_dir / f"levels_snr_vs_f1.{fmt}"
-        fig.savefig(path, bbox_inches="tight", dpi=cfg.dpi)
+        fig.savefig(path, bbox_inches="tight", dpi=cfg.dpi, facecolor=fig.get_facecolor())
         logger.info("Saved %s", path)
     plt.close(fig)
     return float(r)
