@@ -1996,7 +1996,7 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
                             overall_tech: str | None = None):
     """Bubble chart: best overall model vs best open-source model.
 
-    X axis — 8 positions: 4 metric categories × 2 models (overall left, open-source right).
+    X axis — 10 positions: 5 metric categories × 2 models (overall left, open-source right).
     Y axis — per-case score; one bubble per sub_folder at each x position.
     Bubble size — encodes diagram complexity for that metric.
     Follows the same scatter-per-case style as plot_bubble_f1_class_ etc.
@@ -2025,6 +2025,11 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
         if g["n_attrs"].sum() > 0 else np.nan, include_groups=False
     ).reset_index(name="wf1_attr")
 
+    wf1_inh = df.groupby(grp).apply(
+        lambda g: (g["f1_inh"] * g["n_inh"]).sum() / g["n_inh"].sum()
+        if g["n_inh"].sum() > 0 else np.nan, include_groups=False
+    ).reset_index(name="wf1_inh")
+
     score_agg = df.groupby(grp).agg(
         score_sum=("score_rel", "sum"), max_score_sum=("max_score", "sum")
     ).reset_index()
@@ -2035,11 +2040,12 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
     perf = (wf1_cls
             .merge(wf1_rel, on=grp)
             .merge(wf1_attr, on=grp)
+            .merge(wf1_inh, on=grp)
             .merge(score_agg[grp + ["wf1_score"]], on=grp))
     perf = perf.fillna(0.0)
     perf["f1_agg"] = (
-        perf["wf1_cls"] + perf["wf1_rel"] + perf["wf1_attr"] + perf["wf1_score"]
-    ) / 4
+        perf["wf1_cls"] + perf["wf1_rel"] + perf["wf1_attr"] + perf["wf1_inh"] + perf["wf1_score"]
+    ) / 5
 
     # Best technique per model (highest aggregated F1)
     best_idx = perf.groupby("base_model_name")["f1_agg"].idxmax()
@@ -2098,6 +2104,7 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
     metrics = [
         ("f1_class",       "n_classes", f"F1 Class\n{label_b}", f"F1 Class\n{label_o}", "F1 Class"),
         ("f1_rel",         "n_rel",     f"F1 Assoc.\n{label_b}", f"F1 Assoc.\n{label_o}", "F1 Assoc."),
+        ("f1_inh",         "n_inh",     f"F1 Inh.\n{label_b}", f"F1 Inh.\n{label_o}", "F1 Inh."),
         ("score_rel_norm", "max_score", f"Card. Score\n{label_b}", f"Card. Score\n{label_o}", "Card. Score"),
         ("f1_attr_llm",    "n_attrs",   f"F1 Attr.\n{label_b}", f"F1 Attr.\n{label_o}", "F1 Attr."),
     ]
@@ -2110,9 +2117,10 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
     x_map = {lbl: i for i, lbl in enumerate(x_positions)}
     n = len(x_positions)
 
-    # Two colours: one per winner model
-    color_b = "#4C72B0"   # blue — best overall
-    color_o = "#DD8452"   # orange — best open-source
+    # Two colours: one per winner model (Okabe-Ito colorblind-safe pair,
+    # same set validated for the per-case bubble chart).
+    color_b = "#0072B2"   # blue — best overall
+    color_o = "#E69F00"   # orange — best open-source
 
     # ── Build long-form dataframe for sns.scatterplot ─────────────────────────────
     rows = []
@@ -2141,7 +2149,7 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
             long_df.loc[mask, "size_norm"] = 80
 
     # ── Plot ─────────────────────────────────────────────────────────────────────
-    fig, ax = plt.subplots(figsize=(9.5, 4.5))
+    fig, ax = plt.subplots(figsize=(11.5, 4.5))
     sns.set_theme(style="whitegrid")
 
     for color, sub in long_df.groupby("color"):
@@ -2149,7 +2157,7 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
                    color=color, alpha=0.72, edgecolors="black", linewidths=0.4, zorder=3)
 
     # Vertical separators between metric groups
-    for sep in [1.5, 3.5, 5.5]:
+    for sep in [1.5, 3.5, 5.5, 7.5]:
         ax.axvline(sep, color="lightgray", linewidth=0.8, linestyle="--", zorder=1)
 
     ax.set_xticks(range(n))
@@ -2178,7 +2186,7 @@ def plot_bubble_best_models(csv_file: str, extract, graph_dir: str, show: bool, 
               framealpha=0.9, title="Model", title_fontsize=7,
               bbox_to_anchor=(1.01, 1), borderaxespad=0)
 
-    fig.subplots_adjust(bottom=0.22, top=0.88, left=0.06, right=0.78)
+    fig.subplots_adjust(bottom=0.22, top=0.88, left=0.05, right=0.84)
     save_fig(None, "bubble_chart_best_models.svg", graph_dir, show, dpi)
 
 
