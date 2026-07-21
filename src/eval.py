@@ -1214,6 +1214,19 @@ def plot_data_attr(csv_file: str, extract, graph_dir: str, show: bool, dpi: int)
                 "data_attr.svg", graph_dir, show, dpi)
 
 
+def plot_data_inh(csv_file: str, extract, graph_dir: str, show: bool, dpi: int):
+    df = _clean_df(pd.read_csv(csv_file), extract)
+    avg = df.groupby(["base_model_name", "result_type"]).apply(
+        lambda g: (g["f1_inh"] * g["n_inh"]).sum() / g["n_inh"].sum()
+        if g["n_inh"].sum() > 0 else np.nan, include_groups=False
+    ).reset_index(name="f1_inh_avg")
+    color_map, hue_order = _technique_palette(avg["result_type"].unique())
+    _barplot_a4(avg, "base_model_name", "f1_inh_avg", "result_type",
+                hue_order, color_map,
+                "Weighted F1 Inheritance per Model", "Weighted F1 Inh.",
+                "data_inh.svg", graph_dir, show, dpi)
+
+
 def plot_aggregated_f1(csv_file: str, extract, graph_dir: str, show: bool, dpi: int):
     df = _clean_df(pd.read_csv(csv_file), extract)
     _grp = ["base_model_name", "model_name", "result_type"]
@@ -2244,6 +2257,7 @@ def main():
         plot_data_class(csv_file, extract, graph_dir, show, dpi)
         plot_data_rel(csv_file, extract, graph_dir, show, dpi)
         plot_data_attr(csv_file, extract, graph_dir, show, dpi)
+        plot_data_inh(csv_file, extract, graph_dir, show, dpi)
         plot_data_score_perc(csv_file, extract, graph_dir, show, dpi)
         plot_aggregated_f1(csv_file, extract, graph_dir, show, dpi)
         plot_data_score(csv_file, extract, graph_dir, show, dpi)
