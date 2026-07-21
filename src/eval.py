@@ -1568,11 +1568,15 @@ def plot_bubble_f1_subfolders_(csv_file: str, extract, subfolder_model: str,
     x_map = {c: i for i, c in enumerate(ordered_cases)}
     df["_x"] = df["sub_folder_name"].map(x_map)
 
+    # Okabe-Ito colorblind-safe hues (validated all-pairs distinct, incl.
+    # under protan/deutan/tritan simulation) -- five overlapping bubble
+    # series need every pair distinguishable, not just neighbours.
     series_cfg = [
-        ("f1_class",      "n_classes", "#4C72B0", "F1 Class",          -0.20),
-        ("f1_rel",        "n_rel",     "#55A868", "F1 Association",     -0.07),
-        ("score_rel_norm","max_score", "#C44E52", "Cardinality Score",   0.07),
-        ("f1_attr_llm",   "n_attrs",   "#DD8452", "F1 Attributes",       0.20),
+        ("f1_class",      "n_classes", "#0072B2", "F1 Class",          -0.24),
+        ("f1_rel",        "n_rel",     "#009E73", "F1 Association",    -0.12),
+        ("f1_inh",        "n_inh",     "#CC79A7", "F1 Inheritance",      0.00),
+        ("score_rel_norm","max_score", "#D55E00", "Cardinality Score",   0.12),
+        ("f1_attr_llm",   "n_attrs",   "#E69F00", "F1 Attributes",       0.24),
     ]
 
     for y_col, size_col, color, label, dx in series_cfg:
