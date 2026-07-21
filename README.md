@@ -37,6 +37,8 @@ text2uml/
 └── environment.yml     # Conda environment definition
 ```
 
+Two additional local-only, gitignored folders may exist on disk but are not part of the versioned repo: `archive/` (superseded data/results backups) and `paper/` (paper-writing drafts and submission materials).
+
 For more info on the dataset and the evaluation see the online appendix at [OSF](https://osf.io/rbe7d/files/osfstorage). Aggregated experimental results are also available on [Zenodo](https://zenodo.org/records/19599470).
 
 
