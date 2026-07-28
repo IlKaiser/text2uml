@@ -1,0 +1,17 @@
+The DestroyBlock application works in two phases. First, a game admin designs a DestroyBlock game. Then players play the game, and they compete for an entry in the game's hall of fame.
+
+**DESIGN GAME:** Each user has a unique username. A user is always a player and may also be an admin. As a player and as an admin, a user has the same password. When logging in, the user chooses admin mode or play mode. Only an admin may create a game.
+
+Each game has a unique name and its own hall of fame. The admin designs a game by defining a set of blocks. Each block has a color, and it is worth a certain number of points between 1 and 1000. The admin specifies these points.
+
+A game has several levels, which the admin defines. Levels are numbered starting with Level 1, and the maximum number of levels is 99. For each level, the admin specifies the starting arrangement of blocks. Each block is placed in one cell of a grid system. The block at the top left corner is in grid position 1/1. The block to its right is in grid position 2/1, and the block below it is in grid position 1/2, and so on. The admin may also define a level as random. In that case, the blocks at the top are randomly selected for the level from the set of blocks defined by the admin.
+
+The number of blocks shown at the start of each level is the same, and the admin also defines this number. With each level, the ball's speed increases, starting at its minimum speed. With each level, the paddle's length is also reduced gradually, going from its maximum length to its minimum length. The admin specifies the minimum speed, the speed increase factor, the maximum length, and the minimum length for the game.
+
+**PLAY GAME:** A player can play a game once the game admin publishes it. At the start of a game or level, the DestroyBlock application places the blocks at the top of the play area, as the admin specified in the design phase. The ball is placed in the center of the play area, and it drops in a straight line towards the bottom. The player's paddle sits in the middle at the bottom of the play area. The player moves the paddle right or left at the bottom of the play area while trying to bounce the ball towards the blocks. The ball moves at a certain speed in a certain direction. The ball bounces back from the top wall, and it also bounces back from the two side walls on the right and left. If the ball hits a block, the ball bounces back, the block disappears, and the player scores the points of the hit block.
+
+When the ball hits the last block, the player advances to the next level. If the ball reaches the bottom wall, the ball is out-of-bounds, and the player loses one life. The player starts a game with three lives. The game ends when the player has lost all three lives, or when the player has finished the last level. The total score is then displayed in the game's hall of fame.
+
+The game is saved at the end of a level, and it is also saved when the player pauses the game. The player can resume a paused game. The next level of a game does not start automatically, but starts only upon player confirmation.
+
+A user may be a player for one game and an admin for another game, but a user cannot be both for the same game. There is only one admin per game. Players compete against each other for the high score in the game's hall of fame. A player may play different games, and a player may also play the same game multiple times. However, only one game may be played at any point in time. In other words, games are not played in parallel.

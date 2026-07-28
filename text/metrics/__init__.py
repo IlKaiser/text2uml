@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 from typing import Dict, List
 
-from .base import Metric, MetricResult, get_nlp
+from .base import Metric, MetricResult, get_nlp, parse
 from .discourse import (
     ContextDependenceProxy,
     InferentialLoadProxy,
@@ -79,8 +79,7 @@ def compute_all(text: str, sample_id: str, model_name: str = "en_core_web_sm") -
         )
 
     try:
-        nlp = get_nlp(model_name)
-        doc = nlp(text)
+        doc = parse(text, model_name)
     except Exception as exc:  # noqa: BLE001 - report and continue the batch
         logger.error("Failed to parse sample '%s': %s", sample_id, exc)
         return MetricResult(

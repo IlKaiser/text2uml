@@ -1,0 +1,7 @@
+The Louvre Museum in Paris is a huge museum with many rooms. Because of this, many exhibitions can be organised in parallel. The planning of an exhibition starts at least two years before its opening date. So even a single room may host several exhibitions at different stages of advancement at the same time. Therefore, a small management system is needed to make sure all these exhibitions run smoothly.
+
+The museum has identified a set of locations inside the museum that can hold exhibitions. Each location acts like a museum within the museum, and may span part of a floor, an entire floor, or a wing. For each location, a series of exhibitions is developed.
+
+Each exhibition is assigned an employee of the museum as its coordinator. First, a series of desired exhibition items is defined. For example, for an exhibition on Vincent Van Gogh, the desired items might be one item from his early period, one pencil drawing with its corresponding painting, one sunflower painting, and so on. For each desired item, a suitable piece is sourced from the collectors who possess candidate pieces. For some items, only one unique piece is available. For other exhibition items, several potential pieces are available from different collectors. (For example, there are several "Sunflower" paintings by Vincent Van Gogh.) For each exhibition item, the system keeps track of which pieces are requested from which collector.
+
+To foster knowledge transfer, junior employees are assigned a senior employee as coach. The system also tracks this "coaching" relationship between employees.

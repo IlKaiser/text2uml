@@ -1,0 +1,46 @@
+@startuml
+
+class Doctor {
+    String FullName
+    String PractitionerNumber
+    String Address
+    String PhoneNumber
+    Image DigitalSignature
+    Date RequisitionValidFrom
+}
+class Patient {
+    String HealthNumber
+    String FirstName
+    String LastName
+    Date DateOfBirth
+    String Address
+    String PhoneNumber
+}
+class Requisition {
+    Int NumberOfRepetitions
+    String Interval
+}
+class Test {
+    String Type
+    Int Duration
+}
+class Appointment {
+    Int ConfirmationNumber
+    Date Date
+    Time StartTime
+    Time EndTime
+}
+class Lab {
+    String Name
+    String RegistrationNumber
+    String BusinessHours
+    Double Fee
+}
+
+Doctor "1" -- "0..*" Requisition
+Patient "1" -- "0..*" Appointment
+Requisition "1" -- "0..*" Test
+Test "1" -- "0..*" Appointment
+Lab "1" -- "0..*" Appointment
+
+@enduml

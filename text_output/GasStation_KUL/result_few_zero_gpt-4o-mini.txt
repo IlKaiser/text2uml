@@ -1,0 +1,39 @@
+```plantuml
+@startuml
+
+class GasStation {
+    String Name
+}
+class Pump {
+    String Type
+    Boolean InUse
+    Double RefillThreshold
+    Boolean Blocked
+}
+class CardHolder {
+    String Name
+    Boolean Suspended
+}
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+class CashTurn {}
+class Invoice {
+    Int Number
+    Double Discount
+    String status
+}
+class InvoiceLine {
+    Int Number
+}
+
+GasStation "1" -- "0..*" Pump
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+CardHolder "1" -- "0..*" RefuelTurn
+CardHolder "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+
+@enduml
+```

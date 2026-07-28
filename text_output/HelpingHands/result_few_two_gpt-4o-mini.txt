@@ -1,0 +1,43 @@
+@startuml
+
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String EmailAddress
+    String ItemDescription
+}
+class PickupService {
+    Date ScheduledDate
+    Time ScheduledTime
+}
+class Vehicle {
+    String LicensePlate
+}
+class Driver {
+    String Name
+    Boolean Available
+}
+class DistributionCenter {
+}
+class Employee {
+    String Name
+}
+class Article {
+    String RFIDTag
+    String Description
+    String Category
+}
+class FoodBank {
+}
+
+Resident "1" -- "0..*" PickupService
+PickupService "1" -- "0..1" Vehicle
+Vehicle "1" -- "0..*" Driver
+Vehicle "1" -- "0..*" Article
+DistributionCenter "1" -- "0..*" Article
+DistributionCenter "1" -- "0..*" Employee
+Employee "1" -- "0..*" Article
+Article "0..*" -- "0..*" FoodBank
+
+@enduml

@@ -1,0 +1,11 @@
+A new social network site started not long ago. The site is called Facepage. The managers of Facepage look at trends today. They are sure Facepage will be the new hype soon.
+
+New users want to join Facepage. First, each new user fills in a form. The form holds the user's personal information. This is the ID, the name, the email, and the date of birth. Each user has one ID. No two users share an ID. After the form, an account is made. Each account has an account number. This number is unique. The database system makes the number on its own. The user must pick a type of account. The type is a business account or a personal account.
+
+A business account helps companies with their marketing. A user may open a business account. Then the user must give the name of the company. Users with a business account pay a fee each month. A user may pick a personal account instead. Then the user can stay in touch with other Facepage users. Only personal accounts can send friend requests. Only personal accounts can get friend requests.
+
+A user must not keep more than one account. This rule holds for any purpose. Keeping more than one account breaks Facepage's Terms of Use. A user may already have a personal account. A user may already have a business account. Then Facepage will not let the user make one more personal account. Facepage will also not let the user make one more business account. This rule holds for any reason.
+
+Each account can make several pages. Each page must have exactly one account to run it. A personal account can get rights to pages of other personal accounts. For example, it can write on the wall of friends. It can also change some information. For each page, the site logs the page name. For each page, the site also logs the number of visits. One account cannot have two pages with the same name.
+
+Users with a business profile can make a special type of page. This type is an advertisement page. An advertisement page records several features. These are the bounce rate, the click-through rate, and the conversion rate. The bounce rate is the share of visitors that leave the page at once. The click-through rate is the share of visitors that click a certain banner on the page. The conversion rate is the share of visitors that reach the goal. The goal can be a purchase or a transaction.

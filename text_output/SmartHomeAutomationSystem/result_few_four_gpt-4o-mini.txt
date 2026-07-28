@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+
+class User {
+    String Name
+}
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class Sensor {
+    String DeviceIdentifier
+    String Type
+}
+class Actuator {
+    String DeviceIdentifier
+    String Type
+}
+class SensorReading {
+    Double MeasuredValue
+    Date Timestamp
+}
+class ControlCommand {
+    String Status
+    Date Timestamp
+}
+class Alert {
+    String Description
+}
+class AutomationRule {
+    String Precondition
+    String Action
+}
+class ActivityLog {}
+
+User "1" -- "0..*" SmartHome
+SmartHome "1" -- "0..*" Room
+Room "1" -- "0..*" Sensor
+Room "1" -- "0..*" Actuator
+Sensor "1" -- "0..*" SensorReading
+Actuator "1" -- "0..*" ControlCommand
+SmartHome "1" -- "0..*" Alert
+SmartHome "1" -- "0..*" ActivityLog
+User "1" -- "0..*" AutomationRule
+AutomationRule "0..*" -- "0..*" AutomationRule : depends on
+AutomationRule "0..*" -- "0..*" AutomationRule : conflicts with
+
+@enduml
+```

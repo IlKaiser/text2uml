@@ -1227,7 +1227,11 @@ def _run_chain(chain, text: str, timeout: int, callback: "_UsageCallback") -> st
 
 
 def _safe_model_name(model: str) -> str:
-    return model.replace("/", "_")
+    # "/" for HuggingFace-style "org/model" ids; ":" for Ollama tags
+    # (e.g. "gemma4:e4b") -- both are otherwise valid filename characters on
+    # some filesystems but inconsistent with every other provider's plain
+    # model-name filenames.
+    return model.replace("/", "_").replace(":", "_")
 
 
 def process_dataset(

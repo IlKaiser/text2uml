@@ -1,0 +1,48 @@
+@startuml
+
+class TaxiCompany {
+    String Name
+}
+class SelfDrivingCab {
+    String LicensePlate
+}
+class CarOwner {
+    String Name
+}
+class RideHailService {
+    Date PickUpTime
+    Date DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    Int NumberOfPassengers
+    Double Fee
+    String RequestType
+    String LeadCustomerName
+}
+class RideShareService {
+    Date PickUpTime
+    Date DropOffTime
+    String PickUpLocation
+    String DropOffLocation
+    Double RideDuration
+    Double Distance
+    Int NumberOfPassengers
+    Double NegotiatedFee
+}
+class Accident {
+    Date AccidentDate
+    String Location
+    Double DamageAmount
+}
+
+TaxiCompany "1" -- "0..*" SelfDrivingCab
+CarOwner "1" -- "0..*" SelfDrivingCab
+SelfDrivingCab "0..*" -- "0..*" RideHailService
+SelfDrivingCab "0..*" -- "0..*" RideShareService
+SelfDrivingCab "0..*" -- "0..*" Accident
+RideHailService "1" -- "0..*" CarOwner
+RideShareService "1" -- "0..*" CarOwner
+
+@enduml

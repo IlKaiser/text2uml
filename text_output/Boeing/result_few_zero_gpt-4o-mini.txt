@@ -1,0 +1,34 @@
+```plantuml
+@startuml
+
+class Boeing {
+    String Name
+}
+class AirlineCompany {
+    String Name
+}
+class Aircraft {
+    String Model
+}
+class Contract {
+    String DeliveryConditions
+    String LegalAspects
+}
+class Acquisition {
+    String NegotiatedPrice
+    String ChosenOptions
+    Date DeliveryDate
+}
+class Salesperson {
+    String Name
+}
+
+Boeing "1" -- "0..*" AirlineCompany
+Contract "0..*" -- "1" AirlineCompany
+Contract "1" -- "1..*" Acquisition
+Acquisition "1" -- "1" Aircraft
+Salesperson "1" -- "0..*" Contract
+AirlineCompany "0..1" -- "0..*" AirlineCompany
+
+@enduml
+```

@@ -1,0 +1,40 @@
+@startuml
+
+class Department {
+    String Name
+}
+class Room {
+    Int Number
+}
+class Bed {
+    String Category
+}
+class Inhabitant {
+    String Name
+    Boolean IsActive
+}
+class Stay {
+    String Type
+    Double Price
+    Boolean IsSuspended
+}
+class Registration {
+    Date RegistrationDate
+}
+class Invoice {
+    Double Amount
+    String Status
+}
+class Payment {
+    Double Amount
+}
+
+Department "1" -- "0..*" Room
+Room "1" -- "0..*" Bed
+Bed "1" -- "1..*" Inhabitant
+Inhabitant "0..*" -- "0..*" Stay
+Stay "0..*" -- "0..*" Invoice
+Inhabitant "1" -- "0..1" Registration
+Invoice "1" -- "0..*" Payment
+
+@enduml

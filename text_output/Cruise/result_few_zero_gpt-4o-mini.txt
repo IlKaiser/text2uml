@@ -1,0 +1,57 @@
+```plantuml
+@startuml
+
+class Cruise {
+    String Number
+    String Name
+    Date StartDate
+    Date EndDate
+}
+class Provider {
+    String Name
+    String Location
+}
+class Employee {
+    String Name
+    String SocialSecurityNumber
+}
+class Guest {
+    String Name
+    Boolean VIP
+}
+class Ship {
+    String Name
+    Int NumberOfDecks
+    Double Length
+    Int NumberOfPassengers
+}
+class Booking {
+    Int BookingNumber
+    Date BookingDate
+}
+class TravelAgency {
+    String Name
+    String Address
+}
+class DestinationArea {
+    String Name
+    String SeaName
+}
+class Show {
+    String Title
+    Double Duration
+}
+class Ticket {}
+
+Provider "1" -- "0..*" Cruise
+Cruise "1" -- "0..*" Employee
+Cruise "0..*" -- "0..*" Guest
+Ship "1" -- "0..*" Cruise
+Cruise "0..*" -- "1" TravelAgency
+Cruise "0..*" -- "1" DestinationArea
+Cruise "1" -- "0..*" Show
+Cruise "1" -- "0..*" Ticket
+Guest "1" -- "0..*" Ticket
+
+@enduml
+```

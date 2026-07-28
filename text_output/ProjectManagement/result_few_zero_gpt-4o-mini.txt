@@ -1,0 +1,36 @@
+@startuml
+
+class University {}
+
+class Department {}
+
+class ResearchGroup {
+    String Name
+}
+
+class Researcher {
+    String Name
+}
+
+class Project {
+    String Title
+}
+
+class WorkPackage {
+    String Title
+}
+
+class Assignment {
+    String Status
+}
+
+University "1" -- "0..*" ResearchGroup
+Department "1" -- "0..*" ResearchGroup
+ResearchGroup "1" -- "0..*" Researcher
+Project "1" -- "0..*" WorkPackage
+WorkPackage "1" -- "0..*" ResearchGroup
+Researcher "0..*" -- "0..*" WorkPackage : via Assignment
+Assignment "1" -- "0..*" Researcher
+Assignment "1" -- "0..*" WorkPackage
+
+@enduml

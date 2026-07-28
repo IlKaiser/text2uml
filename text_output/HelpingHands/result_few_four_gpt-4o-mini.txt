@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+
+class Resident {
+    String Name
+    String StreetAddress
+    String PhoneNumber
+    String OptionalEmail
+    String Description
+}
+class Item {
+    String Description
+}
+class Service {
+    String Name
+}
+class Pickup {
+    String Weekday
+    Time Time
+}
+class Vehicle {
+    String StorageSpace
+}
+class Driver {
+    String Availability
+}
+class DistributionCenter {
+    String Location
+}
+class Article {
+    String Quality
+    String Category
+}
+class Client {
+    String HomeAddress
+}
+
+Resident "1" -- "0..*" Item
+Resident "1" -- "0..*" Pickup
+Service "1" -- "0..*" Item
+Pickup "1" -- "0..1" Resident
+Vehicle "1" -- "0..*" Driver
+Vehicle "1" -- "0..*" Pickup
+Driver "0..*" -- "0..*" Pickup
+Driver "0..*" -- "0..*" DistributionCenter
+DistributionCenter "1" -- "0..*" Article
+Article "0..1" -- "0..1" Resident
+Client "1" -- "0..*" Article
+
+@enduml
+```

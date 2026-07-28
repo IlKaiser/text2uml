@@ -1,0 +1,31 @@
+@startuml
+
+class GasStation {
+    String ID
+    String Address
+}
+class FuelPump {
+    String Number
+    Boolean SelfService
+}
+class Fuel {
+    String Name
+    Double OctaneRating
+}
+class DailyPrice {
+    Date Date
+    Double PricePerLiter
+}
+class FuelPurchase {
+    String ID
+    Int LitersDispensed
+}
+
+GasStation "1" -- "0..12" FuelPump
+FuelPump "1" -- "0..*" Fuel
+GasStation "1" -- "0..*" DailyPrice
+FuelPump "0..1" -- "0..*" FuelPurchase
+Fuel "0..1" -- "0..*" FuelPurchase
+DailyPrice "0..1" -- "0..*" FuelPurchase
+
+@enduml

@@ -26,12 +26,18 @@ text2uml/
 │   ├── eval.py         # Evaluation script: computes F1 scores and generates plots
 │   ├── config.yaml     # Runner configuration (techniques, providers, models)
 │   └── eval_config.yaml# Evaluator configuration (metrics, plots, ignore list)
+├── text/               # Linguistic-complexity metrics on description.md (see text/README.md)
+│   └── rewrite/        # Feedback-loop pipeline generating the levels' description variants (see below)
+├── experiments/levels/  # Complexity-levels vs. F1 experiment (see below)
+├── text_output/        # Level-tagged generation results (result_<technique>_<level>_<model>.txt)
 ├── results/            # Aggregated evaluation CSVs
 ├── run_logs/           # Execution logs produced by run.py
 ├── grammar.ebnf        # EBNF grammar used by eval.py to parse PlantUML
 ├── images/             # Architecture diagram and generated charts
 └── environment.yml     # Conda environment definition
 ```
+
+Two additional local-only, gitignored folders may exist on disk but are not part of the versioned repo: `archive/` (superseded data/results backups) and `paper/` (paper-writing drafts and submission materials).
 
 For more info on the dataset and the evaluation see the online appendix at [OSF](https://osf.io/rbe7d/files/osfstorage). Aggregated experimental results are also available on [Zenodo](https://zenodo.org/records/19599470).
 
@@ -136,3 +142,73 @@ Optional flags:
 | `--config PATH` | Use a custom eval config file instead of `eval_config.yaml` |
 
 Output is written to `dataset/crash_evaluation_results_llm.csv` (configurable) and charts are saved to `graph/`. Aggregated results are also available in `results/`.
+
+
+# Complexity-Levels Experiment (`experiments/levels/`)
+
+A separate experiment that asks: **does the linguistic complexity of the input
+description drive F1?** Each case's spec is rewritten into a range of
+complexity variants — from `description_level_minus_six.md` (gold/LLM-guided,
+recall-density-optimized) through `description_level_zero.md` … `four.md`
+(minimal to flattened) up to `description_level_six.md` (flattened +
+recall-density, min-gated), with the original `description.md` as L3 — see
+`LevelSpec` in [`experiments/levels/config.py`](experiments/levels/config.py)
+for the full, ranked list. Each variant is generated and scored
+independently, then compared.
+
+Levels below zero (`minus_one` … `minus_six`) progressively test whether
+recall-density objectives (crediting entity names, relationship pairs, and
+cardinality notation surviving a rewrite) can close the gap to L0 without —
+or with only partial — access to the gold PlantUML; level `six` applies the
+same min-gated recall-density architecture on top of L4's flattening. These
+are produced by the rewrite pipeline in
+[`text/rewrite/`](text/rewrite/run.py) (see its module docstrings for the
+rationale behind each level), invoked via:
+
+```sh
+python -m text.rewrite.run --levels minus_six six
+```
+
+Result files are level-tagged and written to `text_output/<case>/result_<technique>_<level>_<model>.txt`,
+separate from the `src/run.py` outputs alongside each dataset.
+
+## Running it
+
+Corpus-wide, via [`run.py`](experiments/levels/run.py):
+
+```sh
+# End-to-end for one model (generate + evaluate + plot):
+python -m experiments.levels.run --provider anthropic --model claude-sonnet-4-6
+
+# Re-evaluate + re-plot from already-generated results:
+python -m experiments.levels.run --stage evaluate plot --model claude-sonnet-4-6
+
+# Score description complexity (z_index) and correlate it with F1:
+python -m experiments.levels.run --stage complexity correlate
+```
+
+`--stage` accepts any combination of `generate`, `evaluate`, `plot`,
+`complexity`, `correlate`; `--technique` selects any `src/config.yaml`
+prompting technique (default `few_shot`); `--datasets`/`--levels` narrow the
+run for smoke-testing.
+
+Per-case, via [`case_pipeline.py`](experiments/levels/case_pipeline.py) — reruns
+one case through complexity/generate/evaluate/plots/correlate and merges just
+that case's rows into the shared CSVs, without recomputing the whole corpus:
+
+```sh
+python -m experiments.levels.case_pipeline --case Menso --provider anthropic --model claude-sonnet-4-6
+```
+
+## Other modules
+
+- [`snr.py`](experiments/levels/snr.py) — L3 signal-to-noise ratio: how much of
+  each case's real description maps to something in the gold diagram
+  ("signal") versus narrative elaboration that never surfaces in it ("noise").
+- [`html_report.py`](experiments/levels/html_report.py) — renders a standalone,
+  interactive L0-vs-L3 F1 comparison (`python -m experiments.levels.html_report`).
+
+Outputs (CSVs + `svg`/`png` figures, organized into `case_metrics/`,
+`levels_bars/`, and `corpus[_<model>]/` subfolders) are written to
+`experiments/levels/output/`. Complexity scoring reuses the metrics package
+documented in [`text/README.md`](text/README.md).

@@ -1,0 +1,512 @@
+<title>L0 vs L3: UML Generation F1</title>
+<style>
+  .viz-root {
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f3f2ef;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #82807a;
+    --border:         #e3e1db;
+    --series-l0:      #2a78d6; /* categorical slot 1: blue */
+    --series-l3:      #1baf7a; /* categorical slot 2: aqua */
+  }
+  @media (prefers-color-scheme: dark) {
+    .viz-root {
+      --surface-1:      #1a1a19;
+      --surface-2:      #232321;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #8f8d85;
+      --border:         #38372f;
+      --series-l0:      #3987e5;
+      --series-l3:      #199e70;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    --surface-1:      #1a1a19;
+    --surface-2:      #232321;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #8f8d85;
+    --border:         #38372f;
+    --series-l0:      #3987e5;
+    --series-l3:      #199e70;
+  }
+  :root[data-theme="light"] .viz-root {
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f3f2ef;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #82807a;
+    --border:         #e3e1db;
+    --series-l0:      #2a78d6;
+    --series-l3:      #1baf7a;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--surface-1);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .viz-root {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px;
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0 0 28px;
+  }
+  .group-block {
+    margin-bottom: 36px;
+  }
+  .group-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 2px;
+  }
+  .group-note {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin: 0 0 12px;
+  }
+  .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 26px;
+    margin-bottom: 6px;
+  }
+  .bar-track {
+    flex: 1;
+    height: 22px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: width 0.2s ease;
+  }
+  .bar-fill.l0 { background: var(--series-l0); }
+  .bar-fill.l3 { background: var(--series-l3); }
+  .bar-label {
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding-left: 8px;
+    white-space: nowrap;
+  }
+  .bar-label.outside {
+    color: var(--text-primary);
+    padding-left: 4px;
+  }
+  .row-label {
+    width: 190px;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+  }
+  .delta {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .delta.down { color: #d03b3b; }
+  .delta.up { color: #0ca30c; }
+  .delta.flat { color: var(--text-muted); }
+  .legend {
+    display: flex;
+    gap: 18px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .swatch.l0 { background: var(--series-l0); }
+  .swatch.l3 { background: var(--series-l3); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-top: 8px;
+  }
+  caption {
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    margin-bottom: 6px;
+  }
+  th, td {
+    text-align: right;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  th:first-child, td:first-child { text-align: left; }
+  th {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .findings {
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-top: 8px;
+  }
+  .findings strong { color: var(--text-primary); }
+
+  .provenance {
+    margin-top: 28px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .provenance h2 {
+    font-size: 0.95rem;
+    margin: 0 0 10px;
+  }
+  .provenance-block {
+    margin-bottom: 16px;
+  }
+  .provenance-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin: 0 0 4px;
+  }
+  code.inline {
+    background: var(--surface-2);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.85em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  pre {
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 0;
+    overflow-x: auto;
+    font-size: 0.76rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  pre .path { color: var(--text-primary); }
+
+  .section-title {
+    font-size: 0.95rem;
+    margin: 32px 0 4px;
+  }
+  .matrix-section .group-note { margin: 0 0 14px; }
+  .matrix-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .matrix-legend .ramp {
+    display: flex;
+    height: 10px;
+    width: 160px;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .matrix-legend .ramp span { flex: 1; }
+  .matrix-wrap {
+    overflow: auto;
+    max-height: 520px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 10px 0 24px;
+  }
+  table.matrix-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.72rem;
+    width: max-content;
+  }
+  .matrix-table td, .matrix-table th {
+    padding: 4px 7px;
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+  .matrix-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--surface-1);
+    z-index: 2;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: left;
+    vertical-align: bottom;
+    height: 190px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+  .matrix-table thead th:first-child {
+    writing-mode: horizontal-tb;
+    transform: none;
+    height: auto;
+    vertical-align: bottom;
+  }
+  .matrix-table td:first-child, .matrix-table th:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--surface-1);
+    text-align: left;
+    z-index: 3;
+    color: var(--text-secondary);
+    border-right: 1px solid var(--border);
+  }
+  .matrix-table thead th:first-child { z-index: 4; }
+  .matrix-cell-empty { color: var(--text-muted); }
+</style>
+
+<div class="viz-root">
+  <h1>L0 (minimal) vs L3 (real spec): global F1</h1>
+  <p class="subtitle">__SUBTITLE__</p>
+
+  <div class="legend">
+    <div class="legend-item"><span class="swatch l0"></span>L0 — minimal description</div>
+    <div class="legend-item"><span class="swatch l3"></span>L3 — real spec</div>
+  </div>
+
+  <div class="group-block" id="chart"></div>
+
+  <table id="detail-table">
+    <caption>Per-category F1, L0 vs L3</caption>
+    <thead>
+      <tr>
+        <th>Run</th>
+        <th>Level</th>
+        <th>Global</th>
+        <th>Class</th>
+        <th>Association</th>
+        <th>Attribute</th>
+        <th>Cardinality</th>
+      </tr>
+    </thead>
+    <tbody id="detail-body"></tbody>
+  </table>
+
+  <div class="findings">
+    __FINDINGS__
+  </div>
+
+  <div class="matrix-section">
+    <h2 class="section-title">Per-case F1 (global) — every run × every case</h2>
+    <p class="group-note">
+      Blank cells mean that run has no scored row for that case — for an
+      alt-L0 run this is almost always the text-rewrite step failing to
+      produce a usable candidate for that dataset (see the coverage note
+      under each run above), not a diagram-generation failure. Hover a cell
+      for the exact value.
+    </p>
+
+    <div class="matrix-legend">
+      <span>0.00</span>
+      <div class="ramp" id="matrix-legend-ramp"></div>
+      <span id="matrix-legend-max"></span>
+    </div>
+
+    <p class="group-title" style="margin-top:16px;">L0 (or alt-L0)</p>
+    <div class="matrix-wrap">
+      <table class="matrix-table">
+        <thead><tr id="matrix-head-l0"></tr></thead>
+        <tbody id="matrix-body-l0"></tbody>
+      </table>
+    </div>
+
+    <p class="group-title">L3 (real spec)</p>
+    <div class="matrix-wrap">
+      <table class="matrix-table">
+        <thead><tr id="matrix-head-l3"></tr></thead>
+        <tbody id="matrix-body-l3"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="provenance">
+    <h2>Data &amp; reproducibility</h2>
+
+    <div class="provenance-block">
+      <p class="provenance-label">Source result files (per case, per level, per model) — <code class="inline">text_output/&lt;case&gt;/</code></p>
+      <pre>__SOURCE_FILES__</pre>
+    </div>
+
+    <div class="provenance-block">
+      <p class="provenance-label">Scored F1 (per case, per level, per model) — <code class="inline">experiments/levels/output/</code></p>
+      <pre>__SCORED_CSVS__</pre>
+    </div>
+
+    <div class="provenance-block">
+      <p class="provenance-label">Generation code — <code class="inline">experiments/levels/</code> (CLI wrapping <code class="inline">src/run.py</code>'s LLM chains)</p>
+      <pre><span class="path">experiments/levels/run.py</span>        # CLI: --stage generate|evaluate|plot|correlate|complexity
+<span class="path">experiments/levels/generate.py</span>   # one (dataset, level) -> one result file, via src.run._CHAIN_BUILDERS[technique]
+<span class="path">experiments/levels/evaluate.py</span>   # scores each result file against gold PlantUML -> levels_f1.csv row
+<span class="path">experiments/levels/plots.py</span>      # levels_f1.csv -> levels_global_f1 / levels_category_f1 / levels_category_bars
+<span class="path">experiments/levels/config.py</span>     # LevelsConfig: level tags/files, technique->filename-prefix map
+<span class="path">experiments/levels/html_report.py</span># this report: levels_f1.csv(s) -> this HTML file</pre>
+    </div>
+
+    <div class="provenance-block">
+      <p class="provenance-label">Exact command to regenerate this report</p>
+      <pre>python -m experiments.levels.html_report --out &lt;path&gt;.html</pre>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = __DATA_JSON__;
+
+const chart = document.getElementById("chart");
+const maxVal = 0.5; // shared scale reference so bar lengths are comparable across rows
+
+function fmt(v) { return v.toFixed(3); }
+
+data.forEach(d => {
+  // L0's absolute edge over L3, and its percentage increase using L3 as the
+  // baseline (rather than L3's percentage decrease using L0 as the baseline).
+  const delta = d.l0 - d.l3;
+  const deltaClass = delta > 0.003 ? "up" : delta < -0.003 ? "down" : "flat";
+  const deltaSign = delta >= 0 ? "+" : "";
+  const deltaPct = d.l3 !== 0 ? (delta / d.l3 * 100) : 0;
+  const deltaPctSign = deltaPct >= 0 ? "+" : "";
+
+  const timeNote = d.avg_seconds != null
+    ? d.avg_seconds_estimated
+      ? `<p class="group-note">avg generation time: ~${d.avg_seconds.toFixed(1)}s/case (estimated from file timestamps)</p>`
+      : `<p class="group-note">avg generation time: ${d.avg_seconds.toFixed(1)}s/case</p>`
+    : "";
+
+  const missing = d.n_l3 - d.n_l0;
+  const coverageNote = missing > 0
+    ? `<p class="group-note">L0 coverage: ${d.n_l0}/${d.n_l3} cases (<strong>${missing} missing</strong> — rewrite never produced a usable candidate for ${missing === 1 ? "this case" : "these cases"})</p>`
+    : "";
+
+  const block = document.createElement("div");
+  block.className = "group-block";
+  block.innerHTML = `
+    <p class="group-title">${d.run}</p>
+    <p class="group-note">L0 − L3 = <span class="delta ${deltaClass}">${deltaSign}${fmt(delta)} (${deltaPctSign}${deltaPct.toFixed(1)}% over L3)</span></p>
+    ${timeNote}
+    ${coverageNote}
+    <div class="bars">
+      <div class="row-label">L0 (minimal)</div>
+      <div class="bar-track"><div class="bar-fill l0" style="width:${(d.l0/maxVal*100).toFixed(1)}%">
+        <span class="bar-label">${fmt(d.l0)}</span></div></div>
+    </div>
+    <div class="bars">
+      <div class="row-label">L3 (real spec)</div>
+      <div class="bar-track"><div class="bar-fill l3" style="width:${(d.l3/maxVal*100).toFixed(1)}%">
+        <span class="bar-label">${fmt(d.l3)}</span></div></div>
+    </div>
+  `;
+  chart.parentNode.insertBefore(block, document.getElementById("detail-table"));
+});
+chart.remove();
+
+const tbody = document.getElementById("detail-body");
+data.forEach(d => {
+  ["l0", "l3"].forEach(level => {
+    const tr = document.createElement("tr");
+    const global = level === "l0" ? d.l0 : d.l3;
+    const cats = d.cat[level];
+    tr.innerHTML = `
+      <td>${d.run}</td>
+      <td>${level.toUpperCase()}</td>
+      <td>${fmt(global)}</td>
+      ${cats.map(v => `<td>${fmt(v)}</td>`).join("")}
+    `;
+    tbody.appendChild(tr);
+  });
+});
+
+// --- Per-case matrix: sequential one-hue (blue) ramp, light->dark by value.
+// Same 13-step ramp as the palette's sequential blue (references/palette.md);
+// applied identically in light/dark mode (not separately re-validated for the
+// dark surface) with per-cell text color chosen from the cell's own luminance
+// so labels stay legible either way.
+const matrix = __MATRIX_JSON__;
+const RAMP = [
+  "#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5",
+  "#2a78d6", "#256abf", "#1c5cab", "#184f95", "#104281", "#0d366b",
+];
+
+function relLuminance(hex) {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const lin = c => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+}
+function cellColor(value) {
+  const t = Math.max(0, Math.min(1, value / matrix.domain_max));
+  return RAMP[Math.round(t * (RAMP.length - 1))];
+}
+function textColorFor(hex) {
+  return relLuminance(hex) > 0.45 ? "#0b0b0b" : "#ffffff";
+}
+
+function renderMatrixHeader(rowId) {
+  const tr = document.getElementById(rowId);
+  let html = "<th>Case</th>";
+  matrix.runs.forEach(run => { html += `<th class="run-col">${run.run}</th>`; });
+  tr.innerHTML = html;
+}
+function renderMatrixBody(bodyId, level) {
+  const tbody = document.getElementById(bodyId);
+  matrix.cases.forEach(caseName => {
+    let html = `<td>${caseName}</td>`;
+    matrix.runs.forEach(run => {
+      const v = run[level][caseName];
+      if (v == null) {
+        html += `<td class="matrix-cell-empty">–</td>`;
+      } else {
+        const bg = cellColor(v);
+        const fg = textColorFor(bg);
+        html += `<td style="background:${bg};color:${fg}" title="${run.run} · ${caseName} · ${level.toUpperCase()} = ${v.toFixed(4)}">${v.toFixed(2)}</td>`;
+      }
+    });
+    const tr = document.createElement("tr");
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+}
+
+renderMatrixHeader("matrix-head-l0");
+renderMatrixHeader("matrix-head-l3");
+renderMatrixBody("matrix-body-l0", "l0");
+renderMatrixBody("matrix-body-l3", "l3");
+
+document.getElementById("matrix-legend-ramp").innerHTML =
+  RAMP.map(c => `<span style="background:${c}"></span>`).join("");
+document.getElementById("matrix-legend-max").textContent = matrix.domain_max.toFixed(2);
+</script>

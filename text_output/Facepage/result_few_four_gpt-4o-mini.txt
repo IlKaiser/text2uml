@@ -1,0 +1,40 @@
+@startuml
+
+class User {
+    String ID
+    String Name
+    String Email
+    Date DateOfBirth
+}
+class Account {
+    String AccountNumber
+    String AccountType
+}
+class BusinessAccount {
+    String CompanyName
+    Double MonthlyFee
+}
+class PersonalAccount {
+}
+class Page {
+    String PageName
+    Int NumberOfVisits
+}
+class Privilege {
+    String Description
+}
+class AdvertisementPage {
+    Double BounceRate
+    Double ClickThroughRate
+    Double ConversionRate
+}
+
+User "1" -- "0..1" Account
+Account "1" -- "0..*" Page
+User "1" -- "0..1" BusinessAccount
+User "1" -- "0..1" PersonalAccount
+Account "1" -- "0..*" Privilege
+Privilege "1" -- "0..*" Page
+User "1" -- "0..*" AdvertisementPage
+
+@enduml

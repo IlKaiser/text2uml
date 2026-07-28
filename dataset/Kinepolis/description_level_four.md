@@ -1,0 +1,11 @@
+Kinepolis owns several cinemas. The cinemas are in different towns. Each cinema has several theatres. A theatre can program several shows. This happens per day.
+
+Every cinema needs its own movie copy. A cinema may need more than one copy. A movie may play in more than one theatre. This can happen at the same time. Then the cinema needs more than one copy. A copy sits at one premise. The premise has theatres. Kinepolis shows the copy only in those theatres. Kinepolis can move movie copies to another cinema. The programming may require this move.
+
+Every Sunday, Kinepolis publishes the program. This program covers the next week. The program runs from Wednesday to Tuesday. Kinepolis publishes a show on the website. Then people can make on-line reservations for that show.
+
+A show has a starting time. A customer can make a reservation. The deadline is 1 hour before that starting time. The customer must pay a reservation with a credit card. The customer can cancel a seat reservation. The deadline is 24 hours before the starting time. The cancellation period ends. Then Kinepolis debits the credit cards.
+
+Kinepolis can cancel a published show. That show must have no seat reservations. That show may have seat reservations. Then Kinepolis must cancel the reservations first. Kinepolis can offer a new seat. This is possible sometimes. The new seat is for a show. This show plays the same movie. This show runs in another theatre. The customer can accept the offer. The customer can decline the offer. The offer expires 24 hours before the show starts. The customer may decline the offer. The offer may expire. Kinepolis may offer no new seat. In these cases the customer receives a free ticket. Kinepolis sends the ticket home.
+
+Some people do not make a seat reservation. These people can buy a ticket at the entrance. Kinepolis also assigns a seat number to these tickets. Entrance tickets are anonymous. This contrasts with on-line seat reservations. The customer cannot cancel entrance tickets. The customer cannot refund entrance tickets. The ticketing desk has a display. The display shows a seat count. This count covers the available seats. The seats are for that show. The theatre has a number of seats. This count depends on that number.

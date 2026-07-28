@@ -1,0 +1,87 @@
+@startuml
+
+class HBMS {}
+class Traveller {
+    String Name
+    String BillingInformation
+    String CompanyName
+    String CompanyAddress
+    String TravelPreferences
+    Double ReliabilityRating
+}
+class Search {
+    String City
+    Date ArrivalDate
+    Date DepartureDate
+    Int NumberOfRooms
+    String RoomType
+    Int MinimumHotelRating
+    Double TentativeBudget
+    String FurtherTravelPreferences
+}
+class Offer {
+    String City
+    Date ArrivalDate
+    Date DepartureDate
+    String RoomType
+    Int Rating
+    Double Price
+}
+class Booking {
+    Date TravelPeriodStart
+    Date TravelPeriodEnd
+    Int Rooms
+    Date CancellationDeadline
+    Boolean Preliminary
+    Boolean Finalized
+    Boolean PrePaid
+}
+class PreliminaryBooking {
+    Double Price
+    String CityArea
+    Int HotelRating
+    String KeyPreferences
+    String UniqueBookingIdentifier
+}
+class SpecialOffer {
+    Double Price
+    String Details
+}
+class Hotel {
+    String Name
+    String Address
+}
+class HotelChain {
+    String Name
+}
+class City {
+    String Name
+}
+class RoomType {
+    String Type
+    Boolean FullyBooked
+}
+class CreditCard {
+    String CardNumber
+    String CardHolder
+    Date ExpiryDate
+}
+
+Traveller "1..1" -- "1..1" HBMS
+Traveller "1..1" -- "0..*" Search
+Search "1..1" -- "0..*" Offer
+Traveller "1..1" -- "0..*" Booking
+Booking "1..1" -- "0..1" PreliminaryBooking
+HBMS "1..1" -- "0..*" Hotel
+Hotel "1..1" -- "0..*" SpecialOffer
+HBMS "1..1" -- "5..5" SpecialOffer
+Traveller "1..1" -- "0..1" SpecialOffer
+Booking "1..1" -- "1..1" CreditCard
+Hotel "1..1" -- "0..*" Booking
+HBMS "1..1" -- "0..*" Booking
+Hotel "1..1" -- "0..*" Traveller
+Hotel "1..1" -- "1..1" City
+Hotel "0..*" -- "0..1" HotelChain
+Hotel "1..1" -- "0..*" RoomType
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class Device {
+    String DeviceIdentifier
+}
+class Sensor extends Device {
+    String SensorType
+}
+class Actuator extends Device {
+    String Command
+}
+class SensorReading {
+    Double Value
+    Date Timestamp
+}
+class ControlCommand {
+    Date Timestamp
+    String Status
+}
+class ActivityLog {}
+class AutomationRule {
+    String Precondition
+    String Action
+}
+class Owner {
+    String Name
+}
+
+SmartHome "1" -- "0..*" Room
+Room "1" -- "0..*" Device
+Device "1" -- "0..*" SensorReading
+Device "1" -- "0..*" ControlCommand
+Owner "1" -- "0..*" AutomationRule
+AutomationRule "0..*" -- "0..*" AutomationRule : DependsOn
+AutomationRule "0..*" -- "0..*" AutomationRule : ConflictsWith
+ActivityLog "0..*" -- "0..*" SensorReading
+ActivityLog "0..*" -- "0..*" ControlCommand
+
+@enduml

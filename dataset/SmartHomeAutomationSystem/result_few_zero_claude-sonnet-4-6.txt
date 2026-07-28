@@ -1,0 +1,72 @@
+@startuml
+
+class SHAS {
+    Date LastTriggerTimestamp
+}
+class User {
+    String Name
+}
+class SmartHome {
+    String Address
+}
+class Room {
+    String Name
+}
+class Sensor {
+    String DeviceIdentifier
+    Boolean Active
+}
+class Actuator {
+    String DeviceIdentifier
+    Boolean Active
+    String Type
+}
+class SensorReading {
+    Double Value
+    Date Timestamp
+}
+class ControlCommand {
+    String Name
+    Date Timestamp
+    String Status
+}
+class ActivityLog {}
+class AutomationRule {
+    Boolean Active
+    Date CreatedAt
+    Date EditedAt
+}
+class Owner {
+    String Name
+}
+class Precondition {
+    String BooleanExpression
+}
+class RelationalTerm {
+    String Expression
+}
+
+SHAS "1" -- "0..*" SmartHome
+SmartHome "1" -- "1..*" Room
+Room "1" -- "0..*" Sensor
+Room "1" -- "0..*" Actuator
+Sensor "1" -- "0..*" SensorReading
+Actuator "1" -- "0..*" ControlCommand
+SHAS "1" -- "1" ActivityLog
+ActivityLog "1" -- "0..*" SensorReading
+ActivityLog "1" -- "0..*" ControlCommand
+Owner "1" -- "0..*" SmartHome
+Owner "1" -- "0..*" AutomationRule
+AutomationRule "1" -- "1" Precondition
+AutomationRule "1" -- "0..*" ControlCommand
+Precondition "1" -- "1..*" RelationalTerm
+RelationalTerm "0..*" -- "0..*" Room
+RelationalTerm "0..*" -- "0..*" Sensor
+RelationalTerm "0..*" -- "0..*" Actuator
+RelationalTerm "0..*" -- "0..*" SensorReading
+RelationalTerm "0..*" -- "0..*" ControlCommand
+AutomationRule "0..*" -- "0..*" AutomationRule
+SHAS "1" -- "0..*" AutomationRule
+SHAS "1" -- "0..*" User
+
+@enduml

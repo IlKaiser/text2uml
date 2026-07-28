@@ -1,0 +1,53 @@
+@startuml
+
+class Customer {
+    String Name
+    Boolean Suspended
+}
+class RefuelCard {
+    Boolean Blocked
+}
+class Invoice {
+    Int Number
+    Double Discount
+    String Status
+}
+class InvoiceLine {
+    Int Number
+}
+class Payment {
+    Date PaymentDate
+    Double Amount
+}
+class RefuelTurn {
+    Int RefuelTurnNumber
+}
+class CashTurn {}
+class GasStation {
+    String Name
+}
+class Pump {
+    String GasolineType
+    Boolean InUse
+    Boolean Blocked
+    Double CurrentLevel
+    Double ReorderingLevel
+    Double CriticalLevel
+}
+class DailyReport {
+    Date ReportDate
+}
+
+Customer "1" -- "0..1" RefuelCard
+Customer "1" -- "0..*" RefuelTurn
+Customer "1" -- "0..*" CashTurn
+RefuelCard "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" Payment
+Invoice "1" -- "0..*" InvoiceLine
+RefuelTurn "1" -- "0..1" InvoiceLine
+GasStation "1" -- "0..*" Pump
+Pump "1" -- "0..*" RefuelTurn
+Pump "1" -- "0..*" CashTurn
+Pump "0..*" -- "0..*" DailyReport
+
+@enduml

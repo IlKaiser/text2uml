@@ -1,0 +1,43 @@
+```plantuml
+@startuml
+
+class Song {
+    String Title
+    int Year
+    int Length
+    String Genre
+}
+class Artist {
+    String Name
+    Date DateOfBirth
+    String URL
+}
+class User {
+    String ID
+    String Name
+    String Address
+}
+class RegularUser {
+    String SuggestedAlbum
+}
+class BusinessUser {
+    String VATNumber
+}
+class Album {
+    String Name
+}
+class Hit {
+    int TrackNumber
+}
+class Single {}
+
+Artist "1" -- "0..*" Song
+Song "1" -- "0..*" Hit
+RegularUser "1" -- "0..*" Album
+User "0..*" -- "0..1" RegularUser
+User "0..*" -- "0..1" BusinessUser
+BusinessUser "1" -- "0..*" Single
+Album "1" -- "0..*" Hit
+
+@enduml
+```

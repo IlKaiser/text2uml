@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+
+class Employee {
+    String Name
+}
+class HeadCoach {
+    String CoachingStyle
+}
+class ClubDirector {
+    String ManagementStyle
+}
+class Scout {
+    String ExperienceLevel
+}
+class PlayerProfile {
+    String TargetPosition
+}
+class PlayerAttribute {
+    String Name
+    String Value
+}
+class NotedPlayer {
+    String Status
+}
+class ScoutingAssignment {
+    String AssignmentDetails
+}
+class ScoutingReport {
+    String Pros
+    String Cons
+    String Recommendation
+}
+class ShortListedPlayer {
+    String Status
+}
+
+Employee <|-- HeadCoach
+Employee <|-- ClubDirector
+Employee <|-- Scout
+
+Scout "0..*" -- "1..*" NotedPlayer
+HeadCoach "1" -- "0..*" PlayerProfile
+Scout "1" -- "0..*" ScoutingAssignment
+ScoutingAssignment "1" -- "0..*" ScoutingReport
+HeadScout "1" -- "0..*" ShortListedPlayer
+
+PlayerProfile "1" -- "0..*" PlayerAttribute
+
+@enduml
+```

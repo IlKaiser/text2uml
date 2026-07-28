@@ -1,0 +1,34 @@
+@startuml
+
+class GameDesigner {
+    String Name
+}
+class Game {
+    String Status
+}
+class Player {
+    String Name
+    String Color
+}
+class Board {
+    String Layout
+}
+class Tile {
+    String Color
+    Boolean IsHidden
+}
+class ConnectionPiece {}
+class ActionCard {
+    String Effect
+}
+class Die {}
+
+GameDesigner "1" -- "0..*" Board
+Board "1" -- "0..*" Tile
+Tile "0..*" -- "0..*" ConnectionPiece
+Game "1" -- "2..4" Player
+Game "1" -- "1" Die
+Player "1" -- "0..*" ActionCard
+Tile "1" -- "0..*" ActionCard
+
+@enduml
